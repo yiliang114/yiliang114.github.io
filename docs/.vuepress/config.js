@@ -1,7 +1,7 @@
 module.exports = {
   title: 'yiliang',
   description: '嘻嘻',
-  base: '/blog/',
+  base: '/',
   head: [
     [
       'link',
