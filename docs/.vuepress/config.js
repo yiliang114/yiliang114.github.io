@@ -12,6 +12,13 @@ module.exports = {
     logo: '/assets/img/logo.jpg',
     smoothScroll: true,
     nav: [
+      {
+        text: 'Languages',
+        items: [
+          { text: 'Chinese', link: '/language/chinese' },
+          { text: 'Japanese', link: '/language/japanese' }
+        ]
+      },
       { text: '知识库', link: '/' },
       { text: '工具', link: '/guide/' },
       {
