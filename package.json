@@ -4,11 +4,19 @@
   "scripts": {
     "start": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "npm run build && gh-pages -d docs/.vuepress/dist"
+    "commitlint": "commitlint -e $HUSKY_GIT_PARAMS"
   },
   "author": "yiliang",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^8.3.4",
+    "@commitlint/config-conventional": "^8.3.4",
+    "husky": "^3.1.0",
     "vuepress": "^1.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run commitlint"
+    }
   }
 }
