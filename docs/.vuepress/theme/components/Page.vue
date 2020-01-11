@@ -5,6 +5,7 @@
     <Content class="content" />
 
     <footer class="page-edit">
+      <div id="gitalk-container"></div>
       <blockquote>
         <p>
           Anything unclear or missing?
@@ -55,6 +56,8 @@
 
 <script>
 import { resolvePage, outboundRE, endingSlashRE } from "../util";
+import "gitalk/dist/gitalk.css";
+import Gitalk from "gitalk";
 
 export default {
   props: ["sidebarItems"],

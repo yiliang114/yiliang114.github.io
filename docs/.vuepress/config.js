@@ -1,13 +1,11 @@
+const headConfig = require("./config/headConf.js");
+const pluginConf = require("./config/pluginConf.js");
+
 module.exports = {
-  title: "blog",
-  description: "嘻嘻",
+  title: "yiliang blog",
+  description: "Welcome to my blog site",
   base: "/",
-  head: [
-    [
-      "link",
-      { rel: "shortcut icon", href: "/favicon.icon.ico", type: "image/jpg" }
-    ]
-  ],
+  head: headConfig,
   themeConfig: {
     logo: "/assets/img/logo.jpg",
     repo: "yiliang114/yiliang114.github.io",
@@ -54,5 +52,6 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugin: pluginConf
 };
