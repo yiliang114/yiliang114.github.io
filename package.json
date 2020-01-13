@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "vuepress dev docs",
-    "build": "node ./build/addComponents.js && vuepress build docs && node ./build/delComponents.js",
+    "build": "vuepress build docs",
     "pre-deploy": "http-server docs/.vuepress/dist",
     "commitlint": "commitlint -e $HUSKY_GIT_PARAMS"
   },
