@@ -1,5 +1,5 @@
 const headConfig = require("./config/headConf.js");
-const pluginConf = require("./config/pluginConf.js");
+const pluginsConf = require("./config/pluginsConf.js");
 
 module.exports = {
   title: "yiliang blog",
@@ -53,5 +53,12 @@ module.exports = {
       }
     ]
   },
-  plugin: pluginConf
+  plugins: [
+    [
+      "@vuepress/google-analytics",
+      {
+        ga: "UA-156101458-1"
+      }
+    ]
+  ]
 };
