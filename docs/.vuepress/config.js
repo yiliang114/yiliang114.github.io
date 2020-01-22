@@ -23,7 +23,8 @@ module.exports = {
             "browser-cache",
             "code-split",
             "vue-cli@2.x-upgrade",
-            "decorator-error"
+            "decorator-error",
+            "mobx@4.x-Array.map-in-strict"
           ]
         }
       ],
