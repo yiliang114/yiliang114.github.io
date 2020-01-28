@@ -1,3 +1,9 @@
+/*
+ * @Author: mrjzhang
+ * @Date: 2020-01-28 21:06:46
+ * @LastEditors  : mrjzhang
+ * @LastEditTime : 2020-01-28 21:16:49
+ */
 const headConfig = require("./config/headConf.js");
 const pluginsConf = require("./config/pluginsConf.js");
 
@@ -28,12 +34,14 @@ module.exports = {
           ]
         }
       ],
-      "/back-end/": ["127.0.0.1-404"],
+      "/ios-and-android/": ["127.0.0.1-404"],
+      "/code-and-life/": ["cname-forget"],
       "/tools/": ["light-cvm", "mac-install-sublime", "fanqiang"]
     },
     nav: [
-      { text: "front-end", link: "/front-end/" },
-      { text: "back-end", link: "/back-end/127.0.0.1-404" },
+      { text: "front-end", link: "/front-end/browser-cache" },
+      { text: "code-and-life", link: "/code-and-life/cname-forget" },
+      { text: "ios-and-android", link: "/ios-and-android/127.0.0.1-404" },
       { text: "tools", link: "/tools/light-cvm" },
       {
         text: "Contact",
