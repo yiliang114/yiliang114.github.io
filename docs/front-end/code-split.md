@@ -76,8 +76,8 @@ export default {
 ```
 
 优化之前：
-![20181012235553709png](http://media.zhijianzhang.cn//file/2018/10/9c533c8ed9c04091b395c14ea1123941_20181012235553709.png)
-![20181013002145418png](http://media.zhijianzhang.cn//file/2018/10/eadb9c08e5ab40088f4288d4ff5caaea_20181013002145418.png)
+![20181012235553709png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/9c533c8ed9c04091b395c14ea1123941_20181012235553709.png)
+![20181013002145418png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/eadb9c08e5ab40088f4288d4ff5caaea_20181013002145418.png)
 
 组件懒加载优化之后：
 
@@ -105,7 +105,7 @@ export default {
 </script>
 ```
 
-![20181013002333147png](http://media.zhijianzhang.cn//file/2018/10/4e247f6c3ee94e55a12336990a99276f_20181013002333147.png)
+![20181013002333147png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/4e247f6c3ee94e55a12336990a99276f_20181013002333147.png)
 
 从文件的个数中，不知道有没有看出什么？
 
@@ -158,15 +158,15 @@ if (config.build.bundleAnalyzerReport) {
 
 等项目 build 完了之后，就会自动打开一个页面了，
 
-![20181013004902726png](http://media.zhijianzhang.cn//file/2018/10/ef1c7fdab7cf4a6f87cbbb96d9702688_20181013004902726.png)
+![20181013004902726png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/ef1c7fdab7cf4a6f87cbbb96d9702688_20181013004902726.png)
 
 #### 4. element-ui 库的优化
 
 重点终于来了（不是标题党。。。。）。从上面的图中我们可以看到，`vendor.xxx.js` 实在是有点大，webpack build 完了之后，也细心的为我们标注出了 `big`:
-![20181013005117948png](http://media.zhijianzhang.cn//file/2018/10/5db8706427a240a7abb42ac89d04561d_20181013005117948.png)
+![20181013005117948png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/5db8706427a240a7abb42ac89d04561d_20181013005117948.png)
 
 解决办法是对于 `element-ui` 这个 ui 库从 `vendor.xx.js` 文件中剥离出来，最简单的办法就是使用 公共的 cdn 了。这里再做一层更彻底的剥离，将`vue`, `vuex`, `vue-router`,`axios` 等依赖文件，全部使用 cdn。
-![20181013005418947png](http://media.zhijianzhang.cn//file/2018/10/cdadfa3c1e8943b0963780702e65ee7e_20181013005418947.png)
+![20181013005418947png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/cdadfa3c1e8943b0963780702e65ee7e_20181013005418947.png)
 
 看好这些依赖的版本，直接去 百度搜索相关的 cdn 文件。下面我直接贴我修改之后的代码：
 
@@ -226,7 +226,7 @@ module.exports = {
 这个时候已经好了，清除一下项目 `node_modules` 中的删除的不需要的依赖吧， `uninstall` 也行，直接删除整个 `node_modules` 文件夹，重新 `npm install` 也行。
 
 处理完 `node_modules` 之后， `npm start` 再次看一下我们优化之后的结果：
-![20181013010649788png](http://media.zhijianzhang.cn//file/2018/10/f0faba77619947589ddf243965b072ba_20181013010649788.png)
+![20181013010649788png](https://chatflow-files-cdn-1256085166.file.myqcloud.com//file/2018/10/f0faba77619947589ddf243965b072ba_20181013010649788.png)
 
 开发状态下的 `app.js` 明显已经变小了，build 之后的文件也是。
 

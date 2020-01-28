@@ -2,7 +2,7 @@
 
 不算是给阿里云打广告吧，因为被阿里云的“云服务器 ECS” 和 “轻量应用服务器”搞的很蛋疼。很多年前，阿里云的学生机“云翼计划”默认就只有“云服务器 ECS”，所以上个月我准备去买一年的学生机的时候，几乎就选择性忽略框框中的内容，选择系统镜像就直接下单了。
 
-![这里写图片描述](https://pic1.zhimg.com/80/v2-777df1cf8577588921a93dc486c2af41_hd.jpg)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/80/v2-777df1cf8577588921a93dc486c2af41_hd.jpg)
 
 买完之后开开心心安装 node nginx mysql docker 各种之后，等到我需要远程连接 mysql 的时候，花了我几个小时时间踩了一个坑。
 
@@ -130,9 +130,9 @@ vim /etc/mysql/mysql.conf.d/mysqld.cnf // 如果你是按照我的方式安装�
 
 这个时候 `talent ip 3306` 还不通，说明防火墙 3306 端口没有开。按照网上所介绍的阿里云安全组规则去打开端口，具体也不介绍了，网上很多，看图也能明白。
 
-![这里写图片描述](https://pic1.zhimg.com/80/v2-8852fbf2c74555fceb4e9c6d8b596668_hd.jpg)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/80/v2-8852fbf2c74555fceb4e9c6d8b596668_hd.jpg)
 
-![这里写图片描述](https://pic1.zhimg.com/80/v2-e22f395fc0cb034514fc782980f86496_hd.jpg)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/80/v2-e22f395fc0cb034514fc782980f86496_hd.jpg)
 
 舒服了，终于写完了，test connect 一下，报错：
 
@@ -155,11 +155,11 @@ netstat -tlanp | grep 3306
 
 **下面就是我想说的坑点了：** 我发现我买的竟然是 **轻量应用服务器**。。。 讲道理我也不知道这个是个什么鬼，后来就发现了
 
-![这里写图片描述](https://pic4.zhimg.com/80/v2-777df1cf8577588921a93dc486c2af41_hd.jpg)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/80/v2-777df1cf8577588921a93dc486c2af41_hd.jpg)
 
 原来左侧是由切换的。后来发现了轻量应用服务器的防火墙配置：
 
-![这里写图片描述](https://pic3.zhimg.com/80/v2-278bf0987d3037bb8e3f8173755a00b6_hd.jpg)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/80/v2-278bf0987d3037bb8e3f8173755a00b6_hd.jpg)
 
 这里配置了 3306 之后， `talent ip 3306` 就通了，记得应用类型要选 `MYSQL` ，接着 test connect 就绿了。
 
