@@ -16,8 +16,7 @@
 2. 在 `chrome` 中强缓存（虽然没有发出真实的 `http` 请求）的请求状态码返回是 `200 (from cache)`；而协商缓存如果命中走缓存的话，请求的状态码是 `304 (not modified)`。 不同浏览器的策略不同，在 `Fire Fox`中，`from cache` 状态码是 304.
 
 > 其中 from cache 会分为 from disk cache 和 from memory cache. 从内存中获取最快，但是是 session 级别的缓存，关闭浏览器之后就没有了。
->
-> ![image.png](https://img.hacpai.com/file/2019/04/image-804e8cd3.png)
+> ![image.png](https://user-images.githubusercontent.com/11473889/57010212-249bda80-6c2e-11e9-8500-afe8c449e35f.png)
 
 #### 请求流程
 
@@ -28,7 +27,7 @@
 
 借用网上的一张图片
 
-![image.png](https://img.hacpai.com/file/2019/04/image-051a456e.png)
+![image.png](https://user-images.githubusercontent.com/11473889/57010205-16e65500-6c2e-11e9-8334-ce884274e529.png)
 
 #### 强缓存
 
@@ -88,43 +87,50 @@
 
 #### 如何设置强缓存和协商缓存
 
-后端服务器，写入代码逻辑中：
+1. 后端服务器，写入代码逻辑中：
 
-```
-res.setHeader('max-age': '3600 public')
-res.setHeader(etag: '5c20abbd-e2e8')
-res.setHeader('last-modified': Mon, 24 Dec 2018 09:49:49 GMT)
-```
+   ```
+   res.setHeader('max-age': '3600 public')
+   res.setHeader(etag: '5c20abbd-e2e8')
+   res.setHeader('last-modified': Mon, 24 Dec 2018 09:49:49 GMT)
+   ```
 
-`Nginx` 配置
+2. `Nginx` 配置
 
-```
-add_header Cache-Control "max-age=3600"
-```
+   ```
+   add_header Cache-Control "max-age=3600"
+   ```
 
-一般来说，通过 nginx 静态资源服务器，会默认给资源带上强缓存、协商缓存的 header 字段。
+   一般来说，通过 nginx 静态资源服务器，会默认给资源带上强缓存、协商缓存的 header 字段。
 
-![image.png](https://img.hacpai.com/file/2019/04/image-1abcf6c8.png)
+   ![image.png](https://user-images.githubusercontent.com/11473889/57010188-fae2b380-6c2d-11e9-974e-6d2cb4eee219.png)
 
 #### 两个示例
 
 1. 如果在 `cache-control`定义的 `max-age` 时间之内，`js`, `css` 文件会走强缓存，`http` 状态码是 200， 跟服务器也并不会有交互。但是第一个文件 `index.html` 文件, 每次回车或者刷新都是状态码都是 304 ，因为它的请求头中默认每次都携带了 `Cache-Control: max-age=0` 。
-   ![image.png](https://img.hacpai.com/file/2019/05/image-5a3b832c.png)
-   ![image.png](https://img.hacpai.com/file/2019/05/image-1fef6f11.png)
+
+   ![image.png](https://user-images.githubusercontent.com/11473889/57023165-e9b49980-6c63-11e9-9184-577bf610cc26.png)
+
+   ![image.png](https://user-images.githubusercontent.com/11473889/57023171-ede0b700-6c63-11e9-9f3a-7ba52004e009.png)
 
 2. `js` `css` 文件 `cache-control` 超时之后，重新按回车会走协商缓存，请求服务器发现资源没有改变，于是返回 304 ，浏览器从缓存中获取内容，从 `size` 中也可以看出端倪， 几百 B 的包不是静态资源的体积。
-   ![image.png](https://img.hacpai.com/file/2019/05/image-b425a5c3.png)
+
+   ![image.png](https://user-images.githubusercontent.com/11473889/57023233-0c46b280-6c64-11e9-9ab2-69d727432034.png)
 
 #### 三级缓存原理（大白话）
 
 最后总结一下浏览器的三级缓存原理：
 
 1. 先去内存看，如果有，直接加载
+
 2. 如果内存没有，择取硬盘获取，如果有直接加载
+
 3. 如果硬盘也没有，那么就进行网络请求
+
 4. 加载到的资源缓存到硬盘和内存
 
 #### 参考文档
 
 [from disk cache 与 from memory cache](https://www.cnblogs.com/jpfss/p/9242797.html)
+
 [http 协商缓存 VS 强缓存](https://www.cnblogs.com/wonyun/p/5524617.html)

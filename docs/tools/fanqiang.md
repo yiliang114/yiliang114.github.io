@@ -42,8 +42,8 @@
 登录服务器之后，查看一下 8388 端口的占用状况：
 
 `netstat -noa | grep :8388`
-![这里写图片描述](https://img-blog.csdn.net/20180507204011558?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dyZWVrTXJ6eko=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/20180507204011558.png)
 能够输出相关端口信息说明运行正常，那么通常是因为服务器防火墙的端口没有打开，比如说我这里就是 因为刚买的服务器，在配置安全组中没有将 8388 端口开放给外网访问，因为在我的 pc 上虽然开启了 ss，但是访问 google 会报 500 错误。
 
 那么接下来只要防火墙端口开放就好了。至于是手动选择开放 8388 端口 还是 在服务器控制台配置安全组配置一下，就看你自己了。
-![这里写图片描述](https://img-blog.csdn.net/20180507204019631?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dyZWVrTXJ6eko=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![这里写图片描述](https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/20180507204019631)
