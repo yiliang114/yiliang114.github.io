@@ -2,3 +2,4 @@ node_modules
 dist
 scripts
 secretKeyConf.js
+files.txt
