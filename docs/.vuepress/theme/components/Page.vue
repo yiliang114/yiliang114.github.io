@@ -5,7 +5,8 @@
     <Content class="content" />
 
     <footer class="page-edit">
-      <div id="gitalk-container"></div>
+      <div v-if="isYiliangDomain"
+        id="gitalk-container"></div>
       <blockquote>
         <p>
           Anything unclear or missing?
@@ -62,6 +63,11 @@ import Gitalk from "gitalk";
 export default {
   props: ["sidebarItems"],
 
+  data() {
+    return {
+      isYiliangDomain: true
+    };
+  },
   computed: {
     lastUpdated() {
       return this.$page.lastUpdated;
@@ -168,6 +174,12 @@ export default {
         (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
         path
       );
+    }
+  },
+
+  mounted() {
+    if (location.origin !== "https://yiliang.site") {
+      this.isYiliangDomain = false;
     }
   }
 };

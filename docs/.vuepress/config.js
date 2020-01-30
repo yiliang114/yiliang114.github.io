@@ -2,13 +2,13 @@
  * @Author: mrjzhang
  * @Date: 2020-01-28 21:06:46
  * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-01-29 15:02:21
+ * @LastEditTime : 2020-01-30 15:33:30
  */
 const headConfig = require("./config/headConf.js");
 const pluginsConf = require("./config/pluginsConf.js");
 
 module.exports = {
-  title: "yiliang blog",
+  title: "易良同学的博客",
   description: "Welcome to my blog site",
   base: "/",
   head: headConfig,
