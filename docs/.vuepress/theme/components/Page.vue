@@ -103,11 +103,12 @@ export default {
       if (this.$page.frontmatter.editLink === false) {
         return;
       }
+      // 默认的编辑链接
       const {
         repo,
         editLinks,
-        docsDir = "",
-        docsBranch = "master",
+        docsDir = "docs",
+        docsBranch = "docs",
         docsRepo = repo
       } = this.$site.themeConfig;
 
