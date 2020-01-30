@@ -1,5 +1,5 @@
-node_modules
-./dist/
-scripts
+node_modules/
+scripts/
+docs/.vuepress/dist/
 secretKeyConf.js
 files.txt

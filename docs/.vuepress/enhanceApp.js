@@ -1,15 +1,11 @@
 /*
  * @Author: mrjzhang
  * @Date: 2020-01-28 21:06:46
- * @LastEditors: mrjzhang
- * @LastEditTime: 2020-01-30 15:42:14
+ * @LastEditors  : mrjzhang
+ * @LastEditTime : 2020-01-30 16:23:19
  */
 function createGitalk(commentID) {
-  // 只在 yiliang.site 中显示评论系统
-  if (
-    typeof window === "undefined" &&
-    location.origin !== "https://yiliang.site"
-  ) {
+  if (typeof window === "undefined") {
     //只在浏览器中运行，以免发布时出错
     return;
   }
