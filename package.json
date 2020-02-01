@@ -5,7 +5,8 @@
     "start": "vuepress dev docs",
     "build": "vuepress build docs",
     "pre-deploy": "http-server docs/.vuepress/dist",
-    "commitlint": "commitlint -e $HUSKY_GIT_PARAMS"
+    "commitlint": "commitlint -e $HUSKY_GIT_PARAMS",
+    "generate": "node readFiles.js"
   },
   "author": "yiliang",
   "license": "MIT",
