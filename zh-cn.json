@@ -1,0 +1,12 @@
+{
+  "classifies": {
+    "back-end": "后台",
+    "code-and-life": "代码与人生",
+    "front-end": "前端",
+    "go": "Go 语言",
+    "ios-and-android": "移动端",
+    "node": "Node.js",
+    "tools": "工具类",
+    "others": "其他"
+  }
+}
