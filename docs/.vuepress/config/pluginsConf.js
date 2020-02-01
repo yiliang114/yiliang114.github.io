@@ -2,7 +2,7 @@
  * @Author: mrjzhang
  * @Date: 2020-01-28 21:06:46
  * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-01-28 21:45:06
+ * @LastEditTime : 2020-01-31 16:19:49
  */
 
 const autometa_options = {
@@ -44,5 +44,8 @@ module.exports = [
   // autometa
   ["autometa", autometa_options],
   // 对象式插件转化过来的
-  ["vuepress-plugin-sitemap", { hostname: "https://yiliang.site" }]
+  [
+    "vuepress-plugin-sitemap",
+    { hostname: "https://yiliang.site", outFile: "sitemap.xml" }
+  ]
 ];
