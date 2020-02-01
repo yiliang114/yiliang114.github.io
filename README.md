@@ -158,7 +158,7 @@
  
 [记一次 solo 迁移](docs/tools/solo-migration.md) 
  
-[基本操作](docs/tools/vim.md) 
+[vim 基本操作](docs/tools/vim.md) 
  
 [vscode vue 文件模板](docs/tools/vscode-vue-file-template.md) 
  
