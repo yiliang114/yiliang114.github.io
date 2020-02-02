@@ -1,10 +1,10 @@
-# 腾讯云香港翻墙
+# 腾讯云香港番强(fanqiang)
 
 ## 步骤
 
 以 ubuntu 为例:
 
-1. 使用 ssh 登录到需要设置翻墙中转站的服务器.
+1. 使用 ssh 登录到需要设置番强(fanqiang)中转站的服务器.
 2. 获取 root 权限(若非 root 用户登录,可以使用**sudo su**).
 3. 执行**sudo apt-get update** 更新系统.
 4. 执行**sudo apt-get install python-pip** 安装 python.
