@@ -2,7 +2,7 @@
  * @Author: mrjzhang
  * @Date: 2019-11-16 20:21:25
  * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-02-01 17:35:33
+ * @LastEditTime : 2020-02-02 13:55:45
  */
 const fs = require("fs");
 const join = require("path").join;
@@ -48,7 +48,7 @@ function getJsonFiles(jsonPath) {
   }
 
   findJsonFile(jsonPath);
-  const division = "### 全部文章 \r\n \r\n";
+  const division = "### 全部文章\n\n";
   let oldContent = fs.readFileSync("./README.md", "utf8");
   oldContent = oldContent.slice(0, oldContent.indexOf(division));
 
@@ -59,10 +59,11 @@ function getJsonFiles(jsonPath) {
       piece = !!isMd(filename)
         ? `[${getFirstLineOfMd(filename)}](${filename}) ${newline}`
         : // ? `[${ZH_CN_NAMES.filenames[filename] || name}](${filename}) ${newline}`
-          `**${ZH_CN_NAMES.classifies[name]}** ${newline}`;
+          `**${ZH_CN_NAMES.classifies[name] || name}** ${newline}`;
 
     return content + piece;
   }, oldContent + division);
+
   fs.writeFileSync("./README.md", result);
 }
 
