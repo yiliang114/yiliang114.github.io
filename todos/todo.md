@@ -38,3 +38,4 @@
 
 1. vuepress blog plugin
 2. 博客搭建指南
+3. vuepress-plugin-comment 中的依赖 gitalk 依赖的 axios 不安全
