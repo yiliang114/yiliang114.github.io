@@ -2,7 +2,7 @@
  * @Author: mrjzhang
  * @Date: 2020-01-28 21:06:46
  * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-01-31 16:19:49
+ * @LastEditTime : 2020-02-07 15:19:40
  */
 
 const autometa_options = {
@@ -31,6 +31,21 @@ module.exports = [
       hideIcon: "/failure.ico",
       hideText: "(●—●)喔哟，崩溃啦！",
       recoverTime: 2000
+    }
+  ],
+  [
+    "vuepress-plugin-comment",
+    {
+      choosen: "valine",
+      options: {
+        el: "#valine-vuepress-comment",
+        appId: "cRV8Jbg7FAogFru8NahlRtqM-gzGzoHsz",
+        appKey: "0FMTf3f9xbHRDDwWByIoiyOI",
+        visitor: true, // 阅读量统计
+        avatar: "robohash",
+        placeholder: "欢迎留言与我分享您的想法..."
+      },
+      container: "#commits-container"
     }
   ],
   // vuepress-plugin-cursor-effects

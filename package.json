@@ -24,6 +24,7 @@
     "vuepress-plugin-autometa": "^0.1.13",
     "vuepress-plugin-baidu-autopush": "^1.0.1",
     "vuepress-plugin-code-copy": "^1.0.4",
+    "vuepress-plugin-comment": "^0.7.2",
     "vuepress-plugin-cursor-effects": "^0.0.4",
     "vuepress-plugin-dynamic-title": "^0.0.5",
     "vuepress-plugin-go-top": "^0.0.2",
@@ -34,8 +35,5 @@
     "hooks": {
       "pre-commit": "npm run commitlint"
     }
-  },
-  "dependencies": {
-    "gitalk": "^1.5.0"
   }
 }
