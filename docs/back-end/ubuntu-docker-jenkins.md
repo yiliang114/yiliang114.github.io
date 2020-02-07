@@ -12,19 +12,19 @@
 
 Docker 要求 Ubuntu 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的 Ubuntu 版本是否支持 Docker。通过 uname -r 命令查看你当前的内核版本。
 
-```
+```bash
 uname -r
 ```
 
 #### 1. 获取最新版本的 Docker 安装包
 
-```
+```bash
 wget -qO- https://get.docker.com/ | sh
 ```
 
 #### 2. 运行/停止 docker
 
-```
+```bash
 service docker start  // 启动 docker 服务
 service docker restart  // 重启docker服务
 service docker stop     // 停止docker服务
@@ -32,7 +32,7 @@ service docker stop     // 停止docker服务
 
 #### 3. 拉取最新 jenkins 镜像
 
-```
+```bash
 docker pull jenkins:latest
 ```
 
@@ -40,7 +40,7 @@ docker pull jenkins:latest
 
 运行一个镜像为 jenkins:latest 的容器，命名为 jenkins_node2，使用 root 账号覆盖容器中的账号，赋予最高权限，将容器的 **/var/jenkins_home**映射到宿主机的 **/root/jenkins_node2**目录下，映射容器中**8080**端口到宿主机**49004**端口
 
-```
+```bash
 sudo docker run -d -u 0 --privileged  --name jenkins_node2 -p 49004:8080 -v /root/jenkins_node2:/var/jenkins_home jenkins:latest
 ```
 

@@ -18,29 +18,28 @@
 
 附上代码示例：
 
-```
-import Vue from 'vue'
-import Router from 'vue-router'
-const AdminIndex = () => import('@/components/admin-index')
-const Home = () => import('@/components/home')
+```js
+import Vue from "vue";
+import Router from "vue-router";
+const AdminIndex = () => import("@/components/admin-index");
+const Home = () => import("@/components/home");
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'admin-index',
+      path: "/",
+      name: "admin-index",
       component: AdminIndex
     },
     {
-      path: '/home',
-      name: 'home',
+      path: "/home",
+      name: "home",
       component: Home
     }
   ]
-})
-
+});
 ```
 
 #### 2. 组件懒加载
@@ -48,30 +47,30 @@ export default new Router({
 跟路由懒加载的形式一样，也是使用 `() => import('xxx')` 的形式。
 如果对于一个容器组件中，`import` 很多个组件进来，使用组件懒加载，能够继续减小首次加载的文件大小。示例代码：
 
-```
+```html
 <template>
   <div>
     <HomeHeader />
-    <SearchContainer  />
+    <SearchContainer />
     <HomeFooter />
   </div>
 </template>
 
 <script>
-import HomeHeader from "./home-header";
-import HomeFooter from "./home-footer";
-import SearchContainer from "./containers/search-container";
-import LoadingComponent from "@/components/common/loading";
+  import HomeHeader from "./home-header";
+  import HomeFooter from "./home-footer";
+  import SearchContainer from "./containers/search-container";
+  import LoadingComponent from "@/components/common/loading";
 
-export default {
-  name: "home",
-  components: {
-    HomeHeader,
-    HomeFooter,
-    SearchContainer,
-    LoadingComponent
-  }
-};
+  export default {
+    name: "home",
+    components: {
+      HomeHeader,
+      HomeFooter,
+      SearchContainer,
+      LoadingComponent
+    }
+  };
 </script>
 ```
 
@@ -81,27 +80,27 @@ export default {
 
 组件懒加载优化之后：
 
-```
+```html
 <template>
   <div>
     <HomeHeader />
-    <SearchContainer  />
+    <SearchContainer />
     <HomeFooter />
   </div>
 </template>
 
 <script>
-const HomeHeader = () => import("./home-header");
-const HomeFooter = () => import("./home-footer");
-const SearchContainer = () => import("./containers/search-container");
-export default {
-  name: "home",
-  components: {
-    HomeHeader,
-    HomeFooter,
-    SearchContainer
-  }
-};
+  const HomeHeader = () => import("./home-header");
+  const HomeFooter = () => import("./home-footer");
+  const SearchContainer = () => import("./containers/search-container");
+  export default {
+    name: "home",
+    components: {
+      HomeHeader,
+      HomeFooter,
+      SearchContainer
+    }
+  };
 </script>
 ```
 
@@ -129,28 +128,29 @@ emmm 所以到底应该怎么拆？拆哪些部分？这个需要`webpack-bundle
 
 如果实在没有，那就手动安装和配置好了。
 
-```
+```bash
 npm intall webpack-bundle-analyzer –save-dev
 ```
 
 在 build/webpack.prod.config.js 中添加配置:
 
-```
+```js
 if (config.build.bundleAnalyzerReport) {
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+  const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 ```
 
 在 `package.json` 的 `script` 中添加：
 
-```
+```bash
 “analyz”: “NODE_ENV=production npm_config_report=true npm run build”
 ```
 
 如果你是 window 用户的话，应该是：
 
-```
+```bash
 “analyz”: “set NODE_ENV=production npm_config_report=true npm run build”
 ```
 
@@ -172,9 +172,12 @@ if (config.build.bundleAnalyzerReport) {
 
 #### index.html
 
-```
+```html
 ...
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+/>
 
 ...
 <body>
@@ -197,7 +200,7 @@ if (config.build.bundleAnalyzerReport) {
 
 删除或者注释跟`element` 相关的代码：
 
-```
+```js
 import ElementUI from 'element-ui';
 ...
 import 'element-ui/lib/theme-chalk/index.css';
@@ -210,7 +213,7 @@ Vue.use(ElementUI);
 
 在 webpack 配置中添加外部扩展：
 
-```
+```js
 module.exports = {
 ...
       // 外部扩展，通过 cdn 引入，不会被webpack打包

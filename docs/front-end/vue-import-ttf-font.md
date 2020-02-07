@@ -13,14 +13,14 @@
 首先创建一个 `styles` 文件夹，之后也可以用于存放一些公共的样式文件。再新建一个 `index.less` 文件，引入字体。
 ![在这里插入图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20181011232447610.png)
 
-```
+```css
 @font-face {
   font-family: Snickles;
-  src: url('../assets/Snickles-webfont.ttf');
+  src: url("../assets/Snickles-webfont.ttf");
 }
 @font-face {
   font-family: Ronda;
-  src: url('../assets/RondaITCbyBT-Roman.otf');
+  src: url("../assets/RondaITCbyBT-Roman.otf");
 }
 ```
 

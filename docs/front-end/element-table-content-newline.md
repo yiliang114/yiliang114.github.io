@@ -50,7 +50,7 @@
 
 按照我的需求，我希望它保留换行符。于是添加了样式：
 
-```
+```css
 .el-table .cell {
   white-space: pre-line;
 }

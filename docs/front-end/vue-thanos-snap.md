@@ -22,7 +22,7 @@
 ### 细节
 
 - 随机选取一半的英雄，是通过下面的算法进行选取的：
-  ```
+  ```js
   arr.sort(function() {
     return 0.5 - Math.random();
   });

@@ -24,7 +24,7 @@
 
 在项目的根目录创建一个`tsconfig.json`，并在文件里输入下面的配置：
 
-```
+```js
 {
     "compilerOptions": {
         "experimentalDecorators": true,

@@ -2,78 +2,75 @@
 
 背景是 React + mobx@4.x + antd 的项目，并且打开了严格模式的情况下：
 
-```
-configure({ enforceActions: true })
+```js
+configure({ enforceActions: true });
 ```
 
 大概我的需求是， 将 store 中的一个数组（dataSource）在 stateless Component 中进行渲染，那么自然就想到了 Array 的 map 方法，然后再 JSX 中直接将数组转成 JSX 代码块。
 
-```
+```jsx
 const wrapperItem = (title, list) => {
-  const result = list.map((item, index) => <Row>
-    <Col span={2}>
-      {index}
-    </Col>
-    <Col span={2}>
-      {item}
-    </Col>
-  </Row>)
+  const result = list.map((item, index) => (
+    <Row>
+      <Col span={2}>{index}</Col>
+      <Col span={2}>{item}</Col>
+    </Row>
+  ));
   return (
     <div>
       <h4>{title}</h4>
       {result}
     </div>
-  )
-}
+  );
+};
 ```
 
 上面的 demo 代码中的第二个参数 list 会传入 observable 属性----是一个数组。
 
 然后浏览器狂报错误:
 
-```
+```js
 [mobx] Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: SupernatantStore@13.data.baseInfo
 ```
 
 然后看一下 下面的简单代码排查错误吧：
 
-```
-var list = [{'a': 1},{'a': 2}];
-var newList = list.map(function(index){
-    return index.a += 1;
+```js
+var list = [{ a: 1 }, { a: 2 }];
+var newList = list.map(function(index) {
+  return (index.a += 1);
 });
-console.log(newList,'newList',list,'list');
+console.log(newList, "newList", list, "list");
 // newList 和 list 都改变了。先修改了list的单个key值，再将key值返回，自然就修改了两个
 
-var list = [{'a': 1},{'a': 2}];
-var newList = list.slice(0).map(function(index){
-    return index.a += 1;
+var list = [{ a: 1 }, { a: 2 }];
+var newList = list.slice(0).map(function(index) {
+  return (index.a += 1);
 });
-console.log(newList,'newList',list,'list');
+console.log(newList, "newList", list, "list");
 // newList 和 list 也都改变了，关键很不理解，明明 list 跟 list.slice(0) 已经不是指向同一个数组，为什么list.slice(0) 修改内容还会引发list 也改变？
-
 
 // wa ...
 // 难受的一批。。。
 // slice() concat() 都是浅拷贝，整个数组的指向是不同的了，但是，里面的对象的指向是同一个，所以其实在map里执行的函数，操作的对象还是同一个。。。
-list.slice(0)[0] === list[0] // truw
-list.slice(0) === list // false
+list.slice(0)[0] === list[0]; // truw
+list.slice(0) === list; // false
 ```
 
 同样的，es6 的解构赋值，也只是浅拷贝：
 
-```
-    var a = {b: {c:111},d:{d:2222}}
-    var {b} = a
-    b === a.b
-    // true
+```js
+var a = { b: { c: 111 }, d: { d: 2222 } };
+var { b } = a;
+b === a.b;
+// true
 ```
 
 所以说，mobx 严格模式下一直再警告我不能修改 observable 的值。
 
 ---
 
-```
+```js
   constructor() {
     this.initData()
   }

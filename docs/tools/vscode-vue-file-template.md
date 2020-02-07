@@ -17,7 +17,7 @@
 
 直接复制一下内容到 `vue.json`
 
-```
+```json
 {
   "Print to console": {
     "prefix": "vue",

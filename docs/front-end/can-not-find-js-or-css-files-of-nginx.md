@@ -7,7 +7,7 @@
 
 在 vue-cli@3 中你需要为你 webpack 插入到 `index.html` 中 的所有文件添加一个 `baseUrl`. 你需要在项目的根目录新建一个 `vue.config.js`, 添加如下内容：
 
-```
+```js
 ...
 module.exports = {
   baseUrl: isProd

@@ -14,14 +14,14 @@
 
 简单说就是 明文、脚本登录 ，即把 ssh 命令以及密码写入脚本里，要登录就执行脚本就行了。
 
-```
+```bash
 touch aliyun.sh
 vi aliyun.sh
 ```
 
 拷贝以下内容, 记得替换你自己的 ip 和密码：
 
-```
+```bash
 #!/usr/bin/expect
 
 set timeout 10
@@ -42,13 +42,13 @@ interact
 
 #### 查看是否安装 Mysql
 
-```
+```bash
 sudo netstat -tap | grep mysql
 ```
 
 如果为空则没有安装，进行安装：
 
-```
+```bash
 sudo apt-get install mysql-server mysql-client
 ```
 
@@ -56,13 +56,13 @@ sudo apt-get install mysql-server mysql-client
 
 #### Mysql 连接测试
 
-```
+```bash
 mysql -u root -h localhost -p
 ```
 
 启动，停止，重启 Mysql 命令
 
-```
+```bash
 sudo service mysql start
 sudo service mysql stop
 sudo service mysql restart
@@ -82,7 +82,7 @@ socket = [表情]ar/run/mysqld/mysqld.sock
 
 ### 输入命令进入 mysql 修改用户密码
 
-```
+```bash
 // 输入命令后把上面的密码粘贴进去
 mysql -u debian-sys-maint -p
 //进入到mysql界面厚修改密码
@@ -102,7 +102,7 @@ flush privileges;
 
 好的，我知道了，那我开一下防火墙端口，设置一个 mysql 的账号用来远程连接吧。这些网上基本都有很详细的教程，我简单列一下命令：（主要也是给我自己偷懒，知道大概的步骤是怎么样的，但是命令太长，记不住，浪费几秒钟。）
 
-```
+```bash
 sudo su
 
 // 进入mysql
@@ -144,7 +144,7 @@ MYSQL ERROR 2003 (HY000): Can't connect to MySQL server on 'xxx.xxx.xx.xxx'
 
 接着排查，但都正常。
 
-```
+```bash
 ps -ef | grep mysql
 netstat -tlanp | grep 3306
 ```

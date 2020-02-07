@@ -29,7 +29,7 @@
    ![imagepng](https://imgconvert.csdnimg.cn/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzExLzdlNmExNWZiM2ZkMDQ4OGRiYTZjZmVjNGI3ZThmY2E1X2ltYWdlLnBuZw?x-oss-process=image/format,png)
 
 3. 去目标服务器上解压文件
-   ```
+   ```bash
    cd /usr/local/workspace/
    tar xzvf solo.tar.gz
    ```
@@ -44,7 +44,7 @@
 
 其实这一步不算是迁移，就在新的服务器上为 solo 添加配置。 贴一下从 D 那抄的配置：
 
-```
+```nginx
 upstream backend {
     server localhost:8080; # Tomcat/Jetty 监听端口
 }
@@ -72,7 +72,7 @@ server {
 
 我这边主要是在 `/etc/nginx/conf.d` 中新建一个 `solo.conf` 文件，写入上面的配置之后 `reload` 一下 nginx 配置就行了。因为默认 `/etc/nginx/nginx.conf` 会 `include` 在 `conf.d` 文件夹下的所有 `.conf` 配置文件的内容。
 
-```
+```bash
 sudo nginx -t
 sudo nginx -s reload
 ```
