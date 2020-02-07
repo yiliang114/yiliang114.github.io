@@ -7,10 +7,10 @@
     <footer class="page-edit">
       <p>
         <span class="leancloud_visitors"
-          :id="$page.relativePath"
+          :id="$page.path"
           :data-flag-title="$page.title">
           <em class="post-meta-item-text">当前页访问次数 </em>
-          <i class="leancloud-visitors-count">0</i>
+          <i class="leancloud-visitors-count">loading</i>
         </span>
       </p>
       <div id="commits-container"></div>

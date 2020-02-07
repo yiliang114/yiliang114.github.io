@@ -2,7 +2,7 @@
  * @Author: mrjzhang
  * @Date: 2020-01-28 21:06:46
  * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-02-07 15:19:40
+ * @LastEditTime : 2020-02-07 17:12:23
  */
 
 const autometa_options = {
@@ -43,7 +43,8 @@ module.exports = [
         appKey: "0FMTf3f9xbHRDDwWByIoiyOI",
         visitor: true, // 阅读量统计
         avatar: "robohash",
-        placeholder: "欢迎留言与我分享您的想法..."
+        placeholder: "欢迎留言与我分享您的想法...",
+        path: "<%- frontmatter.to.path %>"
       },
       container: "#commits-container"
     }
