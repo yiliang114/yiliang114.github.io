@@ -5,6 +5,14 @@
     <Content class="content" />
 
     <footer class="page-edit">
+      <p>
+        <span class="leancloud_visitors"
+          :id="$page.relativePath"
+          :data-flag-title="$page.title">
+          <em class="post-meta-item-text">当前页访问次数 </em>
+          <i class="leancloud-visitors-count">0</i>
+        </span>
+      </p>
       <div id="commits-container"></div>
       <blockquote>
         <p>
