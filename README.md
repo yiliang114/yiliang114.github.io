@@ -56,9 +56,9 @@
  
 **Go 语言** 
  
-[mac 安装 go](docs/go/environment-setup-for-mac-develper.md) 
+[mac 安装 go](docs/go/environment-setup-for-mac-developer.md) 
  
-[win go 开发环境](docs/go/environment-setup-for-win-develper.md) 
+[win go 开发环境](docs/go/environment-setup-for-win-developer.md) 
  
 **移动端** 
  

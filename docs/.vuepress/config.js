@@ -2,7 +2,7 @@
  * @Author: mrjzhang
  * @Date: 2020-01-28 21:06:46
  * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-01-30 15:33:30
+ * @LastEditTime : 2020-02-08 10:22:58
  */
 const headConfig = require("./config/headConf.js");
 const pluginsConf = require("./config/pluginsConf.js");
@@ -57,8 +57,8 @@ module.exports = {
       ],
       "/back-end/": ["linux-iptables", "ubuntu-docker-jenkins"],
       "/go/": [
-        "environment-setup-for-mac-develper",
-        "environment-setup-for-win-develper"
+        "environment-setup-for-mac-developer",
+        "environment-setup-for-win-developer"
       ],
       "/node/": ["process-env"]
     },
