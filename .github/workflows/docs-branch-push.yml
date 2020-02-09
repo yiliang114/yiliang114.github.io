@@ -1,4 +1,4 @@
-name: "docs-branch-push auto release"
+name: "docs-branch-push"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   pre-release:
-    name: "docs branch push auto release"
+    name: "docs branch push"
     runs-on: "ubuntu-latest"
 
     steps:
