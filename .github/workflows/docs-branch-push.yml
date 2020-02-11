@@ -37,8 +37,8 @@ jobs:
         run: |
           cd docs/.vuepress/dist
           git init
-          git config --global user.name "yiliang114"
-          git config --global user.email "1204183885@qq.com"
+          git config --global user.name "${{ secrets.USERNAME }}"
+          git config --global user.email "${{ secrets.EMAIL }}"
           git add -A
           git commit -m 'deploy'
 
