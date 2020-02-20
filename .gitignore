@@ -3,3 +3,4 @@ scripts/
 docs/.vuepress/dist/
 secretKeyConf.js
 files.txt
+temp

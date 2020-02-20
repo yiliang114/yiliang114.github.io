@@ -31,6 +31,7 @@
     </div>
 
     <Content class="custom" />
+    <!-- <PostsList /> -->
 
     <div class="footer"
       v-if="data.footer">
@@ -41,9 +42,10 @@
 
 <script>
 import NavLink from "@theme/components/NavLink.vue";
+import PostsList from "@theme/components/PostsList.vue";
 
 export default {
-  components: { NavLink },
+  components: { NavLink, PostsList },
 
   computed: {
     data() {

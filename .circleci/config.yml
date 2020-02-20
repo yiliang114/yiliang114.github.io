@@ -42,5 +42,5 @@ workflows:
   version: 2
   checks:
     jobs:
-      - lint
+      # - lint
       - build
