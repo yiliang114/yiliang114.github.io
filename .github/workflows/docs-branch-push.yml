@@ -41,4 +41,4 @@ jobs:
           git config --global user.email "${{ secrets.EMAIL }}"
           git add -A
           git commit -m 'deploy'
-          git push --quiet --force https://${{ secrets.TOKEN }}@github.com/yiliang114/yiliang-vuepress-blog.git master:master
+          git push --quiet --force https://${{ secrets.TOKEN }}@github.com/yiliang114/yiliang114.github.io.git master:master
