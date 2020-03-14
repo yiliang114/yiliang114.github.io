@@ -1,3 +1,8 @@
+---
+title: process-env
+date: 2020-03-14 17:06:38
+permalink: /pages/b15d572f3b5dd62c
+---
 ### Node process.env
 
 在看一些前框框架实现的源码的时候，经常会看到类似如下的代码：

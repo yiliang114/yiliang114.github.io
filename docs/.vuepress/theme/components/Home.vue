@@ -19,6 +19,7 @@
       </div>
     </div>
 
+    <RecentUpdates />
     <Content class="custom" />
     <!-- <PostsList /> -->
 
@@ -29,9 +30,10 @@
 <script>
 import NavLink from "@theme/components/NavLink.vue";
 import PostsList from "@theme/components/PostsList.vue";
+import RecentUpdates from "@theme/components/RecentUpdates.vue";
 
 export default {
-  components: { NavLink, PostsList },
+  components: { NavLink, PostsList, RecentUpdates },
 
   computed: {
     data() {

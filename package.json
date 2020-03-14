@@ -5,11 +5,13 @@
   "license": "MIT",
   "author": "yiliang114",
   "scripts": {
+    "frontmatter": "node utils/frontmatter.js update",
+    "sidebar": "node utils/sidebar.js",
     "build": "vuepress build docs",
     "generate": "node readFiles.js",
-    "lint": "eslint --fix \"**/*.{js,jsx,vue}\"",
+    "lint": "eslint --fix \"**/*.{js,vue}\"",
     "pre-deploy": "http-server docs/.vuepress/dist",
-    "start": "vuepress dev docs"
+    "start": "npm run frontmatter && npm run sidebar && vuepress dev docs"
   },
   "husky": {
     "hooks": {
@@ -24,7 +26,10 @@
     ]
   },
   "dependencies": {
-    "markdown-it-center-text": "^1.0.4"
+    "gray-matter": "^4.0.2",
+    "json2yaml": "^1.1.0",
+    "markdown-it-center-text": "^1.0.4",
+    "tracer": "^1.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
