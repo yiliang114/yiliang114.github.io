@@ -56,6 +56,7 @@
     "vuepress-plugin-code-copy": "^1.0.4",
     "vuepress-plugin-comment": "^0.7.2",
     "vuepress-plugin-cursor-effects": "^0.0.4",
+    "vuepress-plugin-demo-block": "^0.7.2",
     "vuepress-plugin-dynamic-title": "^0.0.5",
     "vuepress-plugin-go-top": "^0.0.2",
     "vuepress-plugin-sitemap": "^2.3.1",

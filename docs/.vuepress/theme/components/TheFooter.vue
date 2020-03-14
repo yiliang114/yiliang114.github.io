@@ -1,40 +1,25 @@
 <template>
   <footer class="footer">
-    <p v-if="sns"
-      class="footer-sns-links">
-      <a v-for="(item, name) in sns"
-        :key="name"
-        class="sns-link"
-        :href="item.link"
-        target="_blank">
-        <IconSns :name="name"
-          :account="item.account" />
+    <p v-if="sns" class="footer-sns-links">
+      <a v-for="(item, name) in sns" :key="name" class="sns-link" :href="item.link" target="_blank">
+        <IconSns :name="name" :account="item.account" />
       </a>
     </p>
 
-    <p v-if="poweredBy"
-      class="footer-text">
-      <span>Powered by </span>
+    <p v-if="poweredBy" class="footer-text">
+      <span>Powered by</span>
 
-      <a href="https://github.com/vuejs/vuepress"
-        target="_blank">
-        VuePress
-      </a>
+      <a href="https://github.com/vuejs/vuepress" target="_blank">VuePress</a>
 
       <template v-if="poweredByTheme">
-        <span> | </span>
+        <span>|</span>
 
-        <a href="https://github.com/meteorlxy/vuepress-theme-meteorlxy"
-          target="_blank">
-          meteorlxy
-        </a>
+        <a href="https://github.com/meteorlxy/vuepress-theme-meteorlxy" target="_blank">meteorlxy</a>
       </template>
     </p>
 
     <!-- eslint-disable vue/no-v-html -->
-    <p v-if="custom"
-      class="footer-text"
-      v-html="custom" />
+    <p v-if="custom" class="footer-text" v-html="custom" />
     <!-- eslint-enable vue/no-v-html -->
   </footer>
 </template>
