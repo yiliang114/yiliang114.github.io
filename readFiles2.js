@@ -1,9 +1,3 @@
-/*
- * @Author: mrjzhang
- * @Date: 2019-11-16 20:21:25
- * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-02-01 16:58:15
- */
 const fs = require('fs')
 const join = require('path').join
 

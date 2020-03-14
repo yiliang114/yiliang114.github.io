@@ -1,9 +1,3 @@
-/*
- * @Author: mrjzhang
- * @Date: 2020-02-09 16:18:24
- * @LastEditors: mrjzhang
- * @LastEditTime: 2020-02-20 14:51:52
- */
 const path = require("path");
 const { logger } = require("@vuepress/shared-utils");
 const markdownItCenterText = require("markdown-it-center-text");

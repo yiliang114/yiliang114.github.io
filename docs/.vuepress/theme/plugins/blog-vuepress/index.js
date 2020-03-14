@@ -1,9 +1,3 @@
-/*
- * @Author: mrjzhang
- * @Date: 2020-02-20 10:33:29
- * @LastEditors: mrjzhang
- * @LastEditTime: 2020-02-20 14:47:08
- */
 // fork and modify from @vuepress/plugin-blog
 
 const {

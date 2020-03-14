@@ -1,10 +1,3 @@
-/*
- * @Author: mrjzhang
- * @Date: 2020-01-28 21:06:46
- * @LastEditors  : mrjzhang
- * @LastEditTime : 2020-02-07 17:12:23
- */
-
 const autometa_options = {
   site: {
     name: "易良 yiliang"

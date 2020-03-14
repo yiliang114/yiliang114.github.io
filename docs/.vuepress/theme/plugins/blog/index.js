@@ -1,9 +1,3 @@
-/*
- * @Author: mrjzhang
- * @Date: 2020-02-20 10:33:29
- * @LastEditors: mrjzhang
- * @LastEditTime: 2020-02-20 10:35:08
- */
 const path = require("path");
 const format = require("date-fns/format");
 

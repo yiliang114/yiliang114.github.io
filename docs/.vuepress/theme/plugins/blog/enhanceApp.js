@@ -1,9 +1,3 @@
-/*
- * @Author: mrjzhang
- * @Date: 2020-02-20 10:33:39
- * @LastEditors: mrjzhang
- * @LastEditTime: 2020-02-20 10:35:25
- */
 import compareDesc from "date-fns/compare_desc";
 
 export default ({ Vue }) => {
