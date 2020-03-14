@@ -2,15 +2,34 @@
   "name": "yiliang-vuepress-blog",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "start": "vuepress dev docs",
-    "build": "vuepress build docs",
-    "pre-deploy": "http-server docs/.vuepress/dist",
-    "commitlint": "commitlint -e $HUSKY_GIT_PARAMS",
-    "generate": "node readFiles.js"
-  },
-  "author": "yiliang",
   "license": "MIT",
+  "author": "yiliang",
+  "scripts": {
+    "build": "vuepress build docs",
+    "generate": "node readFiles.js",
+    "lint": "eslint --fix \"**/*.{js,jsx,vue}\"",
+    "pre-deploy": "http-server docs/.vuepress/dist",
+    "start": "vuepress dev docs"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "package.json": [
+      "sort-package-json",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "markdown-it-center-text": "^1.0.4"
+  },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
     "@commitlint/config-conventional": "^8.3.4",
@@ -20,7 +39,16 @@
     "@vuepress/plugin-medium-zoom": "^1.2.0",
     "@vuepress/plugin-pwa": "^1.0.0-rc.1",
     "date-fns": "^1.30.1",
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^6.1.2",
     "husky": "^3.1.0",
+    "lint-staged": "^8.1.0",
+    "sort-package-json": "^1.40.0",
     "vue-tabs-component": "^1.5.0",
     "vuepress": "^1.2.0",
     "vuepress-plugin-autometa": "^0.1.13",
@@ -32,13 +60,5 @@
     "vuepress-plugin-go-top": "^0.0.2",
     "vuepress-plugin-sitemap": "^2.3.1",
     "vuepress-plugin-tabs": "^0.2.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run commitlint"
-    }
-  },
-  "dependencies": {
-    "markdown-it-center-text": "^1.0.4"
   }
 }
