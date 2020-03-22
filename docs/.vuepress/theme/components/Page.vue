@@ -6,54 +6,40 @@
 
     <footer class="page-edit">
       <p>
-        <span class="leancloud_visitors"
-          :id="$page.path"
-          :data-flag-title="$page.title">
-          <em class="post-meta-item-text">当前页访问次数 </em>
-          <i class="leancloud-visitors-count">loading</i>
+        <span class="leancloud_visitors" :id="$page.path" :data-flag-title="$page.title">
+          <!-- <em class="post-meta-item-text">当前页访问次数 </em>
+          <i class="leancloud-visitors-count">loading</i>-->
         </span>
       </p>
       <div id="commits-container"></div>
       <blockquote>
         <p>
           Anything unclear or missing?
-          <a :href="commentLink"
+          <a
+            :href="commentLink"
             target="_blank"
-            rel="noopener noreferrer">
-            Leave a comment
-          </a>
-          <OutboundLink /> or <a :href="editLink"
-            target="_blank"
-            rel="noopener noreferrer">{{ editLinkText }}</a>
+            rel="noopener noreferrer"
+          >Leave a comment</a>
+          <OutboundLink />or
+          <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
           <OutboundLink />
         </p>
         <small>
-          <span class="prefix">{{ lastUpdatedText }}: </span>
+          <span class="prefix">{{ lastUpdatedText }}:</span>
           <span class="time">{{ lastUpdated }}</span>
         </small>
       </blockquote>
     </footer>
 
-    <div class="page-nav"
-      v-if="prev || next">
+    <div class="page-nav" v-if="prev || next">
       <p class="inner">
-        <span v-if="prev"
-          class="prev">
+        <span v-if="prev" class="prev">
           ←
-          <router-link v-if="prev"
-            class="prev"
-            :to="prev.path">
-            {{ prev.title || prev.path }}
-          </router-link>
+          <router-link v-if="prev" class="prev" :to="prev.path">{{ prev.title || prev.path }}</router-link>
         </span>
 
-        <span v-if="next"
-          class="next">
-          <router-link v-if="next"
-            :to="next.path">
-            {{ next.title || next.path }}
-          </router-link>
-          →
+        <span v-if="next" class="next">
+          <router-link v-if="next" :to="next.path">{{ next.title || next.path }}</router-link>→
         </span>
       </p>
     </div>
