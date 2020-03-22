@@ -1,0 +1,9 @@
+{
+  "git.ignoreLimitWarning": true,
+  "cssrem.fixedDigits": 2,
+  "cssrem.rootFontSize": 75,
+  "window.zoomLevel": 1,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
