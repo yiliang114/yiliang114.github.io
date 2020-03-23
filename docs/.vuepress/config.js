@@ -15,7 +15,13 @@ module.exports = {
     editLinks: true,
     sidebarDepth: 2,
     sidebar,
-    nav
+    nav,
+    footer: {
+      // 页脚信息
+      createYear: 2019, // 博客创建年份
+      copyrightInfo: "YiLiang Zhang", // 博客版权信息，支持html标签
+      footerBgImg: "/img/footer.png" // 可选的，页脚背景图，只在首页显示
+    }
   },
   plugins
 };
