@@ -1,11 +1,18 @@
 import compareDesc from "date-fns/compare_desc";
 
-export default ({ Vue }) => {
+// TODO: 扩展
+export default ({
+  Vue, // VuePress 正在使用的 Vue 构造函数
+  options, // 附加到根实例的一些选项
+  router, // 当前应用的路由实例
+  siteData, // 站点元数据
+}) => {
+  // ...做一些其他的应用级别的优化
   Vue.mixin({
     computed: {
       $posts() {
         const pages = this.$site.pages;
-        const pageFilter = p => p.type === "post";
+        const pageFilter = (p) => p.type === "post";
         const pageSort = (p1, p2) => {
           if (p1.top === p2.top) {
             return compareDesc(p1.createdAt, p2.createdAt);
@@ -17,7 +24,7 @@ export default ({ Vue }) => {
         };
         const posts = pages.filter(pageFilter).sort(pageSort);
         return posts;
-      }
-    }
+      },
+    },
   });
 };

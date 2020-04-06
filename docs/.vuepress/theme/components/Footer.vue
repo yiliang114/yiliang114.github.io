@@ -11,11 +11,7 @@
       ></a>
     </div>
     <template v-if="footer">
-      <a
-        href="https://github.com/yiliang114/yiliang114.github.io"
-        target="_blank"
-        title="本站主题"
-      >Yiliang |</a>
+      <a :href="footer.repo" target="_blank" title="本站主题">Yiliang |</a>
       Copyright © {{ footer.createYear }}-{{ new Date().getFullYear() }}
       <span
         v-html="footer.copyrightInfo"
@@ -34,6 +30,7 @@
 <script>
 export default {
   computed: {
+    // TODO: 社交媒体的 icon
     social() {
       return this.$themeConfig.blogger && this.$themeConfig.blogger.social;
     },

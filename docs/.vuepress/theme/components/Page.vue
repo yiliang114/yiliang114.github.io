@@ -45,13 +45,10 @@
     </div>
 
     <slot name="bottom" />
-
-    <Footer />
   </main>
 </template>
 
 <script>
-import Footer from "./Footer.vue";
 import { resolvePage, outboundRE, endingSlashRE } from "../util";
 
 export default {
@@ -136,10 +133,6 @@ export default {
         `Edit this page`
       );
     }
-  },
-
-  components: {
-    Footer
   },
 
   methods: {

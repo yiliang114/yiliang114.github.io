@@ -2,38 +2,42 @@
   <header class="navbar">
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
 
-    <router-link :to="$localePath"
-      class="home-link">
-      <img class="logo"
+    <router-link :to="$localePath" class="home-link">
+      <img
+        class="logo"
         v-if="$site.themeConfig.logo"
         :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle">
+        :alt="$siteTitle"
+      />
     </router-link>
 
-    <div class="links"
+    <div
+      class="links"
       :style="linksWrapMaxWidth ? {
         'max-width': linksWrapMaxWidth + 'px'
-      } : {}">
-      <!-- <AlgoliaSearchBox v-if="isAlgoliaSearch"
-        :options="algolia" />
-      <SearchBox v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false" /> -->
+      } : {}"
+    >
+      <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
+      <SearchBox
+        v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
+      />
       <NavLinks class="can-hide" />
     </div>
   </header>
 </template>
 
 <script>
-// import AlgoliaSearchBox from "@AlgoliaSearchBox";
-// import SearchBox from "@SearchBox";
+import AlgoliaSearchBox from "@AlgoliaSearchBox";
+import SearchBox from "@SearchBox";
 import SidebarButton from "@theme/components/SidebarButton.vue";
 import NavLinks from "@theme/components/NavLinks.vue";
 
 export default {
   components: {
     SidebarButton,
-    NavLinks
-    // SearchBox,
-    // AlgoliaSearchBox
+    NavLinks,
+    SearchBox,
+    AlgoliaSearchBox
   },
 
   data() {

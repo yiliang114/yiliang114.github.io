@@ -21,7 +21,6 @@
 
     <RecentUpdates />
     <Content class="custom" />
-    <!-- <PostsList /> -->
 
     <div class="footer" v-if="data.footer">{{ data.footer }}</div>
   </main>
@@ -29,11 +28,10 @@
 
 <script>
 import NavLink from "@theme/components/NavLink.vue";
-import PostsList from "@theme/components/PostsList.vue";
 import RecentUpdates from "@theme/components/RecentUpdates.vue";
 
 export default {
-  components: { NavLink, PostsList, RecentUpdates },
+  components: { NavLink, RecentUpdates },
 
   computed: {
     data() {
