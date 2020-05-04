@@ -8,10 +8,10 @@ const docsRoot = path.join(__dirname, '..', '..', 'docs') // docs文件路径
 
 const PREFIX = '/pages/' // 链接前缀
 
-function readFileList (dir = docsRoot, filesList = []) {
+function readFileList(dir = docsRoot, filesList = []) {
   const files = fs.readdirSync(dir)
 
-  files.forEach((item, index) => {
+  files.forEach(item => {
     const filePath = path.join(dir, item)
     const stat = fs.statSync(filePath)
     if (stat.isDirectory() && item !== '.vuepress') {

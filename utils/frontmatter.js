@@ -10,9 +10,9 @@ const readFileList = require('./modules/readFileList')
 
 main()
 
-function main () {
+function main() {
   const files = readFileList() // 读取所有md文件数据
-  files.forEach((file, index) => {
+  files.forEach(file => {
     const dataStr = fs.readFileSync(file.filePath, 'utf8') // 读取每个md文件内容
     const fileMatterObj = matter(dataStr)
     if (Object.keys(fileMatterObj.data).length === 0) {
@@ -32,26 +32,25 @@ function main () {
 
       // 已有FrontMatter，但是没有title、date、permalink数据的
       // eslint-disable-next-line
-      if (!matterData.hasOwnProperty("title")) {
+      if (!matterData.hasOwnProperty('title')) {
         matterData.title = file.name
         mark = true
       }
       // eslint-disable-next-line
-      if (!matterData.hasOwnProperty("date")) {
+      if (!matterData.hasOwnProperty('date')) {
         const stat = fs.statSync(file.filePath)
         matterData.date = dateFormat(stat.birthtime)
         mark = true
       }
 
       // eslint-disable-next-line
-      if (!matterData.hasOwnProperty("permalink")) {
+      if (!matterData.hasOwnProperty('permalink')) {
         matterData.permalink = file.permalink
         mark = true
       }
 
       if (mark) {
-        const newData =
-          YAML.stringify(matterData) + '---\r\n' + fileMatterObj.content
+        const newData = YAML.stringify(matterData) + '---\r\n' + fileMatterObj.content
         fs.writeFileSync(file.filePath, newData) // 写入
         console.log(`更新FrontMatter：${file.filePath} `)
       }
@@ -65,16 +64,12 @@ function main () {
         }
         // 修复date时区和格式被修改的问题 (并非更新date的值)
         const date = new Date(matterData.date)
-        matterData.date = `${date.getUTCFullYear()}-${zero(
-          date.getUTCMonth() + 1
-        )}-${zero(date.getUTCDate())} ${zero(date.getUTCHours())}:${zero(
-          date.getUTCMinutes()
-        )}:${zero(date.getUTCSeconds())}`
+        matterData.date = `${date.getUTCFullYear()}-${zero(date.getUTCMonth() + 1)}-${zero(
+          date.getUTCDate()
+        )} ${zero(date.getUTCHours())}:${zero(date.getUTCMinutes())}:${zero(date.getUTCSeconds())}`
 
         const newData2 =
-          YAML.stringify(JSON.parse(JSON.stringify(matterData))) +
-          '---\r\n' +
-          fileMatterObj.content
+          YAML.stringify(JSON.parse(JSON.stringify(matterData))) + '---\r\n' + fileMatterObj.content
         fs.writeFileSync(file.filePath, newData2) // 写入
         console.log(`更新FrontMatter标题和链接：${file.filePath}`)
       }
@@ -83,15 +78,13 @@ function main () {
 }
 
 // 日期的格式
-function dateFormat (date) {
-  return `${date.getFullYear()}-${zero(date.getMonth() + 1)}-${zero(
-    date.getDate()
-  )} ${zero(date.getHours())}:${zero(date.getMinutes())}:${zero(
-    date.getSeconds()
-  )}`
+function dateFormat(date) {
+  return `${date.getFullYear()}-${zero(date.getMonth() + 1)}-${zero(date.getDate())} ${zero(
+    date.getHours()
+  )}:${zero(date.getMinutes())}:${zero(date.getSeconds())}`
 }
 
 // 小于10补0
-function zero (d) {
+function zero(d) {
   return d.toString().padStart(2, '0')
 }
