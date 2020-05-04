@@ -49,60 +49,60 @@
 </template>
 
 <script>
-import { resolvePage, outboundRE, endingSlashRE } from "../util";
+import { resolvePage, outboundRE, endingSlashRE } from '../util'
 
 export default {
-  props: ["sidebarItems"],
+  props: ['sidebarItems'],
 
   computed: {
     lastUpdated() {
-      return this.$page.lastUpdated;
+      return this.$page.lastUpdated
     },
 
     lastUpdatedText() {
-      if (typeof this.$themeLocaleConfig.lastUpdated === "string") {
-        return this.$themeLocaleConfig.lastUpdated;
+      if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
+        return this.$themeLocaleConfig.lastUpdated
       }
-      if (typeof this.$site.themeConfig.lastUpdated === "string") {
-        return this.$site.themeConfig.lastUpdated;
+      if (typeof this.$site.themeConfig.lastUpdated === 'string') {
+        return this.$site.themeConfig.lastUpdated
       }
-      return "Last Updated";
+      return 'Last Updated'
     },
 
     prev() {
-      const prev = this.$page.frontmatter.prev;
+      const prev = this.$page.frontmatter.prev
       if (prev === false) {
-        return;
+        return
       } else if (prev) {
-        return resolvePage(this.$site.pages, prev, this.$route.path);
+        return resolvePage(this.$site.pages, prev, this.$route.path)
       } else {
-        return resolvePrev(this.$page, this.sidebarItems);
+        return resolvePrev(this.$page, this.sidebarItems)
       }
     },
 
     next() {
-      const next = this.$page.frontmatter.next;
+      const next = this.$page.frontmatter.next
       if (next === false) {
-        return;
+        return
       } else if (next) {
-        return resolvePage(this.$site.pages, next, this.$route.path);
+        return resolvePage(this.$site.pages, next, this.$route.path)
       } else {
-        return resolveNext(this.$page, this.sidebarItems);
+        return resolveNext(this.$page, this.sidebarItems)
       }
     },
 
     editLink() {
       if (this.$page.frontmatter.editLink === false) {
-        return;
+        return
       }
       // 默认的编辑链接
       const {
         repo,
         editLinks,
-        docsDir = "docs",
-        docsBranch = "docs",
+        docsDir = 'docs',
+        docsBranch = 'docs',
         docsRepo = repo
-      } = this.$site.themeConfig;
+      } = this.$site.themeConfig
 
       if (docsRepo && editLinks && this.$page.relativePath) {
         return this.createEditLink(
@@ -111,19 +111,19 @@ export default {
           docsDir,
           docsBranch,
           this.$page.relativePath
-        );
+        )
       }
     },
 
     commentLink() {
-      const { repo, docsRepo = repo } = this.$site.themeConfig;
+      const { repo, docsRepo = repo } = this.$site.themeConfig
 
       return (
         (outboundRE.test(docsRepo)
           ? docsRepo
           : `https://github.com/${docsRepo}`) +
         `/issues/new?title=Comment: ${this.$page.title} (${this.$page.relativePath})`
-      );
+      )
     },
 
     editLinkText() {
@@ -131,64 +131,64 @@ export default {
         this.$themeLocaleConfig.editLinkText ||
         this.$site.themeConfig.editLinkText ||
         `Edit this page`
-      );
+      )
     }
   },
 
   methods: {
     createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
-      const bitbucket = /bitbucket.org/;
+      const bitbucket = /bitbucket.org/
       if (bitbucket.test(repo)) {
-        const base = outboundRE.test(docsRepo) ? docsRepo : repo;
+        const base = outboundRE.test(docsRepo) ? docsRepo : repo
         return (
-          base.replace(endingSlashRE, "") +
+          base.replace(endingSlashRE, '') +
           `/src` +
           `/${docsBranch}/` +
-          (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
+          (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
           path +
           `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
-        );
+        )
       }
 
       const base = outboundRE.test(docsRepo)
         ? docsRepo
-        : `https://github.com/${docsRepo}`;
+        : `https://github.com/${docsRepo}`
       return (
-        base.replace(endingSlashRE, "") +
+        base.replace(endingSlashRE, '') +
         `/edit` +
         `/${docsBranch}/` +
-        (docsDir ? docsDir.replace(endingSlashRE, "") + "/" : "") +
+        (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
         path
-      );
+      )
     }
   }
-};
+}
 
 function resolvePrev(page, items) {
-  return find(page, items, -1);
+  return find(page, items, -1)
 }
 
 function resolveNext(page, items) {
-  return find(page, items, 1);
+  return find(page, items, 1)
 }
 
 function find(page, items, offset) {
-  const res = [];
-  flatten(items, res);
+  const res = []
+  flatten(items, res)
   for (let i = 0; i < res.length; i++) {
-    const cur = res[i];
-    if (cur.type === "page" && cur.path === decodeURIComponent(page.path)) {
-      return res[i + offset];
+    const cur = res[i]
+    if (cur.type === 'page' && cur.path === decodeURIComponent(page.path)) {
+      return res[i + offset]
     }
   }
 }
 
 function flatten(items, res) {
   for (let i = 0, l = items.length; i < l; i++) {
-    if (items[i].type === "group") {
-      flatten(items[i].children || [], res);
+    if (items[i].type === 'group') {
+      flatten(items[i].children || [], res)
     } else {
-      res.push(items[i]);
+      res.push(items[i])
     }
   }
 }

@@ -9,14 +9,7 @@ const logger = require('tracer').colorConsole() // 控制台工具(用于控制�
 const matter = require('gray-matter') // FrontMatter解析器
 
 const docsRoot = path.join(__dirname, '..', 'docs') // docs文件路径
-const sidebarPath = path.join(
-  __dirname,
-  '..',
-  'docs',
-  '.vuepress',
-  'config',
-  'sidebar.js'
-) // 侧边栏js文件要保存的路径
+const sidebarPath = path.join(__dirname, '..', 'docs', '.vuepress', 'config', 'sidebar.js') // 侧边栏js文件要保存的路径
 
 // sidebar-auto.js代码模板
 const sidebarTemplate = `
@@ -32,7 +25,7 @@ main()
 /**
  * 主体函数
  */
-function main () {
+function main() {
   const sidebarData = []
 
   const tocs = readTocs(docsRoot) // 获取 docs 下的文件夹路径，排除 .vuepress
@@ -61,7 +54,7 @@ function main () {
  * 读取指定目录下的文件绝对路径
  * @param {String} root 指定的目录
  */
-function readTocs (root) {
+function readTocs(root) {
   const result = []
   const files = fs.readdirSync(root) // 方法：读取目录,返回数组，成员是root底下所有的目录名 (包含文件文件夹和文件)
   files.forEach(name => {
@@ -79,7 +72,7 @@ function readTocs (root) {
  * @param {String} root
  * @param {String} prefix
  */
-function mapTocToSidebar (root, prefix) {
+function mapTocToSidebar(root, prefix) {
   prefix = prefix || ''
   let sidebar = []
   const files = fs.readdirSync(root) // 读取目录（文件和文件夹）,返回数组

@@ -13,51 +13,51 @@
 </template>
 
 <script>
-import setMode, { activateMode } from "./setMode";
+import setMode, { activateMode } from './setMode'
 
 export default {
-  name: "ModeOptions",
+  name: 'ModeOptions',
 
   data() {
     return {
       modeOptions: [
-        { mode: "dark", title: "dark" },
-        { mode: "auto", title: "auto" },
-        { mode: "light", title: "light" }
+        { mode: 'dark', title: 'dark' },
+        { mode: 'auto', title: 'auto' },
+        { mode: 'light', title: 'light' }
       ],
-      currentMode: "auto"
-    };
+      currentMode: 'auto'
+    }
   },
 
   mounted() {
-    const mode = localStorage.getItem("mode");
-    this.currentMode = mode === null ? "auto" : mode;
-    if (mode === "dark") {
-      activateMode("dark");
-    } else if (mode === "light") {
-      activateMode("light");
+    const mode = localStorage.getItem('mode')
+    this.currentMode = mode === null ? 'auto' : mode
+    if (mode === 'dark') {
+      activateMode('dark')
+    } else if (mode === 'light') {
+      activateMode('light')
     }
   },
 
   methods: {
     selectMode(mode) {
       if (mode.mode === this.currentMode) {
-        return;
-      } else if (mode.mode === "dark") {
-        activateMode("dark");
-      } else if (mode.mode === "light") {
-        activateMode("light");
-      } else if (mode.mode === "auto") {
-        setMode();
+        return
+      } else if (mode.mode === 'dark') {
+        activateMode('dark')
+      } else if (mode.mode === 'light') {
+        activateMode('light')
+      } else if (mode.mode === 'auto') {
+        setMode()
       }
-      localStorage.setItem("mode", mode.mode);
-      this.currentMode = mode.mode;
+      localStorage.setItem('mode', mode.mode)
+      this.currentMode = mode.mode
     },
     getClass(mode) {
-      return mode !== this.currentMode ? mode : `${mode} active`;
+      return mode !== this.currentMode ? mode : `${mode} active`
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

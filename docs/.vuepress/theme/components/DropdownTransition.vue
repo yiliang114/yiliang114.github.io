@@ -11,19 +11,19 @@
 
 <script>
 export default {
-  name: "DropdownTransition",
+  name: 'DropdownTransition',
 
   methods: {
     setHeight(items) {
       // explicitly set height so that it can be transitioned
-      items.style.height = items.scrollHeight + "px";
+      items.style.height = items.scrollHeight + 'px'
     },
 
     unsetHeight(items) {
-      items.style.height = "";
+      items.style.height = ''
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

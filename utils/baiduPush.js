@@ -21,7 +21,7 @@ main()
 /**
  * 主体函数
  */
-function main () {
+function main() {
   fs.writeFileSync(urlsRoot, DOMAIN)
   const files = readFileList() // 读取所有md文件数据
 

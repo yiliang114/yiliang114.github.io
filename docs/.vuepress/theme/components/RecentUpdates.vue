@@ -30,18 +30,18 @@
 </template>
 
 <script>
-import { getTopKPosts } from "../util/getArticleDate";
+import { getTopKPosts } from '../util/getArticleDate'
 
 export default {
   data() {
-    return {};
+    return {}
   },
   computed: {
     topPublishPosts() {
-      return getTopKPosts(this.$site.pages, 5);
+      return getTopKPosts(this.$site.pages, 5)
     }
   }
-};
+}
 </script>
 
 <style lang='stylus'>

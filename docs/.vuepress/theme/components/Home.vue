@@ -27,25 +27,25 @@
 </template>
 
 <script>
-import NavLink from "@theme/components/NavLink.vue";
-import RecentUpdates from "@theme/components/RecentUpdates.vue";
+import NavLink from '@theme/components/NavLink.vue'
+import RecentUpdates from '@theme/components/RecentUpdates.vue'
 
 export default {
   components: { NavLink, RecentUpdates },
 
   computed: {
     data() {
-      return this.$page.frontmatter;
+      return this.$page.frontmatter
     },
 
     actionLink() {
       return {
         link: this.data.actionLink,
         text: this.data.actionText
-      };
+      }
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

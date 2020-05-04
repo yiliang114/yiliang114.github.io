@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside";
-import ModePicker from "./ModePicker";
+import ClickOutside from 'vue-click-outside'
+import ModePicker from './ModePicker'
 
 export default {
-  name: "UserSettings",
+  name: 'UserSettings',
 
   directives: {
-    "click-outside": ClickOutside
+    'click-outside': ClickOutside
   },
 
   components: {
@@ -30,15 +30,15 @@ export default {
   data() {
     return {
       showMenu: false
-    };
+    }
   },
 
   methods: {
     hideMenu() {
-      this.showMenu = false;
+      this.showMenu = false
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

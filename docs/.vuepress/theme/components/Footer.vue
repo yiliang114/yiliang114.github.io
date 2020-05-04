@@ -32,18 +32,18 @@ export default {
   computed: {
     // TODO: 社交媒体的 icon
     social() {
-      return this.$themeConfig.blogger && this.$themeConfig.blogger.social;
+      return this.$themeConfig.blogger && this.$themeConfig.blogger.social
     },
     footer() {
-      return this.$themeConfig.footer;
+      return this.$themeConfig.footer
     },
     // 如果是本地开发的时候就不需要显示了
     isLocalHost() {
-      const { hostname = "" } = window.location || {};
-      return hostname === "localhost";
+      const { hostname = '' } = window.location || {}
+      return hostname === 'localhost'
     }
   }
-};
+}
 </script>
 
 <style lang='stylus' scoped>
