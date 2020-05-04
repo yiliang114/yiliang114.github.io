@@ -18,7 +18,7 @@
       ></span>
     </template>
 
-    <div>
+    <div v-if="!isLocalHost">
       <span id="busuanzi_container_site_pv" style="display: inline;">
         本站总访问量
         <span id="busuanzi_value_site_pv"></span>次
@@ -36,6 +36,11 @@ export default {
     },
     footer() {
       return this.$themeConfig.footer;
+    },
+    // 如果是本地开发的时候就不需要显示了
+    isLocalHost() {
+      const { hostname = "" } = window.location || {};
+      return hostname === "localhost";
     }
   }
 };
