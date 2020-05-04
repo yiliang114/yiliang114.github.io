@@ -18,6 +18,8 @@
         'max-width': linksWrapMaxWidth + 'px'
       } : {}"
     >
+      <!-- TODO: 切换主题的设置 -->
+      <!-- <Mode /> -->
       <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
       <SearchBox
         v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
@@ -32,6 +34,7 @@ import AlgoliaSearchBox from "@AlgoliaSearchBox";
 import SearchBox from "@SearchBox";
 import SidebarButton from "@theme/components/SidebarButton.vue";
 import NavLinks from "@theme/components/NavLinks.vue";
+// import Mode from "@theme/components/Mode";
 
 export default {
   components: {
@@ -39,6 +42,7 @@ export default {
     NavLinks,
     SearchBox,
     AlgoliaSearchBox
+    // Mode
   },
 
   data() {

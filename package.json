@@ -29,7 +29,8 @@
     "gray-matter": "^4.0.2",
     "json2yaml": "^1.1.0",
     "markdown-it-center-text": "^1.0.4",
-    "tracer": "^1.0.2"
+    "tracer": "^1.0.2",
+    "vue-click-outside": "^1.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
