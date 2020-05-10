@@ -21,7 +21,8 @@
       <slot name="page-bottom" slot="bottom" />
     </Page>
 
-    <Footer />
+    <!-- <Footer /> -->
+    <component v-if="dynamicComponent" :is="dynamicComponent"></component>
   </div>
 </template>
 
@@ -38,7 +39,8 @@ export default {
 
   data() {
     return {
-      isSidebarOpen: false
+      isSidebarOpen: false,
+      dynamicComponent: null
     }
   },
 
@@ -92,6 +94,11 @@ export default {
   mounted() {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
+    })
+
+    // 这样架子啊 Footer 组件，可以使 build 的时候不报不包含 window 的错误
+    import('@theme/components/Footer.vue').then(Footer => {
+      this.dynamicComponent = Footer.default
     })
   },
 
