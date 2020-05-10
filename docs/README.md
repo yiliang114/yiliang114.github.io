@@ -15,6 +15,25 @@ features:
     details: 技术文档、教程、技巧、总结等文章
     url: /technology/
     imgname: /img/other.png
+aside:
+  avatar: https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg
+  iconfontCssFile: //at.alicdn.com/t/font_1678482_u4nrnp8xp6g.css # 阿里矢量图标库在线css文件地址
+  icons:
+    - iconClass: icon-QQ
+      title: QQ
+      link: tencent://message/?uin=1144323068&Site=&Menu=yesUrl
+    - iconClass: icon-youjian
+      title: 发邮件
+      link: mailto:1144323068@qq.com
+    - iconClass: icon-github
+      title: GitHub
+      link: https://github.com/yiliang114
+    - iconClass: icon-erji
+      title: 听音乐
+      link: https://music.163.com/#/playlist?id=126140745
+  blogger:
+    name: 易良
+    slogan: 踏实、专注。
 ---
 
 ## :email: 联系
