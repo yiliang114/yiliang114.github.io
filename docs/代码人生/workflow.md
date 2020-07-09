@@ -1,3 +1,8 @@
+---
+title: workflow
+date: 2020-04-06 19:58:03
+permalink: /pages/2e2e2d35a15a6146
+---
 ### workflow
 
 when the developer push his code to the origin branch, github ci will clone the repository into a default workspace on its environment (maybe divided by docker).
