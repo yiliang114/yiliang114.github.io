@@ -16,6 +16,32 @@ module.exports = {
     sidebarDepth: 2,
     sidebar,
     nav,
+    personalInfo: {
+      name: 'yiliang114',
+      avatar: 'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/avatar.jpg',
+      headerBackgroundImg:
+        'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/santiago-gomez-WpZmGDzOAi0.jpg',
+      description: 'In me the tiger sniffs the rose<br/>正在努力',
+      email: '1144323068@qq.com',
+      location: 'ShenZhen, China',
+      organization: '不知名某公司'
+    },
+    header: {
+      home: {
+        title: 'Top Blog',
+        subtitle: '好好生活，慢慢相遇',
+        headerImage:
+          'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/klerk-OomNPPv1Rpk.jpg'
+      },
+      tags: {
+        title: 'Tags',
+        subtitle: '遇见你花光了我所有的运气',
+        headerImage:
+          'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/leone-venter-VieM9BdZKFo.jpg'
+      },
+      postHeaderImg:
+        'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/purzlbaum-kxAaw2bO1Z8.jpg'
+    },
     footer: {
       repo: 'github.com/yiliang114/yiliang114.github.io',
       // 页脚信息
