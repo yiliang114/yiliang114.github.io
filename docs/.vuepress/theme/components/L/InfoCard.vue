@@ -2,7 +2,7 @@
 <template>
   <div class="info-card">
     <div class="info-card-header" :style="headerStyle">
-      <img class="info-avatar" :src="avatar" :alt="name" />
+      <img class="info-avatar" :src="avatar" :alt="nickName" />
     </div>
 
     <div class="info-card-body">
@@ -37,7 +37,7 @@
           :href="item.link"
           class="sns-link"
         >
-          <IconSns :name="name" :account="item.account" size="35px" />
+          <IconSns :name="nickName" :account="item.account" size="35px" />
         </a>
       </p>
     </div>

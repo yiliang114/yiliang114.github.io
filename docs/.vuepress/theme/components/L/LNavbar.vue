@@ -19,7 +19,13 @@
       <li v-for="(item, index) of navList" :key="index">
         <a v-if="item.type=='url'" :href="item.link" target="_blank">{{ item.text }}</a>
 
-        <RouterLink v-else tag="a" :to="item.link" @click.native="isNavBtn = false">{{ item.text }}</RouterLink>
+        <!-- TODO: 暂不支持 items -->
+        <RouterLink
+          v-else-if="item.link"
+          tag="a"
+          :to="item.link"
+          @click.native="isNavBtn = false"
+        >{{ item.text }}</RouterLink>
       </li>
     </ul>
 
