@@ -8,6 +8,11 @@ module.exports = [
   { text: '工具', link: '/pages/16c76221951dd1d5/' },
   { text: '移动端', link: '/pages/2b07681e35cc6d96/' },
   {
+    text: '关于我',
+    type: 'url',
+    link: 'http://yiliang.site/resume/'
+  },
+  {
     text: 'Contact',
     items: [
       {

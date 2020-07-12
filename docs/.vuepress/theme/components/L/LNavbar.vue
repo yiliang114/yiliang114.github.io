@@ -17,7 +17,7 @@
       }"
     >
       <li v-for="(item, index) of navList" :key="index">
-        <a v-if="item.type=='url'" :href="item.link" target="_blank">{{ item.text }}</a>
+        <a v-if="item.type =='url'" :href="item.link" target="_blank">{{ item.text }}</a>
 
         <!-- TODO: 暂不支持 items -->
         <RouterLink
