@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          yarn --frozen-lockfile --non-interactive
+          yarn install
 
       - name: Build
         run: |
