@@ -11,7 +11,8 @@
     "generate": "node readFiles.js",
     "lint": "eslint --fix \"**/*.{js,vue}\"",
     "pre-deploy": "http-server docs/.vuepress/dist",
-    "start": "npm run frontmatter && npm run sidebar && vuepress dev docs"
+    "start": "npm run frontmatter && npm run sidebar && vuepress dev docs",
+    "dev": "vuepress dev docs"
   },
   "husky": {
     "hooks": {

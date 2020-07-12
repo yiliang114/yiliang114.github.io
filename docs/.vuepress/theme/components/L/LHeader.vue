@@ -88,7 +88,7 @@ export default {
     flex-direction: column;
 
     h1 {
-      font-size: 5rem;
+      font-size: 3rem;
     }
 
     p {
