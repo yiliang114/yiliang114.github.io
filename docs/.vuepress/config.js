@@ -9,7 +9,7 @@ module.exports = {
   base: '/',
   head,
   themeConfig: {
-    title: "Yiliang 's Blog",
+    title: "Yiliang's Blog",
     logo: '/assets/img/logo.jpg',
     repo: 'yiliang114/yiliang114.github.io',
     smoothScroll: true,

@@ -1,12 +1,14 @@
 <template>
   <nav class="navbar" :style="navbarStyle">
-    <RouterLink
-      class="navbar-link"
-      :to="$localePath"
-      :class="{
-        'fontColor': fixed
-      }"
-    >{{ navtitle }}</RouterLink>
+    <router-link :to="$localePath" class="home-link">
+      <img
+        class="logo"
+        v-if="$site.themeConfig.logo"
+        :src="$withBase($site.themeConfig.logo)"
+        :alt="$siteTitle"
+      />
+      <span ref="siteName" class="site-name" v-if="$siteTitle">{{ $siteTitle }}</span>
+    </router-link>
 
     <ul
       v-if="navList"
@@ -103,6 +105,8 @@ export default {
 
 $gutter = 0.7rem;
 $lineHeight = $navbarHeight - ($gutter * 2);
+$navbar-vertical-padding = 0.7rem;
+$navbar-horizontal-padding = 1.5rem;
 
 .navbar {
   position: absolute;
@@ -114,9 +118,30 @@ $lineHeight = $navbarHeight - ($gutter * 2);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: $navbar-vertical-padding $navbar-horizontal-padding;
+  line-height: $navbarHeight - 1.4rem;
 
   @media (max-width: $MQMobile - 1) {
     background-color: alpha($navbarColor, 0.8);
+  }
+
+  a, span, img {
+    display: inline-block;
+  }
+
+  .logo {
+    height: $navbarHeight - 1.4rem;
+    min-width: $navbarHeight - 1.4rem;
+    margin-right: 0.8rem;
+    vertical-align: top;
+    border-radius: 50%;
+  }
+
+  .site-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: $accentColor;
+    position: relative;
   }
 
   .navbar-link {
