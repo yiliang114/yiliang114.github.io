@@ -1,6 +1,7 @@
 import modeOptions from './modeOptions'
 
 export function activateMode(mode) {
+  // 选取根元素
   const rootElement = document.querySelector(':root')
   const options = modeOptions[mode]
 
