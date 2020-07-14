@@ -68,6 +68,13 @@ module.exports = [
         horizontal: false // 是否展示为横向样式
       }
     }
+  ],
+  [
+    '@vuepress/pwa',
+    {
+      serviceWorker: true,
+      updatePopup: true
+    }
   ]
   // TODO: vuepress-plugin-baidu-tongji
 ]
