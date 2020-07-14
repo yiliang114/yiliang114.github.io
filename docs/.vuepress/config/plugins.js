@@ -1,8 +1,8 @@
 const autometa_options = {
   site: {
-    name: '易良 yiliang'
+    name: '易良 yiliang',
   },
-  canonical_base: 'https://yiliang.site'
+  canonical_base: 'https://yiliang.site',
 }
 
 module.exports = [
@@ -12,8 +12,8 @@ module.exports = [
   [
     '@vuepress/google-analytics',
     {
-      ga: 'UA-156101458-1'
-    }
+      ga: 'UA-156101458-1',
+    },
   ],
   // vuepress-plugin-dynamic-title
   [
@@ -23,8 +23,8 @@ module.exports = [
       showText: '(/≧▽≦/)咦！又好了！',
       hideIcon: '/failure.ico',
       hideText: '(●—●)喔哟，崩溃啦！',
-      recoverTime: 2000
-    }
+      recoverTime: 2000,
+    },
   ],
   [
     'vuepress-plugin-comment',
@@ -37,10 +37,10 @@ module.exports = [
         visitor: true, // 阅读量统计
         avatar: 'robohash',
         placeholder: '欢迎留言与我分享您的想法...',
-        path: '<%- frontmatter.to.path %>'
+        path: '<%- frontmatter.to.path %>',
       },
-      container: '#commits-container'
-    }
+      container: '#commits-container',
+    },
   ],
   // vuepress-plugin-cursor-effects
   'cursor-effects',
@@ -65,16 +65,21 @@ module.exports = [
         // vue: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js', // 在线示例中的vue依赖
         jsfiddle: false, // 是否显示 jsfiddle 链接
         codepen: true, // 是否显示 codepen 链接
-        horizontal: false // 是否展示为横向样式
-      }
-    }
+        horizontal: false, // 是否展示为横向样式
+      },
+    },
   ],
   [
     '@vuepress/pwa',
     {
       serviceWorker: true,
-      updatePopup: true
-    }
-  ]
-  // TODO: vuepress-plugin-baidu-tongji
+      updatePopup: true,
+    },
+  ],
+  [
+    'baidu-tongji',
+    {
+      hm: '9aff301c4ae8ff27118e8bb605bb3b09',
+    },
+  ],
 ]
