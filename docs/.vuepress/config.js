@@ -44,7 +44,7 @@ module.exports = {
         'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/purzlbaum-kxAaw2bO1Z8.jpg'
     },
     footer: {
-      repo: 'github.com/yiliang114/yiliang114.github.io',
+      repo: 'https://github.com/yiliang114/yiliang114.github.io',
       // 页脚信息
       createYear: 2019, // 博客创建年份
       copyrightInfo: 'YiLiang', // 博客版权信息，支持 html 标签

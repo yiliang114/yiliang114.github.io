@@ -5,6 +5,8 @@
         <IconSns :name="name" :account="item.account" />
       </a>
     </p>
+    <Footer v-else />
+
     <!-- eslint-disable vue/no-v-html -->
     <div class="copyright">
       <span id="custom" v-html="custom" />
@@ -23,10 +25,12 @@
 </template>
 
 <script>
+import Footer from '@theme/components/Footer.vue'
 import IconSns from '@theme/components/L/IconSns.vue'
 export default {
   components: {
-    IconSns
+    IconSns,
+    Footer
   },
   computed: {
     sns() {

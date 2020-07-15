@@ -8,7 +8,7 @@
     </Page>
 
     <!-- <Footer /> -->
-    <component v-if="dynamicComponent" :is="dynamicComponent"></component>
+    <!-- <component v-if="dynamicComponent" :is="dynamicComponent"></component> -->
   </div>
 </template>
 

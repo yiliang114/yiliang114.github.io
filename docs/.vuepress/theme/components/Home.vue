@@ -21,7 +21,6 @@
 
     <RecentUpdates />
     <Content class="custom" />
-
     <div class="footer" v-if="data.footer">{{ data.footer }}</div>
   </main>
 </template>
