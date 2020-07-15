@@ -11,11 +11,12 @@
       ></a>
     </div>
     <template v-if="footer">
-      <a :href="footer.repo" target="_blank" title="本站主题">Yiliang |</a>
-      Copyright © {{ footer.createYear }}-{{ new Date().getFullYear() }}
-      <span
-        v-html="footer.copyrightInfo"
-      ></span>
+      <p>
+        <a :href="footer.repo" target="_blank" title="本站主题">Yiliang |</a>
+        Copyright © {{ footer.createYear }}-{{ new Date().getFullYear() }}
+        <span>{{ title }}</span>
+      </p>
+      <p>{{ footer.internetContentProvider }}</p>
     </template>
 
     <div v-if="!isLocalHost">
@@ -36,6 +37,10 @@ export default {
     },
     footer() {
       return this.$themeConfig.footer
+    },
+    title() {
+      const { title = '' } = this.$site
+      return title
     },
     // 如果是本地开发的时候就不需要显示了
     isLocalHost() {
@@ -59,7 +64,7 @@ $mobileSidebarWidth = $sidebarWidth * 0.82;
 }
 
 .footer {
-  padding: 2.5rem 2.5rem 4rem;
+  padding: 1.5rem 2.5rem 2rem;
   text-align: center;
   color: lighten($textColor, 25%);
   box-sizing: border-box;

@@ -6,9 +6,9 @@
       </a>
     </p>
     <Footer v-else />
-
+    <!-- TODO: -->
     <!-- eslint-disable vue/no-v-html -->
-    <div class="copyright">
+    <!-- <div class="copyright">
       <span id="custom" v-html="custom" />
       <iframe
         v-if="gitbtn"
@@ -20,7 +20,7 @@
         :width="gitbtn.width"
         :height="gitbtn.height"
       />
-    </div>
+    </div>-->
   </footer>
 </template>
 
