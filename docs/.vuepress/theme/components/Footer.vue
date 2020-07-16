@@ -64,7 +64,7 @@ $mobileSidebarWidth = $sidebarWidth * 0.82;
 }
 
 .footer {
-  padding: 1.5rem 2.5rem 2rem;
+  padding: 1.5rem 2.5rem 1.5rem;
   text-align: center;
   color: lighten($textColor, 25%);
   box-sizing: border-box;
