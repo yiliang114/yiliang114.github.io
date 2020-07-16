@@ -1,39 +1,40 @@
 <template>
   <nav class="navbar" :style="navbarStyle">
-    <router-link :to="$localePath" class="home-link">
-      <img
-        class="logo"
-        v-if="$site.themeConfig.logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
-      />
-      <span ref="siteName" class="site-name" v-if="$siteTitle">{{ $siteTitle }}</span>
-    </router-link>
+    <div class="container">
+      <router-link :to="$localePath" class="home-link">
+        <img
+          class="logo"
+          v-if="$site.themeConfig.logo"
+          :src="$withBase($site.themeConfig.logo)"
+          :alt="$siteTitle"
+        />
+        <span ref="siteName" class="site-name" v-if="$siteTitle">{{ $siteTitle }}</span>
+      </router-link>
 
-    <ul
-      v-if="navList"
-      class="navbar-links"
-      :class="{
+      <ul
+        v-if="navList"
+        class="navbar-links"
+        :class="{
         'show': isNavBtn,
         'fontColor': fixed
       }"
-    >
-      <li v-for="(item, index) of navList" :key="index">
-        <a v-if="item.type =='url'" :href="item.link" target="_blank">{{ item.text }}</a>
+      >
+        <li v-for="(item, index) of navList" :key="index">
+          <a v-if="item.type =='url'" :href="item.link" target="_blank">{{ item.text }}</a>
 
-        <!-- TODO: 暂不支持 items -->
-        <RouterLink
-          v-else-if="item.link"
-          tag="a"
-          :to="item.link"
-          @click.native="isNavBtn = false"
-        >{{ item.text }}</RouterLink>
-      </li>
-    </ul>
+          <RouterLink
+            v-else-if="item.link"
+            tag="a"
+            :to="item.link"
+            @click.native="isNavBtn = false"
+          >{{ item.text }}</RouterLink>
+        </li>
+      </ul>
 
-    <!-- @media nav button -->
-    <div id="nav-icon" :class="navbtnShow" @click="isNavBtn = !isNavBtn">
-      <span v-for="count in 3" :key="count" />
+      <!-- @media nav button -->
+      <div id="nav-icon" :class="navbtnShow" @click="isNavBtn = !isNavBtn">
+        <span v-for="count in 3" :key="count" />
+      </div>
     </div>
   </nav>
 </template>
@@ -63,7 +64,9 @@ export default {
       return this.$themeConfig.title
     },
     navList() {
-      return this.$themeConfig.nav
+      const nav = this.$themeConfig.nav || []
+      // TODO: 暂不支持 items
+      return nav.filter(({ text, link }) => text && link)
     },
     navbarStyle() {
       return {
@@ -121,6 +124,15 @@ $navbar-horizontal-padding = 1.5rem;
   padding: $navbar-vertical-padding $navbar-horizontal-padding;
   line-height: $navbarHeight - 1.4rem;
 
+  .container {
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 85%;
+  }
+
   @media (max-width: $MQMobile - 1) {
     background-color: alpha($navbarColor, 0.8);
   }
@@ -168,7 +180,7 @@ $navbar-horizontal-padding = 1.5rem;
     font-weight: 800;
     display: inline-flex;
     line-height: $lineHeight;
-    padding: 0 20px;
+    // padding: 0 20px;
     color: $navbarColor;
 
     & > li {
