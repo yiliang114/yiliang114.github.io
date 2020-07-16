@@ -49,7 +49,29 @@ module.exports = {
       createYear: 2019, // 博客创建年份
       footerBgImg: '/img/footer.png', // 可选的，页脚背景图，只在首页显示
       // 备案号
-      internetContentProvider: '浙ICP备16046652号-3'
+      internetContentProvider: '浙ICP备16046652号-3',
+      sns: [
+        {
+          iconClass: 'icon-QQ',
+          title: 'QQ',
+          link: 'tencent://message/?uin=1144323068&Site=&Menu=yesUrl'
+        },
+        {
+          iconClass: 'icon-youjian',
+          title: '发邮件',
+          link: 'mailto:1144323068@qq.com'
+        },
+        {
+          iconClass: 'icon-github',
+          title: 'GitHub',
+          link: 'https://github.com/yiliang114'
+        },
+        {
+          iconClass: 'icon-erji',
+          title: '听音乐',
+          link: 'https://music.163.com/#/playlist?id=126140745'
+        }
+      ]
     }
   },
   plugins

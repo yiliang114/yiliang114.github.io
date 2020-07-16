@@ -1,11 +1,11 @@
 <template>
   <div class="footer">
-    <div class="icons" v-if="social && social.icons">
+    <div class="icons" v-if="sns">
       <a
         :href="item.link"
         :title="item.title"
         :class="['iconfont', item.iconClass]"
-        v-for="(item, index) in social.icons"
+        v-for="(item, index) in sns"
         :key="index"
         target="_blank"
       ></a>
@@ -31,20 +31,18 @@
 <script>
 export default {
   computed: {
-    // TODO: 社交媒体的 icon
-    social() {
-      return this.$themeConfig.blogger && this.$themeConfig.blogger.social
-    },
     footer() {
-      return this.$themeConfig.footer
+      return this.$themeConfig.footer || {}
+    },
+    sns() {
+      return this.footer.sns
     },
     title() {
-      const { title = '' } = this.$site
-      return title
+      return this.$site && this.$site.title
     },
     // 如果是本地开发的时候就不需要显示了
     isLocalHost() {
-      const { hostname = '' } = (window && window.location) || {}
+      const { hostname = '' } = window.location || {}
       return hostname === 'localhost'
     }
   }
