@@ -96,7 +96,7 @@ export default {
       this.isSidebarOpen = false
     })
 
-    // 这样架子啊 Footer 组件，可以使 build 的时候不报不包含 window 的错误
+    // 这样加载 Footer 组件，可以使 build 的时候不报不包含 window 的错误
     import('@theme/components/Footer.vue').then(Footer => {
       this.dynamicComponent = Footer.default
     })

@@ -5,7 +5,8 @@
         <IconSns :name="name" :account="item.account" />
       </a>
     </p>
-    <Footer v-else />
+    <component v-else-if="dynamicComponent" :is="dynamicComponent"></component>
+    <Footer />
     <!-- TODO: -->
     <!-- eslint-disable vue/no-v-html -->
     <!-- <div class="copyright">
@@ -25,12 +26,13 @@
 </template>
 
 <script>
-import Footer from '@theme/components/Footer.vue'
 import IconSns from '@theme/components/L/IconSns.vue'
 export default {
+  data() {
+    return { dynamicComponent: null }
+  },
   components: {
-    IconSns,
-    Footer
+    IconSns
   },
   computed: {
     sns() {
@@ -42,6 +44,12 @@ export default {
     gitbtn() {
       return this.$themeConfig.footer.gitbtn || null
     }
+  },
+  mounted() {
+    // 这样加载 Footer 组件，可以使 build 的时候不报不包含 window 的错误
+    import('@theme/components/Footer.vue').then(Footer => {
+      this.dynamicComponent = Footer.default
+    })
   }
 }
 </script>

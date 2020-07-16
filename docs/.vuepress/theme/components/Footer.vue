@@ -44,7 +44,7 @@ export default {
     },
     // 如果是本地开发的时候就不需要显示了
     isLocalHost() {
-      const { hostname = '' } = window.location || {}
+      const { hostname = '' } = (window && window.location) || {}
       return hostname === 'localhost'
     }
   }
