@@ -2,20 +2,20 @@
   <div class="tags">
     <div class="main-div">
       <RouterLink v-for="tag in tags" :key="tag.name" :to="tag.path">
-        <IconTag icon="tag" :name="tag.name" />
+        <IconInfo :type="tag.name" :href="tag.path">{{tag.name}}</IconInfo>
       </RouterLink>
     </div>
   </div>
 </template>
 
 <script>
-import IconTag from '@theme/components/Icon'
+import IconInfo from '@theme/components/L/IconInfo'
 
 export default {
   name: 'Tags',
 
   components: {
-    IconTag
+    IconInfo
   },
   computed: {
     tags() {

@@ -112,11 +112,11 @@ export default ({ Vue }) => {
       }
     },
     mounted() {
-      console.log(
-        'mounted ==== this.$lists',
-        this.$tags._metaMap,
-        Object.keys(this.$tags._metaMap).length
-      )
+      // console.log(
+      //   'mounted ==== this.$lists',
+      //   this.$tags._metaMap,
+      //   Object.keys(this.$tags._metaMap).length
+      // )
     }
   })
 }

@@ -12,8 +12,9 @@ export default {
     },
 
     name: {
-      type: String,
-      required: true
+      type: String
+      // TODO:
+      // required: true
     },
 
     size: {

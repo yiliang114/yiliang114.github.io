@@ -37,8 +37,7 @@ export default {
         style={`{ 'backgroundColor': ${color} }`}
       >
         <Icon class="post-tag-icon" name={icon} size={size} />
-
-        <span class="post-tag-name">{name}</span>
+        {/* <span class="post-tag-name">{name}</span> */}
       </span>
     )
   }
