@@ -26,4 +26,12 @@ export default ({
       }
     }
   })
+
+  console.log(
+    '\n' +
+      ' %c Wire Designed by yiliang114 %c https://github.com/yiliang114/yiliang114.github.io ' +
+      '\n',
+    'color: #fadfa3; background: #030307; padding:5px 0; font-size:12px;',
+    'background: #fadfa3; padding:5px 0; font-size:12px;'
+  )
 }

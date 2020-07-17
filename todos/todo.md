@@ -34,6 +34,13 @@
 - [ ] 上一篇下一篇
 
 http://kmanong.top/kmn/qxw/form/article?id=6875&cate=93
+http://blog.devtang.com/about/
+https://www.jianshu.com/p/28ba53821450
+
+### 收录 seo
+
+https://blog.csdn.net/damontive/article/details/99895312
+https://juejin.im/post/590b451a0ce46300588c43a0
 
 ### QA
 
