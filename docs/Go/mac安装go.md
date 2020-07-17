@@ -3,6 +3,7 @@
   date: "2020-03-14 17:06:38"
   permalink: "/pages/1afd78d2438f2375"
 ---
+
 ### mac 安装 go
 
 #### 1. 安装 go

@@ -82,5 +82,6 @@ module.exports = [
     {
       hm: '9aff301c4ae8ff27118e8bb605bb3b09'
     }
-  ]
+  ],
+  [require('../theme/plugins/blog-multidir')]
 ]

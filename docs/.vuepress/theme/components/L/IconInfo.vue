@@ -1,5 +1,5 @@
 <script>
-import Icon from '@theme/components/L/Icon.vue'
+import Icon from '@theme/components/Icon/index.vue'
 
 export default {
   name: 'IconInfo',

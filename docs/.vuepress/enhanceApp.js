@@ -27,6 +27,11 @@ export default ({
     }
   })
 
+  // site config.js
+  // console.log('siteData', siteData)
+
+  console.log('options', options)
+
   console.log(
     '\n' +
       ' %c Wire Designed by yiliang114 %c https://github.com/yiliang114/yiliang114.github.io ' +

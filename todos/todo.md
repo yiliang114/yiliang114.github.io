@@ -31,6 +31,7 @@
 - [ ] 百度和 google 的站点地图主动推送
 - [ ] 每篇文章最后添加一个简短的关于我
 - [ ] 主题切换
+- [ ] 可能可以有一个首页 https://slbyml.github.io/
 - [ ] 上一篇下一篇
 
 http://kmanong.top/kmn/qxw/form/article?id=6875&cate=93

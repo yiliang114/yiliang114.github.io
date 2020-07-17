@@ -1,17 +1,18 @@
 ---
 title: process-env
 date: 2020-03-14 17:06:38
-permalink: /pages/b15d572f3b5dd62c
+# permalink: /pages/b15d572f3b5dd62c
 ---
+
 ### Node process.env
 
 在看一些前框框架实现的源码的时候，经常会看到类似如下的代码：
 
 ```js
-if (process.env.NODE_ENV === "production") {
-  module.exports = require("./prod.js");
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./prod.js')
 } else {
-  module.exports = require("./dev.js");
+  module.exports = require('./dev.js')
 }
 ```
 
@@ -41,7 +42,7 @@ export NODE_ENV=dev
 #### 直接在 js 代码中设置环境变量
 
 ```js
-process.env.VUE_CLI_DEBUG = true;
+process.env.VUE_CLI_DEBUG = true
 ```
 
 #### package.json 中设置环境变量
