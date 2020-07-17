@@ -1,7 +1,10 @@
 ---
 title: 'ubuntu中docker安装jenkins'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/39f4c390c7818088"
+tags:
+  - ubuntu
+  - docker
+  - jenkins
 ---
 
 ## ubuntu docker 安装 jenkins

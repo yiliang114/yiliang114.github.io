@@ -1,7 +1,10 @@
 ---
 title: '用vue实现灭霸响指效果'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/e3b72e7b8d3e976f"
+tags:
+  - vue
+  - svg
+  - canvas
 ---
 
 ## vue 灭霸响指效果

@@ -1,7 +1,10 @@
 ---
 title: 'element-table组件内容换行方案'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/c990a1281c566c21"
+tags:
+  - element
+  - table
+  - 换行
 ---
 
 ### element table 组件内容换行方案

@@ -1,7 +1,8 @@
 ---
 title: 'vue-cli@2.x项目迁移日志'
 date: '2020-03-14 09:06:38'
-# permalink: "/pages/9c2f88e19109bb7e"
+tags:
+  - vue-cli@2.x
 ---
 
 ### vue-cli@2.x 项目迁移日志

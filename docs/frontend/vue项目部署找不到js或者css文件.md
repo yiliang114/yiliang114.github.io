@@ -1,7 +1,9 @@
 ---
 title: 'vue项目部署找不到js或者css文件'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/2226be53ab41bd60"
+tags:
+  - vue
+  - 部署
 ---
 
 ### vue 项目部署找不到 js css 文件

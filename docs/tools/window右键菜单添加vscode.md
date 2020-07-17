@@ -1,7 +1,8 @@
 ---
 title: 'window右键菜单添加vscode'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/7f6b2e7e9a1c6c09"
+tags:
+  - 编辑器
 ---
 
 # window 右键菜单添加 vscode

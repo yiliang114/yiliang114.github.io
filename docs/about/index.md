@@ -4,7 +4,6 @@ title: 'index'
 subtitle: '你可以很好，但你无需完美'
 headerImage: 'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/4TVbbaNAw9Q.jpg'
 date: '2020-07-09 15:13:45'
-# permalink: '/pages/6a992d5529f459a4'
 tags:
   - me
   - yiliang

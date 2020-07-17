@@ -1,7 +1,9 @@
 ---
 title: 'linux找不到iptables文件'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/751ac9dc73b72f4f"
+tags:
+  - linux
+  - iptables
 ---
 
 ### linux 找不到 iptables 文件

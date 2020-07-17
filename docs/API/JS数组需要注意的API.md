@@ -1,7 +1,6 @@
 ---
 title: 'JS数组需要注意的API'
 date: '2020-03-14 09:06:38'
-# permalink: '/pages/2f6fe1752a8e5d7a'
 tags:
   - JS
   - Array

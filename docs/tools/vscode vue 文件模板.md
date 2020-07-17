@@ -1,7 +1,8 @@
 ---
 title: 'vscode vue 文件模板'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/429d02c04f6e651c"
+tags:
+  - 编辑器
 ---
 
 ### vscode vue 文件模板

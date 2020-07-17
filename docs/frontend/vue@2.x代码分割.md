@@ -1,7 +1,10 @@
 ---
 title: 'vue@2.x代码分割'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/ce0c49e25336c667"
+tags:
+  - vue
+  - webpack
+  - code split
 ---
 
 ## vue code split

@@ -1,7 +1,8 @@
 ---
 title: 'mobx@4.x严格模式下的Array.map'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/832b772c4193e55e"
+tags:
+  - mobx
 ---
 
 ### mobx@4.x 严格模式下 Array.map 的一点问题

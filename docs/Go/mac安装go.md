@@ -1,7 +1,8 @@
 ---
-  title: "mac安装go"
-  date: "2020-03-14 17:06:38"
-  permalink: "/pages/1afd78d2438f2375"
+title: 'mac安装go'
+date: '2020-03-14 17:06:38'
+tags:
+  - go
 ---
 
 ### mac 安装 go

@@ -1,7 +1,8 @@
 ---
 title: 'vim基本操作'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/c886cb334dab7804"
+tags:
+  - vim
 ---
 
 ### vim 基本操作

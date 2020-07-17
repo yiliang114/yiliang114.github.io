@@ -1,7 +1,9 @@
 ---
 title: 'vue中输入框的中文输入法的回车事件'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/7ae691f630ce054e"
+tags:
+  - vue
+  - 输入法
 ---
 
 ### vue input 中文输入法的回车事件

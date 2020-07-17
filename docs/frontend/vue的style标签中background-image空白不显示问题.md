@@ -1,7 +1,9 @@
 ---
 title: 'vue的style标签中background-image空白不显示问题'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/8d9d87f50207bf38"
+tags:
+  - vue
+  - image
 ---
 
 ### vue style 标签中 background-image 空白不显示

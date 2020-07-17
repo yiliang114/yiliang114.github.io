@@ -1,7 +1,9 @@
 ---
 title: 'vue引用自定义ttf,otf在线字体'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/40f29bbce96747d3"
+tags:
+  - vue
+  - 字体
 ---
 
 ### vue 引用自定义 ttf、otf、在线字体

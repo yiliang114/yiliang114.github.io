@@ -1,7 +1,8 @@
 ---
 title: '轻量应用服务器 MySQL 远程连接踩坑'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/f3d7ead049c7e528"
+tags:
+  - 服务器
 ---
 
 ## 轻量应用服务器 MySQL 远程连接踩坑

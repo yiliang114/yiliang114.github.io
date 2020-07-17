@@ -1,7 +1,8 @@
 ---
 title: '添加sublime到鼠标右键功能'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/7e2d5f616c1cc5e9"
+tags:
+  - 编辑器
 ---
 
 ### sublime text 添加到鼠标右键功能

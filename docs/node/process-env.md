@@ -1,7 +1,8 @@
 ---
 title: process-env
 date: 2020-03-14 17:06:38
-# permalink: /pages/b15d572f3b5dd62c
+tags:
+  - node
 ---
 
 ### Node process.env

@@ -1,7 +1,10 @@
 ---
 title: 'CSS文字多行显示超出显示省略号'
 date: '2020-03-14 17:06:38'
-# permalink: "/pages/455b37e2be52a1a5"
+tags:
+  - css3
+  - overflow
+  - 换行
 ---
 
 ### css 文字多行显示超出显示省略号
