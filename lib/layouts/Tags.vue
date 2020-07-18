@@ -1,34 +1,66 @@
 <template>
-  <div class="tags">
-    <div class="main-div">
-      <RouterLink v-for="tag in tags" :key="tag.name" :to="tag.path">
-        <IconInfo :type="tag.name" :href="tag.path">{{tag.name}}</IconInfo>
-      </RouterLink>
+  <div>
+    <div class="tags main-div">
+      <div
+        v-for="tag in tagList"
+        :key="tag"
+        class="tag main-tag"
+        @click="selectPost"
+      >
+        {{ tag }}
+      </div>
     </div>
+    <TransitionSlide>
+      <PostList
+        :key="$page.path"
+        :posts="posts"
+      />
+    </TransitionSlide>
   </div>
 </template>
 
 <script>
-import IconInfo from '@theme/components/L/IconInfo'
-
+import PostList from '@theme/components/PostList.vue'
+import TransitionSlide from '@theme/components/TransitionSlide.vue'
 export default {
   name: 'Tags',
-
   components: {
-    IconInfo
+    PostList,
+    TransitionSlide,
+  },
+
+  data () {
+    return {
+      posts: null,
+    }
   },
   computed: {
-    tags() {
-      const { _metaMap = {} } = this.$tags
-      return [
-        { name: '全部', path: '/tags/', id: -1 },
-        ...Object.keys(_metaMap).map((key, index) => ({
-          id: index,
-          name: key,
-          path: (_metaMap[key] && _metaMap[key].path) || ''
-        }))
-      ]
-    }
-  }
+    tagList () {
+      return Object.keys(this.$tags.map)
+    },
+    tagMap () {
+      return this.$tags.map
+    },
+  },
+
+  created () {
+    this.posts = this.$posts
+  },
+  methods: {
+    selectPost (e) {
+      const tagName = e.target.innerText
+      console.log(tagName)
+      this.posts = this.tagMap[tagName].posts
+    },
+  },
 }
 </script>
+
+<style lang="stylus">
+.tags
+  margin-bottom 20px
+  text-align center
+  .main-tag
+    height 28px
+
+</style>
