@@ -15,7 +15,6 @@ module.exports = [
       ga: 'UA-156101458-1'
     }
   ],
-  // vuepress-plugin-dynamic-title
   [
     'dynamic-title',
     {

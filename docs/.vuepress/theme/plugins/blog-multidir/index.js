@@ -21,10 +21,10 @@ module.exports = (options, ctx) => {
     aliasesRoot = ':root',
     // 分类、Tag 的前缀
     categoryIndexPageUrl = '/category/',
-    tagIndexPageUrl = '/tag/',
+    tagIndexPageUrl = '/tags/',
     // 指定默认的布局组件
-    categoryLayout = 'Tag',
-    tagLayout = 'Tag',
+    categoryLayout = 'Tags',
+    tagLayout = 'Tags',
     postLayout = 'Page',
     postsDir = 'posts',
     // 永久链接默认是关闭的
@@ -129,10 +129,12 @@ module.exports = (options, ctx) => {
       ctx.listMap = setPage(listMap)
 
       const extraPages = [
+        // 添加 tags
         {
           permalink: tagIndexPageUrl,
           frontmatter: { title: 'Tags', layout: tagLayout }
         },
+        // 添加 分类路由
         {
           permalink: categoryIndexPageUrl,
           frontmatter: { title: 'Categories', layout: categoryLayout }
@@ -143,18 +145,18 @@ module.exports = (options, ctx) => {
       ]
 
       // 添加 tags
-      if (defaultPages.tags !== false) {
-        const { tags = {} } = header
-        await ctx.addPage({
-          permalink: '/tags/',
-          frontmatter: {
-            title: tags.title,
-            subtitle: tags.subtitle,
-            headerImage: tags.headerImage,
-            layout: 'tags'
-          }
-        })
-      }
+      // if (defaultPages.tags !== false) {
+      //   const { tags = {} } = header
+      //   await ctx.addPage({
+      //     permalink: '/tags/',
+      //     frontmatter: {
+      //       title: tags.title,
+      //       subtitle: tags.subtitle,
+      //       headerImage: tags.headerImage,
+      //       layout: 'tags'
+      //     }
+      //   })
+      // }
       await Promise.all(extraPages.map(page => ctx.addPage(page)))
     },
     /**

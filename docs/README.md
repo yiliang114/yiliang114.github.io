@@ -2,6 +2,7 @@
 home: true
 heroText: 易良同学的博客
 tagline: Web 前端技术博客，积跬步以至千里，致敬每个爱学习的你。
+layout: home
 features:
   - title: 前端
     details: JavaScript、ES6、Vue 框架等前端技术
