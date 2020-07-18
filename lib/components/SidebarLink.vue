@@ -19,12 +19,12 @@ export default {
     // for sidebar: auto pages, a hash link should be active if one of its child
     // matches
     const active =
-      item.type === 'auto'
-        ? selfActive ||
+      item.type === 'auto' ?
+        selfActive ||
           item.children.some(c =>
             isActive($route, item.basePath + '#' + c.slug)
-          )
-        : selfActive
+          ) :
+        selfActive
     const link = renderLink(h, item.path, item.title || item.path, active)
 
     const configDepth =

@@ -72,6 +72,7 @@ export default {
       if (repo) {
         return /^https?:/.test(repo) ? repo : `https://github.com/${repo}`
       }
+      return ''
     },
 
     repoLabel() {

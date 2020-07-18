@@ -1,3 +1,4 @@
+const path = require('path')
 const head = require('./config/head.js')
 const plugins = require('./config/plugins.js')
 const nav = require('./config/nav')
@@ -8,6 +9,7 @@ module.exports = {
   description: 'Welcome to my blog site',
   base: '/',
   head,
+  theme: path.resolve(__dirname, '../../lib'),
   themeConfig: {
     title: "Yiliang's Blog",
     logo: '/assets/img/logo.jpg',
@@ -73,6 +75,6 @@ module.exports = {
         }
       ]
     }
-  },
-  plugins
+  }
+  // plugins
 }

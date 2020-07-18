@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  render(h, { props: { name, account, size } }) {
+  render(h, { props: { name, size } }) {
     return (
       <span class="sns-icon">
         <Icon name={name} size={size} />

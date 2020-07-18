@@ -29,7 +29,7 @@ export default {
     }
   },
 
-  render(h, { props: { name, icon, size } }) {
+  render(h, { props: { name, icon, size, color } }) {
     return (
       <span
         class="post-tag"

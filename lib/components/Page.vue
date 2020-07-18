@@ -113,15 +113,16 @@ export default {
           this.$page.relativePath
         )
       }
+      return ''
     },
 
     commentLink() {
       const { repo, docsRepo = repo } = this.$site.themeConfig
 
       return (
-        (outboundRE.test(docsRepo)
-          ? docsRepo
-          : `https://github.com/${docsRepo}`) +
+        (outboundRE.test(docsRepo) ?
+          docsRepo :
+          `https://github.com/${docsRepo}`) +
         `/issues/new?title=Comment: ${this.$page.title} (${this.$page.relativePath})`
       )
     },
@@ -150,9 +151,9 @@ export default {
         )
       }
 
-      const base = outboundRE.test(docsRepo)
-        ? docsRepo
-        : `https://github.com/${docsRepo}`
+      const base = outboundRE.test(docsRepo) ?
+        docsRepo :
+        `https://github.com/${docsRepo}`
       return (
         base.replace(endingSlashRE, '') +
         `/edit` +

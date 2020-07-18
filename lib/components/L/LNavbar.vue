@@ -49,9 +49,9 @@ export default {
       scrollHeight: 0,
       scrollListener: throttle(() => {
         this.fixed =
-          this.getScrollTop() - this.scrollHeight < 0
-            ? !!this.getScrollTop()
-            : false
+          this.getScrollTop() - this.scrollHeight < 0 ?
+            !!this.getScrollTop() :
+            false
         this.scrollHeight = this.getScrollTop()
       }, 100)
     }
@@ -72,9 +72,9 @@ export default {
       return {
         position: this.fixed ? 'fixed' : 'absolute',
         background: this.fixed ? '#fff' : null,
-        'box-shadow': this.fixed
-          ? 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.239216) 0px 1px 4px'
-          : null,
+        'box-shadow': this.fixed ?
+          'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.239216) 0px 1px 4px' :
+          null,
         color: this.fixed ? '#404040' : null,
         opacity: this.fixed ? '0.8' : '1',
         transition: 'all 0.5s ease-in-out'

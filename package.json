@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "author": "yiliang114",
+  "main": "lib/index.js",
   "scripts": {
     "frontmatter": "node utils/frontmatter.js update",
     "sidebar": "node utils/sidebar.js",
@@ -14,6 +15,9 @@
     "start": "npm run frontmatter && npm run sidebar && vuepress dev docs",
     "dev": "vuepress dev docs"
   },
+  "files": [
+    "lib/"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
