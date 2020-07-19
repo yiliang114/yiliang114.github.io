@@ -92,7 +92,8 @@ module.exports = {
 
     header: {
       background: {
-        // url: '/assets/img/header-image-01.jpg',
+        // url:
+        //   'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/4TVbbaNAw9Q-min.jpg',
         useGeo: true
       },
       showTitle: true
@@ -100,7 +101,7 @@ module.exports = {
 
     footer: {
       poweredBy: true,
-      poweredByTheme: true,
+      poweredByTheme: false,
       custom:
         'Copyright 2018-present <a href="https://github.com/yiliang114" target="_blank">yiliang114</a> | MIT License'
     },
@@ -118,7 +119,7 @@ module.exports = {
     },
     infoCard: {
       headerBackground: {
-        // url: '/assets/img/header-image-01.jpg',
+        url: '/assets/img/header-image-01.jpg',
         useGeo: true
       }
     },
