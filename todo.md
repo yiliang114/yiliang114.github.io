@@ -37,6 +37,8 @@
 http://kmanong.top/kmn/qxw/form/article?id=6875&cate=93
 http://blog.devtang.com/about/
 https://www.jianshu.com/p/28ba53821450
+https://www.recoluan.com/
+https://baixiaoyu2997.github.io/posts/
 
 ### 收录 seo
 
