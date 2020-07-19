@@ -45,7 +45,7 @@ module.exports = {
   theme: path.resolve(__dirname, '../../lib'),
   themeConfig: {
     title: "Yiliang's Blog",
-    logo: '/assets/img/logo.jpg',
+    logo: '/assets/images/logo.jpg',
     repo: 'yiliang114/yiliang114.github.io',
     smoothScroll: true,
     editLinks: true,
