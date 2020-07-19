@@ -21,6 +21,17 @@
     <!-- eslint-disable vue/no-v-html -->
     <p v-if="custom" class="footer-text" v-html="custom" />
     <!-- eslint-enable vue/no-v-html -->
+
+    <!-- 卜算子 -->
+    <span id="busuanzi_container_site_pv" v-if="isHome">
+      本站总访问量
+      <span id="busuanzi_value_site_pv"></span>次
+    </span>
+
+    <span id="busuanzi_container_page_pv" v-else>
+      本文总阅读量
+      <span id="busuanzi_value_page_pv"></span>次
+    </span>
   </footer>
 </template>
 
@@ -49,6 +60,10 @@ export default {
 
     sns() {
       return this.$themeConfig.personalInfo.sns || null
+    },
+
+    isHome() {
+      return this.$localePath === '/'
     }
   }
 }
