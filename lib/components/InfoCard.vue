@@ -1,72 +1,88 @@
-/* eslint-disable no-dupe-keys */
 <template>
   <div class="info-card">
-    <div class="info-card-header" :style="headerStyle">
-      <img class="info-avatar" :src="avatar" :alt="name" />
+    <div class="info-card-header"
+      :style="headerStyle">
+      <img class="info-avatar"
+        :src="avatar"
+        :alt="nickname">
     </div>
 
     <div class="info-card-body">
-      <section class="info-name">{{ nickName }}</section>
+      <section class="info-nickname">
+        {{ nickname }}
+      </section>
+
       <!-- eslint-disable vue/no-v-html -->
-      <section v-if="description" class="info-desc" v-html="description" />
+      <section v-if="description"
+        class="info-desc"
+        v-html="description" />
+      <!-- eslint-enable vue/no-v-html -->
 
       <section class="info-contact">
         <section v-if="location">
-          <IconInfo class="info-email" type="location">{{ location }}</IconInfo>
+          <IconInfo class="info-location"
+            type="location"
+            :title="location">
+            {{ location }}
+          </IconInfo>
         </section>
 
         <section v-if="organization">
-          <IconInfo
-            class="info-organization"
+          <IconInfo class="info-organization"
             type="organization"
-            :title="organization"
-          >{{ organization }}</IconInfo>
+            :title="organization">
+            {{ organization }}
+          </IconInfo>
         </section>
 
         <section v-if="email">
-          <IconInfo class="info-email" type="email">{{ email }}</IconInfo>
+          <IconInfo class="info-email"
+            type="email"
+            :href="`mailto:${email}`"
+            :title="email">
+            {{ email }}
+          </IconInfo>
         </section>
       </section>
     </div>
-    <div class="info-card-footer">
-      <p v-if="sns" class="footer-sns-link">
-        <a
-          v-for="(item, name) in sns"
+
+    <div v-if="sns"
+      class="info-card-footer">
+      <section class="info-sns clearfix">
+        <a v-for="(item, name) of sns"
           :key="name"
-          target="_blank"
           :href="item.link"
           class="sns-link"
-        >
-          <IconSns :name="name" :account="item.account" size="35px" />
+          target="_blank">
+          <IconSns :name="name"
+            :account="item.account"
+            size="1.5em" />
         </a>
-      </p>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
-import IconSns from '@theme/components/IconSns.vue';
-import IconInfo from '@theme/components/IconInfo.vue';
-export default {
-  components: {
-    IconSns,
-    IconInfo,
-  },
-  computed: {
-    sns() {
-      return this.$themeConfig.sns || null;
-    },
+import GeoPattern from "geopattern";
+import IconInfo from "@theme/components/IconInfo.vue";
+import IconSns from "@theme/components/IconSns.vue";
 
+export default {
+  name: "InfoCard",
+
+  components: {
+    IconInfo,
+    IconSns
+  },
+
+  computed: {
     info() {
       return this.$themeConfig.personalInfo || {};
     },
 
-    avatar() {
-      return this.info.avatar || '/avatar-top.jpeg';
-    },
-
-    nickName() {
-      return this.info.name || 'Unknown';
+    nickname() {
+      return this.info.nickname || "Unknown";
     },
 
     description() {
@@ -77,32 +93,56 @@ export default {
       return this.info.location || null;
     },
 
-    organization() {
-      return this.info.organization || null;
-    },
-
     email() {
       return this.info.email || null;
     },
 
+    organization() {
+      return this.info.organization || null;
+    },
+
+    avatar() {
+      return this.info.avatar || "/assets/img/avatar_unknown.jpg";
+    },
+
+    sns() {
+      return this.info.sns || null;
+    },
+
+    headerBackgroundConfig() {
+      return this.$themeConfig.infoCard.headerBackground || {};
+    },
+
     headerBackgroundImg() {
-      return this.info.headerBackgroundImg || null;
+      return this.headerBackgroundConfig.url || null;
     },
 
     headerStyle() {
       if (this.headerBackgroundImg) {
         return {
-          'background-size': 'cover',
-          'background-repeat': 'no-repeat',
-          'background-position': 'center',
-          'background-attachment': 'scroll',
-          'background-image': `url(${this.headerBackgroundImg})`,
+          "background-size": "cover",
+          "background-repeat": "no-repeat",
+          "background-position": "center",
+          "background-attachment": "scroll",
+          "background-image": `url(${this.headerBackgroundImg})`
+        };
+      }
+
+      if (!this.$ssrContext && this.headerBackgroundConfig.useGeo !== false) {
+        return {
+          "background-image": this.gpImg()
         };
       }
 
       return {};
-    },
+    }
   },
+
+  methods: {
+    gpImg() {
+      return GeoPattern.generate(this.nickname, { color: "#eee" }).toDataUrl();
+    }
+  }
 };
 </script>
 
@@ -144,7 +184,7 @@ $avatarHeight = 120px;
     border-bottom: 1px solid $borderColor;
     text-align: center;
 
-    .info-name {
+    .info-nickname {
       display: block;
       font-size: 1.5rem;
       font-weight: bold;
@@ -153,7 +193,6 @@ $avatarHeight = 120px;
 
     .info-desc {
       margin: 1rem 0;
-      line-height: 2rem;
     }
 
     .info-contact {
@@ -169,7 +208,7 @@ $avatarHeight = 120px;
 
   .info-card-footer {
     text-align: center;
-    padding: 0.5rem;
+    padding: 1rem;
   }
 }
 </style>

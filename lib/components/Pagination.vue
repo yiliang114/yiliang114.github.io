@@ -1,13 +1,14 @@
 <template>
   <ul class="pagination">
+    <!--Prev Button-->
     <li
       :class="{ disabled: onFirstPage }"
       class="page-item"
       @click.prevent="prevPage"
     >
-      <span>&lt;</span>
+      <span>&laquo;</span>
     </li>
-
+    <!--Page Buttons-->
     <li
       v-for="paginator in paginators"
       :key="paginator.value"
@@ -18,12 +19,13 @@
       <span>{{ paginator.value }}</span>
     </li>
 
+    <!--Next Button-->
     <li
       :class="{ disabled: onLastPage }"
       class="page-item"
       @click.prevent="nextPage"
     >
-      <span>&gt;</span>
+      <span>&raquo;</span>
     </li>
   </ul>
 </template>
@@ -157,6 +159,11 @@ export default {
     setPage (targetPage) {
       if (targetPage <= this.lastPage && targetPage >= this.firstPage) {
         this.$emit('input', targetPage)
+
+        // update zooming after page navigation
+        this.$nextTick(() => {
+          this.$vuepress.zooming.updateDelay()
+        })
       }
     },
   },
@@ -164,6 +171,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@require '~@theme/styles/variables'
+
 .pagination
   display flex
   flex-wrap wrap
@@ -171,25 +180,16 @@ export default {
   list-style none
   margin auto
   padding 0
+  border-top 1px $borderColor solid
   .page-item
-    min-width 30px
-    height 28px
-    line-height 28px
-    border-radius 2px
-    color $textColor
-    font-size 13px
-    background #fff
-    margin 0 5px
+    padding 0.5rem
     &.disabled
       pointer-events none
     &.active
       cursor default
-      background $accentColor
-      color #fff
+      color $accentColor
       font-weight bold
     &:not(.active)
       color $textColor
       cursor pointer
-      &:hover
-        color $accentColor
 </style>

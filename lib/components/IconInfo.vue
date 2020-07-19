@@ -1,51 +1,49 @@
 <script>
-import Icon from '@theme/components/Icon.vue'
+import Icon from "@theme/components/Icon.vue";
 
 export default {
-  name: 'IconInfo',
+  name: "IconInfo",
 
   functional: true,
 
   components: {
-    Icon,
+    Icon
   },
 
   props: {
-
     href: {
       type: String,
       required: false,
-      default: null,
-    },
-
-    type: {
-      type: String,
-      require: true,
-      default: '',
+      default: null
     },
 
     size: {
       type: String,
-      require: false,
-      default: '1em',
+      required: false,
+      default: "1em"
     },
+
+    title: {
+      type: String,
+      required: false,
+      default: null
+    },
+
+    type: {
+      type: String,
+      required: true
+    }
   },
 
-  render (h, { props: { type, size, href }, children }) {
-    const Component = href ? 'a' : 'span'
+  render(h, { props: { href, size, title, type }, children }) {
+    const Component = href ? "a" : "span";
     return (
-      <Component href={href}>
-        <Icon
-          class="info-icon"
-          name={type}
-          size={size}
-        />
+      <Component href={href} title={title}>
+        <Icon class="info-icon" name={type} size={size} title={title} />
 
-        <span class="info-text">
-          { children }
-        </span>
+        <span class="info-text">{children}</span>
       </Component>
-    )
-  },
-}
+    );
+  }
+};
 </script>

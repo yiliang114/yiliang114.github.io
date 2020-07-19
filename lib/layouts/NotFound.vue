@@ -1,19 +1,14 @@
 <template>
   <div class="main-div not-found">
-    <MyHeader />
-    <MyFooter />
+    <h1>404 Not Found</h1>
+
+    <p>{{ $themeConfig.lang.notFound }}</p>
   </div>
 </template>
 
 <script>
-import MyHeader from '@theme/components/MyHeader.vue'
-import MyFooter from '@theme/components/MyFooter.vue'
 export default {
   name: 'NotFound',
-  components: {
-    MyHeader,
-    MyFooter,
-  },
 }
 </script>
 

@@ -7,7 +7,6 @@ const autometa_options = {
 
 const path = require('path')
 const head = require('./config/head.js')
-const nav = require('./config/nav')
 const sidebar = require('./config/sidebar')
 
 module.exports = {
@@ -15,6 +14,34 @@ module.exports = {
   description: 'Welcome to my blog site',
   base: '/',
   head,
+  locales: {
+    '/': {
+      lang: 'en-US'
+    }
+  },
+  evergreen: true,
+
+  chainWebpack: (config, isServer) => {
+    if (isServer === false) {
+      config.optimization.splitChunks({
+        maxInitialRequests: 5,
+        cacheGroups: {
+          vue: {
+            test: /[\\/]node_modules[\\/](vue|vue-router|vssue)[\\/]/,
+            name: 'vendor.vue',
+            chunks: 'all'
+          },
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            name: 'vendor.commons',
+            chunks: 'all'
+          }
+        }
+      })
+    }
+  },
+
   theme: path.resolve(__dirname, '../../lib'),
   themeConfig: {
     title: "Yiliang's Blog",
@@ -24,64 +51,81 @@ module.exports = {
     editLinks: true,
     sidebarDepth: 2,
     sidebar,
-    nav,
+
+    lang: 'en-US',
+
     personalInfo: {
-      name: 'yiliang114',
+      nickname: 'yiliang114',
       avatar: 'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/avatar.jpg',
-      headerBackgroundImg:
-        'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/santiago-gomez-WpZmGDzOAi0.jpg',
-      description: 'In me the tiger sniffs the rose<br/>正在努力',
+      description: 'Happy Coding <br/>正在努力',
       email: '1144323068@qq.com',
       location: 'ShenZhen, China',
-      organization: '不知名某公司'
+      organization: 'Tencent',
+
+      sns: {
+        github: {
+          account: 'meteorlxy',
+          link: 'https://github.com/meteorlxy'
+        },
+        twitter: {
+          account: 'yiliang',
+          link: 'https://twitter.com/yiliang79503471'
+        },
+        weibo: {
+          account: '@易良同学',
+          link: 'https://weibo.com/u/3386520174'
+        },
+        zhihu: {
+          account: '易良',
+          link: 'https://www.zhihu.com/people/Mrz2J'
+        },
+        csdn: {
+          account: 'yiliang',
+          link: 'https://blog.csdn.net/GreekMrzzJ'
+        },
+        juejin: {
+          account: 'yiliang',
+          link: 'https://juejin.im/user/58809a6db123db0061cfd1c3'
+        }
+      }
     },
     header: {
-      home: {
-        title: 'Top Blog',
-        subtitle: '好好生活，慢慢相遇',
-        headerImage:
-          'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/klerk-OomNPPv1Rpk.jpg'
+      background: {
+        // url: '/assets/img/header-image-01.jpg',
+        useGeo: true
       },
-      tags: {
-        title: 'Tags',
-        subtitle: '遇见你花光了我所有的运气',
-        headerImage:
-          'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/leone-venter-VieM9BdZKFo.jpg'
-      },
-      postHeaderImg:
-        'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/purzlbaum-kxAaw2bO1Z8.jpg'
+      showTitle: true
     },
     footer: {
-      repo: 'https://github.com/yiliang114/yiliang114.github.io',
-      // 页脚信息
-      createYear: 2019, // 博客创建年份
-      footerBgImg: '/img/footer.png', // 可选的，页脚背景图，只在首页显示
-      // 备案号
-      internetContentProvider: '浙ICP备16046652号-3',
-      sns: [
-        {
-          iconClass: 'icon-QQ',
-          title: 'QQ',
-          link: 'tencent://message/?uin=1144323068&Site=&Menu=yesUrl'
-        },
-        {
-          iconClass: 'icon-youjian',
-          title: '发邮件',
-          link: 'mailto:1144323068@qq.com'
-        },
-        {
-          iconClass: 'icon-github',
-          title: 'GitHub',
-          link: 'https://github.com/yiliang114'
-        },
-        {
-          iconClass: 'icon-erji',
-          title: '听音乐',
-          link: 'https://music.163.com/#/playlist?id=126140745'
-        }
-      ]
-    }
+      poweredBy: true,
+      poweredByTheme: true,
+      custom:
+        'Copyright 2018-present <a href="https://github.com/meteorlxy" target="_blank">meteorlxy</a> | MIT License'
+    },
+
+    nav: [
+      { text: 'HOME', link: '/' },
+      { text: 'ABOUT', link: '/about/' },
+      { text: 'TAGS', link: '/tags/' },
+      {
+        text: '关于我',
+        type: 'url',
+        link: 'http://yiliang.site/resume/'
+      }
+    ],
+    pagination: {
+      perPage: 5
+    },
+    infoCard: {
+      headerBackground: {
+        // url: '/assets/img/header-image-01.jpg',
+        useGeo: true
+      }
+    },
+
+    lastUpdated: true
   },
+
   plugins: [
     // autometa
     ['autometa', autometa_options],
@@ -115,33 +159,5 @@ module.exports = {
         container: '#commits-container'
       }
     ]
-  ],
-  nav: [
-    { text: 'HOME', link: '/' },
-    { text: 'ABOUT', link: '/about/' },
-    { text: 'TAGS', link: '/tags/' },
-    {
-      text: '关于我',
-      type: 'url',
-      link: 'http://yiliang.site/resume/'
-    }
-  ],
-  pagination: {
-    perPage: 5
-  },
-  header: {
-    background: {
-      // url: '/assets/img/header-image-01.jpg',
-      useGeo: true
-    },
-    showTitle: true
-  },
-  infoCard: {
-    headerBackground: {
-      // url: '/assets/img/header-image-01.jpg',
-      useGeo: true
-    }
-  },
-
-  lastUpdated: true
+  ]
 }

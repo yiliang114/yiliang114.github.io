@@ -22,9 +22,14 @@ export default {
       default: null,
     },
 
+    title: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
 
-  render (h, { props: { color, name, size } }) {
+  render(h, { props: { color, name, size, title } }) {
     return (
       <svg
         class="icon"
@@ -33,19 +38,21 @@ export default {
           'font-size': size,
         }}
       >
+        <title>{title || name}</title>
 
         <use xlinkHref={`#icon-${name}`} />
       </svg>
-    )
+    );
   },
-}
+};
 </script>
 
-<style lang="stylus">
-.icon
-  width 1em
-  height 1em
-  vertical-align -0.15em
-  fill #2c3e50
-  overflow hidden
+<style>
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: #666;
+  overflow: hidden;
+}
 </style>

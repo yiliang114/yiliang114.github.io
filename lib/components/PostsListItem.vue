@@ -1,120 +1,111 @@
 <template>
-  <div class="post-list-item main-div">
-    <RouterLink
-      :to="post.path"
-      class="post-link"
-    >
-      <div class="post-content">
-        <h3 class="post-title">
-          <span class="post-time">
-            <span>{{ post.createdAt | formatterDay }}</span>
-            <span>{{ post.createdAt | formatterYear }}</span>
-          </span>
-          <span>{{ post.title }}</span>
-        </h3>
-        <!-- eslint-disable vue/no-v-html -->
-        <p
-          class="post-excerpt"
-          v-html="post.excerpt"
-        />
-        <p
-          v-for="tag of tags"
-          :key="tag"
-          class="tag post-category"
-        >
-          {{ tag }}
-        </p>
-        <div class="post-button">
-          阅读全文
-        </div>
-      </div>
+  <div class="posts-list-item">
+    <RouterLink :to="post.path" class="post-link">
+      <h3 class="post-title">{{ post.title }}</h3>
     </RouterLink>
+
+    <p class="post-info-list">
+      <span v-if="post.top" class="post-info-item">
+        <IconInfo type="top" :title="$themeConfig.lang.top">{{ $themeConfig.lang.top }}</IconInfo>
+      </span>
+
+      <span v-if="post.createdAt" class="post-info-item">
+        <IconInfo type="date" :title="post.createdAt">{{ post.createdAt }}</IconInfo>
+      </span>
+
+      <span v-if="post.category" class="post-info-item">
+        <RouterLink :to="$categories.getItemByName(post.category).path">
+          <IconInfo type="category" :title="post.category">{{ post.category }}</IconInfo>
+        </RouterLink>
+      </span>
+
+      <span v-if="post.tags.length" class="post-info-item">
+        <IconInfo type="tags">
+          <RouterLink
+            v-for="(tag, i) in post.tags"
+            :key="tag"
+            :to="$tags.getItemByName(tag).path"
+            :title="tag"
+          >{{ `${tag}${i === post.tags.length - 1 ? '' : ', '}` }}</RouterLink>
+        </IconInfo>
+      </span>
+    </p>
+
+    <!-- eslint-disable vue/no-v-html -->
+    <p class="post-excerpt content" v-html="post.excerpt || post.frontmatter.description || ''" />
+    <!-- eslint-enable vue/no-v-html -->
   </div>
 </template>
 
 <script>
+import IconInfo from '@theme/components/IconInfo.vue';
+
 export default {
-  name: 'PostList',
-  filters: {
-    formatterDay (date) {
-      return date.split('-').join('.').slice(5)
-    },
-    formatterYear (date) {
-      return date.split('-').join('').slice(0, 4)
-    },
+  name: 'PostsListItem',
+
+  components: {
+    IconInfo,
   },
+
   props: {
     post: {
       type: Object,
       required: true,
     },
   },
-  computed: {
-    listPosts () {
-      return this.posts || this.$posts
-    },
-    tags () {
-      return this.post.tags || []
-    },
-  },
-}
+};
 </script>
 
-<style lang="stylus" scoped>
-@require '~@theme/styles/variables'
+<style lang="stylus">
+@require '~@theme/styles/variables';
 
-.post-list-item
-  &:hover
-    box-shadow: 0 0 15px 1px #B5B5B5;
-    transform: translateY(-3px);
-  &:not(:first-child)
-    border-top 1px solid $borderColor
-    margin-top 1.4rem
-    @media (max-width $MQMobile - 1)
-      margin 0
-  .post-link
-    .post-content
-      position relative
-      color $lightTextColor
-      .post-title
-        color $textColor
-        display flex
-        align-items flex-end
-        transition all 0.2s
-        .post-time
-          color #fff
-          text-align center
-          font-size 0.75rem
-          padding 3px
-          margin-right 10px
-          display inline-flex
-          flex-direction column
-          background-color $accentColor
-          border-radius 4px
-          :first-child
-            font-size 14px
-      .post-excerpt
-        margin 1.4rem 0
-        color $grayTextColor
-        text-align justify
-        padding 0
-      .post-category
-        border-radius 4px
-        font-size 12px
-    &:hover
-      text-decoration none
-      .post-title
-        color $accentColor
-    .post-button
-      position absolute
-      bottom 0px
-      color #ffffff
-      right 0px
-      padding: 5px 10px;
-      font-size: 12px;
-      line-height: 1.5;
-      border-radius: 3px;
-      background-color $accentColor
-      &:hover
-        background-color lighten($accentColor, 10%)
+.posts-list-item {
+  padding: 0 0.5rem;
+
+  &:not(:first-child) {
+    border-top: 1px solid $borderColor;
+  }
+
+  .post-title {
+    color: $textColor;
+    transition: all 0.2s;
+  }
+
+  .post-info-list {
+    color: $lightTextColor;
+
+    .post-info-item {
+      cursor: default;
+
+      &:not(:first-child) {
+        margin-left: 0.5em;
+      }
+
+      a {
+        color: $lightTextColor;
+        font-weight: normal;
+      }
+
+      .icon {
+        fill: $lightTextColor;
+      }
+    }
+  }
+
+  .post-excerpt {
+    color: $grayTextColor;
+    text-align: justify;
+    padding: 0;
+  }
+
+  .post-link {
+    &:hover {
+      text-decoration: none;
+
+      .post-title {
+        color: $accentColor;
+      }
+    }
+  }
+}
 </style>

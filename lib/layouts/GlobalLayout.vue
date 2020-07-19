@@ -1,31 +1,27 @@
 <template>
-  <div id="global-layout">
-    <MyHeader />
+  <div id="vuepress-theme-meteorlxy">
+    <TheHeader />
 
-    <MyMain />
+    <TheMain />
 
-    <MyFooter />
+    <TheFooter />
   </div>
 </template>
 
 <script>
-import MyHeader from '@theme/components/MyHeader.vue'
-import MyFooter from '@theme/components/MyFooter.vue'
-import MyMain from '@theme/components/MyMain.vue'
+import TheHeader from "@theme/components/TheHeader.vue";
+import TheMain from "@theme/components/TheMain.vue";
+import TheFooter from "@theme/components/TheFooter.vue";
+
 export default {
+  name: "ThemeMeteorlxy",
+
   components: {
-    MyHeader,
-    MyFooter,
-    MyMain,
-  },
-}
+    TheHeader,
+    TheMain,
+    TheFooter
+  }
+};
 </script>
 
-<style lang="stylus" scoped>
-@require '~@theme/styles/variables'
-
-#global-layout
-  display grid
-  grid-template-rows 40vh 1fr auto
-  min-height 100vh
-</style>
+<style lang="stylus" src="@theme/styles/index.styl" />
