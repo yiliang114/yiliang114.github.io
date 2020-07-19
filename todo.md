@@ -17,7 +17,7 @@
 - [ ] yiliang.site 首页内容的丰富, 比如加一个大的图片，可以点击不同的子网页， 语义化的标签显示具体的内容
 - [ ] 直接将 home 的内容拿到 vuepress 的一个组件中
 - [ ] google 百度来源分析
-- [ ] 访问统计、字数统计、提交统计
+- [ ] 访问统计、字数统计、提交统计（卜算子）
 - [ ] 百度、google seo 搜索
 - [ ] 备案的 footer
 - [ ] 静态文件自动七牛云对象存储(修改 base)
@@ -54,3 +54,7 @@ https://juejin.im/post/590b451a0ce46300588c43a0
 1. vuepress blog plugin vuepress-theme-yur
 2. 博客搭建指南
 3. vuepress-plugin-comment 中的依赖 gitalk 依赖的 axios 不安全
+
+### bug
+
+1. Vssue 需要指定 vssue-id 导致可能会跟之前已经存在的 issues 冲突的样子。。
