@@ -63,7 +63,7 @@ export default {
     },
 
     isHome() {
-      return this.$localePath === '/'
+      return this.$route.path === '/'
     }
   }
 }
