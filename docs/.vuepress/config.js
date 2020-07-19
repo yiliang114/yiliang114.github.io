@@ -64,8 +64,8 @@ module.exports = {
 
       sns: {
         github: {
-          account: 'meteorlxy',
-          link: 'https://github.com/meteorlxy'
+          account: 'yiliang',
+          link: 'https://github.com/yiliang114'
         },
         twitter: {
           account: 'yiliang',
@@ -89,6 +89,7 @@ module.exports = {
         }
       }
     },
+
     header: {
       background: {
         // url: '/assets/img/header-image-01.jpg',
@@ -96,20 +97,19 @@ module.exports = {
       },
       showTitle: true
     },
+
     footer: {
       poweredBy: true,
       poweredByTheme: true,
       custom:
-        'Copyright 2018-present <a href="https://github.com/meteorlxy" target="_blank">meteorlxy</a> | MIT License'
+        'Copyright 2018-present <a href="https://github.com/yiliang114" target="_blank">yiliang114</a> | MIT License'
     },
 
     nav: [
-      { text: 'HOME', link: '/' },
-      { text: 'ABOUT', link: '/about/' },
-      { text: 'TAGS', link: '/tags/' },
+      { text: 'Home', link: '/', exact: true },
+      { text: 'Posts', link: '/posts/', exact: false },
       {
         text: '关于我',
-        type: 'url',
         link: 'http://yiliang.site/resume/'
       }
     ],
