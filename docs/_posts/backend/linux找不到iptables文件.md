@@ -4,7 +4,7 @@ date: '2020-03-14 17:06:38'
 tags:
   - linux
   - iptables
-vssue-id: 3
+# vssue-id: 3
 ---
 
 ### linux 找不到 iptables 文件

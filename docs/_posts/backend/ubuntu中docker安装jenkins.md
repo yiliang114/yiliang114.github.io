@@ -5,7 +5,7 @@ tags:
   - ubuntu
   - docker
   - jenkins
-vssue-id: 4
+# vssue-id: 4
 ---
 
 ## ubuntu docker 安装 jenkins

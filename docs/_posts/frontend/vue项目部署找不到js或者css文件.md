@@ -4,7 +4,7 @@ date: '2020-03-14 17:06:38'
 tags:
   - vue
   - 部署
-vssue-id: 20
+# vssue-id: 20
 ---
 
 ### vue 项目部署找不到 js css 文件

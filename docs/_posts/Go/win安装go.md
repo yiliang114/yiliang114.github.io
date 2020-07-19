@@ -3,7 +3,7 @@ title: 'win安装go'
 date: '2020-03-14 17:06:38'
 tags:
   - go
-vssue-id: 23
+# vssue-id: 23
 ---
 
 ### win go 开发环境

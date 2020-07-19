@@ -5,7 +5,7 @@ tags:
   - vue
   - webpack
   - code split
-vssue-id: 18
+# vssue-id: 18
 ---
 
 ## vue code split

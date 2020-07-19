@@ -5,7 +5,7 @@ tags:
   - vue
   - svg
   - canvas
-vssue-id: 12
+# vssue-id: 12
 ---
 
 ## vue 灭霸响指效果

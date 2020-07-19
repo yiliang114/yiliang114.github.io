@@ -4,7 +4,7 @@ date: '2020-03-14 17:06:38'
 tags:
   - vscode
   - mobx
-vssue-id: 11
+# vssue-id: 11
 ---
 
 # 移除 mobx vscode 装饰器报错

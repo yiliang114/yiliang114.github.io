@@ -5,7 +5,7 @@ tags:
   - css3
   - overflow
   - 换行
-vssue-id: 13
+# vssue-id: 13
 ---
 
 ### css 文字多行显示超出显示省略号

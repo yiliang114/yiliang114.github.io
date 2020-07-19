@@ -3,7 +3,7 @@ title: solo-migration
 date: 2020-03-14 17:06:38
 tags:
   - solo
-vssue-id: 31
+# vssue-id: 31
 ---
 
 ### 记一次 solo 迁移
