@@ -15,10 +15,6 @@ function readFileList(dir, filesList = [], domain) {
     if (stat.isDirectory() && (item !== 'assets' || item !== 'images')) {
       readFileList(path.join(dir, item), filesList, domain) //递归读取文件
     } else {
-      let [order, name, type] = path.basename(filePath).split('.')
-      order = parseInt(order, 10)
-      console.log('order, name, type', filePath)
-
       if (filePath.endsWith('.html')) {
         // 过滤非md文件
         filesList.push(domain + cutPath(filePath, root))
@@ -48,7 +44,6 @@ function writeFile(result, filename = 'urls.txt') {
 
 async function start() {
   const result = readFileList('docs/.vuepress/dist', [], 'https://yiliang.site').join('\n')
-  console.log('result', result)
   await writeFile(result)
 }
 
