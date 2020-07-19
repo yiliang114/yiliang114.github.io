@@ -124,7 +124,7 @@ module.exports = {
       repo: 'yiliang114.github.io',
       clientId: '48fbb5f715409b48da06',
       clientSecret: 'c9e49316010d9e3336a6662545cba8b0ab903044',
-      autoCreateIssue: false
+      autoCreateIssue: true
     },
 
     infoCard: {
