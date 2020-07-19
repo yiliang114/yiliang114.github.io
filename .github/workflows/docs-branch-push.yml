@@ -1,14 +1,14 @@
-name: "docs-branch-push"
+name: 'docs-branch-push'
 
 on:
   push:
     branches:
-      - "docs"
+      - 'docs'
 
 jobs:
   pre-release:
-    name: "docs branch push"
-    runs-on: "ubuntu-latest"
+    name: 'docs branch push'
+    runs-on: 'ubuntu-latest'
 
     steps:
       - uses: actions/checkout@v2
@@ -32,6 +32,7 @@ jobs:
       - name: Build
         run: |
           yarn build
+          yarn run baiduPush
 
       - name: Commit dist files
         run: |
