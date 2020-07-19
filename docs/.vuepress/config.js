@@ -111,7 +111,7 @@ module.exports = {
       { text: 'Posts', link: '/posts/', exact: false },
       {
         text: '关于我',
-        link: 'http://yiliang.site/resume/'
+        link: 'https://resume.yiliang.site'
       }
     ],
 
