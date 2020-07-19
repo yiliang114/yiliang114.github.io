@@ -129,7 +129,7 @@ module.exports = {
 
     infoCard: {
       headerBackground: {
-        url: '/assets/img/header-image-01.jpg',
+        // url: '/assets/img/header-image-01.jpg',
         useGeo: true
       }
     },
@@ -153,22 +153,22 @@ module.exports = {
       {
         ga: 'UA-156101458-1'
       }
-    ],
-    [
-      'vuepress-plugin-comment',
-      {
-        choosen: 'valine',
-        options: {
-          el: '#valine-vuepress-comment',
-          appId: 'cRV8Jbg7FAogFru8NahlRtqM-gzGzoHsz',
-          appKey: '0FMTf3f9xbHRDDwWByIoiyOI',
-          visitor: true, // 阅读量统计
-          avatar: 'robohash',
-          placeholder: '欢迎留言与我分享您的想法...',
-          path: '<%- frontmatter.to.path %>'
-        },
-        container: '#commits-container'
-      }
     ]
+    // [
+    //   'vuepress-plugin-comment',
+    //   {
+    //     choosen: 'valine',
+    //     options: {
+    //       el: '#valine-vuepress-comment',
+    //       appId: 'cRV8Jbg7FAogFru8NahlRtqM-gzGzoHsz',
+    //       appKey: '0FMTf3f9xbHRDDwWByIoiyOI',
+    //       visitor: true, // 阅读量统计
+    //       avatar: 'robohash',
+    //       placeholder: '欢迎留言与我分享您的想法...',
+    //       path: '<%- frontmatter.to.path %>'
+    //     },
+    //     container: '#commits-container'
+    //   }
+    // ]
   ]
 }
