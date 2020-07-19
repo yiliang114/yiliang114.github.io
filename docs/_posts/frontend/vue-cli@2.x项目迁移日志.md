@@ -3,6 +3,7 @@ title: 'vue-cli@2.x项目迁移日志'
 date: '2020-03-14 09:06:38'
 tags:
   - vue-cli@2.x
+vssue-id: 16
 ---
 
 ### vue-cli@2.x 项目迁移日志

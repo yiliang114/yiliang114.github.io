@@ -3,6 +3,7 @@ title: 'Mac OS 命令行下使用 SublimeText 打开文本文件'
 date: '2020-03-14 17:06:38'
 tags:
   - 编辑器
+vssue-id: 30
 ---
 
 # Mac OS 命令行下使用 SublimeText 打开文本文件

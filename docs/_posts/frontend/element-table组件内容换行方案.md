@@ -5,6 +5,7 @@ tags:
   - element
   - table
   - 换行
+vssue-id: 14
 ---
 
 ### element table 组件内容换行方案

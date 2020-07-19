@@ -3,6 +3,7 @@ title: 'vim基本操作'
 date: '2020-03-14 17:06:38'
 tags:
   - vim
+vssue-id: 32
 ---
 
 ### vim 基本操作

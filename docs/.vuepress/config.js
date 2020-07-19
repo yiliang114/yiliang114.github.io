@@ -16,7 +16,7 @@ module.exports = {
   head,
   locales: {
     '/': {
-      lang: 'en-US'
+      lang: 'zh-CN'
     }
   },
   evergreen: true,
@@ -52,7 +52,7 @@ module.exports = {
     sidebarDepth: 2,
     sidebar,
 
-    lang: 'en-US',
+    lang: 'zh-CN',
 
     personalInfo: {
       nickname: 'yiliang114',
@@ -114,9 +114,19 @@ module.exports = {
         link: 'http://yiliang.site/resume/'
       }
     ],
+
     pagination: {
       perPage: 5
     },
+
+    comments: {
+      owner: 'yiliang114',
+      repo: 'yiliang114.github.io',
+      clientId: '48fbb5f715409b48da06',
+      clientSecret: 'c9e49316010d9e3336a6662545cba8b0ab903044',
+      autoCreateIssue: false
+    },
+
     infoCard: {
       headerBackground: {
         url: '/assets/img/header-image-01.jpg',

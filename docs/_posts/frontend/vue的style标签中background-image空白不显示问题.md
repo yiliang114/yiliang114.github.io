@@ -4,6 +4,7 @@ date: '2020-03-14 17:06:38'
 tags:
   - vue
   - image
+vssue-id: 19
 ---
 
 ### vue style 标签中 background-image 空白不显示

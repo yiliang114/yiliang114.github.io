@@ -5,6 +5,7 @@ tags:
   - github
   - pages
   - 自定义域名
+vssue-id: 6
 ---
 
 ### github pages 自定义域名失效
