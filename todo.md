@@ -33,6 +33,7 @@
 - [ ] 主题切换
 - [ ] 可能可以有一个首页 https://slbyml.github.io/
 - [ ] 上一篇下一篇
+- [ ] 卜算子统计单篇文章有 bug
 
 http://kmanong.top/kmn/qxw/form/article?id=6875&cate=93
 http://blog.devtang.com/about/

@@ -18,6 +18,10 @@
       </template>
     </p>
 
+    <p class="footer-text" v-if="recordVarChar">
+      <span v-if="recordVarChar">{{recordVarChar}}</span>
+    </p>
+
     <!-- eslint-disable vue/no-v-html -->
     <p v-if="custom" class="footer-text" v-html="custom" />
     <!-- eslint-enable vue/no-v-html -->
@@ -52,6 +56,10 @@ export default {
 
     poweredByTheme() {
       return this.$themeConfig.footer.poweredByTheme !== false
+    },
+
+    recordVarChar() {
+      return this.$themeConfig.footer.recordVarChar || null
     },
 
     custom() {

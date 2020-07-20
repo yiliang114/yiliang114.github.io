@@ -19,7 +19,8 @@ module.exports = {
       lang: 'zh-CN'
     }
   },
-  evergreen: true,
+  // TODO: 开启之后，cache-loader 会导致开发阶段修改 vue 组件错误。
+  evergreen: false,
 
   chainWebpack: (config, isServer) => {
     if (isServer === false) {
@@ -100,10 +101,11 @@ module.exports = {
     },
 
     footer: {
-      poweredBy: true,
+      poweredBy: false,
       poweredByTheme: false,
       custom:
-        'Copyright 2018-present <a href="https://github.com/yiliang114" target="_blank">yiliang114</a> | MIT License'
+        'Copyright 2018-present <a href="https://github.com/yiliang114" target="_blank">yiliang114</a> | MIT License',
+      recordVarChar: '浙ICP备16046652号'
     },
 
     nav: [
