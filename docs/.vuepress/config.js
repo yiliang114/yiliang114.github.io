@@ -57,7 +57,7 @@ module.exports = {
 
     personalInfo: {
       nickname: 'yiliang114',
-      avatar: 'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/avatar.jpg',
+      avatar: 'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/avatar.jpg',
       description: 'Happy Coding <br/>正在努力',
       email: '1144323068@qq.com',
       location: 'ShenZhen, China',
@@ -94,7 +94,7 @@ module.exports = {
     header: {
       background: {
         // url:
-        //   'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/4TVbbaNAw9Q-min.jpg',
+        //   'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/4TVbbaNAw9Q-min.jpg',
         useGeo: true
       },
       showTitle: true

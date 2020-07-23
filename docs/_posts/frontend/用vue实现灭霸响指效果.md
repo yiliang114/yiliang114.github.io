@@ -14,9 +14,9 @@ tags:
 
 灭霸打响指的消失效果。效果来源于 Google 搜索“灭霸” 或者 “thanos”。算是蹭热度的一个 `Feature`, 我通过 `F12` 试图去查看是如何实现的，也抠了一些音频、图片资源下来。后来在 github 上找到了一个现有的项目 [Thanos_Dust](https://github.com/lichking24/Thanos_Dust), 所以参考了部分它的代码。 其实它的代码已经算比较完善了，在它的基础上，我用 vue 来写了一下，加了一些英雄，修复了一些 bug ，加了一些效果之类的。
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/2019/5/4/16a8266169f61670.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/2019/5/4/16a8266169f61670.png)
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/2019/5/4/16a8266527ad7ad6.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/2019/5/4/16a8266527ad7ad6.png)
 
 ### demo
 
@@ -27,7 +27,7 @@ tags:
 
 [demos](https://yiliang114.github.io/vue-thanos-snap/index.html)
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/2019/5/4/16a8275b08db2b4d.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/2019/5/4/16a8275b08db2b4d.png)
 
 ### 细节
 

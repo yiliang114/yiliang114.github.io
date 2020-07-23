@@ -14,11 +14,11 @@ tags:
 
 `vue-cli@2.x` 项目结构，其中红色圈出的部分是 `2.x` 版本才有的。
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/rYXJW-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/rYXJW-image.png)
 
 `vue-cli@3.x` 目录结构， 箭头指出的两个文件的作用几乎完全替代上面的 `build` , `config` 文件夹中的文件，以及根目录下的 postcss 和 babel 配置文件的作用。
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/8Bm34-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/8Bm34-image.png)
 
 #### 迁移配置
 
@@ -83,7 +83,7 @@ module.exports = {
   }
 ```
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/NjH8f-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/NjH8f-image.png)
 
 ##### 4. 重新安装和运行
 

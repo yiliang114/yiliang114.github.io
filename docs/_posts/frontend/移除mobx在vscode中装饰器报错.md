@@ -13,9 +13,9 @@ tags:
 
 ## 问题截图
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/4m7YE-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/4m7YE-image.png)
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/CxSMn-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/CxSMn-image.png)
 
 当我在 vscode 新创建一个 react+mobx 项目的时候，遇到了下面这个警告。
 
@@ -29,7 +29,7 @@ tags:
 
 ## 解决办法
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/64727-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/64727-image.png)
 
 在项目的根目录创建一个`tsconfig.json`，并在文件里输入下面的配置：
 
@@ -44,6 +44,6 @@ tags:
 
 重启一下 vscode 或者 关闭文件 tab 重新打开之后，你就应该看不到`experimentalDecorators` 警告了。
 
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/beiWw-image.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/beiWw-image.png)
 
 希望对你有用，感谢阅读。

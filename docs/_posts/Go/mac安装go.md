@@ -66,23 +66,23 @@ go get -v -u github.com/gpmgo/gopm
 
 打开 idea 之后，点击左上角 `IntelliJ Idea` -> `Preferences` -> `Plugins`
 
-![imagepng](https://chatflow-files-cdn-1256085166.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwLzk1ZDYxNTEzZDQxMTQ3YjQ5OWZhYmU5MDllMzcyNTg5X2ltYWdlLnBuZw.png)
+![imagepng](https://chatflow-files-cdn-1252847684.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwLzk1ZDYxNTEzZDQxMTQ3YjQ5OWZhYmU5MDllMzcyNTg5X2ltYWdlLnBuZw.png)
 
-![imagepng](https://chatflow-files-cdn-1256085166.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwLzEyNGQ1OGE5MDNkODQ3MjE4MjQzMTNiNWE4MTRlMzk3X2ltYWdlLnBuZw.png)
+![imagepng](https://chatflow-files-cdn-1252847684.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwLzEyNGQ1OGE5MDNkODQ3MjE4MjQzMTNiNWE4MTRlMzk3X2ltYWdlLnBuZw.png)
 
 再设置一下打开 idea 的时候，默认不打开项目：
 
-![imagepng](https://chatflow-files-cdn-1256085166.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwL2YwODhjYWY3OTI3ODRiNjI4ZDFlMDQxYmFiYzg2MjljX2ltYWdlLnBuZw.png)
+![imagepng](https://chatflow-files-cdn-1252847684.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwL2YwODhjYWY3OTI3ODRiNjI4ZDFlMDQxYmFiYzg2MjljX2ltYWdlLnBuZw.png)
 
 等安装 go 插件成功之后 重启 idea
 
 新建一个 go 项目，发现当前还没有配置 go 的 sdk：
 
-![imagepng](https://chatflow-files-cdn-1256085166.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwLzQ3MTE5OWU1NDQzNjQ2MTY4ZmNmNzk0ZmVkZDM1YWUzX2ltYWdlLnBuZw.png)
+![imagepng](https://chatflow-files-cdn-1252847684.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwLzQ3MTE5OWU1NDQzNjQ2MTY4ZmNmNzk0ZmVkZDM1YWUzX2ltYWdlLnBuZw.png)
 
 配置 GOROOT 的地址：
 
-![imagepng](https://chatflow-files-cdn-1256085166.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwL2I1OGFmNTljZGJmNDQ3Mjk5YzM1ZGIwY2JhMmQ5NDI3X2ltYWdlLnBuZw.png)
+![imagepng](https://chatflow-files-cdn-1252847684.file.myqcloud.com/aHR0cDovL21lZGlhLnpoaWppYW56aGFuZy5jbi8vZmlsZS8yMDE4LzEwL2I1OGFmNTljZGJmNDQ3Mjk5YzM1ZGIwY2JhMmQ5NDI3X2ltYWdlLnBuZw.png)
 
 接着点击 Next 之后，自行配置 go 项目名称和存放地址。
 

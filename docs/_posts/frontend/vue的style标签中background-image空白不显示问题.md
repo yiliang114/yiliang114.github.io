@@ -10,7 +10,7 @@ tags:
 ### vue style 标签中 background-image 空白不显示
 
 通常我们使用 `background-image` 标签时， `url` 的值无非就以下几种：
-![](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20181012193137547.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20181012193137547.png)
 先说上面的第三种：
 
 #### @/assets/media/hd.jpg

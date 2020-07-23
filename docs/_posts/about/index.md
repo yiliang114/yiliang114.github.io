@@ -2,7 +2,7 @@
 layout: 'about'
 title: '关于我'
 subtitle: '感谢你对我的关注'
-headerImage: 'https://chatflow-files-cdn-1256085166.cos.ap-chengdu.myqcloud.com/images/4TVbbaNAw9Q.jpg'
+headerImage: 'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/4TVbbaNAw9Q.jpg'
 date: '2020-07-09 15:13:45'
 tags:
   - me

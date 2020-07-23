@@ -8,11 +8,11 @@ tags:
 
 # window 右键菜单添加 vscode
 
-![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20180830001158174.png)
+![这里写图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20180830001158174.png)
 
-![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20180830001257922.png)
+![这里写图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20180830001257922.png)
 
-![这里写图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20180830001335376.png)
+![这里写图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20180830001335376.png)
 
 我最终想要的效果如上图所示：
 

@@ -9,7 +9,7 @@ tags:
 
 ### vue 项目部署找不到 js css 文件
 
-![在这里插入图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20190105154109600.png)
+![在这里插入图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20190105154109600.png)
 很多时候 `npm run build` 之后， `index.html` 文件中 webpack 自动插入的 js 文件 css 文件的相对目录总是不对，发布到服务器上之后，nginx 找不到文件。
 
 #### vue-cli@3
@@ -35,7 +35,7 @@ module.exports = {
 为了验证一下是否可行，你可以本地 build 一下，然后查看 `dist/index.html` 中引用的 js css 文件的路径是否携带上你刚刚设置的 `assetsPublicPath` 即可。
 
 而关心为啥这样设置就可以的同学们，继续看 `build/webpack.base.conf.js` 文件，
-![在这里插入图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20190105153832561.png)
+![在这里插入图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20190105153832561.png)
 
 非 `production` mode 下，是在`config/index.js` 中设置的，这里的 `publicPath` 默认是
-![在这里插入图片描述](https://chatflow-files-cdn-1256085166.file.myqcloud.com/20190105153930278.png)
+![在这里插入图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/20190105153930278.png)
