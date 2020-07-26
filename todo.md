@@ -13,13 +13,13 @@
 - [x] 强缓存加速
 - [x] seo
 - [ ] google data api
-- [ ] 显示所有 tags
+- [x] 显示所有 tags
 - [ ] yiliang.site 首页内容的丰富, 比如加一个大的图片，可以点击不同的子网页， 语义化的标签显示具体的内容
 - [ ] 直接将 home 的内容拿到 vuepress 的一个组件中
 - [ ] google 百度来源分析
 - [ ] 访问统计、字数统计、提交统计（卜算子）
 - [ ] 百度、google seo 搜索
-- [ ] 备案的 footer
+- [x] 备案的 footer
 - [ ] 静态文件自动七牛云对象存储(修改 base)
 - [ ] vue 样式组件库，美化一下
 - [ ] node 自动生成文章列表的目录
@@ -28,11 +28,11 @@
 - [ ] 与 Blog issues 的权衡
 - [ ] 自动添加菜单栏的脚本
 - [ ] 部署到国内的站点 coding 以及 gitee， 不需要自定义域名就行，反正也只是用来做国内访问
-- [ ] 百度和 google 的站点地图主动推送
+- [x] 百度和 google 的站点地图主动推送
 - [ ] 每篇文章最后添加一个简短的关于我
 - [ ] 主题切换
 - [ ] 可能可以有一个首页 https://slbyml.github.io/
-- [ ] 上一篇下一篇
+- [x] 上一篇下一篇
 - [ ] 卜算子统计单篇文章有 bug
 
 http://kmanong.top/kmn/qxw/form/article?id=6875&cate=93
@@ -72,3 +72,5 @@ https://juejin.im/post/590b451a0ce46300588c43a0
 1. Does not have a <meta name="viewport"> tag with width or initial-scale
 2. Links do not have descriptive text
 3. robots.txt is not valid
+
+http://www.njshunxuan.com/newshow-350.html
