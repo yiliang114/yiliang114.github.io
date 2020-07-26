@@ -43,6 +43,7 @@
           :href="item.link"
           class="sns-link"
           target="_blank"
+          rel="noopener"
         >
           <IconSns :name="name" :account="item.account" size="1.5em" />
         </a>

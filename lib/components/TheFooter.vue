@@ -1,7 +1,14 @@
 <template>
   <footer class="footer">
     <p v-if="sns" class="footer-sns-links">
-      <a v-for="(item, name) in sns" :key="name" class="sns-link" :href="item.link" target="_blank">
+      <a
+        v-for="(item, name) in sns"
+        :key="name"
+        class="sns-link"
+        :href="item.link"
+        target="_blank"
+        rel="noopener"
+      >
         <IconSns :name="name" :account="item.account" />
       </a>
     </p>

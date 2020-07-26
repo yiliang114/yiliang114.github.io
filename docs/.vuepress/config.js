@@ -57,7 +57,7 @@ module.exports = {
 
     personalInfo: {
       nickname: 'yiliang114',
-      avatar: 'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/avatar.jpg',
+      avatar: '/assets/images/avatar.jpeg',
       description: 'Happy Coding <br/>正在努力',
       email: '1144323068@qq.com',
       location: 'ShenZhen, China',
