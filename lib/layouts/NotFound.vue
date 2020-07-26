@@ -8,11 +8,12 @@
 
 <script>
 export default {
-  name: 'NotFound',
+  name: 'NotFound'
 }
 </script>
 
 <style lang="stylus" scoped>
-.not-found
-  text-align center
+.not-found {
+  text-align: center;
+}
 </style>

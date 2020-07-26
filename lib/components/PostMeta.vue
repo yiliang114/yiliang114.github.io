@@ -30,24 +30,24 @@
 
 <script>
 export default {
-  name: "PostMeta",
+  name: 'PostMeta',
 
   computed: {
     thisIndex() {
-      return this.$posts.indexOf(this.$page);
+      return this.$posts.indexOf(this.$page)
     },
 
     prevPost() {
-      const nextIndex = this.thisIndex + 1;
-      return nextIndex > this.$posts.length - 1 ? null : this.$posts[nextIndex];
+      const nextIndex = this.thisIndex + 1
+      return nextIndex > this.$posts.length - 1 ? null : this.$posts[nextIndex]
     },
 
     nextPost() {
-      const prevIndex = this.thisIndex - 1;
-      return prevIndex < 0 ? null : this.$posts[prevIndex];
+      const prevIndex = this.thisIndex - 1
+      return prevIndex < 0 ? null : this.$posts[prevIndex]
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

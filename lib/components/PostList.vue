@@ -1,35 +1,15 @@
 <template>
   <div class="post-list">
     <TransitionSlide>
-      <div
-        v-if="total === 0"
-        key="no-posts"
-        class="no-posts main-div"
-      >
-        no posts
-      </div>
-      <div
-        v-else
-        :key="currentPage"
-        class="posts-items"
-      >
+      <div v-if="total === 0" key="no-posts" class="no-posts main-div">no posts</div>
+      <div v-else :key="currentPage" class="posts-items">
         <TransitionSlide group>
-          <PostsListItem
-            v-for="post in pagePosts"
-            :key="post.path"
-            :post="post"
-          />
+          <PostsListItem v-for="post in pagePosts" :key="post.path" :post="post" />
         </TransitionSlide>
       </div>
     </TransitionSlide>
-    <div
-      v-if="total > 1"
-      class="post-paginator"
-    >
-      <Pagination
-        v-model="currentPage"
-        :total="total"
-      />
+    <div v-if="total > 1" class="post-paginator">
+      <Pagination v-model="currentPage" :total="total" />
     </div>
   </div>
 </template>
@@ -44,58 +24,61 @@ export default {
   components: {
     PostsListItem,
     TransitionSlide,
-    Pagination,
+    Pagination
   },
   props: {
     posts: {
       type: Array,
       required: false,
-      default: null,
-    },
+      default: null
+    }
   },
-  data () {
+  data() {
     return {
-      currentPage: 1,
+      currentPage: 1
     }
   },
   computed: {
-    listPosts () {
+    listPosts() {
       return this.posts || this.$posts || []
     },
 
-    perPage () {
+    perPage() {
       return this.$themeConfig.pagination.perPage || 5
     },
 
-    total () {
+    total() {
       return Math.ceil(this.listPosts.length / this.perPage)
     },
 
-    pagePosts () {
+    pagePosts() {
       const begin = (this.currentPage - 1) * this.perPage
       const end = begin + this.perPage
       return this.listPosts.slice(begin, end)
     },
 
-    key () {
+    key() {
       return this.posts ? this.total : null
-    },
+    }
   },
   watch: {
-    listPosts () {
+    listPosts() {
       this.currentPage = 1
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="stylus" scoped>
-@require '~@theme/styles/variables'
+@require '~@theme/styles/variables';
 
-.no-posts
-  color $grayTextColor
-.post-paginator
-  padding-top 10px
-  margin 1rem 0
-  text-align center
+.no-posts {
+  color: $grayTextColor;
+}
+
+.post-paginator {
+  padding-top: 10px;
+  margin: 1rem 0;
+  text-align: center;
+}
 </style>

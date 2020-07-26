@@ -3,24 +3,21 @@
     <div class="main-div">
       <h2>{{ $themeConfig.lang.categories }}</h2>
 
-      <RouterLink v-for="cate in $categories.list"
-        :key="cate.name"
-        :to="cate.path">
-        <IconTag icon="category"
-          :name="cate.name" />
+      <RouterLink v-for="cate in $categories.list" :key="cate.name" :to="cate.path">
+        <IconTag icon="category" :name="cate.name" />
       </RouterLink>
     </div>
   </div>
 </template>
 
 <script>
-import IconTag from "@theme/components/IconTag.vue";
+import IconTag from '@theme/components/IconTag.vue'
 
 export default {
-  name: "Categories",
+  name: 'Categories',
 
   components: {
     IconTag
   }
-};
+}
 </script>

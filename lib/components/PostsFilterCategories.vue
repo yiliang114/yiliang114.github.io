@@ -1,35 +1,15 @@
 <template>
   <div class="tags-select">
     <label class="tag-checkbox">
-      <input
-        v-show="false"
-        v-model="selectedCategory"
-        type="radio"
-        :value="null"
-      >
+      <input v-show="false" v-model="selectedCategory" type="radio" :value="null" />
 
-      <IconTag
-        icon="category"
-        :name="$themeConfig.lang.allCategories"
-      />
+      <IconTag icon="category" :name="$themeConfig.lang.allCategories" />
     </label>
 
-    <label
-      v-for="category in categories"
-      :key="category"
-      class="tag-checkbox"
-    >
-      <input
-        v-show="false"
-        v-model="selectedCategory"
-        type="radio"
-        :value="category"
-      >
+    <label v-for="category in categories" :key="category" class="tag-checkbox">
+      <input v-show="false" v-model="selectedCategory" type="radio" :value="category" />
 
-      <IconTag
-        icon="category"
-        :name="category"
-      />
+      <IconTag icon="category" :name="category" />
     </label>
   </div>
 </template>
@@ -41,25 +21,25 @@ export default {
   name: 'PostsFilterCategories',
 
   components: {
-    IconTag,
+    IconTag
   },
 
-  data () {
+  data() {
     return {
-      selectedCategory: null,
+      selectedCategory: null
     }
   },
 
   computed: {
-    categories () {
+    categories() {
       return Object.keys(this.$categories.map)
-    },
+    }
   },
 
   watch: {
-    selectedCategory (val) {
+    selectedCategory(val) {
       this.$emit('input', val)
-    },
-  },
+    }
+  }
 }
 </script>

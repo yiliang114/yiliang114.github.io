@@ -1,14 +1,13 @@
 <template>
   <div class="page">
     <div class="main-div">
-      <Content :key="$page.path"
-        class="page-content content" />
+      <Content :key="$page.path" class="page-content content" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Page"
-};
+  name: 'Page'
+}
 </script>
