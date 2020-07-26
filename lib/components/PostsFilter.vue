@@ -78,6 +78,7 @@ export default {
     filteredPosts() {
       let filteredPosts = this.posts || this.$posts
 
+      // 过滤分类
       if (this.categories && this.filterCategory) {
         filteredPosts = filteredPosts.filter(
           p => p.category === this.filterCategory

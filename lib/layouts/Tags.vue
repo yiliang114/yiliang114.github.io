@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import IconTag from '@theme/components/IconTag.vue';
+import IconTag from '@theme/components/IconTag.vue'
 
 export default {
   name: 'Tags',
 
   components: {
-    IconTag,
-  },
-};
+    IconTag
+  }
+}
 </script>

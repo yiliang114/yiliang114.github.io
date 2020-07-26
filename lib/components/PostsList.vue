@@ -1,6 +1,7 @@
 <template>
   <div class="main-div posts-list">
     <TransitionFadeSlide>
+      <!-- 没有文章的文案 -->
       <div
         v-if="listPosts.length === 0"
         key="no-posts"

@@ -9,31 +9,31 @@
 </template>
 
 <script>
-import IconTag from '@theme/components/IconTag.vue';
+import IconTag from '@theme/components/IconTag.vue'
 
 export default {
   name: 'PostsFilterTags',
 
   components: {
-    IconTag,
+    IconTag
   },
 
   data() {
     return {
-      selectedTags: [],
-    };
+      selectedTags: []
+    }
   },
 
   computed: {
     tags() {
-      return Object.keys(this.$tags.map);
-    },
+      return Object.keys(this.$tags.map)
+    }
   },
 
   watch: {
     selectedTags(val) {
-      this.$emit('input', val);
-    },
-  },
-};
+      this.$emit('input', val)
+    }
+  }
+}
 </script>
