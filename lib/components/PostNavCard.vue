@@ -1,13 +1,6 @@
 <template>
-  <div
-    v-if="showContents || showComments"
-    class="post-nav-card"
-    :style="style"
-  >
-    <div
-      v-if="showContents"
-      class="post-nav-contents"
-    >
+  <div v-if="showContents || showComments" class="post-nav-card" :style="style">
+    <div v-if="showContents" class="post-nav-contents">
       <Icon name="book" />
 
       <span>{{ $themeConfig.lang.toc }}</span>
@@ -15,15 +8,10 @@
       <TOC class="post-nav-toc" />
     </div>
 
-    <div
-      v-if="showComments"
-      class="post-nav-comments"
-    >
+    <div v-if="showComments" class="post-nav-comments">
       <Icon name="comment" />
 
-      <RouterLink to="#post-comments">
-        {{ $themeConfig.lang.comments }}
-      </RouterLink>
+      <RouterLink to="#post-comments">{{ $themeConfig.lang.comments }}</RouterLink>
     </div>
   </div>
 </template>
@@ -37,99 +25,124 @@ export default {
   name: 'PostNavCard',
 
   components: {
-    Icon,
+    Icon
   },
 
-  data () {
+  data() {
     return {
       fixed: false,
       width: 0,
       scrollListener: throttle(() => {
-        this.fixed = this.infoCardDom.getBoundingClientRect().bottom < this.navbarHeight
+        this.fixed =
+          this.infoCardDom.getBoundingClientRect().bottom < this.navbarHeight
       }, 100),
       resizeListener: debounce(() => {
         this.width = this.getWidth()
-      }, 100),
+      }, 100)
     }
   },
 
   computed: {
-    style () {
+    style() {
       return {
         position: this.fixed ? 'fixed' : 'relative',
         top: this.fixed ? `${this.navbarHeight}px` : 0,
-        width: `${this.width}px`,
+        width: `${this.width}px`
       }
     },
 
-    infoCardDom () {
+    infoCardDom() {
       return document.querySelector('#app .info-card')
     },
 
-    navbarHeight () {
+    navbarHeight() {
       return document.querySelector('.navbar').clientHeight
     },
 
-    showContents () {
-      return this.$page.headers && this.$page.headers.filter(h => h.level === 2).length > 0
-    },
-
-    showComments () {
-      return this.$themeConfig.comments !== false && this.$frontmatter.vssue !== false && (
-        this.$frontmatter['vssue-id'] || this.$frontmatter['vssue-title'] || this.$frontmatter.title
+    showContents() {
+      return (
+        this.$page.headers &&
+        this.$page.headers.filter(h => h.level === 2).length > 0
       )
     },
+
+    showComments() {
+      return (
+        this.$themeConfig.comments !== false &&
+        this.$frontmatter.vssue !== false &&
+        (this.$frontmatter['vssue-id'] ||
+          this.$frontmatter['vssue-title'] ||
+          this.$frontmatter.title)
+      )
+    }
   },
 
-  mounted () {
+  mounted() {
     this.width = this.getWidth()
 
     window.addEventListener('scroll', this.scrollListener)
     window.addEventListener('resize', this.resizeListener)
   },
 
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('scroll', this.scrollListener)
     window.removeEventListener('resize', this.resizeListener)
   },
 
   methods: {
-    getWidth () {
+    getWidth() {
       return this.infoCardDom.clientWidth
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="stylus">
-@require '~@theme/styles/variables'
+@require '~@theme/styles/variables';
 
-.post-nav-card
-  padding 1rem
-  color $grayTextColor
-  word-break break-all
-  line-height 160%
-  .icon
-    fill $grayTextColor
-  .post-nav-toc > ul
-    word-break normal
-    margin 0.5rem 0
-    padding-left 2rem
-    max-height calc(100vh - 16rem)
+.post-nav-card {
+  padding: 1rem;
+  color: $grayTextColor;
+  word-break: break-all;
+  line-height: 160%;
+
+  .icon {
+    fill: $grayTextColor;
+  }
+
+  .post-nav-toc > ul {
+    word-break: normal;
+    margin: 0.5rem 0;
+    padding-left: 2rem;
+    max-height: calc(100vh - 16rem);
     // separate overflow to be compatible with Safari
-    overflow-x hidden
-    overflow-y auto
-    scrollbar-width thin
-    &::-webkit-scrollbar
-      width 3px
-    &::-webkit-scrollbar-track
-      background-color $borderColor
-    &::-webkit-scrollbar-thumb
-      background-color $lightTextColor
-    ul
-      padding-left 0.8rem
-  .post-nav-comments a
-    color $grayTextColor
-    &:hover
-      text-decoration underline
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $borderColor;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $lightTextColor;
+    }
+
+    ul {
+      padding-left: 0.8rem;
+    }
+  }
+
+  .post-nav-comments a {
+    color: $grayTextColor;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 </style>

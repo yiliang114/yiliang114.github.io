@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import throttle from "lodash.throttle";
-import Icon from "@theme/components/Icon.vue";
+import throttle from 'lodash.throttle'
+import Icon from '@theme/components/Icon.vue'
 
 export default {
-  name: "TheHeaderNavbar",
+  name: 'TheHeaderNavbar',
 
   components: {
     Icon
@@ -59,33 +59,33 @@ export default {
     return {
       fixed: false,
       showNavLinks: false
-    };
+    }
   },
 
   computed: {
     navbarClass() {
       return {
         fixed: this.fixed
-      };
+      }
     }
   },
 
   mounted() {
     window.addEventListener(
-      "scroll",
+      'scroll',
       throttle(() => {
-        this.fixed = window.scrollY !== 0;
+        this.fixed = window.scrollY !== 0
       }),
       100
-    );
+    )
   },
 
   methods: {
     isExternal(link) {
-      return /^(https?:|mailto:|tel:)/.test(link);
+      return /^(https?:|mailto:|tel:)/.test(link)
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

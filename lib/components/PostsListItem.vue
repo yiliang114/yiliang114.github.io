@@ -38,22 +38,22 @@
 </template>
 
 <script>
-import IconInfo from '@theme/components/IconInfo.vue';
+import IconInfo from '@theme/components/IconInfo.vue'
 
 export default {
   name: 'PostsListItem',
 
   components: {
-    IconInfo,
+    IconInfo
   },
 
   props: {
     post: {
       type: Object,
-      required: true,
-    },
-  },
-};
+      required: true
+    }
+  }
+}
 </script>
 
 <style lang="stylus">

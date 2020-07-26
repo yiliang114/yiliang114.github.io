@@ -1,32 +1,28 @@
 <template>
   <TransitionFadeSlide>
-    <div :key="showAside"
-      class="container clearfix"
-      :class="containerClass">
+    <div :key="showAside" class="container clearfix" :class="containerClass">
       <main class="main">
         <TransitionFadeSlide>
-          <component :is="layout"
-            :key="$page.path" />
+          <component :is="layout" :key="$page.path" />
         </TransitionFadeSlide>
       </main>
 
       <aside class="aside">
         <InfoCard class="main-div" />
 
-        <PostNavCard v-if="$page.type === 'post'"
-          class="main-div" />
+        <PostNavCard v-if="$page.type === 'post'" class="main-div" />
       </aside>
     </div>
   </TransitionFadeSlide>
 </template>
 
 <script>
-import TransitionFadeSlide from "@theme/components/TransitionFadeSlide.vue";
-import PostNavCard from "@theme/components/PostNavCard.vue";
-import InfoCard from "@theme/components/InfoCard.vue";
+import TransitionFadeSlide from '@theme/components/TransitionFadeSlide.vue'
+import PostNavCard from '@theme/components/PostNavCard.vue'
+import InfoCard from '@theme/components/InfoCard.vue'
 
 export default {
-  name: "TheMain",
+  name: 'TheMain',
 
   components: {
     TransitionFadeSlide,
@@ -36,36 +32,36 @@ export default {
 
   computed: {
     layout() {
-      const layout = this.$page.frontmatter.layout;
+      const layout = this.$page.frontmatter.layout
       if (
         layout &&
         (this.$vuepress.getLayoutAsyncComponent(layout) ||
           this.$vuepress.getVueComponent(layout))
       ) {
-        return layout;
+        return layout
       }
 
       if (!this.$page.path) {
-        return "NotFound";
+        return 'NotFound'
       }
 
-      return "Home";
+      return 'Home'
     },
 
     showAside() {
-      if ("aside" in this.$page.frontmatter) {
-        return this.$page.frontmatter.aside;
+      if ('aside' in this.$page.frontmatter) {
+        return this.$page.frontmatter.aside
       }
-      return true;
+      return true
     },
 
     containerClass() {
       return {
-        "show-aside": this.showAside
-      };
+        'show-aside': this.showAside
+      }
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

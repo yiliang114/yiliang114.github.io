@@ -59,3 +59,16 @@ https://juejin.im/post/590b451a0ce46300588c43a0
 ### bug
 
 1. Vssue 需要指定 vssue-id 导致可能会跟之前已经存在的 issues 冲突的样子。。
+
+### lighthouse
+
+#### best practices
+
+1. Links to cross-origin destinations are unsafe
+2. Displays images with incorrect aspect ratio
+
+#### seo
+
+1. Does not have a <meta name="viewport"> tag with width or initial-scale
+2. Links do not have descriptive text
+3. robots.txt is not valid

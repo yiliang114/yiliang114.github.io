@@ -1,8 +1,8 @@
 <script>
-import Icon from "@theme/components/Icon.vue";
+import Icon from '@theme/components/Icon.vue'
 
 export default {
-  name: "IconInfo",
+  name: 'IconInfo',
 
   functional: true,
 
@@ -20,7 +20,7 @@ export default {
     size: {
       type: String,
       required: false,
-      default: "1em"
+      default: '1em'
     },
 
     title: {
@@ -36,14 +36,14 @@ export default {
   },
 
   render(h, { props: { href, size, title, type }, children }) {
-    const Component = href ? "a" : "span";
+    const Component = href ? 'a' : 'span'
     return (
       <Component href={href} title={title}>
         <Icon class="info-icon" name={type} size={size} title={title} />
 
         <span class="info-text">{children}</span>
       </Component>
-    );
+    )
   }
-};
+}
 </script>

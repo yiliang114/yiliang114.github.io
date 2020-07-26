@@ -8,25 +8,25 @@ export default {
     color: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
 
     name: {
       type: String,
-      required: true,
+      required: true
     },
 
     size: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
 
     title: {
       type: String,
       required: false,
-      default: null,
-    },
+      default: null
+    }
   },
 
   render(h, { props: { color, name, size, title } }) {
@@ -35,16 +35,16 @@ export default {
         class="icon"
         style={{
           fill: color,
-          'font-size': size,
+          'font-size': size
         }}
       >
         <title>{title || name}</title>
 
         <use xlinkHref={`#icon-${name}`} />
       </svg>
-    );
-  },
-};
+    )
+  }
+}
 </script>
 
 <style>

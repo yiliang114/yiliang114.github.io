@@ -1,11 +1,7 @@
 <template>
   <ul class="pagination">
     <!--Prev Button-->
-    <li
-      :class="{ disabled: onFirstPage }"
-      class="page-item"
-      @click.prevent="prevPage"
-    >
+    <li :class="{ disabled: onFirstPage }" class="page-item" @click.prevent="prevPage">
       <span>&laquo;</span>
     </li>
     <!--Page Buttons-->
@@ -20,11 +16,7 @@
     </li>
 
     <!--Next Button-->
-    <li
-      :class="{ disabled: onLastPage }"
-      class="page-item"
-      @click.prevent="nextPage"
-    >
+    <li :class="{ disabled: onLastPage }" class="page-item" @click.prevent="nextPage">
       <span>&raquo;</span>
     </li>
   </ul>
@@ -38,125 +30,144 @@ export default {
     value: {
       type: Number,
       default: 1,
-      validator: val => val > 0,
+      validator: val => val > 0
     },
 
     total: {
       type: Number,
       required: true,
-      validator: val => val > 0,
+      validator: val => val > 0
     },
 
     eachSide: {
       type: Number,
       default: 1,
-      validator: val => val >= 0,
-    },
+      validator: val => val >= 0
+    }
   },
 
   computed: {
-    firstPage () {
+    firstPage() {
       return 1
     },
 
-    lastPage () {
+    lastPage() {
       return this.total
     },
 
-    onFirstPage () {
+    onFirstPage() {
       return this.currentPage === this.firstPage
     },
 
-    onLastPage () {
+    onLastPage() {
       return this.currentPage === this.lastPage
     },
 
-    currentPage () {
+    currentPage() {
       return this.value
     },
 
-    paginators () {
+    paginators() {
       const paginators = []
       if (this.lastPage < this.eachSide * 2 + 4) {
         for (let i = this.firstPage; i < this.lastPage + 1; ++i) {
           paginators.push({
             value: i,
-            enable: true,
+            enable: true
           })
         }
       } else {
         if (this.currentPage - this.firstPage < this.eachSide + 2) {
           // if currentPage near firstPage
-          for (let i = this.firstPage; i < Math.max(this.eachSide * 2 + 1, this.currentPage + this.eachSide + 1); ++i) {
+          for (
+            let i = this.firstPage;
+            i <
+            Math.max(
+              this.eachSide * 2 + 1,
+              this.currentPage + this.eachSide + 1
+            );
+            ++i
+          ) {
             paginators.push({
               value: i,
-              enable: true,
+              enable: true
             })
           }
           paginators.push({
             value: '...',
-            enable: false,
+            enable: false
           })
           paginators.push({
             value: this.lastPage,
-            enable: true,
+            enable: true
           })
         } else if (this.lastPage - this.currentPage < this.eachSide + 2) {
           // if currentPage near lastPage
           paginators.push({
             value: this.firstPage,
-            enable: true,
+            enable: true
           })
           paginators.push({
             value: '...',
-            enable: false,
+            enable: false
           })
-          for (let i = Math.min(this.lastPage - this.eachSide * 2 + 1, this.currentPage - this.eachSide); i < this.lastPage + 1; ++i) {
+          for (
+            let i = Math.min(
+              this.lastPage - this.eachSide * 2 + 1,
+              this.currentPage - this.eachSide
+            );
+            i < this.lastPage + 1;
+            ++i
+          ) {
             paginators.push({
               value: i,
-              enable: true,
+              enable: true
             })
           }
         } else {
           // if currentPage in the middle
           paginators.push({
             value: this.firstPage,
-            enable: true,
+            enable: true
           })
           paginators.push({
             value: '...',
-            enable: false,
+            enable: false
           })
-          for (let i = this.currentPage - this.eachSide; i < this.currentPage + this.eachSide + 1; ++i) {
+          for (
+            let i = this.currentPage - this.eachSide;
+            i < this.currentPage + this.eachSide + 1;
+            ++i
+          ) {
             paginators.push({
               value: i,
-              enable: true,
+              enable: true
             })
           }
           paginators.push({
             value: '...',
-            enable: false,
+            enable: false
           })
           paginators.push({
             value: this.lastPage,
-            enable: true,
+            enable: true
           })
         }
       }
       return paginators
-    },
+    }
   },
 
   methods: {
-    nextPage () {
+    nextPage() {
       this.setPage(this.currentPage + 1)
     },
 
-    prevPage () {
+    prevPage() {
       this.setPage(this.currentPage - 1)
     },
 
-    setPage (targetPage) {
+    setPage(targetPage) {
       if (targetPage <= this.lastPage && targetPage >= this.firstPage) {
         this.$emit('input', targetPage)
 
@@ -165,31 +176,40 @@ export default {
           this.$vuepress.zooming.updateDelay()
         })
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="stylus" scoped>
-@require '~@theme/styles/variables'
+@require '~@theme/styles/variables';
 
-.pagination
-  display flex
-  flex-wrap wrap
-  justify-content center
-  list-style none
-  margin auto
-  padding 0
-  border-top 1px $borderColor solid
-  .page-item
-    padding 0.5rem
-    &.disabled
-      pointer-events none
-    &.active
-      cursor default
-      color $accentColor
-      font-weight bold
-    &:not(.active)
-      color $textColor
-      cursor pointer
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: auto;
+  padding: 0;
+  border-top: 1px $borderColor solid;
+
+  .page-item {
+    padding: 0.5rem;
+
+    &.disabled {
+      pointer-events: none;
+    }
+
+    &.active {
+      cursor: default;
+      color: $accentColor;
+      font-weight: bold;
+    }
+
+    &:not(.active) {
+      color: $textColor;
+      cursor: pointer;
+    }
+  }
+}
 </style>

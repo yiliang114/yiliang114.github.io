@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="post-toc"
-    :style="style"
-  >
+  <div class="post-toc" :style="style">
     <h4>- CATALOG</h4>
     <TOC class="post-nav-toc" />
   </div>
@@ -13,7 +10,7 @@ import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 export default {
   name: 'PostToc',
-  data () {
+  data() {
     return {
       width: 0,
       fixed: false,
@@ -22,58 +19,66 @@ export default {
       }, 100),
       resizeListener: debounce(() => {
         this.width = this.getWidth()
-      }, 100),
+      }, 100)
     }
   },
   computed: {
-    navbarHeight () {
+    navbarHeight() {
       return document.querySelector('.navbar').clientHeight
     },
-    infoCardDom () {
+    infoCardDom() {
       return document.querySelector('#app .info-card')
     },
-    style () {
+    style() {
       return {
         position: this.fixed ? 'fixed' : 'relative',
         top: this.fixed ? `${this.navbarHeight}` : 0,
-        width: `${this.width}px`,
+        width: `${this.width}px`
       }
-    },
+    }
   },
-  mounted () {
+  mounted() {
     this.width = this.getWidth()
     window.addEventListener('scroll', this.scrollListener)
     window.addEventListener('resize', this.resizeListener)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('scroll', this.scrollListener)
     window.removeEventListener('resize', this.resizeListener)
   },
 
   methods: {
-    getWidth () {
+    getWidth() {
       return this.infoCardDom.clientWidth
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="stylus">
-.post-toc
-  padding 1rem
-  color $grayTextColor
-  word-break break-all
-  line-height 160%
-  &:first-child
-    font-weight 600
-  .post-nav-toc
-    ul
-      list-style none
-      padding-left 0.4rem
-      word-break normal
-      margin 0.5rem 0
-      & > li
-        white-space nowrap
-        text-overflow ellipsis
-        overflow hidden
+.post-toc {
+  padding: 1rem;
+  color: $grayTextColor;
+  word-break: break-all;
+  line-height: 160%;
+
+  &:first-child {
+    font-weight: 600;
+  }
+
+  .post-nav-toc {
+    ul {
+      list-style: none;
+      padding-left: 0.4rem;
+      word-break: normal;
+      margin: 0.5rem 0;
+
+      & > li {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+}
 </style>
