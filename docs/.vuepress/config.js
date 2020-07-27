@@ -110,12 +110,13 @@ module.exports = {
 
     nav: [
       { text: 'Home', link: '/', exact: true },
-      { text: 'Posts', link: '/posts/', exact: false },
-      { text: '分类', link: '/posts/categories/', exact: true },
-      {
-        text: '关于我',
-        link: 'https://resume.yiliang.site'
-      }
+      { text: 'Posts', link: '/posts/', exact: false }
+      // TODO: 暂时隐藏
+      // { text: '分类', link: '/posts/categories/', exact: true }
+      // {
+      //   text: '关于我',
+      //   link: 'https://resume.yiliang.site'
+      // }
     ],
 
     pagination: {
