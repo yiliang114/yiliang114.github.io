@@ -1,6 +1,6 @@
 ---
 title: 'mac安装go'
-date: '2020-03-14 17:06:38'
+date: '2020-03-14'
 tags:
   - go
 # vssue-id: 22

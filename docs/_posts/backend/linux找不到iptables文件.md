@@ -1,10 +1,9 @@
 ---
-title: 'linux找不到iptables文件'
+title: 'linux找不到 iptables 文件'
 date: '2020-03-14 17:06:38'
+category: linux
 tags:
   - linux
-  - iptables
-# vssue-id: 3
 ---
 
 ### linux 找不到 iptables 文件

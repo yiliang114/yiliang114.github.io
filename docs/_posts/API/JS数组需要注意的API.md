@@ -3,8 +3,6 @@ title: 'JS数组需要注意的API'
 date: '2020-03-14 09:06:38'
 tags:
   - JS
-  - Array
-# vssue-id: 2
 ---
 
 ### JS Array 需要注意的 API

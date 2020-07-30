@@ -6,9 +6,7 @@ subtitle: '感谢你对我的关注'
 headerImage: 'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/4TVbbaNAw9Q.jpg'
 date: '2020-07-09 15:13:45'
 tags:
-  - me
   - yiliang
-# vssue-id: 1
 ---
 
 ## 作者信息
