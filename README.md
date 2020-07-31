@@ -20,5 +20,5 @@
 * vuepress
 * github pages
 * github actions
-* zeti
+* zeit
 * qcloud cdn

@@ -1,15 +1,15 @@
 ---
-title: 'zeti'
+title: 'zeit'
 date: '2020-07-19'
 display: none
 tags:
   - seo
-  - zeti
+  - zeit
 ---
 
 ## 百度收录 GitHub Pages 个人博客
 
-### zeti
+### zeit
 
 https://zhuanlan.zhihu.com/p/111773896
 https://zpjiang.me/2020/01/15/let-baidu-index-github-page/
@@ -18,5 +18,5 @@ https://zpjiang.me/2020/01/15/let-baidu-index-github-page/
 
 ### 问题
 
-1. 子路由如何通过 zeti 进行访问？ 因为一个域名只能绑定一个项目。
+1. 子路由如何通过 zeit 进行访问？ 因为一个域名只能绑定一个项目。
 2. 与国内的 cdn 还会不会冲突？

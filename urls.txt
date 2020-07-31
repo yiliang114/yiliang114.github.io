@@ -36,7 +36,7 @@ https://yiliang.site/posts/2020/04/06/workflow.html
 https://yiliang.site/posts/2020/07/09/about.html
 https://yiliang.site/posts/2020/07/19/_2-如何使用-webpack-实现模块化打包.html
 https://yiliang.site/posts/2020/07/19/webpack原理和实践.html
-https://yiliang.site/posts/2020/07/19/zeti.html
+https://yiliang.site/posts/2020/07/19/zeit.html
 https://yiliang.site/posts/2020/07/19/个人博客的部署历史.html
 https://yiliang.site/posts/2020/07/19/搜索引擎收录.html
 https://yiliang.site/posts/2020/07/30/前端发展与思考.html
@@ -68,7 +68,7 @@ https://yiliang.site/posts/tags/vue.html
 https://yiliang.site/posts/tags/webpack.html
 https://yiliang.site/posts/tags/workflow.html
 https://yiliang.site/posts/tags/yiliang.html
-https://yiliang.site/posts/tags/zeti.html
+https://yiliang.site/posts/tags/zeit.html
 https://yiliang.site/posts/tags/前端.html
 https://yiliang.site/posts/tags/博客.html
 https://yiliang.site/posts/tags/域名.html
