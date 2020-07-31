@@ -1,9 +1,8 @@
 ---
-title: solo-migration
-date: 2020-03-14 17:06:38
+title: 记一次 solo 迁移
+date: '2018-11-01'
 tags:
-  - solo
-# vssue-id: 31
+  - 博客
 ---
 
 ### 记一次 solo 迁移

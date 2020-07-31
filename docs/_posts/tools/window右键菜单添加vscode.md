@@ -1,9 +1,8 @@
 ---
 title: 'window 右键菜单添加 vscode'
-date: '2020-03-14 17:06:38'
+date: '2018-08-20'
 tags:
   - 编辑器
-# vssue-id: 34
 ---
 
 # window 右键菜单添加 vscode

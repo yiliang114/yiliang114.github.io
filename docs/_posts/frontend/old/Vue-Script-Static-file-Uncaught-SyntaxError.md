@@ -1,9 +1,8 @@
 ---
 title: Vue-Script-Static-file-Uncaught-SyntaxError
-date: 2020-03-14 17:06:38
+date: 2018-10-18
 tags:
   - vue
-# vssue-id: 17
 ---
 
 ### Vue Script Static file Uncaught SyntaxError

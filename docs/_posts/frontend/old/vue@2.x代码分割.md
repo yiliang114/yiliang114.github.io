@@ -1,11 +1,9 @@
 ---
 title: 'vue@2.x代码分割'
-date: '2020-03-14 17:06:38'
+date: '2018-10-13'
 tags:
   - vue
   - webpack
-  - code split
-# vssue-id: 18
 ---
 
 ## vue code split

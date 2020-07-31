@@ -1,9 +1,8 @@
 ---
 title: 'mac安装go'
-date: '2020-03-14'
+date: '2018-10-22'
 tags:
   - go
-# vssue-id: 22
 ---
 
 ### mac 安装 go

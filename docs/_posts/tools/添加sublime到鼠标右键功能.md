@@ -1,9 +1,8 @@
 ---
 title: '添加sublime到鼠标右键功能'
-date: '2020-03-14 17:06:38'
+date: '2019-02-14'
 tags:
   - 编辑器
-# vssue-id: 28
 ---
 
 ### sublime text 添加到鼠标右键功能

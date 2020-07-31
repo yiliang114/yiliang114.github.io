@@ -1,11 +1,9 @@
 ---
 title: 'ubuntu中docker安装jenkins'
-date: '2020-03-14 17:06:38'
+date: '2018-10-25'
 tags:
   - ubuntu
-  - docker
   - jenkins
-# vssue-id: 4
 ---
 
 ## ubuntu docker 安装 jenkins

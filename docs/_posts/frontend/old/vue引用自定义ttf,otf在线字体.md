@@ -1,10 +1,8 @@
 ---
 title: 'vue引用自定义ttf,otf在线字体'
-date: '2020-03-14 17:06:38'
+date: '2018-10-11'
 tags:
   - vue
-  - 字体
-# vssue-id: 21
 ---
 
 ### vue 引用自定义 ttf、otf、在线字体

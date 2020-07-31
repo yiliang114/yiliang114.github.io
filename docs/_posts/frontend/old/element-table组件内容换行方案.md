@@ -1,11 +1,9 @@
 ---
 title: 'element-table组件内容换行方案'
-date: '2020-03-14 17:06:38'
+date: '2018-03-17'
 tags:
   - element
   - table
-  - 换行
-# vssue-id: 14
 ---
 
 ### element table 组件内容换行方案

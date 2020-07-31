@@ -1,10 +1,8 @@
 ---
 title: '移除mobx在vscode中装饰器报错'
-date: '2020-03-14 17:06:38'
+date: '2018-04-07'
 tags:
-  - vscode
   - mobx
-# vssue-id: 11
 ---
 
 # 移除 mobx vscode 装饰器报错
