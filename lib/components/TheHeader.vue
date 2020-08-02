@@ -59,7 +59,7 @@ export default {
     },
 
     backgroundImg() {
-      // frontmatter > themeConfig
+      // 优先级 frontmatter > themeConfig
       return (
         this.$frontmatter['header-image'] || this.backgroundConfig.url || null
       )

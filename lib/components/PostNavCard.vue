@@ -52,7 +52,7 @@ export default {
     },
 
     infoCardDom() {
-      return document.querySelector('#app .info-card')
+      return document.querySelector('#app .info-card') || {}
     },
 
     navbarHeight() {

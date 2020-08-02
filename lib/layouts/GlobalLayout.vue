@@ -1,4 +1,5 @@
 <template>
+  <!-- 整体的渲染结构 -->
   <div id="vuepress-theme-yiliang114">
     <TheHeader />
 
@@ -14,7 +15,7 @@ import TheMain from '@theme/components/TheMain.vue'
 import TheFooter from '@theme/components/TheFooter.vue'
 
 export default {
-  name: 'ThemeMeteorlxy',
+  name: 'ThemeYiliang',
 
   components: {
     TheHeader,

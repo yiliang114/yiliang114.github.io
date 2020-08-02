@@ -22,26 +22,26 @@ module.exports = {
   // TODO: 开启之后，cache-loader 会导致开发阶段修改 vue 组件错误。
   evergreen: false,
 
-  chainWebpack: (config, isServer) => {
-    if (isServer === false) {
-      config.optimization.splitChunks({
-        maxInitialRequests: 5,
-        cacheGroups: {
-          vue: {
-            test: /[\\/]node_modules[\\/](vue|vue-router|vssue)[\\/]/,
-            name: 'vendor.vue',
-            chunks: 'all'
-          },
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            name: 'vendor.commons',
-            chunks: 'all'
-          }
-        }
-      })
-    }
-  },
+  // chainWebpack: (config, isServer) => {
+  //   if (isServer === false) {
+  //     config.optimization.splitChunks({
+  //       maxInitialRequests: 5,
+  //       cacheGroups: {
+  //         vue: {
+  //           test: /[\\/]node_modules[\\/](vue|vue-router|vssue)[\\/]/,
+  //           name: 'vendor.vue',
+  //           chunks: 'all'
+  //         },
+  //         commons: {
+  //           test: /[\\/]node_modules[\\/]/,
+  //           priority: -10,
+  //           name: 'vendor.commons',
+  //           chunks: 'all'
+  //         }
+  //       }
+  //     })
+  //   }
+  // },
 
   theme: path.resolve(__dirname, '../../lib'),
   themeConfig: {
@@ -137,6 +137,30 @@ module.exports = {
         useGeo: true
       }
     },
+
+    aaa: 111,
+    // 友情链接
+    friendLinks: [
+      {
+        title: '易良的简历',
+        icon: '/assets/images/shifen.jpg',
+        description: '易良的简历',
+        link: 'https://resume.yiliang.site'
+      },
+      {
+        title: 'Omi',
+        icon:
+          'https://camo.githubusercontent.com/5a3ce051411cca4d8abd0e0abff879bb5a871520/68747470733a2f2f74656e63656e742e6769746875622e696f2f6f6d692f6173736574732f6f6d692d6c6f676f323031392e737667',
+        description: 'Front End Cross-Frameworks Framework',
+        link: 'https://github.com/Tencent/omi'
+      },
+      {
+        title: 'CloudBase Framework',
+        icon: 'https://avatars0.githubusercontent.com/u/40630849?s=200&v=4',
+        description: '云开发官方出品的前后端一体化部署工具',
+        link: 'https://github.com/TencentCloudBase/cloudbase-framework'
+      }
+    ],
 
     lastUpdated: true
   },
