@@ -10,7 +10,7 @@
       </div>
     </div>
     <br />
-    <Vssue title="友情链接" issue-id="links" />
+    <Vssue title="友情链接" />
   </div>
 </template>
 
