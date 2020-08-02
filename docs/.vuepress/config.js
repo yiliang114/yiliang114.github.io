@@ -110,7 +110,8 @@ module.exports = {
 
     nav: [
       { text: '首页', link: '/', exact: true },
-      { text: '文章', link: '/posts/', exact: false }
+      { text: '文章', link: '/posts/', exact: false },
+      { text: '友链', link: '/links/', exact: false }
       // TODO: 暂时隐藏
       // { text: '分类', link: '/posts/categories/', exact: true }
       // {
@@ -138,15 +139,8 @@ module.exports = {
       }
     },
 
-    aaa: 111,
     // 友情链接
     friendLinks: [
-      {
-        title: '易良的简历',
-        icon: '/assets/images/shifen.jpg',
-        description: '易良的简历',
-        link: 'https://resume.yiliang.site'
-      },
       {
         title: 'Omi',
         icon:
@@ -159,6 +153,12 @@ module.exports = {
         icon: 'https://avatars0.githubusercontent.com/u/40630849?s=200&v=4',
         description: '云开发官方出品的前后端一体化部署工具',
         link: 'https://github.com/TencentCloudBase/cloudbase-framework'
+      },
+      {
+        title: "Evan's blog",
+        icon: 'https://xugaoyi.com/img/EB-logo.png',
+        description: 'Web前端技术博客，积跬步以至千里，致敬每个爱学习的你。',
+        link: 'https://xugaoyi.com/'
       }
     ],
 
