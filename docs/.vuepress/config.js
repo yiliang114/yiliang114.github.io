@@ -156,10 +156,16 @@ module.exports = {
       },
       {
         title: "Evan's blog",
-        icon: 'https://xugaoyi.com/img/EB-logo.png',
+        icon: 'https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
         description: 'Web前端技术博客，积跬步以至千里，致敬每个爱学习的你。',
         link: 'https://xugaoyi.com/'
       }
+      // {
+      //   title: "易良同学的博客",
+      //   icon: 'https://yiliang.site/assets/images/avatar.jpeg',
+      //   description: '正在努力！',
+      //   link: 'https://yiliang.site'
+      // },
     ],
 
     lastUpdated: true

@@ -1,4 +1,5 @@
 <template>
+  <!-- 不应该集成到 lib 中， 应该是作为自定义布局 -->
   <div class="main-div">
     <div class="cardListContainer">
       <div class="card-list">
