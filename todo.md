@@ -34,6 +34,7 @@
 - [ ] google 百度来源分析
 - [ ] 访问统计、字数统计、提交统计（卜算子）
 - [ ] 百度、google seo 搜索
+- [ ] docs 友链的形式
 
 http://kmanong.top/kmn/qxw/form/article?id=6875&cate=93
 http://blog.devtang.com/about/
