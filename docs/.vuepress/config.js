@@ -159,6 +159,12 @@ module.exports = {
         icon: 'https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
         description: 'Web前端技术博客，积跬步以至千里，致敬每个爱学习的你。',
         link: 'https://xugaoyi.com/'
+      },
+      {
+        title: 'znote',
+        icon: 'https://zpj80231.gitee.io/znote/vuepress/head-fish.jpg',
+        description: '荷尽已无擎雨盖，菊残犹有傲霜枝',
+        link: 'https://zpj80231.gitee.io/znote/'
       }
       // {
       //   title: "易良同学的博客",
