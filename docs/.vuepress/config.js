@@ -142,34 +142,34 @@ module.exports = {
     // 友情链接
     friendLinks: [
       {
-        title: 'Omi',
-        icon:
+        name: 'Omi',
+        avatar:
           'https://camo.githubusercontent.com/5a3ce051411cca4d8abd0e0abff879bb5a871520/68747470733a2f2f74656e63656e742e6769746875622e696f2f6f6d692f6173736574732f6f6d692d6c6f676f323031392e737667',
-        description: 'Front End Cross-Frameworks Framework',
+        desc: 'Front End Cross-Frameworks Framework',
         link: 'https://github.com/Tencent/omi'
       },
       {
-        title: 'CloudBase Framework',
-        icon: 'https://avatars0.githubusercontent.com/u/40630849?s=200&v=4',
-        description: '云开发官方出品的前后端一体化部署工具',
+        name: 'CloudBase Framework',
+        avatar: 'https://avatars0.githubusercontent.com/u/40630849?s=200&v=4',
+        desc: '云开发官方出品的前后端一体化部署工具',
         link: 'https://github.com/TencentCloudBase/cloudbase-framework'
       },
       {
-        title: "Evan's blog",
-        icon: 'https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
-        description: 'Web前端技术博客，积跬步以至千里，致敬每个爱学习的你。',
+        name: "Evan's blog",
+        avatar: 'https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
+        desc: 'Web前端技术博客，积跬步以至千里，致敬每个爱学习的你。',
         link: 'https://xugaoyi.com/'
       },
       {
-        title: 'znote',
-        icon: 'https://zpj80231.gitee.io/znote/vuepress/head-fish.jpg',
-        description: '荷尽已无擎雨盖，菊残犹有傲霜枝',
+        name: 'znote',
+        avatar: 'https://zpj80231.gitee.io/znote/vuepress/head-fish.jpg',
+        desc: '荷尽已无擎雨盖，菊残犹有傲霜枝',
         link: 'https://zpj80231.gitee.io/znote/'
       }
       // {
-      //   title: "易良同学的博客",
-      //   icon: 'https://yiliang.site/assets/images/avatar.jpeg',
-      //   description: '正在努力！',
+      //   name: "易良同学的博客",
+      //   avatar: 'https://yiliang.site/assets/images/avatar.jpeg',
+      //   desc: '正在努力！',
       //   link: 'https://yiliang.site'
       // },
     ],

@@ -1,9 +1,9 @@
 <template>
   <a :href="link" target="_blank" class="card-item row-3">
-    <img :src="icon" class="no-zoom" />
+    <img :src="avatar" class="no-zoom" />
     <div>
-      <p class="name">{{ title }}</p>
-      <p class="desc">{{ description }}</p>
+      <p class="name">{{ name }}</p>
+      <p class="desc">{{ desc }}</p>
     </div>
   </a>
 </template>
@@ -18,17 +18,17 @@ export default {
     }
   },
   computed: {
-    title() {
-      return this.info.title || ''
+    name() {
+      return this.info.name || ''
     },
     link() {
       return this.info.link || ''
     },
-    icon() {
-      return this.info.icon || ''
+    avatar() {
+      return this.info.avatar || ''
     },
-    description() {
-      return this.info.description || ''
+    desc() {
+      return this.info.desc || ''
     },
     backgroundColor() {
       return this.info.backgroundColor || ''
