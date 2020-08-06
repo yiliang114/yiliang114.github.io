@@ -11865,7 +11865,7 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-watchpack@^1.6.1:
+watchpack@1.6.1, watchpack@^1.6.1:
   version "1.6.1"
   resolved "https://registry.npm.taobao.org/watchpack/download/watchpack-1.6.1.tgz#280da0a8718592174010c078c7585a74cd8cd0e2"
   integrity sha1-KA2gqHGFkhdAEMB4x1hadM2M0OI=
