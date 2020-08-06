@@ -130,7 +130,7 @@ $lineHeight = $navbarHeight - ($gutter * 2);
     position: relative;
     font-size: 1.2rem;
     font-weight: 600;
-    color: $accentColor;
+    color: $textColor;
     max-width: 'calc(100% - %s)' % $lineHeight;
     max-height: $lineHeight;
     overflow: hidden;
