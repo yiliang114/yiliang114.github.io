@@ -15,7 +15,7 @@ module.exports = {
       }
     ],
     // if 条件判断中的逻辑运算符位置
-    'operator-linebreak': [2, 'after', { overrides: { '?': 'after' } }]
+    'operator-linebreak': [2, 'after', { overrides: { '?': 'before', ':': 'before' } }]
   },
   parserOptions: {
     parser: 'babel-eslint'

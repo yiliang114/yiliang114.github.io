@@ -7,52 +7,14 @@ const autometa_options = {
 
 const path = require('path')
 const head = require('./config/head.js')
-const sidebar = require('./config/sidebar')
 
 module.exports = {
   title: '易良同学的博客',
-  description: 'Welcome to my blog site',
   base: '/',
   head,
-  locales: {
-    '/': {
-      lang: 'zh-CN'
-    }
-  },
-  // TODO: 开启之后，cache-loader 会导致开发阶段修改 vue 组件错误。
-  evergreen: false,
-
-  // chainWebpack: (config, isServer) => {
-  //   if (isServer === false) {
-  //     config.optimization.splitChunks({
-  //       maxInitialRequests: 5,
-  //       cacheGroups: {
-  //         vue: {
-  //           test: /[\\/]node_modules[\\/](vue|vue-router|vssue)[\\/]/,
-  //           name: 'vendor.vue',
-  //           chunks: 'all'
-  //         },
-  //         commons: {
-  //           test: /[\\/]node_modules[\\/]/,
-  //           priority: -10,
-  //           name: 'vendor.commons',
-  //           chunks: 'all'
-  //         }
-  //       }
-  //     })
-  //   }
-  // },
 
   theme: path.resolve(__dirname, '../../lib'),
   themeConfig: {
-    title: "Yiliang's Blog",
-    logo: '/assets/images/logo.jpg',
-    repo: 'yiliang114/yiliang114.github.io',
-    smoothScroll: true,
-    editLinks: true,
-    sidebarDepth: 2,
-    sidebar,
-
     lang: 'zh-CN',
 
     personalInfo: {
