@@ -26,9 +26,6 @@ export default {
   },
   components: {
     LinkCard
-  },
-  mounted() {
-    console.log('this.', this.$page)
   }
 }
 </script>
