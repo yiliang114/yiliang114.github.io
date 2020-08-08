@@ -1,5 +1,6 @@
 <template>
   <div class="main-div">
+    <!-- 分类 -->
     <div v-if="categories" class="filter-categories">
       <h3>
         <RouterLink to="/posts/categories/">{{ $themeConfig.lang.categories }}</RouterLink>
@@ -8,6 +9,7 @@
       <PostsFilterCategories v-model="filterCategory" />
     </div>
 
+    <!-- 标签 -->
     <div v-if="tags" class="filter-tags">
       <h3>
         <RouterLink to="/posts/tags/">{{ $themeConfig.lang.tags }}</RouterLink>

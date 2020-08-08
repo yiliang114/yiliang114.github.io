@@ -33,6 +33,7 @@ export default {
   computed: {
     layout() {
       const layout = this.$page.frontmatter.layout
+      debugger
       if (
         layout &&
         (this.$vuepress.getLayoutAsyncComponent(layout) ||
