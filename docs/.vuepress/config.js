@@ -13,7 +13,31 @@ module.exports = {
   base: '/',
   head,
 
+  evergreen: true,
+
+  chainWebpack: (config, isServer) => {
+    if (isServer === false) {
+      config.optimization.splitChunks({
+        maxInitialRequests: 5,
+        cacheGroups: {
+          vue: {
+            test: /[\\/]node_modules[\\/](vue|vue-router|vssue)[\\/]/,
+            name: 'vendor.vue',
+            chunks: 'all'
+          },
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            name: 'vendor.commons',
+            chunks: 'all'
+          }
+        }
+      })
+    }
+  },
+
   theme: path.resolve(__dirname, '../../lib'),
+
   themeConfig: {
     lang: 'zh-CN',
 

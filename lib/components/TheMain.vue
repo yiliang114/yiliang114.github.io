@@ -17,6 +17,7 @@
 </template>
 
 <script>
+// import Vue from 'vue'
 import TransitionFadeSlide from '@theme/components/TransitionFadeSlide.vue'
 import PostNavCard from '@theme/components/PostNavCard.vue'
 import InfoCard from '@theme/components/InfoCard.vue'
@@ -33,12 +34,20 @@ export default {
   computed: {
     layout() {
       const layout = this.$page.frontmatter.layout
-      debugger
+
       if (
         layout &&
         (this.$vuepress.getLayoutAsyncComponent(layout) ||
           this.$vuepress.getVueComponent(layout))
       ) {
+        // console.log(
+        //   'components',
+        //   layout,
+        //   this.$vuepress.getLayoutAsyncComponent(layout)
+        // this.$vuepress.getVueComponent(layout)
+        // Vue.component(layout).name,
+        // Vue.component(layout)
+        // )
         return layout
       }
 
