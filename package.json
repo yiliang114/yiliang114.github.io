@@ -12,7 +12,7 @@
     "lint": "eslint --fix \"**/*.{js,vue}\"",
     "pre-deploy": "http-server docs/.vuepress/dist",
     "start": "vuepress dev docs",
-    "dev": "npx vuepress dev docs",
+    "dev": "vuepress dev docs",
     "baiduPush": "node readFileList && bash baiduPush.sh"
   },
   "files": [
