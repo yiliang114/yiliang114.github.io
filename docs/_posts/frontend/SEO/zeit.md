@@ -1,7 +1,6 @@
 ---
 title: 'zeit'
 date: '2020-07-19'
-display: none
 draft: true
 tags:
   - seo
