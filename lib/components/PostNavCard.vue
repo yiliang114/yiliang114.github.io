@@ -1,5 +1,6 @@
 <template>
-  <div v-if="showContents || showComments" class="post-nav-card" :style="style">
+  <!-- :style="style" -->
+  <div v-if="showContents || showComments" class="post-nav-card">
     <div v-if="showContents" class="post-nav-contents">
       <Icon name="book" />
 
@@ -17,15 +18,15 @@
 </template>
 
 <script>
-import throttle from 'lodash.throttle'
-import debounce from 'lodash.debounce'
-import Icon from '@theme/components/Icon.vue'
+import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
+import Icon from '@theme/components/Icon.vue';
 
 export default {
   name: 'PostNavCard',
 
   components: {
-    Icon
+    Icon,
   },
 
   data() {
@@ -33,13 +34,12 @@ export default {
       fixed: false,
       width: 0,
       scrollListener: throttle(() => {
-        this.fixed =
-          this.infoCardDom.getBoundingClientRect().bottom < this.navbarHeight
+        this.fixed = this.infoCardDom.getBoundingClientRect().bottom < this.navbarHeight;
       }, 100),
       resizeListener: debounce(() => {
-        this.width = this.getWidth()
-      }, 100)
-    }
+        this.width = this.getWidth();
+      }, 100),
+    };
   },
 
   computed: {
@@ -47,54 +47,49 @@ export default {
       return {
         position: this.fixed ? 'fixed' : 'relative',
         top: this.fixed ? `${this.navbarHeight}px` : 0,
-        width: `${this.width}px`
-      }
+        width: `${this.width}px`,
+      };
     },
 
     infoCardDom() {
-      return document.querySelector('#app .info-card') || {}
+      return document.querySelector('#app .info-card') || {};
     },
 
     navbarHeight() {
-      return document.querySelector('.navbar').clientHeight
+      return document.querySelector('.navbar').clientHeight;
     },
 
     showContents() {
-      return (
-        this.$page.headers &&
-        this.$page.headers.filter(h => h.level === 2).length > 0
-      )
+      return this.$page.headers && this.$page.headers.filter(h => h.level === 2).length > 0;
     },
 
     showComments() {
       return (
         this.$themeConfig.comments !== false &&
         this.$frontmatter.vssue !== false &&
-        (this.$frontmatter['vssue-id'] ||
-          this.$frontmatter['vssue-title'] ||
-          this.$frontmatter.title)
-      )
-    }
+        (this.$frontmatter['vssue-id'] || this.$frontmatter['vssue-title'] || this.$frontmatter.title)
+      );
+    },
   },
 
   mounted() {
-    this.width = this.getWidth()
+    this.width = this.getWidth();
 
-    window.addEventListener('scroll', this.scrollListener)
-    window.addEventListener('resize', this.resizeListener)
+    window.addEventListener('scroll', this.scrollListener);
+    window.addEventListener('resize', this.resizeListener);
   },
 
   beforeDestroy() {
-    window.removeEventListener('scroll', this.scrollListener)
-    window.removeEventListener('resize', this.resizeListener)
+    window.removeEventListener('scroll', this.scrollListener);
+    window.removeEventListener('resize', this.resizeListener);
   },
 
   methods: {
     getWidth() {
-      return this.infoCardDom.clientWidth
-    }
-  }
-}
+      return this.infoCardDom.clientWidth;
+    },
+  },
+};
 </script>
 
 <style lang="stylus">

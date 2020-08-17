@@ -8,7 +8,9 @@
       </main>
 
       <aside class="aside">
-        <InfoCard class="main-div" />
+        <TransitionFadeSlide>
+          <InfoCard class="main-div" v-if="$page.type !== 'post'" />
+        </TransitionFadeSlide>
 
         <PostNavCard v-if="$page.type === 'post'" class="main-div" />
       </aside>
@@ -18,9 +20,9 @@
 
 <script>
 // import Vue from 'vue'
-import TransitionFadeSlide from '@theme/components/TransitionFadeSlide.vue'
-import PostNavCard from '@theme/components/PostNavCard.vue'
-import InfoCard from '@theme/components/InfoCard.vue'
+import TransitionFadeSlide from '@theme/components/TransitionFadeSlide.vue';
+import PostNavCard from '@theme/components/PostNavCard.vue';
+import InfoCard from '@theme/components/InfoCard.vue';
 
 export default {
   name: 'TheMain',
@@ -28,18 +30,14 @@ export default {
   components: {
     TransitionFadeSlide,
     InfoCard,
-    PostNavCard
+    PostNavCard,
   },
 
   computed: {
     layout() {
-      const layout = this.$page.frontmatter.layout
+      const layout = this.$page.frontmatter.layout;
 
-      if (
-        layout &&
-        (this.$vuepress.getLayoutAsyncComponent(layout) ||
-          this.$vuepress.getVueComponent(layout))
-      ) {
+      if (layout && (this.$vuepress.getLayoutAsyncComponent(layout) || this.$vuepress.getVueComponent(layout))) {
         // console.log(
         //   'components',
         //   layout,
@@ -48,30 +46,30 @@ export default {
         // Vue.component(layout).name,
         // Vue.component(layout)
         // )
-        return layout
+        return layout;
       }
 
       if (!this.$page.path) {
-        return 'NotFound'
+        return 'NotFound';
       }
 
-      return 'Home'
+      return 'Home';
     },
 
     showAside() {
       if ('aside' in this.$page.frontmatter) {
-        return this.$page.frontmatter.aside
+        return this.$page.frontmatter.aside;
       }
-      return true
+      return true;
     },
 
     containerClass() {
       return {
-        'show-aside': this.showAside
-      }
-    }
-  }
-}
+        'show-aside': this.showAside,
+      };
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
