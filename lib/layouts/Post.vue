@@ -9,43 +9,41 @@
     <PostMeta v-if="meta" />
 
     <!-- 开发环境不显示评论避免跳转 -->
-    <div v-if="vssue && !isLocal" id="post-comments" class="main-div">
+    <div v-if="vssue && isProd" id="post-comments" class="main-div">
       <Vssue :title="vssueTitle" :issue-id="vssueId" />
     </div>
   </div>
 </template>
 
 <script>
-import PostMeta from '@theme/components/PostMeta.vue'
+import PostMeta from '@theme/components/PostMeta.vue';
 
+const isProd = process.env.NODE_ENV;
 export default {
   name: 'Post',
+  data() {
+    return {
+      isProd,
+    };
+  },
   components: {
     PostMeta,
   },
   computed: {
-    isLocal() {
-      const { hostname } = location
-      return hostname === 'localhost'
-    },
     meta() {
-      return this.$frontmatter.meta !== false
+      return this.$frontmatter.meta !== false;
     },
     vssue() {
       return (
-        this.$themeConfig.comments !== false &&
-        this.$frontmatter.vssue !== false &&
-        (this.vssueTitle || this.vssueId)
-      )
+        this.$themeConfig.comments !== false && this.$frontmatter.vssue !== false && (this.vssueTitle || this.vssueId)
+      );
     },
     vssueTitle() {
-      return (
-        this.$frontmatter['vssue-title'] || this.$frontmatter.title || undefined
-      )
+      return this.$frontmatter['vssue-title'] || this.$frontmatter.title || undefined;
     },
     vssueId() {
-      return this.$frontmatter['vssue-id'] || undefined
+      return this.$frontmatter['vssue-id'] || undefined;
     },
   },
-}
+};
 </script>
