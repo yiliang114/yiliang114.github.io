@@ -1,5 +1,5 @@
 <script>
-import Icon from '@theme/components/Icon.vue'
+import Icon from '@theme/components/Icon.vue';
 
 export default {
   name: 'IconInfo',
@@ -7,43 +7,43 @@ export default {
   functional: true,
 
   components: {
-    Icon
+    Icon,
   },
 
   props: {
     href: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
 
     size: {
       type: String,
       required: false,
-      default: '1em'
+      default: '1em',
     },
 
     title: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
 
     type: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   render(h, { props: { href, size, title, type }, children }) {
-    const Component = href ? 'a' : 'span'
+    const Component = href ? 'a' : 'span';
     return (
       <Component href={href} title={title}>
         <Icon class="info-icon" name={type} size={size} title={title} />
 
         <span class="info-text">{children}</span>
       </Component>
-    )
-  }
-}
+    );
+  },
+};
 </script>

@@ -1,5 +1,5 @@
 <script>
-import Icon from '@theme/components/Icon.vue'
+import Icon from '@theme/components/Icon.vue';
 
 export default {
   name: 'IconTag',
@@ -9,18 +9,18 @@ export default {
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
 
     icon: {
       type: String,
-      required: true
+      required: true,
     },
 
     size: {
       type: String,
-      default: '1x'
-    }
+      default: '1x',
+    },
   },
 
   render(h, { props: { name, icon, size } }) {
@@ -30,9 +30,9 @@ export default {
 
         <span class="post-tag-name">{name}</span>
       </span>
-    )
-  }
-}
+    );
+  },
+};
 </script>
 
 <style lang="stylus">

@@ -14,27 +14,27 @@ export default {
   props: {
     info: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   computed: {
     name() {
-      return this.info.name || ''
+      return this.info.name || '';
     },
     link() {
-      return this.info.link || ''
+      return this.info.link || '';
     },
     avatar() {
-      return this.info.avatar || ''
+      return this.info.avatar || '';
     },
     desc() {
-      return this.info.desc || ''
+      return this.info.desc || '';
     },
     backgroundColor() {
-      return this.info.backgroundColor || ''
-    }
-  }
-}
+      return this.info.backgroundColor || '';
+    },
+  },
+};
 </script>
 
 <style lang='stylus'>

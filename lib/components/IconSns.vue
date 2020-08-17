@@ -1,53 +1,53 @@
 <script>
-import Icon from '@theme/components/Icon.vue'
+import Icon from '@theme/components/Icon.vue';
 
 const nameMap = {
   github: {
-    title: 'GitHub'
+    title: 'GitHub',
   },
   gitlab: {
-    title: 'GitLab'
+    title: 'GitLab',
   },
   bitbucket: {
-    title: 'Bitbucket'
+    title: 'Bitbucket',
   },
   docker: {
-    title: 'Docker Hub'
+    title: 'Docker Hub',
   },
   facebook: {
-    title: 'Facebook'
+    title: 'Facebook',
   },
   twitter: {
-    title: 'Twitter'
+    title: 'Twitter',
   },
   linkedin: {
-    title: 'LinkedIn'
+    title: 'LinkedIn',
   },
   weibo: {
-    title: '新浪微博'
+    title: '新浪微博',
   },
   zhihu: {
-    title: '知乎'
+    title: '知乎',
   },
   douban: {
-    title: '豆瓣'
+    title: '豆瓣',
   },
   reddit: {
-    title: 'Reddit'
+    title: 'Reddit',
   },
   medium: {
-    title: 'Medium'
+    title: 'Medium',
   },
   instagram: {
-    title: 'Instagram'
+    title: 'Instagram',
   },
   csdn: {
-    title: 'CSDN'
+    title: 'CSDN',
   },
   juejin: {
-    title: '掘金'
-  }
-}
+    title: '掘金',
+  },
+};
 
 export default {
   name: 'IconSns',
@@ -59,32 +59,32 @@ export default {
     account: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
 
     // Name of SNS
     name: {
       type: String,
-      required: true
+      required: true,
     },
 
     // Size of FontAwesome
     size: {
       type: String,
       required: false,
-      default: '25px'
-    }
+      default: '25px',
+    },
   },
 
   render(h, { props: { account, name, size } }) {
-    const title = `${nameMap[name].title}: ${account}`
+    const title = `${nameMap[name].title}: ${account}`;
     return (
       <span class="sns-icon" title={title}>
         <Icon name={name} size={size} title={title} />
       </span>
-    )
-  }
-}
+    );
+  },
+};
 </script>
 
 <style lang="stylus">

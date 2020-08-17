@@ -53,57 +53,57 @@
 </template>
 
 <script>
-import GeoPattern from 'geopattern'
-import IconInfo from '@theme/components/IconInfo.vue'
-import IconSns from '@theme/components/IconSns.vue'
+import GeoPattern from 'geopattern';
+import IconInfo from '@theme/components/IconInfo.vue';
+import IconSns from '@theme/components/IconSns.vue';
 
 export default {
   name: 'InfoCard',
 
   components: {
     IconInfo,
-    IconSns
+    IconSns,
   },
 
   computed: {
     info() {
-      return this.$themeConfig.personalInfo || {}
+      return this.$themeConfig.personalInfo || {};
     },
 
     nickname() {
-      return this.info.nickname || 'Unknown'
+      return this.info.nickname || 'Unknown';
     },
 
     description() {
-      return this.info.description || null
+      return this.info.description || null;
     },
 
     location() {
-      return this.info.location || null
+      return this.info.location || null;
     },
 
     email() {
-      return this.info.email || null
+      return this.info.email || null;
     },
 
     organization() {
-      return this.info.organization || null
+      return this.info.organization || null;
     },
 
     avatar() {
-      return this.info.avatar || '/assets/img/avatar_unknown.jpg'
+      return this.info.avatar || '/assets/img/avatar_unknown.jpg';
     },
 
     sns() {
-      return this.info.sns || null
+      return this.info.sns || null;
     },
 
     headerBackgroundConfig() {
-      return this.$themeConfig.infoCard.headerBackground || {}
+      return this.$themeConfig.infoCard.headerBackground || {};
     },
 
     headerBackgroundImg() {
-      return this.headerBackgroundConfig.url || null
+      return this.headerBackgroundConfig.url || null;
     },
 
     headerStyle() {
@@ -113,26 +113,26 @@ export default {
           'background-repeat': 'no-repeat',
           'background-position': 'center',
           'background-attachment': 'scroll',
-          'background-image': `url(${this.headerBackgroundImg})`
-        }
+          'background-image': `url(${this.headerBackgroundImg})`,
+        };
       }
 
       if (!this.$ssrContext && this.headerBackgroundConfig.useGeo !== false) {
         return {
-          'background-image': this.gpImg()
-        }
+          'background-image': this.gpImg(),
+        };
       }
 
-      return {}
-    }
+      return {};
+    },
   },
 
   methods: {
     gpImg() {
-      return GeoPattern.generate(this.nickname, { color: '#eee' }).toDataUrl()
-    }
-  }
-}
+      return GeoPattern.generate(this.nickname, { color: '#eee' }).toDataUrl();
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

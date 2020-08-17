@@ -8,7 +8,8 @@
 
     <PostMeta v-if="meta" />
 
-    <div v-if="vssue" id="post-comments" class="main-div">
+    <!-- 开发环境不显示评论避免跳转 -->
+    <div v-if="vssue && !isLocal" id="post-comments" class="main-div">
       <Vssue :title="vssueTitle" :issue-id="vssueId" />
     </div>
   </div>
@@ -16,12 +17,17 @@
 
 <script>
 import PostMeta from '@theme/components/PostMeta.vue'
+
 export default {
   name: 'Post',
   components: {
-    PostMeta
+    PostMeta,
   },
   computed: {
+    isLocal() {
+      const { hostname } = location
+      return hostname === 'localhost'
+    },
     meta() {
       return this.$frontmatter.meta !== false
     },
@@ -39,7 +45,7 @@ export default {
     },
     vssueId() {
       return this.$frontmatter['vssue-id'] || undefined
-    }
-  }
+    },
+  },
 }
 </script>

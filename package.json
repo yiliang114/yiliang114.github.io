@@ -9,7 +9,7 @@
     "frontmatter": "node utils/frontmatter.js update",
     "sidebar": "node utils/sidebar.js",
     "build": "vuepress build docs",
-    "lint": "eslint --fix \"**/*.{js,vue}\"",
+    "lint": "eslint --fix --ext .vue --ext .js docs/.vuepress/ lib/",
     "pre-deploy": "http-server docs/.vuepress/dist",
     "start": "vuepress dev docs",
     "dev": "vuepress dev docs",
