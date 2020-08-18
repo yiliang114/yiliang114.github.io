@@ -2,13 +2,14 @@
 name: "baiduPush"
 
 on:
-  push:
+  # 去除推送触发
+  # push:
   schedule:
     - cron: "0 23 * * *"
 
 jobs:
   bot:
-    runs-on: ubuntu-latest # 运行环境为最新版的Ubuntu
+    runs-on: ubuntu-latest # 运行环境为最新版的 Ubuntu
     steps:
       - name: "Checkout codes" # 步骤一，获取仓库代码
         uses: actions/checkout@v1
