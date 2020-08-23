@@ -1,12 +1,12 @@
 const autometa_options = {
   site: {
-    name: '易良 yiliang'
+    name: '易良 yiliang',
   },
-  canonical_base: 'https://yiliang.site'
-}
+  canonical_base: 'https://yiliang.site',
+};
 
-const path = require('path')
-const head = require('./config/head.js')
+const path = require('path');
+const head = require('./config/head.js');
 
 module.exports = {
   title: '易良同学的博客',
@@ -23,16 +23,16 @@ module.exports = {
           vue: {
             test: /[\\/]node_modules[\\/](vue|vue-router|vssue)[\\/]/,
             name: 'vendor.vue',
-            chunks: 'all'
+            chunks: 'all',
           },
           commons: {
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
             name: 'vendor.commons',
-            chunks: 'all'
-          }
-        }
-      })
+            chunks: 'all',
+          },
+        },
+      });
     }
   },
 
@@ -52,38 +52,37 @@ module.exports = {
       sns: {
         github: {
           account: 'yiliang',
-          link: 'https://github.com/yiliang114'
+          link: 'https://github.com/yiliang114',
         },
         twitter: {
           account: 'yiliang',
-          link: 'https://twitter.com/yiliang79503471'
+          link: 'https://twitter.com/yiliang79503471',
         },
         weibo: {
           account: '@易良同学',
-          link: 'https://weibo.com/u/3386520174'
+          link: 'https://weibo.com/u/3386520174',
         },
         zhihu: {
           account: '易良',
-          link: 'https://www.zhihu.com/people/Mrz2J'
+          link: 'https://www.zhihu.com/people/Mrz2J',
         },
         csdn: {
           account: 'yiliang',
-          link: 'https://blog.csdn.net/GreekMrzzJ'
+          link: 'https://blog.csdn.net/GreekMrzzJ',
         },
         juejin: {
           account: 'yiliang',
-          link: 'https://juejin.im/user/58809a6db123db0061cfd1c3'
-        }
-      }
+          link: 'https://juejin.im/user/58809a6db123db0061cfd1c3',
+        },
+      },
     },
 
     header: {
       background: {
-        // url:
-        //   'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/4TVbbaNAw9Q-min.jpg',
-        useGeo: true
+        // url: '/images/2.jpg',
+        useGeo: true,
       },
-      showTitle: true
+      showTitle: true,
     },
 
     footer: {
@@ -91,13 +90,14 @@ module.exports = {
       poweredByTheme: false,
       custom:
         'Copyright 2018-present <a href="https://github.com/yiliang114" target="_blank">yiliang114</a> | MIT License',
-      recordVarChar: '浙ICP备16046652号'
+      recordVarChar: '浙ICP备16046652号',
     },
 
     nav: [
       { text: '首页', link: '/', exact: true },
       { text: '文章', link: '/posts/', exact: false },
-      { text: '友链', link: '/links/', exact: false }
+      { text: '友链', link: '/links/', exact: false },
+      { text: '私语', link: '/whisper', exact: false },
       // TODO: 暂时隐藏
       // { text: '分类', link: '/posts/categories/', exact: true }
       // {
@@ -107,7 +107,7 @@ module.exports = {
     ],
 
     pagination: {
-      perPage: 5
+      perPage: 5,
     },
 
     comments: {
@@ -115,14 +115,14 @@ module.exports = {
       repo: 'yiliang114.github.io',
       clientId: '48fbb5f715409b48da06',
       clientSecret: 'c9e49316010d9e3336a6662545cba8b0ab903044',
-      autoCreateIssue: true
+      autoCreateIssue: true,
     },
 
     infoCard: {
       headerBackground: {
         // url: '/assets/img/header-image-01.jpg',
-        useGeo: true
-      }
+        useGeo: true,
+      },
     },
 
     // 友情链接
@@ -144,14 +144,14 @@ module.exports = {
         name: "Evan's blog",
         avatar: 'https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
         desc: 'Web前端技术博客，积跬步以至千里，致敬每个爱学习的你。',
-        link: 'https://xugaoyi.com/'
+        link: 'https://xugaoyi.com/',
       },
       {
         name: 'znote',
         avatar: 'https://zpj80231.gitee.io/znote/vuepress/head-fish.jpg',
         desc: '荷尽已无擎雨盖，菊残犹有傲霜枝',
-        link: 'https://zpj80231.gitee.io/znote/'
-      }
+        link: 'https://zpj80231.gitee.io/znote/',
+      },
       // {
       //   name: "易良同学的博客",
       //   avatar: 'https://yiliang.site/assets/images/avatar.jpeg',
@@ -160,7 +160,7 @@ module.exports = {
       // },
     ],
 
-    lastUpdated: true
+    lastUpdated: true,
   },
 
   plugins: [
@@ -171,16 +171,16 @@ module.exports = {
     [
       'baidu-tongji',
       {
-        hm: '9aff301c4ae8ff27118e8bb605bb3b09'
-      }
+        hm: '9aff301c4ae8ff27118e8bb605bb3b09',
+      },
     ],
     [
       '@vuepress/google-analytics',
       {
-        ga: 'UA-156101458-1'
-      }
+        ga: 'UA-156101458-1',
+      },
     ],
     // 代码拷贝
-    ['vuepress-plugin-code-copy', true]
-  ]
-}
+    ['vuepress-plugin-code-copy', true],
+  ],
+};
