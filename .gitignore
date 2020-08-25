@@ -1,8 +1,10 @@
 node_modules/
 scripts/
+test/
 docs/.vuepress/dist/
 secretKeyConf.js
 files.txt
 temp
 
 .vscode
+

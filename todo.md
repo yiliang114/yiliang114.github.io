@@ -9,7 +9,6 @@
 - [x] 全站 https
 - [x] 全站 cdn 加速
 - [x] 强缓存加速
-- [x] 百度、google seo 搜索
 - [x] 显示所有 tags
 - [x] 备案的 footer
 - [x] 百度和 google 的站点地图主动推送
@@ -25,6 +24,7 @@
 - [ ] 主页面的设置、样式等
 - [ ] google 百度来源分析
 - [ ] docs 友链的形式
+- [] 百度、google seo 搜索
 
 水印 + 图床 + 防盗链
 

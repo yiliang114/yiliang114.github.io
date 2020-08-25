@@ -89,3 +89,41 @@ function findMaxDuplicateChar(str) {
   return maxChar;
 }
 ```
+
+### 随机生成指定长度的字符串
+
+实现一个算法，随机生成指制定长度的字符窜。
+
+比如给定 长度 8 输出 `4ldkfg9j`
+
+```js
+function randomString(n) {
+  const str = 'abcdefghijklmnopqrstuvwxyz9876543210';
+  const len = str.length;
+  let tmp = '';
+  for (let i = 0; i < n; i++) {
+    tmp += str[Math.floor(Math.random() * len)];
+  }
+  return tmp;
+}
+```
+
+### 找出下列正数组的最大差值
+
+比如:
+输入: `[10,5,11,7,8,9]`
+输出: 6
+
+```js
+function getMaxProfit(arr) {
+  let minPrice = arr[0];
+  let maxProfit = 0;
+  for (let i = 0; i < arr.length; i++) {
+    let currentPrice = arr[i];
+    minPrice = Math.min(minPrice, currentPrice);
+    let potentialProfit = currentPrice - minPrice;
+    maxProfit = Math.max(maxProfit, potentialProfit);
+  }
+  return maxProfit;
+}
+```
