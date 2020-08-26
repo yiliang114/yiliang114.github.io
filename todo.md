@@ -25,6 +25,7 @@
 - [ ] google 百度来源分析
 - [ ] docs 友链的形式
 - [] 百度、google seo 搜索
+- 移动端浏览优化
 
 水印 + 图床 + 防盗链
 
@@ -32,3 +33,12 @@
 
 vuepress-theme-yur
 https://www.recoluan.com/
+
+### SEO
+
+- 预渲染
+- api 推送、sitemap
+- 移动端浏览体现
+- 标题、meta 关键字等
+- 友链
+- 内容更新速度
