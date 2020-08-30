@@ -1,7 +1,7 @@
 ---
 layout: CustomPages
 title: 算法
-date: '2020-08-23'
+date: 2020-08-23
 aside: false
 ---
 
@@ -126,6 +126,207 @@ function getMaxProfit(arr) {
   }
   return maxProfit;
 }
+```
+
+### 不借助临时变量，进行两个整数的交换
+
+输入 a = 2, b = 4 输出 a = 4, b =2
+
+这种问题非常巧妙，需要大家跳出惯有的思维，利用 a , b 进行置换。
+
+主要是利用 + – 去进行运算，类似 a = a + ( b – a) 实际上等同于最后 的 a = b;
+
+```js
+function swap(a, b) {
+  b = b - a;
+  a = a + b;
+  b = a - b;
+  return [a, b];
+}
+
+module.exports = swap;
+```
+
+### 使用 canvas 绘制一个有限度的斐波那契数列的曲线？
+
+数列长度限定在 9.
+
+斐波那契数列，又称黄金分割数列，指的是这样一个数列：0、1、1、2、3、5、8、13、21、34、……在数学上，斐波纳契数列主要考察递归的调用。我们一般都知道定义
+
+```js
+fibo[i] = fibo[i - 1] + fibo[i - 2];
+```
+
+生成斐波那契数组的方法
+
+```js
+function getFibonacci(n) {
+  var fibarr = [];
+  var i = 0;
+  while (i < n) {
+    if (i <= 1) {
+      fibarr.push(i);
+    } else {
+      fibarr.push(fibarr[i - 1] + fibarr[i - 2]);
+    }
+    i++;
+  }
+
+  return fibarr;
+}
+```
+
+剩余的工作就是利用 canvas arc 方法进行曲线绘制了
+
+DEMO（http://codepen.io/Jack_Pu/pen/LRaxZB）
+
+### 实现类似 getElementsByClassName 的功能
+
+自己实现一个函数，查找某个 DOM 节点下面的包含某个 class 的所有 DOM 节点？不允许使用原生提供的 getElementsByClassName querySelectorAll 等原生提供 DOM 查找函数。
+
+```js
+function queryClassName(node, name) {
+  var starts = '(^|[ \n\r\t\f])',
+    ends = '([ \n\r\t\f]|$)';
+  var array = [],
+    regex = newRegExp(starts + name + ends),
+    elements = node.getElementsByTagName('*'),
+    length = elements.length,
+    i = 0,
+    element;
+  while (i < length) {
+    element = elements[i];
+    if (regex.test(element.className)) {
+      array.push(element);
+    }
+    i += 1;
+  }
+  return array;
+}
+```
+
+###0 使用 JS 实现二叉查找树(Binary Search Tree)
+
+一般叫全部写完的概率比较少，但是重点考察你对它的理解和一些基本特点的实现。 二叉查找树，也称二叉搜索树、有序二叉树（英语：ordered binary tree）是指一棵空树或者具有下列性质的二叉树：
+
+任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；
+任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；
+任意节点的左、右子树也分别为二叉查找树；
+没有键值相等的节点。二叉查找树相比于其他数据结构的优势在于查找、插入的时间复杂度较低。为 O(log n)。二叉查找树是基础性数据结构，用于构建更为抽象的数据结构，如集合、multiset、关联数组等。
+
+在写的时候需要足够理解二叉搜素树的特点，需要先设定好每个节点的数据结构
+
+```js
+class Node {
+  constructor(data, left, right) {
+    this.data = data;
+    this.left = left;
+    this.right = right;
+  }
+}
+```
+
+树是有节点构成，由根节点逐渐延生到各个子节点，因此它具备基本的结构就是具备一个根节点，具备添加，查找和删除节点的方法.
+
+```js
+
+classBinarySearchTree{
+
+constructor(){
+this.root = null;
+}
+
+insert(data){
+letn = newNode(data,null,null);
+if(!this.root){
+returnthis.root = n;
+}
+let currentNode = this.root;
+let parent = null;
+while(1){
+parent = currentNode;
+if(data < currentNode.data){
+currentNode = currentNode.left;
+if(currentNode === null){
+parent.left = n;
+break;
+}
+}else{
+currentNode = currentNode.right;
+if(currentNode === null){
+parent.right = n;
+break;
+}
+}
+}
+}
+
+remove(data){
+this.root = this.removeNode(this.root,data)
+}
+
+removeNode(node,data){
+if(node == null){
+returnnull;
+}
+
+    if(data == node.data){
+      // no children node
+      if(node.left == null && node.right == null){
+        returnnull;
+      }
+      if(node.left == null){
+        returnnode.right;
+      }
+      if(node.right == null){
+        returnnode.left;
+      }
+
+      let getSmallest = function(node){
+        if(node.left === null && node.right == null){
+          returnnode;
+        }
+        if(node.left != null){
+          returnnode.left;
+        }
+        if(node.right !== null){
+          returngetSmallest(node.right);
+        }
+
+      }
+      let temNode = getSmallest(node.right);
+      node.data = temNode.data;
+      node.right = this.removeNode(temNode.right,temNode.data);
+      returnnode;
+
+    }elseif(data < node.data){
+      node.left = this.removeNode(node.left,data);
+      returnnode;
+    }else{
+      node.right = this.removeNode(node.right,data);
+      returnnode;
+    }
+
+}
+
+find(data){
+varcurrent = this.root;
+while(current != null){
+if(data == current.data){
+break;
+}
+if(data < current.data){
+current = current.left;
+}else{
+current = current.right
+}
+}
+returncurrent.data;
+}
+
+}
+
+module.exports = BinarySearchTree;
 ```
 
 ## 动态规划的规律
