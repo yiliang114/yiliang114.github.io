@@ -21,9 +21,11 @@ aside: false
 
 ## 类型
 
-### 1. 冒泡排序
+### 1. 冒泡排序（稳定）
 
 时间复杂度 `O(n * n)` 原地排序 稳定排序。每次两两比较，大的放到后面。
+
+复杂度：最好 - 最坏 - 平均 O(n) - O(n^2) - O(n^2)
 
 ```js
 function sort(a) {
@@ -42,9 +44,13 @@ function sort(a) {
 }
 ```
 
-### 2. 选择排序
+### 2. 选择排序（不稳定）
 
 选择排序：选中数组中第 i 小的值与第 i 个值进行调换位置。
+
+原理：每次从无序序列选择一个最小的
+
+复杂度：最好 O(n^2) - 最坏 O(n^2) - 平均 O(n^2)
 
 ```js
 function sort(arr) {
@@ -115,7 +121,11 @@ function sort(a) {
 console.log(sort(b));
 ```
 
-### 3. 插入排序
+### 3. 插入排序 （稳定）
+
+原理：从有序序列中选择合适的位置进行插入
+
+复杂度：最好 - 最坏 - 平均 O(n) - O(n^2) - O(n^2)
 
 插入排序：选中某个值，将这个值移动到 `a[i - 1] < a[i] < a[i + 1]` 位置。
 
@@ -196,9 +206,13 @@ function intensifyInsertSort(arr) {
 }
 ```
 
-### 4. 希尔排序
+### 4. 希尔排序 (缩小增量排序， 不稳定)
 
 希尔排序：类似插入排序，但是对调的间隔扩大（插入排序是相邻元素对调位置的）。
+
+按步长进行分组，组内直接插入，缩小增量再次进行此步骤，增量为 1 时相当于一次直接插入。
+
+复杂度：最好 O(n) - 最坏 O(n^s 1<s<2) - 平均 O(n^1.3)
 
 ```js
 function sort(arr) {
@@ -261,11 +275,24 @@ function hillSort(a) {
 console.log(hillSort(b));
 ```
 
-### 5. 快速排序
+### 5. 快速排序（不稳定）
+
+原理：分治+递归
+
+复杂度：最好 O(nlgn) - 最坏 O(n^2) - 平均 O(nlgn)
 
 快速排序：选中某个值，将小于该值的移动到左边，大于该值的移动到右边。然后进入左边和右边部分分别进行快速排序。
 
 快速排序，其效率很高，而其基本原理：算法参考某个元素值，将小于它的值，放到左数组中，大于它的值的元素就放到右数组中，然后递归进行上一次左右数组的操作，返回合并的数组就是已经排好顺序的数组了。
+
+选取 pivot 的方式：固定基准元 随机基准 三数取中
+
+快排的优化：针对随机数组+有序数组+重复数组
+
+1.当待排序序列的长度分割到一定大小后，使用插入排序<三数取中+插入排序>：效率提高一些，但是都解决不了重复数组的问题。
+
+2.在一次分割结束后，可以把与 Key 相等的元素聚在一起，继续下次分割时，不用再对与 key 相等元素分割
+<三数取中+插排+聚集相同元素>
 
 ```js
 /**
@@ -389,7 +416,7 @@ sort(arr, 0, arr.length - 1);
  */
 ```
 
-### 三向快速排序
+#### 三向快速排序
 
 类似快速排序，但是分为了左中右三个部分，中间部分为等于当前值的所有值。适用于有大量重复元素的排序。
 
@@ -469,7 +496,11 @@ S 切分完毕  ["O", "R", "E", "E", "L", "A", "M", "P",|<-| "S",|->| "X", "T"]
  */
 ```
 
-### 6. 归并排序
+### 6. 归并排序（稳定）
+
+原理：两个有序序列的合并，方法：分治 + 递归
+
+复杂度：最好 O(nlgn) - 最坏 O(nlgn) - 平均 O(nlgn)
 
 归并排序：通过去中间值分割数组，然后再对子数组分割，分割到最小单位进行比较，然后逐个合并。还有一种（bottom to top）的方法是先将数组切分为若干段，然后进行合并排序。核心思想就是**分而治之**。
 
@@ -594,52 +625,6 @@ function intensifyMergeSort(arr) {
 }
 ```
 
-### 堆排序
-
-堆排序：利用优先队列可以方便查找最大值的特点，逐个求出最大值，从右到左、从大到小排序。
-
-```cpp
-/**
- * shiftDown 沿着树不断调整位子
- * 比较左右子树，是否有比自己大的，如果有就和大的那个交换位置
- * 使得大的再上，小的在下
- * 为了维持堆的特性，还得把那个交换到子树上的较小元素拿去尝试对他进行shiftDown
- */
-template <typename T>
-void __shiftDown(T arr, int pos, int len) {
-  while(2 * pos + 1 < len){
-    int j = pos * 2 + 1;  //默认左孩子
-    if(j + 1 < len) { //如果有右孩子
-      if(arr[j + 1] > arr[j]) {
-        j += 1;
-      }
-    }
-    if(arr[pos] < arr[j]) {
-      swap(arr[pos], arr[j]);
-      pos = j;  //--这步容易忘，因为是循环，所以每次都要对pos进行shiftDown--
-    } else {
-      break;
-    }
-  }
-}
-/**
- * 通用堆排序
- */
-template <typename T>
-void heapSort(T arr[], int n)
-{
-  //Heapify
-  for(int i = (n-1)/2; i >= 0; i-- ) {
-    __shiftDown(arr, i, n);
-  }
-  //出堆，放到数组末尾
-  for(int i = n - 1; i > 0; i--){
-    swap(arr[i], arr[0]);
-    __shiftDown(arr, 0, i);
-  }
-}
-```
-
 ### 7. 桶排序
 
 ```js
@@ -681,7 +666,11 @@ function bucketSort(a) {
 console.log(bucketSort(b));
 ```
 
-### 8. 基数排序
+### 8. 基数排序（稳定）
+
+原理：分配加收集
+
+复杂度： O(d(n+r)) r 为基数 d 为位数 空间复杂度 O(n+r)
 
 ```js
 // 基数排序
@@ -730,7 +719,51 @@ function insertSort(a) {
 console.log(insertSort(b));
 ```
 
+```js
+/**
+ * Assumes each of the n input elements is an integer in the range 0 --> k,
+ * for some integer k. If k = O(n), then CountingSort runs in ϴ(n) time
+ *
+ * Notes:
+ * - Requires no user input of min or max
+ * - Supports negative numbers
+ *
+ * @complexity: O(k) where k is the range
+ * @flow
+ */
+export default function CountingSort(elements) {
+  let z = 0;
+  let max = elements[0];
+  let min = elements[0];
+  for (let i = 1; i < elements.length; i++) {
+    max = Math.max(max, elements[i]);
+    min = Math.min(min, elements[i]);
+  }
+  const range = max - min;
+
+  const finalArr = new Array(elements.length).fill(0);
+  // Below is where algorithm may be inefficient (when range is too large)
+  const countArr = new Array(range + 1 || 0).fill(0);
+
+  for (let i = 0; i < elements.length; i++) {
+    countArr[elements[i] - min]++;
+  }
+
+  for (let i = 0; i <= range; i++) {
+    while (countArr[i]-- > 0) {
+      finalArr[z++] = i + min;
+    }
+  }
+
+  return finalArr;
+}
+```
+
 ### 10. 堆排序
+
+原理：利用堆的特性
+
+复杂度：O(nlogn) [平均 - 最好 - 最坏]
 
 ```js
 // 堆排序
@@ -800,4 +833,94 @@ function heapify(tree, n, i) {
 const arr = [1, 2, 3, 11, 13, 12, 9, 8, 10, 15, 14, 7];
 heapSort(arr, arr.length);
 console.log(arr);
+```
+
+堆排序：利用优先队列可以方便查找最大值的特点，逐个求出最大值，从右到左、从大到小排序。
+
+```cpp
+/**
+ * shiftDown 沿着树不断调整位子
+ * 比较左右子树，是否有比自己大的，如果有就和大的那个交换位置
+ * 使得大的再上，小的在下
+ * 为了维持堆的特性，还得把那个交换到子树上的较小元素拿去尝试对他进行shiftDown
+ */
+template <typename T>
+void __shiftDown(T arr, int pos, int len) {
+  while(2 * pos + 1 < len){
+    int j = pos * 2 + 1;  //默认左孩子
+    if(j + 1 < len) { //如果有右孩子
+      if(arr[j + 1] > arr[j]) {
+        j += 1;
+      }
+    }
+    if(arr[pos] < arr[j]) {
+      swap(arr[pos], arr[j]);
+      pos = j;  //--这步容易忘，因为是循环，所以每次都要对pos进行shiftDown--
+    } else {
+      break;
+    }
+  }
+}
+/**
+ * 通用堆排序
+ */
+template <typename T>
+void heapSort(T arr[], int n)
+{
+  //Heapify
+  for(int i = (n-1)/2; i >= 0; i-- ) {
+    __shiftDown(arr, i, n);
+  }
+  //出堆，放到数组末尾
+  for(int i = n - 1; i > 0; i--){
+    swap(arr[i], arr[0]);
+    __shiftDown(arr, 0, i);
+  }
+}
+```
+
+```java
+// 堆排序
+public void heapSort(int[] a) {
+	if (null == a || a.length < 2) {
+		return;
+	}
+	buildMaxHeap(a);
+
+	for (int i = a.length - 1; i >= 0; i--) {
+		int temp = a[0];
+		a[0] = a[i];
+		a[i] = temp;
+		adjustHeap(a, i, 0);
+	}
+}
+
+// 建堆
+private void buildMaxHeap(int[] a) {
+	for (int i = a.length/2; i >= 0; i--) {
+		adjustHeap(a, a.length, i);
+	}
+}
+
+// 调整堆
+private void adjustHeap(int[] a, int size, int parent) {
+	int left = 2 * parent + 1;
+	int right = 2 * parent + 2;
+	int largest = parent;
+
+	if (left < size && a[left] > a[largest]) {
+		largest = left;
+	}
+
+	if (right < size && a[right] > a[largest]) {
+		largest = right;
+	}
+
+	if (parent != largest) {
+		int temp = a[parent];
+		a[parent] = a[largest];
+		a[largest] = temp;
+		adjustHeap(a, size, largest);
+	}
+}
 ```

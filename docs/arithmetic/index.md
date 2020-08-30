@@ -127,3 +127,23 @@ function getMaxProfit(arr) {
   return maxProfit;
 }
 ```
+
+## 动态规划的规律
+
+- 递归找解决方案经常会超时，因为递归类似 DFS，每个都在走到黑再回头。
+- 求概率、步数、步骤这种使用 dp 更好一些。
+- 当 DFS 算法超时时使用 dp 算法来做。
+- 使用 `for (let j = 0; i != j && j < points.length; j++)` 来遍历并剔除 i 是及其错误的，这样会中断 for 循环。
+- Number 的 toString 方法可以返回 2-36 进制的数字
+
+### 刷题心得
+
+- [LeetCode 算法题刷题心得（JavaScript）](https://www.jianshu.com/p/8876704ea9c8)
+
+1. 数据结构/算法导论 https://www.jianshu.com/nb/12397278
+2. OJ 练习题 https://www.jianshu.com/nb/9973135
+
+### 递归搜索和动态规划 的理解的 blog
+
+1. https://www.jianshu.com/p/5eb4da919efe
+2. https://www.jianshu.com/p/6b3a2304f63f
