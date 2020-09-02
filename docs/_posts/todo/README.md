@@ -1,7 +1,6 @@
 ---
 title: 'TODO'
 date: '2020-08-01'
-display: none
 draft: true
 ---
 
