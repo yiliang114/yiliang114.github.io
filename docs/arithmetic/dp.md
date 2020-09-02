@@ -62,8 +62,6 @@ function sum(nums) {
 
 我们用递归树来直观地看一下。
 
-![dynamic-programming-1](../assets/thinkings/dynamic-programming-1.png)
-
 这种做法本身没有问题，但是每次执行一个函数都有一定的开销，拿 JS 引擎执行 JS 来说，
 每次函数执行都会进行入栈操作，并进行预处理和执行过程，所以对于内存来说是一个挑战。
 很容易造成爆栈。
@@ -84,10 +82,7 @@ function climbStairs(n) {
 }
 ```
 
-这道题和 fibnacci 数列一摸一样，我们继续用一个递归树来直观感受以下：
-
-![dynamic-programming-2](../assets/thinkings/dynamic-programming-2.png)
-
+这道题和 fibnacci 数列一摸一样。
 可以看出这里面有很多重复计算，我们可以使用一个 hashtable 去缓存中间计算结果，从而省去不必要的计算。
 那么动态规划是怎么解决这个问题呢？ 答案就是“查表”。
 
@@ -115,10 +110,6 @@ function climbStairs(n) {
   return temp;
 }
 ```
-
-动态规划的查表过程如果画成图，就是这样的：
-
-![dynamic-programming-3](../assets/thinkings/dynamic-programming-3.png)
 
 > 虚线代表的是查表过程
 

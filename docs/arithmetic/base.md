@@ -30,11 +30,7 @@ aside: false
 
 ##### React Hooks
 
-Hooks 的本质就是一个数组， 伪代码：
-
-![basic-data-structure-hooks.png](../assets/thinkings/basic-data-structure-hooks.png)
-
-那么为什么 hooks 要用数组？ 我们可以换个角度来解释，如果不用数组会怎么样？
+Hooks 的本质就是一个数组。 那么为什么 hooks 要用数组？ 我们可以换个角度来解释，如果不用数组会怎么样？
 
 ```js
 function Form() {
@@ -97,10 +93,6 @@ React 将`如何确保组件内部hooks保存的状态之间的对应关系`这�
 
 队列中元素先进先出 FIFO (first in, first out)的示意：
 
-![basic-data-structure-queue](../assets/thinkings/basic-data-structure-queue.svg)
-
-(图片来自 https://github.com/trekhleb/javascript-algorithms/blob/master/src/data-structures/queue/README.zh-CN.md)
-
 我们前端在做性能优化的时候，很多时候会提到的一点就是“HTTP 1.1 的队头阻塞问题”，具体来说
 就是 HTTP2 解决了 HTTP1.1 中的队头阻塞问题，但是为什么 HTTP1.1 有队头阻塞问题，HTTP2 究竟怎么解决的很多人都不清楚。
 
@@ -110,17 +102,11 @@ React 将`如何确保组件内部hooks保存的状态之间的对应关系`这�
 
 这就好像我们在等红绿灯，即使旁边绿灯亮了，你的这个车道是红灯，你还是不能走，还是要等着。
 
-![basic-data-structure-queue-1](../assets/thinkings/basic-data-structure-queue-1.png)
-
 `HTTP/1.0` 和 `HTTP/1.1`:
 在`HTTP/1.0` 中每一次请求都需要建立一个 TCP 连接，请求结束后立即断开连接。
 在`HTTP/1.1` 中，每一个连接都默认是长连接(persistent connection)。对于同一个 tcp 连接，允许一次发送多个 http1.1 请求，也就是说，不必等前一个响应收到，就可以发送下一个请求。这样就解决了 http1.0 的客户端的队头阻塞，而这也就是`HTTP/1.1`中`管道(Pipeline)`的概念了。
 但是，`http1.1规定，服务器端的响应的发送要根据请求被接收的顺序排队`，也就是说，先接收到的请求的响应也要先发送。这样造成的问题是，如果最先收到的请求的处理时间长的话，响应生成也慢，就会阻塞已经生成了的响应的发送。也会造成队头阻塞。
 可见，http1.1 的队首阻塞发生在服务器端。
-
-如果用图来表示的话，过程大概是：
-
-![basic-data-structure-queue-2](../assets/thinkings/basic-data-structure-queue-2.png)
 
 `HTTP/2` 和 `HTTP/1.1`:
 
@@ -144,12 +130,6 @@ pop, 移除栈最顶端(末尾)的元素.
 
 > "栈"这个名称,可类比于一组物体的堆叠(一摞书,一摞盘子之类的)。
 
-栈的 push 和 pop 操作的示意:
-
-![basic-data-structure-stack](../assets/thinkings/basic-data-structure-stack.png)
-
-(图片来自 https://github.com/trekhleb/javascript-algorithms/blob/master/src/data-structures/stack/README.zh-CN.md)
-
 栈在很多地方都有着应用，比如大家熟悉的浏览器就有很多栈，其实浏览器的执行栈就是一个基本的栈结构，从数据结构上说，它就是一个栈。
 这也就解释了，我们用递归的解法和用循环+栈的解法本质上是差不多。
 
@@ -169,10 +149,6 @@ function foo() {
 foo();
 ```
 
-真正执行的时候，内部大概是这样的：
-
-![basic-data-structure-call-stack](../assets/thinkings/basic-data-structure-call-stack.png)
-
 > 我画的图没有画出执行上下文中其他部分（this 和 scope 等）， 这部分是闭包的关键，而我这里不是将闭包的，是为了讲解栈的。
 
 > 社区中有很多“执行上下文中的 scope 指的是执行栈中父级声明的变量”说法，这是完全错误的， JS 是词法作用域，scope 指的是函数定义时候的父级，和执行没关系
@@ -186,19 +162,11 @@ foo();
 
 链表是一种最基本数据结构，熟练掌握链表的结构和常见操作是基础中的基础。
 
-![basic-data-structure-link-list](../assets/thinkings/basic-data-structure-link-list.svg)
-
-(图片来自： https://github.com/trekhleb/javascript-algorithms/tree/master/src/algorithms/linked-list/traversal)
-
 ##### React Fiber
 
 很多人都说 fiber 是基于链表实现的，但是为什么要基于链表呢，可能很多人并没有答案，那么我觉得可以把这两个点（fiber 和链表）放到一起来讲下。
 
 fiber 出现的目的其实是为了解决 react 在执行的时候是无法停下来的，需要一口气执行完的问题的。
-
-![fiber-intro](../assets/thinkings/basic-data-structure-fiber-intro.png)
-
-图片来自 Lin Clark 在 ReactConf 2017 分享
 
 上面已经指出了引入 fiber 之前的问题，就是 react 会阻止优先级高的代码（比如用户输入）执行。因此 fiber
 打算自己自建一个`虚拟执行栈`来解决这个问题，这个虚拟执行栈的实现是链表。
@@ -460,59 +428,57 @@ var isValid = function (s) {
 
 `shiftDown` 的核心思路是先将根节点和末尾交换位置，然后移除末尾元素。接下来循环判断父节点和两个子节点的大小，如果子节点大，就把最大的子节点和父节点交换。
 
-![img](./images/164009e58a5a21f8.jpg)
-
-```
+```js
 class MaxHeap {
   constructor() {
-    this.heap = []
+    this.heap = [];
   }
   size() {
-    return this.heap.length
+    return this.heap.length;
   }
   empty() {
-    return this.size() == 0
+    return this.size() == 0;
   }
   add(item) {
-    this.heap.push(item)
-    this._shiftUp(this.size() - 1)
+    this.heap.push(item);
+    this._shiftUp(this.size() - 1);
   }
   removeMax() {
-    this._shiftDown(0)
+    this._shiftDown(0);
   }
   getParentIndex(k) {
-    return parseInt((k - 1) / 2)
+    return parseInt((k - 1) / 2);
   }
   getLeftIndex(k) {
-    return k * 2 + 1
+    return k * 2 + 1;
   }
   _shiftUp(k) {
     // 如果当前节点比父节点大，就交换
     while (this.heap[k] > this.heap[this.getParentIndex(k)]) {
-      this._swap(k, this.getParentIndex(k))
+      this._swap(k, this.getParentIndex(k));
       // 将索引变成父节点
-      k = this.getParentIndex(k)
+      k = this.getParentIndex(k);
     }
   }
   _shiftDown(k) {
     // 交换首位并删除末尾
-    this._swap(k, this.size() - 1)
-    this.heap.splice(this.size() - 1, 1)
+    this._swap(k, this.size() - 1);
+    this.heap.splice(this.size() - 1, 1);
     // 判断节点是否有左孩子，因为二叉堆的特性，有右必有左
     while (this.getLeftIndex(k) < this.size()) {
-      let j = this.getLeftIndex(k)
+      let j = this.getLeftIndex(k);
       // 判断是否有右孩子，并且右孩子是否大于左孩子
-      if (j + 1 < this.size() && this.heap[j + 1] > this.heap[j]) j++
+      if (j + 1 < this.size() && this.heap[j + 1] > this.heap[j]) j++;
       // 判断父节点是否已经比子节点都大
-      if (this.heap[k] >= this.heap[j]) break
-      this._swap(k, j)
-      k = j
+      if (this.heap[k] >= this.heap[j]) break;
+      this._swap(k, j);
+      k = j;
     }
   }
   _swap(left, right) {
-    let rightValue = this.heap[right]
-    this.heap[right] = this.heap[left]
-    this.heap[left] = rightValue
+    let rightValue = this.heap[right];
+    this.heap[right] = this.heap[left];
+    this.heap[left] = rightValue;
   }
 }
 ```
@@ -557,8 +523,6 @@ B-tree 树即 B 树，B 即 Balanced，平衡的意思。因为 B 树的原英�
 #### 概念
 
 队列是一个线性结构，特点是在某一端添加数据，在另一端删除数据，遵循先进先出的原则。
-
-![img](./images/1637cba2a6155793.jpg)
 
 #### 实现
 
@@ -660,8 +624,6 @@ class SqQueue {
 #### 概念
 
 链表是一个线性结构，同时也是一个天然的递归结构。链表结构可以充分利用计算机内存空间，实现灵活的内存动态管理。但是链表失去了数组随机读取的优点，同时链表由于增加了结点的指针域，空间开销比较大。
-
-![img](./images/16388487759b1152.jpg)
 
 #### 实现
 
@@ -774,53 +736,49 @@ var reverseList = function(head) {
 
 二叉树拥有一个根节点，每个节点至多拥有两个子节点，分别为：左节点和右节点。树的最底部节点称之为叶节点，当一颗树的叶数量数量为满时，该树可以称之为满二叉树。
 
-![img](./images/163884f74c9f4e4d.jpg)
-
 #### 二分搜索树
 
 二分搜索树也是二叉树，拥有二叉树的特性。但是区别在于二分搜索树每个节点的值都比他的左子树的值大，比右子树的值小。
 
 这种存储方式很适合于数据搜索。如下图所示，当需要查找 6 的时候，因为需要查找的值比根节点的值大，所以只需要在根节点的右子树上寻找，大大提高了搜索效率。
 
-![img](./images/1638850ba7458208.jpg)
-
 #### 实现
 
-```
+```js
 class Node {
   constructor(value) {
-    this.value = value
-    this.left = null
-    this.right = null
+    this.value = value;
+    this.left = null;
+    this.right = null;
   }
 }
 class BST {
   constructor() {
-    this.root = null
-    this.size = 0
+    this.root = null;
+    this.size = 0;
   }
   getSize() {
-    return this.size
+    return this.size;
   }
   isEmpty() {
-    return this.size === 0
+    return this.size === 0;
   }
   addNode(v) {
-    this.root = this._addChild(this.root, v)
+    this.root = this._addChild(this.root, v);
   }
   // 添加节点时，需要比较添加的节点值和当前
   // 节点值的大小
   _addChild(node, v) {
     if (!node) {
-      this.size++
-      return new Node(v)
+      this.size++;
+      return new Node(v);
     }
     if (node.value > v) {
-      node.left = this._addChild(node.left, v)
+      node.left = this._addChild(node.left, v);
     } else if (node.value < v) {
-      node.right = this._addChild(node.right, v)
+      node.right = this._addChild(node.right, v);
     }
-    return node
+    return node;
   }
 }
 ```
@@ -1267,8 +1225,6 @@ AVL 树改进了二分搜索树，在 AVL 树中任意节点的左右子树的�
 
 对于 AVL 树来说，添加节点会有四种情况
 
-![img](./images/1642cc145a0cfb26.jpg)
-
 对于左左情况来说，新增加的节点位于节点 2 的左侧，这时树已经不平衡，需要旋转。因为搜索树的特性，节点比左节点大，比右节点小，所以旋转以后也要实现这个特性。
 
 旋转之前：new < 2 < C < 3 < B < 5 < A，右旋之后节点 3 为根节点，这时候需要将节点 3 的右节点加到节点 5 的左边，最后还需要更新节点的高度。
@@ -1407,75 +1363,71 @@ class AVL {
 - 节点不存储字符，只有路径才存储，这点和其他的树结构不同
 - 从根节点开始到任意一个节点，将沿途经过的字符连接起来就是该节点对应的字符串
 
-![img](./images/163e1d2f6cec3348.jpg)
-
-、
-
 #### 实现
 
 总得来说 Trie 的实现相比别的树结构来说简单的很多，实现就以搜索英文字符为例。
 
-```
+```js
 class TrieNode {
   constructor() {
     // 代表每个字符经过节点的次数
-    this.path = 0
+    this.path = 0;
     // 代表到该节点的字符串有几个
-    this.end = 0
+    this.end = 0;
     // 链接
-    this.next = new Array(26).fill(null)
+    this.next = new Array(26).fill(null);
   }
 }
 class Trie {
   constructor() {
     // 根节点，代表空字符
-    this.root = new TrieNode()
+    this.root = new TrieNode();
   }
   // 插入字符串
   insert(str) {
-    if (!str) return
-    let node = this.root
+    if (!str) return;
+    let node = this.root;
     for (let i = 0; i < str.length; i++) {
       // 获得字符先对应的索引
-      let index = str[i].charCodeAt() - 'a'.charCodeAt()
+      let index = str[i].charCodeAt() - 'a'.charCodeAt();
       // 如果索引对应没有值，就创建
       if (!node.next[index]) {
-        node.next[index] = new TrieNode()
+        node.next[index] = new TrieNode();
       }
-      node.path += 1
-      node = node.next[index]
+      node.path += 1;
+      node = node.next[index];
     }
-    node.end += 1
+    node.end += 1;
   }
   // 搜索字符串出现的次数
   search(str) {
-    if (!str) return
-    let node = this.root
+    if (!str) return;
+    let node = this.root;
     for (let i = 0; i < str.length; i++) {
-      let index = str[i].charCodeAt() - 'a'.charCodeAt()
+      let index = str[i].charCodeAt() - 'a'.charCodeAt();
       // 如果索引对应没有值，代表没有需要搜素的字符串
       if (!node.next[index]) {
-        return 0
+        return 0;
       }
-      node = node.next[index]
+      node = node.next[index];
     }
-    return node.end
+    return node.end;
   }
   // 删除字符串
   delete(str) {
-    if (!this.search(str)) return
-    let node = this.root
+    if (!this.search(str)) return;
+    let node = this.root;
     for (let i = 0; i < str.length; i++) {
-      let index = str[i].charCodeAt() - 'a'.charCodeAt()
+      let index = str[i].charCodeAt() - 'a'.charCodeAt();
       // 如果索引对应的节点的 Path 为 0，代表经过该节点的字符串
       // 已经一个，直接删除即可
       if (--node.next[index].path == 0) {
-        node.next[index] = null
-        return
+        node.next[index] = null;
+        return;
       }
-      node = node.next[index]
+      node = node.next[index];
     }
-    node.end -= 1
+    node.end -= 1;
   }
 }
 ```
@@ -1491,21 +1443,19 @@ class Trie {
 - Find：确定元素属于哪一个子集。它可以被用来确定两个元素是否属于同一子集。
 - Union：将两个子集合并成同一个集合。
 
-![img](./images/163e45b56fd25172.jpg)
-
 #### 实现
 
-```
+```js
 class DisjointSet {
   // 初始化样本
   constructor(count) {
     // 初始化时，每个节点的父节点都是自己
-    this.parent = new Array(count)
+    this.parent = new Array(count);
     // 用于记录树的深度，优化搜索复杂度
-    this.rank = new Array(count)
+    this.rank = new Array(count);
     for (let i = 0; i < count; i++) {
-      this.parent[i] = i
-      this.rank[i] = 1
+      this.parent[i] = i;
+      this.rank[i] = 1;
     }
   }
   find(p) {
@@ -1514,29 +1464,29 @@ class DisjointSet {
     // 假设当前节点父节点为 A
     // 将当前节点挂载到 A 节点的父节点上，达到压缩深度的目的
     while (p != this.parent[p]) {
-      this.parent[p] = this.parent[this.parent[p]]
-      p = this.parent[p]
+      this.parent[p] = this.parent[this.parent[p]];
+      p = this.parent[p];
     }
-    return p
+    return p;
   }
   isConnected(p, q) {
-    return this.find(p) === this.find(q)
+    return this.find(p) === this.find(q);
   }
   // 合并
   union(p, q) {
     // 找到两个数字的父节点
-    let i = this.find(p)
-    let j = this.find(q)
-    if (i === j) return
+    let i = this.find(p);
+    let j = this.find(q);
+    if (i === j) return;
     // 判断两棵树的深度，深度小的加到深度大的树下面
     // 如果两棵树深度相等，那就无所谓怎么加
     if (this.rank[i] < this.rank[j]) {
-      this.parent[i] = j
+      this.parent[i] = j;
     } else if (this.rank[i] > this.rank[j]) {
-      this.parent[j] = i
+      this.parent[j] = i;
     } else {
-      this.parent[i] = j
-      this.rank[j] += 1
+      this.parent[i] = j;
+      this.rank[j] += 1;
     }
   }
 }

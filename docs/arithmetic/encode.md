@@ -17,8 +17,6 @@ huffman 编码的基本思想就是用短的编码表示长的字符序列，用
 上面提到了他的基本原理就是`用短的编码表示长的字符序列，用长的编码来表示短的字符序列`,
 因此首先要做的就是统一字符序列的出现频率，然后根据统计的频率来构建 huffman 树（又叫最优二叉树）。
 
-![huffman-tree](../assets/thinkings/huffman-tree.webp)
-
 huffman 树就像是一个堆。 真正执行编码的时候，类似字典树，节点不用来编码，节点的路径用来编码
 
 > 节点的值只是用来构建 huffman 树
@@ -42,10 +40,6 @@ character   frequency
 
 - `选取两个权值最小的节点`，并添加一个权值为 5+9=14 的节点，作为他们的父节点。并`更新最小堆`，
   现在最小堆包含 5 个节点，其中 4 个树还是原来的节点，权值为 5 和 9 的节点合并为一个。
-
-结果是这样的：
-
-![huffman-example](../assets/thinkings/huffman-example.png)
 
 ```
 character   frequency   encodeing
