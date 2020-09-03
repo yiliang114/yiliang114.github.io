@@ -2,8 +2,7 @@
 title: 'element-table组件内容换行方案'
 date: '2018-03-17'
 tags:
-  - element
-  - table
+  - vue
 ---
 
 ### element table 组件内容换行方案
@@ -25,9 +24,7 @@ tags:
   <el-table-column label="相似度" prop="sim" />
   <el-table-column label="详情">
     <template slot-scope="scope">
-      <el-button @click="detail(scope.row)" type="primary" size="mini" plain
-        >查看</el-button
-      >
+      <el-button @click="detail(scope.row)" type="primary" size="mini" plain>查看</el-button>
     </template>
   </el-table-column>
   <el-table-column label="确认时间" prop="acktime" :formatter="timeFormatter" />

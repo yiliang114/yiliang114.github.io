@@ -1,7 +1,6 @@
 ---
 title: 'linux找不到 iptables 文件'
 date: '218-10-11'
-category: linux
 tags:
   - linux
 ---

@@ -3,7 +3,6 @@ title: 'generate-vuex'
 date: '2020-09-02'
 categories:
   - vue
-  - vuex
 ---
 
 ## generate-vuex

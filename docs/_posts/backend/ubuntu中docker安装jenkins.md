@@ -2,7 +2,6 @@
 title: 'ubuntu中docker安装jenkins'
 date: '2018-10-25'
 tags:
-  - ubuntu
   - jenkins
 ---
 

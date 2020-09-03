@@ -1,8 +1,6 @@
 ---
 title: 'vim基本操作'
 date: '2019-05-14'
-tags:
-  - vim
 ---
 
 ### vim 基本操作
