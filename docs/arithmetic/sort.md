@@ -25,7 +25,11 @@ aside: false
 
 时间复杂度 `O(n * n)` 原地排序 稳定排序。每次两两比较，大的放到后面。
 
-复杂度：最好 - 最坏 - 平均 O(n) - O(n^2) - O(n^2)
+复杂度：
+
+- 最好 O(n)
+- 最坏 O(n^2)
+- 平均 O(n^2)
 
 ```js
 function sort(a) {
@@ -48,91 +52,52 @@ function sort(a) {
 
 选择排序：选中数组中第 i 小的值与第 i 个值进行调换位置。
 
-原理：每次从无序序列选择一个最小的
+原理：每次从无序序列选择一个最小的。每一轮从数组的未排序部分加一开始，找到一个最小的值的索引，然后与未排序将其放到未排序部分的最左位置。
 
-复杂度：最好 O(n^2) - 最坏 O(n^2) - 平均 O(n^2)
+复杂度：
+
+- 最好 O(n^2)
+- 最坏 O(n^2)
+- 平均 O(n^2)
 
 ```js
+// 选择排序是每次都在寻找最小值。 已排序部分是从小到大排好的
+// 选择排序，从头至尾扫描序列，找出最小的一个元素，和第一个元素交换，接着从剩下的元素中继续这种选择和交换方式，最终得到一个有序序列。
+// 时间复杂度 O(n * n) 原地排序 不稳定排序
 function sort(arr) {
   const len = arr.length;
   for (let i = 0; i < len; i++) {
     let min = i;
+    // 找到第 n 个最小值。 在 arr[i + 1, arr.length - 1] 中找最小值索引， i+1 代表有序的下一个数，我们默认第一个元素是最小的
     for (let j = i + 1; j < len; j++) {
       if (arr[j] < arr[min]) min = j;
     }
-    swap(arr, i, min);
+    // 每次循环， a[i] 位都将是未选择出的数据中的最小值
+    if (min !== i) {
+      [arr[i], arr[min]] = [arr[min], arr[i]];
+    }
   }
   return arr;
 }
-
-function swap(arr, a, b) {
-  let x = arr[a];
-  arr[a] = arr[b];
-  arr[b] = x;
-}
-```
-
-每一轮从数组的未排序部分加一开始，找到一个最小的值的索引，然后与未排序将其放到未排序部分的最左位置。
-
-```js
-function selectionSort(arr) {
-  // 选多少次
-  for (let i = 0; i < arr.length - 1; i++) {
-    let minIndex = i;
-    // 在arr[i + 1, ] 中找最小值索引， i+1 代表有序的下一个数，我们默认第一个元素是最小的
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[minIndex]) {
-        minIndex = j;
-      }
-    }
-    if (minIndex != i) {
-      // 交换
-      let temp = arr[minIndex];
-      arr[minIndex] = arr[i];
-      arr[i] = temp;
-    }
-  }
-}
-```
-
-```js
-const b = [3, 4, 6, 1, 3, 6, 32, 45, 21, 12];
-
-// 选择排序是每次都在寻找最小值。 已排序部分是从小到大排好的
-// 选择排序，从头至尾扫描序列，找出最小的一个元素，和第一个元素交换，接着从剩下的元素中继续这种选择和交换方式，最终得到一个有序序列。
-// 时间复杂度 O(n * n) 原地排序 不稳定排序
-function sort(a) {
-  for (let i = 0; i < a.length - 1; i++) {
-    // 每次应该默认基准值为最小，在剩余部分中尝试找出一个更小的数
-    let minIndex = i;
-    for (let j = i + 1; j < a.length; j++) {
-      if (a[j] < a[minIndex]) {
-        minIndex = j;
-      }
-    }
-    // 每次循环， a[i] 位都将是未选择出的数据中的最小值
-    if (minIndex !== i) {
-      [a[i], a[minIndex]] = [a[minIndex], a[i]];
-    }
-  }
-  return a;
-}
-
-console.log(sort(b));
 ```
 
 ### 3. 插入排序 （稳定）
 
+插入排序：选中某个值，将这个值移动到 `a[i - 1] < a[i] < a[i + 1]` 位置。
+
 原理：从有序序列中选择合适的位置进行插入
 
-复杂度：最好 - 最坏 - 平均 O(n) - O(n^2) - O(n^2)
+复杂度：
 
-插入排序：选中某个值，将这个值移动到 `a[i - 1] < a[i] < a[i + 1]` 位置。
+- 最好 O(n)
+- 最坏 O(n^2)
+- 平均 O(n^2)
 
 ```js
 function sort(arr) {
   const len = arr.length;
   for (let i = 1; i < len; i++) {
+    // 0 - i 已经是有序序列。
     for (let j = i; j > 0 && arr[j] < arr[j - 1]; j--) {
       swap(arr, j, j - 1);
       console.log(arr);
