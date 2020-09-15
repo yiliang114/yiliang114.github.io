@@ -173,7 +173,7 @@ nginx: /usr/sbin/nginx /etc/nginx /usr/share/nginx
 
 ```
 FROM ubuntu:14.04
-MAINTAINER mrjzhang mrjzhang@tencent.com
+MAINTAINER yiliang 1144323068@qq.com
 RUN apt-get update
 RUN apt-get install -y nginx
 COPY ./www/user/share/nginx/html
@@ -184,7 +184,7 @@ CMD ["nginx","-g","daemon off;"]
 docker 构建运行
 
 ```
-docker build -t="mrjzhang/nginx-demo 0.0.1"
+docker build -t="yiliang/nginx-demo 0.0.1"
 ```
 
 ### 删除多个 images
