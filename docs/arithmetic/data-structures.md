@@ -1533,7 +1533,7 @@ export default class DisjointSet {
 
 ##### 插入
 
-```text
+```
 Add(value)
   Pre: value is the value to add to the list
   Post: value has been placed at the tail of the list
@@ -1551,7 +1551,7 @@ end Add
 
 ##### 删除
 
-```text
+```
 Remove(head, value)
   Pre: head is the head node in the list
        value is the value to remove from the list
@@ -1588,7 +1588,7 @@ end Remove
 
 ##### 反向遍历
 
-```text
+```
 ReverseTraversal(tail)
   Pre: tail is the node of the list to traverse
   Post: the list has been traversed in reverse order
@@ -2803,7 +2803,7 @@ export default class MaxHeap extends Heap {
 
 ##### 插入
 
-```text
+```
 Add(value)
   Pre: value is the value to add to the list
   Post: value has been placed at the tail of the list
@@ -2833,7 +2833,7 @@ end Prepend
 
 ##### 搜索
 
-```text
+```
 Contains(head, value)
   Pre: head is the head node in the list
        value is the value to search for
@@ -2851,7 +2851,7 @@ end Contains
 
 ##### 删除
 
-```text
+```
 Remove(head, value)
   Pre: head is the head node in the list
        value is the value to remove from the list
@@ -2885,7 +2885,7 @@ end Remove
 
 ##### 遍历
 
-```text
+```
 Traverse(head)
   Pre: head is the head node in the list
   Post: the items in the list have been traversed
@@ -2899,7 +2899,7 @@ end Traverse
 
 ##### 反向遍历
 
-```text
+```
 ReverseTraversal(head, tail)
   Pre: head and tail belong to the same list
   Post: the items in the list have been traversed in reverse order
