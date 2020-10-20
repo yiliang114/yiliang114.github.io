@@ -97,10 +97,10 @@ module.exports = {
       { text: '首页', link: '/', exact: true },
       { text: '文章', link: '/posts/', exact: false },
       { text: '友链', link: '/links/', exact: false },
-      { text: '算法', link: '/arithmetic/', exact: false },
-      { text: '私语', link: '/whisper', exact: false },
-      // { text: '拉钩', link: '/lagou', exact: false },
       // TODO: 暂时隐藏
+      // { text: '算法', link: '/arithmetic/', exact: false },
+      // { text: '私语', link: '/whisper', exact: false },
+      // { text: '拉钩', link: '/lagou', exact: false },
       // { text: '分类', link: '/posts/categories/', exact: true }
       // {
       //   text: '关于我',

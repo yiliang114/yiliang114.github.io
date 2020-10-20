@@ -3,7 +3,7 @@ name: "baiduPush"
 
 on:
   # 去除推送触发
-  # push:
+  push:
   schedule:
     - cron: "0 23 * * *"
 
