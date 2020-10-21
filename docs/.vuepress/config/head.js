@@ -10,11 +10,13 @@ module.exports = [
     },
   ],
   // 不蒜子统计
-  [
-    'script',
-    {
-      async: true,
-      src: '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js',
-    },
-  ],
+  process.env.NODE_ENV === 'production'
+    ? [
+        'script',
+        {
+          async: true,
+          src: '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js',
+        },
+      ]
+    : [],
 ];
