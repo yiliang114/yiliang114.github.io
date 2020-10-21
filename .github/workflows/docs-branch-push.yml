@@ -27,7 +27,8 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          yarn install
+          npm install
+      #           yarn install
 
       - name: Build
         run: |
