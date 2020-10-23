@@ -71,6 +71,7 @@ https://yiliang.site/posts/2020/09/15/设计模式.html
 https://yiliang.site/posts/2020/09/16/docker介绍.html
 https://yiliang.site/posts/2020/09/16/docker部署nodejs应用.html
 https://yiliang.site/posts/2020/09/16/ubuntu-安装-docker.html
+https://yiliang.site/posts/2020/10/22/支付宝的坑点.html
 https://yiliang.site/posts/218/10/11/linux找不到iptables文件.html
 https://yiliang.site/posts/categories/index.html
 https://yiliang.site/posts/categories/vue.html

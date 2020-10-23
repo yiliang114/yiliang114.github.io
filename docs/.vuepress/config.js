@@ -13,6 +13,9 @@ module.exports = {
   base: '/',
   head,
 
+  description:
+    'web前端技术博客,简洁至上,专注web前端学习与总结。JavaScript,js,ES6,TypeScript,vue,python,css3,html5,Node,git,github等技术文章。',
+
   evergreen: true,
 
   chainWebpack: (config, isServer) => {
