@@ -18,7 +18,8 @@
 <script>
 import PostMeta from '@theme/components/PostMeta.vue';
 
-const isProd = process.env.NODE_ENV;
+const isProd = process.env.NODE_ENV === 'production';
+
 export default {
   name: 'Post',
   data() {
