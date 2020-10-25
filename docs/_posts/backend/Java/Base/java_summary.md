@@ -471,7 +471,7 @@ Java在编译和运行程序时，都要对可能出现的问题进行检查，�
 **31. Java语法糖**
 
 1. Java7的switch用字符串 - hashcode方法 switch用于enum枚举
-2. 伪泛型 - List<E>原始类型
+2. 伪泛型 - List 原始类型
 3. 自动装箱拆箱 - Integer.valueOf和Integer.intValue
 4. foreach遍历 - Iterator迭代器实现
 5. 条件编译

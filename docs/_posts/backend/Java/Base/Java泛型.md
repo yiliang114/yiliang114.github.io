@@ -64,9 +64,9 @@ public class GenericTest {
 }
 ```
 
-采用泛型写法后，在//1 处想加入一个 Integer 类型的对象时会出现编译错误，通过 List<String>，直接限定了 list 集合中只能含有 String 类型的元素，从而在//2 处无须进行强制类型转换，因为此时，集合能够记住元素的类型信息，编译器已经能够确认它是 String 类型了。
+采用泛型写法后，在//1 处想加入一个 Integer 类型的对象时会出现编译错误，通过 `List<String>` ，直接限定了 list 集合中只能含有 String 类型的元素，从而在//2 处无须进行强制类型转换，因为此时，集合能够记住元素的类型信息，编译器已经能够确认它是 String 类型了。
 
-结合上面的泛型定义，我们知道在 List<String>中，String 是类型实参，也就是说，相应的 List 接口中肯定含有类型形参。且 get()方法的返回结果也直接是此形参类型（也就是对应的传入的类型实参）。下面就来看看 List 接口的的具体定义：
+结合上面的泛型定义，我们知道在 `List<String>` 中，String 是类型实参，也就是说，相应的 List 接口中肯定含有类型形参。且 get()方法的返回结果也直接是此形参类型（也就是对应的传入的类型实参）。下面就来看看 List 接口的的具体定义：
 
 ```java
 public interface List<E> extends Collection<E> {
@@ -123,7 +123,7 @@ public interface List<E> extends Collection<E> {
 }
 ```
 
-我们可以看到，在 List 接口中采用泛型化定义之后，<E>中的 E 表示类型形参，可以接收具体的类型实参，并且此接口定义中，凡是出现 E 的地方均表示相同的接受自外部的类型实参。
+我们可以看到，在 List 接口中采用泛型化定义之后，`<E>`中的 E 表示类型形参，可以接收具体的类型实参，并且此接口定义中，凡是出现 E 的地方均表示相同的接受自外部的类型实参。
 自然的，ArrayList 作为 List 接口的实现类，其定义形式是：
 
 ```java
@@ -212,7 +212,7 @@ public class GenericTest {
 
 ## 类型通配符
 
-接着上面的结论，我们知道，Box<Number>和 Box<Integer>实际上都是 Box 类型，现在需要继续探讨一个问题，那么在逻辑上，类似于 Box<Number>和 Box<Integer>是否可以看成具有父子关系的泛型类型呢？
+接着上面的结论，我们知道，`Box<Number>`和 `Box<Integer>`实际上都是 Box 类型，现在需要继续探讨一个问题，那么在逻辑上，类似于 `Box<Number>`和 `Box<Integer>`是否可以看成具有父子关系的泛型类型呢？
 
 为了弄清这个问题，我们继续看下下面这个例子:
 
@@ -239,7 +239,7 @@ public class GenericTest {
 }
 ```
 
-我们发现，在代码//1 处出现了错误提示信息：The method getData(Box<Number>) in the t ype GenericTest is not applicable for the arguments (Box<Integer>)。显然，通过提示信息，我们知道 Box<Number>在逻辑上不能视为 Box<Integer>的父类。那么，原因何在呢？
+我们发现，在代码//1 处出现了错误提示信息：The method getData(`Box<Number>`) in the t ype GenericTest is not applicable for the arguments (`Box<Integer>`)。显然，通过提示信息，我们知道 `Box<Number>`在逻辑上不能视为 `Box<Integer>`的父类。那么，原因何在呢？
 
 ```java
 public class GenericTest {
@@ -284,11 +284,11 @@ class Box<T> {
 
 这个例子中，显然//1 和//2 处肯定会出现错误提示的。在此我们可以使用反证法来进行说明。
 
-假设 Box<Number>在逻辑上可以视为 Box<Integer>的父类，那么//1 和//2 处将不会有错误提示了，那么问题就出来了，通过 getData()方法取出数据时到底是什么类型呢？Integer? Float? 还是 Number？且由于在编程过程中的顺序不可控性，导致在必要的时候必须要进行类型判断，且进行强制类型转换。显然，这与泛型的理念矛盾，因此，在逻辑上 Box<Number>不能视为 Box<Integer>的父类。
+假设 `Box<Number>`在逻辑上可以视为 `Box<Integer>`的父类，那么//1 和//2 处将不会有错误提示了，那么问题就出来了，通过 getData()方法取出数据时到底是什么类型呢？Integer? Float? 还是 Number？且由于在编程过程中的顺序不可控性，导致在必要的时候必须要进行类型判断，且进行强制类型转换。显然，这与泛型的理念矛盾，因此，在逻辑上 `Box<Number>`不能视为 `Box<Integer>`的父类。
 
-好，那我们回过头来继续看“类型通配符”中的第一个例子，我们知道其具体的错误提示的深层次原因了。那么如何解决呢？总部能再定义一个新的函数吧。这和 Java 中的多态理念显然是违背的，因此，我们需要一个在逻辑上可以用来表示同时是 Box<Integer>和 Box<Number>的父类的一个引用类型，由此，类型通配符应运而生。
+好，那我们回过头来继续看“类型通配符”中的第一个例子，我们知道其具体的错误提示的深层次原因了。那么如何解决呢？总部能再定义一个新的函数吧。这和 Java 中的多态理念显然是违背的，因此，我们需要一个在逻辑上可以用来表示同时是 `Box<Integer>`和 `Box<Number>`的父类的一个引用类型，由此，类型通配符应运而生。
 
-类型通配符一般是使用 ? 代替具体的类型实参。注意了，此处是类型实参，而不是类型形参！且 Box<?>在逻辑上是 Box<Integer>、Box<Number>...等所有 Box<具体类型实参>的父类。由此，我们依然可以定义泛型方法，来完成此类需求。
+类型通配符一般是使用 ? 代替具体的类型实参。注意了，此处是类型实参，而不是类型形参！且 Box<?>在逻辑上是 `Box<Integer>`、`Box<Number>`...等所有 Box<具体类型实参>的父类。由此，我们依然可以定义泛型方法，来完成此类需求。
 
 ```java
 public class GenericTest {
