@@ -4,7 +4,7 @@ title: '关于我'
 draft: true
 subtitle: '感谢你对我的关注'
 headerImage: 'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/4TVbbaNAw9Q.jpg'
-date: '2020-07-09'
+randomLink: true
 tags:
   - yiliang
 ---
