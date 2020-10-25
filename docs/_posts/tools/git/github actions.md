@@ -3,6 +3,7 @@ title: 'github actions'
 date: '2020-10-22'
 tags:
   - github
+draft: true
 ---
 
 ## github actions

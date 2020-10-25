@@ -262,7 +262,7 @@ git log --graph --pretty=oneline --abbrev-commit
 
 创建本地分支与远程分支的链接
 
-git branch --set-upstream-to=origin/<branch> dev
+`git branch --set-upstream-to=origin/<branch> dev`
 
 例：
 
