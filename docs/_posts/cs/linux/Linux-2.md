@@ -7,10 +7,10 @@ draft: true
 
 ## 常用命令
 
-查看 nginx 日志 `tail -f /data/log/nginx/cdata.access.log`
+查看 nginx 日志 `tail -f /data/log/nginx/test.access.log`
 
 监控 itbilu.log 日志件，并查看含有 '/cockpit/cgi' 关键字的前后 5 行：
-`tail -f /data/log/nginx/cdata.access.log|grep '/cockpit/cgi' -5`
+`tail -f /data/log/nginx/test.access.log|grep '/cockpit/cgi' -5`
 
 0. mkdir -p 一次可以建立多个目录
 
