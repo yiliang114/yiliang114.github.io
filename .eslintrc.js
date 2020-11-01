@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    jest: true
+    jest: true,
   },
   extends: ['plugin:vue/essential', 'eslint:recommended'],
   rules: {
@@ -11,13 +11,13 @@ module.exports = {
     'vue/no-unused-components': [
       'warn',
       {
-        ignoreWhenBindingPresent: true
-      }
+        ignoreWhenBindingPresent: true,
+      },
     ],
     // if 条件判断中的逻辑运算符位置
-    'operator-linebreak': [2, 'after', { overrides: { '?': 'before', ':': 'before' } }]
+    'operator-linebreak': [2, 'after', { overrides: { '?': 'before', ':': 'before' } }],
   },
   parserOptions: {
-    parser: 'babel-eslint'
-  }
-}
+    parser: 'babel-eslint',
+  },
+};

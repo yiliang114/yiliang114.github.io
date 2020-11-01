@@ -132,19 +132,6 @@ module.exports = {
 
     // 友情链接
     friendLinks: [
-      // {
-      //   name: 'Omi',
-      //   avatar:
-      //     'https://camo.githubusercontent.com/5a3ce051411cca4d8abd0e0abff879bb5a871520/68747470733a2f2f74656e63656e742e6769746875622e696f2f6f6d692f6173736574732f6f6d692d6c6f676f323031392e737667',
-      //   desc: 'Front End Cross-Frameworks Framework',
-      //   link: 'https://github.com/Tencent/omi'
-      // },
-      // {
-      //   name: 'CloudBase Framework',
-      //   avatar: 'https://avatars0.githubusercontent.com/u/40630849?s=200&v=4',
-      //   desc: '云开发官方出品的前后端一体化部署工具',
-      //   link: 'https://github.com/TencentCloudBase/cloudbase-framework'
-      // },
       {
         name: "Evan's blog",
         avatar: 'https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
@@ -157,12 +144,6 @@ module.exports = {
         desc: '荷尽已无擎雨盖，菊残犹有傲霜枝',
         link: 'https://zpj80231.gitee.io/znote/',
       },
-      // {
-      //   name: "易良同学的博客",
-      //   avatar: 'https://yiliang.site/assets/images/avatar.jpeg',
-      //   desc: '正在努力！',
-      //   link: 'https://yiliang.site'
-      // },
     ],
 
     lastUpdated: true,

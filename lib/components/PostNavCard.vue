@@ -34,7 +34,8 @@ export default {
       fixed: false,
       width: 0,
       scrollListener: throttle(() => {
-        this.fixed = this.infoCardDom.getBoundingClientRect().bottom < this.navbarHeight;
+        this.fixed =
+          this.infoCardDom.getBoundingClientRect && this.infoCardDom.getBoundingClientRect().bottom < this.navbarHeight;
       }, 100),
       resizeListener: debounce(() => {
         this.width = this.getWidth();

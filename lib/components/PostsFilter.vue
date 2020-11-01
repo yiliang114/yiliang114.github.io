@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import PostsFilterCategories from '@theme/components/PostsFilterCategories.vue'
-import PostsFilterTags from '@theme/components/PostsFilterTags.vue'
-import PostsFilterSearch from '@theme/components/PostsFilterSearch.vue'
+import PostsFilterCategories from '@theme/components/PostsFilterCategories.vue';
+import PostsFilterTags from '@theme/components/PostsFilterTags.vue';
+import PostsFilterSearch from '@theme/components/PostsFilterSearch.vue';
 
 export default {
   name: 'PostsFilter',
@@ -37,104 +37,102 @@ export default {
   components: {
     PostsFilterCategories,
     PostsFilterTags,
-    PostsFilterSearch
+    PostsFilterSearch,
   },
 
   props: {
     posts: {
       type: Array,
       required: false,
-      default: null
+      default: null,
     },
     categories: {
       type: Boolean,
       required: false,
-      default: true
+      default: true,
     },
     tags: {
       type: Boolean,
       required: false,
-      default: true
+      default: true,
     },
     search: {
       type: Boolean,
       required: false,
-      default: true
+      default: true,
     },
     value: {
       type: Array,
       required: false,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   data() {
     return {
       filterTags: [],
       filterCategory: null,
-      filterSearch: ''
-    }
+      filterSearch: '',
+    };
   },
 
   computed: {
     filteredPosts() {
-      let filteredPosts = this.posts || this.$posts
+      let filteredPosts = this.posts || this.$posts;
 
       // 过滤分类
       if (this.categories && this.filterCategory) {
-        filteredPosts = filteredPosts.filter(
-          p => p.category === this.filterCategory
-        )
+        filteredPosts = filteredPosts.filter(p => p.category === this.filterCategory);
       }
 
       if (this.tags && this.filterTags.length !== 0) {
         filteredPosts = filteredPosts.filter(p => {
-          const postTags = p.tags
+          const postTags = p.tags;
           for (const tag of this.filterTags) {
             if (postTags.includes(tag)) {
-              return true
+              return true;
             }
           }
-          return false
-        })
+          return false;
+        });
       }
 
       if (this.search && this.filterSearch !== '') {
-        const searchString = this.filterSearch.toLowerCase().trim()
+        const searchString = this.filterSearch.toLowerCase().trim();
         const match = item => {
           if (typeof item === 'string') {
-            return item.toLowerCase().includes(searchString)
+            return item.toLowerCase().includes(searchString);
           }
 
           if (Array.isArray(item)) {
-            return item.map(i => match(i)).includes(true)
+            return item.map(i => match(i)).includes(true);
           }
 
-          return false
-        }
+          return false;
+        };
         filteredPosts = filteredPosts.filter(
           p =>
             match(p.title) ||
             match(p.excerpt) ||
             match(p.frontmatter.description) ||
             match(p.tags) ||
-            match(p.category)
-        )
+            match(p.category),
+        );
       }
 
-      return filteredPosts
-    }
+      return filteredPosts;
+    },
   },
 
   watch: {
     filteredPosts: {
       immediate: true,
       handler(val) {
-        this.$emit('input', val)
-      }
-    }
-  }
-}
+        this.$emit('input', val);
+      },
+    },
+  },
+};
 </script>
 
 <style lang="stylus">
