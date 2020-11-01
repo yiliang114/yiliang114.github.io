@@ -21,6 +21,12 @@ Github Actions 是 Github 推出的一个新的功能，可以为我们的项目
 3. step（步骤）：每个 job 由多个 step 构成，一步步完成。
 4. action （动作）：每个 step 可以依次执行一个或多个命令（action）。
 
+### 须知
+
+`.github/workflows` 文件夹下创建的 `yaml` 文件能够自动执行。
+
+- 不同的 jobs 下面不能共享文件，比如 github 代码的拉取文件等等， 甚至有可能 全部安装的 node 包都是不能共享的。
+
 ### 自动发布 npm
 
 https://www.infoq.cn/article/QhNJfG6QYk3kDpKJ3PDq
