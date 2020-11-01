@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import PostsList from '@theme/components/PostsList.vue'
+import PostsList from '@theme/components/PostsList.vue';
 export default {
   name: 'Home',
   components: {
-    PostsList
-  }
-}
+    PostsList,
+  },
+};
 </script>

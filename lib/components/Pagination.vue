@@ -8,7 +8,7 @@
     <li
       v-for="paginator in paginators"
       :key="paginator.value"
-      :class="{ active: paginator.value === currentPage, disabled: !paginator.enable}"
+      :class="{ active: paginator.value === currentPage, disabled: !paginator.enable }"
       class="page-item"
       @click.prevent="setPage(paginator.value)"
     >
@@ -30,155 +30,140 @@ export default {
     value: {
       type: Number,
       default: 1,
-      validator: val => val > 0
+      validator: val => val > 0,
     },
 
     total: {
       type: Number,
       required: true,
-      validator: val => val > 0
+      validator: val => val > 0,
     },
 
     eachSide: {
       type: Number,
       default: 1,
-      validator: val => val >= 0
-    }
+      validator: val => val >= 0,
+    },
   },
 
   computed: {
     firstPage() {
-      return 1
+      return 1;
     },
 
     lastPage() {
-      return this.total
+      return this.total;
     },
 
     onFirstPage() {
-      return this.currentPage === this.firstPage
+      return this.currentPage === this.firstPage;
     },
 
     onLastPage() {
-      return this.currentPage === this.lastPage
+      return this.currentPage === this.lastPage;
     },
 
     currentPage() {
-      return this.value
+      return this.value;
     },
 
     paginators() {
-      const paginators = []
+      const paginators = [];
       if (this.lastPage < this.eachSide * 2 + 4) {
         for (let i = this.firstPage; i < this.lastPage + 1; ++i) {
           paginators.push({
             value: i,
-            enable: true
-          })
+            enable: true,
+          });
         }
       } else {
         if (this.currentPage - this.firstPage < this.eachSide + 2) {
           // if currentPage near firstPage
-          for (
-            let i = this.firstPage;
-            i <
-            Math.max(
-              this.eachSide * 2 + 1,
-              this.currentPage + this.eachSide + 1
-            );
-            ++i
-          ) {
+          for (let i = this.firstPage; i < Math.max(this.eachSide * 2 + 1, this.currentPage + this.eachSide + 1); ++i) {
             paginators.push({
               value: i,
-              enable: true
-            })
+              enable: true,
+            });
           }
           paginators.push({
             value: '...',
-            enable: false
-          })
+            enable: false,
+          });
           paginators.push({
             value: this.lastPage,
-            enable: true
-          })
+            enable: true,
+          });
         } else if (this.lastPage - this.currentPage < this.eachSide + 2) {
           // if currentPage near lastPage
           paginators.push({
             value: this.firstPage,
-            enable: true
-          })
+            enable: true,
+          });
           paginators.push({
             value: '...',
-            enable: false
-          })
+            enable: false,
+          });
           for (
-            let i = Math.min(
-              this.lastPage - this.eachSide * 2 + 1,
-              this.currentPage - this.eachSide
-            );
+            let i = Math.min(this.lastPage - this.eachSide * 2 + 1, this.currentPage - this.eachSide);
             i < this.lastPage + 1;
             ++i
           ) {
             paginators.push({
               value: i,
-              enable: true
-            })
+              enable: true,
+            });
           }
         } else {
           // if currentPage in the middle
           paginators.push({
             value: this.firstPage,
-            enable: true
-          })
+            enable: true,
+          });
           paginators.push({
             value: '...',
-            enable: false
-          })
-          for (
-            let i = this.currentPage - this.eachSide;
-            i < this.currentPage + this.eachSide + 1;
-            ++i
-          ) {
+            enable: false,
+          });
+          for (let i = this.currentPage - this.eachSide; i < this.currentPage + this.eachSide + 1; ++i) {
             paginators.push({
               value: i,
-              enable: true
-            })
+              enable: true,
+            });
           }
           paginators.push({
             value: '...',
-            enable: false
-          })
+            enable: false,
+          });
           paginators.push({
             value: this.lastPage,
-            enable: true
-          })
+            enable: true,
+          });
         }
       }
-      return paginators
-    }
+      return paginators;
+    },
   },
 
   methods: {
     nextPage() {
-      this.setPage(this.currentPage + 1)
+      this.setPage(this.currentPage + 1);
     },
 
     prevPage() {
-      this.setPage(this.currentPage - 1)
+      this.setPage(this.currentPage - 1);
     },
 
     setPage(targetPage) {
       if (targetPage <= this.lastPage && targetPage >= this.firstPage) {
-        this.$emit('input', targetPage)
+        this.$emit('input', targetPage);
 
         // update zooming after page navigation
         this.$nextTick(() => {
-          this.$vuepress.zooming.updateDelay()
-        })
+          this.$vuepress.zooming.updateDelay();
+        });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -1,14 +1,7 @@
 <template>
   <footer class="footer">
     <p v-if="sns" class="footer-sns-links">
-      <a
-        v-for="(item, name) in sns"
-        :key="name"
-        class="sns-link"
-        :href="item.link"
-        target="_blank"
-        rel="noopener"
-      >
+      <a v-for="(item, name) in sns" :key="name" class="sns-link" :href="item.link" target="_blank" rel="noopener">
         <IconSns :name="name" :account="item.account" />
       </a>
     </p>
@@ -26,7 +19,7 @@
     </p>
 
     <p class="footer-text" v-if="recordVarChar">
-      <span v-if="recordVarChar">{{recordVarChar}}</span>
+      <span v-if="recordVarChar">{{ recordVarChar }}</span>
     </p>
 
     <!-- eslint-disable vue/no-v-html -->
@@ -47,41 +40,41 @@
 </template>
 
 <script>
-import IconSns from '@theme/components/IconSns.vue'
+import IconSns from '@theme/components/IconSns.vue';
 
 export default {
   name: 'TheFooter',
 
   components: {
-    IconSns
+    IconSns,
   },
 
   computed: {
     poweredBy() {
-      return this.$themeConfig.footer.poweredBy !== false
+      return this.$themeConfig.footer.poweredBy !== false;
     },
 
     poweredByTheme() {
-      return this.$themeConfig.footer.poweredByTheme !== false
+      return this.$themeConfig.footer.poweredByTheme !== false;
     },
 
     recordVarChar() {
-      return this.$themeConfig.footer.recordVarChar || null
+      return this.$themeConfig.footer.recordVarChar || null;
     },
 
     custom() {
-      return this.$themeConfig.footer.custom || null
+      return this.$themeConfig.footer.custom || null;
     },
 
     sns() {
-      return this.$themeConfig.personalInfo.sns || null
+      return this.$themeConfig.personalInfo.sns || null;
     },
 
     isHome() {
-      return this.$route.path === '/'
-    }
-  }
-}
+      return this.$route.path === '/';
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

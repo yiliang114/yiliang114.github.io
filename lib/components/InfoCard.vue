@@ -17,34 +17,18 @@
         </section>
 
         <section v-if="organization">
-          <IconInfo
-            class="info-organization"
-            type="organization"
-            :title="organization"
-          >{{ organization }}</IconInfo>
+          <IconInfo class="info-organization" type="organization" :title="organization">{{ organization }}</IconInfo>
         </section>
 
         <section v-if="email">
-          <IconInfo
-            class="info-email"
-            type="email"
-            :href="`mailto:${email}`"
-            :title="email"
-          >{{ email }}</IconInfo>
+          <IconInfo class="info-email" type="email" :href="`mailto:${email}`" :title="email">{{ email }}</IconInfo>
         </section>
       </section>
     </div>
 
     <div v-if="sns" class="info-card-footer">
       <section class="info-sns clearfix">
-        <a
-          v-for="(item, name) of sns"
-          :key="name"
-          :href="item.link"
-          class="sns-link"
-          target="_blank"
-          rel="noopener"
-        >
+        <a v-for="(item, name) of sns" :key="name" :href="item.link" class="sns-link" target="_blank" rel="noopener">
           <IconSns :name="name" :account="item.account" size="1.5em" />
         </a>
       </section>
