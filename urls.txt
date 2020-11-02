@@ -11,8 +11,10 @@ https://yiliang.site/arithmetic/sort.html
 https://yiliang.site/arithmetic/string.html
 https://yiliang.site/arithmetic/tree.html
 https://yiliang.site/index.html
+https://yiliang.site/knowledge/2020/11/01/事件代理.html
 https://yiliang.site/links/index.html
-https://yiliang.site/posts/1970/01/01/lagou.html
+https://yiliang.site/posts/1970/01/01/vscode-标签的展开收起.html
+https://yiliang.site/posts/1970/01/01/调试技巧.html
 https://yiliang.site/posts/2017/10/19/_2018前端校招总结.html
 https://yiliang.site/posts/2017/12/17/pc访问-127-0-0-1显示404报错.html
 https://yiliang.site/posts/2018/03/17/element-table组件内容换行方案.html
@@ -24,6 +26,7 @@ https://yiliang.site/posts/2018/09/02/腾讯云香港番强.html
 https://yiliang.site/posts/2018/09/13/程序员英语.html
 https://yiliang.site/posts/2018/10/03/还不起的技术债.html
 https://yiliang.site/posts/2018/10/11/css文字多行显示超出显示省略号.html
+https://yiliang.site/posts/2018/10/11/linux找不到iptables文件.html
 https://yiliang.site/posts/2018/10/11/vscode-vue-文件模板.html
 https://yiliang.site/posts/2018/10/11/vue引用自定义ttf-otf在线字体.html
 https://yiliang.site/posts/2018/10/12/vue的style标签中background-image空白不显示问题.html
@@ -45,6 +48,7 @@ https://yiliang.site/posts/2019/05/05/用vue实现灭霸响指效果.html
 https://yiliang.site/posts/2019/05/14/js数组需要注意的api.html
 https://yiliang.site/posts/2019/05/14/vim基本操作.html
 https://yiliang.site/posts/2019/06/14/vue-cli-2-x项目迁移日志.html
+https://yiliang.site/posts/2019/07/17/易良同学的思考-一.html
 https://yiliang.site/posts/2019/08/16/github-pages自定义域名失效.html
 https://yiliang.site/posts/2020/04/06/workflow.html
 https://yiliang.site/posts/2020/07/19/_1-webpack原理和实践.html
@@ -61,7 +65,6 @@ https://yiliang.site/posts/2020/09/04/regular-expression.html
 https://yiliang.site/posts/2020/09/04/有哪些简洁的人生建议.html
 https://yiliang.site/posts/2020/09/05/python-技术栈.html
 https://yiliang.site/posts/2020/09/11/前端测试.html
-https://yiliang.site/posts/2020/09/13/_1-3讲.html
 https://yiliang.site/posts/2020/09/13/_9个让人贫穷的原因.html
 https://yiliang.site/posts/2020/09/13/可视化笔记.html
 https://yiliang.site/posts/2020/09/15/iterm-快捷键.html
@@ -71,8 +74,12 @@ https://yiliang.site/posts/2020/09/15/设计模式.html
 https://yiliang.site/posts/2020/09/16/docker介绍.html
 https://yiliang.site/posts/2020/09/16/docker部署nodejs应用.html
 https://yiliang.site/posts/2020/09/16/ubuntu-安装-docker.html
+https://yiliang.site/posts/2020/10/22/git原理和操作.html
+https://yiliang.site/posts/2020/10/22/多个-origin-区分用户名.html
 https://yiliang.site/posts/2020/10/22/支付宝的坑点.html
-https://yiliang.site/posts/218/10/11/linux找不到iptables文件.html
+https://yiliang.site/posts/2020/10/24/js一些技巧.html
+https://yiliang.site/posts/2020/10/24/浏览器相关的基础概念.html
+https://yiliang.site/posts/2020/10/25/浏览器储存.html
 https://yiliang.site/posts/categories/index.html
 https://yiliang.site/posts/categories/vue.html
 https://yiliang.site/posts/categories/前端.html
@@ -90,6 +97,7 @@ https://yiliang.site/posts/tags/Vercel.html
 https://yiliang.site/posts/tags/canvas.html
 https://yiliang.site/posts/tags/css3.html
 https://yiliang.site/posts/tags/docker.html
+https://yiliang.site/posts/tags/github.html
 https://yiliang.site/posts/tags/go.html
 https://yiliang.site/posts/tags/index.html
 https://yiliang.site/posts/tags/jenkins.html
@@ -101,6 +109,7 @@ https://yiliang.site/posts/tags/seo.html
 https://yiliang.site/posts/tags/serverless.html
 https://yiliang.site/posts/tags/svg.html
 https://yiliang.site/posts/tags/ubuntu.html
+https://yiliang.site/posts/tags/vscode.html
 https://yiliang.site/posts/tags/vue 3.html
 https://yiliang.site/posts/tags/vue-cli.html
 https://yiliang.site/posts/tags/vue.html
