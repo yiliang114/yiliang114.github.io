@@ -182,10 +182,3 @@ Course Object courseName:null credit:4
 123
 
 可知 Person 中的 age 属性被标注为 transient 后，在序列化对象时，age 属性就没有被序列化了; Course 中的 name 属性被 static 后，Course 的 name 静态属性就没有被序列化;虽然是序列化 Person 对象，但是 Person 所引用的 Course 对象也被初始化了。
-
----
-
-[1]: http://www.tinymood.com
-[2]: http://jq.qq.com/?_wv=1027&k=ZKsbKb
-[3]: http://jq.qq.com/?_wv=1027&k=Xxno3g
-[4]: http://weibo.com/u/1662536394
