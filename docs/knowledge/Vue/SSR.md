@@ -1,0 +1,59 @@
+---
+title: 懒加载的实现原理
+date: '2020-10-26'
+draft: true
+---
+
+## vue ssr
+
+### 为什么使用服务端渲染（ssr）
+
+与传统 SPA 相比，服务端渲染的（ssr）的优势主要在于：
+
+- 更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面。
+- 更快的内容到达时间。无需等待所有的 Javascript 都下载完成并执行。
+
+使用 SSR 时还需要有一些权衡之处：
+
+- 开发条件所限。浏览器的特定代码，只能在某些声明周期钩子函数中使用；一些外部扩展库可能需要特殊处理，才能在服务器渲染应用程序中运行。
+- 涉及构建设置和部署的更多需求，服务端渲染应用程序，需要处于 Nodejs server 运行环境。
+- 更多的服务器端负载。
+
+### 服务端渲染 VS 预渲染（Prerendering）
+
+如果你调研服务器端渲染(SSR)只是用来改善少数营销页面（例如 `/`, `/about`, `/contact` 等）的 SEO，那么你可能需要**预渲染**。无需使用 web 服务器实时动态编译 HTML，而是使用预渲染方式，在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点。
+
+如果你使用 webpack，你可以使用 [prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin) 轻松地添加预渲染。它已经被 Vue 应用程序广泛测试 - 事实上，[作者](https://github.com/chrisvfritz)是 Vue 核心团队的成员。
+
+### 实现 Vue SSR
+
+![](http://7xq6al.com1.z0.glb.clouddn.com/vue-ssr.jpg)
+
+**其基本实现原理**
+
+- app.js 作为客户端与服务端的公用入口，导出 Vue 根实例，供客户端 entry 与服务端 entry 使用。客户端 entry 主要作用挂载到 DOM 上，服务端 entry 除了创建和返回实例，还进行路由匹配与数据预获取。
+- webpack 为客服端打包一个 Client Bundle ，为服务端打包一个 Server Bundle 。
+- 服务器接收请求时，会根据 url，加载相应组件，获取和解析异步数据，创建一个读取 Server Bundle 的 BundleRenderer，然后生成 html 发送给客户端。
+- 客户端混合，客户端收到从服务端传来的 DOM 与自己的生成的 DOM 进行对比，把不相同的 DOM 激活，使其可以能够响应后续变化，这个过程称为客户端激活 。为确保混合成功，客户端与服务器端需要共享同一套数据。在服务端，可以在渲染之前获取数据，填充到 stroe 里，这样，在客户端挂载到 DOM 之前，可以直接从 store 里取数据。首屏的动态数据通过 `window.__INITIAL_STATE__`发送到客户端
+
+> Vue SSR 的实现，主要就是把 Vue 的组件输出成一个完整 HTML, vue-server-renderer 就是干这事的
+
+- `Vue SSR`需要做的事多点（输出完整 HTML），除了`complier -> vnode`，还需如数据获取填充至 HTML、客户端混合（hydration）、缓存等等。
+  相比于其他模板引擎（ejs, jade 等），最终要实现的目的是一样的，性能上可能要差点
+
+### vue-server-render
+
+### ssr 的一些框架
+
+- https://github.com/fmfe/genesis
+- nuxt
+
+### 区别
+
+- `vue-server-renderer` 服务端渲染，一般 vue 的 ssr 都是通过它来完成的
+- vuepress 是预渲染，
+
+### demo
+
+https://www.jianshu.com/p/c6a07755b08d
+https://github.com/wmui/vue-ssr-demo/blob/master/package.json
