@@ -6,6 +6,7 @@ https://yiliang.site/arithmetic/data-structures.html
 https://yiliang.site/arithmetic/dp.html
 https://yiliang.site/arithmetic/encode.html
 https://yiliang.site/arithmetic/index.html
+https://yiliang.site/arithmetic/note/数据结构与算法之美.html
 https://yiliang.site/arithmetic/other.html
 https://yiliang.site/arithmetic/sort.html
 https://yiliang.site/arithmetic/string.html
