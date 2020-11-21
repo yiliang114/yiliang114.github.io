@@ -12,8 +12,8 @@ draft: true
 
 虚拟 DOM，即用 JS 对象来描述 DOM 树结构，Diff 算法则是找旧 VDOM 与新的 VDOM 的最小差异，然后再把差异渲染出来
 
-![DOM](../img/domtree.png)
-![vdom](../img/vdon.png)
+![DOM](../images/domtree.png)
+![vdom](../images/vdon.png)
 
 描述一个 DOM 节点
 
@@ -25,7 +25,7 @@ draft: true
 
 ### 为什么 DOM 操作慢？ 因为属性太多了
 
-![domattr](../img/domattr.png)
+![domattr](../images/domattr.png)
 
 ### vdom 如何应用，核心 API 是什么
 

@@ -210,13 +210,13 @@ self.addEventListener('fetch', e => {
 ```
 
 打开页面，可以在开发者工具中的 Application 看到 Service Worker 已经启动了
-![](../img/serviceWorker.png)
+![](../images/serviceWorker.png)
 
 在 Cache 中也可以发现我们所需的文件已被缓存
-![](../img/cache-worker.png)
+![](../images/cache-worker.png)
 
 当我们重新刷新页面可以发现我们缓存的数据是从 Service Worker 中读取的
-![](../img/reload-worker.png)
+![](../images/reload-worker.png)
 
 ### Service Worker
 

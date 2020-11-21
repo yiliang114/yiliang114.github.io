@@ -41,7 +41,7 @@ this.setState((prevState, props) => ({
 ### setState 循环调用风险
 
 但，如果在`shouldComponentUpdate`或`componentWillUpdate` 方法里调用 this.setState 方法，就会造成崩溃。
-![](../img/setStateCercle.png)
+![](../images/setStateCercle.png)
 
 ### 何时同步？何时异步？
 
