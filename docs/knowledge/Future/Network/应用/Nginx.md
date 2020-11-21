@@ -73,7 +73,7 @@ server {
     }
 
     location / {
-            root /data/home/mrjzhang/tbp-test/;
+            root /data/home/yiliang114/tbp-test/;
             index  index.html;
     }
 }

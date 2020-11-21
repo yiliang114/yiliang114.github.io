@@ -113,13 +113,13 @@ get 和 post 在缓存方面的区别：
         // 发送ajax 请求 需要 五步
 
         // （1）创建异步对象
-        var ajaxObj = new XMLHttpRequest()
+        var ajaxObj = new XMLHttpRequest();
 
         // （2）设置请求的参数。包括：请求的方法、请求的url。
-        ajaxObj.open('get', '02-ajax.php')
+        ajaxObj.open('get', '02-ajax.php');
 
         // （3）发送请求
-        ajaxObj.send()
+        ajaxObj.send();
 
         //（4）注册事件。 onreadystatechange事件，状态改变时就会调用。
         //如果要在数据完整请求回来的时候才调用，我们需要手动写一些判断的逻辑。
@@ -128,16 +128,16 @@ get 和 post 在缓存方面的区别：
           if (ajaxObj.readyState == 4 && ajaxObj.status == 200) {
             // 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
             // 5.在注册的事件中 获取 返回的 内容 并修改页面的显示
-            console.log('数据返回成功')
+            console.log('数据返回成功');
 
             // 数据是保存在 异步对象的 属性中
-            console.log(ajaxObj.responseText)
+            console.log(ajaxObj.responseText);
 
             // 修改页面的显示
-            document.querySelector('h1').innerHTML = ajaxObj.responseText
+            document.querySelector('h1').innerHTML = ajaxObj.responseText;
           }
-        }
-      }
+        };
+      };
     </script>
   </body>
 </html>
@@ -157,20 +157,20 @@ get 和 post 在缓存方面的区别：
     <input type="button" value="发送put_ajax请求" id="btnAjax" />
     <script type="text/javascript">
       // 异步对象
-      var xhr = new XMLHttpRequest()
+      var xhr = new XMLHttpRequest();
       // 设置属性
-      xhr.open('post', '02.post.php')
+      xhr.open('post', '02.post.php');
       // 如果想要使用post提交数据,必须添加此行
-      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       // 将数据通过send方法传递
-      xhr.send('name=fox&age=18')
+      xhr.send('name=fox&age=18');
       // 发送并接受返回值
       xhr.onreadystatechange = function() {
         // 这步为判断服务器是否正确响应
         if (xhr.readyState == 4 && xhr.status == 200) {
-          alert(xhr.responseText)
+          alert(xhr.responseText);
         }
-      }
+      };
     </script>
   </body>
 </html>
@@ -185,9 +185,9 @@ get 和 post 在缓存方面的区别：
 POST 请求则需要设置`RequestHeader`告诉后台传递内容的编码方式以及在 send 方法里传入对应的值
 
 ```js
-xhr.open('POST', url, true)
-xhr.setRequestHeader(('Content-Type': 'application/x-www-form-urlencoded'))
-xhr.send('key1=value1&key2=value2')
+xhr.open('POST', url, true);
+xhr.setRequestHeader(('Content-Type': 'application/x-www-form-urlencoded'));
+xhr.send('key1=value1&key2=value2');
 ```
 
 # 二、HTTP 方法
@@ -223,8 +223,7 @@ POST 主要用来传输数据，而 GET 主要用来获取资源。
 由于自身不带验证机制，任何人都可以上传文件，因此存在安全性问题，一般不使用该方法。
 
 ```html
-PUT /new.html HTTP/1.1 Host: example.com Content-type: text/html Content-length:
-16
+PUT /new.html HTTP/1.1 Host: example.com Content-type: text/html Content-length: 16
 
 <p>New File</p>
 ```
@@ -236,8 +235,8 @@ PUT /new.html HTTP/1.1 Host: example.com Content-type: text/html Content-length:
 PUT 也可以用于修改资源，但是只能完全替代原始资源，PATCH 允许部分修改。
 
 ```html
-PATCH /file.txt HTTP/1.1 Host: www.example.com Content-Type: application/example
-If-Match: "e0023aa4e" Content-Length: 100 [description of changes]
+PATCH /file.txt HTTP/1.1 Host: www.example.com Content-Type: application/example If-Match: "e0023aa4e" Content-Length:
+100 [description of changes]
 ```
 
 ## DELETE
@@ -493,7 +492,7 @@ DELETE /idX/delete HTTP/1.1   -> Returns 404
 
 #### 代理工具
 
-- 腾讯： [whistle](https://github.com/avwo/whistle) 各种插件 http://git.code.oa.com/imweb/whistle.imwebenv
+- 腾讯： [whistle](https://github.com/avwo/whistle) 各种插件 whistle.imwebenv
 - 有赞： ZanProxy
 - 阿里： https://github.com/alibaba/anyproxy.git
 

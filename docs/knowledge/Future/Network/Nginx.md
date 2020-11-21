@@ -62,7 +62,7 @@ server {
     }
 
     location / {
-            root /data/home/mrjzhang/tbp-test/;
+            root /data/home/yiliang114/tbp-test/;
             index  index.html;
     }
 }
@@ -476,7 +476,7 @@ http {
     #
     server {
         listen       443 ssl;
-        server_name  xiaowei.qcloud.com;
+        server_name  xxx.baidu.com;
 
         ssl_certificate      server.crt;
         ssl_certificate_key  server.key;

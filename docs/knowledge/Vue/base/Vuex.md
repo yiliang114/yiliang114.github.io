@@ -201,7 +201,7 @@ https://segmentfault.com/a/1190000012184535
   如上面所说的 reset.css 会放在 static 文件夹中比较好
 
 - vue watch 深度监听对象， watch 是如何实现的 ？
-- vue element 全量数据关键词搜索高亮 xiaowei 逻辑是在搜索结果到达 vuex 之前就对 data 进行替换。
+- vue element 全量数据关键词搜索高亮小微逻辑是在搜索结果到达 vuex 之前就对 data 进行替换。
 - vscode 从 0 开始安装 vue react 插件，eslint 规则，自动格式化，主题，nodejs 调试等
 - vue 中的 style lang=less 的时候 webpack 为什么需要安装 less-loader， webpack module 的规则中配置的 less-loader 是对 less 文件进行编译的，那么 .vue 文件是被如何编译成 html 文件 less 文件 和 js 文件的
 

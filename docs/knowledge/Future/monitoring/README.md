@@ -48,12 +48,6 @@ async function requestData() {
 }
 ```
 
-<http://km.oa.com/articles/show/240099?kmref=search&from_page=1&no=3>
-
-### 前端监控
-
-<http://tapd.oa.com/QCloud_2015/markdown_wikis/view/#1010103951008119219>
-
 ### 前端性能
 
 <http://www.cnblogs.com/sunshq/p/5312231.html>
