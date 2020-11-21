@@ -214,3 +214,70 @@ export default function RandomString(stringLength: number): string {
   return generatedRandomString;
 }
 ```
+
+## 其他
+
+有一个文本串 S，和一个模式串 P，现在要查找 P 在 S 中的位置，怎么查找呢？
+
+1. 暴力匹配算法
+   如果用暴力匹配的思路，并假设现在文本串 S 匹配到 i 位置，模式串 P 匹配到 j 位置，则有：
+   如果当前字符匹配成功（即 S[i] == P[j]），则 i++，j++，继续匹配下一个字符；
+   如果失配（即 S[i]! = P[j]），令 i = i - (j - 1) ，j = 0。相当于每次匹配失败时，i 回溯，j 被置为 0。
+
+```js
+const violentMatch = (s, p) => {
+  if (!s) return -1;
+  const sLength = s.length,
+    pLength = p.length;
+  let i = 0,
+    j = 0;
+  while (i < sLength && j < pLength) {
+    // ①如果当前字符匹配成功（即S[i] == P[j]），则i++，j++
+    if (s[i] === p[j]) {
+      i++;
+      j++;
+    } else {
+      // ②如果失配（即S[i]! = P[j]），令i = i - (j - 1)，j = 0
+      i -= j - 1;
+      j = 0;
+    }
+  }
+  //匹配成功，返回模式串p在文本串s中的位置，否则返回-1
+  if (j === pLength) {
+    return i - j;
+  }
+  return -1;
+};
+
+console.log(violentMatch('BBC ABCDAB ABCDABCDABDE', 'ABCDABD'));
+```
+
+KMP 算法，它利用之前已经部分匹配这个有效信息，保持 i 不回溯，通过修改 j 的位置，让模式串尽量地移动到有效的位置。
+Knuth-Morris-Pratt 字符串查找算法，简称为 “KMP 算法”，常用于在一个文本串 S 内查找一个模式串 P 的出现位置
+TODO:
+
+https://segmentfault.com/a/1190000020034789?utm_medium=hao.caibaojian.com&utm_source=hao.caibaojian.com&share_user=1030000000178452
+
+### 给出一个字符串，找到里面重复最多的字符？
+
+> 个人答案, 如果有重复数相同的，那么不会记录后面的字符
+
+```js
+function findMax(str) {
+  var map = {},
+    max = { num: 0 };
+
+  for (var index in str) {
+    if (map[str[index]]) {
+      map[str[index]]++;
+    } else {
+      map[str[index]] = 1;
+    }
+    if (map[str[index]] > max.num) {
+      max.num = map[str[index]];
+      max.key = str[index];
+    }
+  }
+  console.log(`max num is ${max.num}, the key is ${max.key}`);
+}
+```
