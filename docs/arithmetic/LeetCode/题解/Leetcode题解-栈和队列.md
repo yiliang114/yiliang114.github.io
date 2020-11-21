@@ -195,7 +195,7 @@ public int[] dailyTemperatures(int[] temperatures) {
 
 [503. Next Greater Element II (Medium)](https://leetcode.com/problems/next-greater-element-ii/description/)
 
-```text
+```
 Input: [1,2,1]
 Output: [2,-1,2]
 Explanation: The first 1's next greater number is 2;

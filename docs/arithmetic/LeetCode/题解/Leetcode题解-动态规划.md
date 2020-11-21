@@ -43,6 +43,10 @@ draft: true
   - [3. 只能进行两次的股票交易](#3-只能进行两次的股票交易)
   - [4. 只能进行 k 次的股票交易](#4-只能进行-k-次的股票交易)
 - [字符串编辑](#字符串编辑)
+  - [1. 删除两个字符串的字符使它们相等](#1-删除两个字符串的字符使它们相等)
+  - [2. 编辑距离](#2-编辑距离)
+  - [3. 复制粘贴字符](#3-复制粘贴字符)
+- [微信公众号](#微信公众号)
   _ [1. 删除两个字符串的字符使它们相等](#1-删除两个字符串的字符使它们相等)
   _ [2. 编辑距离](#2-编辑距离) \* [3. 复制粘贴字符](#3-复制粘贴字符)
   <!-- GFM-TOC -->
@@ -839,7 +843,7 @@ public int coinChange(int[] coins, int amount) {
 
 [518\. Coin Change 2 (Medium)](https://leetcode.com/problems/coin-change-2/description/)
 
-```text-html-basic
+```
 Input: amount = 5, coins = [1, 2, 5]
 Output: 4
 Explanation: there are four ways to make up the amount:
