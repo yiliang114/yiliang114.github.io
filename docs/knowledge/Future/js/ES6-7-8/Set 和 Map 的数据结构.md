@@ -4,53 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-### 介绍下 Set、Map、WeakSet 和 WeakMap 的区别？
-
-- Set
-  成员唯一、无序且不重复
-  [value, value]，键值与键名是一致的（或者说只有键值，没有键名）
-  可以遍历，方法有：add、delete、has
-- WeakSet
-  成员都是对象
-  成员都是弱引用，可以被垃圾回收机制回收，可以用来保存 DOM 节点，不容易造成内存泄漏
-  不能遍历，方法有 add、delete、has
-- Map
-  本质上是键值对的集合，类似集合
-  可以遍历，方法很多可以跟各种数据格式转换
-- WeakMap
-  只接受对象最为键名（null 除外），不接受其他类型的值作为键名
-  键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的
-  不能遍历，方法有 get、set、has、delete
-
-扩展：Object 与 Set、Map
-
-1. Object 与 Set
-
-```js
-const properties1 = {
-  width: 1,
-  height: 1,
-};
-console.log(properties1['width'] ? true : false);
-// Set
-const properties2 = new Set();
-properties2.add('width');
-properties2.add('height');
-console.log(properties2.has('width'));
-```
-
-2. Object 与 Map
-   JS 中的对象（Object），本质上是键值对的集合（hash 结构）
-
-```js
-const data = {};
-const element = document.getElementsByClassName('App');
-data[element] = 'metadata';
-console.log(data['[object HTMLCollection]']); // "metadata"
-```
-
-但当以一个 DOM 节点作为对象 data 的键，对象会被自动转化为字符串[Object HTMLCollection]，所以说，Object 结构提供了 字符串-值 对应，Map 则提供了 值-值 的对应
-
 ### Set 是什么，有什么作用？
 
 `Set`是`ES6`引入的一种类似`Array`的新的数据结构，`Set`实例的成员类似于数组`item`成员，区别是`Set`实例的成员都是唯一，不重复的。这个特性可以轻松地实现数组去重
