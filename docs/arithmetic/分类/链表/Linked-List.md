@@ -25,16 +25,6 @@ The order of traversal should be:
 The time complexity is `O(n)` because we visit every node only once.
 
 ```js
-/**
- * Traversal callback function.
- * @callback traversalCallback
- * @param {*} nodeValue
- */
-
-/**
- * @param {LinkedListNode} node
- * @param {traversalCallback} callback
- */
 function reverseTraversalRecursive(node, callback) {
   if (node) {
     reverseTraversalRecursive(node.next, callback);
@@ -42,10 +32,6 @@ function reverseTraversalRecursive(node, callback) {
   }
 }
 
-/**
- * @param {LinkedList} linkedList
- * @param {traversalCallback} callback
- */
 export default function reverseTraversal(linkedList, callback) {
   reverseTraversalRecursive(linkedList.head, callback);
 }
@@ -68,16 +54,6 @@ The order of traversal should be:
 The time complexity is `O(n)` because we visit every node only once.
 
 ```js
-/**
- * Traversal callback function.
- * @callback traversalCallback
- * @param {*} nodeValue
- */
-
-/**
- * @param {LinkedList} linkedList
- * @param {traversalCallback} callback
- */
 export default function traversal(linkedList, callback) {
   let currentNode = linkedList.head;
 

@@ -10,6 +10,19 @@ draft: true
 
 适用于动态规划的问题，需要满足**最优子结构**和**无后效性**，动态规划的求解过程，在于找到**状态转移方程**，进行**自底向上**的求解。
 
+### 动态规划的规律
+
+- 递归找解决方案经常会超时，因为递归类似 DFS，每个都在走到黑再回头。
+- 求概率、步数、步骤这种使用 dp 更好一些。
+- 当 DFS 算法超时时使用 dp 算法来做。
+- 使用 `for (let j = 0; i != j && j < points.length; j++)` 来遍历并剔除 i 是及其错误的，这样会中断 for 循环。
+- Number 的 toString 方法可以返回 2-36 进制的数字
+
+### 递归搜索和动态规划 的理解的 blog
+
+1. https://www.jianshu.com/p/5eb4da919efe
+2. https://www.jianshu.com/p/6b3a2304f63f
+
 ## 例题
 
 #### 爬楼梯问题 [LeetCode 70](https://leetcode.com/problems/climbing-stairs/)
