@@ -51,51 +51,6 @@ export default function palindromePermutation(str: string) {
 }
 ```
 
-# SF/js-algorithms/CTCI/ch1/1.5.js
-
-```js
-export default function OneAway(str1: string, str2: string): boolean {
-  const set1 = new Set(str1);
-  const set2 = new Set(str2);
-  const diffs = new Array(2);
-
-  for (const char of set1) {
-    if (!set2.has(char)) {
-      diffs.push(false);
-    }
-    if (diffs.length >= 2) {
-      return false;
-    }
-  }
-
-  return true;
-}
-```
-
-# SF/js-algorithms/CTCI/ch1/1.7.js
-
-```js
-export default function RotateImage(img: number[][]): number[][] {
-  for (let y = 0; y < img.length; y++) {
-    for (let x = 0; x < img[y].length; x++) {
-      // const topLeft = img[y][x]
-      // const topRight =
-      // const bottomLeft =
-      // const bottomRight =
-    }
-  }
-}
-
-const img = [
-  [1, 2, 3, 4],
-  [1, 2, 3, 4],
-  [1, 2, 3, 4],
-  [1, 2, 3, 4],
-];
-
-RotateImage(img);
-```
-
 # SF/js-algorithms/CTCI/ch4/4.3.js
 
 ```js

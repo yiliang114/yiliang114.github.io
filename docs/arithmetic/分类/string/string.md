@@ -591,3 +591,25 @@ export default function checkPermutationFast(str1: string, str2: string) {
   return true;
 }
 ```
+
+### 判断两个字符串是否？？
+
+```js
+export default function OneAway(str1: string, str2: string): boolean {
+  // new Set 传入一个字符串得到一个不重复的集合。
+  const set1 = new Set(str1);
+  const set2 = new Set(str2);
+  const diffs = new Array(2);
+
+  for (const char of set1) {
+    if (!set2.has(char)) {
+      diffs.push(false);
+    }
+    if (diffs.length >= 2) {
+      return false;
+    }
+  }
+
+  return true;
+}
+```
