@@ -10,8 +10,6 @@ draft: true
 
 ## 3.1 找出数组中重复的数
 
-来源：[AcWing](https://www.acwing.com/problem/content/14/)
-
 ### 题目描述
 
 给定一个长度为 `n` 的整数数组 `nums`，数组中所有的数字都在 `0∼n−1` 的范围内。
@@ -53,13 +51,6 @@ draft: true
 
 ```java
 class Solution {
-
-    /**
-     * 查找数组中的重复元素
-     *
-     * @param nums 数组
-     * @return 其中一个重复的元素
-     */
     public int duplicateInArray(int[] nums) {
         if (nums == null || nums.length < 2) {
             return -1;
@@ -92,8 +83,6 @@ class Solution {
 ```
 
 ## 3.2 不修改数组找出重复的数字
-
-来源：[AcWing](https://www.acwing.com/problem/content/15/)
 
 ### 题目描述
 
@@ -811,8 +800,6 @@ class Solution {
 
 ## 10.2 跳台阶
 
-来源：[NowCoder](https://www.nowcoder.com/practice/8c82a5b80378478f9484d87d1c5f12a4?tpId=13&tqId=11161&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
-
 ### 题目描述
 
 一只青蛙一次可以跳上`1`级台阶，也可以跳上`2`级。求该青蛙跳上一个`n`级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
@@ -849,8 +836,6 @@ class Solution {
 ```
 
 ## 10.3 变态跳台阶
-
-来源：[NowCoder](https://www.nowcoder.com/practice/22243d016f6b47f2a6928b4313c85387?tpId=13&tqId=11162&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 
 ### 题目描述
 
@@ -933,8 +918,6 @@ class Solution {
 ```
 
 ## 10.4 矩形覆盖
-
-来源：[NowCoder](https://www.nowcoder.com/practice/72a5a919508a4251859fb2cfb987a0e6?tpId=13&tqId=11163&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking)
 
 ### 题目描述
 
