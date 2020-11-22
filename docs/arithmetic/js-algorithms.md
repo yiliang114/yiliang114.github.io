@@ -9,16 +9,7 @@ draft: true
 # SF/js-algorithms/CTCI/ch1/1.1.js
 
 ```js
-/**
- * Check if a string has all unique characters
- *
- * If this needs to be done in place, use an in-place sorting algorithm
- * on the string and the check for each char if the next char is equal to
- * the current char. If it is, return false
- *
- * @flow
- */
-export default function CheckHashAllUniqueChars(string: string): boolean {
+export default function CheckHashAllUniqueChars(string) {
   const set = new Set();
 
   for (const char of string) {

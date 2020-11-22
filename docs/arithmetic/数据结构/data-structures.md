@@ -5,13 +5,9 @@ date: 2020-08-31
 aside: false
 ---
 
-## 数据结构
+# 数据结构
 
 ## 简介
-
-### 跳跃表
-
-增加了向前指针的链表叫作跳表。跳表全称叫做跳跃表，简称跳表。跳表是一个随机化的数据结构，实质就是一种可以进行二分查找的有序链表。跳表在原有的有序链表上面增加了多级索引，通过索引来实现快速查找。跳表不仅能提高搜索性能，同时也可以提高插入和删除操作的性能。
 
 ### 树
 
@@ -50,174 +46,15 @@ js 对象大家都用的很多，但其底层的哈希表特性你是否清楚�
 比较常见的应用场景就是各种目录结构，如文件目录、DOM 结构等，由于每指定一层就是一层筛选，所以可以用于快速查找。
 js 中可以通过对象的哈希结构来实现树结构，两种数据结构结合，速度更快。
 
+### 跳跃表
+
+增加了向前指针的链表叫作跳表。跳表全称叫做跳跃表，简称跳表。跳表是一个随机化的数据结构，实质就是一种可以进行二分查找的有序链表。跳表在原有的有序链表上面增加了多级索引，通过索引来实现快速查找。跳表不仅能提高搜索性能，同时也可以提高插入和删除操作的性能。
+
 ## Code 说明
-
-### BinarySearchTree
-
-```js
-class Node {
-  data: number;
-
-  parent: Node;
-
-  left: Node;
-
-  right: Node;
-
-  constructor(data: number) {
-    this.data = data;
-  }
-
-  isLeaf(): boolean {
-    return !this.left && !this.right;
-  }
-}
-
-export default class BinarySearchTree {
-  root: Node;
-
-  items = [];
-
-  constructor(items: Array<number>) {
-    for (const item of items) this.add(item);
-  }
-
-  toArray(node?: Node): boolean | void {
-    if (!node) node = this.root;
-
-    if (node.isLeaf()) {
-      if (node.left) this.items.push(node.left.data);
-      this.items.push(node.data);
-      if (node.right) this.items.push(node.right.data);
-      return true;
-    }
-
-    if (node.left) this.toArray(node.left);
-    this.items.push(node.data);
-    if (node.right) this.toArray(node.right);
-  }
-
-  add(element: number, root?: Node): boolean {
-    let _root = root;
-
-    if (!this.root) {
-      this.root = new Node(element);
-      return true;
-    }
-
-    if (!_root) _root = this.root;
-
-    if (!_root.data) {
-      _root.data = element;
-      return true;
-    }
-
-    if (_root.data > element) {
-      if (!_root.left) {
-        _root.left = new Node(element);
-        return true;
-      }
-      return this.add(element, _root.left);
-    }
-
-    if (!_root.right) {
-      _root.right = new Node(element);
-      return true;
-    }
-
-    return this.add(element, _root.right);
-  }
-
-  remove() {}
-
-  find() {}
-}
-```
-
-### BTree
-
-```js
-class TreeNode {
-  keys: Array<number> = [];
-
-  children: Array<TreeNode> = [];
-
-  parent: TreeNode;
-
-  isLeaf() {
-    return this.children.length === 0;
-  }
-
-  findMiddleChild() {
-    return this.children[Math.ceil(this.children.length / 2)];
-  }
-}
-
-export default class BTree {
-  root: TreeNode = new TreeNode();
-
-  t: number = 3;
-
-  search(value: number, node: TreeNode = this.root): string {
-    // For each key of the node's keys
-    for (let i = 0; i < node.keys.length; i++) {
-      // If the value is less than the current key
-      if (value === node.keys[i]) {
-        return value;
-      }
-      if (value < node.keys[i]) {
-        if (node.children[i].keys.length === 0) {
-          return -1;
-        }
-        return this.search(value, node.children[i]);
-      }
-    }
-
-    return '';
-  }
-
-  insert(value: number, node = this.root): boolean {
-    // For each key of the node's keys
-    for (let i = 0; i < node.keys.length; i++) {
-      // If the value is less than the current key
-      if (value === node.keys[i]) {
-        return value;
-      }
-      if (value < node.keys[i]) {
-        if (node.children[i].keys.length === 0) {
-          return -1;
-        }
-        return this.search(value, node.children[i]);
-      }
-    }
-
-    return true;
-  }
-
-  split(node: TreeNode) {
-    // If the node doesn't need to be split, abort
-    if (node.children.length < this.t) {
-    } else {
-      // Otherwise, Split
-
-      // Find index of 'middle' key
-      const middleIndex = Math.ceil(node.keys.length / 2);
-    }
-  }
-}
-```
 
 ### Queue
 
 ```js
-/**
- * Last in, last out (LILO)
- *
- * @TODO: Wite a new implementation of a queue that uses a linked list. This will
- *        make the pop() method O(1) time
- *
- * @flow
- */
 export default class Queue<T> {
   items: T[];
 
@@ -432,73 +269,6 @@ export class DAGMatrix {
 }
 ```
 
-### DoublyLinkedList
-
-```js
-class Node {
-  data: Object = {};
-
-  next: Node | boolean = false;
-
-  constructor(data: any = {}, next: Node | boolean = false) {
-    this.data = data;
-    this.next = next;
-  }
-
-  hasNext(): boolean {
-    return this.next !== false;
-  }
-}
-
-export default class DoublyLinkedList {
-  head: Node;
-
-  tail: Node;
-
-  head: Node;
-
-  integrity = new Set();
-
-  constructor() {
-    this.head = new Node({});
-    this.tail = this.head;
-  }
-
-  isEmpty(): boolean {
-    return !!this.head;
-  }
-
-  // Remove first link
-  remove() {
-    if (!this.isEmpty() && this.head.hasNext()) {
-      this.head = this.head.next;
-    }
-  }
-
-  has() {}
-
-  next() {}
-
-  // @TODO
-  // insertList(list: DoublyLinkedList): bool {}
-
-  /**
-   * Append node to end of list
-   */
-  insert(data: any, begin?: Node): boolean {
-    const target: Node = begin || this.tail;
-    const node: Node = new Node(data);
-
-    const tempNext = target.next;
-    node.next = tempNext;
-
-    target.next = node;
-
-    return true;
-  }
-}
-```
-
 ### Hash
 
 ```js
@@ -672,6 +442,73 @@ class Node {
 
     node.next = next;
     this.next = node;
+
+    return true;
+  }
+}
+```
+
+### DoublyLinkedList
+
+```js
+class Node {
+  data: Object = {};
+
+  next: Node | boolean = false;
+
+  constructor(data: any = {}, next: Node | boolean = false) {
+    this.data = data;
+    this.next = next;
+  }
+
+  hasNext(): boolean {
+    return this.next !== false;
+  }
+}
+
+export default class DoublyLinkedList {
+  head: Node;
+
+  tail: Node;
+
+  head: Node;
+
+  integrity = new Set();
+
+  constructor() {
+    this.head = new Node({});
+    this.tail = this.head;
+  }
+
+  isEmpty(): boolean {
+    return !!this.head;
+  }
+
+  // Remove first link
+  remove() {
+    if (!this.isEmpty() && this.head.hasNext()) {
+      this.head = this.head.next;
+    }
+  }
+
+  has() {}
+
+  next() {}
+
+  // @TODO
+  // insertList(list: DoublyLinkedList): bool {}
+
+  /**
+   * Append node to end of list
+   */
+  insert(data: any, begin?: Node): boolean {
+    const target: Node = begin || this.tail;
+    const node: Node = new Node(data);
+
+    const tempNext = target.next;
+    node.next = tempNext;
+
+    target.next = node;
 
     return true;
   }
@@ -1036,133 +873,6 @@ export default function PrefixTrie(words: Array<string>) {
 
 ## Bloom Filter
 
-A **bloom filter** is a space-efficient probabilistic
-data structure designed to test whether an element
-is present in a set. It is designed to be blazingly
-fast and use minimal memory at the cost of potential
-false positives. False positive matches are possible,
-but false negatives are not – in other words, a query
-returns either "possibly in set" or "definitely not in set".
-
-Bloom proposed the technique for applications where the
-amount of source data would require an impractically large
-amount of memory if "conventional" error-free hashing
-techniques were applied.
-
-### Algorithm description
-
-An empty Bloom filter is a bit array of `m` bits, all
-set to `0`. There must also be `k` different hash functions
-defined, each of which maps or hashes some set element to
-one of the `m` array positions, generating a uniform random
-distribution. Typically, `k` is a constant, much smaller
-than `m`, which is proportional to the number of elements
-to be added; the precise choice of `k` and the constant of
-proportionality of `m` are determined by the intended
-false positive rate of the filter.
-
-Here is an example of a Bloom filter, representing the
-set `{x, y, z}`. The colored arrows show the positions
-in the bit array that each set element is mapped to. The
-element `w` is not in the set `{x, y, z}`, because it
-hashes to one bit-array position containing `0`. For
-this figure, `m = 18` and `k = 3`.
-
-![Bloom Filter](https://upload.wikimedia.org/wikipedia/commons/a/ac/Bloom_filter.svg)
-
-### Operations
-
-There are two main operations a bloom filter can
-perform: _insertion_ and _search_. Search may result in
-false positives. Deletion is not possible.
-
-In other words, the filter can take in items. When
-we go to check if an item has previously been
-inserted, it can tell us either "no" or "maybe".
-
-Both insertion and search are `O(1)` operations.
-
-### Making the filter
-
-A bloom filter is created by allotting a certain size.
-In our example, we use `100` as a default length. All
-locations are initialized to `false`.
-
-#### Insertion
-
-During insertion, a number of hash functions,
-in our case `3` hash functions, are used to create
-hashes of the input. These hash functions output
-indexes. At every index received, we simply change
-the value in our bloom filter to `true`.
-
-#### Search
-
-During a search, the same hash functions are called
-and used to hash the input. We then check if the
-indexes received _all_ have a value of `true` inside
-our bloom filter. If they _all_ have a value of
-`true`, we know that the bloom filter may have had
-the value previously inserted.
-
-However, it's not certain, because it's possible
-that other values previously inserted flipped the
-values to `true`. The values aren't necessarily
-`true` due to the item currently being searched for.
-Absolute certainty is impossible unless only a single
-item has previously been inserted.
-
-While checking the bloom filter for the indexes
-returned by our hash functions, if even one of them
-has a value of `false`, we definitively know that the
-item was not previously inserted.
-
-### False Positives
-
-The probability of false positives is determined by
-three factors: the size of the bloom filter, the
-number of hash functions we use, and the number
-of items that have been inserted into the filter.
-
-The formula to calculate probablity of a false positive is:
-
-( 1 - e <sup>-kn/m</sup> ) <sup>k</sup>
-
-`k` = number of hash functions
-
-`m` = filter size
-
-`n` = number of items inserted
-
-These variables, `k`, `m`, and `n`, should be picked based
-on how acceptable false positives are. If the values
-are picked and the resulting probability is too high,
-the values should be tweaked and the probability
-re-calculated.
-
-### Applications
-
-A bloom filter can be used on a blogging website. If
-the goal is to show readers only articles that they
-have never seen before, a bloom filter is perfect.
-It can store hashed values based on the articles. After
-a user reads a few articles, they can be inserted into
-the filter. The next time the user visits the site,
-those articles can be filtered out of the results.
-
-Some articles will inevitably be filtered out by mistake,
-but the cost is acceptable. It's ok if a user never sees
-a few articles as long as they have other, brand new ones
-to see every time they visit the site.
-
-### References
-
-- [Wikipedia](https://en.wikipedia.org/wiki/Bloom_filter)
-- [Bloom Filters by Example](http://llimllib.github.io/bloomfilter-tutorial/)
-- [Calculating False Positive Probability](https://hur.st/bloomfilter/?n=4&p=&m=18&k=3)
-- [Bloom Filters on Medium](https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff)
-- [Bloom Filters on YouTube](https://www.youtube.com/watch?v=bEmBh1HtYrw)
-
 ```js
 export default class BloomFilter {
   /**
@@ -1294,29 +1004,6 @@ export default class BloomFilter {
 ```
 
 ### Disjoint Set
-
-**Disjoint-set** data structure (also called a union–find data structure or merge–find set) is a data
-structure that tracks a set of elements partitioned into a number of disjoint (non-overlapping) subsets.
-It provides near-constant-time operations (bounded by the inverse Ackermann function) to _add new sets_,
-to _merge existing sets_, and to _determine whether elements are in the same set_.
-In addition to many other uses (see the Applications section), disjoint-sets play a key role in Kruskal's algorithm for finding the minimum spanning tree of a graph.
-
-![disjoint set](https://upload.wikimedia.org/wikipedia/commons/6/67/Dsu_disjoint_sets_init.svg)
-
-_MakeSet_ creates 8 singletons.
-
-![disjoint set](https://upload.wikimedia.org/wikipedia/commons/a/ac/Dsu_disjoint_sets_final.svg)
-
-After some operations of _Union_, some sets are grouped together.
-
-#### References
-
-- [Wikipedia](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
-- [By Abdul Bari on YouTube](https://www.youtube.com/watch?v=wU6udHRIkcc&index=14&t=0s&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
-
-#### Code
-
-<!-- DisjointSetItem -->
 
 ```js
 export default class DisjointSetItem {
@@ -1523,8 +1210,6 @@ export default class DisjointSet {
 
 在计算机科学中, 一个 **双向链表(doubly linked list)** 是由一组称为节点的顺序链接记录组成的链接数据结构。每个节点包含两个字段，称为链接，它们是对节点序列中上一个节点和下一个节点的引用。开始节点和结束节点的上一个链接和下一个链接分别指向某种终止节点，通常是前哨节点或 null，以方便遍历列表。如果只有一个前哨节点，则列表通过前哨节点循环链接。它可以被概念化为两个由相同数据项组成的单链表，但顺序相反。
 
-![Doubly Linked List](https://upload.wikimedia.org/wikipedia/commons/5/5e/Doubly-linked-list.svg)
-
 两个节点链接允许在任一方向上遍历列表。
 
 在双向链表中进行添加或者删除节点时,需做的链接更改要比单向链表复杂得多。这种操作在单向链表中更简单高效,因为不需要关注一个节点（除第一个和最后一个节点以外的节点）的两个链接,而只需要关注一个链接即可。
@@ -1611,11 +1296,6 @@ end Reverse Traversal
 ##### 空间复杂度
 
 O(n)
-
-#### 参考
-
-- [Wikipedia](https://en.wikipedia.org/wiki/Doubly_linked_list)
-- [YouTube](https://www.youtube.com/watch?v=JdQeNxWCguQ&t=7s&index=72&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
 #### Code
 
