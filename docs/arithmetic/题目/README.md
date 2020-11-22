@@ -844,6 +844,42 @@ module.exports = BinarySearchTree;
 
 在 100000 个浮点数中找出最大的 1000 个数，时间复杂度最优 （用 堆排序 O(nlogn)）
 
+## 字符串是否对称
+
+```js
+/// solution
+
+function isBalanced(string) {
+  let count = 0;
+  for (let letter of string) {
+    if (letter === '{') {
+      count++;
+    }
+    if (letter === '}') {
+      count--;
+
+      // if a closing bracket doesn't have a matching
+      // opening bracket, we should return early.
+      if (count < 0) {
+        return false;
+      }
+    }
+  }
+  return count === 0;
+}
+
+/// tests
+
+import { test } from 'ava';
+
+test(t => t.is(isBalanced('}{'), false));
+test(t => t.is(isBalanced('{{}'), false));
+test(t => t.is(isBalanced('{}{}'), true));
+test(t => t.is(isBalanced('foo { bar { baz } boo }'), true));
+test(t => t.is(isBalanced('foo { bar { baz }'), false));
+test(t => t.is(isBalanced('foo { bar } }'), false));
+```
+
 # Java
 
 ## 小米-中国牛市
