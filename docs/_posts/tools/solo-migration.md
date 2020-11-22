@@ -49,7 +49,7 @@ date: '2018-11-01'
 
 其实这一步不算是迁移，就在新的服务器上为 solo 添加配置。 贴一下从 D 那抄的配置：
 
-```nginx
+```
 upstream backend {
     server localhost:8080; # Tomcat/Jetty 监听端口
 }
