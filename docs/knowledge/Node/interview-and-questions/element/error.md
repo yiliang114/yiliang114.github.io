@@ -38,7 +38,7 @@ draft: true
 
 而常见的系统错误列表可以通过 Node.js 的 os 对象常看列表：
 
-```javascript
+```js
 const os = require('os');
 
 console.log(os.constants.errno);
@@ -74,7 +74,7 @@ TODO
 
 ### 错误栈丢失
 
-```javascript
+```js
 function test() {
   throw new Error('test error');
 }
@@ -88,7 +88,7 @@ main();
 
 可以收获报错:
 
-```javascript
+```js
 /data/node-interview/error.js:2
   throw new Error('test error');
   ^
@@ -110,7 +110,7 @@ Error: test error
 
 当你使用 setImmediate 等定时器来设置异步的时候:
 
-```javascript
+```js
 function test() {
   throw new Error('test error');
 }
@@ -124,7 +124,7 @@ main();
 
 我们发现
 
-```javascript
+```js
 /data/node-interview/error.js:2
   throw new Error('test error');
   ^
@@ -155,7 +155,7 @@ Error: test error
 
 当异常没有被捕获一路冒泡到 Event Loop 时就会触发该事件 process 对象上的 `uncaughtException` 事件. 默认情况下, Node.js 对于此类异常会直接将其堆栈跟踪信息输出给 `stderr` 并结束进程, 而为 `uncaughtException` 事件添加监听可以覆盖该默认行为, 不会直接结束进程.
 
-```javascript
+```js
 process.on('uncaughtException', err => {
   console.log(`Caught exception: ${err}`);
 });
@@ -192,7 +192,7 @@ console.log('This will not run.');
 
 例如
 
-```javascript
+```js
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
   // application specific logging, throwing an error, or other logic here
@@ -205,7 +205,7 @@ somePromise.then(res => {
 
 以下代码也会触发 `unhandledRejection` 事件：
 
-```javascript
+```js
 function SomeResource() {
   // Initially set the loaded status to a rejected promise
   this.loaded = Promise.reject(new Error('Resource not yet loaded!'));
@@ -259,7 +259,7 @@ domain 本身是一个 EventEmitter 对象, 其中文意思是 "域" 的意思, 
 
 用法:
 
-```javascript
+```js
 // Print GC events to stdout for one minute.
 const v8 = require('v8');
 v8.setFlagsFromString('--trace_gc');

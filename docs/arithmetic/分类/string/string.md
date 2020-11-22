@@ -350,7 +350,7 @@ All given inputs are in lowercase letters a-z.
 
 参考代码
 
-```javascript
+```js
 /*
  * @lc app=leetcode id=14 lang=javascript
  *
@@ -406,7 +406,7 @@ var longestCommonPrefix = function(strs) {
 
 Trie 实现参考代码
 
-```javascript
+```js
 /*
  * @lc app=leetcode id=208 lang=javascript
  *

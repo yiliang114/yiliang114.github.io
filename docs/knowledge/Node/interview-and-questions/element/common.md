@@ -68,36 +68,33 @@ JavaScript 的类型判断其实是个挺折磨人的话题, 不然也不会有 
 
 你需要了解哪些操作一定会导致内存泄漏, 或者可以崩掉内存. 比如如下代码能否爆掉 V8 的内存?
 
-```javaScript
+```js
 let arr = [];
-while(true)
-  arr.push(1);
+while (true) arr.push(1);
 ```
 
 然后上述代码与下方的情况有什么区别?
 
-```javaScript
+```js
 let arr = [];
-while(true)
-  arr.push();
+while (true) arr.push();
 ```
 
 如果 push 的是 `Buffer` 情况又会有什么区别?
 
-```javaScript
+```js
 let arr = [];
-while(true)
-  arr.push(new Buffer(1000));
+while (true) arr.push(new Buffer(1000));
 ```
 
 思考完之后可以尝试找找别的情况如何爆掉 V8 的内存. 以及来聊聊内存泄漏?
 
-```javaScript
+```js
 function out() {
   const bigData = new Buffer(100);
-  inner = function () {
+  inner = function() {
     void bigData;
-  }
+  };
 }
 ```
 

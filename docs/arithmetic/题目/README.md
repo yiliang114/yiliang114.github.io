@@ -12,7 +12,7 @@ draft: true
 
 ### 给定一个整数数组，求其中三个整数的最大乘积
 
-```javascript
+```js
 var unsortedArray = [-10, 7, 29, 30, 5, -10, -70];
 
 computeProduct(unsortedArray); // 21000
@@ -45,7 +45,7 @@ function computeProduct(unsorted) {
 
 已知未排序的数组包含（n-1）个 n 个连续数字（定义了边界），请在 O（n）时间中找到缺失的数字
 
-```javascript
+```js
 // The output of the function should be 8
 var arrayOfIntegers = [2, 5, 1, 4, 9, 6, 3, 7];
 var upperBound = 9;
@@ -75,7 +75,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 - **[1.3](#array--unique) Removing duplicates of an array and returning an array of only unique elements**
 
-  ```javascript
+  ```js
   // ES6 Implementation
   var array = [1, 2, 3, 5, 1, 5, 9, 1, 2, 8];
 
@@ -106,7 +106,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 - **[1.4](#array--largest-difference) Given an array of integers, find the largest difference between two elements such that the element of lesser value must come before the greater element**
 
-  ```javascript
+  ```js
   var array = [7, 8, 4, 9, 9, 15, 3, 1, 10];
   // [7, 8, 4, 9, 9, 15, 3, 1, 10] would return `11` based on the difference between `4` and `15`
   // Notice: It is not `14` from the difference between `15` and `1` because 15 comes before 1.
@@ -145,7 +145,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 - **[1.5](#array--product-other-than-itself) Given an array of integers, return an output array such that output[i] is equal to the product of all the elements in the array other than itself. (Solve this in O(n) without division)**
 
-  ```javascript
+  ```js
   var firstArray = [2, 2, 4, 1];
   var secondArray = [0, 0, 0, 2];
   var thirdArray = [-2, -2, -3, 2];
@@ -184,7 +184,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 * **[1.6](#array--intersection) Find the intersection of two arrays. An intersection would be the common elements that exists within both arrays. In this case, these elements should be unique!**
 
-  ```javascript
+  ```js
   var firstArray = [2, 2, 4, 1];
   var secondArray = [1, 2, 0, 2];
 
@@ -223,7 +223,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 - **[2.1](#string--reverse) Given a string, reverse each word in the sentence**
   `"Welcome to this Javascript Guide!"` should be become `"emocleW ot siht tpircsavaJ !ediuG"`
 
-  ```javascript
+  ```js
   var string = 'Welcome to this Javascript Guide!';
 
   // Output becomes !ediuG tpircsavaJ siht ot emocleW
@@ -245,7 +245,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 - **[2.2](#string--anagram) Given two strings, return true if they are anagrams of one another**
   `"Mary" is an anagram of "Army"`
 
-  ```javascript
+  ```js
   var firstWord = 'Mary';
   var secondWord = 'Army';
 
@@ -275,7 +275,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 * **[2.3](#string--palindrome) Check if a given string is a palindrome**
   `"racecar" is a palindrome. "race car" should also be considered a palindrome. Case sensitivity should be taken into account`
 
-  ```javascript
+  ```js
   isPalindrome('racecar'); // true
   isPalindrome('race Car'); // true
 
@@ -308,7 +308,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
   `dgg` and `add` would return true.
   ```
 
-  ```javascript
+  ```js
   isIsomorphic('egg', 'add'); // true
   isIsomorphic('paper', 'title'); // true
   isIsomorphic('kick', 'side'); // false
@@ -350,7 +350,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 - **[3.1](#stack-queue--stack-as-queue) Implement enqueue and dequeue using only two stacks**
 
-  ```javascript
+  ```js
   var inputStack = []; // First stack
   var outputStack = []; // Second stack
 
@@ -380,7 +380,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
   In this example, we will only consider "{}" as valid parentheses
   `{}{}` would be considered balancing. `{{{}}` is not balanced
 
-  ```javascript
+  ```js
   var expression = '{{}}{}{}';
   var expressionFalse = '{}{{}';
 
@@ -421,7 +421,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 - **[4.1](#recursion--decimal-to-binary) Write a recursive function that returns the binary string of a given decimal number**
   Given `4` as the decimal input, the function should return `100`
 
-  ```javascript
+  ```js
   decimalToBinary(3); // 11
   decimalToBinary(8); // 1000
   decimalToBinary(1000); // 1111101000
@@ -447,7 +447,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 * **[4.2](#recursion--binary-search) Write a recursive function that performs a binary search**
 
-  ```javascript
+  ```js
   function recursiveBinarySearch(array, value, leftPosition, rightPosition) {
     // Value DNE
     if (leftPosition > rightPosition) return -1;
@@ -472,7 +472,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 - **[5.1](#numbers--power-of-two) Given an integer, determine if it is a power of 2. If so,
   return that number, else return -1. (0 is not a power of two)**
 
-  ```javascript
+  ```js
   isPowerOfTwo(4); // true
   isPowerOfTwo(64); // true
   isPowerOfTwo(1); // true
@@ -507,7 +507,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
   undeclared variables. Older versions of javascript would ignore this directive declaration
   ```
 
-  ```javascript
+  ```js
   // Example of strict mode
   'use strict';
 

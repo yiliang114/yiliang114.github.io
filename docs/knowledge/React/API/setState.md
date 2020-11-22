@@ -125,7 +125,7 @@ handle() {
 
     **注意：** 建议使用生命周期方法而不是此回调函数。
 
-    ```javascript
+    ```js
     setState({ name: 'John' }, () => console.log('The name has updated and component re-rendered'))
     ```
 
@@ -140,7 +140,7 @@ handle() {
 
     假设初始计数值为零。在连续三次增加操作之后，该值将只增加一个。
 
-    ```javascript
+    ```js
     // assuming this.state.count === 0
     this.setState({ count: this.state.count + 1 })
     this.setState({ count: this.state.count + 1 })
@@ -150,7 +150,7 @@ handle() {
 
     如果将函数传递给 `setState()`，则 count 将正确递增。
 
-    ```javascript
+    ```js
     this.setState((prevState, props) => ({
       count: prevState.count + props.increment
     }))
@@ -192,7 +192,7 @@ this.setState((prevState, props) => {
 
     默认情况下，当组件的状态或属性改变时，组件将重新渲染。如果你的 `render()` 方法依赖于其他数据，你可以通过调用 `forceUpdate()` 来告诉 React，当前组件需要重新渲染。
 
-    ```javascript
+    ```js
     component.forceUpdate(callback)
     ```
 
@@ -204,7 +204,7 @@ this.setState((prevState, props) => {
 
      以下的 counter 示例将无法按预期更新：
 
-     ```javascript
+     ```js
      // Wrong
      this.setState({
        counter: this.state.counter + this.props.increment,
@@ -213,7 +213,7 @@ this.setState((prevState, props) => {
 
      首选方法是使用函数而不是对象调用 `setState()`。该函数将前一个状态作为第一个参数，当前时刻的 props 作为第二个参数。
 
-     ```javascript
+     ```js
      // Correct
      this.setState((prevState, props) => ({
        counter: prevState.counter + props.increment
@@ -241,7 +241,7 @@ this.setState((prevState, props) => {
 
      当你在组件中调用 setState() 方法时，React 会将提供的对象合并到当前状态。例如，让我们以一个使用帖子和评论详细信息的作为状态变量的 Facebook 用户为例：
 
-     ```javascript
+     ```js
        constructor(props) {
          super(props);
          this.state = {
@@ -253,7 +253,7 @@ this.setState((prevState, props) => {
 
      现在，你可以独立调用 setState() 方法，单独更新状态变量：
 
-     ```javascript
+     ```js
       componentDidMount() {
          fetchPosts().then(response => {
            this.setState({
@@ -277,21 +277,21 @@ this.setState((prevState, props) => {
 
          * 使用 `Object.assign()` 创建对象的副本：
 
-             ```javascript
+             ```js
              const user = Object.assign({}, this.state.user, { age: 42 })
              this.setState({ user })
              ```
 
          * 使用扩展运算符：
 
-             ```javascript
+             ```js
              const user = { ...this.state.user, age: 42 }
              this.setState({ user })
              ```
 
      使用一个函数调用 `setState()`：
 
-         ```javascript
+         ```js
          this.setState(prevState => ({
            user: {
              ...prevState.user,

@@ -106,7 +106,7 @@ Mock 与 Stub 的区别参见: [Mocks Aren't Stubs](https://martinfowler.com/art
 
 例如你可以在本地将项目中的 web app 启动, 并模拟接口调用:
 
-```javascript
+```js
 describe('Path API', () => {
   // ...
 
@@ -152,7 +152,7 @@ describe('Path API', () => {
 
 目前 Node.js 中流行的白盒级基准测试工具是 [benchmark](https://benchmarkjs.com/docs).
 
-```javascript
+```js
 const Benchmark = require('benchmark');
 const suite = new Benchmark.Suite();
 
@@ -235,7 +235,7 @@ Percentage of the requests served within a certain time (ms)
 
 断言 (Assert) 是快速判断并对不符合预期的情况进行报错的模块. 是将:
 
-```javascript
+```js
 if (condition) {
   throw new Error('Sth wrong');
 }
@@ -243,7 +243,7 @@ if (condition) {
 
 写成:
 
-```javascript
+```js
 assert(!condition, 'Sth wrong');
 ```
 

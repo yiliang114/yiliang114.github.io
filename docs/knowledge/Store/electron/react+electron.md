@@ -34,7 +34,7 @@ cd electron-react
 
 1. 安装 electron 以及添加启动命令
 
-   ```javascript
+   ```js
    npm i -S electron
 
    // 在package.json 中添加electron 启动命令
@@ -215,6 +215,7 @@ import React, { Component } from 'react';
   class App extends Component {
   render() {
   return (
+
   <div className="App">
   <Button type="primary">Button</Button>
   </div>

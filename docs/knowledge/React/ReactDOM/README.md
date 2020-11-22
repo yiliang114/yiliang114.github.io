@@ -33,7 +33,7 @@ draft: true
 
     例如，你通常运行基于 Node 的 Web 服务器，如 Express，Hapi 或 Koa，然后你调用 `renderToString` 将根组件渲染为字符串，然后作为响应进行发送。
 
-    ```javascript
+    ```js
     // using Express
     import { renderToString } from 'react-dom/server'
     import MyPage from './MyPage'
@@ -59,6 +59,6 @@ draft: true
 
      此方法可从 react-dom 包中获得，它从 DOM 中移除已装载的 React 组件，并清除其事件处理程序和状态。如果容器中没有装载任何组件，则调用此函数将不起任何作用。如果组件已卸载，则返回 true；如果没有要卸载的组件，则返回 false。该方法的签名如下：
 
-     ```javascript
+     ```js
      ReactDOM.unmountComponentAtNode(container)
      ```

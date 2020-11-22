@@ -29,7 +29,7 @@ draft: true
 
      当你将组件声明为函数或类时，它决不能修改自己的属性。让我们来实现一个 capital 的函数：
 
-     ```javascript
+     ```js
      function capital(amount, interest) {
         return amount + interest;
      }
@@ -41,7 +41,7 @@ draft: true
 
      如果没有传递属性值，则默认为 true。此行为可用，以便与 HTML 的行为匹配。例如，下面的表达式是等价的：
 
-     ```javascript
+     ```js
      <MyInput autocomplete />
 
      <MyInput autocomplete={true} />

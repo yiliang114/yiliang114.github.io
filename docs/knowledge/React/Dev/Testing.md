@@ -10,7 +10,7 @@ draft: true
 
      例如，如果您有以下组件：
 
-     ```javascript
+     ```js
      function MyComponent() {
        return (
          <div>
@@ -82,7 +82,7 @@ draft: true
 
      让我们为`sum.js`文件中添加两个数字的函数编写一个测试：
 
-     ```javascript
+     ```js
      const sum = (a, b) => a + b
 
      export default sum
@@ -90,7 +90,7 @@ draft: true
 
      创建一个名为`sum.test.js`的文件，其中包含实际测试：
 
-     ```javascript
+     ```js
      import sum from './sum'
 
      test('adds 1 + 2 to equal 3', () => {

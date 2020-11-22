@@ -119,7 +119,7 @@ Node.js 内置的 path 是用于处理路径问题的模块. 不过众所周知,
 
 看了上表之后, 你应该了解到当你处于某个平台之下的时候, 所使用的 `path` 模块的方法其实就是对应的平台的方法, 例如笔者这里用的是 mac, 所以:
 
-```javascript
+```js
 const path = require('path');
 console.log(path.basename === path.posix.basename); // true
 ```
@@ -130,7 +130,7 @@ console.log(path.basename === path.posix.basename); // true
 
 on POSIX:
 
-```javascript
+```js
 path.parse('/home/user/dir/file.txt');
 // Returns:
 // {
@@ -142,7 +142,7 @@ path.parse('/home/user/dir/file.txt');
 // }
 ```
 
-```javascript
+```js
 ┌─────────────────────┬────────────┐
 │          dir        │    base    │
 ├──────┬              ├──────┬─────┤
@@ -153,7 +153,7 @@ path.parse('/home/user/dir/file.txt');
 
 on Windows:
 
-```javascript
+```js
 path.parse('C:\\path\\dir\\file.txt');
 // Returns:
 // {
@@ -165,7 +165,7 @@ path.parse('C:\\path\\dir\\file.txt');
 // }
 ```
 
-```javascript
+```js
 ┌─────────────────────┬────────────┐
 │          dir        │    base    │
 ├──────┬              ├──────┬─────┤

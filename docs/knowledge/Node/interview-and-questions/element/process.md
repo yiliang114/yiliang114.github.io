@@ -71,7 +71,7 @@ draft: true
 
 `process.nextTick` 并不属于 Event loop 中的某一个阶段, 而是在 Event loop 的每一个阶段结束后, 直接执行 `nextTickQueue` 中插入的 "Tick", 并且直到整个 Queue 处理完. 所以面试时又有可以问的问题了, 递归调用 process.nextTick 会怎么样? (doge
 
-```javascript
+```js
 function test() {
   process.nextTick(() => test());
 }
@@ -79,7 +79,7 @@ function test() {
 
 这种情况与以下情况, 有什么区别? 为什么?
 
-```javascript
+```js
 function test() {
   setTimeout(() => test(), 0);
 }
@@ -141,7 +141,7 @@ Node.js 的 `child_process.fork()` 在 Unix 上的实现最终调用了 POSIX [f
 
 Cluster 是常见的 Node.js 利用多核的办法. 它是基于 `child_process.fork()` 实现的, 所以 cluster 产生的进程之间是通过 IPC 来通信的, 并且它也没有拷贝父进程的空间, 而是通过加入 cluster.isMaster 这个标识, 来区分父进程以及子进程, 达到类似 POSIX 的 [fork](http://man7.org/linux/man-pages/man2/fork.2.html) 的效果.
 
-```javascript
+```js
 const cluster = require('cluster'); // | |
 const http = require('http'); // | |
 const numCPUs = require('os').cpus().length; // | |    都执行了

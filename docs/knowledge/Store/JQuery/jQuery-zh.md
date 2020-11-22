@@ -11,13 +11,13 @@ draft: true
 - jquery 源码封装在一个匿名函数的自执行环境中，有助于防止变量的全局污染，然后通过传入 window 对象参数，可以使 window 对象作为局部变量使用，好处是当 jquery 中访问 window 对象的时候，就不用将作用域链退回到顶层作用域了，从而可以更快的访问 window 对象。同样，传入 undefined 参数，可以缩短查找 undefined 时的作用域链
 
 ```js
-;(function(window, undefined) {
+(function(window, undefined) {
   //用一个函数域包起来，就是所谓的沙箱
   //在这里边var定义的变量，属于这个函数域内的局部变量，避免污染全局
   //把当前沙箱需要的外部变量通过函数参数引入进来
   //只要保证参数对内提供的接口的一致性，你还可以随意替换传进来的这个参数
-  window.jQuery = window.$ = jQuery
-})(window)
+  window.jQuery = window.$ = jQuery;
+})(window);
 ```
 
 - jquery 将一些原型属性和方法封装在了 jquery.prototype 中，为了缩短名称，又赋值给了 jquery.fn，这是很形象的写法
@@ -88,37 +88,37 @@ $("#email").alertValue();
 - jQuery 核心中有一组队列控制方法，由 queue()/dequeue()/clearQueue() 三个方法组成。
 - 主要应用于 animate()，ajax，其他要按时间顺序执行的事件中
 
-```javascript
+```js
 var func1 = function() {
-  alert('事件1')
-}
+  alert('事件1');
+};
 var func2 = function() {
-  alert('事件2')
-}
+  alert('事件2');
+};
 var func3 = function() {
-  alert('事件3')
-}
+  alert('事件3');
+};
 var func4 = function() {
-  alert('事件4')
-}
+  alert('事件4');
+};
 
 // 入栈队列事件
-$('#box').queue('queue1', func1) // push func1 to queue1
-$('#box').queue('queue1', func2) // push func2 to queue1
+$('#box').queue('queue1', func1); // push func1 to queue1
+$('#box').queue('queue1', func2); // push func2 to queue1
 
 // 替换队列事件
-$('#box').queue('queue1', []) // delete queue1 with empty array
-$('#box').queue('queue1', [func3, func4]) // replace queue1
+$('#box').queue('queue1', []); // delete queue1 with empty array
+$('#box').queue('queue1', [func3, func4]); // replace queue1
 
 // 获取队列事件（返回一个函数数组）
-$('#box').queue('queue1') // [func3(), func4()]
+$('#box').queue('queue1'); // [func3(), func4()]
 
 // 出栈队列事件并执行
-$('#box').dequeue('queue1') // return func3 and do func3
-$('#box').dequeue('queue1') // return func4 and do func4
+$('#box').dequeue('queue1'); // return func3 and do func3
+$('#box').dequeue('queue1'); // return func4 and do func4
 
 // 清空整个队列
-$('#box').clearQueue('queue1') // delete queue1 with clearQueue
+$('#box').clearQueue('queue1'); // delete queue1 with clearQueue
 ```
 
 ### jQuery 中的 bind(), live(), delegate(), on()的区别？
@@ -133,11 +133,11 @@ $('#box').clearQueue('queue1') // delete queue1 with clearQueue
 - 事件即“发布/订阅”模式，自定义事件即“消息发布”，事件的监听即“订阅订阅”
 - JS 原生支持自定义事件，示例：
 
-```javascript
-document.createEvent(type) // 创建事件
-event.initEvent(eventType, canBubble, prevent) // 初始化事件
-target.addEventListener('dataavailable', handler, false) // 监听事件
-target.dispatchEvent(e) // 触发事件
+```js
+document.createEvent(type); // 创建事件
+event.initEvent(eventType, canBubble, prevent); // 初始化事件
+target.addEventListener('dataavailable', handler, false); // 监听事件
+target.dispatchEvent(e); // 触发事件
 ```
 
 - jQuery 里的 fire 函数用于调用 jQuery 自定义事件列表中的事件
@@ -149,32 +149,32 @@ target.dispatchEvent(e) // 触发事件
 
 ### jQuery 中如何将数组转化为 JSON 字符串，然后再转化回来？
 
-```javascript
+```js
 // 通过原生 JSON.stringify/JSON.parse 扩展 jQuery 实现
 $.array2json = function(array) {
-  return JSON.stringify(array)
-}
+  return JSON.stringify(array);
+};
 
 $.json2array = function(array) {
   // $.parseJSON(array); // 3.0 开始，已过时
-  return JSON.parse(array)
-}
+  return JSON.parse(array);
+};
 
 // 调用
-var json = $.array2json(['a', 'b', 'c'])
-var array = $.json2array(json)
+var json = $.array2json(['a', 'b', 'c']);
+var array = $.json2array(json);
 ```
 
 ### jQuery 一个对象可以同时绑定多个事件，这是如何实现的？
 
-```javascript
-$('#btn').on('mouseover mouseout', func)
+```js
+$('#btn').on('mouseover mouseout', func);
 
 $('#btn').on({
   mouseover: func1,
   mouseout: func2,
-  click: func3
-})
+  click: func3,
+});
 ```
 
 ### 针对 jQuery 的优化方法？

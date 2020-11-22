@@ -53,7 +53,7 @@ Function.prototype.myBind = function(target) {
 
 ### 简单实现 Function.bind 函数？
 
-```javascript
+```js
 if (!Function.prototype.bind) {
   Function.prototype.bind = function(that) {
     var func = this,

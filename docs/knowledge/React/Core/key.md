@@ -16,7 +16,7 @@ draft: true
 
      数组中使用的键在其同级中应该是唯一的，但它们不需要是全局唯一的。也就是说，你可以在两个不同的数组中使用相同的键。例如，下面的 book 组件在不同的组件中使用相同的数组：
 
-     ```javascript
+     ```js
      function Book(props) {
        const index = (
          <ul>

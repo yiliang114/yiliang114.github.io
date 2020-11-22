@@ -485,20 +485,20 @@ function clone(Obj) {
 
 _问题：`foo`的值是什么？_
 
-```javascript
+```js
 var foo = 10 + '20';
 ```
 
 _问题：如何实现以下函数？_
 
-```javascript
+```js
 add(2, 5); // 7
 add(2)(5); // 7
 ```
 
 _问题：下面的语句的返回值是什么？_
 
-```javascript
+```js
 "i'm a lasagna hog"
   .split('')
   .reverse()
@@ -507,13 +507,13 @@ _问题：下面的语句的返回值是什么？_
 
 _问题：`window.foo`的值是什么？_
 
-```javascript
+```js
 window.foo || (window.foo = 'bar');
 ```
 
 _问题：下面两个 alert 的结果是什么？_
 
-```javascript
+```js
 var foo = 'Hello';
 (function() {
   var bar = ' World';
@@ -524,7 +524,7 @@ alert(foo + bar);
 
 _问题：`foo.length`的值是什么？_
 
-```javascript
+```js
 var foo = [];
 foo.push(1);
 foo.push(2);
@@ -532,7 +532,7 @@ foo.push(2);
 
 _问题：`foo.x`的值是什么？_
 
-```javascript
+```js
 var foo = { n: 1 };
 var bar = foo;
 foo.x = foo = { n: 2 };
@@ -540,7 +540,7 @@ foo.x = foo = { n: 2 };
 
 _问题：下面代码的输出是什么？_
 
-```javascript
+```js
 console.log('one');
 setTimeout(function() {
   console.log('two');

@@ -208,7 +208,7 @@ SELECT * FROM users WHERE usernae = 'myName' AND password = ''; DROP TABLE users
 
 看个简单的情况:
 
-```javascript
+```js
 let { user, pass, age } = ctx.query;
 
 db.collection.find({

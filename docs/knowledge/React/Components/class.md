@@ -10,7 +10,7 @@ draft: true
 
     使用 ES6 类:
 
-    ```javascript
+    ```js
     class MyComponent extends React.Component {
       constructor(props) {
         super(props)
@@ -21,7 +21,7 @@ draft: true
 
     使用 `React.createClass()`:
 
-    ```javascript
+    ```js
     const MyComponent = React.createClass({
       getInitialState() {
         return { /* initial state */ }
@@ -65,7 +65,7 @@ draft: true
 
     使用 `super(props)`:
 
-    ```javascript
+    ```js
     class MyComponent extends React.Component {
       constructor(props) {
         super(props)
@@ -76,7 +76,7 @@ draft: true
 
     使用 `super()`:
 
-    ```javascript
+    ```js
     class MyComponent extends React.Component {
       constructor(props) {
         super()
@@ -115,7 +115,7 @@ draft: true
 
     如果你要规范具有特定对象格式的数组的属性，请使用 `React.PropTypes.shape()` 作为 `React.PropTypes.arrayOf()` 的参数。
 
-    ```javascript
+    ```js
     ReactComponent.propTypes = {
       arrayWithShape: React.PropTypes.arrayOf(React.PropTypes.shape({
         color: React.PropTypes.string.isRequired,
@@ -128,7 +128,7 @@ draft: true
 
      如果你不使用 ES6，那么你可能需要使用 create-react-class 模块。对于默认属性，你需要在传递对象上定义 getDefaultProps() 函数。而对于初始状态，必须提供返回初始状态的单独 getInitialState 方法。
 
-     ```javascript
+     ```js
      var Greeting = createReactClass({
        getDefaultProps: function() {
            return {
@@ -168,7 +168,7 @@ draft: true
 
      你可以在没有 JSX 的情况下编写相同的功能，如下所示：
 
-     ```javascript
+     ```js
      class Greeting extends React.Component {
        render() {
          return React.createElement('div', null, `Hello ${this.props.message}`);
@@ -185,7 +185,7 @@ draft: true
 
      不行，`statics` 仅适用于 `React.createClass()`：
 
-     ```javascript
+     ```js
      someComponent= React.createClass({
        statics: {
          someMethod: function() {
@@ -197,7 +197,7 @@ draft: true
 
      但是你可以在 ES6+ 的类中编写静态代码，如下所示：
 
-     ```javascript
+     ```js
      class Component extends React.Component {
        static propTypes = {
          // ...
@@ -215,7 +215,7 @@ draft: true
 
      例如，如下所示 size 的属性值可以是 `string` 或 `number` 类型。
 
-     ```javascript
+     ```js
      Component.PropTypes = {
        size: PropTypes.oneOfType([
          PropTypes.string,

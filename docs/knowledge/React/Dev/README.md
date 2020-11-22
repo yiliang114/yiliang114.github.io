@@ -70,7 +70,7 @@ lbs 页面
 
          创建一个名为 `polyfills.js` 文件，并在根目录下的 `index.js` 文件中导入它。运行 `npm install core-js` 或 `yarn add core-js` 并导入你所需的功能特性：
 
-         ```javascript
+         ```js
          import 'core-js/fn/array/find'
          import 'core-js/fn/array/includes'
          import 'core-js/fn/number/is-nan'
@@ -133,7 +133,7 @@ lbs 页面
 
      **React.forwardRef**接受渲染函数作为参数，DevTools 使用此函数来确定为 ref 转发组件显示的内容。例如，如果您没有使用 displayName 属性命名 render 函数，那么它将在 DevTools 中显示为“ForwardRef”，
 
-     ```javascript
+     ```js
      const WrappedComponent = React.forwardRef((props, ref) => {
        return <LogProps {...props} forwardedRef={ref} />;
      });
@@ -141,7 +141,7 @@ lbs 页面
 
      但如果你命名 render 函数，那么它将显示为 **“ForwardRef(myFunction)”**
 
-     ```javascript
+     ```js
      const WrappedComponent = React.forwardRef(
        function myFunction(props, ref) {
          return <LogProps {...props} forwardedRef={ref} />;
@@ -151,7 +151,7 @@ lbs 页面
 
      作为替代方案，您还可以为 forwardRef 函数设置 displayName 属性，
 
-     ```javascript
+     ```js
      function logProps(Component) {
        class LogProps extends React.Component {
          // ...
@@ -186,13 +186,13 @@ lbs 页面
      Code-Splitting 是 Webpack 和 Browserify 等打包工具所支持的一项功能，它可以创建多个 bundles，并可以在运行时动态加载。React 项目支持通过 dynamic import() 特性进行代码拆分。例如，在下面的代码片段中，它将使 moduleA.js 及其所有唯一依赖项作为单独的块，仅当用户点击 'Load' 按钮后才加载。
 
      **moduleA.js**
-     ```javascript
+     ```js
      const moduleA = 'Hello';
 
      export { moduleA };
      ```
      **App.js**
-     ```javascript
+     ```js
      import React, { Component } from 'react';
 
      class App extends Component {
@@ -222,13 +222,13 @@ lbs 页面
 
      在子代组件抛出异常后会调用此生命周期方法。它以抛出的异常对象作为参数，并返回一个值用于更新状态。该生命周期方法的签名如下：
 
-     ```javascript
+     ```js
      static getDerivedStateFromError(error)
      ```
 
      让我们举一个包含上述生命周期方法的错误边界示例，来说明 getDerivedStateFromError 的目的：
 
-     ```javascript
+     ```js
      class ErrorBoundary extends React.Component {
        constructor(props) {
          super(props);
@@ -264,7 +264,7 @@ lbs 页面
 
      例如，若要简化调试，请选择一个显示名称，以表明它是 withSubscription HOC 的结果。
 
-     ```javascript
+     ```js
      function withSubscription(WrappedComponent) {
        class WithSubscription extends React.Component {/* ... */}
        WithSubscription.displayName = `WithSubscription(${getDisplayName(WrappedComponent)})`;
@@ -296,13 +296,13 @@ lbs 页面
 
      在 `index.js` 文件中导入 `font-awesome`:
 
-     ```javascript
+     ```js
      import 'font-awesome/css/font-awesome.min.css'
      ```
 
      在 `className` 中添加 Font Awesome 类:
 
-     ```javascript
+     ```js
      render() {
        return <div><i className={'fa fa-spinner'} /></div>
      }
@@ -343,7 +343,7 @@ lbs 页面
 
      在 JSX 文件中使用该元素：
 
-         ```javascript
+         ```js
          import React from 'react'
 
          class MyComponent extends React.Component {
@@ -428,7 +428,7 @@ lbs 页面
 
 `isMounted()` 的主要场景是避免在组件卸载后调用 `setState()`，因为它会发出警告。
 
-    ```javascript
+    ```js
     if (this.isMounted()) {
       this.setState({...})
     }
@@ -521,7 +521,7 @@ lbs 页面
 
      例如，让我们创建用于更新状态的 `removeItem()` 方法。
 
-     ```javascript
+     ```js
      removeItem(index) {
        this.setState({
          data: this.state.data.filter((item, i) => i !== index)
@@ -610,7 +610,7 @@ lbs 页面
 
      你可以使用 ES7 的 `static` 来定义常量。
 
-     ```javascript
+     ```js
      class MyComponent extends React.Component {
        static DEFAULT_PAGINATION = 10
      }
@@ -628,7 +628,7 @@ lbs 页面
 
      在事件处理器中触发点击事件
 
-         ```javascript
+         ```js
          this.inputElement.click()
          ```
 

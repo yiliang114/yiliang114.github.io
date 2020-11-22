@@ -21,13 +21,13 @@ func();
 // Cannot access 'b' before initialization
 ```
 
-```javascript
+```js
 console.log(employeeId);
 var employeeId = '19000';
 // undefined
 ```
 
-```javascript
+```js
 var employeeId = '1234abe';
 (function() {
   console.log(employeeId);
@@ -36,7 +36,7 @@ var employeeId = '1234abe';
 // undefined
 ```
 
-```javascript
+```js
 var employeeId = '1234abe';
 (function() {
   console.log(employeeId);
@@ -48,7 +48,7 @@ var employeeId = '1234abe';
 // undefined
 ```
 
-```javascript
+```js
 (function() {
   console.log(typeof displayFunc);
   var displayFunc = function() {
@@ -58,7 +58,7 @@ var employeeId = '1234abe';
 // undefined
 ```
 
-```javascript
+```js
 var employeeId = 'abc123';
 function foo() {
   employeeId = '123bcd';
@@ -69,7 +69,7 @@ console.log(employeeId);
 // 123bcd
 ```
 
-```javascript
+```js
 var employeeId = 'abc123';
 
 function foo() {
@@ -83,7 +83,7 @@ console.log(employeeId);
 // abc123
 ```
 
-```javascript
+```js
 var employeeId = 'abc123';
 
 function foo() {
@@ -98,7 +98,7 @@ foo();
 // function
 ```
 
-```javascript
+```js
 function foo() {
   employeeId();
   var product = 'Car';
@@ -112,7 +112,7 @@ foo();
 // undefined
 ```
 
-```javascript
+```js
 (function foo() {
   bar();
 
@@ -128,7 +128,7 @@ foo();
 //  function function
 ```
 
-```javascript
+```js
 (function() {
   'use strict';
 
@@ -148,7 +148,7 @@ foo();
 // ["name", "salary", "country", "phoneNo"]
 ```
 
-```javascript
+```js
 (function() {
   'use strict';
 
@@ -168,7 +168,7 @@ foo();
 // ["name", "salary", "country"]
 ```
 
-```javascript
+```js
 (function() {
   var objA = {
     foo: 'foo',
@@ -184,7 +184,7 @@ foo();
 // false false
 ```
 
-```javascript
+```js
 function mul(x) {
   return function(y) {
     return {
@@ -201,7 +201,7 @@ console.log(mul(2)(3).sum(4));
 //  6, 10
 ```
 
-```javascript
+```js
 function mul(x) {
   return function(y) {
     return [
@@ -219,7 +219,7 @@ console.log(mul(2)(3)[1](4));
 // 6, 10
 ```
 
-```javascript
+```js
 function getNumber() {
   return;
 }
@@ -229,7 +229,7 @@ console.log(numb);
 // undefined
 ```
 
-```javascript
+```js
 function getNumber() {
   return 2, 4, 5;
 }
@@ -239,7 +239,7 @@ console.log(numb);
 // 5 最后一个值就是 return 回的值
 ```
 
-```javascript
+```js
 (function() {
   function sayHello() {
     var name = 'Hi John';
@@ -254,7 +254,7 @@ console.log(numb);
 // Uncaught TypeError: Cannot read property 'fullName' of undefined
 ```
 
-```javascript
+```js
 (function() {
   var arrayNumb = [2, 8, 15, 16, 23, 42];
   Array.prototype.sort = function(a, b) {
@@ -287,7 +287,7 @@ console.log(numb);
 // [ 2, 8, 15, 16, 23, 42 ]
 ```
 
-```javascript
+```js
 function getDataFromServer(apiUrl) {
   var name = 'John';
   return {
@@ -303,7 +303,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // John
 ```
 
-```javascript
+```js
 (function greetNewCustomer() {
   console.log('Hello ' + this.name);
 }.bind({
@@ -312,7 +312,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // Hello John
 ```
 
-```javascript
+```js
 (function() {
   var fooAccount = {
     name: 'John',
@@ -340,7 +340,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // 3600 3300 3100
 ```
 
-```javascript
+```js
 (function() {
   var objA = new Object({ foo: 'foo' });
   var objB = new Object({ foo: 'foo' });
@@ -350,7 +350,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // false false
 ```
 
-```javascript
+```js
 (function() {
   var objA = Object.create({
     foo: 'foo',
@@ -364,7 +364,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // false false
 ```
 
-```javascript
+```js
 (function() {
   var objA = Object.create({
     foo: 'foo',
@@ -376,7 +376,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // false false
 ```
 
-```javascript
+```js
 (function() {
   var objA = Object.create({
     foo: 'foo',
@@ -388,7 +388,7 @@ getDataFromServer('www.google.com').then(function(name) {
 //  true true
 ```
 
-```javascript
+```js
 (function() {
   var objA = Object.create({
     foo: 'foo',
@@ -402,7 +402,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // true true true true
 ```
 
-```javascript
+```js
 (function() {
   var objA = Object.create({
     foo: 'foo',
@@ -415,7 +415,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // bar bar
 ```
 
-```javascript
+```js
 (function() {
   var objA = Object.create({
     foo: 'foo',
@@ -430,7 +430,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // foo foo
 ```
 
-```javascript
+```js
 (function() {
   var objA = {
     foo: 'foo',
@@ -445,7 +445,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // undefined undefined
 ```
 
-```javascript
+```js
 (function() {
   var array = new Array('100');
   console.log(array);
@@ -454,7 +454,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // ["100"] 1
 ```
 
-```javascript
+```js
 (function() {
   var array1 = [];
   var array2 = new Array(100);
@@ -467,7 +467,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [] [] [Array[5]] 1
 ```
 
-```javascript
+```js
 (function() {
   var array = new Array('a', 'b', 'c', 'd', 'e');
   array[10] = 'f';
@@ -477,7 +477,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // 11
 ```
 
-```javascript
+```js
 (function() {
   var animal = ['cow', 'horse'];
   animal.push('cat');
@@ -487,7 +487,7 @@ getDataFromServer('www.google.com').then(function(name) {
 //  6
 ```
 
-```javascript
+```js
 (function() {
   var animal = ['cow', 'horse'];
   animal.push('cat');
@@ -497,7 +497,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [ 'dog', 'rat', 'goat', 'cow', 'horse', 'cat' ]
 ```
 
-```javascript
+```js
 (function() {
   var array = [1, 2, 3, 4, 5];
   console.log(array.indexOf(2));
@@ -508,7 +508,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // 1 -1 -1 4
 ```
 
-```javascript
+```js
 (function() {
   var array = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6];
   console.log(array.indexOf(2));
@@ -518,7 +518,7 @@ getDataFromServer('www.google.com').then(function(name) {
 //  1 6 -1
 ```
 
-```javascript
+```js
 (function() {
   var numbers = [2, 3, 4, 8, 9, 11, 13, 12, 16];
   var even = numbers.filter(function(element, index) {
@@ -535,7 +535,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [ 2, 4, 8, 12, 16 ] true
 ```
 
-```javascript
+```js
 (function() {
   var containers = [2, 0, false, '', '12', true];
   var containers = containers.filter(Boolean);
@@ -554,7 +554,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [ 2, '12', true ]
 ```
 
-```javascript
+```js
 (function() {
   var list = ['foo', 'bar', 'john', 'ritz'];
   console.log(list.slice(1));
@@ -570,7 +570,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [ 'foo', 'bar', 'john', 'ritz' ]
 ```
 
-```javascript
+```js
 (function() {
   var list = ['foo', 'bar', 'john'];
   console.log(list.splice(1));
@@ -580,7 +580,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [ 'bar', 'john' ] [] [ 'foo' ]
 ```
 
-```javascript
+```js
 (function() {
   var arrayNumb = [2, 8, 15, 16, 23, 42];
   arrayNumb.sort();
@@ -589,7 +589,7 @@ getDataFromServer('www.google.com').then(function(name) {
 // [ 15, 16, 2, 23, 42, 8 ]
 ```
 
-```javascript
+```js
 function funcA() {
   console.log('funcA ', this);
   (function innerFuncA1() {
@@ -606,7 +606,7 @@ console.log(funcA());
 // innerFunA11 Window {...}
 ```
 
-```javascript
+```js
 var obj = {
   message: 'Hello',
   innerMessage: !(function() {
@@ -618,7 +618,7 @@ console.log(obj.innerMessage);
 // undefined true
 ```
 
-```javascript
+```js
 var obj = {
   message: 'Hello',
   innerMessage: function() {
@@ -630,7 +630,7 @@ console.log(obj.innerMessage());
 // Hello
 ```
 
-```javascript
+```js
 var obj = {
   message: 'Hello',
   innerMessage: function() {
@@ -643,7 +643,7 @@ console.log(obj.innerMessage());
 // undefined
 ```
 
-```javascript
+```js
 var obj = {
   message: 'Hello',
   innerMessage: function() {
@@ -657,7 +657,7 @@ console.log(obj.innerMessage());
 // Hello
 ```
 
-```javascript
+```js
 function myFunc() {
   console.log(this.message);
 }
@@ -667,7 +667,7 @@ console.log(myFunc());
 // undefined
 ```
 
-```javascript
+```js
 function myFunc() {
   console.log(myFunc.message);
 }
@@ -677,7 +677,7 @@ console.log(myFunc());
 // 'Hi John'
 ```
 
-```javascript
+```js
 function myFunc() {
   myFunc.message = 'Hi John';
   console.log(myFunc.message);
@@ -686,7 +686,7 @@ console.log(myFunc());
 // 'Hi John'
 ```
 
-```javascript
+```js
 function myFunc(param1, param2) {
   console.log(myFunc.length);
 }
@@ -696,7 +696,7 @@ console.log(myFunc('a', 'b', 'c', 'd'));
 // 2 2 2
 ```
 
-```javascript
+```js
 function myFunc() {
   console.log(arguments.length);
 }
@@ -706,7 +706,7 @@ console.log(myFunc('a', 'b', 'c', 'd'));
 // 0 2 4
 ```
 
-```javascript
+```js
 function Person(name, age) {
   this.name = name || 'John';
   this.age = age || 24;
@@ -729,7 +729,7 @@ Person.displayName();
 
 ### Scopes
 
-```javascript
+```js
 function passWordMngr() {
   var password = '12345678';
   this.userName = 'John';
@@ -744,7 +744,7 @@ console.log(userInfo.userName);
 // 12345678 undefined
 ```
 
-```javascript
+```js
 var employeeId = 'aq123';
 function Employee() {
   this.employeeId = 'bq1uy';
@@ -753,7 +753,7 @@ console.log(Employee.employeeId);
 // undefined
 ```
 
-```javascript
+```js
 var employeeId = 'aq123';
 
 function Employee() {
@@ -767,7 +767,7 @@ console.log(new Employee().employeeId);
 // bq1uy 1BJKSJ bq1uy
 ```
 
-```javascript
+```js
 var employeeId = 'aq123';
 (function Employee() {
   try {
@@ -780,7 +780,7 @@ var employeeId = 'aq123';
 // foo123 aq123
 ```
 
-```javascript
+```js
 // Call, Apply, Bind
 (function() {
   var greet = 'Hello World';
@@ -792,7 +792,7 @@ var employeeId = 'aq123';
 // [ 'W', 'o', 'r', 'l', 'd' ]
 ```
 
-```javascript
+```js
 var output = (function(x) {
   delete x;
   return x;
@@ -803,7 +803,7 @@ console.log(output);
 // delete 只能用于删除对象的属性
 ```
 
-```javascript
+```js
 var x = 1;
 var output = (function() {
   delete x;
@@ -814,7 +814,7 @@ console.log(output);
 // 1
 ```
 
-```javascript
+```js
 var x = { foo: 1 };
 var output = (function() {
   delete x.foo;
@@ -825,7 +825,7 @@ console.log(output);
 // undefined
 ```
 
-```javascript
+```js
 var Employee = {
   company: 'xyz',
 };
@@ -836,7 +836,7 @@ console.log(emp1.company);
 // 会去拿原型链上的属性
 ```
 
-```javascript
+```js
 var strA = 'hi there';
 var strB = strA;
 strB = 'bye there!';
@@ -844,7 +844,7 @@ console.log(strA);
 // hi there
 ```
 
-```javascript
+```js
 var objA = { prop1: 42 };
 var objB = objA;
 objB.prop1 = 90;
@@ -852,7 +852,7 @@ console.log(objA);
 // {prop1: 90}
 ```
 
-```javascript
+```js
 var objA = { prop1: 42 };
 var objB = objA;
 objB = {};
@@ -860,7 +860,7 @@ console.log(objA);
 // {prop1: 42}
 ```
 
-```javascript
+```js
 var arrA = [0, 1, 2, 3, 4, 5];
 var arrB = arrA;
 arrB[0] = 42;
@@ -868,7 +868,7 @@ console.log(arrA);
 // [42,1,2,3,4,5]
 ```
 
-```javascript
+```js
 var arrA = [0, 1, 2, 3, 4, 5];
 var arrB = arrA.slice();
 arrB[0] = 42;
@@ -876,7 +876,7 @@ console.log(arrA);
 // [0,1,2,3,4,5]
 ```
 
-```javascript
+```js
 var arrA = [{ prop1: 'value of array A!!' }, { someProp: 'also value of array A!' }, 3, 4, 5];
 var arrB = arrA;
 arrB[0].prop1 = 42;
@@ -884,7 +884,7 @@ console.log(arrA);
 // [{prop1: 42}, {someProp: "also value of array A!"}, 3,4,5]
 ```
 
-```javascript
+```js
 var arrA = [{ prop1: 'value of array A!!' }, { someProp: 'also value of array A!' }, 3, 4, 5];
 var arrB = arrA.slice();
 arrB[0].prop1 = 42;
@@ -901,14 +901,14 @@ function slice(arr) {
 }
 ```
 
-```javascript
+```js
 var trees = ['xyz', 'xxxx', 'test', 'ryan', 'apple'];
 delete trees[3];
 console.log(trees.length);
 // 5
 ```
 
-```javascript
+```js
 var bar = true;
 console.log(bar + 0);
 console.log(bar + 'xyz');
@@ -917,14 +917,14 @@ console.log(bar + false);
 // 1, "truexyz", 2, 1
 ```
 
-```javascript
+```js
 var z = 1,
   y = (z = typeof y);
 console.log(y);
 // undefined
 ```
 
-```javascript
+```js
 // NFE (Named Function Expression)
 var foo = function bar() {
   return 12;
@@ -933,7 +933,7 @@ typeof bar();
 // Reference Error
 ```
 
-```javascript
+```js
 bar();
 (function abc() {
   console.log('something');
@@ -945,7 +945,7 @@ function bar() {
 // something
 ```
 
-```javascript
+```js
 var salary = '1000$';
 
 (function() {
@@ -958,7 +958,7 @@ var salary = '1000$';
 // undefined, 5000$
 ```
 
-```javascript
+```js
 function User(name) {
   this.name = name || 'JsGeeks';
 }
@@ -970,7 +970,7 @@ console.log(person);
 
 ### 检测对象未定义的属性
 
-```javascript
+```js
 var person = {
   name: 'Nishant',
   age: 24,
@@ -983,7 +983,7 @@ if (typeof someProperty === 'undefined') {
 
 ### 检查一个对象是否含有某一个键.
 
-```javascript
+```js
 var person = {
   name: 'Nishant',
   age: 24,
@@ -999,7 +999,7 @@ console.log(person.hasOwnProperty('salary')); // print false
 
 ### What is NaN, why do we need it, and when can it break the page?
 
-```javascript
+```js
 Math.sqrt(-5);
 Math.log(-1);
 parseFloat(
@@ -1014,7 +1014,7 @@ NaN === 2; // false
 
 ### Fix the bug using ES5 only
 
-```javascript
+```js
 var arr = [10, 32, 65, 2];
 for (var i = 0; i < arr.length; i++) {
   setTimeout(function() {
@@ -1027,7 +1027,7 @@ For ES6, you can just replace `var i` with `let i`.
 
 For ES5, you need to create a function scope like here:
 
-```javascript
+```js
 var arr = [10, 32, 65, 2];
 for (var i = 0; i < arr.length; i++) {
   setTimeout(
@@ -1045,7 +1045,7 @@ for (var i = 0; i < arr.length; i++) {
 
 **Method 1:**
 
-```javascript
+```js
 // 1
 function isArray(value) {
   return Object.prototype.toString.call(value) === '[object Array]'
@@ -1079,7 +1079,7 @@ No new properties or methods can be added to the object, but one can change the 
 
 For example:
 
-```javascript
+```js
 var employee = {
   name: 'Nishant',
 };
@@ -1100,7 +1100,7 @@ It is same as prevent extension, in addition to this also prevent existing prope
 
 To seal an object, we use **Object.seal()** method. you can check whether an object is sealed or not using **Object.isSealed();**
 
-```javascript
+```js
 var employee = {
   name: 'Nishant',
 };
@@ -1125,7 +1125,7 @@ Same as seal, In addition to this prevent existing properties methods from being
 
 To freeze an object, use Object.freeze() method. We can also determine whether an object is frozen using Object.isFrozen();
 
-```javascript
+```js
 var employee = {
   name: 'Nishant',
 };
@@ -1153,7 +1153,7 @@ If you are decided to prevent modification, sealed, freeze the object then use i
 
 For example:
 
-```javascript
+```js
 'use strict';
 
 var employee = {
@@ -1179,7 +1179,7 @@ delete employee.name; // fails silently unless it's in strict mode
 
 Let say you have two objects
 
-```javascript
+```js
 var person = {
   name: 'John',
   age: 24,
@@ -1194,7 +1194,7 @@ var address = {
 
 Write merge function which will take two object and add all the own property of second object into first object.
 
-```javascript
+```js
 merge(person, address);
 
 /* Now person should have 5 properties
@@ -1203,13 +1203,13 @@ name , age , addressLine1 , addressLine2 , city */
 
 **Method 1: Using ES6, Object.assign method**
 
-```javascript
+```js
 const merge = (toObj, fromObj) => Object.assign(toObj, fromObj);
 ```
 
 **Method 2: Without using built-in function**
 
-```javascript
+```js
 function merge(toObj, fromObj) {
   // Make sure both of the parameter is an object
   if (typeof toObj === 'object' && typeof fromObj === 'object') {
@@ -1232,7 +1232,7 @@ Object can have properties that don't show up when you iterate through object us
 
 Let say we have following object
 
-```javascript
+```js
 var person = {
   name: 'John',
 };
@@ -1246,7 +1246,7 @@ As we know that person object properties `name`, `salary` ,`country` are enumera
 
 To create a non-enumerable property we have to use **Object.defineProperty()**. This is a special method for creating non-enumerable property in JavaScript.
 
-```javascript
+```js
 var person = {
   name: 'John',
 };
@@ -1266,7 +1266,7 @@ In the example above `phoneNo` property didn't show up because we made it non-en
 
 Now let's try to change value of `phoneNo`
 
-```javascript
+```js
 person.phoneNo = '7777777777';
 ```
 
@@ -1278,7 +1278,7 @@ Changing non-enumerable property value will return error in `strict mode`. In no
 
 ### What is Function binding ?
 
-```javascript
+```js
 var clickHandler = {
   message: 'click event handler',
   handleClick: function(event) {
@@ -1291,7 +1291,7 @@ var btn = document.getElementById('myBtn');
 btn.addEventListener('click', clickHandler.handleClick);
 ```
 
-```javascript
+```js
 var clickHandler = {
   message: 'click event handler',
   handleClick: function(event) {

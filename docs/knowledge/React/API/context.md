@@ -8,7 +8,7 @@ draft: true
 
      **Context** 旨在共享可被视为全局的数据，用于 React 组件树。例如，在下面的代码中，允许手动通过一个 theme 属性来设置按钮组件的样式。
 
-     ```javascript
+     ```js
      //Lets create a context with a default theme value "luna"
      const ThemeContext = React.createContext('luna');
      // Create App component where it uses provider to pass theme value in the tree
@@ -42,7 +42,7 @@ draft: true
 
      当在组件树中的组件没有匹配到在其上方的 Provider 时，才会使用 defaultValue 参数。这有助于在不包装组件的情况下单独测试组件。下面的代码段提供了默认的主题值 Luna。
 
-     ```javascript
+     ```js
      const defaultTheme = "Luna";
      const MyContext = React.createContext(defaultTheme);
      ```
@@ -56,7 +56,7 @@ draft: true
 
      让我们在 MyClass 上按如下方式设置 contextType 属性：
 
-     ```javascript
+     ```js
      class MyClass extends React.Component {
        componentDidMount() {
          let value = this.context;
@@ -81,7 +81,7 @@ draft: true
      **Static field**
      你可以使用静态类属性来初始化 contextType 属性：
 
-     ```javascript
+     ```js
      class MyClass extends React.Component {
        static contextType = MyContext;
        render() {
@@ -95,7 +95,7 @@ draft: true
 
      Consumer 是一个订阅上下文更改的 React 组件。它需要一个函数作为子元素，该函数接收当前上下文的值作为参数，并返回一个 React 元素。传递给函数 value 参数的参数值将等于在组件树中当前组件最近的 Provider 元素的 value 属性值。举个简单的例子：
 
-     ```javascript
+     ```js
      <MyContext.Consumer>
        {value => /* render something based on the context value */}
      </MyContext.Consumer>

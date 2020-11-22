@@ -87,7 +87,7 @@ http://www.runoob.com/react/react-refs.html
 
     使用 `findDOMNode` 已弃用的方案：
 
-    ```javascript
+    ```js
     class MyComponent extends Component {
       componentDidMount() {
         findDOMNode(this).scrollIntoView()
@@ -101,7 +101,7 @@ http://www.runoob.com/react/react-refs.html
 
     推荐的方案是：
 
-    ```javascript
+    ```js
     class MyComponent extends Component {
       componentDidMount() {
         this.node.scrollIntoView()
@@ -169,7 +169,7 @@ focus 事件
 
      以下的 HOC 会记录所有的 props 变化：
 
-     ```javascript
+     ```js
      function logProps(Component) {
        class LogProps extends React.Component {
          componentDidUpdate(prevProps) {
@@ -193,7 +193,7 @@ focus 事件
 
      让我们使用这个 HOC 来记录所有传递到我们 “fancy button” 组件的属性：
 
-     ```javascript
+     ```js
      class FancyButton extends React.Component {
        focus() {
          // ...
@@ -206,7 +206,7 @@ focus 事件
 
      现在让我们创建一个 ref 并将其传递给 FancyButton 组件。在这种情况下，你可以聚焦到 button 元素上。
 
-     ```javascript
+     ```js
      import FancyButton from './FancyButton';
 
      const ref = React.createRef();

@@ -38,7 +38,7 @@ Node.js 的 Buffer 在 ES6 增加了 TypedArray 类型之后, 修改了原来的
 
 使用上, 你需要了解如下情况:
 
-```javascript
+```js
 const arr = new Uint16Array(2);
 arr[0] = 5000;
 arr[1] = 4000;
@@ -62,7 +62,7 @@ console.log(buf2);
 
 字符串解码器 (String Decoder) 是一个用于将 Buffer 拿来 decode 到 string 的模块, 是作为 Buffer.toString 的一个补充, 它支持多字节 UTF-8 和 UTF-16 字符. 例如
 
-```javascript
+```js
 const StringDecoder = require('string_decoder').StringDecoder;
 const decoder = new StringDecoder('utf8');
 
@@ -75,7 +75,7 @@ console.log(decoder.write(euro)); // €
 
 stringDecoder.write 会确保返回的字符串不包含 Buffer 末尾残缺的多字节字符，残缺的多字节字符会被保存在一个内部的 buffer 中用于下次调用 stringDecoder.write() 或 stringDecoder.end()。
 
-```javascript
+```js
 const StringDecoder = require('string_decoder').StringDecoder;
 const decoder = new StringDecoder('utf8');
 
@@ -165,7 +165,7 @@ Readable 和 Writable 流都会将数据储存在内部的缓冲区中. 缓冲�
 
 在一个在可写实例上不停地调用 writable.write(chunk) 的时候数据会被写入可写流的缓冲区. 如果当前缓冲区的缓冲的数据量低于 `highWaterMark` 设定的值, 调用 writable.write() 方法会返回 true (表示数据已经写入缓冲区), 否则当缓冲的数据量达到了阈值, 数据无法写入缓冲区 write 方法会返回 false, 直到 drain 事件触发之后才能继续调用 write 写入.
 
-```javascript
+```js
 // Write the data to the supplied writable stream one million times.
 // Be attentive to back-pressure.
 function writeOneMillionTimes(writer, data, encoding, callback) {
@@ -207,7 +207,7 @@ pipe 方法最主要的目的就是将数据的流动缓冲到一个可接受的
 
 [console.log 同步还是异步取决于与谁相连和`os`](https://nodejs.org/dist/latest-v6.x/docs/api/process.html#process_a_note_on_process_i_o). 不过一般情况下的实现都是如下 ([6.x 源代码](https://github.com/nodejs/node/blob/v6.x/lib/console.js#L42))，其中`this._stdout`默认是`process.stdout`:
 
-```javascript
+```js
 // As of v8 5.0.71.32, the combination of rest param, template string
 // and .apply(null, args) benchmarks consistently faster than using
 // the spread operator when calling util.format.
@@ -218,7 +218,7 @@ Console.prototype.log = function(...args) {
 
 自己实现一个 console.log 可以参考如下代码:
 
-```javascript
+```js
 let print = str => process.stdout.write(str + '\n');
 
 print('hello world');
@@ -228,7 +228,7 @@ print('hello world');
 
 ### console.log.bind(console) 问题
 
-```javascript
+```js
 // 源码出处 https://github.com/nodejs/node/blob/v6.x/lib/console.js
 function Console(stdout, stderr) {
   // ... init ...
@@ -315,7 +315,7 @@ console.log(process.stderr.fd); // 2
 
 而要同步读取, 则是不用异步的 read 接口, 而是用同步的 readSync 接口去读取 stdin 的数据即可实现. 以下来自万能的 stackoverflow:
 
-```javascript
+```js
 /*
  * http://stackoverflow.com/questions/3430939/node-js-readsync-from-stdin
  * @mklement0
@@ -369,7 +369,7 @@ module.exports = function() {
 
 `readline` 模块提供了一个用于从 Readble 的 stream (例如 process.stdin) 中一次读取一行的接口. 当然你也可以用来读取文件或者 net, http 的 stream, 比如:
 
-```javascript
+```js
 const readline = require('readline');
 const fs = require('fs');
 

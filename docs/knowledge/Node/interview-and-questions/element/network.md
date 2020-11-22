@@ -145,7 +145,7 @@ UDP socket 支持 n 对 m 的连接状态, 在[官方文档](https://nodejs.org/
 
 因为 HTTP 的方法 (method) 与状态码 (status) 讲解太常见, 你可以使用如下代码打印出来自己看 Node.js 官方定义的, 完整的就不列举了.
 
-```javascript
+```js
 const http = require('http');
 
 console.log(http.METHODS);
@@ -231,7 +231,7 @@ hang up 有挂断的意思, socket hang up 也可以理解为 socket 被挂断. 
 
 [Node.js 中源码的情况:](https://github.com/nodejs/node/blob/v6.x/lib/_http_client.js#L286)
 
-```javascript
+```js
 function socketCloseListener() {
   var socket = this;
   var req = socket._httpMessage;

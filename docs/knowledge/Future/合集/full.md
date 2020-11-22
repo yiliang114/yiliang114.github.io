@@ -925,7 +925,7 @@ nginx 配置详解
 
 1. 浮动
 
-   ```javascript
+   ```js
      // html
      <section class="layout">
        <div class="left"></div>
@@ -957,7 +957,7 @@ nginx 配置详解
 
 2. 绝对定位
 
-   ```javascript
+   ```js
    // html
      <section class="layout">
        <div class="left"></div>
@@ -991,7 +991,7 @@ nginx 配置详解
 
 3. flex-box
 
-   ```javascript
+   ```js
    // html
      <section class="layout">
        <div class="left"></div>
@@ -1026,7 +1026,7 @@ nginx 配置详解
 
 4. 表格布局
 
-   ```javascript
+   ```js
    // html
      <section class="layout">
        <div class="left"></div>
@@ -1063,7 +1063,7 @@ nginx 配置详解
 
 5. 网格布局 grid
 
-   ```javascript
+   ```js
    // html
      <section class="layout">
        <div class="left"></div>

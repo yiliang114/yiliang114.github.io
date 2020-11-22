@@ -588,7 +588,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      你需要添加`enableReinitialize：true`设置。
 
-     ```javascript
+     ```js
      const InitializeFromStateForm = reduxForm({
        form: 'initializeFromState',
        enableReinitialize : true
@@ -662,7 +662,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      `mapStateToProps()`是一个实用方法，它可以帮助您的组件获得最新的状态（由其他一些组件更新）：
 
-     ```javascript
+     ```js
      const mapStateToProps = (state) => {
        return {
          todos: getVisibleTodos(state.todos, state.visibilityFilter)
@@ -672,7 +672,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      `mapDispatchToProps()`是一个实用方法，它可以帮助你的组件触发一个动作事件（可能导致应用程序状态改变的调度动作）：
 
-     ```javascript
+     ```js
      const mapDispatchToProps = (dispatch) => {
        return {
          onTodoClick: (id) => {
@@ -690,7 +690,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      是的，您只需要使用`createStore()`从它创建的模块中导出存储。此外，它不应污染全局窗口对象。
 
-     ```javascript
+     ```js
      store = createStore(myReducer)
 
      export default store
@@ -713,7 +713,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      您可以在`componentDidMount()`方法中触发 Action，然后在`render()`方法中可以验证数据。
 
-     ```javascript
+     ```js
      class App extends Component {
        componentDidMount() {
          this.props.fetchData()
@@ -765,7 +765,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      例如，让我们在`USER_LOGOUT`动作之后让`rootReducer()`返回初始状态。我们知道，无论 Action 怎么样，当使用`undefined`作为第一个参数调用它们时，reducers 应该返回初始状态。
 
-     ```javascript
+     ```js
      const appReducer = combineReducers({
        /* your app's top-level reducers */
      })
@@ -781,7 +781,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      如果使用`redux-persist`，您可能还需要清理存储空间。`redux-persist`在 storage 引擎中保存您的状态副本。首先，您需要导入适当的 storage 引擎，然后在将其设置为`undefined`之前解析状态并清理每个存储状态键。
 
-     ```javascript
+     ```js
      const appReducer = combineReducers({
        /* your app's top-level reducers */
      })
@@ -807,7 +807,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      * **未使用装饰器:**
 
-         ```javascript
+         ```js
          import React from 'react'
          import * as actionCreators from './actionCreators'
          import { bindActionCreators } from 'redux'
@@ -830,7 +830,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      * **使用装饰器:**
 
-         ```javascript
+         ```js
          import React from 'react'
          import * as actionCreators from './actionCreators'
          import { bindActionCreators } from 'redux'
@@ -866,7 +866,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      让我们举个例子，使用*fetch API*将特定帐户作为 AJAX 调用获取：
 
-     ```javascript
+     ```js
      export function fetchAccount(id) {
        return dispatch => {
          dispatch(setLoadingAccountState()) // Show a loading spinner
@@ -896,7 +896,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      我们来看一个使用 connect 的`<FilterLink>`组件的例子：
 
-     ```javascript
+     ```js
      import { connect } from 'react-redux'
      import { setVisibilityFilter } from '../actions'
      import Link from '../components/Link'
@@ -919,7 +919,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      由于它具有相当多的性能优化并且通常不太可能导致错误，因此 Redux 开发人员几乎总是建议使用`connect()`直接访问 Store（使用上下文API）。
 
-     ```javascript
+     ```js
      class MyComponent {
        someMethod() {
          doSomethingWith(this.context.store)
@@ -939,7 +939,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      通常我们会将它们保存在一个文件中（`constants.js`或`actionTypes.js`）。
 
-     ```javascript
+     ```js
      export const ADD_TODO = 'ADD_TODO'
      export const DELETE_TODO = 'DELETE_TODO'
      export const EDIT_TODO = 'EDIT_TODO'
@@ -954,7 +954,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
          让我们看看 `actions.js`:
 
-         ```javascript
+         ```js
          import { ADD_TODO } from './actionTypes';
 
          export function addTodo(text) {
@@ -966,7 +966,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
          让我们创建 `reducer.js` 文件:
 
-         ```javascript
+         ```js
          import { ADD_TODO } from './actionTypes'
 
          export default (state = [], action) => {
@@ -989,19 +989,19 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      有一些方法可以将*action creators*绑定到`mapDispatchToProps()`中的`dispatch()`。以下是可能的写法：
 
-     ```javascript
+     ```js
      const mapDispatchToProps = (dispatch) => ({
       action: () => dispatch(action())
      })
      ```
 
-     ```javascript
+     ```js
      const mapDispatchToProps = (dispatch) => ({
       action: bindActionCreators(action, dispatch)
      })
      ```
 
-     ```javascript
+     ```js
      const mapDispatchToProps = { action }
      ```
 
@@ -1019,7 +1019,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      你的`mapStateToProps()`和`mapDispatchToProps()`函数里面的`ownProps`将是一个对象：
 
-     ```javascript
+     ```js
      { user: 'john' }
      ```
 
@@ -1057,7 +1057,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      让我们举例说明这些 Effect 如何用于获取特定用户数据。
 
-     ```javascript
+     ```js
      function* fetchUserSaga(action) {
        // `call` function accepts rest arguments, which will be passed to `api.fetchUser` function.
        // Instructing middleware to call promise, it resolved value will be assigned to `userData` variable
@@ -1097,7 +1097,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      例如，要从 state 中获取用户详细信息：
 
-     ```javascript
+     ```js
      const getUserData = state => state.user.data
      ```
 
@@ -1117,7 +1117,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      例如，你可以添加`redux-thunk`和`logger`作为参数传递给`applyMiddleware()`：
 
-     ```javascript
+     ```js
      import { createStore, applyMiddleware } from 'redux'
      const createStoreWithMiddleware = applyMiddleware(ReduxThunk, logger)(createStore)
      ```
@@ -1126,7 +1126,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      您需要将初始状态作为第二个参数传递给 createStore ：
 
-     ```javascript
+     ```js
      const rootReducer = combineReducers({
        todos: todos,
        visibilityFilter: visibilityFilter
@@ -1162,7 +1162,7 @@ https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
 
      让我们通过使用 Reselect 来简化计算不同数量的装运订单：
 
-     ```javascript
+     ```js
      import { createSelector } from 'reselect'
 
      const shopItemsSelector = state => state.shop.items

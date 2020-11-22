@@ -511,7 +511,7 @@ Node 端的处理过程如下：
 
 - JS 在执行的过程中会产生执行环境，这些执行环境会被顺序的加入到执行栈中。如果遇到异步的代码，会被挂起并加入到 Task（有多种 task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为
 
-```javascript
+```js
 console.log('script start');
 
 setTimeout(function() {
@@ -523,7 +523,7 @@ console.log('script end');
 
 > 不同的任务源会被分配到不同的 `Task` 队列中，任务源可以分为 微任务（`microtask`） 和 宏任务（`macrotask`）。在 `ES6` 规范中，`microtask` 称为 jobs，macrotask 称为 task
 
-```javascript
+```js
 console.log('script start');
 
 setTimeout(function() {
@@ -580,7 +580,7 @@ console.log('script end');
 - `Node` 中的 `Event loop` 和浏览器中的不相同。
 - `Node` 的 `Event loop` 分为`6`个阶段，它们会按照顺序反复运行
 
-```javascript
+```js
    ┌───────────────────────┐
 ┌─>│        timers         │
 │  └──────────┬────────────┘
@@ -636,7 +636,7 @@ idle, prepare 阶段内部实现
 - `close callbacks` 阶段执行 `close` 事件
 - 并且在 `Node` 中，有些情况下的定时器执行顺序是随机的
 
-```javascript
+```js
 setTimeout(() => {
   console.log('setTimeout');
 }, 0);
@@ -651,7 +651,7 @@ setImmediate(() => {
 
 > 上面介绍的都是 macrotask 的执行情况，microtask 会在以上每个阶段完成后立即执行
 
-```javascript
+```js
 setTimeout(() => {
   console.log('timer1');
 
@@ -676,7 +676,7 @@ setTimeout(() => {
 
 > `Node` 中的 `process.nextTick` 会先于其他 `microtask` 执行
 
-```javascript
+```js
 setTimeout(() => {
   console.log('timer1');
 

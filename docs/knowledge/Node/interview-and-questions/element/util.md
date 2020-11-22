@@ -15,7 +15,7 @@ draft: true
 
 ## URL
 
-```javascript
+```js
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                                    href                                     │
 ├──────────┬┬───────────┬─────────────────┬───────────────────────────┬───────┤
@@ -52,7 +52,7 @@ draft: true
 
 想了解更多? 你可以这样:
 
-```javascript
+```js
 Array(range)
   .fill(0)
   .map((_, i) => String.fromCharCode(i))
@@ -74,7 +74,7 @@ query string 属于 URL 的一部分, 见上方 URL 的表. 在 Node.js 中有�
 
 Node.js 内置的 querystring 目前对于有深度的结构尚不支持. 见如下:
 
-```javascript
+```js
 const qs = require('qs'); // 第三方
 const querystring = require('querystring'); // Node.js 内置
 
@@ -91,7 +91,7 @@ console.log(querystring.parse(str)); // { 'a[b][c]': '1' }
 
 > <a name="q-get-param"></a> HTTP 如何通过 GET 方法 (URL) 传递 let arr = [1,2,3,4] 给服务器?
 
-```javascript
+```js
 const qs = require('qs');
 
 let arr = [1, 2, 3, 4];
@@ -138,7 +138,7 @@ util.is\*() 从 v4.0.0 开始被不建议使用即将废弃 (deprecated). 大概
 
 https://github.com/nodejs/node/blob/v7.6.0/lib/util.js#L960
 
-```javascript
+```js
 /**
  * Inherit the prototype methods from one constructor into another.
  *
@@ -184,7 +184,7 @@ exports.inherits = function(ctor, superCtor) {
 
 一个简单的例子:
 
-```javascript
+```js
 const fs = require('fs');
 const path = require('path');
 
@@ -221,7 +221,7 @@ console.log(traversal('.'));
 
 当然也可以 Oh my [glob](https://github.com/isaacs/node-glob):
 
-```javascript
+```js
 const glob = require('glob');
 
 glob('**/*.js', (err, files) => {

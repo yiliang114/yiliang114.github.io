@@ -69,7 +69,7 @@ https://zhuanlan.zhihu.com/p/43145754
 
      即使模式名为 `render props`，你也不必使用名为 render 的属性名来使用此模式。也就是说，组件用于知道即将渲染内容的任何函数属性，在技术上都是一个 `render props`。让我们举一个名为 children 渲染属性的示例：
 
-     ```javascript
+     ```js
      <Mouse children={mouse => (
        <p>The mouse position is {mouse.x}, {mouse.y}</p>
      )}/>
@@ -77,7 +77,7 @@ https://zhuanlan.zhihu.com/p/43145754
 
      实际上，以上的 children 属性不一定需要在 JSX 元素的 `attributes` 列表中命名。反之，你可以将它直接放在元素内部：
 
-     ```javascript
+     ```js
      <Mouse>
        {mouse => (
          <p>The mouse position is {mouse.x}, {mouse.y}</p>
@@ -87,7 +87,7 @@ https://zhuanlan.zhihu.com/p/43145754
 
      当使用上述的技术，需要在 propTypes 中明确声明 children 必须为函数类型：
 
-     ```javascript
+     ```js
      Mouse.propTypes = {
        children: PropTypes.func.isRequired
      };
@@ -97,7 +97,7 @@ https://zhuanlan.zhihu.com/p/43145754
 
      Context 使用引用标识来确定何时重新渲染，当 Provider 的父元素重新渲染时，会有一些问题即可能会在 Consumers 中触发无任何意图的渲染。 例如，下面的代码将在每次 Provider 重新渲染时，重新渲染所有的 Consumers，这是因为渲染 Provider 时，始终会为 value 属性创建一个新的对象：
 
-     ```javascript
+     ```js
      class App extends React.Component {
        render() {
          return (
@@ -111,7 +111,7 @@ https://zhuanlan.zhihu.com/p/43145754
 
      可以通过把 value 的值提升到父状态中来解决这个问题：
 
-     ```javascript
+     ```js
      class App extends React.Component {
        constructor(props) {
          super(props);

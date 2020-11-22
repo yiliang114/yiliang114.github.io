@@ -224,7 +224,7 @@ self.addEventListener('fetch', e => {
 
 **目前该技术通常用来做缓存文件，提高首屏速度**
 
-```javascript
+```js
 // index.js
 if (navigator.serviceWorker) {
   navigator.serviceWorker

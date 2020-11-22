@@ -33,7 +33,7 @@ node 的基础中毫无疑问的应该是有关于模块机制的方面的, 也�
 
 其实官方文档已经说得很清楚了, 每个 node 进程只有一个 VM 的上下文, 不会跟浏览器相差多少, 模块机制在文档中也描述的非常清楚了:
 
-```javascript
+```js
 function require(...) {
   var module = { exports: {} };
   ((module, exports) => {
@@ -54,7 +54,7 @@ function require(...) {
 
 ① 每个 `.js` 能独立一个环境只是因为 node 帮你在外层包了一圈自执行, 所以你使用 `t = 111` 定义全局变量在其他地方当然能拿到. 情况如下:
 
-```javascript
+```js
 // b.js
 (function(exports, require, module, __filename, __dirname) {
   t = 111;
@@ -95,7 +95,7 @@ function require(...) {
 
 而目前的 Node.js 将 VM 的接口暴露了出来, 可以让你自己创建一个新的 js 上下文, 这一点上跟前端 js 还是区别挺大的. 在执行外部代码的时候, 通过创建新的上下文沙盒 (sandbox) 可以避免上下文被污染:
 
-```javascript
+```js
 'use strict';
 const vm = require('vm');
 

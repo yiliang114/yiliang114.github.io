@@ -123,7 +123,7 @@ mvc 和 mvvm 其实区别并不大。都是一种设计思想。主要就是 mvc
 
 - `Vue` 内部使用了 `Obeject.defineProperty()` 来实现双向绑定，通过这个函数可以监听到 `set` 和 `get`的事件
 
-```javascript
+```js
 var data = { name: 'yck' };
 observe(data);
 let name = data.name; // -> get value
@@ -134,7 +134,7 @@ function observe(obj) {
   if (!obj || typeof obj !== 'object') {
     return;
   }
-  Object.keys(data).forEach((key) => {
+  Object.keys(data).forEach(key => {
     defineReactive(data, key, data[key]);
   });
 }
@@ -167,7 +167,7 @@ function defineReactive(obj, key, val) {
 
 > 在解析如上模板代码时，遇到 `{{name}}` 就会给属性 `name` 添加发布订阅
 
-```javascript
+```js
 // 通过 Dep 解耦
 class Dep {
   constructor() {
@@ -178,7 +178,7 @@ class Dep {
     this.subs.push(sub);
   }
   notify() {
-    this.subs.forEach((sub) => {
+    this.subs.forEach(sub => {
       sub.update();
     });
   }
@@ -219,7 +219,7 @@ data.name = 'yyy';
 
 > 接下来,对 defineReactive 函数进行改造
 
-```javascript
+```js
 function defineReactive(obj, key, val) {
   // 递归子属性
   observe(val);
@@ -260,16 +260,8 @@ function defineReactive(obj, key, val) {
 const arrayProto = Array.prototype;
 export const arrayMethods = Object.create(arrayProto);
 // hack 以下几个函数
-const methodsToPatch = [
-  'push',
-  'pop',
-  'shift',
-  'unshift',
-  'splice',
-  'sort',
-  'reverse',
-];
-methodsToPatch.forEach(function (method) {
+const methodsToPatch = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'];
+methodsToPatch.forEach(function(method) {
   // 获得原生函数
   const original = arrayProto[method];
   def(arrayMethods, method, function mutator(...args) {
@@ -315,12 +307,12 @@ let obj = { a: 1 };
 let value;
 let p = onWatch(
   obj,
-  (v) => {
+  v => {
     value = v;
   },
   (target, property) => {
     console.log(`Get '${property}' = ${target[property]}`);
-  }
+  },
 );
 p.a = 2; // bind `value` to `2`
 p.a; // -> Get 'a' = 2
@@ -671,7 +663,7 @@ Object.defineProperty(data, 'text', {
     this.value = value;
   },
 });
-input.onchange = function (e) {
+input.onchange = function(e) {
   data.text = e.target.value;
 };
 ```

@@ -168,7 +168,7 @@ ajax 请求设定相应的 http 方法、相应的地址和以及是否异步，
 监听 readystatechange 事件，通过这个实例的 readyState 属性来判断这个 ajax 请求的状态，其中分为 0,1,2,3,4 这四种
 状态，当状态为 4 的时候也就是接收数据完成的时候，这时候可以通过实例的 status 属性判断这个请求是否成功
 
-```javascript
+```js
 var xhr = new XMLHttpRequest();
 xhr.open('get', 'aabb.php', true);
 xhr.send(null);
@@ -270,7 +270,7 @@ if (XHR) {
 
 ### 实际开发中用的 原生 Ajax 请求
 
-```javascript
+```js
 var util = {};
 
 //获取 ajax 请求之后的json
@@ -280,14 +280,12 @@ util.json = function(options) {
     type: 'get',
     data: {},
     success: function() {},
-    error: function() {}
+    error: function() {},
   };
   util.extend(opt, options);
   if (opt.url) {
     //IE兼容性处理：浏览器特征检查。检查该浏览器是否存在XMLHttpRequest这个api，没有的话，就用IE的api
-    var xhr = XMLHttpRequest
-      ? new XMLHttpRequest()
-      : new window.ActiveXObject('Microsoft.XMLHTTP');
+    var xhr = XMLHttpRequest ? new XMLHttpRequest() : new window.ActiveXObject('Microsoft.XMLHTTP');
 
     var data = opt.data,
       url = opt.url,

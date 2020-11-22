@@ -256,14 +256,14 @@ browserHistory.getCurrentLocation().pathname
 
      在 React Router v4 中并没有内置解析查询字符串的能力，因为多年来一直有用户希望支持不同的实现。因此，使用者可以选择他们喜欢的实现方式。建议的方法是使用 [query-string](https://www.npmjs.com/package/query-string) 库。
 
-     ```javascript
+     ```js
      const queryString = require('query-string');
      const parsed = queryString.parse(props.location.search);
      ```
 
      如果你想要使用原生 API 的话，你也可以使用 `URLSearchParams` ：
 
-     ```javascript
+     ```js
      const params = new URLSearchParams(props.location.search)
      const foo = params.get('name')
      ```
@@ -278,7 +278,7 @@ browserHistory.getCurrentLocation().pathname
 
      首先，您需要在导入中添加`Switch`：
 
-     ```javascript
+     ```js
      import { Switch, Router, Route } from 'react-router'
      ```
 
@@ -297,7 +297,7 @@ browserHistory.getCurrentLocation().pathname
 
      在导航时，您可以将 props 传递给`history`对象：
 
-     ```javascript
+     ```js
      this.props.history.push({
        pathname: '/template',
        search: '?name=sudheer',
@@ -325,7 +325,7 @@ browserHistory.getCurrentLocation().pathname
 
          例如， 创建`history.js`文件:
 
-         ```javascript
+         ```js
          import { createBrowserHistory } from 'history'
 
          export default createBrowserHistory({
@@ -349,7 +349,7 @@ browserHistory.getCurrentLocation().pathname
 
      您还可以使用类似于内置历史对象的`history`对象的push方法：
 
-         ```javascript
+         ```js
          // some-other-file.js
          import history from './history'
 
@@ -360,7 +360,7 @@ browserHistory.getCurrentLocation().pathname
 
      `react-router`包在 React Router 中提供了`<Redirect>`组件。渲染`<Redirect>`将导航到新位置。与服务器端重定向一样，新位置将覆盖历史堆栈中的当前位置。
 
-     ```javascript
+     ```js
      import React, { Component } from 'react'
      import { Redirect } from 'react-router'
 
@@ -379,7 +379,7 @@ browserHistory.getCurrentLocation().pathname
 
      在 `history` 对象上添加一个监听器以记录每个页面的访问：
 
-     ```javascript
+     ```js
      history.listen(function (location) {
        window.ga('set', 'page', location.pathname + location.search)
        window.ga('send', 'pageview', location.pathname + location.search)

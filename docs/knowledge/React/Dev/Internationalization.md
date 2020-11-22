@@ -29,7 +29,7 @@ draft: true
      />
      ```
 
-     ```javascript
+     ```js
      const messages = defineMessages({
        accountMessage: {
          id: 'account',

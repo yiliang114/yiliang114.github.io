@@ -273,7 +273,7 @@ third({ x: 100 });
 
 - 如何实现下列代码：
 
-```javascript
+```js
 [1, 2, 3, 4, 5].duplicator(); // [1,2,3,4,5,1,2,3,4,5]
 ```
 
@@ -281,7 +281,7 @@ third({ x: 100 });
 
 - 方法一：
 
-```javascript
+```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 function randSort1(arr) {
   for (var i = 0, len = arr.length; i < len; i++) {
@@ -297,7 +297,7 @@ console.log(randSort1(arr));
 
 - 方法二：
 
-```javascript
+```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 function randSort2(arr) {
   var mixedArray = [];
@@ -313,7 +313,7 @@ console.log(randSort2(arr));
 
 - 方法三：
 
-```javascript
+```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 arr.sort(function() {
   return Math.random() - 0.5;
@@ -323,7 +323,7 @@ console.log(arr);
 
 ### 清空一个 js 数组
 
-```javascript
+```js
 var arrayList = ['a', 'b', 'c', 'd', 'e', 'f'];
 
 // 1

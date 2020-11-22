@@ -390,7 +390,7 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
 
     在 React 内部对函数组件和类组件的处理方式是不一样的，如：
 
-    ```javascript
+    ```js
       // 如果 Greeting 是一个函数
       const result = Greeting(props); // <p>Hello</p>
 
@@ -417,7 +417,7 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
 
     例如，我们使用下面的 handleChange 函数将输入框的值转换成大写：
 
-    ```javascript
+    ```js
     handleChange(event) {
       this.setState({value: event.target.value.toUpperCase()})
     }
@@ -466,7 +466,7 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
 
     如果组件的行为依赖于组件的*state*，那么它可以被称为有状态组件。这些*有状态组件*总是*类组件*，并且具有在`constructor`中初始化的状态。
 
-    ```javascript
+    ```js
     class App extends Component {
       constructor(props) {
         super(props)
@@ -489,7 +489,7 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
 
     使用 `displayName` 命名组件:
 
-    ```javascript
+    ```js
     export default React.createClass({
       displayName: 'TodoApp',
       // ...
@@ -498,7 +498,7 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
 
     推荐的方式：
 
-    ```javascript
+    ```js
     export default class TodoApp extends React.Component {
       // ...
     }
@@ -625,7 +625,7 @@ https://blog.csdn.net/baidu_38151187/article/details/80582416
 
      在 React 中，表单元素的属性值将覆盖其 DOM 中的值。对于非受控组件，你可能希望能够指定其初始值，但不会控制后续的更新。要处理这种情形，你可以指定一个 **defaultValue** 属性来取代 **value** 属性。
 
-     ```javascript
+     ```js
      render() {
        return (
          <form onSubmit={this.handleSubmit}>
@@ -652,7 +652,7 @@ https://blog.csdn.net/baidu_38151187/article/details/80582416
 
      可以使用带有渲染属性的常规组件实现大多数高阶组件（HOC）。例如，如果希望使用 withMouse HOC 而不是 `<Mouse>` 组件，则你可以使用带有渲染属性的常规 `<Mouse>` 组件轻松创建一个 HOC 组件。
 
-     ```javascript
+     ```js
      function withMouse(Component) {
        return class extends React.Component {
          render() {
@@ -762,7 +762,7 @@ const Button = React.createClass({
 
      是的，你可以在 React 应用程序中使用 Web Components。尽管许多开发人员不会使用这种组合方式，但如果你使用的是使用 Web Components 编写的第三方 UI 组件，则可能需要这种组合。例如，让我们使用 Vaadin 提供的 Web Components 日期选择器组件：
 
-     ```javascript
+     ```js
      import React, { Component } from 'react';
      import './App.css';
      import '@vaadin/vaadin-date-picker';
@@ -785,13 +785,13 @@ const Button = React.createClass({
      动态导入语法是 ECMAScript 提案，目前不属于语言标准的一部分。它有望在不久的将来被采纳。在你的应用程序中，你可以使用动态导入来实现代码拆分。让我们举一个加法的例子：
 
      **Normal Import**
-     ```javascript
+     ```js
      import { add } from './math';
      console.log(add(10, 20));
      ```
 
      **Dynamic Import**
-     ```javascript
+     ```js
      import("./math").then(math => {
        console.log(math.add(10, 20));
      });
@@ -801,7 +801,7 @@ const Button = React.createClass({
 
      如果你想要在服务端渲染的应用程序中实现代码拆分，建议使用 Loadable 组件，因为 React.lazy 和 Suspense 还不可用于服务器端渲染。Loadable 允许你将动态导入的组件作为常规的组件进行渲染。让我们举一个例子：
 
-     ```javascript
+     ```js
      import loadable from '@loadable/component'
 
      const OtherComponent = loadable(() => import('./OtherComponent'))
@@ -821,7 +821,7 @@ const Button = React.createClass({
 
      如果父组件在渲染时包含 dynamic import 的模块尚未加载完成，在此加载过程中，你必须使用一个 loading 指示器显示后备内容。这可以使用 **Suspense** 组件来实现。例如，下面的代码使用 Suspense 组件：
 
-     ```javascript
+     ```js
      const OtherComponent = React.lazy(() => import('./OtherComponent'));
 
      function MyComponent() {
@@ -841,7 +841,7 @@ const Button = React.createClass({
 
      进行代码拆分的最佳位置之一是路由。整个页面将立即重新渲染，因此用户不太可能同时与页面中的其他元素进行交互。因此，用户体验不会受到干扰。让我们以基于路由的网站为例，使用像 React Router 和 React.lazy 这样的库：
 
-     ```javascript
+     ```js
      import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
      import React, { Suspense, lazy } from 'react';
 
@@ -866,7 +866,7 @@ const Button = React.createClass({
 
      使用显式 <React.Fragment> 语法声明的片段可能具有 key 。一般用例是将集合映射到片段数组，如下所示，
 
-     ```javascript
+     ```js
      function Glossary(props) {
        return (
          <dl>
@@ -888,7 +888,7 @@ const Button = React.createClass({
 
      你需要使用 `setInterval()` 来触发更改，但也需要在组件卸载时清除计时器，以防止错误和内存泄漏。
 
-     ```javascript
+     ```js
      componentDidMount() {
        this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000)
      }

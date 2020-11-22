@@ -32,7 +32,7 @@ draft: true
 
 另外关于同步与异步, 有个问题希望大家看一下, 这是很简单的 Promise 的使用例子:
 
-```javascript
+```js
 let doSth = new Promise((resolve, reject) => {
   console.log('hello');
   resolve();
@@ -54,7 +54,7 @@ over
 
 其次的问题是, 如下代码, `setTimeout` 到 10s 之后再 `.then` 调用, 那么 `hello` 是会在 10s 之后在打印吗, 还是一开始就打印?
 
-```javascript
+```js
 let doSth = new Promise((resolve, reject) => {
   console.log('hello');
   resolve();
@@ -69,7 +69,7 @@ setTimeout(() => {
 
 以及理解如下代码的执行顺序 ([出处](https://zhuanlan.zhihu.com/p/25407758)):
 
-```javascript
+```js
 setTimeout(function() {
   console.log(1);
 }, 0);
@@ -101,7 +101,7 @@ Node.js 中 Eventemitter 的 emit 是同步的. 在官方文档中有说明:
 
 另外, 可以讨论如下的执行结果是输出 `hi 1` 还是 `hi 2`?
 
-```javascript
+```js
 const EventEmitter = require('events');
 
 let emitter = new EventEmitter();
@@ -119,7 +119,7 @@ emitter.emit('myEvent');
 
 或者如下情况是否会死循环?
 
-```javascript
+```js
 const EventEmitter = require('events');
 
 let emitter = new EventEmitter();
@@ -134,7 +134,7 @@ emitter.emit('myEvent');
 
 以及这样会不会死循环?
 
-```javascript
+```js
 const EventEmitter = require('events');
 
 let emitter = new EventEmitter();
@@ -169,7 +169,7 @@ Node.js 中执行 js 代码的过程是单线程的. 只有当前代码都执行
 
 > <a name="q-5"></a> 如何实现一个 sleep 函数? ①
 
-```javascript
+```js
 function sleep(ms) {
   var start = Date.now(),
     expire = start + ms;

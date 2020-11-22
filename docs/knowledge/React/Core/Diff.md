@@ -54,7 +54,7 @@ DIFF 算法为什么是 O(n)复杂度而不是 O(n^3)
      **相同类型的DOM元素：**
         当比较两个相同类型的 React DOM 元素时，React 查看两者的属性，保持相同的底层 DOM 节点，并仅更新已更改的属性。让我们以相同的 DOM 元素为例，除了 className 属性，
 
-        ```javascript
+        ```js
         <div className="show" title="ReactJS" />
 
         <div className="hide" title="ReactJS" />
@@ -67,7 +67,7 @@ DIFF 算法为什么是 O(n)复杂度而不是 O(n^3)
      **递归子节点：**
         当对 DOM 节点的子节点进行递归时，React 会同时迭代两个子节点列表，并在出现差异时生成变异。例如，在子节点末尾添加元素时，在这两个树之间进行转换效果很好。
 
-        ```javascript
+        ```js
         <ul>
           <li>first</li>
           <li>second</li>
@@ -84,7 +84,7 @@ DIFF 算法为什么是 O(n)复杂度而不是 O(n^3)
 
      React支持 key 属性。当子节点有 key 时，React 使用 key 将原始树中的子节点与后续树中的子节点相匹配。例如，添加 key 可以使树有效地转换，
 
-     ```javascript
+     ```js
      <ul>
        <li key="2015">Duke</li>
        <li key="2016">Villanova</li>

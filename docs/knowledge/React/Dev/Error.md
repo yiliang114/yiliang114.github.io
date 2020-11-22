@@ -19,7 +19,7 @@ draft: true
 
      如果仍然需要在事件处理程序中捕获错误，请使用下面的常规 JavaScript `try/catch` 语句：
 
-     ```javascript
+     ```js
      class MyComponent extends React.Component {
        constructor(props) {
          super(props);
@@ -51,7 +51,7 @@ draft: true
 
      例如，以下是使用声明式代码的 try/catch 块：
 
-     ```javascript
+     ```js
      try {
        showButton();
      } catch (error) {
@@ -61,7 +61,7 @@ draft: true
 
      而错误边界包装的声明式代码如下：
 
-     ```javascript
+     ```js
      <ErrorBoundary>
        <MyComponent />
      </ErrorBoundary>

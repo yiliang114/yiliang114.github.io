@@ -224,7 +224,7 @@ input[type='search']::-webkit-search-cancel-button {
 
 ### iOS safari 如何阻止“橡皮筋效果”？
 
-```javascript
+```js
 $(document).ready(function() {
   var stopScrolling = function(event) {
     event.preventDefault();
@@ -342,8 +342,7 @@ only 用来定某种特定的媒体类型，可以用来排除不支持媒体查
 ### 网站图片文件，如何点击下载？而非点击预览？
 
 ```html
-<a href="logo.jpg" download>下载</a>
-<a href="logo.jpg" download="网站LOGO">下载</a>
+<a href="logo.jpg" download>下载</a> <a href="logo.jpg" download="网站LOGO">下载</a>
 ```
 
 ### 如何优化网页的打印样式
@@ -351,9 +350,8 @@ only 用来定某种特定的媒体类型，可以用来排除不支持媒体查
 ````html
 <link rel="stylesheet" type="text/css" media="screen" href="xxx.css" />
 
-其中 media 指定的属性就是设备，显示器上就是 screen，打印机则是 print，电视是
-tv，投影仪是 projection。 ```html <link rel="stylesheet" type="text/css"
-media="print" href="yy
+其中 media 指定的属性就是设备，显示器上就是 screen，打印机则是 print，电视是 tv，投影仪是 projection。 ```html <link
+rel="stylesheet" type="text/css" media="print" href="yy
 ````
 
 但打印样式表也应有些注意事项：

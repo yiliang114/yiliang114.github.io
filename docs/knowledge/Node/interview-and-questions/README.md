@@ -80,7 +80,7 @@ Node 是搞后端的，不应该被被归为前端，更不应该用前端的观
 
 1. 构造函数方法定义类
 
-```javascript
+```js
 function Person() {
   this.name = 'michaelqin';
 }
@@ -112,7 +112,7 @@ person.sayName();
 
 1. 原型链法
 
-```javascript
+```js
 function Animal() {
   this.name = 'animal';
 }
@@ -127,7 +127,7 @@ Person.prototype.constructor = 'Person'; // 更新构造函数为人
 
 2. 属性复制法
 
-```javascript
+```js
 function Animal() {
   this.name = 'animal';
 }
@@ -145,7 +145,7 @@ Person.prototype.constructor = 'Person'; // 更新构造函数为人
 
 3. 构造器应用法
 
-```javascript
+```js
 function Animal() {
   this.name = 'animal';
 }
@@ -168,7 +168,7 @@ function Person() {
 
 代码演示
 
-```javascript
+```js
 var globalVar = 'global var';
 
 function test() {
@@ -185,7 +185,7 @@ alert(globalVar); // global var，使用全局变量
 
 代码演示
 
-```javascript
+```js
 	function Person() {
 	}
 	Person.prototype.sayName() { alert(this.name); }
@@ -201,7 +201,7 @@ alert(globalVar); // global var，使用全局变量
 
 代码演示
 
-```javascript
+```js
 	function Person() {
 	}
 	Person.prototype.sayName() { alert(this.name); }
@@ -225,7 +225,7 @@ alert(globalVar); // global var，使用全局变量
 
 代码演示
 
-```javascript
+```js
 function parent(param1, param2, param3) {
   child(param1, param2, param3);
 }
@@ -247,7 +247,7 @@ parent('mqin1', 'mqin2', 'mqin3');
 
 参考答案：
 
-```javascript
+```js
 	1) 单例：　任意对象都是单例，无须特别处理
 	var obj = {name: 'michaelqin', age: 30};
 
@@ -390,7 +390,7 @@ parent('mqin1', 'mqin2', 'mqin3');
 
 代码演示
 
-```javascript
+```js
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
@@ -417,7 +417,7 @@ em.emit('hello', 'EventEmitter传递消息真方便!');
 
 代码演示
 
-```javascript
+```js
 var domain = require('domain');
 var myDomain = domain.create();
 myDomain.on('error', function(err) {
@@ -437,7 +437,7 @@ myDomain.run(function() {
 
 代码演示
 
-```javascript
+```js
 var emitter3 = new MyEmitter();
 emitter3.on('newListener', function(name, listener) {
   console.log('新事件的名字:', name);
@@ -479,7 +479,7 @@ emitter3.on('hello', function() {
 
 代码演示
 
-```javascript
+```js
 var Writable = require('stream').Writable;
 var util = require('util');
 
@@ -529,7 +529,7 @@ process.stdin.pipe(new MyWritable()); // stdin作为输入源，MyWritable作为
 
 代码演示
 
-```javascript
+```js
 var http = require('http'); // 加载http模块
 
 http
@@ -559,7 +559,7 @@ http
 
 代码演示
 
-```javascript
+```js
 var cp = require('child_process');
 
 var child = cp.spawn('echo', ['你好', '钩子']); // 执行命令
@@ -572,7 +572,7 @@ child.stdout.pipe(process.stdout); // child.stdout是输入流，process.stdout�
 参考答案: 用 fork 嘛，上面讲过了．原理是子程序用 process.on, process.send，父程序里用 child.on,child.send 进行交互.
 代码演示
 
-```javascript
+```js
 	1) fork-parent.js
 	var cp = require('child_process');
 	var child = cp.fork('./fork-child.js');
@@ -645,7 +645,7 @@ child.stdout.pipe(process.stdout); // child.stdout是输入流，process.stdout�
 
 1. async.parallel 并行执行完多个函数后，调用结束函数
 
-```javascript
+```js
 	async.parallel([
 	    function(){ ... },
 	    function(){ ... }
@@ -654,7 +654,7 @@ child.stdout.pipe(process.stdout); // child.stdout是输入流，process.stdout�
 
 2. async.series 串行执行完多个函数后，调用结束函数
 
-```javascript
+```js
 	async.series([
 	    function(){ ... },
 	    function(){ ... }
@@ -663,7 +663,7 @@ child.stdout.pipe(process.stdout); // child.stdout是输入流，process.stdout�
 
 3. async.waterfall 依次执行多个函数，后一个函数以前面函数的结果作为输入参数
 
-```javascript
+```js
 async.waterfall(
   [
     function(callback) {
@@ -686,7 +686,7 @@ async.waterfall(
 
 4. async.map 异步执行多个数组，返回结果数组
 
-```javascript
+```js
 async.map(['file1', 'file2', 'file3'], fs.stat, function(err, results) {
   // results is now an array of stats for each file
 });
@@ -694,7 +694,7 @@ async.map(['file1', 'file2', 'file3'], fs.stat, function(err, results) {
 
 5. async.filter 异步过滤多个数组，返回结果数组
 
-```javascript
+```js
 async.filter(['file1', 'file2', 'file3'], fs.exists, function(results) {
   // results now equals an array of the existing files
 });
@@ -743,7 +743,7 @@ res.sendStatus() 返回状态
 
 参考答案:
 
-```javascript
+```js
 var redis = require('redis'),
   client = redis.createClient();
 
