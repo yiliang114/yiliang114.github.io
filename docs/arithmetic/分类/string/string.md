@@ -521,3 +521,73 @@ Trie.prototype.startsWith = function(prefix) {
 ###### 暴力法
 
 比较常规的一种解法, 大部分人采用的做法, 这里就不再赘述
+
+### 字符串数组查重
+
+```js
+export default function CheckHashAllUniqueChars(string) {
+  const set = new Set();
+
+  for (const char of string) {
+    if (!set.has(char)) {
+      set.add(char);
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+}
+```
+
+### 判断两个字符串是否是置换
+
+```js
+/**
+ *
+ * O(NlgN) time
+ * O(N) space
+ */
+export function checkPermutationSlow(str1: string, str2: string) {
+  const arr1 = str1.split('').sort();
+  const arr2 = str2.split('').sort();
+
+  if (arr1.length !== arr2.length) return false;
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+  return true;
+}
+
+/**
+ * O(N) time
+ * O(N) space
+ */
+export default function checkPermutationFast(str1: string, str2: string) {
+  const charCount1 = new Map();
+  const charCount2 = new Map();
+  for (let i = 0; i < str1.length; i++) {
+    if (!charCount1.get(str1[i])) {
+      charCount1.set(str1[i], 1);
+    } else {
+      charCount1.set(str1[i], charCount1.get(str1[i]) + 1);
+    }
+  }
+
+  for (let i = 0; i < str2.length; i++) {
+    if (!charCount2.get(str2[i])) {
+      charCount2.set(str2[i], 1);
+    } else {
+      charCount2.set(str2[i], charCount2.get(str2[i]) + 1);
+    }
+  }
+
+  for (let i = 0; i < str1.length; i++) {
+    if (charCount1.get(str1[i]) !== charCount2.get(str1[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+```
