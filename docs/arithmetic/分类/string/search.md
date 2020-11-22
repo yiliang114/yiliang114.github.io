@@ -193,3 +193,5 @@ const txt = 'hello search baby';
 
 console.log(search(pat, txt));
 ```
+
+#### 100 万个数抽 100 个怎么做？用什么数据结构？
