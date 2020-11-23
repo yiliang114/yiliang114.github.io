@@ -22,9 +22,7 @@ https://github.com/ElemeFE/element/blob/dev/packages/button/src/button.vue
 
 直接去找你喜欢的图片就完事了？ 什么？
 
-http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.html#
-
-## 在开发组件库中遇到的 css 问题
+http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.html# ## 在开发组件库中遇到的 css 问题
 
 - postcss 的使用和处理
 

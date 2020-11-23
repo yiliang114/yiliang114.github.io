@@ -161,9 +161,7 @@ http {
 
         ##
         # Basic Settings
-        ##
-
-        sendfile on;
+        ##         sendfile on;
         tcp_nopush on;
         tcp_nodelay on;
         keepalive_timeout 65;
@@ -183,16 +181,12 @@ http {
 
         ##
         # Logging Settings
-        ##
-
-        access_log /var/log/nginx/access.log;
+        ##         access_log /var/log/nginx/access.log;
         error_log /var/log/nginx/error.log;
 
         ##
         # Gzip Settings
-        ##
-
-        gzip on;
+        ##         gzip on;
         gzip_disable "msie6";
 
         # gzip_vary on;
@@ -203,9 +197,7 @@ http {
 
         ##
         # Virtual Host Configs
-        ##
-
-        server {
+        ##         server {
             listen       80;
             server_name  demo.com;
 

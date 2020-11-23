@@ -59,9 +59,7 @@ render((
 
 上面代码中，用户访问`/repos`（比如`http://localhost:8080/#/repos`）时，加载`Repos`组件；访问`/about`（`http://localhost:8080/#/about`）时，加载`About`组件。
 
-###
-
-# 路由管理
+### # 路由管理
 
 1. react-router 的使用需要注意的问题：
    1. 什么是 hash， history ，browserRouter，

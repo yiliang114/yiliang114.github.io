@@ -37,19 +37,6 @@ export default function HeapSort(items: Array<number>) {
 ## SF/ALGs/sort/Sorting/InsertionSort.js
 
 ```js
-/**
- * InsertionSort is simple sorting algorithm. Is efficient when
- * sorting small data sets. Often used in conjunction with Bucket sort
- * More specifically, run time requires n checks + (# of inversions)
- *
- *
- * Notes:
- * - Stable
- * - In-place
- *
- * @complexity: O(n^2)
- * @flow
- */
 export default function InsertionSort(items: Array<number>): Array<number> {
   const itemsCopy = [...items];
   let value; // the value currently being compared

@@ -7,8 +7,6 @@ aside: false
 
 # 排序算法
 
-## 常见排序算法
-
 常见的稳定排序算法有：
 
 - 冒泡排序（Bubble Sort） — O(n²)
@@ -26,9 +24,98 @@ aside: false
 - 堆排序（Heapsort）— O(nlogn)
 - 快速排序（Quicksort）— O(nlogn) 期望时间, O(n²) 最坏情况; 对于大的、乱数串行一般相信是最快的已知排序
 
-### 冒泡排序
+## 数组排序算法的复杂性
+
+| 名称         |   最优   |      平均      |     最坏     |  内存  | 稳定 | 备注                                           |
+| ------------ | :------: | :------------: | :----------: | :----: | :--: | ---------------------------------------------- |
+| **冒泡排序** |    n     |      n^2       |     n^2      |   1    | Yes  |                                                |
+| **插入排序** |    n     |      n^2       |     n^2      |   1    | Yes  |                                                |
+| **选择排序** |   n^2    |      n^2       |     n^2      |   1    |  No  |                                                |
+| **堆排序**   | n log(n) |    n log(n)    |   n log(n)   |   1    |  No  |                                                |
+| **归并排序** | n log(n) |    n log(n)    |   n log(n)   |   n    | Yes  |                                                |
+| **快速排序** | n log(n) |    n log(n)    |     n^2      | log(n) |  No  | 在 in-place 版本下，内存复杂度通常是 O(log(n)) |
+| **希尔排序** | n log(n) | 取决于差距序列 | n (log(n))^2 |   1    |  No  |                                                |
+| **计数排序** |  n + r   |     n + r      |    n + r     | n + r  | Yes  | r - 数组里最大的数                             |
+| **基数排序** |  n \* k  |     n \* k     |    n \* k    | n + k  | Yes  | k - 最长 key 的升序                            |
+
+|     算法     | 时间复杂度 | 空间复杂度 |
+| :----------: | :--------: | :--------: |
+|   选择排序   |     N2     |     1      |
+|   插入排序   |    N~N2    |     1      |
+|   希尔排序   |   NlogN    |     1      |
+|   快速排序   |   NlogN    |    lgN     |
+| 三向快速排序 |  N~NlogN   |    lgN     |
+|   归并排序   |   NlogN    |     N      |
+|    堆排序    |   NlogN    |     1      |
+
+#### O(n^2)
+
+- 插入排序
+- 选择排序
+- 希尔排序
+- 冒泡排序
+
+#### O(nlogn)
+
+- 快排
+- 归并排序
+- 堆排序
+
+#### O(n)
+
+- 桶排序
+- 计数排序
+- 基数排序
+
+## 详细
+
+### 1. 冒泡排序（稳定）
+
+时间复杂度 `O(n * n)` 原地排序 稳定排序。每次两两比较，大的放到后面。
+
+复杂度：
+
+- 最好 O(n)
+- 最坏 O(n^2)
+- 平均 O(n^2)
+
+```js
+function sort(a) {
+  const len = b.length;
+  // 外层，需要遍历的次数
+  for (let i = 0; i < len - 1; i++) {
+    // 内层，每次比较
+    for (let j = i + 1; j < len; j++) {
+      if (a[i] > a[j]) {
+        // 大的放到后面
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+    }
+  }
+  return a;
+}
+```
 
 冒泡排序是最简单最容易理解的排序算法之一，其思想是通过无序区中相邻记录关键字间的比较和位置的交换,使关键字最小的记录如气泡一般逐渐往上“漂浮”直至“水面”。 冒泡排序的复杂度，在最好情况下，即正序有序，则只需要比较 n 次。故，为 O(n) ，最坏情况下，即逆序有序，则需要比较(n-1)+(n-2)+……+1，故，为 O(n²)。
+
+```js
+function maopao(arr) {
+  var len = arr.length,
+    j,
+    tempValue;
+  while (len > 0) {
+    for (j = 0; j < len - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        tempValue = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tempValue;
+      }
+    }
+    len--;
+  }
+  return arr;
+}
+```
 
 #### 乌龟和兔子
 
@@ -141,484 +228,6 @@ private static void CocktailSort(int[] array)
 
 	begin = newBegin + 1;
     }
-}
-```
-
-### 插入排序
-
-插入排序也是一个简单的排序算法，它的思想是，每次只处理一个元素，从后往前查找，找到该元素合适的插入位置，最好的情况下，即正序有序(从小到大)，这样只需要比较 n 次，不需要移动。因此时间复杂度为 O(n) ，最坏的情况下，即逆序有序，这样每一个元素就需要比较 n 次，共有 n 个元素，因此实际复杂度为 O(n²) 。
-
-#### 算法实现：
-
-```csharp
-private static void InsertionSort(int[] array)
-{
-    int i = 1;
-    while (i < array.Length)
-    {
-	var j = i;
-	while (j > 0 && array[j - 1] > array[j])
-	{
-	    Swap(array, j, j - 1);
-	    j--;
-	}
-
-	i++;
-    }
-}
-```
-
-### 快排
-
-快排是经典的 divide & conquer 问题，如下用于描述快排的思想、伪代码、代码、复杂度计算以及快排的变形。
-
-#### 快排的思想
-
-如下的三步用于描述快排的流程：
-
-- 在数组中随机取一个值作为标兵
-- 对标兵左、右的区间进行划分(将比标兵大的数放在标兵的右面，比标兵小的数放在标兵的左面，如果倒序就反过来)
-- 重复如上两个过程，直到选取了所有的标兵并划分(此时每个标兵决定的区间中只有一个值，故有序)
-
-##### 伪代码
-
-如下是快排的主体伪代码
-
-```
-QUCIKSORT(A, p, r)
-if p < r
-    q = PARTITION(A, p, r)
-    QUICKSORT(A, p, q-1)
-    QUICKSORT(A, q+1, r)
-```
-
-如下是用于选取标兵以及划分的伪代码
-
-```
-PARTITION(A, p, r)
-x = A[r]
-i = p - 1
-for j = p to r - 1
-	if A[j] <= x
-		i++
-		swap A[i] with A[j]
-swap A[i+1] with A[j]
-return i+1
-```
-
-##### 代码
-
-```Swift
-func quickSort(inout targetArray: [Int], begin: Int, end: Int) {
-    if begin < end {
-        let pivot = partition(&targetArray, begin: begin, end: end)
-        quickSort(&targetArray, begin: begin, end: pivot - 1)
-        quickSort(&targetArray, begin: pivot + 1, end: end)
-    }
-}
-
-func partition(inout targetArray: [Int], begin: Int, end: Int) -> Int {
-    let value = targetArray[end]
-    var i = begin - 1
-    for j in begin ..< end {
-        if  targetArray[j] <= value {
-            i += 1;
-            swapTwoValue(&targetArray[i], b: &targetArray[j])
-        }
-    }
-    swapTwoValue(&targetArray[i+1], b: &targetArray[end])
-    return i+1
-}
-
-func swapTwoValue(inout a: Int, inout b: Int) {
-    let c = a
-    a = b
-    b = c
-}
-
-var testArray :[Int] = [123,3333,223,231,3121,245,1123]
-
-quickSort(&testArray, begin: 0, end: testArray.count-1)
-```
-
-##### 复杂度分析
-
-在最好的情况下，每次 partition 都会把数组一分为二，所以时间复杂度 T(n) = 2T(n/2) + O(n)
-
-解为 T(n) = O(nlog(n))
-
-在最坏的情况下，数组刚好和想要的结果顺序相同，每次 partition 到的都是当前无序区中最小(或最大)的记录，因此只得到一个比上一次划分少一个记录的子序列。T(n) = O(n) + T(n-1)
-
-解为 T(n) = O(n²)
-
-在平均的情况下，快排的时间复杂度是 O(nlog(n))
-
-##### 变形
-
-可以利用快排的 PARTITION 思想求数组中第 K 大元素这样的问题，步骤如下：
-
-- 在数组中随机取一个值作为标兵，左右分化后其顺序为 X
-- 如果 X == Kth 说明这就是第 K 大的数
-- 如果 X > Kth 说明第 K 大的数在标兵左边，继续在左边寻找第 Kth 大的数
-- 如果 X < Kth 说明第 K 大的数在标兵右边，继续在右边需找第 Kth - X 大的数
-
-这个问题的时间复杂度是 O(n)
-
-T(n) = n + n/2 + n/4 + ... = O(n)
-
-## 时间复杂度
-
-### O(n^2)
-
-- 插入排序
-- 选择排序
-- 希尔排序
-- 冒泡排序
-
-### O(nlogn)
-
-- 快排
-- 归并排序
-- 堆排序
-
-### O(n)
-
-- 桶排序
-- 计数排序
-- 基数排序
-
-### 数组排序算法的复杂性
-
-| 名称         |   最优   |      平均      |     最坏     |  内存  | 稳定 | 备注                                           |
-| ------------ | :------: | :------------: | :----------: | :----: | :--: | ---------------------------------------------- |
-| **冒泡排序** |    n     |      n^2       |     n^2      |   1    | Yes  |                                                |
-| **插入排序** |    n     |      n^2       |     n^2      |   1    | Yes  |                                                |
-| **选择排序** |   n^2    |      n^2       |     n^2      |   1    |  No  |                                                |
-| **堆排序**   | n log(n) |    n log(n)    |   n log(n)   |   1    |  No  |                                                |
-| **归并排序** | n log(n) |    n log(n)    |   n log(n)   |   n    | Yes  |                                                |
-| **快速排序** | n log(n) |    n log(n)    |     n^2      | log(n) |  No  | 在 in-place 版本下，内存复杂度通常是 O(log(n)) |
-| **希尔排序** | n log(n) | 取决于差距序列 | n (log(n))^2 |   1    |  No  |                                                |
-| **计数排序** |  n + r   |     n + r      |    n + r     | n + r  | Yes  | r - 数组里最大的数                             |
-| **基数排序** |  n \* k  |     n \* k     |    n \* k    | n + k  | Yes  | k - 最长 key 的升序                            |
-
-## 性能对比
-
-|     算法     | 时间复杂度 | 空间复杂度 |
-| :----------: | :--------: | :--------: |
-|   选择排序   |     N2     |     1      |
-|   插入排序   |    N~N2    |     1      |
-|   希尔排序   |   NlogN    |     1      |
-|   快速排序   |   NlogN    |    lgN     |
-| 三向快速排序 |  N~NlogN   |    lgN     |
-|   归并排序   |   NlogN    |     N      |
-|    堆排序    |   NlogN    |     1      |
-
-## Code
-
-```js
-function maopao(arr) {
-  var len = arr.length,
-    j,
-    tempValue;
-  while (len > 0) {
-    for (j = 0; j < len - 1; j++) {
-      if (arr[j] > arr[j + 1]) {
-        tempValue = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tempValue;
-      }
-    }
-    len--;
-  }
-  return arr;
-}
-```
-
-```js
-// 常见排序算法
-
-/**
- * 交换数组中两元素位置
- * @param       : i, j: 待交换的两元素下标
- */
-Array.prototype.swap = function(i, j) {
-  const temp = this[i];
-  this[i] = this[j];
-  this[j] = temp;
-};
-
-/**
- * 冒泡排序
- * @param       : <Array> target数组
- * @description : 冒泡排序，更贴切的形容应该是沉底排序，每一轮内循环就是最大数沉底了。
- */
-module.exports.bubbleSort = function bubbleSort(target) {
-  for (var j = target.length; j > 0; j--) {
-    for (var i = 0; i < j - 1; i++) {
-      if (target[i] > target[i + 1]) {
-        target.swap(i, i + 1);
-      }
-    }
-  }
-  return target;
-};
-
-/**
- * 选择排序
- * @param       : <Array> target数组
- * @description : 一次内循环得到最大值的下标，然后只交换一次次序，将最大值和内循环末尾对调。
- */
-module.exports.selectSort = function selectSort(target) {
-  for (var j = target.length; j > 0; j--) {
-    var maxIndex = 0;
-    for (var i = 1; i < j; i++) {
-      maxIndex = target[maxIndex] > target[i] ? maxIndex : i;
-    }
-    target.swap(maxIndex, j - 1);
-  }
-  return target;
-};
-
-/**
- * 直接插入排序
- * @param       : <Array> target数组
- * @description : 将当前元素与前面元素逐一比较，比前方元素小时则将前方元素后移，直到比前方元素大则落位
- */
-module.exports.straightInsertionSort = function straightInsertionSort(target) {
-  for (let i = 1; i < target.length; i++) {
-    var j = i;
-    var base = target[i];
-    while (j > 0 && base < target[j - 1]) {
-      target[j] = target[j - 1];
-      j--;
-    }
-    if (j < i) {
-      target[j] = base;
-    }
-  }
-  return target;
-};
-
-/**
- * 希尔排序
- * @param       : <Array> target数组
- * @description : 插入排序的改版：使用定好的偏移量分组，组内进行插入排序；减小偏移量重复进行分组排序直到偏移量为1.
- */
-module.exports.shellSort = function shellSort(target) {
-  const len = target.length;
-  // 偏移量递减
-  for (let dx = Math.floor(len / 2); dx > 0; dx = Math.floor(dx / 2)) {
-    // 按偏移量分组[0,dx,2dx...], [1, 1+dx, 1+2dx...]
-    for (let i = 0; i < dx; i++) {
-      // 组内插入排序
-      for (let j = i + dx; j < len; j += dx) {
-        let k = j;
-        let base = target[k];
-        // 插入元素
-        while (k > i && base < target[k - dx]) {
-          target[k] = target[k - dx];
-          k -= dx;
-        }
-        if (k < j) {
-          target[k] = base;
-        }
-      }
-    }
-  }
-  return target;
-};
-
-/**
- * 快速排序
- * @param       : <Array> target数组
- * @description : 选择一个元素将数组分隔成两部分，比该元素小的放该元素前面，比该元素大放后面；
- *                然后递归快速排序，最终得到一个排序后数组
- */
-module.exports.quickSort = function quickSort(target) {
-  // 先定义递归终止条件
-  if (target.length < 2) {
-    return target;
-  }
-
-  var baseIndex = 0;
-  var left = [];
-  var right = [];
-
-  for (var i = 1; i < target.length; i++) {
-    if (target[i] < target[baseIndex]) {
-      left.push(target[i]);
-    } else {
-      right.push(target[i]);
-    }
-  }
-  left = quickSort(left);
-  right = quickSort(right);
-  return left.concat(target[baseIndex], right); // 递归出口
-};
-
-/**
- * 原地快速排序
- * @param       : <Array> target
- * @description : 上面的快排每次都开辟一个数组，浪费空间。常规做法是两边查找到中间，两两交换位置
- */
-function _inPlaceQuickSort(target, left, right) {
-  // 先定义递归终止条件
-  if (left >= right) {
-    return target;
-  }
-
-  var base = target[left];
-  var i = left;
-  var j = right;
-  while (i < j) {
-    while (i < j && target[j] >= base) {
-      j--;
-    }
-    target[i] = target[j];
-    while (i < j && target[i] <= base) {
-      i++;
-    }
-    target[j] = target[i];
-  }
-  target[i] = base;
-  // 函数副作用已经改变了传入数组，但是用显式返回看起来更清晰
-  target = _inPlaceQuickSort(target, left, i - 1);
-  target = _inPlaceQuickSort(target, i + 1, right);
-  return target;
-}
-module.exports.inPlaceQuickSort = function inPlaceQuickSort(target) {
-  return _inPlaceQuickSort(target, 0, target.length - 1);
-};
-
-/**
- * 归并排序
- * @param       : <Array> target 要归并排序的数组
- * @description : 归并排序，将数组递归分割成两个子数组直至数组只有一个元素，然后将这两个有序数组合并成一个有序数组;
- */
-function mergeSortedArray(arrA, arrB) {
-  var result = [];
-  var i = 0,
-    j = 0,
-    targetLen = arrA.length,
-    toolLen = arrB.length;
-  while (i < targetLen && j < toolLen) {
-    if (arrA[i] < arrB[j]) {
-      result.push(arrA[i++]);
-    } else {
-      result.push(arrB[j++]);
-    }
-  }
-  while (i < targetLen) {
-    result.push(arrA[i++]);
-  }
-  while (j < toolLen) {
-    result.push(arrB[j++]);
-  }
-  return result;
-}
-module.exports.mergeSort = function mergeSort(target) {
-  if (target.length === 1) {
-    return target;
-  }
-  var mid = Math.floor(target.length / 2);
-  var left = target.slice(0, mid);
-  var right = target.slice(mid);
-  return mergeSortedArray(mergeSort(left), mergeSort(right));
-};
-
-/**
- * 堆排序
- * @param       : <Array> target
- * @description : 通过构建大(小)根堆的方式进行排序，PS：使用函数副作用来进行原地排序
- */
-// 递归调整 i~j 层的大根堆
-function adjustMaxHeap(target, i, j) {
-  let parent = i;
-  let left = 2 * i + 1;
-  let right = 2 * i + 2;
-
-  // 比较父节点与左右叶子节点，取最大值的下标设为父节点下标
-  if (left < j && target[parent] < target[left]) {
-    parent = left;
-  }
-  if (right < j && target[parent] < target[right]) {
-    parent = right;
-  }
-  // 只有父节点发生改变才会破坏大根堆结构，此时才需要继续调整下级大根堆
-  if (parent != i) {
-    target.swap(i, parent);
-    adjustMaxHeap(target, parent, j);
-  }
-}
-// 构建大根堆就是不断调整最大堆的过程，只要从最后一个父节点往上调整到第一个父节点，就能构建出大根堆
-// 从0开始的n层堆的结构：len = 2^n - 1，第n层全是叶子，所以第n-1层的最后一个父节点就是floor(len/2)-1
-function buildMaxHeap(target) {
-  const len = target.length;
-  for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
-    adjustMaxHeap(target, i, len);
-  }
-}
-
-function sortMaxHeap(target) {
-  for (let i = target.length - 1; i > 0; i--) {
-    target.swap(0, i);
-    adjustMaxHeap(target, 0, i);
-  }
-}
-// 先构建一个大根堆，然后从最后一个元素开始交换堆顶元素，每次交换都调整根堆，直到数组头则完成排序
-module.exports.heapSort = function heapSort(target) {
-  buildMaxHeap(target);
-  sortMaxHeap(target);
-  return target;
-};
-
-/**
- * 堆排序提取部分记录
- * 从大数据中提取最大(小)的n条记录，也可以用小(大)根堆来实现
- * 先用数据集中前n条数据构造一个小根堆，然后将后面的数据依次通过这个小根堆：
- * 比堆顶小的数据直接丢弃，比堆顶大则替换堆顶，然后调整根堆。最后输出小根堆的排序
- */
-module.exports.topSortViaHeap = function topSortViaHeap(target) {
-  const len = 10;
-  let ret = target.slice(0, len);
-  buildMaxHeap(ret);
-  for (var i = len; i < target.length; i++) {
-    if (target[i] < ret[0]) {
-      ret[0] = target[i];
-      adjustMaxHeap(ret, 0, ret.length);
-    }
-  }
-  sortMaxHeap(ret);
-  return ret;
-};
-```
-
-## 详细
-
-### 1. 冒泡排序（稳定）
-
-时间复杂度 `O(n * n)` 原地排序 稳定排序。每次两两比较，大的放到后面。
-
-复杂度：
-
-- 最好 O(n)
-- 最坏 O(n^2)
-- 平均 O(n^2)
-
-```js
-function sort(a) {
-  const len = b.length;
-  // 外层，需要遍历的次数
-  for (let i = 0; i < len - 1; i++) {
-    // 内层，每次比较
-    for (let j = i + 1; j < len; j++) {
-      if (a[i] > a[j]) {
-        // 大的放到后面
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-    }
-  }
-  return a;
 }
 ```
 
@@ -742,6 +351,28 @@ function intensifyInsertSort(arr) {
     arr[j] = temp;
   }
   return arr;
+}
+```
+
+插入排序也是一个简单的排序算法，它的思想是，每次只处理一个元素，从后往前查找，找到该元素合适的插入位置，最好的情况下，即正序有序(从小到大)，这样只需要比较 n 次，不需要移动。因此时间复杂度为 O(n) ，最坏的情况下，即逆序有序，这样每一个元素就需要比较 n 次，共有 n 个元素，因此实际复杂度为 O(n²) 。
+
+#### 算法实现：
+
+```csharp
+private static void InsertionSort(int[] array)
+{
+    int i = 1;
+    while (i < array.Length)
+    {
+	var j = i;
+	while (j > 0 && array[j - 1] > array[j])
+	{
+	    Swap(array, j, j - 1);
+	    j--;
+	}
+
+	i++;
+    }
 }
 ```
 
@@ -955,7 +586,103 @@ sort(arr, 0, arr.length - 1);
  */
 ```
 
-### 三向快速排序
+快排是经典的 divide & conquer 问题，如下用于描述快排的思想、伪代码、代码、复杂度计算以及快排的变形。
+
+#### 快排的思想
+
+如下的三步用于描述快排的流程：
+
+- 在数组中随机取一个值作为标兵
+- 对标兵左、右的区间进行划分(将比标兵大的数放在标兵的右面，比标兵小的数放在标兵的左面，如果倒序就反过来)
+- 重复如上两个过程，直到选取了所有的标兵并划分(此时每个标兵决定的区间中只有一个值，故有序)
+
+##### 伪代码
+
+如下是快排的主体伪代码
+
+```
+QUCIKSORT(A, p, r)
+if p < r
+    q = PARTITION(A, p, r)
+    QUICKSORT(A, p, q-1)
+    QUICKSORT(A, q+1, r)
+```
+
+如下是用于选取标兵以及划分的伪代码
+
+```
+PARTITION(A, p, r)
+x = A[r]
+i = p - 1
+for j = p to r - 1
+	if A[j] <= x
+		i++
+		swap A[i] with A[j]
+swap A[i+1] with A[j]
+return i+1
+```
+
+##### 代码
+
+```Swift
+func quickSort(inout targetArray: [Int], begin: Int, end: Int) {
+    if begin < end {
+        let pivot = partition(&targetArray, begin: begin, end: end)
+        quickSort(&targetArray, begin: begin, end: pivot - 1)
+        quickSort(&targetArray, begin: pivot + 1, end: end)
+    }
+}
+
+func partition(inout targetArray: [Int], begin: Int, end: Int) -> Int {
+    let value = targetArray[end]
+    var i = begin - 1
+    for j in begin ..< end {
+        if  targetArray[j] <= value {
+            i += 1;
+            swapTwoValue(&targetArray[i], b: &targetArray[j])
+        }
+    }
+    swapTwoValue(&targetArray[i+1], b: &targetArray[end])
+    return i+1
+}
+
+func swapTwoValue(inout a: Int, inout b: Int) {
+    let c = a
+    a = b
+    b = c
+}
+
+var testArray :[Int] = [123,3333,223,231,3121,245,1123]
+
+quickSort(&testArray, begin: 0, end: testArray.count-1)
+```
+
+##### 复杂度分析
+
+在最好的情况下，每次 partition 都会把数组一分为二，所以时间复杂度 T(n) = 2T(n/2) + O(n)
+
+解为 T(n) = O(nlog(n))
+
+在最坏的情况下，数组刚好和想要的结果顺序相同，每次 partition 到的都是当前无序区中最小(或最大)的记录，因此只得到一个比上一次划分少一个记录的子序列。T(n) = O(n) + T(n-1)
+
+解为 T(n) = O(n²)
+
+在平均的情况下，快排的时间复杂度是 O(nlog(n))
+
+##### 变形
+
+可以利用快排的 PARTITION 思想求数组中第 K 大元素这样的问题，步骤如下：
+
+- 在数组中随机取一个值作为标兵，左右分化后其顺序为 X
+- 如果 X == Kth 说明这就是第 K 大的数
+- 如果 X > Kth 说明第 K 大的数在标兵左边，继续在左边寻找第 Kth 大的数
+- 如果 X < Kth 说明第 K 大的数在标兵右边，继续在右边需找第 Kth - X 大的数
+
+这个问题的时间复杂度是 O(n)
+
+T(n) = n + n/2 + n/4 + ... = O(n)
+
+#### 三向快速排序
 
 类似快速排序，但是分为了左中右三个部分，中间部分为等于当前值的所有值。适用于有大量重复元素的排序。
 
@@ -1547,14 +1274,263 @@ alert(quickSort([32, 45, 37, 16, 2, 87])); //弹出“2,16,32,37,45,87”
 快速排序：去数组中间的那一个数，然后遍历所有数，小于该数的 push 到一个数组，大于该数的 push 到另外一个数组，然后递归去排序这两个数组，最后将所有结果连接起来。
 选择排序：声明一个数组，每次去输入数组里面找数组中的最大值或者最小值，取出来后 push 到声明的数组中，直到输入数组为空。
 
-## 排序算法的评价
+## Code
 
-### 稳定性
+```js
+// 常见排序算法
 
-稳定排序算法会依照相等的关键（换言之就是值）维持纪录的相对次序。也就是一个排序算法是稳定的，就是当有两个有相等关键的纪录 R 和 S，且在原本的串行中 R 出现在 S 之前，在排序过的串行中 R 也将会是在 S 之前。
+/**
+ * 交换数组中两元素位置
+ * @param       : i, j: 待交换的两元素下标
+ */
+Array.prototype.swap = function(i, j) {
+  const temp = this[i];
+  this[i] = this[j];
+  this[j] = temp;
+};
 
-### 计算复杂度（最差、平均、和最好表现）
+/**
+ * 冒泡排序
+ * @param       : <Array> target数组
+ * @description : 冒泡排序，更贴切的形容应该是沉底排序，每一轮内循环就是最大数沉底了。
+ */
+module.exports.bubbleSort = function bubbleSort(target) {
+  for (var j = target.length; j > 0; j--) {
+    for (var i = 0; i < j - 1; i++) {
+      if (target[i] > target[i + 1]) {
+        target.swap(i, i + 1);
+      }
+    }
+  }
+  return target;
+};
 
-依据串行（list）的大小（n），一般而言，好的表现是 O(nlogn)，且坏的行为是 O(n2)。对于一个排序理想的表现是 O(n)。仅使用一个抽象关键比较运算的排序算法总平均上总是至少需要 O(nlogn)。
+/**
+ * 选择排序
+ * @param       : <Array> target数组
+ * @description : 一次内循环得到最大值的下标，然后只交换一次次序，将最大值和内循环末尾对调。
+ */
+module.exports.selectSort = function selectSort(target) {
+  for (var j = target.length; j > 0; j--) {
+    var maxIndex = 0;
+    for (var i = 1; i < j; i++) {
+      maxIndex = target[maxIndex] > target[i] ? maxIndex : i;
+    }
+    target.swap(maxIndex, j - 1);
+  }
+  return target;
+};
 
-所有基于比较的排序的时间复杂度至少是 O(nlogn)。
+/**
+ * 直接插入排序
+ * @param       : <Array> target数组
+ * @description : 将当前元素与前面元素逐一比较，比前方元素小时则将前方元素后移，直到比前方元素大则落位
+ */
+module.exports.straightInsertionSort = function straightInsertionSort(target) {
+  for (let i = 1; i < target.length; i++) {
+    var j = i;
+    var base = target[i];
+    while (j > 0 && base < target[j - 1]) {
+      target[j] = target[j - 1];
+      j--;
+    }
+    if (j < i) {
+      target[j] = base;
+    }
+  }
+  return target;
+};
+
+/**
+ * 希尔排序
+ * @param       : <Array> target数组
+ * @description : 插入排序的改版：使用定好的偏移量分组，组内进行插入排序；减小偏移量重复进行分组排序直到偏移量为1.
+ */
+module.exports.shellSort = function shellSort(target) {
+  const len = target.length;
+  // 偏移量递减
+  for (let dx = Math.floor(len / 2); dx > 0; dx = Math.floor(dx / 2)) {
+    // 按偏移量分组[0,dx,2dx...], [1, 1+dx, 1+2dx...]
+    for (let i = 0; i < dx; i++) {
+      // 组内插入排序
+      for (let j = i + dx; j < len; j += dx) {
+        let k = j;
+        let base = target[k];
+        // 插入元素
+        while (k > i && base < target[k - dx]) {
+          target[k] = target[k - dx];
+          k -= dx;
+        }
+        if (k < j) {
+          target[k] = base;
+        }
+      }
+    }
+  }
+  return target;
+};
+
+/**
+ * 快速排序
+ * @param       : <Array> target数组
+ * @description : 选择一个元素将数组分隔成两部分，比该元素小的放该元素前面，比该元素大放后面；
+ *                然后递归快速排序，最终得到一个排序后数组
+ */
+module.exports.quickSort = function quickSort(target) {
+  // 先定义递归终止条件
+  if (target.length < 2) {
+    return target;
+  }
+
+  var baseIndex = 0;
+  var left = [];
+  var right = [];
+
+  for (var i = 1; i < target.length; i++) {
+    if (target[i] < target[baseIndex]) {
+      left.push(target[i]);
+    } else {
+      right.push(target[i]);
+    }
+  }
+  left = quickSort(left);
+  right = quickSort(right);
+  return left.concat(target[baseIndex], right); // 递归出口
+};
+
+/**
+ * 原地快速排序
+ * @param       : <Array> target
+ * @description : 上面的快排每次都开辟一个数组，浪费空间。常规做法是两边查找到中间，两两交换位置
+ */
+function _inPlaceQuickSort(target, left, right) {
+  // 先定义递归终止条件
+  if (left >= right) {
+    return target;
+  }
+
+  var base = target[left];
+  var i = left;
+  var j = right;
+  while (i < j) {
+    while (i < j && target[j] >= base) {
+      j--;
+    }
+    target[i] = target[j];
+    while (i < j && target[i] <= base) {
+      i++;
+    }
+    target[j] = target[i];
+  }
+  target[i] = base;
+  // 函数副作用已经改变了传入数组，但是用显式返回看起来更清晰
+  target = _inPlaceQuickSort(target, left, i - 1);
+  target = _inPlaceQuickSort(target, i + 1, right);
+  return target;
+}
+module.exports.inPlaceQuickSort = function inPlaceQuickSort(target) {
+  return _inPlaceQuickSort(target, 0, target.length - 1);
+};
+
+/**
+ * 归并排序
+ * @param       : <Array> target 要归并排序的数组
+ * @description : 归并排序，将数组递归分割成两个子数组直至数组只有一个元素，然后将这两个有序数组合并成一个有序数组;
+ */
+function mergeSortedArray(arrA, arrB) {
+  var result = [];
+  var i = 0,
+    j = 0,
+    targetLen = arrA.length,
+    toolLen = arrB.length;
+  while (i < targetLen && j < toolLen) {
+    if (arrA[i] < arrB[j]) {
+      result.push(arrA[i++]);
+    } else {
+      result.push(arrB[j++]);
+    }
+  }
+  while (i < targetLen) {
+    result.push(arrA[i++]);
+  }
+  while (j < toolLen) {
+    result.push(arrB[j++]);
+  }
+  return result;
+}
+module.exports.mergeSort = function mergeSort(target) {
+  if (target.length === 1) {
+    return target;
+  }
+  var mid = Math.floor(target.length / 2);
+  var left = target.slice(0, mid);
+  var right = target.slice(mid);
+  return mergeSortedArray(mergeSort(left), mergeSort(right));
+};
+
+/**
+ * 堆排序
+ * @param       : <Array> target
+ * @description : 通过构建大(小)根堆的方式进行排序，PS：使用函数副作用来进行原地排序
+ */
+// 递归调整 i~j 层的大根堆
+function adjustMaxHeap(target, i, j) {
+  let parent = i;
+  let left = 2 * i + 1;
+  let right = 2 * i + 2;
+
+  // 比较父节点与左右叶子节点，取最大值的下标设为父节点下标
+  if (left < j && target[parent] < target[left]) {
+    parent = left;
+  }
+  if (right < j && target[parent] < target[right]) {
+    parent = right;
+  }
+  // 只有父节点发生改变才会破坏大根堆结构，此时才需要继续调整下级大根堆
+  if (parent != i) {
+    target.swap(i, parent);
+    adjustMaxHeap(target, parent, j);
+  }
+}
+// 构建大根堆就是不断调整最大堆的过程，只要从最后一个父节点往上调整到第一个父节点，就能构建出大根堆
+// 从0开始的n层堆的结构：len = 2^n - 1，第n层全是叶子，所以第n-1层的最后一个父节点就是floor(len/2)-1
+function buildMaxHeap(target) {
+  const len = target.length;
+  for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
+    adjustMaxHeap(target, i, len);
+  }
+}
+
+function sortMaxHeap(target) {
+  for (let i = target.length - 1; i > 0; i--) {
+    target.swap(0, i);
+    adjustMaxHeap(target, 0, i);
+  }
+}
+// 先构建一个大根堆，然后从最后一个元素开始交换堆顶元素，每次交换都调整根堆，直到数组头则完成排序
+module.exports.heapSort = function heapSort(target) {
+  buildMaxHeap(target);
+  sortMaxHeap(target);
+  return target;
+};
+
+/**
+ * 堆排序提取部分记录
+ * 从大数据中提取最大(小)的n条记录，也可以用小(大)根堆来实现
+ * 先用数据集中前n条数据构造一个小根堆，然后将后面的数据依次通过这个小根堆：
+ * 比堆顶小的数据直接丢弃，比堆顶大则替换堆顶，然后调整根堆。最后输出小根堆的排序
+ */
+module.exports.topSortViaHeap = function topSortViaHeap(target) {
+  const len = 10;
+  let ret = target.slice(0, len);
+  buildMaxHeap(ret);
+  for (var i = len; i < target.length; i++) {
+    if (target[i] < ret[0]) {
+      ret[0] = target[i];
+      adjustMaxHeap(ret, 0, ret.length);
+    }
+  }
+  sortMaxHeap(ret);
+  return ret;
+};
+```
