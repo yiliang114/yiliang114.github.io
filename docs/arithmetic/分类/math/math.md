@@ -2704,3 +2704,464 @@ export default function squareRoot(number, tolerance = 0) {
   return Math.round(root * 10 ** tolerance) / 10 ** tolerance;
 }
 ```
+
+# SF/js-algorithms/Math/CheckAddition.js
+
+```js
+/**
+ * Given a list of numbers and specific integer, check if the sum
+ * of any two integers in the list add to equal the given number.
+ *
+ * Formally, in the given set of arbitray integers, do an two
+ * integers m,n in the set exist such that m + n = k, where k is a
+ * given integer
+ *
+ * @flow
+ */
+export default function CheckAddition(target: number, list: number[]): boolean {
+  const map = new Map();
+
+  for (let i = 0; i < list.length; i++) {
+    if (map.has(list[i])) {
+      const curr = map.get(list[i]);
+      map.set(list[i], curr + 1);
+    } else {
+      map.set(list[i], 1);
+    }
+  }
+
+  for (let i = 0; i < list.length; i++) {
+    const res = target - list[i];
+    if (map.has(res)) {
+      if (res === list[i]) {
+        return map.get(res) > 1;
+      }
+      return true;
+    }
+  }
+
+  return false;
+}
+```
+
+# SF/js-algorithms/Math/Factorial.js
+
+```js
+/**
+ * What is a factorial? I think an example is better than an explaination in
+ * this case:
+ *
+ * Factorial(4, 1)
+ * 4 * Factorial(3)
+ * 4 * 3 * Factorial(2)
+ * 4 * 3 * 2 * Factorial(1)
+ * 4 * 3 * 2 * 1
+ *
+ * @complexity: O(n)
+ *
+ * @flow
+ */
+type num = number;
+
+export default function FactorialRecursive(number: num, product: num = 1): num {
+  switch (number) {
+    case 1:
+      return product;
+    default:
+      return FactorialRecursive(number - 1, product * number);
+  }
+}
+
+export function FactorialIterative(number: num): num {
+  let factorial = 1;
+  let current = 1;
+
+  while (current < number) {
+    current++;
+    factorial *= current;
+  }
+
+  return factorial;
+}
+```
+
+# SF/js-algorithms/Math/Fibonacci.js
+
+```js
+type num = number;
+
+const list = [];
+
+export default function FibonacciIterative(nth: number): num[] {
+  const sequence = [];
+
+  if (nth >= 1) sequence.push(1);
+  if (nth >= 2) sequence.push(1);
+
+  for (let i = 2; i < nth; i++) {
+    sequence.push(sequence[i - 1] + sequence[i - 2]);
+  }
+
+  return sequence;
+}
+
+export function FibonacciRecursive(number: num): num[] {
+  return ((): num[] => {
+    switch (list.length) {
+      case 0:
+        list.push(1);
+        return FibonacciRecursive(number);
+      case 1:
+        list.push(1);
+        return FibonacciRecursive(number);
+      case number:
+        return list;
+      default:
+        list.push(list[list.length - 1] + list[list.length - 2]);
+        return FibonacciRecursive(number);
+    }
+  })();
+}
+
+const dict: Map<num, num> = new Map();
+
+export function FibonacciRecursiveDP(stairs: num): num {
+  if (stairs <= 0) return 0;
+  if (stairs === 1) return 1;
+
+  // Memoize stair count
+  if (dict.has(stairs)) return dict.get(stairs);
+
+  const res = FibonacciRecursiveDP(stairs - 1) + FibonacciRecursiveDP(stairs - 2);
+
+  dict.set(stairs, res);
+
+  return res;
+}
+
+// @TODO: FibonacciBinetsTheorem
+```
+
+# SF/js-algorithms/Math/HappyNumbers.js
+
+```js
+/**
+ * Happy numbers
+ *
+ * Find the sum of the products of a digits of a number
+ * Ex. 7 -> (7 * 7)
+ * 7 -> 49 -> ...
+ *
+ * 36 -> (3 * 3) + (6 * 6)
+ * 18 -> (1 * 1) + (8 * 8)
+ *
+ * 'Happy' numbers are numbers that will have a number whose pattern include
+ * Ex. 7 -> 49 -> 97 -> 130 -> 10 -> 1
+ *
+ *
+ * 'Unhappy' numbers will never include 1 in the sequence
+ * Ex. 2 -> 4 -> 16 -> 37 -> 58 -> 89 -> 145 -> 42 -> 20 -> 4
+ *
+ * Question: Determine if a number is 'happy' or not
+ *
+ * @flow
+ */
+
+/**
+ * Calculate if a number is happy or unhappy
+ */
+export default function HappyNumbers(number: number): boolean {
+  const numbers = new Set();
+  let currentNumber = calc(number);
+  let infiniteLoopPreventionLimit = 0;
+
+  while (!numbers.has(1) && infiniteLoopPreventionLimit < 1000) {
+    currentNumber = calc(currentNumber);
+
+    if (numbers.has(currentNumber)) {
+      return false;
+    }
+
+    numbers.add(currentNumber);
+    infiniteLoopPreventionLimit++;
+
+    if (currentNumber === 1) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function calc(number: number): number {
+  const castedNumber = number.toString();
+
+  let index;
+  let sum = 0;
+
+  for (index = 0; index < castedNumber.length; index++) {
+    const int = parseInt(castedNumber[index], 10);
+    const result = int * int;
+    sum += result;
+  }
+
+  return sum;
+}
+```
+
+# SF/js-algorithms/Math/Integral.js
+
+```js
+type num = number;
+
+function integ(coefs: num[]): num[] {
+  const newCoefs = coefs.map((coef: num, index: num): num => coef / (coefs.length - index));
+
+  return [...newCoefs, 0];
+}
+
+function addExp(coefs: num[], x: num): num {
+  return coefs
+    .map((a: num, index: num): num => x ** (coefs.length - index - 1) * a)
+    .reduce((c: num, p: num): num => c + p, 0);
+}
+
+export default function areaExact(coefs: num[], a: num, b: num): num {
+  return addExp(integ(coefs), b) - addExp(integ(coefs), a);
+}
+
+export function areaNumerical(coefs: num[], delta: num = 1, a: num, b: num): num {
+  let sum = 0;
+
+  for (let i = a; i < b; i += delta) {
+    const comp = addExp(coefs, i) * delta;
+    sum += comp;
+  }
+
+  return sum;
+}
+```
+
+# SF/js-algorithms/Math/Pascal.js
+
+```js
+// Pascal's Triangle
+//
+// Given numRows, generate the first numRows of Pascal's triangle.
+//
+// For example, given numRows = 5, return
+// [
+//       [1],
+//      [1,1],
+//     [1,2,1],
+//    [1,3,3,1],
+//   [1,4,6,4,1],
+//  [1,5,10,10,5,1]
+// ]
+//
+
+type num = number;
+type pt = number[][];
+
+export default function PascalRecursive(number: num, list: pt = []): pt {
+  switch (list.length) {
+    case 0:
+      list.push([1]);
+      return PascalRecursive(number, list);
+    case 1:
+      list.push([1, 1]);
+      return PascalRecursive(number, list);
+    case number:
+      return list;
+    default: {
+      const _list = list[list.length - 1];
+      const _tmp = [1];
+      for (let i = 0; i < _list.length - 1; i++) {
+        _tmp.push(_list[i] + _list[i + 1]);
+      }
+      _tmp.push(1);
+      list.push(_tmp);
+      return PascalRecursive(number, list);
+    }
+  }
+}
+
+export function PascalIterative(number: number): pt {
+  if (number === 0) return [];
+  const rows = [[1]];
+
+  for (let i = 1; i < number; i++) {
+    const some = [1];
+    const length = rows[i - 1] ? rows[i - 1].length - 1 : 0;
+
+    for (let j = 0; j < length; j++) {
+      some.push(rows[i - 1][j] + (rows[i - 1][j + 1] || 0));
+    }
+
+    some.push(1);
+    rows.push(some);
+  }
+
+  return rows;
+}
+```
+
+# SF/js-algorithms/Math/PrimeNumberGenerator.js
+
+```js
+/**
+ * Find all the prime numbers of a certain number. This solution is based on the
+ * Sieve of Eratosthenes method
+ *
+ * For each int 'a' until the given limit, check if each following int 'b' is divisible
+ * by 'a'
+ *
+ * @complexity: O(n(logn))
+ * @flow
+ */
+export default function PrimeNumberGenerator(limit: number = 100): number[] {
+  const primeNumbers = [];
+
+  for (let i = 1; i <= limit; i++) {
+    primeNumbers.push(i);
+  }
+
+  for (let i = 0; i < primeNumbers.length; i++) {
+    for (let d = 0; d < primeNumbers.length; d++) {
+      // Check if number is composite
+      if (
+        primeNumbers[d] !== primeNumbers[i] &&
+        primeNumbers[i] !== 1 &&
+        primeNumbers[d] !== 1 &&
+        primeNumbers[d] % primeNumbers[i] === 0
+      ) {
+        // Perform in-place mutation for better memory efficiency
+        primeNumbers.splice(d, 1);
+      }
+    }
+  }
+
+  return primeNumbers;
+}
+```
+
+# SF/js-algorithms/Math/RandomNumber.js
+
+```js
+// Returning random numbers from Javascript
+// Javascript's Math.random function only returns a random number from 0 to 1
+// Here, we can write our own random functions to improve the random functionality
+
+type num = number;
+
+/**
+ * Return a random number between a min and max
+ */
+export default function RandomBetween(min: num, max: num): num {
+  return Math.random() * (max - min) + min;
+}
+
+// Assert randomBetween
+export function isBeween(number: num, min: num, max: num): boolean {
+  return number > min && number < max;
+}
+```
+
+# SF/js-algorithms/Math/SquareRoot.js
+
+```js
+// Find the square root of a given number, without using the Math.sqrt function
+//
+// Hmm.. if I divide the number by two and round it, will it always be less
+// than than the square root?
+//
+// In the case that the number is less than 4, this is not true
+// ex. √16 < 8^2 (64)
+// ex. √4 = 2^2
+// ex. √3 > 1.5^2
+// ex. √2 > 1^2
+// ex. √1 > 0.5^2 (1)
+// ex. √0.5 < 0.25^2 (0.625)
+//
+// So if half the number is greater than or equal to four, we know that the
+// root is less than half of the number
+//
+// An efficient way of doing this is using a binary search tree.
+//
+
+type num = number;
+
+/**
+ * @complexity: O(log(n))
+ */
+export default function SquareRoot(number: num): num {
+  let sqrt = 1;
+  let head = 1;
+  let tail = number;
+
+  while (sqrt ** 2 !== number) {
+    const middle = Math.floor((tail + head) / 2);
+    sqrt = middle;
+
+    if (sqrt ** 2 > number) {
+      tail = middle;
+    } else {
+      head = middle;
+    }
+  }
+
+  return sqrt;
+}
+
+// @TODO: Taylor Series Method
+// @TODO: Newtonian Method Method
+// @TODO: Babylonian Method Method
+```
+
+# SF/js-algorithms/Math/VectorCalculate.js
+
+```js
+/**
+ * Calculate the resultant vector of a given series of component vectors
+ * @flow
+ */
+type num = number;
+
+type vector = {
+  magnitude: num,
+  direction: num,
+};
+
+type result = {
+  xMag: num,
+  yMag: num,
+  totalMag: num,
+};
+
+export default function VectorCalculate(coords: vector[]): result {
+  const x = coords.map((e: vector): num => e.magnitude * Math.cos(radsToDegrees(e.direction)));
+  const y = coords.map((e: vector): num => e.magnitude * Math.sin(radsToDegrees(e.direction)));
+
+  const xMag = sum(x);
+  const yMag = sum(y);
+  const totalMag = pythag(xMag, yMag);
+
+  return { xMag, yMag, totalMag };
+}
+
+function pythag(x: num, y: num): num {
+  return round(Math.sqrt(x ** 2 + y ** 2));
+}
+
+function sum(nums: num[]): num {
+  return round(nums.reduce((p: num, c: num): num => p + c, 0));
+}
+
+function radsToDegrees(rad: num): num {
+  return round((rad * Math.PI) / 180);
+}
+
+function round(number: num): num {
+  return Math.round(number * 1000) / 1000;
+}
+```
