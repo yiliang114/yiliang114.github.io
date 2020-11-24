@@ -10,9 +10,9 @@ draft: true
 
 假设你现在要处理这样一个问题，你有一个网站并且拥有`很多`访客，每当有用户访问时，你想知道这个 ip 是不是第一次访问你的网站。
 
-### hashtable 可以么
+### hash table 可以么
 
-一个显而易见的答案是将所有的 ip 用 hashtable 存起来，每次访问都去 hashtable 中取，然后判断即可。但是题目说了网站有`很多`访客，
+一个显而易见的答案是将所有的 ip 用 hash table 存起来，每次访问都去 hash table 中取，然后判断即可。但是题目说了网站有`很多`访客，
 假如有 10 亿个用户访问过，每个 ip 的长度是 4 byte，那么你一共需要 4 \* 1000000000 = 4000000000Bytes = 4G , 如果是判断 URL 黑名单，
 由于每个 URL 会更长，那么需要的空间可能会远远大于你的期望。
 
@@ -31,14 +31,14 @@ draft: true
 
 > 我们可以通过散列函数来解决
 
-2. 当元素不是整型（比如 URL）的时候，BitSet 就不适用了
+2. 当元素不是整型(比如 URL)的时候，BitSet 就不适用了
 
 > 我们还是可以使用散列函数来解决， 甚至可以多 hash 几次
 
 ### 布隆过滤器
 
 布隆过滤器其实就是`bit + 多个散列函数`, 如果经过多次散列的值再 bit 上都为 1，那么可能存在(可能有冲突)。 如果
-有一个不为 1，那么一定不存在（一个值经过散列函数得到的值一定是唯一的），这也是布隆过滤器的一个重要特点。
+有一个不为 1，那么一定不存在(一个值经过散列函数得到的值一定是唯一的)，这也是布隆过滤器的一个重要特点。
 
 ### 布隆过滤器的应用
 
@@ -396,7 +396,7 @@ export default class DisjointSet {
 
 两个节点链接允许在任一方向上遍历列表。
 
-在双向链表中进行添加或者删除节点时,需做的链接更改要比单向链表复杂得多。这种操作在单向链表中更简单高效,因为不需要关注一个节点（除第一个和最后一个节点以外的节点）的两个链接,而只需要关注一个链接即可。
+在双向链表中进行添加或者删除节点时,需做的链接更改要比单向链表复杂得多。这种操作在单向链表中更简单高效,因为不需要关注一个节点(除第一个和最后一个节点以外的节点)的两个链接,而只需要关注一个链接即可。
 
 #### 基础操作的伪代码
 
@@ -1196,7 +1196,7 @@ export default class Graph {
 
 #### Code
 
-<!-- HashTable -->
+<!-- hash table -->
 
 ```js
 import LinkedList from '../linked-list/LinkedList';
@@ -1205,15 +1205,15 @@ import LinkedList from '../linked-list/LinkedList';
 // The bigger the hash table size the less collisions you'll get.
 // For demonstrating purposes hash table size is small to show how collisions
 // are being handled.
-const defaultHashTableSize = 32;
+const defaulthash tableSize = 32;
 
-export default class HashTable {
+export default class hash table {
   /**
-   * @param {number} hashTableSize
+   * @param {number} hash tableSize
    */
-  constructor(hashTableSize = defaultHashTableSize) {
+  constructor(hash tableSize = defaulthash tableSize) {
     // Create hash table of certain size and fill each bucket with empty linked list.
-    this.buckets = Array(hashTableSize)
+    this.buckets = Array(hash tableSize)
       .fill(null)
       .map(() => new LinkedList());
 
@@ -2349,7 +2349,7 @@ export default class Stack {
 
 ```js
 import Comparator from '../../utils/comparator/Comparator';
-import HashTable from '../hash-table/HashTable';
+import hash table from '../hash-table/hash table';
 
 export default class BinaryTreeNode {
   /**
@@ -2362,7 +2362,7 @@ export default class BinaryTreeNode {
     this.value = value;
 
     // Any node related meta information may be stored here.
-    this.meta = new HashTable();
+    this.meta = new hash table();
 
     // This comparator is used to compare binary tree nodes with each other.
     this.nodeComparator = new Comparator();
@@ -3514,7 +3514,7 @@ export default class SegmentTree {
 
 ### 字典树
 
-在计算机科学中, **字典树(trie,中文又被称为”单词查找树“或 ”键树“)**, 也称为数字树,有时候也被称为基数树或前缀树（因为它们可以通过前缀搜索）,它是一种搜索树--一种已排序的数据结构,通常用于存储动态集或键为字符串的关联数组。
+在计算机科学中, **字典树(trie,中文又被称为”单词查找树“或 ”键树“)**, 也称为数字树,有时候也被称为基数树或前缀树(因为它们可以通过前缀搜索),它是一种搜索树--一种已排序的数据结构,通常用于存储动态集或键为字符串的关联数组。
 
 与二叉搜索树不同, 树上没有节点存储与该节点关联的键; 相反,节点在树上的位置定义了与之关联的键。一个节点的全部后代节点都有一个与该节点关联的通用的字符串前缀, 与根节点关联的是空字符串。
 
@@ -3527,7 +3527,7 @@ export default class SegmentTree {
 #### Code
 
 ```js
-import HashTable from '../hash-table/HashTable';
+import hash table from '../hash-table/hash table';
 
 export default class TrieNode {
   /**
@@ -3537,7 +3537,7 @@ export default class TrieNode {
   constructor(character, isCompleteWord = false) {
     this.character = character;
     this.isCompleteWord = isCompleteWord;
-    this.children = new HashTable();
+    this.children = new hash table();
   }
 
   /**
@@ -3735,7 +3735,7 @@ export default class Trie {
 ### 布隆过滤器
 
 布隆过滤器其实就是`bit + 多个散列函数`, 如果经过多次散列的值再 bit 上都为 1，那么可能存在(可能有冲突)。 如果
-有一个不为 1，那么一定不存在（一个值经过散列函数得到的值一定是唯一的），这也是布隆过滤器的一个重要特点。
+有一个不为 1，那么一定不存在(一个值经过散列函数得到的值一定是唯一的)，这也是布隆过滤器的一个重要特点。
 
 ### 布隆过滤器的应用
 

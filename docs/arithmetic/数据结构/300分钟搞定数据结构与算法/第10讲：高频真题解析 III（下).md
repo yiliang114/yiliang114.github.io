@@ -78,7 +78,7 @@ LeetCode 第 84 题：给定 n 个非负整数，用来表示柱状图中各个�
 
 ![](http://s0.lgstatic.com/i/image2/M01/90/E4/CgoB5l2IaByAQjMCAByIrvLjjAM248.gif)
 
-6\. 当计算完高度为 6 的矩形面积时，立即知道下一个高度是 5，以及 5 所对应的下标，可以利用一个 stack 来帮助记录。（注意：此处在整个算法里都很重要。）
+6\. 当计算完高度为 6 的矩形面积时，立即知道下一个高度是 5，以及 5 所对应的下标，可以利用一个 stack 来帮助记录。(注意：此处在整个算法里都很重要。)
 
 ![](http://s0.lgstatic.com/i/image2/M01/91/04/CgotOV2IaByAfZyzAABI-qF4lwQ735.png)
 
@@ -211,7 +211,7 @@ int strStr(String haystack, String needle) {
 
 ###### 解题思路二：KMP
 
-KMP（Knuth\-Morris\-Pratt）是由三人联合发表的一个算法，目的就是为了在一个字符串 haystack 中找出另外一个字符串 needle 出现的所有位置。它的核心思想是避免暴力法当中出现的不必要的比较。
+KMP(Knuth\-Morris\-Pratt)是由三人联合发表的一个算法，目的就是为了在一个字符串 haystack 中找出另外一个字符串 needle 出现的所有位置。它的核心思想是避免暴力法当中出现的不必要的比较。
 
 用维基百科中的例题说明。
 
@@ -400,7 +400,7 @@ KMP 算法需要 O(n) 的时间计算 LPS 数组，还需要 O(m) 的时间扫�
 
 - 绿色的部分其实和橘色的部分相同。
 
-- LPS\[len \- 1\] 记录的其实是 i 指针之前的字符串里的第二长的公共前缀和后缀（最关键点）。
+- LPS\[len \- 1\] 记录的其实是 i 指针之前的字符串里的第二长的公共前缀和后缀(最关键点)。
 
 - 更新 len = LPS\[len \- 1\]，继续比较 needle\[i\] 和  needle\[len\]。
 

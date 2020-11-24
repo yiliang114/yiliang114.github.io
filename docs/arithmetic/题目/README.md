@@ -43,7 +43,7 @@ function computeProduct(unsorted) {
 
 ### 数组-连续-求和
 
-已知未排序的数组包含（n-1）个 n 个连续数字（定义了边界），请在 O（n）时间中找到缺失的数字
+已知未排序的数组包含(n-1)个 n 个连续数字(定义了边界)，请在 O(n)时间中找到缺失的数字
 
 ```js
 // The output of the function should be 8
@@ -422,7 +422,7 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 回文是指将字符串翻转之后的值跟翻转之前的值相等。比如 `mamam`, `ava` .
 
-这里主要的考察是 `reverse` 的实现， 刚好 JS 的数组（注意是数组，而不是字符串）就有 `reverse` 函数。直接利用现成的函数，将字符串转换成数组。
+这里主要的考察是 `reverse` 的实现， 刚好 JS 的数组(注意是数组，而不是字符串)就有 `reverse` 函数。直接利用现成的函数，将字符串转换成数组。
 
 ```js
 function checkPalindrome(str) {
@@ -587,7 +587,7 @@ function getFibonacci(n) {
 
 剩余的工作就是利用 canvas arc 方法进行曲线绘制了
 
-DEMO（http://codepen.io/Jack_Pu/pen/LRaxZB）
+DEMO(http://codepen.io/Jack_Pu/pen/LRaxZB)
 
 ### 实现类似 getElementsByClassName 的功能
 
@@ -616,7 +616,7 @@ function queryClassName(node, name) {
 
 ###0 使用 JS 实现二叉查找树(Binary Search Tree)
 
-一般叫全部写完的概率比较少，但是重点考察你对它的理解和一些基本特点的实现。 二叉查找树，也称二叉搜索树、有序二叉树（英语：ordered binary tree）是指一棵空树或者具有下列性质的二叉树：
+一般叫全部写完的概率比较少，但是重点考察你对它的理解和一些基本特点的实现。 二叉查找树，也称二叉搜索树、有序二叉树(英语：ordered binary tree)是指一棵空树或者具有下列性质的二叉树：
 
 任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；
 任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；
@@ -740,7 +740,7 @@ module.exports = BinarySearchTree;
 
 ### 堆排序
 
-在 100000 个浮点数中找出最大的 1000 个数，时间复杂度最优 （用 堆排序 O(nlogn)）
+在 100000 个浮点数中找出最大的 1000 个数，时间复杂度最优 (用 堆排序 O(nlogn))
 
 ## 字符串是否对称
 
@@ -876,7 +876,7 @@ System.out.println(ret == 0 ? "otaku" : ret);
 对于有重复元素的有序数组，二分查找需要注意以下要点：
 
 - if (val <= A[m]) h = m;
-- 因为 h 的赋值为 m 而不是 m - 1，因此 while 循环的条件也就为 l < h。（如果是 m - 1 循环条件为 l <= h）
+- 因为 h 的赋值为 m 而不是 m - 1，因此 while 循环的条件也就为 l < h。(如果是 m - 1 循环条件为 l <= h)
 
 ```java
 public int getPos(int[] A, int n, int val) {

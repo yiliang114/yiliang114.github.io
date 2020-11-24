@@ -222,8 +222,8 @@ export default function RandomString(stringLength: number): string {
 
 1. 暴力匹配算法
    如果用暴力匹配的思路，并假设现在文本串 S 匹配到 i 位置，模式串 P 匹配到 j 位置，则有：
-   如果当前字符匹配成功（即 S[i] == P[j]），则 i++，j++，继续匹配下一个字符；
-   如果失配（即 S[i]! = P[j]），令 i = i - (j - 1) ，j = 0。相当于每次匹配失败时，i 回溯，j 被置为 0。
+   如果当前字符匹配成功(即 S[i] == P[j])，则 i++，j++，继续匹配下一个字符；
+   如果失配(即 S[i]! = P[j])，令 i = i - (j - 1) ，j = 0。相当于每次匹配失败时，i 回溯，j 被置为 0。
 
 ```js
 const violentMatch = (s, p) => {
@@ -233,12 +233,12 @@ const violentMatch = (s, p) => {
   let i = 0,
     j = 0;
   while (i < sLength && j < pLength) {
-    // ①如果当前字符匹配成功（即S[i] == P[j]），则i++，j++
+    // ①如果当前字符匹配成功(即S[i] == P[j])，则i++，j++
     if (s[i] === p[j]) {
       i++;
       j++;
     } else {
-      // ②如果失配（即S[i]! = P[j]），令i = i - (j - 1)，j = 0
+      // ②如果失配(即S[i]! = P[j])，令i = i - (j - 1)，j = 0
       i -= j - 1;
       j = 0;
     }

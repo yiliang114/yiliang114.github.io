@@ -49,7 +49,7 @@ draft: true
 
 令 y = 2<sup>n0</sup> \* 3<sup>n1</sup> \* 5<sup>n2</sup> \* 7<sup>n3</sup> \* 11<sup>n4</sup> \* …
 
-如果 x 整除 y（y mod x == 0），则对于所有 i，mi <= ni。
+如果 x 整除 y(y mod x == 0)，则对于所有 i，mi <= ni。
 
 # 最大公约数最小公倍数
 

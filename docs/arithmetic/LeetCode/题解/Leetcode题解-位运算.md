@@ -252,7 +252,7 @@ public boolean isPowerOfTwo(int n) {
 
 [342. Power of Four (Easy)](https://leetcode.com/problems/power-of-four/)
 
-这种数在二进制表示中有且只有一个奇数位为 1，例如 16（10000）。
+这种数在二进制表示中有且只有一个奇数位为 1，例如 16(10000)。
 
 ```java
 public boolean isPowerOfFour(int num) {
