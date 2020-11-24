@@ -6,7 +6,58 @@ aside: false
 draft: true
 ---
 
-## SF/ALGs/string/kmp.js
+## KMP
+
+KMP 的特点在于之前检查过的字符串不在重复检查
+更加上一次匹配的结果来决定是否从头匹配
+减少搜索次数
+
+```js
+/**
+
+ */
+let pat = 'search';
+let dfa = [];
+
+function KMP() {
+  const M = pat.length;
+  const R = 256;
+
+  dfa[pat.charAt(0)][0] = 1;
+  for (let x = 0, j = 1; j < M; j++) {
+    for (let c = 0; c < R; c++) {
+      dfs[c][j] = dfs[c][x];
+    }
+    dfa[pat.charAt(j)][j] = j + 1;
+    x = dfa[pat.charAt(j)][x];
+  }
+}
+
+function search(txt) {
+  let i,
+    j,
+    N = txt.length,
+    M = pat.length;
+  for (i = 0, j = 0; i < N && j < M; i++) {
+    j = dfs[txt.charAt(i)][j];
+  }
+  if (j == M) {
+    return i - M;
+  } else {
+    return -1;
+  }
+}
+
+KMP();
+const txt = 'hello search baby';
+console.log(search(txt));
+
+/**
+ * TODO 由于 Java 和 JS 的数据结构不同，所以运行失败
+ *
+ * 大体思想需要学习，之后进行实现。
+ */
+```
 
 ```js
 // 暴力匹配
@@ -132,4 +183,56 @@ const getNext = pattern => {
 
 console.log(KMPSearch('abcdefrt', 'def'));
 // console.log(KMPSearch('abcdefrt', 'iop'))
+```
+
+```js
+function buildPatternTable(word) {
+  const patternTable = [0];
+  let prefixIndex = 0;
+  let suffixIndex = 1;
+
+  while (suffixIndex < word.length) {
+    if (word[prefixIndex] === word[suffixIndex]) {
+      patternTable[suffixIndex] = prefixIndex + 1;
+      suffixIndex += 1;
+      prefixIndex += 1;
+    } else if (prefixIndex === 0) {
+      patternTable[suffixIndex] = 0;
+      suffixIndex += 1;
+    } else {
+      prefixIndex = patternTable[prefixIndex - 1];
+    }
+  }
+
+  return patternTable;
+}
+
+export default function knuthMorrisPratt(text, word) {
+  if (word.length === 0) {
+    return 0;
+  }
+
+  let textIndex = 0;
+  let wordIndex = 0;
+
+  const patternTable = buildPatternTable(word);
+
+  while (textIndex < text.length) {
+    if (text[textIndex] === word[wordIndex]) {
+      // We've found a match.
+      if (wordIndex === word.length - 1) {
+        return textIndex - word.length + 1;
+      }
+      wordIndex += 1;
+      textIndex += 1;
+    } else if (wordIndex > 0) {
+      wordIndex = patternTable[wordIndex - 1];
+    } else {
+      wordIndex = 0;
+      textIndex += 1;
+    }
+  }
+
+  return -1;
+}
 ```

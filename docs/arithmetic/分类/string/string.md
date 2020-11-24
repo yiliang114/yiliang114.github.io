@@ -1,11 +1,19 @@
 ---
 layout: CustomPages
-title: 【数据结构与算法】-字符串问题
+title: 【数据结构与算法】- 字符串问题
 date: 2020-08-31
 aside: false
 ---
 
-# 【数据结构与算法】-字符串问题
+# 【数据结构与算法】- 字符串问题
+
+## 常见
+
+- 暴力法：通过 for 循环遍历找出目标子字符串。 朴素?
+- KMP：基于上一次匹配的结果向下匹配
+- BM: 使用 pat 最右侧一位字符串去匹配，匹配上后逐个向左匹配。
+- RK: 使用散列表匹配相同散列表的子字符串。
+- trie
 
 ## 字符串问题
 
@@ -31,13 +39,6 @@ aside: false
 | 低位优先字符串排序 |     NW     |     N      |
 | 高位优先字符串排序 |   N - Nw   |    N+WR    |
 | 三向字符串快速排序 |   N - Nw   |   W+logN   |
-
-## 子字符串查找
-
-- 暴力法：通过 for 循环遍历找出目标子字符串。
-- KMP：基于上一次匹配的结果向下匹配
-- BM: 使用 pat 最右侧一位字符串去匹配，匹配上后逐个向左匹配。
-- RK: 使用散列表匹配相同散列表的子字符串。
 
 ## 实现字符串的一些原生方法
 
@@ -251,12 +252,6 @@ const violentMatch = (s, p) => {
 
 console.log(violentMatch('BBC ABCDAB ABCDABCDABDE', 'ABCDABD'));
 ```
-
-KMP 算法，它利用之前已经部分匹配这个有效信息，保持 i 不回溯，通过修改 j 的位置，让模式串尽量地移动到有效的位置。
-Knuth-Morris-Pratt 字符串查找算法，简称为 “KMP 算法”，常用于在一个文本串 S 内查找一个模式串 P 的出现位置
-TODO:
-
-https://segmentfault.com/a/1190000020034789?utm_medium=hao.caibaojian.com&utm_source=hao.caibaojian.com&share_user=1030000000178452
 
 ### 给出一个字符串，找到里面重复最多的字符？
 
@@ -702,5 +697,3 @@ export default function isBalanced(string: string): boolean {
   return stack.empty();
 }
 ```
-
-#### 介绍一下 KMP 算法？
