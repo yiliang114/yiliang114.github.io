@@ -78,6 +78,4 @@ BFS 广度优先
 
 ![image-20190817190044665](http://media.zhijianzhang.cn/image-20190817190044665.png)
 
-TODO: 正则表达式的视屏没有看完，4-1 前后
-
 ![image-20190818181407604](http://media.zhijianzhang.cn/image-20190818181407604.png)
