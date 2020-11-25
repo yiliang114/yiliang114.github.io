@@ -1,16 +1,18 @@
 ---
 layout: CustomPages
-title: LeetCode 题解
+title: LeetCode 题解 - 动态规划
 date: 2020-11-21
 aside: false
 draft: true
 ---
 
-# 斐波那契数列
+# 动态规划
+
+## 斐波那契数列
 
 递归和动态规划都是将原问题拆成多个子问题然后求解，他们之间最本质的区别是，动态规划保存了子问题的解，避免重复计算。
 
-## 1. 爬楼梯
+### 1. 爬楼梯
 
 [70. Climbing Stairs (Easy)](https://leetcode.com/problems/climbing-stairs/description/)
 
@@ -39,7 +41,7 @@ public int climbStairs(int n) {
 }
 ```
 
-## 2. 强盗抢劫
+### 2. 强盗抢劫
 
 [198. House Robber (Easy)](https://leetcode.com/problems/house-robber/description/)
 
@@ -48,8 +50,6 @@ public int climbStairs(int n) {
 定义 dp 数组用来存储最大的抢劫量，其中 dp[i] 表示抢到第 i 个住户时的最大抢劫量。
 
 由于不能抢劫邻近住户，如果抢劫了第 i -1 个住户，那么就不能再抢劫第 i 个住户，所以
-
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[i]=max(dp[i-2]+nums[i],dp[i-1])" class="mathjax-pic"/></div> <br>-->
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2de794ca-aa7b-48f3-a556-a0e2708cb976.jpg" width="350px"> </div><br>
 
@@ -65,7 +65,7 @@ public int rob(int[] nums) {
 }
 ```
 
-## 3. 强盗在环形街区抢劫
+### 3. 强盗在环形街区抢劫
 
 [213. House Robber II (Medium)](https://leetcode.com/problems/house-robber-ii/description/)
 
@@ -92,7 +92,7 @@ private int rob(int[] nums, int first, int last) {
 }
 ```
 
-## 4. 信件错排
+### 4. 信件错排
 
 题目描述：有 N 个 信 和 信封，它们被打乱，求错误装信方式的数量。
 
@@ -105,7 +105,7 @@ private int rob(int[] nums, int first, int last) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/da1f96b9-fd4d-44ca-8925-fb14c5733388.png" width="350px"> </div><br>
 
-## 5. 母牛生产
+### 5. 母牛生产
 
 [程序员代码面试指南-P181](#)
 
@@ -113,13 +113,11 @@ private int rob(int[] nums, int first, int last) {
 
 第 i 年成熟的牛的数量为：
 
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[i]=dp[i-1]+dp[i-3]" class="mathjax-pic"/></div> <br>-->
-
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/879814ee-48b5-4bcb-86f5-dcc400cb81ad.png" width="250px"> </div><br>
 
-# 矩阵路径
+## 矩阵路径
 
-## 1. 矩阵的最小路径和
+### 1. 矩阵的最小路径和
 
 [64. Minimum Path Sum (Medium)](https://leetcode.com/problems/minimum-path-sum/description/)
 
@@ -152,7 +150,7 @@ public int minPathSum(int[][] grid) {
 }
 ```
 
-## 2. 矩阵的总路径数
+### 2. 矩阵的总路径数
 
 [62. Unique Paths (Medium)](https://leetcode.com/problems/unique-paths/description/)
 
@@ -187,9 +185,9 @@ public int uniquePaths(int m, int n) {
 }
 ```
 
-# 数组区间
+## 数组区间
 
-## 1. 数组区间和
+### 1. 数组区间和
 
 [303. Range Sum Query - Immutable (Easy)](https://leetcode.com/problems/range-sum-query-immutable/description/)
 
@@ -217,7 +215,7 @@ class NumArray {
 }
 ```
 
-## 2. 数组中等差递增子区间的个数
+### 2. 数组中等差递增子区间的个数
 
 [413. Arithmetic Slices (Medium)](https://leetcode.com/problems/arithmetic-slices/description/)
 
@@ -260,9 +258,9 @@ public int numberOfArithmeticSlices(int[] A) {
 }
 ```
 
-# 分割整数
+## 分割整数
 
-## 1. 分割整数的最大乘积
+### 1. 分割整数的最大乘积
 
 [343. Integer Break (Medim)](https://leetcode.com/problems/integer-break/description/)
 
@@ -281,7 +279,7 @@ public int integerBreak(int n) {
 }
 ```
 
-## 2. 按平方数来分割整数
+### 2. 按平方数来分割整数
 
 [279. Perfect Squares(Medium)](https://leetcode.com/problems/perfect-squares/description/)
 
@@ -317,7 +315,7 @@ private List<Integer> generateSquareList(int n) {
 }
 ```
 
-## 3. 分割整数构成字母字符串
+### 3. 分割整数构成字母字符串
 
 [91. Decode Ways (Medium)](https://leetcode.com/problems/decode-ways/description/)
 
@@ -349,7 +347,7 @@ public int numDecodings(String s) {
 }
 ```
 
-# 最长递增子序列
+## 最长递增子序列
 
 已知一个序列 {S<sub>1</sub>, S<sub>2</sub>,...,S<sub>n</sub>}，取出若干数组成新的序列 {S<sub>i1</sub>, S<sub>i2</sub>,..., S<sub>im</sub>}，其中 i1、i2 ... im 保持递增，即新序列中各个数仍然保持原数列中的先后顺序，称新序列为原序列的一个 **子序列** 。
 
@@ -359,13 +357,11 @@ public int numDecodings(String s) {
 
 因为在求 dp[n] 时可能无法找到一个满足条件的递增子序列，此时 {S<sub>n</sub>} 就构成了递增子序列，需要对前面的求解方程做修改，令 dp[n] 最小为 1，即：
 
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[n]=max\{1,dp[i]+1|S_i<S_n\&\&i<n\}" class="mathjax-pic"/></div> <br>-->
-
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ee994da4-0fc7-443d-ac56-c08caf00a204.jpg" width="350px"> </div><br>
 
 对于一个长度为 N 的序列，最长递增子序列并不一定会以 S<sub>N</sub> 为结尾，因此 dp[N] 不是序列的最长递增子序列的长度，需要遍历 dp 数组找出最大值才是所要的结果，max{ dp[i] | 1 <= i <= N} 即为所求。
 
-## 1. 最长递增子序列
+### 1. 最长递增子序列
 
 [300. Longest Increasing Subsequence (Medium)](https://leetcode.com/problems/longest-increasing-subsequence/description/)
 
@@ -396,7 +392,7 @@ for (int i = 0; i < n; i++) {
 return ret;
 ```
 
-以上解法的时间复杂度为 O(N<sup>2</sup>)，可以使用二分查找将时间复杂度降低为 O(NlogN)。
+以上解法的时间复杂度为 O(N^2)，可以使用二分查找将时间复杂度降低为 O(NlogN)。
 
 定义一个 tails 数组，其中 tails[i] 存储长度为 i + 1 的最长递增子序列的最后一个元素。对于一个元素 x，
 
@@ -442,7 +438,7 @@ private int binarySearch(int[] tails, int len, int key) {
 }
 ```
 
-## 2. 一组整数对能够构成的最长链
+### 2. 一组整数对能够构成的最长链
 
 [646. Maximum Length of Pair Chain (Medium)](https://leetcode.com/problems/maximum-length-of-pair-chain/description/)
 
@@ -472,7 +468,7 @@ public int findLongestChain(int[][] pairs) {
 }
 ```
 
-## 3. 最长摆动子序列
+### 3. 最长摆动子序列
 
 [376. Wiggle Subsequence (Medium)](https://leetcode.com/problems/wiggle-subsequence/description/)
 
@@ -501,7 +497,7 @@ public int wiggleMaxLength(int[] nums) {
 }
 ```
 
-# 最长公共子序列
+## 最长公共子序列
 
 对于两个子序列 S1 和 S2，找出它们最长的公共子序列。
 
@@ -511,8 +507,6 @@ public int wiggleMaxLength(int[] nums) {
 - 当 S1<sub>i</sub> != S2<sub>j</sub> 时，此时最长公共子序列为 S1 的前 i-1 个字符和 S2 的前 j 个字符最长公共子序列，或者 S1 的前 i 个字符和 S2 的前 j-1 个字符最长公共子序列，取它们的最大者，即 dp[i][j] = max{ dp[i-1][j], dp[i][j-1] }。
 
 综上，最长公共子序列的状态转移方程为：
-
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[i][j]=\left\{\begin{array}{rcl}dp[i-1][j-1]&&{S1_i==S2_j}\\max(dp[i-1][j],dp[i][j-1])&&{S1_i<>S2_j}\end{array}\right." class="mathjax-pic"/></div> <br>-->
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ecd89a22-c075-4716-8423-e0ba89230e9a.jpg" width="450px"> </div><br>
 
@@ -541,7 +535,7 @@ public int lengthOfLCS(int[] nums1, int[] nums2) {
 }
 ```
 
-# 0-1 背包
+## 0-1 背包
 
 有一个容量为 N 的背包，要用这个背包装下物品的价值最大，这些物品有两个属性：体积 w 和价值 v。
 
@@ -551,8 +545,6 @@ public int lengthOfLCS(int[] nums1, int[] nums2) {
 - 第 i 件物品添加到背包中，dp[i][j] = dp[i-1][j-w] + v。
 
 第 i 件物品可添加也可以不添加，取决于哪种情况下最大价值更大。因此，0-1 背包的状态转移方程为：
-
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[i][j]=max(dp[i-1][j],dp[i-1][j-w]+v)" class="mathjax-pic"/></div> <br>-->
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/8cb2be66-3d47-41ba-b55b-319fc68940d4.png" width="400px"> </div><br>
 
@@ -580,8 +572,6 @@ public int knapsack(int W, int N, int[] weights, int[] values) {
 **空间优化**
 
 在程序实现时可以对 0-1 背包做优化。观察状态转移方程可以知道，前 i 件物品的状态仅与前 i-1 件物品的状态有关，因此可以将 dp 定义为一维数组，其中 dp[j] 既可以表示 dp[i-1][j] 也可以表示 dp[i][j]。此时，
-
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[j]=max(dp[j],dp[j-w]+v)" class="mathjax-pic"/></div> <br>-->
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9ae89f16-7905-4a6f-88a2-874b4cac91f4.jpg" width="300px"> </div><br>
 
@@ -622,7 +612,7 @@ public int knapsack(int W, int N, int[] weights, int[] values) {
 
 - 其它：物品之间相互约束或者依赖
 
-## 1. 划分数组为和相等的两部分
+### 1. 划分数组为和相等的两部分
 
 [416. Partition Equal Subset Sum (Medium)](https://leetcode.com/problems/partition-equal-subset-sum/description/)
 
@@ -658,7 +648,7 @@ private int computeArraySum(int[] nums) {
 }
 ```
 
-## 2. 改变一组数的正负号使得它们的和为一给定数
+### 2. 改变一组数的正负号使得它们的和为一给定数
 
 [494. Target Sum (Medium)](https://leetcode.com/problems/target-sum/description/)
 
@@ -719,7 +709,7 @@ private int findTargetSumWays(int[] nums, int start, int S) {
 }
 ```
 
-## 3. 01 字符构成最多的字符串
+### 3. 01 字符构成最多的字符串
 
 [474. Ones and Zeroes (Medium)](https://leetcode.com/problems/ones-and-zeroes/description/)
 
@@ -755,7 +745,7 @@ public int findMaxForm(String[] strs, int m, int n) {
 }
 ```
 
-## 4. 找零钱的最少硬币数
+### 4. 找零钱的最少硬币数
 
 [322. Coin Change (Medium)](https://leetcode.com/problems/coin-change/description/)
 
@@ -792,7 +782,7 @@ public int coinChange(int[] coins, int amount) {
 }
 ```
 
-## 5. 找零钱的硬币数组合
+### 5. 找零钱的硬币数组合
 
 [518\. Coin Change 2 (Medium)](https://leetcode.com/problems/coin-change-2/description/)
 
@@ -824,7 +814,7 @@ public int change(int amount, int[] coins) {
 }
 ```
 
-## 6. 字符串按单词列表分割
+### 6. 字符串按单词列表分割
 
 [139. Word Break (Medium)](https://leetcode.com/problems/word-break/description/)
 
@@ -859,7 +849,7 @@ public boolean wordBreak(String s, List<String> wordDict) {
 }
 ```
 
-## 7. 组合总和
+### 7. 组合总和
 
 [377. Combination Sum IV (Medium)](https://leetcode.com/problems/combination-sum-iv/description/)
 
@@ -887,9 +877,9 @@ public int combinationSum4(int[] nums, int target) {
 }
 ```
 
-# 股票交易
+## 股票交易
 
-## 1. 需要冷却期的股票交易
+### 1. 需要冷却期的股票交易
 
 [309. Best Time to Buy and Sell Stock with Cooldown(Medium)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/)
 
@@ -919,7 +909,7 @@ public int maxProfit(int[] prices) {
 }
 ```
 
-## 2. 需要交易费用的股票交易
+### 2. 需要交易费用的股票交易
 
 [714. Best Time to Buy and Sell Stock with Transaction Fee (Medium)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/)
 
@@ -952,7 +942,7 @@ public int maxProfit(int[] prices, int fee) {
 }
 ```
 
-## 3. 只能进行两次的股票交易
+### 3. 只能进行两次的股票交易
 
 [123. Best Time to Buy and Sell Stock III (Hard)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/)
 
@@ -978,7 +968,7 @@ public int maxProfit(int[] prices) {
 }
 ```
 
-## 4. 只能进行 k 次的股票交易
+### 4. 只能进行 k 次的股票交易
 
 [188. Best Time to Buy and Sell Stock IV (Hard)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/)
 
@@ -1006,9 +996,9 @@ public int maxProfit(int k, int[] prices) {
 }
 ```
 
-# 字符串编辑
+## 字符串编辑
 
-## 1. 删除两个字符串的字符使它们相等
+### 1. 删除两个字符串的字符使它们相等
 
 [583. Delete Operation for Two Strings (Medium)](https://leetcode.com/problems/delete-operation-for-two-strings/description/)
 
@@ -1036,7 +1026,7 @@ public int minDistance(String word1, String word2) {
 }
 ```
 
-## 2. 编辑距离
+### 2. 编辑距离
 
 [72. Edit Distance (Hard)](https://leetcode.com/problems/edit-distance/description/)
 
@@ -1075,7 +1065,7 @@ public int minDistance(String word1, String word2) {
 }
 ```
 
-## 3. 复制粘贴字符
+### 3. 复制粘贴字符
 
 [650. 2 Keys Keyboard (Medium)](https://leetcode.com/problems/2-keys-keyboard/description/)
 

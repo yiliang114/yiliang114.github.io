@@ -5,6 +5,37 @@ date: 2020-10-22
 aside: false
 ---
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [算法与数据结构](#%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+  - [常见算法](#%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95)
+    - [常见问题](#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
+    - [基础算法](#%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95)
+    - [常考](#%E5%B8%B8%E8%80%83)
+      - [从数据结构的角度索引](#%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E8%A7%92%E5%BA%A6%E7%B4%A2%E5%BC%95)
+      - [从算法的角度建立索引 ：](#%E4%BB%8E%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%92%E5%BA%A6%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95-)
+      - [常用](#%E5%B8%B8%E7%94%A8)
+      - [智力题(算法本身很简单，就是想不到的那种)](#%E6%99%BA%E5%8A%9B%E9%A2%98%E7%AE%97%E6%B3%95%E6%9C%AC%E8%BA%AB%E5%BE%88%E7%AE%80%E5%8D%95%E5%B0%B1%E6%98%AF%E6%83%B3%E4%B8%8D%E5%88%B0%E7%9A%84%E9%82%A3%E7%A7%8D)
+    - [五大算法](#%E4%BA%94%E5%A4%A7%E7%AE%97%E6%B3%95)
+    - [查找算法](#%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95)
+    - [算法](#%E7%AE%97%E6%B3%95)
+    - [其他](#%E5%85%B6%E4%BB%96)
+  - [学习算法和数据结构](#%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+    - [要点一](#%E8%A6%81%E7%82%B9%E4%B8%80)
+    - [要点三](#%E8%A6%81%E7%82%B9%E4%B8%89)
+    - [刷题第一遍](#%E5%88%B7%E9%A2%98%E7%AC%AC%E4%B8%80%E9%81%8D)
+    - [刷题第二遍](#%E5%88%B7%E9%A2%98%E7%AC%AC%E4%BA%8C%E9%81%8D)
+    - [刷题第三遍](#%E5%88%B7%E9%A2%98%E7%AC%AC%E4%B8%89%E9%81%8D)
+    - [刷题第四遍](#%E5%88%B7%E9%A2%98%E7%AC%AC%E5%9B%9B%E9%81%8D)
+    - [刷题第五遍](#%E5%88%B7%E9%A2%98%E7%AC%AC%E4%BA%94%E9%81%8D)
+  - [事半功倍的学习技巧](#%E4%BA%8B%E5%8D%8A%E5%8A%9F%E5%80%8D%E7%9A%84%E5%AD%A6%E4%B9%A0%E6%8A%80%E5%B7%A7)
+  - [算法与前端](#%E7%AE%97%E6%B3%95%E4%B8%8E%E5%89%8D%E7%AB%AF)
+  - [刷题心得](#%E5%88%B7%E9%A2%98%E5%BF%83%E5%BE%97)
+  - [链接](#%E9%93%BE%E6%8E%A5)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 算法与数据结构
 
 ## 常见算法
