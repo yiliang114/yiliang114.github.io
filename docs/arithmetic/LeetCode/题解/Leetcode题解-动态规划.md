@@ -26,19 +26,26 @@ draft: true
 
 考虑到 dp[i] 只与 dp[i - 1] 和 dp[i - 2] 有关，因此可以只用两个变量来存储 dp[i - 1] 和 dp[i - 2]，使得原来的 O(N) 空间复杂度优化为 O(1) 复杂度。
 
-```java
-public int climbStairs(int n) {
-    if (n <= 2) {
-        return n;
-    }
-    int pre2 = 1, pre1 = 2;
-    for (int i = 2; i < n; i++) {
-        int cur = pre1 + pre2;
-        pre2 = pre1;
-        pre1 = cur;
-    }
-    return pre1;
+```js
+function fib(n) {
+  if (n <= 1) return n;
+  let i = 1,
+    j = 1;
+  for (let k = 3; k <= n; k++) {
+    const sum = i + j;
+    i = j;
+    j = sum;
+  }
+  return j;
 }
+
+console.log(fib(1));
+console.log(fib(2));
+console.log(fib(3));
+console.log(fib(4));
+console.log(fib(5));
+console.log(fib(6));
+console.log(fib(7));
 ```
 
 ### 2. 强盗抢劫
