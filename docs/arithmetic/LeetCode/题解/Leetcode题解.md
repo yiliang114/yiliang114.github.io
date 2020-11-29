@@ -488,37 +488,6 @@ public boolean judgeSquareSum(int c) {
 }
 ```
 
-**回文字符串**
-
-[LeetCode : 680. Valid Palindrome II (Easy)](https://leetcode.com/problems/valid-palindrome-ii/description/)
-
-```html
-Input: "abca" Output: True Explanation: You could delete the character 'c'.
-```
-
-题目描述：可以删除一个字符，判断是否能构成回文字符串。
-
-```java
-public boolean validPalindrome(String s) {
-    int i = 0, j = s.length() - 1;
-    while (i < j) {
-        if (s.charAt(i) != s.charAt(j)) {
-            return isPalindrome(s, i, j - 1) || isPalindrome(s, i + 1, j);
-        }
-        i++;
-        j--;
-    }
-    return true;
-}
-
-private boolean isPalindrome(String s, int l, int r) {
-    while (l < r) {
-        if (s.charAt(l++) != s.charAt(r--)) return false;
-    }
-    return true;
-}
-```
-
 **归并两个有序数组**
 
 [LeetCode : 88. Merge Sorted Array (Easy)](https://leetcode.com/problems/merge-sorted-array/description/)

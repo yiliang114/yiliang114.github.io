@@ -14,10 +14,7 @@ draft: true
 - [4. 两个字符串包含的字符是否完全相同](#4-两个字符串包含的字符是否完全相同)
 - [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-计算一组字符集合可以组成的回文字符串的最大长度)
 - [6. 字符串同构](#6-字符串同构)
-- [7. 回文子字符串个数](#7-回文子字符串个数)
-- [8. 判断一个整数是否是回文数](#8-判断一个整数是否是回文数)
 - [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
-- [微信公众号](#微信公众号)
   <!-- GFM-TOC -->
 
 # 1. 字符串循环移位包含
@@ -136,61 +133,6 @@ public boolean isIsomorphic(String s, String t) {
         preIndexOfT[tc] = i + 1;
     }
     return true;
-}
-```
-
-# 7. 回文子字符串个数
-
-[647. Palindromic Substrings (Medium)](https://leetcode.com/problems/palindromic-substrings/description/)
-
-```html
-Input: "aaa" Output: 6 Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
-```
-
-从字符串的某一位开始，尝试着去扩展子字符串。
-
-```java
-private int cnt = 0;
-
-public int countSubstrings(String s) {
-    for (int i = 0; i < s.length(); i++) {
-        extendSubstrings(s, i, i);     // 奇数长度
-        extendSubstrings(s, i, i + 1); // 偶数长度
-    }
-    return cnt;
-}
-
-private void extendSubstrings(String s, int start, int end) {
-    while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
-        start--;
-        end++;
-        cnt++;
-    }
-}
-```
-
-# 8. 判断一个整数是否是回文数
-
-[9. Palindrome Number (Easy)](https://leetcode.com/problems/palindrome-number/description/)
-
-要求不能使用额外空间，也就不能将整数转换为字符串进行判断。
-
-将整数分成左右两部分，右边那部分需要转置，然后判断这两部分是否相等。
-
-```java
-public boolean isPalindrome(int x) {
-    if (x == 0) {
-        return true;
-    }
-    if (x < 0 || x % 10 == 0) {
-        return false;
-    }
-    int right = 0;
-    while (x > right) {
-        right = right * 10 + x % 10;
-        x /= 10;
-    }
-    return x == right || x == right / 10;
 }
 ```
 

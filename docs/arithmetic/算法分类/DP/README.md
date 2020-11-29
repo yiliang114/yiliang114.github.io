@@ -145,53 +145,6 @@ int rob(vector<int>& nums) {
 }
 ```
 
-#### 最长回文子串 [LeetCode 5](https://leetcode.com/problems/longest-palindromic-substring/)
-
-用 `dp[i][j]` 表示子串 i 到 j 是否是回文，使用动态规划求解：
-
-```cpp
-string longestPalindrome(string s) {
-	int m = s.size();
-	if (m == 0) {
-		return "";
-	}
-	vector<vector<int>> dp(m, vector<int>(m, 0));
-	int start = 0;
-	int length = 1;
-
-	for (int i = 0; i < m; i++) {
-        // 单个字符属于回文，例如 abcd
-		dp[i][i] = 1;
-
-        // 连续两个字符相同属于回文，例如 abb
-		if (i < m - 1) {
-			if (s[i] == s[i + 1]) {
-				dp[i][i + 1] = 1;
-                start = i;
-				length = 2;
-			}
-		}
-	}
-
-	for (int len = 2; len <= m; len++) {
-		for (int i = 0; i < m - len; i++) {
-			int j = i + len;
-            // 扩展长度
-			if (dp[i + 1][j - 1] == 1 && s[i] == s[j]) {
-				dp[i][j] = 1;
-
-				if (j - i + 1 > length) {
-                    start = i;
-					length = j - i + 1;
-				}
-			}
-		}
-	}
-
-	return s.substr(start, length);
-}
-```
-
 #### 最小编辑距离 [LeetCode 72](https://leetcode.com/problems/edit-distance/)
 
 用 `dp[i][j]` 表示从 `word[0..i)` 转换到 `word[0..j)` 的最小操作，使用动态规划求解：

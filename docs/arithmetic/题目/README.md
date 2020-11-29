@@ -418,24 +418,6 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 ## 基础的算法题
 
-### 判断一个字符串是否是回文
-
-回文是指将字符串翻转之后的值跟翻转之前的值相等。比如 `mamam`, `ava` .
-
-这里主要的考察是 `reverse` 的实现， 刚好 JS 的数组(注意是数组，而不是字符串)就有 `reverse` 函数。直接利用现成的函数，将字符串转换成数组。
-
-```js
-function checkPalindrome(str) {
-  return (
-    str ===
-    str
-      .split('')
-      .reverse()
-      .join('')
-  );
-}
-```
-
 ### 整型数组去重
 
 比如输入: `[1,13,24,11,11,14,1,2]`

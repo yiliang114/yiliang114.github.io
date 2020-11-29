@@ -211,7 +211,7 @@ int strStr(String haystack, String needle) {
 
 ###### 解题思路二：KMP
 
-KMP(Knuth\-Morris\-Pratt)是由三人联合发表的一个算法，目的就是为了在一个字符串 haystack 中找出另外一个字符串 needle 出现的所有位置。它的核心思想是避免暴力法当中出现的不必要的比较。
+KMP 是由三人联合发表的一个算法，目的就是为了在一个字符串 haystack 中找出另外一个字符串 needle 出现的所有位置。它的核心思想是避免暴力法当中出现的不必要的比较。
 
 用维基百科中的例题说明。
 
