@@ -112,7 +112,6 @@ const binarySearch = (arr, target) => {
       i = mid + 1;
     }
   }
-
   return -1;
 };
 ```
