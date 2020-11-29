@@ -1070,35 +1070,7 @@ private void dfs(int r, int c, boolean[][] canReach) {
 
 **数字键盘组合**
 
-[LeetCode : 17. Letter Combinations of a Phone Number (Medium)](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
-
-```html
-Input:Digit string "23" Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
-```
-
-```java
-private static final String[] KEYS = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-
-public List<String> letterCombinations(String digits) {
-    List<String> ret = new ArrayList<>();
-    if (digits == null || digits.length() == 0) return ret;
-    combination(new StringBuilder(), digits, ret);
-    return ret;
-}
-
-private void combination(StringBuilder prefix, String digits, List<String> ret) {
-    if (prefix.length() == digits.length()) {
-        ret.add(prefix.toString());
-        return;
-    }
-    String letters = KEYS[digits.charAt(prefix.length()) - '0'];
-    for (char c : letters.toCharArray()) {
-        prefix.append(c);
-        combination(prefix, digits, ret);
-        prefix.deleteCharAt(prefix.length() - 1); // 删除
-    }
-}
-```
+详见具体文章页
 
 **在矩阵中寻找字符串**
 

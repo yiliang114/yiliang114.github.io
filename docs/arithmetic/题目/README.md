@@ -687,10 +687,6 @@ returncurrent.data;
 module.exports = BinarySearchTree;
 ```
 
-### 堆排序
-
-在 100000 个浮点数中找出最大的 1000 个数，时间复杂度最优 (用 堆排序 O(nlogn))
-
 ## 字符串是否对称
 
 ```js
