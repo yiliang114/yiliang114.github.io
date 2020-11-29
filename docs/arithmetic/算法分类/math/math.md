@@ -3166,12 +3166,9 @@ function round(number: num): num {
 }
 ```
 
-
 ### 实现 reduce
 
 ```js
-/// solution
-
 function reduce(array, fn, value) {
   for (let i = 0; i < array.length; i++) {
     let current = array[i];
@@ -3190,4 +3187,97 @@ test(t =>
     10,
   ),
 );
+```
+
+### 实现异步 reduce
+
+```js
+let reduceAsync = async (array, fn, value) => {
+  for (let a of array) {
+    value = fn(value, await a());
+  }
+  return value;
+};
+
+/// tests
+
+import { test } from 'ava';
+
+test(async t => {
+  let a = () => Promise.resolve('a');
+  let b = () => Promise.resolve('b');
+  let c = () => new Promise(resolve => setTimeout(() => resolve('c'), 100));
+
+  t.deepEqual(await reduceAsync([a, b, c], (acc, value) => [...acc, value], []), ['a', 'b', 'c']);
+  t.deepEqual(await reduceAsync([a, c, b], (acc, value) => [...acc, value], ['d']), ['d', 'a', 'c', 'b']);
+});
+```
+
+### 实现 includes
+
+```js
+/**
+ * We use a binary search to quickly search the given sorted array for the given number.
+ */
+
+function includes(array, number) {
+  let index = binarySearch(array, number, 0, array.length - 1);
+  return index !== undefined;
+}
+
+function binarySearch(array, number, leftIndex, rightIndex) {
+  let midIndex = Math.floor((rightIndex + leftIndex) / 2);
+  let current = array[midIndex];
+  if (rightIndex < leftIndex) {
+    return undefined;
+  }
+  if (number === current) {
+    return midIndex;
+  }
+  if (number < current) {
+    return binarySearch(array, number, leftIndex, midIndex - 1);
+  }
+  return binarySearch(array, number, midIndex + 1, rightIndex);
+}
+
+/// tests
+
+import { test } from 'ava';
+
+test(t => t.is(includes([1, 3, 8, 10], 8), true));
+test(t => t.is(includes([1, 3, 8, 8, 15], 15), true));
+test(t => t.is(includes([1, 3, 8, 10, 15], 9), false));
+```
+
+### 取交集
+
+```js
+function intersection(left, right) {
+  // first build an object from the left array,
+  // because checking if an object has a certain key
+  // is cheap (it takes O(1) time).
+  //
+  // if we didn't use this object, we'd have to check
+  // if result contains current on every turn of the
+  // loop, which would take up to O(N * log(N)) time.
+  let seen = left.reduce((seen, item) => {
+    seen[item] = true;
+    return seen;
+  }, {});
+
+  return right.reduce((result, current) => {
+    if (current in seen) {
+      return result.concat(current);
+    }
+    seen[current] = true;
+    return result;
+  }, []);
+}
+
+/// tests
+
+import { test } from 'ava';
+
+test(t => t.deepEqual(intersection([1, 5, 4, 2], [8, 91, 4, 1, 3]), [4, 1]));
+test(t => t.deepEqual(intersection([1, 5, 4, 2], [7, 12]), []));
 ```

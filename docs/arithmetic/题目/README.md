@@ -690,8 +690,6 @@ module.exports = BinarySearchTree;
 ## 字符串是否对称
 
 ```js
-/// solution
-
 function isBalanced(string) {
   let count = 0;
   for (let letter of string) {
