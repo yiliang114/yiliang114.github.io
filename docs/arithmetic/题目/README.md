@@ -418,87 +418,6 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 
 ## 基础的算法题
 
-### 整型数组去重
-
-比如输入: `[1,13,24,11,11,14,1,2]`
-输出: `[1,13,24,11,14,2]`
-
-这道问题有不止一个解法。
-
-- 第一种解法，主要考察个人对 Object 的使用，利用 key 来进行筛选。
-- 直接使用 ES6 的 Set 去重。
-
-```js
-function unique(arr) {
-  const hashTable = {};
-  const data = [];
-  for (let i = 0; i < arr.length; i++) {
-    const key = arr[i];
-    if (!hashTable[key]) {
-      hashTable[key] = true;
-      data.push(key);
-    }
-  }
-  return data;
-}
-
-function unique1(arr) {
-  return Array.from(new Set(arr));
-}
-```
-
-### 统计一个字符串出现最多的字母
-
-给出一段英文连续的英文字符窜，找出重复出现次数最多的字母
-
-输入: `afjghdfraaaasdenas`
-输出: `a`
-
-前面出现过去重的算法，这里需要是统计重复次数。
-
-```js
-function findMaxDuplicateChar(str) {
-  // 单个字符串
-  if (str.length == 1) {
-    return str;
-  }
-  let charObj = {},
-    maxChar = str[0],
-    maxValue = 1;
-  for (let i = 0; i < str.length; i++) {
-    if (!charObj[str[i]]) {
-      charObj[str[i]] = 1;
-    } else {
-      charObj[str[i]] += 1;
-    }
-
-    if (charObj[str[i]] > maxValue) {
-      maxChar = str[i];
-      maxValue = charObj[str[i]];
-    }
-  }
-  return maxChar;
-}
-```
-
-### 随机生成指定长度的字符串
-
-实现一个算法，随机生成指制定长度的字符窜。
-
-比如给定 长度 8 输出 `4ldkfg9j`
-
-```js
-function randomString(n) {
-  const str = 'abcdefghijklmnopqrstuvwxyz9876543210';
-  const len = str.length;
-  let tmp = '';
-  for (let i = 0; i < n; i++) {
-    tmp += str[Math.floor(Math.random() * len)];
-  }
-  return tmp;
-}
-```
-
 ### 找出下列正数组的最大差值
 
 比如:
@@ -685,40 +604,6 @@ returncurrent.data;
 }
 
 module.exports = BinarySearchTree;
-```
-
-## 字符串是否对称
-
-```js
-function isBalanced(string) {
-  let count = 0;
-  for (let letter of string) {
-    if (letter === '{') {
-      count++;
-    }
-    if (letter === '}') {
-      count--;
-
-      // if a closing bracket doesn't have a matching
-      // opening bracket, we should return early.
-      if (count < 0) {
-        return false;
-      }
-    }
-  }
-  return count === 0;
-}
-
-/// tests
-
-import { test } from 'ava';
-
-test(t => t.is(isBalanced('}{'), false));
-test(t => t.is(isBalanced('{{}'), false));
-test(t => t.is(isBalanced('{}{}'), true));
-test(t => t.is(isBalanced('foo { bar { baz } boo }'), true));
-test(t => t.is(isBalanced('foo { bar { baz }'), false));
-test(t => t.is(isBalanced('foo { bar } }'), false));
 ```
 
 # Java

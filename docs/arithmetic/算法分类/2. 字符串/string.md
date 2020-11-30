@@ -617,3 +617,89 @@ import { test } from 'ava';
 test(t => t.deepEqual(permute(''), []));
 test(t => t.deepEqual(permute('abc'), ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']));
 ```
+
+### 统计一个字符串出现最多的字母
+
+给出一段英文连续的英文字符窜，找出重复出现次数最多的字母
+
+输入: `afjghdfraaaasdenas`
+输出: `a`
+
+前面出现过去重的算法，这里需要是统计重复次数。
+
+```js
+function findMaxDuplicateChar(str) {
+  // 单个字符串
+  if (str.length == 1) {
+    return str;
+  }
+  let charObj = {},
+    maxChar = str[0],
+    maxValue = 1;
+  for (let i = 0; i < str.length; i++) {
+    if (!charObj[str[i]]) {
+      charObj[str[i]] = 1;
+    } else {
+      charObj[str[i]] += 1;
+    }
+
+    if (charObj[str[i]] > maxValue) {
+      maxChar = str[i];
+      maxValue = charObj[str[i]];
+    }
+  }
+  return maxChar;
+}
+```
+
+### 随机生成指定长度的字符串
+
+实现一个算法，随机生成指制定长度的字符窜。
+
+比如给定 长度 8 输出 `4ldkfg9j`
+
+```js
+function randomString(n) {
+  const str = 'abcdefghijklmnopqrstuvwxyz9876543210';
+  const len = str.length;
+  let tmp = '';
+  for (let i = 0; i < n; i++) {
+    tmp += str[Math.floor(Math.random() * len)];
+  }
+  return tmp;
+}
+```
+
+### 字符串是否对称
+
+```js
+function isBalanced(string) {
+  let count = 0;
+  for (let letter of string) {
+    if (letter === '{') {
+      count++;
+    }
+    if (letter === '}') {
+      count--;
+
+      // if a closing bracket doesn't have a matching
+      // opening bracket, we should return early.
+      if (count < 0) {
+        return false;
+      }
+    }
+  }
+  return count === 0;
+}
+
+/// tests
+
+import { test } from 'ava';
+
+test(t => t.is(isBalanced('}{'), false));
+test(t => t.is(isBalanced('{{}'), false));
+test(t => t.is(isBalanced('{}{}'), true));
+test(t => t.is(isBalanced('foo { bar { baz } boo }'), true));
+test(t => t.is(isBalanced('foo { bar { baz }'), false));
+test(t => t.is(isBalanced('foo { bar } }'), false));
+```
