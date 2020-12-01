@@ -155,6 +155,82 @@ public List<Integer> topKFrequent(int[] nums, int k) {
 }
 ```
 
+```js
+var topKFrequent = function(nums, k) {
+  var map = {};
+  for (var i = 0; i < nums.length; i++) {
+    map[nums[i]] = map[nums[i]] ? map[nums[i]] + 1 : 1;
+  }
+
+  var keys = Object.keys(map);
+  keys.sort((a, b) => {
+    if (map[a] > map[b]) return -1;
+    if (map[a] < map[b]) return 1;
+    return 0;
+  });
+  // console.log(map, keys);
+  return keys.slice(0, k).map(a => parseInt(a));
+};
+
+console.log(topKFrequent([1, 1, 1, 2, 2, 3, 4], 2));
+```
+
+```js
+var topKFrequent = function(nums, k) {
+  // 这个算法的瓶颈在于排序算法，时间复杂度基本上是O(nlogn) 空间复杂度是O(n)
+
+  const hashtable = {};
+  const n = nums.length;
+  const res = [];
+
+  for (let i = 0; i < n; i++) {
+    const num = nums[i];
+    if (hashtable[num] !== void 0) {
+      hashtable[num + ''] += 1;
+    } else {
+      hashtable[num + ''] = 1;
+    }
+  }
+  // sort desc
+  const list = Object.entries(hashtable);
+  list.sort(([, countA], [, countB]) => countB - countA);
+
+  for (let i = 0; i < k; i++) {
+    res.push(list[i][0]);
+  }
+
+  return res;
+};
+```
+
+```js
+var topKFrequent = function(nums, k) {
+  // 这个算法的瓶颈在于排序算法，时间复杂度基本上是O(nlogn) 空间复杂度是O(n)
+
+  const hashtable = {};
+  const n = nums.length;
+  const res = [];
+
+  for (let i = 0; i < n; i++) {
+    const num = nums[i];
+    if (hashtable[num] !== void 0) {
+      hashtable[num + ''] += 1;
+    } else {
+      hashtable[num + ''] = 1;
+    }
+  }
+  // sort desc
+  const list = Object.entries(hashtable);
+  list.sort(([, countA], [, countB]) => countB - countA);
+
+  for (let i = 0; i < k; i++) {
+    res.push(list[i][0]);
+  }
+
+  return res;
+};
+```
+
 ### 2. 按照字符出现次数对字符串排序
 
 [451. Sort Characters By Frequency (Medium)](https://leetcode.com/problems/sort-characters-by-frequency/description/)
