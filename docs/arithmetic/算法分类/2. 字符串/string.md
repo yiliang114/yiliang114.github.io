@@ -703,3 +703,21 @@ test(t => t.is(isBalanced('foo { bar { baz } boo }'), true));
 test(t => t.is(isBalanced('foo { bar { baz }'), false));
 test(t => t.is(isBalanced('foo { bar } }'), false));
 ```
+
+## 字符串问题
+
+字符串问题有很多，从简单的实现 substr，识别回文，到复杂一点的公共子串/子序列。其实字符串本质上也是字符数组，因此
+很多数据的思想和方法也可以用在字符串问题上，并且在有些时候能够发挥很好的作用。
+
+专门处理字符串的算法也很多，比如 trie，马拉车算法，游程编码，huffman 树等等。
+
+## 实现字符串的一些原生方法
+
+这类题目应该是最直接的题目了，题目歧义比较小, 难度也是相对较小，因此用于电面等形式也是不错的。
+
+- [28.implement-str-str](https://leetcode.com/problems/implement-strstr/)
+- [344.reverse-string](../backlog/344.reverse-string.js)
+
+## 前缀问题
+
+前缀树用来处理这种问题是最符合直觉的，但是它也有缺点，比如公共前缀很少的情况下，比较费内存。

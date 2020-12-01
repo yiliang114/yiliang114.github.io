@@ -38,13 +38,15 @@ draft: true
   - [5. 二叉树的最近公共祖先](#5-二叉树的最近公共祖先)
   - [6. 从有序数组中构造二叉查找树](#6-从有序数组中构造二叉查找树)
   - [7. 根据有序链表构造平衡的二叉查找树](#7-根据有序链表构造平衡的二叉查找树)
-  - [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-在二叉查找树中寻找两个节点，使它们的和为一个给定值)
+  - [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-在二叉查找树中寻找两个节点使它们的和为一个给定值)
   - [9. 在二叉查找树中查找两个节点之差的最小绝对值](#9-在二叉查找树中查找两个节点之差的最小绝对值)
   - [10. 寻找二叉查找树中出现次数最多的值](#10-寻找二叉查找树中出现次数最多的值)
 - [Trie](#trie)
-  _ [1. 实现一个 Trie](#1-实现一个-trie)
-  _ [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie，用来求前缀和)
-  <!-- GFM-TOC -->
+  - [1. 实现一个 Trie](#1-实现一个-trie)
+  - [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie用来求前缀和)
+    _ [1. 实现一个 Trie](#1-实现一个-trie)
+    _ [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie，用来求前缀和)
+    <!-- GFM-TOC -->
 
 # 递归
 
@@ -236,6 +238,123 @@ private boolean isSymmetric(TreeNode t1, TreeNode t2) {
     if (t1.val != t2.val) return false;
     return isSymmetric(t1.left, t2.right) && isSymmetric(t1.right, t2.left);
 }
+```
+
+```js
+/**
+ * https://leetcode.com/problems/symmetric-tree/description/
+ * Difficulty:Easy
+ *
+ * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+ * For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+ *      1
+ *    /  \
+ *   2    2
+ *  / \  / \
+ * 3  4 4   3
+ * But the following [1,2,2,null,3,null,3] is not:
+ *      1
+ *     / \
+ *    2   2
+ *    \    \
+ *     3    3
+ * Note:
+ * Bonus points if you could solve it both recursively and iteratively.
+ */
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function(root) {
+  if (!root) return true;
+  return helper(root.left, root.right);
+};
+
+function helper(a, b) {
+  if (!a && !b) return true;
+  if (!a) return false;
+  if (!b) return false;
+  if (a.val !== b.val) return false;
+  return helper(a.left, b.right) && helper(a.right, b.left);
+}
+
+console.log(
+  isSymmetric({
+    val: 1,
+    left: {
+      val: 2,
+      left: {
+        val: 3,
+      },
+      right: {
+        val: 4,
+      },
+    },
+    right: {
+      val: 2,
+      left: {
+        val: 4,
+      },
+      right: {
+        val: 3,
+      },
+    },
+  }),
+);
+```
+
+```js
+/*
+ * @lc app=leetcode id=101 lang=javascript
+ *
+ * [101] Symmetric Tree
+ */
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+// 遍历
+function traversal(root) {
+  if (!root) return [null];
+
+  return [root.val].concat(traversal(root.left)).concat(traversal(root.right));
+}
+
+// 反向遍历
+function reversedTraversal(root) {
+  if (!root) return [null];
+
+  return [root.val].concat(reversedTraversal(root.right)).concat(reversedTraversal(root.left));
+}
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+// 是否是对称的
+var isSymmetric = function(root) {
+  if (root === null) return true;
+
+  const left = traversal(root.left);
+  const right = reversedTraversal(root.right);
+
+  // 判断left 和 right 是否一致
+  if (left.length !== right.length) return false;
+  for (let i = 0; i < left.length; i++) {
+    if (left[i] !== right[i]) return false;
+  }
+  return true;
+};
 ```
 
 ## 10. 最小路径
@@ -657,6 +776,68 @@ private TreeNode toBST(int[] nums, int sIdx, int eIdx){
     root.right = toBST(nums, mIdx + 1, eIdx);
     return root;
 }
+```
+
+```js
+/*
+ * @lc app=leetcode id=108 lang=javascript
+ *
+ * [108] Convert Sorted Array to Binary Search Tree
+ *
+ * https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/description/
+ *
+ * algorithms
+ * Easy (49.37%)
+ * Total Accepted:    255.2K
+ * Total Submissions: 507.2K
+ * Testcase Example:  '[-10,-3,0,5,9]'
+ *
+ * Given an array where elements are sorted in ascending order, convert it to a
+ * height balanced BST.
+ *
+ * For this problem, a height-balanced binary tree is defined as a binary tree
+ * in which the depth of the two subtrees of every node never differ by more
+ * than 1.
+ *
+ * Example:
+ *
+ *
+ * Given the sorted array: [-10,-3,0,5,9],
+ *
+ * One possible answer is: [0,-3,9,-10,null,5], which represents the following
+ * height balanced BST:
+ *
+ * ⁠     0
+ * ⁠    / \
+ * ⁠  -3   9
+ * ⁠  /   /
+ * ⁠-10  5
+ *
+ *
+ */
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+var sortedArrayToBST = function(nums) {
+  // 由于数组是排序好的，因此一个思路就是将数组分成两半，一半是左子树，另一半是右子树
+  // 然后运用“树的递归性质”递归完成操作即可。
+  if (nums.length === 0) return null;
+  const mid = nums.length >> 1;
+  const root = new TreeNode(nums[mid]);
+
+  root.left = sortedArrayToBST(nums.slice(0, mid));
+  root.right = sortedArrayToBST(nums.slice(mid + 1));
+  return root;
+  // 扩展：  这道题启示我们如果是一个非排序的数组，我们可以先进行排序然后再按上述思路进行。
+};
 ```
 
 ## 7. 根据有序链表构造平衡的二叉查找树

@@ -13,8 +13,8 @@ draft: true
 - [3. 找出数组中最长的连续 1](#3-找出数组中最长的连续-1)
 - [4. 有序矩阵查找](#4-有序矩阵查找)
 - [5. 有序矩阵的 Kth Element](#5-有序矩阵的-kth-element)
-- [6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数](#6-一个数组元素在-[1,-n]-之间，其中一个数被替换为另一个数，找出重复的数和丢失的数)
-- [7. 找出数组中重复的数，数组值在 [1, n] 之间](#7-找出数组中重复的数，数组值在-[1,-n]-之间)
+- [6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数](#6-一个数组元素在-1-n-之间其中一个数被替换为另一个数找出重复的数和丢失的数)
+- [7. 找出数组中重复的数，数组值在 [1, n] 之间](#7-找出数组中重复的数数组值在-1-n-之间)
 - [8. 数组相邻差值的个数](#8-数组相邻差值的个数)
 - [9. 数组的度](#9-数组的度)
 - [10. 对角元素相等的矩阵](#10-对角元素相等的矩阵)
@@ -23,6 +23,8 @@ draft: true
   <!-- GFM-TOC -->
 
 # 1. 把数组中的 0 移到末尾
+
+移动零。
 
 [283. Move Zeroes (Easy)](https://leetcode.com/problems/move-zeroes/description/)
 
@@ -42,6 +44,54 @@ public void moveZeroes(int[] nums) {
         nums[idx++] = 0;
     }
 }
+```
+
+```js
+var moveZeroes = function(nums) {
+  // console.log(nums);
+  var i = 0;
+  var j = 1;
+  var n = nums.length;
+  while (i < n && j < n) {
+    if (nums[i] !== 0) {
+      i++;
+      if (i >= j) {
+        j = i + 1;
+      }
+    } else if (nums[j] === 0) {
+      j++;
+    } else {
+      swap(nums, i, j);
+    }
+  }
+
+  // console.log(nums);
+  // return nums;
+};
+
+function swap(nums, i, j) {
+  var t = nums[i];
+  nums[i] = nums[j];
+  nums[j] = t;
+}
+
+console.log(moveZeroes([0, 1, 0, 3, 12]));
+```
+
+```js
+var moveZeroes = function(nums) {
+  let index = 0;
+  for (let i = 0; i < nums.length; i++) {
+    const num = nums[i];
+    if (num !== 0) {
+      nums[index++] = num;
+    }
+  }
+
+  for (let i = index; i < nums.length; i++) {
+    nums[index++] = 0;
+  }
+};
 ```
 
 # 2. 改变矩阵维度

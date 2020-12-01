@@ -85,3 +85,59 @@ test(t => t.is(factorial(6), 720));
     return x * x;
   }
   ```
+
+### 三角形
+
+```js
+/**
+ * https://leetcode.com/problems/triangle/description/
+ * Difficulty:Medium
+ *
+ * Given a triangle, find the minimum path sum from top to bottom.
+ * Each step you may move to adjacent numbers on the row below.
+ * For example, given the following triangle
+ * [
+ *      [2],
+ *     [3,4],
+ *    [6,5,7],
+ *   [4,1,8,3]
+ * ]
+ * The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+ * Note:
+ * Bonus point if you are able to do this using only O(n) extra space,
+ * where n is the total number of rows in the triangle.
+ */
+
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+  if (!triangle.length) return 0;
+  var dp = [[triangle[0][0]]];
+
+  var n = triangle.length;
+  for (var i = 1; i < n; i++) {
+    dp.push(new Array(i + 1).fill(0));
+  }
+  // console.log(triangle);
+
+  for (var i = 1; i < n; i++) {
+    for (var j = 0; j < i + 1; j++) {
+      var a = j - 1;
+      var b = j;
+      if (a < 0) dp[i][j] = dp[i - 1][b];
+      else if (b > i - 1) dp[i][j] = dp[i - 1][a];
+      else dp[i][j] = Math.min(dp[i - 1][b], dp[i - 1][a]);
+      dp[i][j] += triangle[i][j];
+    }
+  }
+  var min = dp[n - 1][0];
+  for (var i = 1; i < n; i++) {
+    if (dp[n - 1][i] < min) min = dp[n - 1][i];
+  }
+
+  // console.log(dp, min);
+  return min;
+};
+```
