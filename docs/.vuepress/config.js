@@ -104,10 +104,10 @@ module.exports = {
       { text: '私语', link: '/whisper', exact: false },
       { text: '拉钩', link: '/lagou', exact: false },
       { text: '分类', link: '/posts/categories/', exact: true },
-      {
-        text: '关于我',
-        link: 'https://resume.yiliang.site',
-      },
+      // {
+      //   text: '关于我',
+      //   link: 'https://resume.yiliang.site',
+      // },
     ],
 
     pagination: {
