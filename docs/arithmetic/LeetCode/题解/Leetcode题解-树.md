@@ -149,6 +149,18 @@ public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
 }
 ```
 
+```js
+var mergeTrees = function(t1, t2) {
+  // 递归，由于树是一种递归的数据结构，因此递归是符合直觉且比较简单的
+  if (t1 === null) return t2;
+  if (t2 === null) return t1;
+  t1.val += t2.val;
+  t1.left = mergeTrees(t1.left, t2.left);
+  t1.right = mergeTrees(t1.right, t2.right);
+  return t1;
+};
+```
+
 ## 6. 判断路径和是否等于一个数
 
 [Leetcdoe : 112. Path Sum (Easy)](https://leetcode.com/problems/path-sum/description/)

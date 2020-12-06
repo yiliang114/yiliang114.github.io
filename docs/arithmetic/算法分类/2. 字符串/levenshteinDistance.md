@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-## SF/ALGs/string/levenshtein-distance/README.md
+## SF/ALGs/string/levenshtein-distance/README
 
 # Levenshtein Distance
 
@@ -118,7 +118,7 @@ with `Saturday → Sunday` transformation.
 
 ![Levenshtein distance](https://cdn-images-1.medium.com/max/2600/1*497gMaFErzJpCXG7kS_7dw.png)
 
-## SF/ALGs/string/levenshtein-distance/levenshteinDistance.js
+## SF/ALGs/string/levenshtein-distance/levenshteinDistance
 
 ```js
 /**

@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-## SF/ALGs/string/z-algorithm/README.md
+## SF/ALGs/string/z-algorithm/README
 
 # Z Algorithm
 
@@ -65,7 +65,7 @@ Z[] =  x 0 6 0 4 0 2 0
 - **Time:** `O(|W| + |T|)`
 - **Space:** `O(|W|)`
 
-## SF/ALGs/string/z-algorithm/zAlgorithm.js
+## SF/ALGs/string/z-algorithm/zAlgorithm
 
 ```js
 // The string separator that is being used for "word" and "text" concatenation.

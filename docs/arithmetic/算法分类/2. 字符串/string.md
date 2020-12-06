@@ -110,7 +110,7 @@ export function ReverseStringIterativeInplace(string: string): string {
 }
 ```
 
-## SF/ALGs/string/HasDupeChars.js
+## SF/ALGs/string/HasDupeChars
 
 ```js
 /**
@@ -138,7 +138,7 @@ export default function HasDupeChars(string: string): boolean {
 }
 ```
 
-## SF/ALGs/string/Permutations.js
+## SF/ALGs/string/Permutations
 
 ```js
 /**
@@ -182,7 +182,7 @@ export function StringPermutationsRecursiveFactorial(string: string): number {
 }
 ```
 
-## SF/ALGs/string/RandomString.js
+## SF/ALGs/string/RandomString
 
 ```js
 /**
@@ -716,7 +716,7 @@ test(t => t.is(isBalanced('foo { bar } }'), false));
 这类题目应该是最直接的题目了，题目歧义比较小, 难度也是相对较小，因此用于电面等形式也是不错的。
 
 - [28.implement-str-str](https://leetcode.com/problems/implement-strstr/)
-- [344.reverse-string](../backlog/344.reverse-string.js)
+- [344.reverse-string](../backlog/344.reverse-string)
 
 ## 前缀问题
 

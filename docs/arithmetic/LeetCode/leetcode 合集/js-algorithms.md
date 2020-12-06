@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# SF/js-algorithms/General/ChSorting.js
+# General/ChSorting
 
 ```js
 // Implement a method that sort words, but instead of using the normal
@@ -56,7 +56,7 @@ export default function sortWords(words) {
 // console.log(sortWords(['indigo', 'charisma', 'hotel']));
 ```
 
-# SF/js-algorithms/Paradigmns/Functional/ImmutableLists.js
+# Paradigmns/Functional/ImmutableLists
 
 ```js
 /**
@@ -78,7 +78,7 @@ export default function sortWords(words) {
  */
 ```
 
-# SF/js-algorithms/Puzzles/CurrencyConvert.js
+# Puzzles/CurrencyConvert
 
 ```js
 function traverse(adj, startNode, endNode) {
@@ -133,7 +133,7 @@ export default function getConversionRate(convs, startNode, endNode) {
 }
 ```
 
-# SF/js-algorithms/Puzzles/Maze.js 迷宫
+# Puzzles/Maze 迷宫
 
 ```js
 // Taken from http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/
@@ -182,7 +182,7 @@ export default function Maze(maze: mazeType, x: num, y: num, path: mazeType = []
 }
 ```
 
-# SF/js-algorithms/Puzzles/SimulateWar.js 模拟战争
+# Puzzles/SimulateWar 模拟战争
 
 ```js
 // create a deck of cards with numbers 1 - 52
@@ -232,7 +232,7 @@ export default function simulateWar() {
 }
 ```
 
-# SF/js-algorithms/StreamAlgorithms/MooresVotingAlgorithm.js 摩尔投票算法
+# StreamAlgorithms/MooresVotingAlgorithm 摩尔投票算法
 
 ```js
 /**
@@ -260,7 +260,7 @@ export default function MooresVotingAlgorithm(nums: number[]): number {
 }
 ```
 
-# SF/js-algorithms/StreamAlgorithms/ReservoirSampling.js 水库采样
+# StreamAlgorithms/ReservoirSampling 水库采样
 
 ```js
 // Reservoir sampling is a family of randomized algorithms for randomly choosing a sample of k items from a list S containing

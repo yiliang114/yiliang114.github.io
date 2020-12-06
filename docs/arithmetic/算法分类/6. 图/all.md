@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# SF/ALGs/graph/articulation-points/README.md
+# SF/ALGs/graph/articulation-points/README
 
 ## Articulation Points (or Cut Vertices)
 
@@ -31,7 +31,7 @@ vertex removing which increases number of connected components.
 - [GeeksForGeeks](https://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/)
 - [YouTube](https://www.youtube.com/watch?v=2kREIkF9UAs&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/articulation-points/articulationPoints.js
+# SF/ALGs/graph/articulation-points/articulationPoints
 
 ```js
 import depthFirstSearch from '../depth-first-search/depthFirstSearch';
@@ -147,7 +147,7 @@ export default function articulationPoints(graph) {
 }
 ```
 
-# SF/ALGs/graph/bellman-ford/README.md
+# SF/ALGs/graph/bellman-ford/README
 
 ## Bellman–Ford Algorithm
 
@@ -171,7 +171,7 @@ Worst-case space complexity `O(|V|)`
 - [Wikipedia](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
 - [On YouTube by Michael Sambol](https://www.youtube.com/watch?v=obWXjtg0L64&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/bellman-ford/bellmanFord.js
+# SF/ALGs/graph/bellman-ford/bellmanFord
 
 ```js
 /**
@@ -221,7 +221,7 @@ export default function bellmanFord(graph, startVertex) {
 }
 ```
 
-# SF/ALGs/graph/breadth-first-search/README.md
+# SF/ALGs/graph/breadth-first-search/README
 
 ## Breadth-First Search (BFS)
 
@@ -240,7 +240,7 @@ nodes first, before moving to the next level neighbors.
 - [BFS vs DFS](https://www.geeksforgeeks.org/bfs-vs-dfs-binary-tree/)
 - [BFS Visualization](https://www.cs.usfca.edu/~galles/visualization/BFS.html)
 
-# SF/ALGs/graph/breadth-first-search/breadthFirstSearch.js
+# SF/ALGs/graph/breadth-first-search/breadthFirstSearch
 
 ```js
 import Queue from '../../../data-structures/queue/Queue';
@@ -318,7 +318,7 @@ export default function breadthFirstSearch(graph, startVertex, originalCallbacks
 }
 ```
 
-# SF/ALGs/graph/bridges/README.md
+# SF/ALGs/graph/bridges/README
 
 ## Bridges in Graph
 
@@ -347,7 +347,7 @@ An undirected connected graph with no cut edges
 - [Wikipedia](https://en.wikipedia.org/wiki/Bridge_%28graph_theory%29#Tarjan.27s_Bridge-finding_algorithm)
 - [GeeksForGeeks](https://www.geeksforgeeks.org/bridge-in-a-graph/)
 
-# SF/ALGs/graph/bridges/graphBridges.js
+# SF/ALGs/graph/bridges/graphBridges
 
 ```js
 import depthFirstSearch from '../depth-first-search/depthFirstSearch';
@@ -448,7 +448,7 @@ export default function graphBridges(graph) {
 }
 ```
 
-# SF/ALGs/graph/depth-first-search/README.md
+# SF/ALGs/graph/depth-first-search/README
 
 ## Depth-First Search (DFS)
 
@@ -467,7 +467,7 @@ along each branch before backtracking.
 - [BFS vs DFS](https://www.geeksforgeeks.org/bfs-vs-dfs-binary-tree/)
 - [DFS Visualization](https://www.cs.usfca.edu/~galles/visualization/DFS.html)
 
-# SF/ALGs/graph/depth-first-search/depthFirstSearch.js
+# SF/ALGs/graph/depth-first-search/depthFirstSearch
 
 ```js
 /**
@@ -538,7 +538,7 @@ export default function depthFirstSearch(graph, startVertex, callbacks) {
 }
 ```
 
-# SF/ALGs/graph/detect-cycle/README.md
+# SF/ALGs/graph/detect-cycle/README
 
 ## Detect Cycle in Graphs
 
@@ -601,7 +601,7 @@ Cycles in directed graphs:
 - [Detect Cycle in Directed Graph on GeeksForGeeks](https://www.geeksforgeeks.org/detect-cycle-in-a-graph/)
 - [Detect Cycle in Directed Graph Algorithm on YouTube](https://www.youtube.com/watch?v=rKQaZuoUR4M&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/detect-cycle/detectDirectedCycle.js
+# SF/ALGs/graph/detect-cycle/detectDirectedCycle
 
 ```js
 import depthFirstSearch from '../depth-first-search/depthFirstSearch';
@@ -699,7 +699,7 @@ export default function detectDirectedCycle(graph) {
 }
 ```
 
-# SF/ALGs/graph/detect-cycle/detectUndirectedCycle.js
+# SF/ALGs/graph/detect-cycle/detectUndirectedCycle
 
 ```js
 import depthFirstSearch from '../depth-first-search/depthFirstSearch';
@@ -763,7 +763,7 @@ export default function detectUndirectedCycle(graph) {
 }
 ```
 
-# SF/ALGs/graph/detect-cycle/detectUndirectedCycleUsingDisjointSet.js
+# SF/ALGs/graph/detect-cycle/detectUndirectedCycleUsingDisjointSet
 
 ```js
 import DisjointSet from '../../../data-structures/disjoint-set/DisjointSet';
@@ -799,7 +799,7 @@ export default function detectUndirectedCycleUsingDisjointSet(graph) {
 }
 ```
 
-# SF/ALGs/graph/dijkstra/README.md
+# SF/ALGs/graph/dijkstra/README
 
 ## Dijkstra's Algorithm
 
@@ -827,7 +827,7 @@ and updates the neighbor's distance if smaller. Mark visited
 - [On YouTube by Nathaniel Fan](https://www.youtube.com/watch?v=gdmfOwyQlcI&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 - [On YouTube by Tushar Roy](https://www.youtube.com/watch?v=lAXZGERcDf4&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/dijkstra/dijkstra.js
+# SF/ALGs/graph/dijkstra/dijkstra
 
 ```js
 import PriorityQueue from '../../../data-structures/priority-queue/PriorityQueue';
@@ -912,7 +912,7 @@ export default function dijkstra(graph, startVertex) {
 }
 ```
 
-# SF/ALGs/graph/eulerian-path/README.md
+# SF/ALGs/graph/eulerian-path/README
 
 ## Eulerian Path
 
@@ -950,7 +950,7 @@ therefore, a solution does not exist.
 - [Wikipedia](https://en.wikipedia.org/wiki/Eulerian_path)
 - [YouTube](https://www.youtube.com/watch?v=vvP4Fg4r-Ns&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/eulerian-path/eulerianPath.js
+# SF/ALGs/graph/eulerian-path/eulerianPath
 
 ```js
 import graphBridges from '../bridges/graphBridges';
@@ -1056,7 +1056,7 @@ export default function eulerianPath(graph) {
 }
 ```
 
-# SF/ALGs/graph/floyd-warshall/README.md
+# SF/ALGs/graph/floyd-warshall/README
 
 ## Floyd–Warshall Algorithm
 
@@ -1148,7 +1148,7 @@ In the tables below `i` is row numbers and `j` is column numbers.
 - [YouTube (by Abdul Bari)](https://www.youtube.com/watch?v=oNI0rf2P9gE&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8&index=74)
 - [YouTube (by Tushar Roy)](https://www.youtube.com/watch?v=LwJdNfdLF9s&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8&index=75)
 
-# SF/ALGs/graph/floyd-warshall/floydWarshall.js
+# SF/ALGs/graph/floyd-warshall/floydWarshall
 
 ```js
 /**
@@ -1229,7 +1229,7 @@ export default function floydWarshall(graph) {
 }
 ```
 
-# SF/ALGs/graph/hamiltonian-cycle/README.md
+# SF/ALGs/graph/hamiltonian-cycle/README
 
 ## Hamiltonian Path
 
@@ -1280,7 +1280,7 @@ then we return false.
 - [Hamiltonian path on YouTube](https://www.youtube.com/watch?v=dQr4wZCiJJ4&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 - [Hamiltonian cycle on GeeksForGeeks](https://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/)
 
-# SF/ALGs/graph/hamiltonian-cycle/hamiltonianCycle.js
+# SF/ALGs/graph/hamiltonian-cycle/hamiltonianCycle
 
 ```js
 import GraphVertex from '../../../data-structures/graph/GraphVertex';
@@ -1413,7 +1413,7 @@ export default function hamiltonianCycle(graph) {
 }
 ```
 
-# SF/ALGs/graph/kruskal/README.md
+# SF/ALGs/graph/kruskal/README
 
 ## Kruskal's Algorithm
 
@@ -1465,7 +1465,7 @@ are two possibilities of minimum spanning tree of the given graph.
 - [Kruskal's Algorithm on YouTube by Tushar Roy](https://www.youtube.com/watch?v=fAuF0EuZVCk&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 - [Kruskal's Algorithm on YouTube by Michael Sambol](https://www.youtube.com/watch?v=71UQH7Pr9kU&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/kruskal/kruskal.js
+# SF/ALGs/graph/kruskal/kruskal
 
 ```js
 import Graph from '../../../data-structures/graph/Graph';
@@ -1532,7 +1532,7 @@ export default function kruskal(graph) {
 }
 ```
 
-# SF/ALGs/graph/prim/README.md
+# SF/ALGs/graph/prim/README
 
 ## Prim's Algorithm
 
@@ -1582,7 +1582,7 @@ are two possibilities of minimum spanning tree of the given graph.
 - [Prim's Algorithm on YouTube by Tushar Roy](https://www.youtube.com/watch?v=oP2-8ysT3QQ&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 - [Prim's Algorithm on YouTube by Michael Sambol](https://www.youtube.com/watch?v=cplfcGZmX7I&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/prim/prim.js
+# SF/ALGs/graph/prim/prim
 
 ```js
 import Graph from '../../../data-structures/graph/Graph';
@@ -1657,7 +1657,7 @@ export default function prim(graph) {
 }
 ```
 
-# SF/ALGs/graph/strongly-connected-components/README.md
+# SF/ALGs/graph/strongly-connected-components/README
 
 ## Strongly Connected Component
 
@@ -1676,7 +1676,7 @@ Graph with strongly connected components marked
 - [Wikipedia](https://en.wikipedia.org/wiki/Strongly_connected_component)
 - [YouTube](https://www.youtube.com/watch?v=RpgcYiky7uw&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/strongly-connected-components/stronglyConnectedComponents.js
+# SF/ALGs/graph/strongly-connected-components/stronglyConnectedComponents
 
 ```js
 import Stack from '../../../data-structures/stack/Stack';
@@ -1814,7 +1814,7 @@ export default function stronglyConnectedComponents(graph) {
 }
 ```
 
-# SF/ALGs/graph/topological-sorting/README.md
+# SF/ALGs/graph/topological-sorting/README
 
 ## Topological Sorting
 
@@ -1872,7 +1872,7 @@ next dependency has its dependent packages to be installed in prior.
 - [Wikipedia](https://en.wikipedia.org/wiki/Topological_sorting)
 - [Topological Sorting on YouTube by Tushar Roy](https://www.youtube.com/watch?v=ddTC4Zovtbc&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/graph/topological-sorting/topologicalSort.js
+# SF/ALGs/graph/topological-sorting/topologicalSort
 
 ```js
 import Stack from '../../../data-structures/stack/Stack';
@@ -1924,7 +1924,7 @@ export default function topologicalSort(graph) {
 }
 ```
 
-# SF/ALGs/graph/travelling-salesman/README.md
+# SF/ALGs/graph/travelling-salesman/README
 
 ## Travelling Salesman Problem
 
@@ -1953,7 +1953,7 @@ long edge will complete the graph without affecting the optimal tour.
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Travelling_salesman_problem)
 
-# SF/ALGs/graph/travelling-salesman/bfTravellingSalesman.js
+# SF/ALGs/graph/travelling-salesman/bfTravellingSalesman
 
 ```js
 /**

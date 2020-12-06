@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# SF/ALGs/math/bits/README.md
+# SF/ALGs/math/bits/README
 
 ## Bit Manipulation
 
@@ -18,7 +18,7 @@ pattern like `0001`. This clears all bits from the original
 number except the relevant one. If the relevant bit is one,
 the result is `1`, otherwise the result is `0`.
 
-> See [getBit.js](getBit.js) for further details.
+> See [getBit](getBit) for further details.
 
 ##### Set Bit
 
@@ -27,7 +27,7 @@ value that looks like `00100`. Then we perform `OR` operation
 that sets specific bit into `1` but it does not affect on
 other bits of the number.
 
-> See [setBit.js](setBit.js) for further details.
+> See [setBit](setBit) for further details.
 
 ##### Clear Bit
 
@@ -37,13 +37,13 @@ the number that looks like `11011`. Then `AND` operation is
 being applied to both the number and the mask. That operation
 unsets the bit.
 
-> See [clearBit.js](clearBit.js) for further details.
+> See [clearBit](clearBit) for further details.
 
 ##### Update Bit
 
 This method is a combination of "Clear Bit" and "Set Bit" methods.
 
-> See [updateBit.js](updateBit.js) for further details.
+> See [updateBit](updateBit) for further details.
 
 ##### isEven
 
@@ -59,7 +59,7 @@ Number: 4 = 0b0100
 isEven: true
 ```
 
-> See [isEven.js](isEven.js) for further details.
+> See [isEven](isEven) for further details.
 
 ##### isPositive
 
@@ -75,7 +75,7 @@ Number: -1 = -0b0001
 isPositive: false
 ```
 
-> See [isPositive.js](isPositive.js) for further details.
+> See [isPositive](isPositive) for further details.
 
 ##### Multiply By Two
 
@@ -94,7 +94,7 @@ Number: 0b1010 = 10
 Powers of two: 2^3 + 0 + 2^1 + 0
 ```
 
-> See [multiplyByTwo.js](multiplyByTwo.js) for further details.
+> See [multiplyByTwo](multiplyByTwo) for further details.
 
 ##### Divide By Two
 
@@ -113,7 +113,7 @@ Number: 0b0010 = 2
 Powers of two: 0 + 0 + 2^1 + 0
 ```
 
-> See [divideByTwo.js](divideByTwo.js) for further details.
+> See [divideByTwo](divideByTwo) for further details.
 
 ##### Switch Sign
 
@@ -131,7 +131,7 @@ inverting all of the bits of the number and adding 1 to it.
 0011  3
 ```
 
-> See [switchSign.js](switchSign.js) for further details.
+> See [switchSign](switchSign) for further details.
 
 ##### Multiply Two Signed Numbers
 
@@ -150,7 +150,7 @@ The advantage of this approach is that in each recursive step one of the operand
 reduces to half its original value. Hence, the run time complexity is `O(log(b))` where `b` is
 the operand that reduces to half on each recursive step.
 
-> See [multiply.js](multiply.js) for further details.
+> See [multiply](multiply) for further details.
 
 ##### Multiply Two Unsigned Numbers
 
@@ -175,7 +175,7 @@ x * 19 = x * 2^4 + x * 2^1 + x * 2^0
 Now we need to remember that `x * 2^4` is equivalent of shifting `x` left
 by `4` bits (`x << 4`).
 
-> See [multiplyUnsigned.js](multiplyUnsigned.js) for further details.
+> See [multiplyUnsigned](multiplyUnsigned) for further details.
 
 ##### Count Set Bits
 
@@ -188,7 +188,7 @@ Number: 5 = 0b0101
 Count of set bits = 2
 ```
 
-> See [countSetBits.js](countSetBits.js) for further details.
+> See [countSetBits](countSetBits) for further details.
 
 ##### Count Bits to Flip One Number to Another
 
@@ -202,7 +202,7 @@ of different bits.
 Count of Bits to be Flipped: 1
 ```
 
-> See [bitsDiff.js](bitsDiff.js) for further details.
+> See [bitsDiff](bitsDiff) for further details.
 
 ##### Count Bits of a Number
 
@@ -215,7 +215,7 @@ Count of valuable bits is: 3
 When we shift 1 four times it will become bigger than 5.
 ```
 
-> See [bitLength.js](bitLength.js) for further details.
+> See [bitLength](bitLength) for further details.
 
 ##### Is Power of Two
 
@@ -234,7 +234,7 @@ Number: 9 = (10 - 1) = 0b01001
 10 & 9 = 0b01010 & 0b01001 = 0b01000 <-- Not equal to zero, not a power of two.
 ```
 
-> See [isPowerOfTwo.js](isPowerOfTwo.js) for further details.
+> See [isPowerOfTwo](isPowerOfTwo) for further details.
 
 ##### Full Adder
 
@@ -270,7 +270,7 @@ B = 6: 110
 └──────┴────┴────┴─────────┴──────────┴─────────┴───────────┴───────────┘
 ```
 
-> See [fullAdder.js](fullAdder.js) for further details.
+> See [fullAdder](fullAdder) for further details.
 > See [Full Adder on YouTube](https://www.youtube.com/watch?v=wvJc9CZcvBc&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8).
 
 ### References
@@ -279,7 +279,7 @@ B = 6: 110
 - [Negative Numbers in binary on YouTube](https://www.youtube.com/watch?v=4qH4unVtJkE&t=0s&index=30&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 - [Bit Hacks on stanford.edu](https://graphics.stanford.edu/~seander/bithacks.html)
 
-# SF/ALGs/math/bits/bitLength.js
+# SF/ALGs/math/bits/bitLength
 
 ```js
 /**
@@ -299,7 +299,7 @@ export default function bitLength(number) {
 }
 ```
 
-# SF/ALGs/math/bits/bitsDiff.js
+# SF/ALGs/math/bits/bitsDiff
 
 ```js
 import countSetBits from './countSetBits';
@@ -317,7 +317,7 @@ export default function bitsDiff(numberA, numberB) {
 }
 ```
 
-# SF/ALGs/math/bits/clearBit.js
+# SF/ALGs/math/bits/clearBit
 
 ```js
 /**
@@ -332,7 +332,7 @@ export default function clearBit(number, bitPosition) {
 }
 ```
 
-# SF/ALGs/math/bits/countSetBits.js
+# SF/ALGs/math/bits/countSetBits
 
 ```js
 /**
@@ -355,7 +355,7 @@ export default function countSetBits(originalNumber) {
 }
 ```
 
-# SF/ALGs/math/bits/divideByTwo.js
+# SF/ALGs/math/bits/divideByTwo
 
 ```js
 /**
@@ -367,7 +367,7 @@ export default function divideByTwo(number) {
 }
 ```
 
-# SF/ALGs/math/bits/fullAdder.js
+# SF/ALGs/math/bits/fullAdder
 
 ```js
 import getBit from './getBit';
@@ -442,7 +442,7 @@ export default function fullAdder(a, b) {
 }
 ```
 
-# SF/ALGs/math/bits/getBit.js
+# SF/ALGs/math/bits/getBit
 
 ```js
 /**
@@ -455,7 +455,7 @@ export default function getBit(number, bitPosition) {
 }
 ```
 
-# SF/ALGs/math/bits/isEven.js
+# SF/ALGs/math/bits/isEven
 
 ```js
 /**
@@ -467,7 +467,7 @@ export default function isEven(number) {
 }
 ```
 
-# SF/ALGs/math/bits/isPositive.js
+# SF/ALGs/math/bits/isPositive
 
 ```js
 /**
@@ -485,7 +485,7 @@ export default function isPositive(number) {
 }
 ```
 
-# SF/ALGs/math/bits/isPowerOfTwo.js
+# SF/ALGs/math/bits/isPowerOfTwo
 
 ```js
 /**
@@ -497,7 +497,7 @@ export default function isPowerOfTwo(number) {
 }
 ```
 
-# SF/ALGs/math/bits/multiply.js
+# SF/ALGs/math/bits/multiply
 
 ```js
 import multiplyByTwo from './multiplyByTwo';
@@ -543,7 +543,7 @@ export default function multiply(a, b) {
 }
 ```
 
-# SF/ALGs/math/bits/multiplyByTwo.js
+# SF/ALGs/math/bits/multiplyByTwo
 
 ```js
 /**
@@ -555,7 +555,7 @@ export default function multiplyByTwo(number) {
 }
 ```
 
-# SF/ALGs/math/bits/multiplyUnsigned.js
+# SF/ALGs/math/bits/multiplyUnsigned
 
 ```js
 /**
@@ -603,7 +603,7 @@ export default function multiplyUnsigned(number1, number2) {
 }
 ```
 
-# SF/ALGs/math/bits/setBit.js
+# SF/ALGs/math/bits/setBit
 
 ```js
 /**
@@ -616,7 +616,7 @@ export default function setBit(number, bitPosition) {
 }
 ```
 
-# SF/ALGs/math/bits/switchSign.js
+# SF/ALGs/math/bits/switchSign
 
 ```js
 /**
@@ -629,7 +629,7 @@ export default function switchSign(number) {
 }
 ```
 
-# SF/ALGs/math/bits/updateBit.js
+# SF/ALGs/math/bits/updateBit
 
 ```js
 /**
@@ -650,7 +650,7 @@ export default function updateBit(number, bitPosition, bitValue) {
 }
 ```
 
-# SF/ALGs/math/complex-number/ComplexNumber.js
+# SF/ALGs/math/complex-number/ComplexNumber
 
 ```js
 import radianToDegree from '../radian/radianToDegree';
@@ -815,7 +815,7 @@ export default class ComplexNumber {
 }
 ```
 
-# SF/ALGs/math/complex-number/README.md
+# SF/ALGs/math/complex-number/README
 
 ## Complex Number
 
@@ -1043,7 +1043,7 @@ Which is really quite a simple result. The general rule is:
 - [Wikipedia](https://en.wikipedia.org/wiki/Complex_number)
 - [Math is Fun](https://www.mathsisfun.com/numbers/complex-numbers.html)
 
-# SF/ALGs/math/euclidean-algorithm/README.md
+# SF/ALGs/math/euclidean-algorithm/README
 
 ## Euclidean algorithm
 
@@ -1103,7 +1103,7 @@ The smallest square size, `21`, is the GCD of `1071` and `462`.
 
 [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_algorithm)
 
-# SF/ALGs/math/euclidean-algorithm/euclideanAlgorithm.js
+# SF/ALGs/math/euclidean-algorithm/euclideanAlgorithm
 
 ```js
 /**
@@ -1123,7 +1123,7 @@ export default function euclideanAlgorithm(originalA, originalB) {
 }
 ```
 
-# SF/ALGs/math/euclidean-algorithm/euclideanAlgorithmIterative.js
+# SF/ALGs/math/euclidean-algorithm/euclideanAlgorithmIterative
 
 ```js
 /**
@@ -1148,7 +1148,7 @@ export default function euclideanAlgorithmIterative(originalA, originalB) {
 }
 ```
 
-# SF/ALGs/math/factorial/README.md
+# SF/ALGs/math/factorial/README
 
 ## Factorial
 
@@ -1186,7 +1186,7 @@ than or equal to `n`. For example:
 
 [Wikipedia](https://en.wikipedia.org/wiki/Factorial)
 
-# SF/ALGs/math/factorial/README.zh-CN.md
+# SF/ALGs/math/factorial/README.zh-CN
 
 ## 阶乘
 
@@ -1215,7 +1215,7 @@ than or equal to `n`. For example:
 | 14  |    87 178 291 200 |
 | 15  | 1 307 674 368 000 |
 
-# SF/ALGs/math/factorial/factorial.js
+# SF/ALGs/math/factorial/factorial
 
 ```js
 /**
@@ -1233,7 +1233,7 @@ export default function factorial(number) {
 }
 ```
 
-# SF/ALGs/math/factorial/factorialRecursive.js
+# SF/ALGs/math/factorial/factorialRecursive
 
 ```js
 /**
@@ -1245,7 +1245,7 @@ export default function factorialRecursive(number) {
 }
 ```
 
-# SF/ALGs/math/fast-powering/README.md
+# SF/ALGs/math/fast-powering/README
 
 ## Fast Powering Algorithm
 
@@ -1316,7 +1316,7 @@ O(log(n))
 - [YouTube](https://www.youtube.com/watch?v=LUWavfN9zEo&index=80&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8&t=0s)
 - [Wikipedia](https://en.wikipedia.org/wiki/Exponentiation_by_squaring)
 
-# SF/ALGs/math/fast-powering/fastPowering.js
+# SF/ALGs/math/fast-powering/fastPowering
 
 ```js
 /**
@@ -1351,7 +1351,7 @@ export default function fastPowering(base, power) {
 }
 ```
 
-# SF/ALGs/math/fibonacci/README.md
+# SF/ALGs/math/fibonacci/README
 
 ## Fibonacci Number
 
@@ -1374,7 +1374,7 @@ The Fibonacci spiral: an approximation of the golden spiral created by drawing c
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number)
 
-# SF/ALGs/math/fibonacci/fibonacci.js
+# SF/ALGs/math/fibonacci/fibonacci
 
 ```js
 /**
@@ -1408,7 +1408,7 @@ export default function fibonacci(n) {
 }
 ```
 
-# SF/ALGs/math/fibonacci/fibonacciNth.js
+# SF/ALGs/math/fibonacci/fibonacciNth
 
 ```js
 /**
@@ -1438,7 +1438,7 @@ export default function fibonacciNth(n) {
 }
 ```
 
-# SF/ALGs/math/fibonacci/fibonacciNthClosedForm.js
+# SF/ALGs/math/fibonacci/fibonacciNthClosedForm
 
 ```js
 /**
@@ -1466,7 +1466,7 @@ export default function fibonacciClosedForm(position) {
 }
 ```
 
-# SF/ALGs/math/fourier-transform/README.md
+# SF/ALGs/math/fourier-transform/README
 
 ## Fourier Transform
 
@@ -1599,7 +1599,7 @@ Stuart Riffle has a great interpretation of the Fourier Transform:
   - [DTFT](https://en.wikipedia.org/wiki/Discrete-time_Fourier_transform)
   - [FFT](https://www.wikiwand.com/en/Fast_Fourier_transform)
 
-# SF/ALGs/math/fourier-transform/discreteFourierTransform.js
+# SF/ALGs/math/fourier-transform/discreteFourierTransform
 
 ```js
 import ComplexNumber from '../complex-number/ComplexNumber';
@@ -1673,7 +1673,7 @@ export default function dft(inputAmplitudes, zeroThreshold = CLOSE_TO_ZERO_THRES
 }
 ```
 
-# SF/ALGs/math/fourier-transform/fastFourierTransform.js
+# SF/ALGs/math/fourier-transform/fastFourierTransform
 
 ```js
 import ComplexNumber from '../complex-number/ComplexNumber';
@@ -1755,7 +1755,7 @@ export default function fastFourierTransform(inputData, inverse = false) {
 }
 ```
 
-# SF/ALGs/math/fourier-transform/inverseDiscreteFourierTransform.js
+# SF/ALGs/math/fourier-transform/inverseDiscreteFourierTransform
 
 ```js
 import ComplexNumber from '../complex-number/ComplexNumber';
@@ -1815,7 +1815,7 @@ export default function inverseDiscreteFourierTransform(frequencies, zeroThresho
 }
 ```
 
-# SF/ALGs/math/integer-partition/README.md
+# SF/ALGs/math/integer-partition/README
 
 ## Integer Partition
 
@@ -1852,7 +1852,7 @@ are conjugate partitions.
 - [Wikipedia](<https://en.wikipedia.org/wiki/Partition_(number_theory)>)
 - [YouTube](https://www.youtube.com/watch?v=ZaVM057DuzE&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/math/integer-partition/integerPartition.js
+# SF/ALGs/math/integer-partition/integerPartition
 
 ```js
 /**
@@ -1916,7 +1916,7 @@ export default function integerPartition(number) {
 }
 ```
 
-# SF/ALGs/math/is-power-of-two/README.md
+# SF/ALGs/math/is-power-of-two/README
 
 ## Is a power of two
 
@@ -1971,7 +1971,7 @@ For example for number `8` that operations will look like:
 - [Bitwise Solution on Stanford](http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2)
 - [Binary number subtraction on YouTube](https://www.youtube.com/watch?v=S9LJknZTyos&t=0s&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8&index=66)
 
-# SF/ALGs/math/is-power-of-two/isPowerOfTwo.js
+# SF/ALGs/math/is-power-of-two/isPowerOfTwo
 
 ```js
 /**
@@ -2001,7 +2001,7 @@ export default function isPowerOfTwo(number) {
 }
 ```
 
-# SF/ALGs/math/is-power-of-two/isPowerOfTwoBitwise.js
+# SF/ALGs/math/is-power-of-two/isPowerOfTwoBitwise
 
 ```js
 /**
@@ -2032,7 +2032,7 @@ export default function isPowerOfTwoBitwise(number) {
 }
 ```
 
-# SF/ALGs/math/least-common-multiple/README.md
+# SF/ALGs/math/least-common-multiple/README
 
 ## Least common multiple
 
@@ -2097,7 +2097,7 @@ and `5` sets, but not the `7` set.
 
 [Wikipedia](https://en.wikipedia.org/wiki/Least_common_multiple)
 
-# SF/ALGs/math/least-common-multiple/leastCommonMultiple.js
+# SF/ALGs/math/least-common-multiple/leastCommonMultiple
 
 ```js
 import euclideanAlgorithm from '../euclidean-algorithm/euclideanAlgorithm';
@@ -2113,7 +2113,7 @@ export default function leastCommonMultiple(a, b) {
 }
 ```
 
-# SF/ALGs/math/liu-hui/README.md
+# SF/ALGs/math/liu-hui/README
 
 ## Liu Hui's π Algorithm
 
@@ -2207,7 +2207,7 @@ Liu Hui could then approximate `π`.
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Liu_Hui%27s_%CF%80_algorithm)
 
-# SF/ALGs/math/liu-hui/liuHui.js
+# SF/ALGs/math/liu-hui/liuHui
 
 ```js
 /*
@@ -2266,7 +2266,7 @@ export default function liuHui(splitCount = 1) {
 }
 ```
 
-# SF/ALGs/math/pascal-triangle/README.md
+# SF/ALGs/math/pascal-triangle/README
 
 ## Pascal's Triangle
 
@@ -2333,7 +2333,7 @@ from `C(lineNumber, i - 1)` in `O(1)` time.
 - [Wikipedia](https://en.wikipedia.org/wiki/Pascal%27s_triangle)
 - [GeeksForGeeks](https://www.geeksforgeeks.org/pascal-triangle/)
 
-# SF/ALGs/math/pascal-triangle/pascalTriangle.js
+# SF/ALGs/math/pascal-triangle/pascalTriangle
 
 ```js
 /**
@@ -2354,7 +2354,7 @@ export default function pascalTriangle(lineNumber) {
 }
 ```
 
-# SF/ALGs/math/pascal-triangle/pascalTriangleRecursive.js
+# SF/ALGs/math/pascal-triangle/pascalTriangleRecursive
 
 ```js
 /**
@@ -2389,7 +2389,7 @@ export default function pascalTriangleRecursive(lineNumber) {
 }
 ```
 
-# SF/ALGs/math/primality-test/README.md
+# SF/ALGs/math/primality-test/README
 
 ## Primality Test
 
@@ -2417,7 +2417,7 @@ size of the input).
 - [Prime Numbers on Wikipedia](https://en.wikipedia.org/wiki/Prime_number)
 - [Primality Test on Wikipedia](https://en.wikipedia.org/wiki/Primality_test)
 
-# SF/ALGs/math/primality-test/trialDivision.js
+# SF/ALGs/math/primality-test/trialDivision
 
 ```js
 /**
@@ -2457,7 +2457,7 @@ export default function trialDivision(number) {
 }
 ```
 
-# SF/ALGs/math/radian/README.md
+# SF/ALGs/math/radian/README
 
 ## Radian
 
@@ -2495,7 +2495,7 @@ thus circumference `2π`).
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Radian)
 
-# SF/ALGs/math/radian/degreeToRadian.js
+# SF/ALGs/math/radian/degreeToRadian
 
 ```js
 /**
@@ -2507,7 +2507,7 @@ export default function degreeToRadian(degree) {
 }
 ```
 
-# SF/ALGs/math/radian/radianToDegree.js
+# SF/ALGs/math/radian/radianToDegree
 
 ```js
 /**
@@ -2519,7 +2519,7 @@ export default function radianToDegree(radian) {
 }
 ```
 
-# SF/ALGs/math/sieve-of-eratosthenes/README.md
+# SF/ALGs/math/sieve-of-eratosthenes/README
 
 ## Sieve of Eratosthenes
 
@@ -2554,7 +2554,7 @@ The algorithm has a complexity of `O(n log(log n))`.
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
 
-# SF/ALGs/math/sieve-of-eratosthenes/sieveOfEratosthenes.js
+# SF/ALGs/math/sieve-of-eratosthenes/sieveOfEratosthenes
 
 ```js
 /**
@@ -2595,7 +2595,7 @@ export default function sieveOfEratosthenes(maxNumber) {
 }
 ```
 
-# SF/ALGs/math/square-root/README.md
+# SF/ALGs/math/square-root/README
 
 ## Square Root (Newton's Method)
 
@@ -2660,7 +2660,7 @@ quickly `x²` is changing.
 - [Methods of computing square roots on Wikipedia](https://en.wikipedia.org/wiki/Methods_of_computing_square_roots)
 - [Newton's method on Wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)
 
-# SF/ALGs/math/square-root/squareRoot.js
+# SF/ALGs/math/square-root/squareRoot
 
 ```js
 /**
@@ -2705,7 +2705,7 @@ export default function squareRoot(number, tolerance = 0) {
 }
 ```
 
-# SF/js-algorithms/Math/CheckAddition.js
+# Math/CheckAddition
 
 ```js
 /**
@@ -2744,7 +2744,7 @@ export default function CheckAddition(target: number, list: number[]): boolean {
 }
 ```
 
-# SF/js-algorithms/Math/Factorial.js
+# Math/Factorial
 
 ```js
 /**
@@ -2785,7 +2785,7 @@ export function FactorialIterative(number: num): num {
 }
 ```
 
-# SF/js-algorithms/Math/Fibonacci.js
+# Math/Fibonacci
 
 ```js
 type num = number;
@@ -2842,7 +2842,7 @@ export function FibonacciRecursiveDP(stairs: num): num {
 // @TODO: FibonacciBinetsTheorem
 ```
 
-# SF/js-algorithms/Math/HappyNumbers.js
+# Math/HappyNumbers
 
 ```js
 /**
@@ -2909,7 +2909,7 @@ export function calc(number: number): number {
 }
 ```
 
-# SF/js-algorithms/Math/Integral.js
+# Math/Integral
 
 ```js
 type num = number;
@@ -2942,7 +2942,7 @@ export function areaNumerical(coefs: num[], delta: num = 1, a: num, b: num): num
 }
 ```
 
-# SF/js-algorithms/Math/Pascal.js
+# Math/Pascal
 
 ```js
 // Pascal's Triangle
@@ -3006,7 +3006,7 @@ export function PascalIterative(number: number): pt {
 }
 ```
 
-# SF/js-algorithms/Math/PrimeNumberGenerator.js
+# Math/PrimeNumberGenerator
 
 ```js
 /**
@@ -3045,7 +3045,7 @@ export default function PrimeNumberGenerator(limit: number = 100): number[] {
 }
 ```
 
-# SF/js-algorithms/Math/RandomNumber.js
+# Math/RandomNumber
 
 ```js
 // Returning random numbers from Javascript
@@ -3067,7 +3067,7 @@ export function isBeween(number: num, min: num, max: num): boolean {
 }
 ```
 
-# SF/js-algorithms/Math/SquareRoot.js
+# Math/SquareRoot
 
 ```js
 // Find the square root of a given number, without using the Math.sqrt function
@@ -3118,7 +3118,7 @@ export default function SquareRoot(number: num): num {
 // @TODO: Babylonian Method Method
 ```
 
-# SF/js-algorithms/Math/VectorCalculate.js
+# Math/VectorCalculate
 
 ```js
 /**
