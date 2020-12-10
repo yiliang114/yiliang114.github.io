@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-## SF/ALGs/search/BinarySearch_1
+### BinarySearch_1
 
 ```js
 type num = number;
@@ -48,7 +48,7 @@ export function BinarySearchIterative(items: num[], element: num): num {
 }
 ```
 
-## SF/ALGs/search/BreadthFirstSearch_1
+### BreadthFirstSearch_1
 
 ```js
 export default function BFS(tree) {
@@ -66,7 +66,7 @@ export default function BFS(tree) {
 }
 ```
 
-## SF/ALGs/search/CandyCrush_1
+### CandyCrush_1
 
 ```js
 // Given a 1-d array candy crush, return the shortest array after removing all the continuous
@@ -80,7 +80,7 @@ export default function BFS(tree) {
 // [3,1,2,2,2,1,1,1,2,2,3,1,1,2,2,2,1,1,1,2,3] should return [3,1,3,2,3]
 ```
 
-## SF/ALGs/search/OnesInBinary_2
+### OnesInBinary_2
 
 ```js
 function OnesInBinary(number) {
@@ -116,7 +116,7 @@ const binarySearch = (arr, target) => {
 };
 ```
 
-## SF/ALGs/search/QuickSelect_1
+### QuickSelect_1
 
 ```js
 /**
@@ -182,7 +182,7 @@ function Swap(arr: any[], x: any, y: any) {
 }
 ```
 
-## SF/ALGs/search/binarySearch
+### binarySearch
 
 ```js
 import Comparator from '../../../utils/comparator/Comparator';
@@ -231,7 +231,7 @@ export default function binarySearch(sortedArray, seekElement, comparatorCallbac
 }
 ```
 
-## SF/ALGs/search/binary_search_1
+### binary_search_1
 
 ```js
 // 二分法查找，也称折半查找，是一种在有序数组中查找特定元素的搜索算法。查找过程可以分为以下步骤：
@@ -291,7 +291,7 @@ console.log('binary_search result: ', binary_search(arr, 44, 0, arr.length - 1))
 console.timeEnd('binary_search');
 ```
 
-## SF/ALGs/search/interpolationSearch
+### interpolationSearch
 
 ```js
 /**
@@ -348,7 +348,7 @@ export default function interpolationSearch(sortedArray, seekElement) {
 }
 ```
 
-## SF/ALGs/search/jumpSearch
+### jumpSearch
 
 ```js
 import Comparator from '../../../utils/comparator/Comparator';
@@ -404,7 +404,7 @@ export default function jumpSearch(sortedArray, seekElement, comparatorCallback)
 }
 ```
 
-## SF/ALGs/search/linearSearch
+### linearSearch
 
 ```js
 import Comparator from '../../../utils/comparator/Comparator';
@@ -431,7 +431,7 @@ export default function linearSearch(array, seekElement, comparatorCallback) {
 }
 ```
 
-## SF/ALGs/search/search_binary
+### search_binary
 
 ```js
 function binarySearch(arr, val, lo, hi) {
@@ -469,7 +469,7 @@ function put(arr, val) {
 */
 ```
 
-## SF/ALGs/search/search_bst
+### search_bst
 
 ```js
 /**
@@ -498,7 +498,7 @@ function put(node, val) {
 }
 ```
 
-## SF/ALGs/search/search_linear
+### search_linear
 
 ```js
 let M = 4; // 线性探测表的大小
@@ -560,7 +560,7 @@ console.log(vals);
  */
 ```
 
-## SF/ALGs/search/search_linklist
+### search_linklist
 
 ```js
 function node(key, val, next) {
@@ -611,7 +611,7 @@ put(3, 'BB', first);
 console.log(get(3, first));
 ```
 
-## SF/ALGs/search/search_zipper
+### search_zipper
 
 ```js
 function hash(key) {

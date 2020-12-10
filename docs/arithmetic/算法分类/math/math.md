@@ -6,8 +6,6 @@ aside: false
 draft: true
 ---
 
-# SF/ALGs/math/bits/README
-
 ## Bit Manipulation
 
 ##### Get Bit
@@ -273,13 +271,7 @@ B = 6: 110
 > See [fullAdder](fullAdder) for further details.
 > See [Full Adder on YouTube](https://www.youtube.com/watch?v=wvJc9CZcvBc&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8).
 
-### References
-
-- [Bit Manipulation on YouTube](https://www.youtube.com/watch?v=NLKQEOgBAnw&t=0s&index=28&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
-- [Negative Numbers in binary on YouTube](https://www.youtube.com/watch?v=4qH4unVtJkE&t=0s&index=30&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
-- [Bit Hacks on stanford.edu](https://graphics.stanford.edu/~seander/bithacks.html)
-
-# SF/ALGs/math/bits/bitLength
+### bits/bitLength
 
 ```js
 /**
@@ -299,7 +291,7 @@ export default function bitLength(number) {
 }
 ```
 
-# SF/ALGs/math/bits/bitsDiff
+### bits/bitsDiff
 
 ```js
 import countSetBits from './countSetBits';
@@ -317,7 +309,7 @@ export default function bitsDiff(numberA, numberB) {
 }
 ```
 
-# SF/ALGs/math/bits/clearBit
+### bits/clearBit
 
 ```js
 /**
@@ -332,7 +324,7 @@ export default function clearBit(number, bitPosition) {
 }
 ```
 
-# SF/ALGs/math/bits/countSetBits
+### bits/countSetBits
 
 ```js
 /**
@@ -355,7 +347,7 @@ export default function countSetBits(originalNumber) {
 }
 ```
 
-# SF/ALGs/math/bits/divideByTwo
+### bits/divideByTwo
 
 ```js
 /**
@@ -367,7 +359,7 @@ export default function divideByTwo(number) {
 }
 ```
 
-# SF/ALGs/math/bits/fullAdder
+### bits/fullAdder
 
 ```js
 import getBit from './getBit';
@@ -442,7 +434,7 @@ export default function fullAdder(a, b) {
 }
 ```
 
-# SF/ALGs/math/bits/getBit
+### bits/getBit
 
 ```js
 /**
@@ -455,7 +447,7 @@ export default function getBit(number, bitPosition) {
 }
 ```
 
-# SF/ALGs/math/bits/isEven
+### bits/isEven
 
 ```js
 /**
@@ -467,7 +459,7 @@ export default function isEven(number) {
 }
 ```
 
-# SF/ALGs/math/bits/isPositive
+### bits/isPositive
 
 ```js
 /**
@@ -485,7 +477,7 @@ export default function isPositive(number) {
 }
 ```
 
-# SF/ALGs/math/bits/isPowerOfTwo
+### bits/isPowerOfTwo
 
 ```js
 /**
@@ -497,7 +489,7 @@ export default function isPowerOfTwo(number) {
 }
 ```
 
-# SF/ALGs/math/bits/multiply
+### bits/multiply
 
 ```js
 import multiplyByTwo from './multiplyByTwo';
@@ -543,7 +535,7 @@ export default function multiply(a, b) {
 }
 ```
 
-# SF/ALGs/math/bits/multiplyByTwo
+### bits/multiplyByTwo
 
 ```js
 /**
@@ -555,7 +547,7 @@ export default function multiplyByTwo(number) {
 }
 ```
 
-# SF/ALGs/math/bits/multiplyUnsigned
+### bits/multiplyUnsigned
 
 ```js
 /**
@@ -603,7 +595,7 @@ export default function multiplyUnsigned(number1, number2) {
 }
 ```
 
-# SF/ALGs/math/bits/setBit
+### bits/setBit
 
 ```js
 /**
@@ -616,7 +608,7 @@ export default function setBit(number, bitPosition) {
 }
 ```
 
-# SF/ALGs/math/bits/switchSign
+### bits/switchSign
 
 ```js
 /**
@@ -629,7 +621,7 @@ export default function switchSign(number) {
 }
 ```
 
-# SF/ALGs/math/bits/updateBit
+### bits/updateBit
 
 ```js
 /**
@@ -650,7 +642,7 @@ export default function updateBit(number, bitPosition, bitValue) {
 }
 ```
 
-# SF/ALGs/math/complex-number/ComplexNumber
+### complex-number/ComplexNumber
 
 ```js
 import radianToDegree from '../radian/radianToDegree';
@@ -814,8 +806,6 @@ export default class ComplexNumber {
   }
 }
 ```
-
-# SF/ALGs/math/complex-number/README
 
 ## Complex Number
 
@@ -1043,8 +1033,6 @@ Which is really quite a simple result. The general rule is:
 - [Wikipedia](https://en.wikipedia.org/wiki/Complex_number)
 - [Math is Fun](https://www.mathsisfun.com/numbers/complex-numbers.html)
 
-# SF/ALGs/math/euclidean-algorithm/README
-
 ## Euclidean algorithm
 
 In mathematics, the Euclidean algorithm, or Euclid's algorithm,
@@ -1103,7 +1091,7 @@ The smallest square size, `21`, is the GCD of `1071` and `462`.
 
 [Wikipedia](https://en.wikipedia.org/wiki/Euclidean_algorithm)
 
-# SF/ALGs/math/euclidean-algorithm/euclideanAlgorithm
+### euclidean-algorithm/euclideanAlgorithm
 
 ```js
 /**
@@ -1123,7 +1111,7 @@ export default function euclideanAlgorithm(originalA, originalB) {
 }
 ```
 
-# SF/ALGs/math/euclidean-algorithm/euclideanAlgorithmIterative
+### euclidean-algorithm/euclideanAlgorithmIterative
 
 ```js
 /**
@@ -1147,8 +1135,6 @@ export default function euclideanAlgorithmIterative(originalA, originalB) {
   return a || b;
 }
 ```
-
-# SF/ALGs/math/factorial/README
 
 ## Factorial
 
@@ -1186,7 +1172,7 @@ than or equal to `n`. For example:
 
 [Wikipedia](https://en.wikipedia.org/wiki/Factorial)
 
-# SF/ALGs/math/factorial/README.zh-CN
+### .zh-CN
 
 ## 阶乘
 
@@ -1215,7 +1201,7 @@ than or equal to `n`. For example:
 | 14  |    87 178 291 200 |
 | 15  | 1 307 674 368 000 |
 
-# SF/ALGs/math/factorial/factorial
+### factorial/factorial
 
 ```js
 /**
@@ -1233,7 +1219,7 @@ export default function factorial(number) {
 }
 ```
 
-# SF/ALGs/math/factorial/factorialRecursive
+### factorial/factorialRecursive
 
 ```js
 /**
@@ -1244,8 +1230,6 @@ export default function factorialRecursive(number) {
   return number > 1 ? number * factorialRecursive(number - 1) : 1;
 }
 ```
-
-# SF/ALGs/math/fast-powering/README
 
 ## Fast Powering Algorithm
 
@@ -1316,7 +1300,7 @@ O(log(n))
 - [YouTube](https://www.youtube.com/watch?v=LUWavfN9zEo&index=80&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8&t=0s)
 - [Wikipedia](https://en.wikipedia.org/wiki/Exponentiation_by_squaring)
 
-# SF/ALGs/math/fast-powering/fastPowering
+### fast-powering/fastPowering
 
 ```js
 /**
@@ -1351,8 +1335,6 @@ export default function fastPowering(base, power) {
 }
 ```
 
-# SF/ALGs/math/fibonacci/README
-
 ## Fibonacci Number
 
 In mathematics, the Fibonacci numbers are the numbers in the following
@@ -1370,11 +1352,7 @@ The Fibonacci spiral: an approximation of the golden spiral created by drawing c
 
 ![Fibonacci Spiral](https://upload.wikimedia.org/wikipedia/commons/2/2e/FibonacciSpiral.svg)
 
-### References
-
-- [Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number)
-
-# SF/ALGs/math/fibonacci/fibonacci
+### fibonacci/fibonacci
 
 ```js
 /**
@@ -1408,7 +1386,7 @@ export default function fibonacci(n) {
 }
 ```
 
-# SF/ALGs/math/fibonacci/fibonacciNth
+### fibonacci/fibonacciNth
 
 ```js
 /**
@@ -1438,7 +1416,7 @@ export default function fibonacciNth(n) {
 }
 ```
 
-# SF/ALGs/math/fibonacci/fibonacciNthClosedForm
+### fibonacci/fibonacciNthClosedForm
 
 ```js
 /**
@@ -1465,8 +1443,6 @@ export default function fibonacciClosedForm(position) {
   return Math.floor(phi ** position / sqrt5 + 0.5);
 }
 ```
-
-# SF/ALGs/math/fourier-transform/README
 
 ## Fourier Transform
 
@@ -1599,7 +1575,7 @@ Stuart Riffle has a great interpretation of the Fourier Transform:
   - [DTFT](https://en.wikipedia.org/wiki/Discrete-time_Fourier_transform)
   - [FFT](https://www.wikiwand.com/en/Fast_Fourier_transform)
 
-# SF/ALGs/math/fourier-transform/discreteFourierTransform
+### fourier-transform/discreteFourierTransform
 
 ```js
 import ComplexNumber from '../complex-number/ComplexNumber';
@@ -1673,7 +1649,7 @@ export default function dft(inputAmplitudes, zeroThreshold = CLOSE_TO_ZERO_THRES
 }
 ```
 
-# SF/ALGs/math/fourier-transform/fastFourierTransform
+### fourier-transform/fastFourierTransform
 
 ```js
 import ComplexNumber from '../complex-number/ComplexNumber';
@@ -1755,7 +1731,7 @@ export default function fastFourierTransform(inputData, inverse = false) {
 }
 ```
 
-# SF/ALGs/math/fourier-transform/inverseDiscreteFourierTransform
+### fourier-transform/inverseDiscreteFourierTransform
 
 ```js
 import ComplexNumber from '../complex-number/ComplexNumber';
@@ -1815,8 +1791,6 @@ export default function inverseDiscreteFourierTransform(frequencies, zeroThresho
 }
 ```
 
-# SF/ALGs/math/integer-partition/README
-
 ## Integer Partition
 
 In number theory and combinatorics, a partition of a positive
@@ -1852,7 +1826,7 @@ are conjugate partitions.
 - [Wikipedia](<https://en.wikipedia.org/wiki/Partition_(number_theory)>)
 - [YouTube](https://www.youtube.com/watch?v=ZaVM057DuzE&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
 
-# SF/ALGs/math/integer-partition/integerPartition
+### integer-partition/integerPartition
 
 ```js
 /**
@@ -1916,8 +1890,6 @@ export default function integerPartition(number) {
 }
 ```
 
-# SF/ALGs/math/is-power-of-two/README
-
 ## Is a power of two
 
 Given a positive integer, write a function to find if it is
@@ -1971,7 +1943,7 @@ For example for number `8` that operations will look like:
 - [Bitwise Solution on Stanford](http://www.graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2)
 - [Binary number subtraction on YouTube](https://www.youtube.com/watch?v=S9LJknZTyos&t=0s&list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8&index=66)
 
-# SF/ALGs/math/is-power-of-two/isPowerOfTwo
+### is-power-of-two/isPowerOfTwo
 
 ```js
 /**
@@ -2001,7 +1973,7 @@ export default function isPowerOfTwo(number) {
 }
 ```
 
-# SF/ALGs/math/is-power-of-two/isPowerOfTwoBitwise
+### is-power-of-two/isPowerOfTwoBitwise
 
 ```js
 /**
@@ -2031,8 +2003,6 @@ export default function isPowerOfTwoBitwise(number) {
   return (number & (number - 1)) === 0;
 }
 ```
-
-# SF/ALGs/math/least-common-multiple/README
 
 ## Least common multiple
 
@@ -2097,7 +2067,7 @@ and `5` sets, but not the `7` set.
 
 [Wikipedia](https://en.wikipedia.org/wiki/Least_common_multiple)
 
-# SF/ALGs/math/least-common-multiple/leastCommonMultiple
+### least-common-multiple/leastCommonMultiple
 
 ```js
 import euclideanAlgorithm from '../euclidean-algorithm/euclideanAlgorithm';
@@ -2112,8 +2082,6 @@ export default function leastCommonMultiple(a, b) {
   return a === 0 || b === 0 ? 0 : Math.abs(a * b) / euclideanAlgorithm(a, b);
 }
 ```
-
-# SF/ALGs/math/liu-hui/README
 
 ## Liu Hui's π Algorithm
 
@@ -2207,7 +2175,7 @@ Liu Hui could then approximate `π`.
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Liu_Hui%27s_%CF%80_algorithm)
 
-# SF/ALGs/math/liu-hui/liuHui
+### liu-hui/liuHui
 
 ```js
 /*
@@ -2265,8 +2233,6 @@ export default function liuHui(splitCount = 1) {
   return approximateCircleArea / circleRadius ** 2;
 }
 ```
-
-# SF/ALGs/math/pascal-triangle/README
 
 ## Pascal's Triangle
 
@@ -2333,7 +2299,7 @@ from `C(lineNumber, i - 1)` in `O(1)` time.
 - [Wikipedia](https://en.wikipedia.org/wiki/Pascal%27s_triangle)
 - [GeeksForGeeks](https://www.geeksforgeeks.org/pascal-triangle/)
 
-# SF/ALGs/math/pascal-triangle/pascalTriangle
+### pascal-triangle/pascalTriangle
 
 ```js
 /**
@@ -2354,7 +2320,7 @@ export default function pascalTriangle(lineNumber) {
 }
 ```
 
-# SF/ALGs/math/pascal-triangle/pascalTriangleRecursive
+### pascal-triangle/pascalTriangleRecursive
 
 ```js
 /**
@@ -2389,8 +2355,6 @@ export default function pascalTriangleRecursive(lineNumber) {
 }
 ```
 
-# SF/ALGs/math/primality-test/README
-
 ## Primality Test
 
 A **prime number** (or a **prime**) is a natural number greater than `1` that
@@ -2417,7 +2381,7 @@ size of the input).
 - [Prime Numbers on Wikipedia](https://en.wikipedia.org/wiki/Prime_number)
 - [Primality Test on Wikipedia](https://en.wikipedia.org/wiki/Primality_test)
 
-# SF/ALGs/math/primality-test/trialDivision
+### primality-test/trialDivision
 
 ```js
 /**
@@ -2457,8 +2421,6 @@ export default function trialDivision(number) {
 }
 ```
 
-# SF/ALGs/math/radian/README
-
 ## Radian
 
 The **radian** (symbol **rad**) is the unit for measuring angles, and is the
@@ -2495,7 +2457,7 @@ thus circumference `2π`).
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Radian)
 
-# SF/ALGs/math/radian/degreeToRadian
+### radian/degreeToRadian
 
 ```js
 /**
@@ -2507,7 +2469,7 @@ export default function degreeToRadian(degree) {
 }
 ```
 
-# SF/ALGs/math/radian/radianToDegree
+### radian/radianToDegree
 
 ```js
 /**
@@ -2518,8 +2480,6 @@ export default function radianToDegree(radian) {
   return radian * (180 / Math.PI);
 }
 ```
-
-# SF/ALGs/math/sieve-of-eratosthenes/README
 
 ## Sieve of Eratosthenes
 
@@ -2554,7 +2514,7 @@ The algorithm has a complexity of `O(n log(log n))`.
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
 
-# SF/ALGs/math/sieve-of-eratosthenes/sieveOfEratosthenes
+### sieve-of-eratosthenes/sieveOfEratosthenes
 
 ```js
 /**
@@ -2594,8 +2554,6 @@ export default function sieveOfEratosthenes(maxNumber) {
   return primes;
 }
 ```
-
-# SF/ALGs/math/square-root/README
 
 ## Square Root (Newton's Method)
 
@@ -2660,7 +2618,7 @@ quickly `x²` is changing.
 - [Methods of computing square roots on Wikipedia](https://en.wikipedia.org/wiki/Methods_of_computing_square_roots)
 - [Newton's method on Wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)
 
-# SF/ALGs/math/square-root/squareRoot
+### square-root/squareRoot
 
 ```js
 /**

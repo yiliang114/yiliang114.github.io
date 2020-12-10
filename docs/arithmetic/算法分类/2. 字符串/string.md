@@ -115,7 +115,7 @@ export function ReverseStringIterativeInplace(string: string): string {
 }
 ```
 
-## SF/ALGs/string/HasDupeChars
+## HasDupeChars
 
 ```js
 /**
@@ -143,7 +143,7 @@ export default function HasDupeChars(string: string): boolean {
 }
 ```
 
-## SF/ALGs/string/Permutations
+## Permutations
 
 ```js
 /**
@@ -187,7 +187,7 @@ export function StringPermutationsRecursiveFactorial(string: string): number {
 }
 ```
 
-## SF/ALGs/string/RandomString
+## RandomString
 
 ```js
 /**

@@ -8,7 +8,7 @@ draft: true
 
 # 字符串排序相关
 
-## SF/ALGs/string/sort_index_count
+## sort_index_count
 
 ```js
 function sort(arr) {
@@ -78,7 +78,7 @@ const arr = [
 sort(arr);
 ```
 
-## SF/ALGs/string/sort_lsd
+## sort_lsd
 
 ```js
 function sort(arr, w) {
@@ -160,7 +160,7 @@ count 其实是用于计算每个键在排序结果中的起始索引位置。
  */
 ```
 
-## SF/ALGs/string/sort_msd
+## sort_msd
 
 ```js
 /**
@@ -229,7 +229,7 @@ function swap(arr, a, b) {
  */
 ```
 
-## SF/ALGs/string/sort_quick_3_string
+## sort_quick_3_string
 
 ```js
 function charAt(s, c) {

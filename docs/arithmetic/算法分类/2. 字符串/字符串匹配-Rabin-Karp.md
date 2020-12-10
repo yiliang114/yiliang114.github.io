@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-## SF/ALGs/string/rabin-karp/README
+## rabin-karp/README
 
 # Rabin Karp Algorithm
 
@@ -60,7 +60,7 @@ for instances of sentences from the source material, ignoring details
 such as case and punctuation. Because of the abundance of the sought
 strings, single-string searching algorithms are impractical.
 
-## SF/ALGs/string/rabin-karp/rabinKarp
+## rabin-karp/rabinKarp
 
 ```js
 import PolynomialHash from '../../cryptography/polynomial-hash/PolynomialHash';

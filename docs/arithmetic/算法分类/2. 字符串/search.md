@@ -87,7 +87,7 @@ function search(pat, txt) {
  */
 ```
 
-### search_violence
+### 暴力搜索 search_violence
 
 ```js
 function search(pat, txt) {
@@ -117,7 +117,7 @@ console.log(search(pat, txt));
  */
 ```
 
-### search_violence_2
+### 暴力搜索 search_violence_2
 
 ```js
 function search(par, txt) {
