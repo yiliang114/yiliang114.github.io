@@ -1,6 +1,6 @@
 <template>
   <div class="custom-pages">
-    <div class="main-div">
+    <div class="main-div" v-if="$page.poc">
       <h2>Table of Contents</h2>
 
       <TOC />
@@ -14,6 +14,6 @@
 
 <script>
 export default {
-  name: 'CustomPages'
-}
+  name: 'CustomPages',
+};
 </script>
