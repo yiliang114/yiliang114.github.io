@@ -1,5 +1,5 @@
 ---
-title: 懒加载的实现原理
+title: VueLazyLoad
 date: '2020-10-26'
 draft: true
 ---
@@ -52,8 +52,8 @@ mint-ui 组件库的 Lazy load 组件实际是直接引用了 vue-lazyload 组�
 
 ### 源码分析
 
-```
-Vue.use(VueLazyload)
+```js
+Vue.use(VueLazyload);
 ```
 
 执行安装函数的时候，实际上是执行 index.js 中的 install 函数。

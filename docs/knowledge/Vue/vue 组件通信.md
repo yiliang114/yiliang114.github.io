@@ -1,15 +1,15 @@
 ---
-title: 懒加载的实现原理
+title: Vue 组件通信
 date: '2020-10-26'
 draft: true
 ---
 
-# vue
+# Vue 组件通信
 
 非父子间通信
 
-- \$emit
-- \$on
+- `$emit`
+- `$on`
 
 [event](https://www.cnblogs.com/xkloveme/p/7384286.html)
 
@@ -17,8 +17,9 @@ draft: true
 
 **父组件与子组件传值**
 
+<!-- 父组件通过标签上面定义传值 -->
+
 ```html
-//父组件通过标签上面定义传值
 <template>
   <main :obj="data"></main>
 </template>
@@ -26,7 +27,7 @@ draft: true
   //引入子组件
   import Main form "./main"
 
-  exprot default{
+  export default{
       name:"parent",
       data(){
           return {
@@ -46,45 +47,44 @@ draft: true
   <div>{{data}}</div>
 </template>
 <script>
-  exprot default{
-      name:"son",
-      //接受父组件传值
-      props:["data"]
-  }
+  export default {
+    name: 'son',
+    //接受父组件传值
+    props: ['data'],
+  };
 </script>
 ```
 
 **子组件向父组件传递数据**
 
+<!-- 子组件通过$emit方法传递参数 -->
+
 ```html
-//子组件通过$emit方法传递参数
 <template>
   <div v-on:click="events"></div>
 </template>
 <script>
-  //引入子组件
+  // 引入子组件
   import Main form "./main"
 
-  exprot default{
-      methods:{
-          events:function(){
+  export default{
+    methods:{
+      events:function(){
 
-          }
       }
+    }
   }
 </script>
 
-//
-
 <template>
-  <div>{{data}}</div>
+  <div>{{ data }}</div>
 </template>
 <script>
-  exprot default{
-      name:"son",
-      //接受父组件传值
-      props:["data"]
-  }
+  export default {
+    name: 'son',
+    //接受父组件传值
+    props: ['data'],
+  };
 </script>
 ```
 
@@ -92,8 +92,9 @@ draft: true
 
 1. 父组件与子组件传值
 
+<!-- 父组件通过标签上面定义传值 -->
+
 ```html
-//父组件通过标签上面定义传值
 <template>
   <main :obj="data"></main>
 </template>
@@ -101,7 +102,7 @@ draft: true
   //引入子组件
   import Main form "./main"
 
-  exprot default{
+  export default{
       name:"parent",
       data(){
           return {
@@ -120,18 +121,19 @@ draft: true
   <div>{{data}}</div>
 </template>
 <script>
-  exprot default{
-      name:"son",
-      //接受父组件传值
-      props:["data"]
-  }
+  export default {
+    name: 'son',
+    //接受父组件传值
+    props: ['data'],
+  };
 </script>
 ```
 
 2. 子组件向父组件传递数据
 
+<!-- 子组件通过$emit方法传递参数 -->
+
 ```html
-//子组件通过$emit方法传递参数
 <template>
   <div v-on:click="events"></div>
 </template>
@@ -139,7 +141,7 @@ draft: true
   //引入子组件
   import Main form "./main"
 
-  exprot default{
+  export default{
       methods:{
           events:function(){
 
@@ -154,11 +156,11 @@ draft: true
   <div>{{data}}</div>
 </template>
 <script>
-  exprot default{
-      name:"son",
-      //接受父组件传值
-      props:["data"]
-  }
+  export default {
+    name: 'son',
+    //接受父组件传值
+    props: ['data'],
+  };
 </script>
 ```
 
@@ -235,6 +237,14 @@ export default {
   }
 }
 ```
+
+### 父子组件通信
+
+1. emit/props
+2. `$parent.xxx`
+3. provide/injected
+4. event bus
+5. vuex
 
 ### 任意组件
 

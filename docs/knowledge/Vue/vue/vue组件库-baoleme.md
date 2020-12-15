@@ -45,7 +45,7 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 ### example 中写几个 demo
 
 - 官网
-- todolist
+- TodoList
 - weekly
 - 重写一个博客
 - vue-cli 脚手架模板

@@ -468,8 +468,8 @@ str.test(/^\d+$/);
 使用正则表达式实现删除字符串中的空格
 
 ```js
-funtion trim(str) {
-  let reg = /^\s+|\s+$/g
+function trim(str) {
+  let reg = /^\s+|\s+$/g;
   return str.replace(reg, '');
 }
 ```

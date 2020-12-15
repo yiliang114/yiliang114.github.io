@@ -197,7 +197,7 @@ console.log(foo); // 2;
 
 ```js
 var iArray = [];
-funtion getRandom(istart, iend){
+function getRandom(istart, iend){
 var iChoice = iend - istart +1;
 return Math.floor(Math.random() \* iChoice + istart);
 }
