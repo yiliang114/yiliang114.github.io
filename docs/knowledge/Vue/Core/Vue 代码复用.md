@@ -1,10 +1,10 @@
 ---
-title: 懒加载的实现原理
+title: Vue 代码复用
 date: '2020-10-26'
 draft: true
 ---
 
-## 复用
+## Vue 代码复用
 
 ### mixin/mixins
 

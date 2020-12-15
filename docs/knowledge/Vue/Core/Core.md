@@ -50,34 +50,32 @@ draft: true
 
 ### vm 实例属性
 
-vm.\_renderProxy
+- `vm._renderProxy`
+- `vm.$createElement`
+- `vm._vnode`
 
-vm.\$createElement
-
-vm.\_vnode
-
-```
+```js
 // render.js/initRender()
 // 父 vnode
-const parentVnode = vm.$vnode = options._parentVnode
+const parentVnode = (vm.$vnode = options._parentVnode);
 ```
 
-```
+```js
 // init.js/initMixin()
 // 实例本身，循环引用
-vm._renderProxy = vm
+vm._renderProxy = vm;
 ```
 
-```
+```js
 // lifecycle.js/mountComponent()
 // 渲染组件的容器 dom， 一般来说是值都是根节点的渲染 dom
-vm.$el = el
+vm.$el = el;
 ```
 
 实例 template 节点转化成的渲染函数： `vm.$options.render`
 
-```
+```js
 // entry-runtime-with-compiler.js
 // 能够将 template 节点编译成 render 函数的函数
-Vue.compile = compileToFunctions
+Vue.compile = compileToFunctions;
 ```
