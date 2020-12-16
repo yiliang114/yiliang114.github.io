@@ -13,10 +13,9 @@ var elm = document.getElementById('test');
 
 ### 通过 Element 对象的 getAttribute() setAttribute() removeAttribute()直接读写 style 属性
 
-​```js
-elm.setAttribute('style','color:red;line-height:30px');
-
-````
+```js
+elm.setAttribute('style', 'color:red;line-height:30px');
+```
 
 ### 通过 CSSStyleDeclaration 对象的 cssText 属性和 setProperty()、removeProperty 等方法
 
@@ -25,7 +24,7 @@ elm.style.cssText ='color:red;line-height:30px';
 ​elm.style.removeProperty('color');
 ​elm.style.setProperty('color', 'green', 'important');
 ​elm.style.cssText = ''; //快速清空该规则的所有声明
-````
+```
 
 ​ 每一条 CSS 规则的样式声明部分（大括号内部的部分），都是一个 CSSStyleDeclaration 对象，它的属性和方法：
 

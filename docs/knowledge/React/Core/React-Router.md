@@ -491,3 +491,8 @@ URL 对应 Location 对象，而 UI 是由 react 的 components 来决定的，�
 ### react-router 里的 Link 标签和 a 标签有什么区别，如何禁掉 a 标签默认事件，禁掉之后如何实现跳转
 
 是 react-router 里实现路由跳转的链接，一般配合 使用，react-router 接管了其默认的链接跳转行为，区别于传统的页面跳转， 的“跳转”行为只会触发相匹配的 对应的页面内容更新，而不会刷新整个页面。 而 标签就是普通的超链接了，用于从当前页面跳转到 href 指向的另一个页面（非锚点情况）
+
+### react-router
+
+- 如何在多页应用里使用 router ？ url 是 xxx.html 结尾的，hashRouter 是不能使用的。实际上这是可以解决的，只不过需要使用 HashRouter
+- 动态路由：https://segmentfault.com/a/1190000011765141

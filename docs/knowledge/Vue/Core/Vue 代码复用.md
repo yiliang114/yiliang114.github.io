@@ -46,3 +46,5 @@ new SuperComponent().$mount('#app');
 ```
 
 ### 高阶函数
+
+### 依赖注入 ？

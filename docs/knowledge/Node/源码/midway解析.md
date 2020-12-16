@@ -14,4 +14,4 @@ midway-demo 启动脚本
 "start": "egg-scripts start --daemon --title=egg-server-midway-demo --framework=midway",
 ```
 
-因此先看一下 [egg-scripts](https://github.com/eggjs/egg-scripts)
+因此先看一下 [egg-scripts](https://github.com/EggJS/egg-scripts)

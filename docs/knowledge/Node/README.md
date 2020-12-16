@@ -41,12 +41,6 @@ function getFileFromUrl(url, filename) {
 
 [node stream](https://blog.csdn.net/qq_32842925/article/details/83475517)
 
-## 应用
-
-- 服务端渲染
-- 同构
-- BFF
-
 ## NodeJS 特点
 
 - 非阻塞式的异步 I/O

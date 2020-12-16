@@ -347,12 +347,15 @@ only 用来定某种特定的媒体类型，可以用来排除不支持媒体查
 
 ### 如何优化网页的打印样式
 
-````html
+```html
 <link rel="stylesheet" type="text/css" media="screen" href="xxx.css" />
+```
 
-其中 media 指定的属性就是设备，显示器上就是 screen，打印机则是 print，电视是 tv，投影仪是 projection。 ```html <link
-rel="stylesheet" type="text/css" media="print" href="yy
-````
+其中 media 指定的属性就是设备，显示器上就是 screen，打印机则是 print，电视是 tv，投影仪是 projection。
+
+```html
+<link rel="stylesheet" type="text/css" media="print" href="yy
+```
 
 但打印样式表也应有些注意事项：
 

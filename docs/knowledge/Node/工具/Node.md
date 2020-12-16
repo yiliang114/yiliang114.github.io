@@ -37,7 +37,7 @@ draft: true
 - 说一下 Nodejs 的 event loop 的原理
 
 - egg 路由
-  http://www.ptbird.cn/eggjs-router-more.html
+  http://www.ptbird.cn/EggJS-router-more.html
 
 * 有一套初步的 nodejs 后台快速搭建的解决方案：
   描述：

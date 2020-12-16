@@ -1,10 +1,10 @@
 ---
-title: 懒加载的实现原理
+title: Node 场景
 date: '2020-10-26'
 draft: true
 ---
 
-## Node
+## Node 场景
 
 ### BFF
 
@@ -16,6 +16,12 @@ draft: true
 - 并发
 - 错误上报
 - 文档自动更新
+
+### 服务端渲染
+
+### 同构
+
+## 平台
 
 ### Nest
 

@@ -10,6 +10,10 @@ Javascript 中的对象一般是可变的（mutable），因为使用了引用�
 
 为了解决这个问题，一般的做法是使用`shallowCopy`(浅拷贝)或`deepCopy`（深拷贝）来避免被修改，但这样做又造成了 CPU 和内存的浪费。
 
+### mobx 不怎么需要关注 immutable 是因为它自始至终都只有一个引用对象。
+
+### 如果不使用 immutable ，也不考虑内存的使用效率的话，其实 js 对象对 react 引起的问题就是，改变了子对象的内容，但是 react 还是认为它是同一个对象，而不进行渲染。immutable 主要解决这个问题。
+
 # 什么是 Immutable Data
 
 Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。
