@@ -29,3 +29,7 @@ draft: true
 ### 写一个 loader 和插件
 
 两者有什么区别，作用场景分别是咋样的。
+
+### webpack
+
+为什么 很多 image 的 src 中，特别是使用 v-for 循环渲染的 image @总是找不到？

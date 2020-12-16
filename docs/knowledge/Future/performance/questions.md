@@ -416,3 +416,9 @@ https://segmentfault.com/a/1190000011527281
 https://juejin.im/post/5d548b83f265da03ab42471d
 
 ### 单页面首屏加载慢，原因是什么，有什么解决方案
+
+### react-loadable
+
+react-loadable 用来创建动态路由，能够根据路由进行 code spliting。
+
+但是，所有有切换状态的组件上，都使用 react-loadable 会造成 js 文件过多的问题么？

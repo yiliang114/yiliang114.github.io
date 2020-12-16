@@ -151,7 +151,7 @@ self.addEventListener('fetch', e => {
 
 ![img](../js/images/11/1626b20e4f8f3257.jpg)
 
-### serviceworker 如何保证离线缓存资源更新
+### Service Worker 如何保证离线缓存资源更新
 
 Service workers 基本上充当应用同服务器之间的代理服务器，可以用于拦截请求，也就意味着可以在离线环境下响应请求，从而提供更好的离线体验。同时，它还可以接收服务器推送和后台同步 API
 [详解](https://www.jianshu.com/p/b14d76eb594e)
@@ -303,7 +303,7 @@ worker.onmessage = function(event) {
 无法使用 document / window / alert / confirm
 无法加载本地资源
 
-### 简述 webWorker
+### 简述 Web Worker
 
 HTML5 则提出了 Web Worker 标准，表示 js 允许多线程，但是子线程完全受主线程控制并且不能操作 dom，只有主线程可以操作 dom，所以 js 本质上依然是单线程语言。
 web worker 就是在 js 单线程执行的基础上开启一个子线程，进行程序处理，而不影响主线程的执行，当子线程执行完之后再回到主线程上，在这个过程中不影响主线程的执行。子线程与主线程之间提供了数据交互的接口 postMessage 和 onmessage，来进行数据发送和接收

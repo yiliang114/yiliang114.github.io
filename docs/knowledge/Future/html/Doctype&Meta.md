@@ -71,10 +71,7 @@ viewport 常常使用在响应式开发以及移动 web 开发中，viewport 顾
 视口的最小缩放值、视口的最大缩放值、是否允许用户缩放等。一个常见的 viewport 设置如下：
 
 ```html
-<meta
-  name="viewport"
-  content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width"
-/>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width" />
 ```
 
 其中同时设置 width 和 initial-scale 的目的是为了解决 iphone、ipad、ie 横竖屏不分的情况，因为这两个值同时存在时会取较大值。
@@ -130,3 +127,17 @@ Viewport 属性值
 - （包容）模式（也就是松散呈现模式或者兼容模式）用于呈现为传统浏览器而设计的网页。
 
 ### meta 标签禁止缓存
+
+### header 中 meta
+
+兼容性配置，让 IE 使用最高级的 Edge 渲染，如果有 chrome 就使用 chrome 渲染。
+
+```html
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+```
+
+如果是双核浏览器，优先使用 webkit 引擎
+
+```html
+<meta name="render" content="webkit" />
+```

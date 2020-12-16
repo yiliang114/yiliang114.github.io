@@ -6,6 +6,21 @@ aside: false
 draft: true
 ---
 
+### 前端 MV 框架的意义
+
+- 早期前端都是比较简单，基本以页面为工作单元，内容以浏览型为主，也偶尔有简单的表单操作，基本不
+  太需要框架。
+- 随着 AJAX 的出现，Web2.0 的兴起，人们可以在页面上可以做比较复杂的事情了，然后前端框架才真正
+  出现了。
+- 如果是页面型产品，多数确实不太需要它，因为页面中的 JavaScript 代码，处理交互的绝对远远超过处理
+  模型的，但是如果是应用软件类产品，这就太需要了。
+- 长期做某个行业软件的公司，一般都会沉淀下来一些业务组件，主要体现在数据模型、业务规则和业务流
+  程，这些组件基本都存在于后端，在前端很少有相应的组织。
+- 从协作关系上讲，很多前端开发团队每个成员的职责不是很清晰，有了前端的 MV 框架，这个状况会大有
+  改观。
+- 之所以感受不到 MV\*框架的重要性，是因为 Model 部分代码较少，View 的相对多一些。如果主要在操作
+  View 和 Controller，那当然 jQuery 这类库比较好用了。
+
 ### MVVM
 
 什么是 MVVM？比之 MVC 有什么区别？
@@ -39,21 +54,6 @@ draft: true
 
 对于 MVVM 来说，其实最重要的并不是通过双向绑定或者其他的方式将 View 与 ViewModel 绑定起来，**而是通过 ViewModel 将视图中的状态和用户的行为分离出一个抽象，这才是 MVVM 的精髓**。
 
-### 前端 MV 框架的意义
-
-- 早期前端都是比较简单，基本以页面为工作单元，内容以浏览型为主，也偶尔有简单的表单操作，基本不
-  太需要框架。
-- 随着 AJAX 的出现，Web2.0 的兴起，人们可以在页面上可以做比较复杂的事情了，然后前端框架才真正
-  出现了。
-- 如果是页面型产品，多数确实不太需要它，因为页面中的 JavaScript 代码，处理交互的绝对远远超过处理
-  模型的，但是如果是应用软件类产品，这就太需要了。
-- 长期做某个行业软件的公司，一般都会沉淀下来一些业务组件，主要体现在数据模型、业务规则和业务流
-  程，这些组件基本都存在于后端，在前端很少有相应的组织。
-- 从协作关系上讲，很多前端开发团队每个成员的职责不是很清晰，有了前端的 MV 框架，这个状况会大有
-  改观。
-- 之所以感受不到 MV\*框架的重要性，是因为 Model 部分代码较少，View 的相对多一些。如果主要在操作
-  View 和 Controller，那当然 jQuery 这类库比较好用了。
-
 ### MVVM 由以下三个内容组成
 
 - `View`：界面
@@ -82,6 +82,26 @@ ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而
 在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。这种方式就可以在业务处理中只关心数据的流转，而无需直接和页面打交道。ViewModel 只关心数据和业务的处理，不关心 View 如何处理数据，在这种情况下，View 和 Model 都可以独立出来，任何一方改变了也不一定需要改变另一方，并且可以将一些可复用的逻辑放在一个 ViewModel 中，让多个 View 复用这个 ViewModel。
 
 在 MVVM 中，最核心的也就是数据双向绑定，例如 Angluar 的脏数据检测，Vue 中的数据劫持。
+
+### 请简单实现双向数据绑定 mvvm
+
+```html
+<input id="input" />
+```
+
+```js
+const data = {};
+const input = document.getElementById('input');
+Object.defineProperty(data, 'text', {
+  set(value) {
+    input.value = value;
+    this.value = value;
+  },
+});
+input.onchange = function(e) {
+  data.text = e.target.value;
+};
+```
 
 ### 什么是 MVC/MVP/MVVM/Flux？
 
@@ -647,23 +667,3 @@ http://www.techweb.com.cn/network/system/2017-08-08/2570103.shtml
 ```
 
 但值得注意的是 defineProperty 支持 IE8 以上的浏览器，这里可以使用**defineGetter** 和 **defineSetter** 来做兼容但是浏览器兼容性的原因，直接用 defineProperty 就可以了。至于 IE8 浏览器仍需要使用其它方法来做 hack。如下代码可以对 IE8 进行 hack，defineProperty 支持 IE8。例如使用 es5-shim.js 就可以了。（IE8 以下浏览器忽略）
-
-### 请简单实现双向数据绑定 mvvm
-
-```html
-<input id="input" />
-```
-
-```js
-const data = {};
-const input = document.getElementById('input');
-Object.defineProperty(data, 'text', {
-  set(value) {
-    input.value = value;
-    this.value = value;
-  },
-});
-input.onchange = function(e) {
-  data.text = e.target.value;
-};
-```

@@ -66,15 +66,14 @@ Cookie 曾一度用于客户端数据的存储，因为当时并没有其它合�
 服务器发送的响应报文包含 Set-Cookie 首部字段，客户端得到响应报文后把 Cookie 内容保存到浏览器中。
 
 ```html
-HTTP/1.0 200 OK Content-type: text/html Set-Cookie: yummy_cookie=choco
-Set-Cookie: tasty_cookie=strawberry [page content]
+HTTP/1.0 200 OK Content-type: text/html Set-Cookie: yummy_cookie=choco Set-Cookie: tasty_cookie=strawberry [page
+content]
 ```
 
 客户端之后对同一个服务器发送请求时，会从浏览器中取出 Cookie 信息并通过 Cookie 请求首部字段发送给服务器。
 
 ```html
-GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco;
-tasty_cookie=strawberry
+GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco; tasty_cookie=strawberry
 ```
 
 #### 分类
@@ -101,8 +100,7 @@ Path 标识指定了主机下的哪些路径可以接受 Cookie（该 URL 路径
 浏览器通过 `document.cookie` 属性可创建新的 Cookie，也可通过该属性访问非 HttpOnly 标记的 Cookie。
 
 ```html
-document.cookie = "yummy_cookie=choco"; document.cookie =
-"tasty_cookie=strawberry"; console.log(document.cookie);
+document.cookie = "yummy_cookie=choco"; document.cookie = "tasty_cookie=strawberry"; console.log(document.cookie);
 ```
 
 #### HttpOnly
@@ -288,8 +286,7 @@ GET /z4d4kWk.jpg HTTP/1.1 Host: i.imgur.com Range: bytes=0-1023
 请求成功的话服务器返回的响应包含 206 Partial Content 状态码。
 
 ```html
-HTTP/1.1 206 Partial Content Content-Range: bytes 0-1023/146515 Content-Length:
-1024 ... (binary content)
+HTTP/1.1 206 Partial Content Content-Range: bytes 0-1023/146515 Content-Length: 1024 ... (binary content)
 ```
 
 ### Accept-Ranges
@@ -317,9 +314,8 @@ Chunked Transfer Encoding，可以把数据分割成多块，让浏览器逐步�
 例如，上传多个表单时可以使用如下方式：
 
 ```html
-Content-Type: multipart/form-data; boundary=AaB03x --AaB03x Content-Disposition:
-form-data; name="submit-name" Larry --AaB03x Content-Disposition: form-data;
-name="files"; filename="file1.txt" Content-Type: text/plain ... contents of
+Content-Type: multipart/form-data; boundary=AaB03x --AaB03x Content-Disposition: form-data; name="submit-name" Larry
+--AaB03x Content-Disposition: form-data; name="files"; filename="file1.txt" Content-Type: text/plain ... contents of
 file1.txt ... --AaB03x--
 ```
 

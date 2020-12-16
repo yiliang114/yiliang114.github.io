@@ -9,11 +9,8 @@ draft: true
 ## 技术栈
 
 - react
-
 - mobx
-
 - less
-
 - antd
 
   ​
