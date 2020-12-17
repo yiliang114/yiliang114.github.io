@@ -10,3 +10,10 @@ draft: true
 2.  ![image.png](https://img.hacpai.com/file/2019/03/image-51a9cf1c.png)
 
 ### slot 是如何实现的 ？
+
+### 几种插槽类型
+
+- 具名
+- 匿名
+- 默认
+- 插槽作用域

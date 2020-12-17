@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: html
+title: HTML5
 date: 2020-11-21
 aside: false
 draft: true
@@ -79,10 +79,7 @@ head 子元素大概分为三类，分别是：
 
 ```html
 <meta itemprop="name" content="这是分享的标题" />
-<meta
-  itemprop="image"
-  content="http://imgcache.qq.com/qqshow/ac/v4/global/logo.png"
-/>
+<meta itemprop="image" content="http://imgcache.qq.com/qqshow/ac/v4/global/logo.png" />
 <meta name="description" itemprop="description" content="这是要分享的内容" />
 ```
 
@@ -90,7 +87,6 @@ head 子元素大概分为三类，分别是：
 
 HTML5 不基于 SGML，因此不需要对 DTD 进行引用，但是需要 doctype 来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
 而 HTML4.01 基于 SGML,所以需要对 DTD 进行引用，才能告知浏览器文档所使用的文档类型。
-
 
 ### HTML5 的优点与缺点？
 
@@ -100,7 +96,7 @@ b、多设备、跨平台
 c、即时更新。
 d、提高可用性和改进用户的友好体验；
 e、有几个新的标签，这将有助于开发人员定义重要的内容；
-f、可以给站点带来更多的多媒体元素(视频和音频)；  
+f、可以给站点带来更多的多媒体元素(视频和音频)；
 g、可以很好的替代 Flash 和 Silverlight；
 h、涉及到网站的抓取和索引的时候，对于 SEO 很友好；
 i、被大量应用于移动应用程序和游戏。
@@ -229,7 +225,7 @@ HTML5 增强了浏览器的原生功能，符合 HTML5 规范的浏览器功能�
 <head>
   <link href="main1.css" rel="stylesheet" />
   <script>
-    alert('Hello World')
+    alert('Hello World');
   </script>
 </head>
 ```
@@ -278,7 +274,6 @@ yes!
 标签闭合、标签小写、不乱嵌套、提高搜索机器人搜索几率、使用外 链 css 和 js 脚本、结构行为表现的分离、
 文件下载与页面速度更快、内容能被更多的用户所访问、内容能被更广泛的设备所访问、更少的代码和组件，
 容易维 护、改版方便，不需要变动页面内容、提供打印版本而不需要复制内容、提高网站易用性。
-
 
 ### HTML5 的存储方案有哪些
 

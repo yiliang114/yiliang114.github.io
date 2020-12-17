@@ -13,13 +13,9 @@ draft: true
 我们前端小组的技术栈基本上市面上流行的都有：
 
 - react + redux + ts 全家桶
-
 - react + mobx
-
 - vue + vuex
-
 - vue h5
-
 - ...
 
 jquery zepto 这些老项目一般也只是出于维护状态，就算重构也是全部推翻用 react 或者 vue 重构。
@@ -92,7 +88,3 @@ jquery zepto 这些老项目一般也只是出于维护状态，就算重构也�
 
 - bin 目录存放 vue-cli 的命令文件
 - lib 存放作者封装的一些工具函数
-
-## soure code start
-
-### commander

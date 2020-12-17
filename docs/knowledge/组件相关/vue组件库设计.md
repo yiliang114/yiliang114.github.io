@@ -1,10 +1,8 @@
 ---
-title: 懒加载的实现原理
+title: vue组件库设计
 date: '2020-10-26'
 draft: true
 ---
-
-# baoleme
 
 ## 如何创建一个 vue 组件库脚手架
 

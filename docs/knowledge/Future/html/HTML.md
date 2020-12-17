@@ -67,27 +67,27 @@ scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺�
 ### 实现效果，点击容器内的图标，图标边框变成 border 1px solid red，点击空白处重置
 
 ```js
-const box = document.getElementById('box')
+const box = document.getElementById('box');
 function isIcon(target) {
-  return target.className.includes('icon')
+  return target.className.includes('icon');
 }
 
 box.onclick = function(e) {
-  e.stopPropagation()
-  const target = e.target
+  e.stopPropagation();
+  const target = e.target;
   if (isIcon(target)) {
-    target.style.border = '1px solid red'
+    target.style.border = '1px solid red';
   }
-}
-const doc = document
+};
+const doc = document;
 doc.onclick = function(e) {
-  const children = box.children
+  const children = box.children;
   for (let i = 0; i < children.length; i++) {
     if (isIcon(children[i])) {
-      children[i].style.border = 'none'
+      children[i].style.border = 'none';
     }
   }
-}
+};
 ```
 
 ### 现在要你完成一个 Dialog 组件，说说你设计的思路？它应该有什么功能？
@@ -111,19 +111,19 @@ function isWanted(node) {
 }
 
 function findNode(isWanted) {
-  const root = document.getElementByTagName('html')
-  const queue = [root]
+  const root = document.getElementByTagName('html');
+  const queue = [root];
   while (!isWanted(queue[0])) {
-    const current = queue[0]
-    const children = queue[0].children || []
+    const current = queue[0];
+    const children = queue[0].children || [];
     for (i = 0; i < children.length; i++) {
       // 这里在遍历的过程中新增指针把children指向parent, 可以帮助求解第二问。
-      children[i].parent = current
-      queue.push(children[i])
+      children[i].parent = current;
+      queue.push(children[i]);
     }
-    queue.unshift()
+    queue.unshift();
   }
-  return queue[0]
+  return queue[0];
 }
 ```
 
@@ -131,19 +131,19 @@ function findNode(isWanted) {
 
 ```js
 function insertNode(newNode) {
-  const newChildren = []
-  const existingNode = findNode(isWanted)
-  const parent = existingNode.parent
-  const siblings = parent.children
+  const newChildren = [];
+  const existingNode = findNode(isWanted);
+  const parent = existingNode.parent;
+  const siblings = parent.children;
   //  如果用indexOf再加上splice的话，需要两次循环。时间复杂度为O(2n)？
   for (i = 0; i < siblings; i++) {
     if (siblings[i] === existingNode) {
-      newChildren.push(newNode)
+      newChildren.push(newNode);
     }
-    newChildren.push(siblings[i])
+    newChildren.push(siblings[i]);
   }
-  parent.children = newChildren
-  return
+  parent.children = newChildren;
+  return;
 }
 ```
 
@@ -479,10 +479,10 @@ b、如果只设置了 line-height，那么元素的实际高度等于 line-heig
 ```js
 // js的方法
 $('ul li a').click(function(e) {
-  var e = e || window.event
-  e.preventDefault()
-  alert($(this).index())
-})
+  var e = e || window.event;
+  e.preventDefault();
+  alert($(this).index());
+});
 ```
 
 ```css
