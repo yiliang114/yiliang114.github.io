@@ -7,7 +7,7 @@ draft: true
 ### 已知 ID 的 Input 输入框，希望获取这个输入框的输入值，怎么做？(不使用第三方框架)
 
 ```js
-document.getElementById(“ID”).value
+document.getElementById('ID').value;
 ```
 
 ### 希望获取到页面中所有的 checkbox 怎么做？(不使用第三方框架)

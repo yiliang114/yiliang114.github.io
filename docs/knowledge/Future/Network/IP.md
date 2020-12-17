@@ -111,9 +111,3 @@ IP 协议位于 TCP/IP 协议的第三层——网络层。与传输层协议相
 - BGP 提供了丰富的路由策略，能够对路由实现灵活的过滤和选择
 
 - BGP 易于扩展，能够适应网络新的发展
-
-### 参考资料
-
-- [多播与广播](http://www.cnblogs.com/Torres_fans/archive/2011/03/21/1990377.html)
-- [TCP_IP：广播和多播](http://blog.sina.com.cn/s/blog_ac9fdc0b0101pw7w.html)
-- [百度百科：BGP](http://baike.baidu.com/view/875886.htm?fromtitle=bgp&fromid=91408&type=syn)

@@ -232,8 +232,3 @@ void sendError(int *sock){
     write(client_sock, body, sizeof(body));
 }
 ```
-
-### 参考资料
-
-1. [Linux Socket 编程](http://www.cnblogs.com/skynet/archive/2010/12/12/1903949.html)
-2. [揭开 Socket 编程的面纱](http://goodcandle.cnblogs.com/archive/2005/12/10/294652.aspx)

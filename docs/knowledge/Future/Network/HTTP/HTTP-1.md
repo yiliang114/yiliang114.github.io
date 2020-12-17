@@ -7,65 +7,100 @@ draft: true
 ---
 
 <!-- GFM-TOC -->
-* [一 、基础概念](#一-基础概念)
-    * [Web 基础](#web-基础)
-    * [URL](#url)
-    * [请求和响应报文](#请求和响应报文)
-* [二、HTTP 方法](#二http-方法)
-    * [GET](#get)
-    * [HEAD](#head)
-    * [POST](#post)
-    * [PUT](#put)
-    * [PATCH](#patch)
-    * [DELETE](#delete)
-    * [OPTIONS](#options)
-    * [CONNECT](#connect)
-    * [TRACE](#trace)
-* [三、HTTP 状态码](#三http-状态码)
-    * [1XX 信息](#1xx-信息)
-    * [2XX 成功](#2xx-成功)
-    * [3XX 重定向](#3xx-重定向)
-    * [4XX 客户端错误](#4xx-客户端错误)
-    * [5XX 服务器错误](#5xx-服务器错误)
-* [四、HTTP 首部](#四http-首部)
-    * [通用首部字段](#通用首部字段)
-    * [请求首部字段](#请求首部字段)
-    * [响应首部字段](#响应首部字段)
-    * [实体首部字段](#实体首部字段)
-* [五、具体应用](#五具体应用)
-    * [Cookie](#cookie)
-    * [缓存](#缓存)
-    * [持久连接](#持久连接)
-    * [管线化处理](#管线化处理)
-    * [编码](#编码)
-    * [分块传输编码](#分块传输编码)
-    * [多部分对象集合](#多部分对象集合)
-    * [范围请求](#范围请求)
-    * [内容协商](#内容协商)
-    * [虚拟主机](#虚拟主机)
-    * [通信数据转发](#通信数据转发)
-* [六、HTTPs](#六https)
-    * [加密](#加密)
-    * [认证](#认证)
-    * [完整性](#完整性)
-* [七、Web 攻击技术](#七web-攻击技术)
-    * [攻击模式](#攻击模式)
-    * [跨站脚本攻击](#跨站脚本攻击)
-    * [跨站点请求伪造](#跨站点请求伪造)
-    * [SQL 注入攻击](#sql-注入攻击)
-    * [拒绝服务攻击](#拒绝服务攻击)
-* [八、GET 和 POST 的区别](#八get-和-post-的区别)
-    * [参数](#参数)
-    * [安全](#安全)
-    * [幂等性](#幂等性)
-    * [可缓存](#可缓存)
-    * [XMLHttpRequest](#xmlhttprequest)
-* [九、各版本比较](#九各版本比较)
-    * [HTTP/1.0 与 HTTP/1.1 的区别](#http10-与-http11-的区别)
-    * [HTTP/1.1 与 HTTP/2.0 的区别](#http11-与-http20-的区别)
-* [参考资料](#参考资料)
-<!-- GFM-TOC -->
 
+- [一 、基础概念](#一-基础概念)
+  - [Web 基础](#web-基础)
+  - [URL](#url)
+  - [请求和响应报文](#请求和响应报文)
+    - [1. 请求报文](#1-请求报文)
+    - [2. 响应报文](#2-响应报文)
+- [二、HTTP 方法](#二http-方法)
+  - [GET](#get)
+  - [HEAD](#head)
+  - [POST](#post)
+  - [PUT](#put)
+  - [PATCH](#patch)
+  - [DELETE](#delete)
+  - [OPTIONS](#options)
+  - [CONNECT](#connect)
+  - [TRACE](#trace)
+- [三、HTTP 状态码](#三http-状态码)
+  - [1XX 信息](#1xx-信息)
+  - [2XX 成功](#2xx-成功)
+  - [3XX 重定向](#3xx-重定向)
+  - [4XX 客户端错误](#4xx-客户端错误)
+  - [5XX 服务器错误](#5xx-服务器错误)
+- [四、HTTP 首部](#四http-首部)
+  - [通用首部字段](#通用首部字段)
+  - [请求首部字段](#请求首部字段)
+  - [响应首部字段](#响应首部字段)
+  - [实体首部字段](#实体首部字段)
+- [五、具体应用](#五具体应用)
+  - [Cookie](#cookie)
+    - [1. 创建过程](#1-创建过程)
+    - [2. 分类](#2-分类)
+    - [3. Set-Cookie](#3-set-cookie)
+    - [4. Session 和 Cookie 区别](#4-session-和-cookie-区别)
+    - [5. 浏览器禁用 Cookie 的情况](#5-浏览器禁用-cookie-的情况)
+    - [6. 使用 Cookie 实现用户名和密码的自动填写](#6-使用-cookie-实现用户名和密码的自动填写)
+  - [缓存](#缓存)
+    - [1. 优点](#1-优点)
+    - [2. 实现方法](#2-实现方法)
+    - [3. Cache-Control 字段](#3-cache-control-字段)
+    - [4. no-cache 指令](#4-no-cache-指令)
+    - [5. no-store 指令](#5-no-store-指令)
+    - [6. max-age 指令](#6-max-age-指令)
+  - [持久连接](#持久连接)
+  - [管线化处理](#管线化处理)
+  - [编码](#编码)
+  - [分块传输编码](#分块传输编码)
+  - [多部分对象集合](#多部分对象集合)
+  - [范围请求](#范围请求)
+  - [内容协商](#内容协商)
+  - [虚拟主机](#虚拟主机)
+  - [通信数据转发](#通信数据转发)
+    - [1. 代理](#1-代理)
+    - [2. 网关](#2-网关)
+    - [3. 隧道](#3-隧道)
+- [六、HTTPs](#六https)
+  - [加密](#加密)
+    - [1. 对称密钥加密](#1-对称密钥加密)
+    - [2. 公开密钥加密](#2-公开密钥加密)
+    - [3. HTTPs 采用的加密方式](#3-https-采用的加密方式)
+  - [认证](#认证)
+  - [完整性](#完整性)
+- [七、Web 攻击技术](#七web-攻击技术)
+  - [攻击模式](#攻击模式)
+    - [1. 主动攻击](#1-主动攻击)
+    - [2. 被动攻击](#2-被动攻击)
+  - [跨站脚本攻击](#跨站脚本攻击)
+    - [1. 概念](#1-概念)
+    - [2. 危害](#2-危害)
+    - [3. 防范手段](#3-防范手段)
+  - [跨站点请求伪造](#跨站点请求伪造)
+    - [1. 概念](#1-概念-1)
+    - [2. 防范手段](#2-防范手段)
+  - [SQL 注入攻击](#sql-注入攻击)
+    - [1. 概念](#1-概念-2)
+    - [2. 攻击原理](#2-攻击原理)
+    - [3. 危害](#3-危害)
+    - [4. 防范手段](#4-防范手段)
+  - [拒绝服务攻击](#拒绝服务攻击)
+    - [1. 概念](#1-概念-3)
+- [八、GET 和 POST 的区别](#八get-和-post-的区别)
+  - [参数](#参数)
+  - [安全](#安全)
+  - [幂等性](#幂等性)
+  - [可缓存](#可缓存)
+  - [XMLHttpRequest](#xmlhttprequest)
+- [九、各版本比较](#九各版本比较)
+  - [HTTP/1.0 与 HTTP/1.1 的区别](#http10-与-http11-的区别)
+  - [HTTP/1.1 与 HTTP/2.0 的区别](#http11-与-http20-的区别)
+    - [1. 多路复用](#1-多路复用)
+    - [2. 首部压缩](#2-首部压缩)
+    - [3. 服务端推送](#3-服务端推送)
+    - [4. 二进制格式](#4-二进制格式)
+      <!-- GFM-TOC -->
 
 # 一 、基础概念
 
@@ -97,7 +132,7 @@ URI 包含 URL 和 URN，目前 WEB 只有 URL 比较流行，所以见到的基
 
 # 二、HTTP 方法
 
-客户端发送的  **请求报文**  第一行为请求行，包含了方法字段。
+客户端发送的 **请求报文** 第一行为请求行，包含了方法字段。
 
 ## GET
 
@@ -128,10 +163,7 @@ POST 主要用来传输数据，而 GET 主要用来获取资源。
 由于自身不带验证机制，任何人都可以上传文件，因此存在安全性问题，一般不使用该方法。
 
 ```html
-PUT /new.html HTTP/1.1
-Host: example.com
-Content-type: text/html
-Content-length: 16
+PUT /new.html HTTP/1.1 Host: example.com Content-type: text/html Content-length: 16
 
 <p>New File</p>
 ```
@@ -143,13 +175,8 @@ Content-length: 16
 PUT 也可以用于修改资源，但是只能完全替代原始资源，PATCH 允许部分修改。
 
 ```html
-PATCH /file.txt HTTP/1.1
-Host: www.example.com
-Content-Type: application/example
-If-Match: "e0023aa4e"
-Content-Length: 100
-
-[description of changes]
+PATCH /file.txt HTTP/1.1 Host: www.example.com Content-Type: application/example If-Match: "e0023aa4e" Content-Length:
+100 [description of changes]
 ```
 
 ## DELETE
@@ -194,57 +221,57 @@ CONNECT www.example.com:443 HTTP/1.1
 
 # 三、HTTP 状态码
 
-服务器返回的  **响应报文**  中第一行为状态行，包含了状态码以及原因短语，用来告知客户端请求的结果。
+服务器返回的 **响应报文** 中第一行为状态行，包含了状态码以及原因短语，用来告知客户端请求的结果。
 
-| 状态码 | 类别 | 原因短语 |
-| :---: | :---: | :---: |
-| 1XX | Informational（信息性状态码） | 接收的请求正在处理 |
-| 2XX | Success（成功状态码） | 请求正常处理完毕 |
-| 3XX | Redirection（重定向状态码） | 需要进行附加操作以完成请求 |
-| 4XX | Client Error（客户端错误状态码） | 服务器无法处理请求 |
-| 5XX | Server Error（服务器错误状态码） | 服务器处理请求出错 |
+| 状态码 |               类别               |          原因短语          |
+| :----: | :------------------------------: | :------------------------: |
+|  1XX   |  Informational（信息性状态码）   |     接收的请求正在处理     |
+|  2XX   |      Success（成功状态码）       |      请求正常处理完毕      |
+|  3XX   |   Redirection（重定向状态码）    | 需要进行附加操作以完成请求 |
+|  4XX   | Client Error（客户端错误状态码） |     服务器无法处理请求     |
+|  5XX   | Server Error（服务器错误状态码） |     服务器处理请求出错     |
 
 ## 1XX 信息
 
--  **100 Continue** ：表明到目前为止都很正常，客户端可以继续发送请求或者忽略这个响应。
+- **100 Continue** ：表明到目前为止都很正常，客户端可以继续发送请求或者忽略这个响应。
 
 ## 2XX 成功
 
--  **200 OK** 
+- **200 OK**
 
--  **204 No Content** ：请求已经成功处理，但是返回的响应报文不包含实体的主体部分。一般在只需要从客户端往服务器发送信息，而不需要返回数据时使用。
+- **204 No Content** ：请求已经成功处理，但是返回的响应报文不包含实体的主体部分。一般在只需要从客户端往服务器发送信息，而不需要返回数据时使用。
 
--  **206 Partial Content** ：表示客户端进行了范围请求。响应报文包含由 Content-Range 指定范围的实体内容。
+- **206 Partial Content** ：表示客户端进行了范围请求。响应报文包含由 Content-Range 指定范围的实体内容。
 
 ## 3XX 重定向
 
--  **301 Moved Permanently** ：永久性重定向
+- **301 Moved Permanently** ：永久性重定向
 
--  **302 Found** ：临时性重定向
+- **302 Found** ：临时性重定向
 
--  **303 See Other** ：和 302 有着相同的功能，但是 303 明确要求客户端应该采用 GET 方法获取资源。
+- **303 See Other** ：和 302 有着相同的功能，但是 303 明确要求客户端应该采用 GET 方法获取资源。
 
 - 注：虽然 HTTP 协议规定 301、302 状态下重定向时不允许把 POST 方法改成 GET 方法，但是大多数浏览器都会在 301、302 和 303 状态下的重定向把 POST 方法改成 GET 方法。
 
--  **304 Not Modified** ：如果请求报文首部包含一些条件，例如：If-Match，If-ModifiedSince，If-None-Match，If-Range，If-Unmodified-Since，如果不满足条件，则服务器会返回 304 状态码。
+- **304 Not Modified** ：如果请求报文首部包含一些条件，例如：If-Match，If-ModifiedSince，If-None-Match，If-Range，If-Unmodified-Since，如果不满足条件，则服务器会返回 304 状态码。
 
--  **307 Temporary Redirect** ：临时重定向，与 302 的含义类似，但是 307 要求浏览器不会把重定向请求的 POST 方法改成 GET 方法。
+- **307 Temporary Redirect** ：临时重定向，与 302 的含义类似，但是 307 要求浏览器不会把重定向请求的 POST 方法改成 GET 方法。
 
 ## 4XX 客户端错误
 
--  **400 Bad Request** ：请求报文中存在语法错误。
+- **400 Bad Request** ：请求报文中存在语法错误。
 
--  **401 Unauthorized** ：该状态码表示发送的请求需要有认证信息（BASIC 认证、DIGEST 认证）。如果之前已进行过一次请求，则表示用户认证失败。
+- **401 Unauthorized** ：该状态码表示发送的请求需要有认证信息（BASIC 认证、DIGEST 认证）。如果之前已进行过一次请求，则表示用户认证失败。
 
--  **403 Forbidden** ：请求被拒绝，服务器端没有必要给出拒绝的详细理由。
+- **403 Forbidden** ：请求被拒绝，服务器端没有必要给出拒绝的详细理由。
 
--  **404 Not Found** 
+- **404 Not Found**
 
 ## 5XX 服务器错误
 
--  **500 Internal Server Error** ：服务器正在执行请求时发生错误。
+- **500 Internal Server Error** ：服务器正在执行请求时发生错误。
 
--  **503 Service Unavilable** ：服务器暂时处于超负载或正在进行停机维护，现在无法处理请求。
+- **503 Service Unavilable** ：服务器暂时处于超负载或正在进行停机维护，现在无法处理请求。
 
 # 四、HTTP 首部
 
@@ -254,70 +281,70 @@ CONNECT www.example.com:443 HTTP/1.1
 
 ## 通用首部字段
 
-| 首部字段名 | 说明 |
-| :--: | :--: |
-| Cache-Control | 控制缓存的行为 |
-| Connection | 控制不再转发给代理的首部字段、管理持久连接|
-| Date | 创建报文的日期时间 |
-| Pragma | 报文指令 |
-| Trailer | 报文末端的首部一览 |
-| Transfer-Encoding | 指定报文主体的传输编码方式 |
-| Upgrade | 升级为其他协议 |
-| Via | 代理服务器的相关信息 |
-| Warning | 错误通知 |
+|    首部字段名     |                    说明                    |
+| :---------------: | :----------------------------------------: |
+|   Cache-Control   |               控制缓存的行为               |
+|    Connection     | 控制不再转发给代理的首部字段、管理持久连接 |
+|       Date        |             创建报文的日期时间             |
+|      Pragma       |                  报文指令                  |
+|      Trailer      |             报文末端的首部一览             |
+| Transfer-Encoding |         指定报文主体的传输编码方式         |
+|      Upgrade      |               升级为其他协议               |
+|        Via        |            代理服务器的相关信息            |
+|      Warning      |                  错误通知                  |
 
 ## 请求首部字段
 
-| 首部字段名 | 说明 |
-| :--: | :--: |
-| Accept | 用户代理可处理的媒体类型 |
-| Accept-Charset | 优先的字符集 |
-| Accept-Encoding | 优先的内容编码 |
-| Accept-Language | 优先的语言（自然语言） |
-| Authorization | Web 认证信息 |
-| Expect | 期待服务器的特定行为 |
-| From | 用户的电子邮箱地址 |
-| Host | 请求资源所在服务器 |
-| If-Match | 比较实体标记（ETag） |
-| If-Modified-Since | 比较资源的更新时间 |
-| If-None-Match | 比较实体标记（与 If-Match 相反） |
-| If-Range | 资源未更新时发送实体 Byte 的范围请求 |
+|     首部字段名      |                      说明                       |
+| :-----------------: | :---------------------------------------------: |
+|       Accept        |            用户代理可处理的媒体类型             |
+|   Accept-Charset    |                  优先的字符集                   |
+|   Accept-Encoding   |                 优先的内容编码                  |
+|   Accept-Language   |             优先的语言（自然语言）              |
+|    Authorization    |                  Web 认证信息                   |
+|       Expect        |              期待服务器的特定行为               |
+|        From         |               用户的电子邮箱地址                |
+|        Host         |               请求资源所在服务器                |
+|      If-Match       |              比较实体标记（ETag）               |
+|  If-Modified-Since  |               比较资源的更新时间                |
+|    If-None-Match    |        比较实体标记（与 If-Match 相反）         |
+|      If-Range       |      资源未更新时发送实体 Byte 的范围请求       |
 | If-Unmodified-Since | 比较资源的更新时间（与 If-Modified-Since 相反） |
-| Max-Forwards | 最大传输逐跳数 |
-| Proxy-Authorization | 代理服务器要求客户端的认证信息 |
-| Range | 实体的字节范围请求 |
-| Referer | 对请求中 URI 的原始获取方 |
-| TE | 传输编码的优先级 |
-| User-Agent | HTTP 客户端程序的信息 |
+|    Max-Forwards     |                 最大传输逐跳数                  |
+| Proxy-Authorization |         代理服务器要求客户端的认证信息          |
+|        Range        |               实体的字节范围请求                |
+|       Referer       |            对请求中 URI 的原始获取方            |
+|         TE          |                传输编码的优先级                 |
+|     User-Agent      |              HTTP 客户端程序的信息              |
 
 ## 响应首部字段
 
-| 首部字段名 | 说明 |
-| :--: | :--: |
-| Accept-Ranges | 是否接受字节范围请求 |
-| Age | 推算资源创建经过时间 |
-| ETag | 资源的匹配信息 |
-| Location | 令客户端重定向至指定 URI |
+|     首部字段名     |             说明             |
+| :----------------: | :--------------------------: |
+|   Accept-Ranges    |     是否接受字节范围请求     |
+|        Age         |     推算资源创建经过时间     |
+|        ETag        |        资源的匹配信息        |
+|      Location      |   令客户端重定向至指定 URI   |
 | Proxy-Authenticate | 代理服务器对客户端的认证信息 |
-| Retry-After | 对再次发起请求的时机要求 |
-| Server | HTTP 服务器的安装信息 |
-| Vary | 代理服务器缓存的管理信息 |
-| WWW-Authenticate | 服务器对客户端的认证信息 |
+|    Retry-After     |   对再次发起请求的时机要求   |
+|       Server       |    HTTP 服务器的安装信息     |
+|        Vary        |   代理服务器缓存的管理信息   |
+|  WWW-Authenticate  |   服务器对客户端的认证信息   |
 
 ## 实体首部字段
 
-| 首部字段名 | 说明 |
-| :--: | :--: |
-| Allow | 资源可支持的 HTTP 方法 |
+|    首部字段名    |          说明          |
+| :--------------: | :--------------------: |
+|      Allow       | 资源可支持的 HTTP 方法 |
 | Content-Encoding | 实体主体适用的编码方式 |
-| Content-Language | 实体主体的自然语言 |
-| Content-Length | 实体主体的大小 |
-| Content-Location | 替代对应资源的 URI |
-| Content-MD5 | 实体主体的报文摘要 |
-| Content-Range | 实体主体的位置范围 |
-| Content-Type | 实体主体的媒体类型 |
-| Expires | 实体主体过期的日期时间 |
-| Last-Modified | 资源的最后修改日期时间 |
+| Content-Language |   实体主体的自然语言   |
+|  Content-Length  |     实体主体的大小     |
+| Content-Location |   替代对应资源的 URI   |
+|   Content-MD5    |   实体主体的报文摘要   |
+|  Content-Range   |   实体主体的位置范围   |
+|   Content-Type   |   实体主体的媒体类型   |
+|     Expires      | 实体主体过期的日期时间 |
+|  Last-Modified   | 资源的最后修改日期时间 |
 
 # 五、具体应用
 
@@ -332,20 +359,14 @@ Cookie 是服务器发送给客户端的数据，该数据会被保存在浏览�
 服务器发送的响应报文包含 Set-Cookie 字段，客户端得到响应报文后把 Cookie 内容保存到浏览器中。
 
 ```html
-HTTP/1.0 200 OK
-Content-type: text/html
-Set-Cookie: yummy_cookie=choco
-Set-Cookie: tasty_cookie=strawberry
-
-[page content]
+HTTP/1.0 200 OK Content-type: text/html Set-Cookie: yummy_cookie=choco Set-Cookie: tasty_cookie=strawberry [page
+content]
 ```
 
 客户端之后发送请求时，会从浏览器中读出 Cookie 值，在请求报文中包含 Cookie 字段。
 
 ```html
-GET /sample_page.html HTTP/1.1
-Host: www.example.org
-Cookie: yummy_cookie=choco; tasty_cookie=strawberry
+GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco; tasty_cookie=strawberry
 ```
 
 ### 2. 分类
@@ -359,14 +380,14 @@ Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
 
 ### 3. Set-Cookie
 
-| 属性 | 说明 |
-| :--: | -- |
-| NAME=VALUE | 赋予 Cookie 的名称和其值（必需项） |
-| expires=DATE | Cookie 的有效期（若不明确指定则默认为浏览器关闭前为止） |
-| path=PATH | 将服务器上的文件目录作为 Cookie 的适用对象（若不指定则默认为文档所在的文件目录） |
-| domain=域名 | 作为 Cookie 适用对象的域名（若不指定则默认为创建 Cookie 的服务器的域名） |
-| Secure | 仅在 HTTPs 安全通信时才会发送 Cookie |
-| HttpOnly | 加以限制，使 Cookie 不能被 JavaScript 脚本访问 |
+|     属性     | 说明                                                                             |
+| :----------: | -------------------------------------------------------------------------------- |
+|  NAME=VALUE  | 赋予 Cookie 的名称和其值（必需项）                                               |
+| expires=DATE | Cookie 的有效期（若不明确指定则默认为浏览器关闭前为止）                          |
+|  path=PATH   | 将服务器上的文件目录作为 Cookie 的适用对象（若不指定则默认为文档所在的文件目录） |
+| domain=域名  | 作为 Cookie 适用对象的域名（若不指定则默认为创建 Cookie 的服务器的域名）         |
+|    Secure    | 仅在 HTTPs 安全通信时才会发送 Cookie                                             |
+|   HttpOnly   | 加以限制，使 Cookie 不能被 JavaScript 脚本访问                                   |
 
 ### 4. Session 和 Cookie 区别
 
@@ -449,18 +470,9 @@ Chunked Transfer Coding，可以把数据分割成多块，让浏览器逐步显
 例如，上传多个表单时可以使用如下方式：
 
 ```html
-Content-Type: multipart/form-data; boundary=AaB03x
-
---AaB03x
-Content-Disposition: form-data; name="submit-name"
-
-Larry
---AaB03x
-Content-Disposition: form-data; name="files"; filename="file1.txt"
-Content-Type: text/plain
-
-... contents of file1.txt ...
---AaB03x--
+Content-Type: multipart/form-data; boundary=AaB03x --AaB03x Content-Disposition: form-data; name="submit-name" Larry
+--AaB03x Content-Disposition: form-data; name="files"; filename="file1.txt" Content-Type: text/plain ... contents of
+file1.txt ... --AaB03x--
 ```
 
 ## 范围请求
@@ -470,17 +482,11 @@ Content-Type: text/plain
 在请求报文首部中添加 Range 字段指定请求的范围，请求成功的话服务器发送 206 Partial Content 状态。
 
 ```html
-GET /z4d4kWk.jpg HTTP/1.1
-Host: i.imgur.com
-Range: bytes=0-1023
+GET /z4d4kWk.jpg HTTP/1.1 Host: i.imgur.com Range: bytes=0-1023
 ```
 
 ```html
-HTTP/1.1 206 Partial Content
-Content-Range: bytes 0-1023/146515
-Content-Length: 1024
-...
-(binary content)
+HTTP/1.1 206 Partial Content Content-Range: bytes 0-1023/146515 Content-Length: 1024 ... (binary content)
 ```
 
 ## 内容协商
@@ -559,7 +565,7 @@ HTTPs 采用混合的加密机制，使用公开密钥加密用于传输对称�
 
 ## 认证
 
-通过使用  **证书**  来对通信方进行认证。
+通过使用 **证书** 来对通信方进行认证。
 
 数字证书认证机构（CA，Certificate Authority）是客户端与服务器双方都可信赖的第三方机构。服务器的运营人员向 CA 提出公开密钥的申请，CA 在判明提出申请者的身份之后，会对已申请的公开密钥做数字签名，然后分配这个已签名的公开密钥，并将该公开密钥放入公开密钥证书后绑定在一起。
 
@@ -706,7 +712,7 @@ strSQL = "SELECT * FROM users;"
 ### 3. 危害
 
 - 数据表中的数据外泄，例如个人机密数据，账户数据，密码等。
-- 数据结构被黑客探知，得以做进一步攻击（例如 SELECT * FROM sys.tables）。
+- 数据结构被黑客探知，得以做进一步攻击（例如 SELECT \* FROM sys.tables）。
 - 数据库服务器被攻击，系统管理员账户被窜改（例如 ALTER LOGIN sa WITH PASSWORD='xxxxxx'）。
 - 获取系统较高权限后，有可能得以在网页加入恶意链接、恶意代码以及 XSS 等。
 - 经由数据库服务器提供的操作系统支持，让黑客得以修改或控制操作系统（例如 xp_cmdshell "net stop iisadmin" 可停止服务器的 IIS 服务）。
@@ -833,26 +839,3 @@ HTTP/1.1 的首部带有大量信息，而且每次都要重复发送。HTTP/2.0
 ### 4. 二进制格式
 
 HTTP/1.1 的解析是基于文本的，而 HTTP/2.0 采用二进制格式。
-
-# 参考资料
-
-- 上野宣. 图解 HTTP[M]. Ren min you dian chu ban she, 2014.
-- [MDN : HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP)
-- [Are http:// and www really necessary?](https://www.webdancers.com/are-http-and-www-necesary/)
-- [HTTP (HyperText Transfer Protocol)](https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html)
-- [Web-VPN: Secure Proxies with SPDY & Chrome](https://www.igvita.com/2011/12/01/web-vpn-secure-proxies-with-spdy-chrome/)
-- [File:HTTP persistent connection.svg](http://en.wikipedia.org/wiki/File:HTTP_persistent_connection.svg)
-- [Proxy server](https://en.wikipedia.org/wiki/Proxy_server)
-- [What Is This HTTPS/SSL Thing And Why Should You Care?](https://www.x-cart.com/blog/what-is-https-and-ssl.html)
-- [What is SSL Offloading?](https://securebox.comodo.com/ssl-sniffing/ssl-offloading/)
-- [Sun Directory Server Enterprise Edition 7.0 Reference - Key Encryption](https://docs.oracle.com/cd/E19424-01/820-4811/6ng8i26bn/index.html)
-- [An Introduction to Mutual SSL Authentication](https://www.codeproject.com/Articles/326574/An-Introduction-to-Mutual-SSL-Authentication)
-- [The Difference Between URLs and URIs](https://danielmiessler.com/study/url-uri/)
-- [维基百科：跨站脚本](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC)
-- [维基百科：SQL 注入攻击](https://zh.wikipedia.org/wiki/SQL%E8%B3%87%E6%96%99%E9%9A%B1%E7%A2%BC%E6%94%BB%E6%93%8A)
-- [维基百科：跨站点请求伪造](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0)
-- [维基百科：拒绝服务攻击](https://zh.wikipedia.org/wiki/%E9%98%BB%E6%96%B7%E6%9C%8D%E5%8B%99%E6%94%BB%E6%93%8A)
-- [What is the difference between a URI, a URL and a URN?](https://stackoverflow.com/questions/176264/what-is-the-difference-between-a-uri-a-url-and-a-urn)
-- [XMLHttpRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest)
-- [XMLHttpRequest (XHR) Uses Multiple Packets for HTTP POST?](https://blog.josephscott.org/2009/08/27/xmlhttprequest-xhr-uses-multiple-packets-for-http-post/)
-- [Symmetric vs. Asymmetric Encryption – What are differences?](https://www.ssl2buy.com/wiki/symmetric-vs-asymmetric-encryption-what-are-differences)

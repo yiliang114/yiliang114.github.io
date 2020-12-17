@@ -21,7 +21,6 @@ draft: true
 - node 是如何实现高并发的？
 - 说一下 Nodejs 的 event loop 的原理， https://www.jianshu.com/p/10714ad38f9a
 - 简述公司 node 架构中容灾的实现 ?
-- SSR 和 客户端渲染有什么区别
 - nodejs 的进程和线程
 - nodejs 中通常如何使用 session
 - nodejs 手写一个 tcp socket 连接 （涉及到 nodejs 的源码）

@@ -6,38 +6,35 @@ draft: true
 
 ### ['1', '2', '3'].map(parseInt) what & why ?
 
-首先让我们回顾一下，map 函数的第一个参数 callback：
-var new_array = arr.map(function callback(currentValue[, index[, array]]) { // Return element for new_array }[, thisArg])
-这个 callback 一共可以接收三个参数，其中第一个参数代表当前被处理的元素，而第二个参数代表该元素的索引。
+首先让我们回顾一下，map 函数的第一个参数 callback，一共可以接收三个参数，其中第一个参数代表当前被处理的元素，而第二个参数代表该元素的索引。
 
-而 parseInt 则是用来解析字符串的，使字符串成为指定基数的整数。
-parseInt(string, radix)
-接收两个参数，第一个表示被处理的值（字符串），第二个表示为解析时的基数。
+而 parseInt 则是用来解析字符串的，使字符串成为指定基数的整数。`parseInt(string, radix)` 接收两个参数，第一个表示被处理的值（字符串），第二个表示为解析时的基数。
 
 了解这两个函数后，我们可以模拟一下运行情况
 
 parseInt('1', 0) //radix 为 0 时，且 string 参数不以“0x”和“0”开头时，按照 10 为基数处理。这个时候返回 1
 parseInt('2', 1) //基数为 1（1 进制）表示的数中，最大值小于 2，所以无法解析，返回 NaN
 parseInt('3', 2) //基数为 2（2 进制）表示的数中，最大值小于 3，所以无法解析，返回 NaN
+
 map 函数返回的是一个数组，所以最后结果为[1, NaN, NaN]
 
 ### 下面的代码打印什么内容，为什么？
 
-```
+```js
 var b = 10;
-(function b(){
-    b = 20;
-    console.log(b);
+(function b() {
+  b = 20;
+  console.log(b);
 })(); //[Function b]
 ```
 
-```
+```js
 var b = 10;
 (function b() {
-  'use strict'
+  'use strict';
   b = 20;
-  console.log(b)
-})() // "Uncaught TypeError: Assignment to constant variable."
+  console.log(b);
+})(); // "Uncaught TypeError: Assignment to constant variable."
 ```
 
 1.函数表达式与函数声明不同，函数名只在该函数内部有效，并且此绑定是常量绑定。
@@ -46,11 +43,11 @@ var b = 10;
 
 ### 简单改造下面的代码，使之分别打印 10 和 20
 
-```
+```js
 var b = 10;
-(function b(){
-    b = 20;
-    console.log(b);
+(function b() {
+  b = 20;
+  console.log(b);
 })();
 ```
 

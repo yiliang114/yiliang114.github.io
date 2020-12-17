@@ -455,8 +455,6 @@ b、如果只设置了 line-height，那么元素的实际高度等于 line-heig
 
 ### HTML 全局属性(global attribute)有哪些
 
-参考资料：[MDN: html global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)或者[W3C HTML global-attributes](http://www.w3.org/TR/html-markup/global-attributes.html#common.attrs.core)
-
 - `accesskey`:设置快捷键，提供快速访问元素如<a href="#" accesskey="a">aaa</a>在 windows 下的 firefox 中按`alt + shift + a`可激活元素
 - `class`:为元素设置类标识，多个类名用空格分开，CSS 和 javascript 可通过 class 属性获取元素
 - `contenteditable`: 指定元素内容是否可编辑
