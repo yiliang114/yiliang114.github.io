@@ -4,8 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-vue \$emit
-
 https://segmentfault.com/q/1010000007688303
 
 vue 组件 slot 插槽

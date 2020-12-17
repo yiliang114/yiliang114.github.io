@@ -17,10 +17,10 @@ Git 更像是把数据看作是对小型文件系统的一组快照。 每次你
 > In computer systems, a snapshot is the state of a system at a particular point in time.
 
 记录差异
-![记录差异](../img/git-jlcy.png)
+![记录差异](../../../../Future/images/git-jlcy.png)
 
 记录快照
-![记录快照](../img/git-glkz.png)
+![记录快照](../../../../Future/images/git-glkz.png)
 
 ### 三种状态
 
@@ -37,7 +37,7 @@ Git 更像是把数据看作是对小型文件系统的一组快照。 每次你
 - 工作目录
   - 工作目录是对项目的某个版本独立提取出来的内容。 这些从 Git 仓库的压缩数据库中提取出来的文件，放在磁盘上供你使用或修改。
 
-![三个区域](../img/git-3-place.png)
+![三个区域](../../../../Future/images/git-3-place.png)
 
 ### 基本的 Git 工作流程
 
@@ -100,7 +100,7 @@ doc/**/*.pdf
 
 一般是 vim 或 emacs。当然也可以按照 起步 介绍的方式，使用 `git config --global core.editor` 命令设定你喜欢的编辑软件。
 
-![commit](../img/git-commit.png)
+![commit](../../../../Future/images/git-commit.png)
 
 也可以使用`git commit -m "修改描述"` 这种直接输入描述的方式提交修改。
 
@@ -327,7 +327,7 @@ master branch diff
 在 Git 中整合来自不同分支的修改主要有两种方法：`merge`以及 `rebase`。
 
 整合分支最容易的方法是 merge 命令。 它会把两个分支的最新快照（C3 和 C4）以及二者最近的共同祖先（C2）进行三方合并，合并的结果是生成一个新的快照（并提交）。
-![](../img/git-mergep.png)
+![](../../../../Future/images/git-mergep.png)
 
 你可以提取在 C4 中引入的补丁和修改，然后在 C3 的基础上应用一次。 在 Git 中，这种操作就叫做 变基。 你可以使用 rebase 命令将提交到某一分支上的所有修改都移至另一分支上，就好像“重新播放”一样。
 
@@ -336,10 +336,10 @@ git checkout experiment
 git rebase master
 ```
 
-![](../img/git-rebease.png)
+![](../../../../Future/images/git-rebease.png)
 
 最后回到 master 分支，进行一次快进合并
-![](../img/git-mergep2.png)
+![](../../../../Future/images/git-mergep2.png)
 
 它的原理是首先找到这两个分支（即当前分支 experiment、变基操作的目标基底分支 master）的最近共同祖先 C2，然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件，然后将当前分支指向目标基底 C3, 最后以此将之前另存为临时文件的修改依序应用。
 

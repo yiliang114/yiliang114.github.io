@@ -330,7 +330,7 @@ webpack 的配置需要更改一下，不需要 base64 形式的 css 名：
 8. 为什么要使用 immutablejs？
 9. 什么时候要写 shoudComponentUpdate 来优化性能？不写的话，使用 immutable 之后默认只要 state 和 props 一小部分更新就会重新渲染？
 10. 组件什么时候卸载？ 调用 unMounted 构造函数？什么时候又会重新创建？
-11. 其他声明周期函数的执行时机在什么时候？针对每一个声明周期函数，一般会做什么事情，比如说在 componentDidMount 中 拉取 data
+11. 其他生命周期函数的执行时机在什么时候？针对每一个生命周期函数，一般会做什么事情，比如说在 componentDidMount 中 拉取 data
 12. react 的 diff 算法怎么样的
 
 ### 我现在有一个 button，要用 react 在上面绑定点击事件，要怎么做？
@@ -373,9 +373,9 @@ class Demo {
 ### react 最佳实践
 
 - 不考虑使用状态管理工具的话，可以在 componentDidMount 或者 componentDidUpdate 中去执行 ajax 获取数据，但是这样代码臃肿，结构混乱，性能降低，最好是将异步的请求数据交给 redux，ajax 操作都放到 action 中是最好的。
-- 声明周期中逻辑太多不好，想办法放一部分到 rende 函数中，不过需要注意的是，render 函数中逻辑过多也会增加 re-render 时的计算时间。
+- 生命周期中逻辑太多不好，想办法放一部分到 rende 函数中，不过需要注意的是，render 函数中逻辑过多也会增加 re-render 时的计算时间。
 - this.state = {} 不要有计算，比如 obj.name + “sss”之类的。
-- 少用 state，多用 props，多用无状态组件（没有声明周期函数，没有 state？）
+- 少用 state，多用 props，多用无状态组件（没有生命周期函数，没有 state？）
 - 每一个 react 组件记得都需要 PropTypes 来规范，无状态组件的 PropTypes 规范也是需要的。
 - 能用三元判断符，就不用 If ，直接放在 render()里
 - 合理运用 context

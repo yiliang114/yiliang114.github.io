@@ -51,10 +51,10 @@ draft: true
 import Skeleton from './Skeleton.vue';
 // 创建一个骨架屏 Vue 实例
 export default new Vue({
-    components: {
-        Skeleton
-    },
-    template: ''
+  components: {
+    Skeleton,
+  },
+  template: '',
 });
 ```
 
@@ -82,13 +82,14 @@ export default new Vue({
 ```js
 // webpack.dev.conf.js
 plugins: [
-    new SkeletonWebpackPlugin({ // 我们编写的插件
-        webpackConfig: require('./webpack.skeleton.conf')
-    })
-]
+  new SkeletonWebpackPlugin({
+    // 我们编写的插件
+    webpackConfig: require('./webpack.skeleton.conf'),
+  }),
+];
 ```
 
-骨架屏插件运行时会使用 webpack 编译这个传入的配置对象，得到骨架屏的 bundle 文件。接下来只需要使用这个 bundle 文件内容创建一个 renderer，调用renderToString()方法就可以得到字符串形式的 HTML 渲染结果了。由于我们不需要将过程中的文件产物保存在硬盘中，使用内存文件系统 [memory-fs](https://link.zhihu.com/?target=https%3A//github.com/webpack/memory-fs) 即可。
+骨架屏插件运行时会使用 webpack 编译这个传入的配置对象，得到骨架屏的 bundle 文件。接下来只需要使用这个 bundle 文件内容创建一个 renderer，调用 renderToString()方法就可以得到字符串形式的 HTML 渲染结果了。由于我们不需要将过程中的文件产物保存在硬盘中，使用内存文件系统 [memory-fs](https://link.zhihu.com/?target=https%3A//github.com/webpack/memory-fs) 即可。
 
 ```js
 // vue-skeleton-webpack-plugin/src/ssr.js
@@ -106,20 +107,22 @@ renderer.renderToString({}, (err, skeletonHtml) => {});
 ```js
 // vue-skeleton-webpack-plugin/src/ssr.js
 // 加入 ExtractTextPlugin 插件到 webpack 配置对象插件列表中
-serverWebpackConfig.plugins.push(new ExtractTextPlugin({
-    filename: outputCssBasename
-}));
+serverWebpackConfig.plugins.push(
+  new ExtractTextPlugin({
+    filename: outputCssBasename,
+  }),
+);
 ```
 
 至此，我们已经得到了骨架屏的渲染结果 HTML 和样式内容，接下来需要关心如何将结果注入 HTML 页面模版中。
 
 ## 注入渲染结果
 
-Vue webpack 模版项目使用了 [HTML Webpack Plugin](https://link.zhihu.com/?target=https%3A//github.com/jantimon/html-webpack-plugin) 生成 HTML 文件。参考该插件的[事件说明](https://link.zhihu.com/?target=https%3A//github.com/jantimon/html-webpack-plugin%23events)，我们选择监听 *html-webpack-plugin-before-html-processing* 事件，在事件的回调函数中，插件会传入当前待处理的 HTML 内容供我们进一步修改。
+Vue webpack 模版项目使用了 [HTML Webpack Plugin](https://link.zhihu.com/?target=https%3A//github.com/jantimon/html-webpack-plugin) 生成 HTML 文件。参考该插件的[事件说明](https://link.zhihu.com/?target=https%3A//github.com/jantimon/html-webpack-plugin%23events)，我们选择监听 _html-webpack-plugin-before-html-processing_ 事件，在事件的回调函数中，插件会传入当前待处理的 HTML 内容供我们进一步修改。
 
 我们知道骨架屏组件最终的渲染结果包含 HTML 和样式两部分，样式部分可以直接插入 head 标签內，而 HTML 需要插入挂载点中。插件使用者可以通过参数设置这个挂载点位置，默认将使用 <div id="app">。
 
-看起来一切都很顺利，但是在多页应用中，情况会变的稍稍复杂。多页项目中通常会引入多个 HTML Webpack Plugin，例如我们在 [Lavas MPA 模版](https://link.zhihu.com/?target=https%3A//github.com/lavas-project/lavas-template-vue-mpa)中使用的 [Multipage Webpack 插件](https://link.zhihu.com/?target=https%3A//github.com/mutualofomaha/multipage-webpack-plugin)就是如此，这就会导致 *html-webpack-plugin-before-html-processing* 事件被多次触发。
+看起来一切都很顺利，但是在多页应用中，情况会变的稍稍复杂。多页项目中通常会引入多个 HTML Webpack Plugin，例如我们在 [Lavas MPA 模版](https://link.zhihu.com/?target=https%3A//github.com/lavas-project/lavas-template-vue-mpa)中使用的 [Multipage Webpack 插件](https://link.zhihu.com/?target=https%3A//github.com/mutualofomaha/multipage-webpack-plugin)就是如此，这就会导致 _html-webpack-plugin-before-html-processing_ 事件被多次触发。
 
 在多页应用中，我们传给骨架屏插件的 webpack 配置对象是包含多个入口的：
 
@@ -140,14 +143,14 @@ let usedChunks = htmlPluginData.plugin.options.chunks;
 let entryKey;
 // chunks 和所有入口文件的交集就是当前待处理的入口文件
 if (Array.isArray(usedChunks)) {
-    entryKey = Object.keys(skeletonEntries).find(v => usedChunks.indexOf(v) > -1);
+  entryKey = Object.keys(skeletonEntries).find(v => usedChunks.indexOf(v) > -1);
 }
 // 设置当前的 webpack 配置对象的入口文件和结果输出文件
 webpackConfig.entry = skeletonEntries[entryKey];
 webpackConfig.output.filename = `skeleton-${entryKey}.js`;
 // 使用配置对象进行服务端渲染
-ssr(webpackConfig).then(({skeletonHtml, skeletonCss}) => {
-    // 注入骨架屏 HTML 和 CSS 到页面 HTML 中
+ssr(webpackConfig).then(({ skeletonHtml, skeletonCss }) => {
+  // 注入骨架屏 HTML 和 CSS 到页面 HTML 中
 });
 ```
 
@@ -159,22 +162,23 @@ ssr(webpackConfig).then(({skeletonHtml, skeletonCss}) => {
 
 使用浏览器开发工具设置断点是一个办法，但如果能在开发模式中向路由文件插入骨架屏组件对应的路由规则，使各个页面的骨架屏能像其他路由组件一样被访问，将使开发调试变得更加方便。向路由文件插入规则代码的工作将在[插件的 loader](https://link.zhihu.com/?target=https%3A//github.com/lavas-project/vue-skeleton-webpack-plugin/blob/master/src/loader.js) 中完成。如果您对 webpack loader 还不了解，可以参阅[官方文档](https://link.zhihu.com/?target=https%3A//doc.webpack-china.org/concepts/loaders/)。
 
-我们需要向路由文件插入两类代码：引入骨架屏组件的代码和对应的路由规则对象。关于代码插入点，引入组件代码相对简单，放在文件顶部就行了，而路由规则需要插入路由对象数组中，目前我使用的是简单的字符串匹配来查找这个数组的起始位置。例如下面的例子中，需要向 loader 传入 "*routes: ["* 来确定插入路由的位置。
+我们需要向路由文件插入两类代码：引入骨架屏组件的代码和对应的路由规则对象。关于代码插入点，引入组件代码相对简单，放在文件顶部就行了，而路由规则需要插入路由对象数组中，目前我使用的是简单的字符串匹配来查找这个数组的起始位置。例如下面的例子中，需要向 loader 传入 "_routes: ["_ 来确定插入路由的位置。
 
 ```js
 // router.js
-import Skeleton from '@/pages/Skeleton.vue'
+import Skeleton from '@/pages/Skeleton.vue';
 routes: [
-    { // 插入骨架屏路由
-        path: '/skeleton',
-        name: 'skeleton',
-        component: Skeleton
-    }
-// ...其余路由规则
-]
+  {
+    // 插入骨架屏路由
+    path: '/skeleton',
+    name: 'skeleton',
+    component: Skeleton,
+  },
+  // ...其余路由规则
+];
 ```
 
-在多页应用中，每个页面对应的骨架屏都需要插入代码，使用者可以通过占位符设置引入骨架屏组件语句和路由规则的模版。loader 在运行时会使用这些模版，用真实的骨架屏名称替换掉占位符。在下面的例子中，假设我们有 *Page1.skeleton.vue* 和 *Page2.skeleton.vue* 这两个骨架屏，开发模式下可以通过 */skeleton-page1* 和 */skeleton-page2* 访问这两个骨架屏路由。更多参数说明可以参考[这里](https://link.zhihu.com/?target=https%3A//github.com/lavas-project/vue-skeleton-webpack-plugin%23%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E)。
+在多页应用中，每个页面对应的骨架屏都需要插入代码，使用者可以通过占位符设置引入骨架屏组件语句和路由规则的模版。loader 在运行时会使用这些模版，用真实的骨架屏名称替换掉占位符。在下面的例子中，假设我们有 _Page1.skeleton.vue_ 和 _Page2.skeleton.vue_ 这两个骨架屏，开发模式下可以通过 _/skeleton-page1_ 和 _/skeleton-page2_ 访问这两个骨架屏路由。更多参数说明可以参考[这里](https://link.zhihu.com/?target=https%3A//github.com/lavas-project/vue-skeleton-webpack-plugin%23%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E)。
 
 ```js
 // webpack.dev.conf.js

@@ -187,7 +187,7 @@ superagent('GET', '/api') //这里的URL也可以是绝对路径
   `superagent`可以帮你解析返回的数据,当前支持三种类型的数据`application/x-www-form-urlencoded` `application/json` 和`multipart/form-data`
 
   - `JSON/Urlencoded`
-     解析后的数据会以对象的形式存在,可以通过`res.body`来得到。
+    解析后的数据会以对象的形式存在,可以通过`res.body`来得到。
 
     ```rust
       '{"name":"An"}' //JSON String
@@ -286,8 +286,3 @@ superagent('GET', '/api') //这里的URL也可以是绝对路径
        .on('error',handleFn)
        .end(cb);
   ```
-
-## 最后
-
-我相信看到这里，大家对于`superagent`这个模块应该不陌生了吧，那大家还在等什么,快去用它做一个小爬虫吧，检验下你学习的成果！ 当然，如果你在写爬虫之前去学习一些[cheerio](https://link.jianshu.com?t=http://cheeriojs.github.io/cheerio/),就可以少写点恶心的正则表达式了。
-附上`blog`的[github 地址](https://link.jianshu.com?t=https://github.com/wangning0/Autumn_Ning_Blog/blob/master/blogs/3-19/superAgent_learn.md)

@@ -6,38 +6,9 @@ draft: true
 
 ## 双向绑定
 
-```html
-<div id="mvvm-app">
-  <input type="text" v-model="word" />
-  <p>{{word}}</p>
-  <button v-on:click="sayHi">change model</button>
-</div>
-
-<script src="./js/observer.js"></script>
-<script src="./js/watcher.js"></script>
-<script src="./js/compile.js"></script>
-<script src="./js/mvvm.js"></script>
-<script>
-  var vm = new MVVM({
-    el: '#mvvm-app',
-    data: {
-      word: 'Hello World!',
-    },
-    methods: {
-      sayHi: function() {
-        this.word = 'Hi, everybody!';
-      },
-    },
-  });
-</script>
-```
-
-效果：
-![图片描述](https://segmentfault.com/img/bVBQXk?w=259&h=137)
-
 ### 几种实现双向绑定的做法
 
-目前几种主流的 mvc(vm)框架都实现了单向数据绑定，而我所理解的双向数据绑定无非就是在单向绑定的基础上给可输入元素（input、textare 等）添加了 change(input)事件，来动态修改 model 和 view，并没有多高深。所以无需太过介怀是实现的单向或双向绑定。
+目前几种主流的 mvc(vm)框架都实现了单向数据绑定，而我所理解的双向数据绑定无非就是在单向绑定的基础上给可输入元素（input、textarea 等）添加了 change(input)事件，来动态修改 model 和 view，并没有多高深。所以无需太过介怀是实现的单向或双向绑定。
 
 实现数据绑定的做法有大致如下几种：
 

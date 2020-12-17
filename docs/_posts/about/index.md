@@ -5,8 +5,6 @@ draft: true
 subtitle: '感谢你对我的关注'
 headerImage: 'https://chatflow-files-cdn-1252847684.cos.ap-nanjing.myqcloud.com/images/4TVbbaNAw9Q.jpg'
 randomLink: true
-tags:
-  - yiliang
 ---
 
 ## 作者信息

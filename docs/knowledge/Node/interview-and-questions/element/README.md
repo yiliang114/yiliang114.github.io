@@ -252,9 +252,3 @@ Hi, 欢迎来到 ElemeFE, 如标题所示本教程的目的是教你如何通过
 - 如何避免中间人攻击? [[more]](/sections/zh-cn/security.md#中间人攻击)
 
 [阅读更多](/sections/zh-cn/security.md)
-
-## 最后
-
-目前 repo 处于施工现场的情况，如果发现问题欢迎在 [issues](https://github.com/ElemeFE/node-interview/issues) 中指出。如果有比较好的问题/知识点/指正，也欢迎提 PR。
-
-另外关于 Js 基础 是个比较大的话题，在本教程不会很细致深入的讨论，更多的是列出一些重要或者跟服务端更相关的地方，所以如果你拿着《JavaScript 权威指南》给教程提 PR 可能不会采纳。本教程的重点更准确的说是服务端基础中 Node.js 程序员需要了解的部分。

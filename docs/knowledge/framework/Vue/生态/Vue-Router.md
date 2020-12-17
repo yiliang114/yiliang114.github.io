@@ -907,109 +907,6 @@ updateRoute(route: Route) {
 
 单页应用，如何实现其路由功能
 
-#### active-class 是哪个组件的属性？
-
-vue-router 模块的 router-link 组件。
-
-#### 嵌套路由怎么定义？
-
-在实际项目中我们会碰到多层嵌套的组件组合而成，但是我们如何实现嵌套路由呢？因此我们需要在 VueRouter 的参数中使用 children 配置，这样就可以很好的实现路由嵌套。
-index.html，只有一个路由出口
-
-```html
-<div id="app">
-  <!-- router-view 路由出口, 路由匹配到的组件将渲染在这里 -->
-  <router-view></router-view>
-</div>
-```
-
-main.js，路由的重定向，就会在页面一加载的时候，就会将 home 组件显示出来，因为重定向指向了 home 组件，redirect 的指向与 path 的必须一致。children 里面是子路由，当然子路由里面还可以继续嵌套子路由。
-
-```js
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
-
-//引入两个组件
-
-import home from './home.vue';
-import game from './game.vue';
-//定义路由
-const routes = [
-  { path: '/', redirect: '/home' }, //重定向,指向了home组件
-  {
-    path: '/home',
-    component: home,
-    children: [{ path: '/home/game', component: game }],
-  },
-];
-//创建路由实例
-const router = new VueRouter({ routes });
-
-new Vue({
-  el: '#app',
-  data: {},
-  methods: {},
-  router,
-});
-```
-
-home.vue，点击显示就会将子路由显示在出来，子路由的出口必须在父路由里面，否则子路由无法显示。
-
-#### 路由之间跳转？
-
-- 声明式（标签跳转） `<router-link :to="index">`
-- 编程式（ js 跳转） `router.push('index')`
-
-#### 懒加载（按需加载路由）（常考）
-
-webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
-
-- 不进行页面按需加载引入方式：
-
-```js
-import home from '../../common/home.vue';
-```
-
-- 进行页面按需加载的引入方式：
-
-```js
-const home = r => require.ensure([], () => r(require('../../common/home.vue')));
-```
-
-#### vue-router 有哪几种导航钩子?
-
-三种
-
-- 全局导航钩子
-  - router.beforeEach(to, from, next),
-  - router.beforeResolve(to, from, next),
-  - router.afterEach(to, from ,next)
-- 组件内钩子
-  - beforeRouteEnter,
-  - beforeRouteUpdate,
-  - beforeRouteLeave
-- 单独路由独享组件
-  - beforeEnter
-
-#### Vue 的路由实现：hash 模式 和 history 模式
-
-hash 模式：在浏览器中符号“#”，#以及#后面的字符称之为 hash，用 window.location.hash 读取；
-特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用，hash 不会重加载页面。
-hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。
-
-history 模式：history 采用 HTML5 的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及 popState 事件的监听到状态变更。
-history 模式下，前端的 URL 必须和实际向后端发起请求的 URL 一致，如 http://www.xxx.com/items/id。后端如果缺少对 /items/id 的路由处理，将返回 404 错误。Vue-Router 官网里如此描述：“不过这种模式要玩好，还需要后台配置支持……所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。”
-
-#### vue 路由的钩子函数
-
-首页可以控制导航跳转，beforeEach，afterEach 等，一般用于页面 title 的修改。一些需要登录才能调整页面的重定向功能。
-
-- beforeEach 主要有 3 个参数 to，from，next：
-- to：route 即将进入的目标路由对象，
-- from：route 当前导航正要离开的路由
-- next：function 一定要调用该方法 resolve 这个钩子。执行效果依赖 next 方法的调用参数。可以控制网页的跳转。
-
 ## 路由原理
 
 前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新。目前单页面使用的路由就只有两种实现方式
@@ -1042,7 +939,7 @@ https://blog.csdn.net/oZhangBi/article/details/79939969
 
 https://www.cnblogs.com/sysuhanyf/p/7454530.html
 
-#### 路由切换的时候，哪些声明周期函数会被执行？从文档中先获取结果，从源码中寻找论证。
+#### 路由切换的时候，哪些生命周期函数会被执行？从文档中先获取结果，从源码中寻找论证。
 
 #### vue-router
 
@@ -1184,12 +1081,6 @@ https://www.jianshu.com/p/0b0222954483
 hash 主要依赖 location.hash 来改动 URL,达到不刷新跳转的效果.每次 hash 改变都会触发 hashchange 事件(来响应路由的变化,比如页面的更换)
 history 主要利用了 HTML5 的 historyAPI 来实现,用 pushState 和 replaceState 来操作浏览历史记录栈
 
-#### vue-router 原理
-
-<https://www.cnblogs.com/tiedaweishao/p/9144531.html>
-<https://www.jianshu.com/p/4295aec31302>
-<https://www.cnblogs.com/heioray/p/9289839.html>
-
 ### hash 模式和 history 模式区别
 
 ##### hash 模式
@@ -1235,3 +1126,108 @@ $router 是“路由实例”对象包括了路由的跳转方法，钩子函数
 ```js
 router.push('index');
 ```
+
+## 常见问题
+
+#### active-class 是哪个组件的属性？
+
+vue-router 模块的 router-link 组件。
+
+#### 嵌套路由怎么定义？
+
+在实际项目中我们会碰到多层嵌套的组件组合而成，但是我们如何实现嵌套路由呢？因此我们需要在 VueRouter 的参数中使用 children 配置，这样就可以很好的实现路由嵌套。
+index.html，只有一个路由出口
+
+```html
+<div id="app">
+  <!-- router-view 路由出口, 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
+</div>
+```
+
+main.js，路由的重定向，就会在页面一加载的时候，就会将 home 组件显示出来，因为重定向指向了 home 组件，redirect 的指向与 path 的必须一致。children 里面是子路由，当然子路由里面还可以继续嵌套子路由。
+
+```js
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+
+//引入两个组件
+
+import home from './home.vue';
+import game from './game.vue';
+//定义路由
+const routes = [
+  { path: '/', redirect: '/home' }, //重定向,指向了home组件
+  {
+    path: '/home',
+    component: home,
+    children: [{ path: '/home/game', component: game }],
+  },
+];
+//创建路由实例
+const router = new VueRouter({ routes });
+
+new Vue({
+  el: '#app',
+  data: {},
+  methods: {},
+  router,
+});
+```
+
+home.vue，点击显示就会将子路由显示在出来，子路由的出口必须在父路由里面，否则子路由无法显示。
+
+#### 路由之间跳转？
+
+- 声明式（标签跳转） `<router-link :to="index">`
+- 编程式（ js 跳转） `router.push('index')`
+
+#### 懒加载（按需加载路由）（常考）
+
+webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
+
+- 不进行页面按需加载引入方式：
+
+```js
+import home from '../../common/home.vue';
+```
+
+- 进行页面按需加载的引入方式：
+
+```js
+const home = r => require.ensure([], () => r(require('../../common/home.vue')));
+```
+
+#### vue-router 有哪几种导航钩子?
+
+三种
+
+- 全局导航钩子
+  - router.beforeEach(to, from, next),
+  - router.beforeResolve(to, from, next),
+  - router.afterEach(to, from ,next)
+- 组件内钩子
+  - beforeRouteEnter,
+  - beforeRouteUpdate,
+  - beforeRouteLeave
+- 单独路由独享组件
+  - beforeEnter
+
+#### Vue 的路由实现：hash 模式 和 history 模式
+
+hash 模式：在浏览器中符号“#”，#以及#后面的字符称之为 hash，用 window.location.hash 读取；
+特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用，hash 不会重加载页面。
+hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。
+
+history 模式：history 采用 HTML5 的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及 popState 事件的监听到状态变更。
+history 模式下，前端的 URL 必须和实际向后端发起请求的 URL 一致，如 http://www.xxx.com/items/id。后端如果缺少对 /items/id 的路由处理，将返回 404 错误。Vue-Router 官网里如此描述：“不过这种模式要玩好，还需要后台配置支持……所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。”
+
+#### vue 路由的钩子函数
+
+首页可以控制导航跳转，beforeEach，afterEach 等，一般用于页面 title 的修改。一些需要登录才能调整页面的重定向功能。
+
+- beforeEach 主要有 3 个参数 to，from，next：
+- to：route 即将进入的目标路由对象，
+- from：route 当前导航正要离开的路由
+- next：function 一定要调用该方法 resolve 这个钩子。执行效果依赖 next 方法的调用参数。可以控制网页的跳转。

@@ -96,9 +96,9 @@ this.state = {
 
 假如父组件包含多个子组件，然后把一个 JavaScript 对象作为 props 值传给这几个子组件，如果一个子组件去修改 props 中的值，可能让程序陷入一团混乱之中，这就违背了 React 设计的初衷。
 
-### React 组件的声明周期
+### React 组件的生命周期
 
-React 严格定义了组件的声明周期，经历如下三个过程：
+React 严格定义了组件的生命周期，经历如下三个过程：
 
 - 装载过程(Mount), 也就是把组件第一个在 DOM 树种进行 渲染的过程。
 - 更新过程(Update), 当组件被重新渲染的过程。
@@ -161,7 +161,7 @@ componentWillMount 和 componentDidMount 函数还有一个区别是： componen
 
 - shouldComponentUpdate(nextProps, nextState)
 
-  shouldComponentUpdate 这个函数决定了一个组件什么时候不需要渲染。shouldComponentUpdate 和 render 函数是 React 声明周期函数中唯二两个要求有返回结果的函数。shouldComponentUpdate 函数返回一个布尔值，告诉 React 这个组件在这次更新过程中是否要继续。
+  shouldComponentUpdate 这个函数决定了一个组件什么时候不需要渲染。shouldComponentUpdate 和 render 函数是 React 生命周期函数中唯二两个要求有返回结果的函数。shouldComponentUpdate 函数返回一个布尔值，告诉 React 这个组件在这次更新过程中是否要继续。
 
   在更新过程中，React 库首先调用 shouldComponentUpdate 函数，如果函数返回的是 true，就是继续更新过程，接下来调用 render 函数，反之 如果得到一个 false，那就立即停止更新过程，也就不会引发后续的渲染了。
 

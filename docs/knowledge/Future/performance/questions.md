@@ -383,7 +383,7 @@ es6 以上不支持 uglify 需要压缩代码的话，要使用 babel 的 minify
 
 ### 从 promise 到 await
 
-### vue react 从声明周期中考虑的避免 rerender 的优化
+### vue react 从生命周期中考虑的避免 rerender 的优化
 
 ### cdn 加速
 

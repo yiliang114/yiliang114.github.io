@@ -6,6 +6,10 @@ draft: true
 
 # NodeJS
 
+## 简介
+
+node 擅长 IO 密集型任务，对于 CPU 密集型任务也可以写但是会比较麻烦。
+
 ## Node
 
 服务端 JavaScript: JavaScript 最早是运行在浏览器中，然而浏览器只是提供了一个上下文，它定义了使用 JavaScript 可以做什么，但并没有“说”太多关于 JavaScript 语言本身可以做什么。事实上，JavaScript 是一门“完整”的语言： 它可以使用在不同的上下文中，其能力与其他同类语言相比有过之而无不及。
@@ -13,33 +17,6 @@ draft: true
 Node.js 事实上就是另外一种上下文，它允许在后端（脱离浏览器环境）运行 JavaScript 代码。
 
 要实现在后台运行 JavaScript 代码，代码需要先被解释然后正确的执行。Node.js 的原理正是如此，它使用了 Google 的 V8 虚拟机（Google 的 Chrome 浏览器使用的 JavaScript 执行环境），来解释和执行 JavaScript 代码。
-
-### 简介
-
-node 擅长 IO 密集型任务，对于 CPU 密集型任务也可以写但是会比较麻烦。
-
-### stream 的异步
-
-request 会返回一个可读流， 可以直接使用 pipe 函数，但是因为 pipe 函数是一个异步操作，如果 pipe 操作写一个
-可写流，不能直接使用 await 进行同步执行，stream 有一个 finish 事件，表示 pipe 操作的完成，这样就不会出现在 pipe 操作还没有结束的时候，另外的读取文件操作会显示文件长度为 0 的问题。
-
-[where to put a callback when pipe is finished?](https://github.com/request/request/issues/1645)
-
-```js
-function getFileFromUrl(url, filename) {
-  return new Promise(resolve => {
-    request(url)
-      .pipe(fs.createWriteStream(filename))
-      .on('finish', resolve);
-  });
-}
-```
-
-### node 文件的读和写
-
-如果 node 文件不是很大的话， 可以直接通过 fs 的 readFile 和 writeFile 进行操作，但是如果文件比较大的话，就推荐直接使用 stream 进行操作了。
-
-[node stream](https://blog.csdn.net/qq_32842925/article/details/83475517)
 
 ## NodeJS 特点
 
@@ -159,6 +136,29 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 一般的 node 项目使用 dotenv 去加载 .env 文件并读取文件中的变量值。
 
 而 vue-cli@3 本身就支持加载不同环境的的 env 文件。
+
+### stream 的异步
+
+request 会返回一个可读流， 可以直接使用 pipe 函数，但是因为 pipe 函数是一个异步操作，如果 pipe 操作写一个
+可写流，不能直接使用 await 进行同步执行，stream 有一个 finish 事件，表示 pipe 操作的完成，这样就不会出现在 pipe 操作还没有结束的时候，另外的读取文件操作会显示文件长度为 0 的问题。
+
+[where to put a callback when pipe is finished?](https://github.com/request/request/issues/1645)
+
+```js
+function getFileFromUrl(url, filename) {
+  return new Promise(resolve => {
+    request(url)
+      .pipe(fs.createWriteStream(filename))
+      .on('finish', resolve);
+  });
+}
+```
+
+### node 文件的读和写
+
+如果 node 文件不是很大的话， 可以直接通过 fs 的 readFile 和 writeFile 进行操作，但是如果文件比较大的话，就推荐直接使用 stream 进行操作了。
+
+[node stream](https://blog.csdn.net/qq_32842925/article/details/83475517)
 
 ## 资料
 

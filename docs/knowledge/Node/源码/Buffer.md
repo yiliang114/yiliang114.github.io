@@ -4,11 +4,7 @@ date: '2020-10-26'
 draft: true
 ---
 
-# 深入浅出 Node.js（六）：Buffer 那些事儿
-
-- 田永强
-
-阅读数：364392012 年 4 月 16 日 00:00
+# Buffer 那些事儿
 
 作为前端的 JSer，是一件非常幸福的事情，因为在字符串上从来没有出现过任何纠结的问题。我们来看看 PHP 对字符串长度的判断结果：
 
@@ -28,9 +24,9 @@ console.log("零一二三四五六七八九".length); /10
 console.log("\u00bd".length); // 1
 ```
 
-尽管在计算机内部，一个中文字和一个英文字占用的字节位数是不同的，但对于用户而言，它们拥有相同的长度。我认为这是 JavaScript 中 String 处理得精彩的一个点。正是由于这个原因，所有的数据从后端传输到前端被调用时，都是这般友好的字符串。所以对于前端工程师而言，他们是没有字 符串 Buffer 的概念的。如果你是一名前端工程师，那么从此在与 Node.js 打交道的过程中，一定要小心 Buffer 啦，因为它比传统的 String 要调皮一点。
+尽管在计算机内部，一个中文字和一个英文字占用的字节位数是不同的，但对于用户而言，它们拥有相同的长度。我认为这是 JavaScript 中 String 处理得精彩的一个点。正是由于这个原因，所有的数据从后端传输到前端被调用时，都是这般友好的字符串。所以对于前端工程师而言，他们是没有字符串 Buffer 的概念的。如果你是一名前端工程师，那么从此在与 Node.js 打交道的过程中，一定要小心 Buffer 啦，因为它比传统的 String 要调皮一点。
 
-## 你该小心 Buffer 啦
+## 你该小心 Buffer
 
 像许多计算机的技术一样，都是从国外传播过来的。那些以英文作为母语的传道者们应该没有考虑过英文以外的使用者，所以你有可能看到如下这样一段代码在向你描述如何在 data 事件中连接字符串。
 
@@ -158,16 +154,3 @@ http.createServer(function (request, response) {
 
 - 保持编码不变，以利于后续编码转换
 - 使用封装方法达到简洁代码的目的
-
-## 参考
-
-- https://github.com/joyent/node/blob/master/lib/fs.js#L107
-- https://github.com/JacksonTian/bufferhelper
-
-## 关于作者
-
-田永强，新浪微博[ @朴灵](http://weibo.com/shyvo)，前端工程师，曾就职于 SAP，现就职于淘宝，花名朴灵，致力于 NodeJS 和 Mobile Web App 方面的研发工作。双修前后端 JavaScript，寄望将 NodeJS 引荐给更多的工程师。兴趣：读万卷书，行万里路。个人 Github 地 址：http://github.com/JacksonTian。
-
----
-
-感谢[崔康](http://www.infoq.com/cn/bycategory.action?authorName=崔康)对本文的审校。
