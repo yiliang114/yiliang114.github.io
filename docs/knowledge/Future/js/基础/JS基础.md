@@ -36,7 +36,6 @@ draft: true
 - es6 以及新的特性：
   - proxy
   - reflect
-  - 变量提升解释
   - 块级作用域
   - symbol
 - amd cmd commonjs

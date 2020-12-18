@@ -667,3 +667,34 @@ http://www.techweb.com.cn/network/system/2017-08-08/2570103.shtml
 ```
 
 但值得注意的是 defineProperty 支持 IE8 以上的浏览器，这里可以使用**defineGetter** 和 **defineSetter** 来做兼容但是浏览器兼容性的原因，直接用 defineProperty 就可以了。至于 IE8 浏览器仍需要使用其它方法来做 hack。如下代码可以对 IE8 进行 hack，defineProperty 支持 IE8。例如使用 es5-shim.js 就可以了。（IE8 以下浏览器忽略）
+
+### 说说你对 MVC 和 MVVM 的理解
+
+1. `MVC`
+   View 传送指令到 Controller
+   Controller 完成业务逻辑后，要求 Model 改变状态
+   Model 将新的数据发送到 View，用户得到反馈
+
+所有通信都是单向的。
+
+2. `MVVM`
+   `Angular`它采用双向绑定（data-binding）：`View`的变动，自动反映在 `ViewModel`，反之亦然。
+   组成部分 Model、View、ViewModel. View：UI 界面. ViewModel：它是 View 的抽象，负责 View 与 Model 之间信息转换，将 View 的 Command 传送到 Model；Model：数据访问层
+
+**说说你对 MVC 和 MVVM 的理解**
+
+- MVC
+
+  - View 传送指令到 Controller
+
+  - Controller 完成业务逻辑后，要求 Model 改变状态
+
+  - Model 将新的数据发送到 View，用户得到反馈
+
+所有通信都是单向的
+
+### MVC、MVVM 了区别，数据双向绑定和单向绑定实现方式
+
+[MVC、MVVM 和单向数据流的对比](https://blog.csdn.net/woshinannan741/article/details/76034586)
+[浅谈 MVVM 是如何实现数据双向绑定的？](https://blog.csdn.net/weixin_43196700/article/details/82758237)
+[MVC/MVP/MVVM 区别——MVVM 就是 angular，视图和数据双向绑定](https://www.cnblogs.com/bonelee/p/7297974.html)

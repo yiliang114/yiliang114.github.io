@@ -6,8 +6,6 @@ aside: false
 draft: true
 ---
 
-# 性能优化
-
 ### 总结
 
 1. 减少 HTTP 请求，资源压缩合并，开启 gzip 压缩， 使用 CDN 加速静态资源

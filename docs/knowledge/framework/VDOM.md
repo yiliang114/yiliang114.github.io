@@ -18,10 +18,10 @@ draft: true
 
 ```js
 // 假设这里模拟一个 ul，其中包含了 5 个 li
-;[1, 2, 3, 4, 5][
+[1, 2, 3, 4, 5][
   // 这里替换上面的 li
   (1, 2, 5, 4)
-]
+];
 ```
 
 从上述例子中，我们一眼就可以看出先前的 ul 中的第三个 li 被移除了，四五替换了位置。
@@ -30,14 +30,14 @@ draft: true
 
 ```js
 // 删除第三个 li
-ul.childNodes[2].remove()
+ul.childNodes[2].remove();
 // 将第四个 li 和第五个交换位置
-let fromNode = ul.childNodes[4]
-let toNode = node.childNodes[3]
-let cloneFromNode = fromNode.cloneNode(true)
-let cloenToNode = toNode.cloneNode(true)
-ul.replaceChild(cloneFromNode, toNode)
-ul.replaceChild(cloenToNode, fromNode)
+let fromNode = ul.childNodes[4];
+let toNode = node.childNodes[3];
+let cloneFromNode = fromNode.cloneNode(true);
+let cloenToNode = toNode.cloneNode(true);
+ul.replaceChild(cloneFromNode, toNode);
+ul.replaceChild(cloenToNode, fromNode);
 ```
 
 当然在实际操作中，我们还需要给每个节点一个标识，作为判断是同一个节点的依据。所以这也是 Vue 和 React 中官方推荐列表里的节点使用唯一的 `key` 来保证性能。
@@ -55,62 +55,52 @@ export default class Element {
    * @param {String} key option
    */
   constructor(tag, props, children, key) {
-    this.tag = tag
-    this.props = props
+    this.tag = tag;
+    this.props = props;
     if (Array.isArray(children)) {
-      this.children = children
+      this.children = children;
     } else if (isString(children)) {
-      this.key = children
-      this.children = null
+      this.key = children;
+      this.children = null;
     }
-    if (key) this.key = key
+    if (key) this.key = key;
   }
   // 渲染
   render() {
-    let root = this._createElement(
-      this.tag,
-      this.props,
-      this.children,
-      this.key
-    )
-    document.body.appendChild(root)
-    return root
+    let root = this._createElement(this.tag, this.props, this.children, this.key);
+    document.body.appendChild(root);
+    return root;
   }
   create() {
-    return this._createElement(this.tag, this.props, this.children, this.key)
+    return this._createElement(this.tag, this.props, this.children, this.key);
   }
   // 创建节点
   _createElement(tag, props, child, key) {
     // 通过 tag 创建节点
-    let el = document.createElement(tag)
+    let el = document.createElement(tag);
     // 设置节点属性
     for (const key in props) {
       if (props.hasOwnProperty(key)) {
-        const value = props[key]
-        el.setAttribute(key, value)
+        const value = props[key];
+        el.setAttribute(key, value);
       }
     }
     if (key) {
-      el.setAttribute('key', key)
+      el.setAttribute('key', key);
     }
     // 递归添加子节点
     if (child) {
       child.forEach(element => {
-        let child
+        let child;
         if (element instanceof Element) {
-          child = this._createElement(
-            element.tag,
-            element.props,
-            element.children,
-            element.key
-          )
+          child = this._createElement(element.tag, element.props, element.children, element.key);
         } else {
-          child = document.createTextNode(element)
+          child = document.createTextNode(element);
         }
-        el.appendChild(child)
-      })
+        el.appendChild(child);
+      });
     }
-    return el
+    return el;
   }
 }
 ```
@@ -139,20 +129,20 @@ DOM 是多叉树的结构，如果需要完整的对比两颗树的差异，那�
 3. 没有新的节点，那么什么都不用做
 
 ```js
-import { StateEnums, isString, move } from './util'
-import Element from './element'
+import { StateEnums, isString, move } from './util';
+import Element from './element';
 
 export default function diff(oldDomTree, newDomTree) {
   // 用于记录差异
-  let pathchs = {}
+  let pathchs = {};
   // 一开始的索引为 0
-  dfs(oldDomTree, newDomTree, 0, pathchs)
-  return pathchs
+  dfs(oldDomTree, newDomTree, 0, pathchs);
+  return pathchs;
 }
 
 function dfs(oldNode, newNode, index, patches) {
   // 用于保存子树的更改
-  let curPatches = []
+  let curPatches = [];
   // 需要判断三种情况
   // 1.没有新的节点，那么什么都不用做
   // 2.新的节点的 tagName 和 `key` 和旧的不同，就替换
@@ -160,20 +150,20 @@ function dfs(oldNode, newNode, index, patches) {
   if (!newNode) {
   } else if (newNode.tag === oldNode.tag && newNode.key === oldNode.key) {
     // 判断属性是否变更
-    let props = diffProps(oldNode.props, newNode.props)
-    if (props.length) curPatches.push({ type: StateEnums.ChangeProps, props })
+    let props = diffProps(oldNode.props, newNode.props);
+    if (props.length) curPatches.push({ type: StateEnums.ChangeProps, props });
     // 遍历子树
-    diffChildren(oldNode.children, newNode.children, index, patches)
+    diffChildren(oldNode.children, newNode.children, index, patches);
   } else {
     // 节点不同，需要替换
-    curPatches.push({ type: StateEnums.Replace, node: newNode })
+    curPatches.push({ type: StateEnums.Replace, node: newNode });
   }
 
   if (curPatches.length) {
     if (patches[index]) {
-      patches[index] = patches[index].concat(curPatches)
+      patches[index] = patches[index].concat(curPatches);
     } else {
-      patches[index] = curPatches
+      patches[index] = curPatches;
     }
   }
 }
@@ -193,31 +183,31 @@ function diffProps(oldProps, newProps) {
   // 先遍历 oldProps 查看是否存在删除的属性
   // 然后遍历 newProps 查看是否有属性值被修改
   // 最后查看是否有属性新增
-  let change = []
+  let change = [];
   for (const key in oldProps) {
     if (oldProps.hasOwnProperty(key) && !newProps[key]) {
       change.push({
-        prop: key
-      })
+        prop: key,
+      });
     }
   }
   for (const key in newProps) {
     if (newProps.hasOwnProperty(key)) {
-      const prop = newProps[key]
+      const prop = newProps[key];
       if (oldProps[key] && oldProps[key] !== newProps[key]) {
         change.push({
           prop: key,
-          value: newProps[key]
-        })
+          value: newProps[key],
+        });
       } else if (!oldProps[key]) {
         change.push({
           prop: key,
-          value: newProps[key]
-        })
+          value: newProps[key],
+        });
       }
     }
   }
-  return change
+  return change;
 }
 ```
 
@@ -235,9 +225,9 @@ PS：该算法只对有 `key` 的节点做处理
 ```js
 function listDiff(oldList, newList, index, patches) {
   // 为了遍历方便，先取出两个 list 的所有 keys
-  let oldKeys = getKeys(oldList)
-  let newKeys = getKeys(newList)
-  let changes = []
+  let oldKeys = getKeys(oldList);
+  let newKeys = getKeys(newList);
+  let changes = [];
 
   // 用于保存变更后的节点数据
   // 使用该数组保存有以下好处
@@ -246,81 +236,81 @@ function listDiff(oldList, newList, index, patches) {
   // 3.用于 `diffChildren` 函数中的判断，只需要遍历
   // 两个树中都存在的节点，而对于新增或者删除的节点来说，完全没必要
   // 再去判断一遍
-  let list = []
+  let list = [];
   oldList &&
     oldList.forEach(item => {
-      let key = item.key
+      let key = item.key;
       if (isString(item)) {
-        key = item
+        key = item;
       }
       // 寻找新的 children 中是否含有当前节点
       // 没有的话需要删除
-      let index = newKeys.indexOf(key)
+      let index = newKeys.indexOf(key);
       if (index === -1) {
-        list.push(null)
-      } else list.push(key)
-    })
+        list.push(null);
+      } else list.push(key);
+    });
   // 遍历变更后的数组
-  let length = list.length
+  let length = list.length;
   // 因为删除数组元素是会更改索引的
   // 所有从后往前删可以保证索引不变
   for (let i = length - 1; i >= 0; i--) {
     // 判断当前元素是否为空，为空表示需要删除
     if (!list[i]) {
-      list.splice(i, 1)
+      list.splice(i, 1);
       changes.push({
         type: StateEnums.Remove,
-        index: i
-      })
+        index: i,
+      });
     }
   }
   // 遍历新的 list，判断是否有节点新增或移动
   // 同时也对 `list` 做节点新增和移动节点的操作
   newList &&
     newList.forEach((item, i) => {
-      let key = item.key
+      let key = item.key;
       if (isString(item)) {
-        key = item
+        key = item;
       }
       // 寻找旧的 children 中是否含有当前节点
-      let index = list.indexOf(key)
+      let index = list.indexOf(key);
       // 没找到代表新节点，需要插入
       if (index === -1 || key == null) {
         changes.push({
           type: StateEnums.Insert,
           node: item,
-          index: i
-        })
-        list.splice(i, 0, key)
+          index: i,
+        });
+        list.splice(i, 0, key);
       } else {
         // 找到了，需要判断是否需要移动
         if (index !== i) {
           changes.push({
             type: StateEnums.Move,
             from: index,
-            to: i
-          })
-          move(list, index, i)
+            to: i,
+          });
+          move(list, index, i);
         }
       }
-    })
-  return { changes, list }
+    });
+  return { changes, list };
 }
 
 function getKeys(list) {
-  let keys = []
-  let text
+  let keys = [];
+  let text;
   list &&
     list.forEach(item => {
-      let key
+      let key;
       if (isString(item)) {
-        key = [item]
+        key = [item];
       } else if (item instanceof Element) {
-        key = item.key
+        key = item.key;
       }
-      keys.push(key)
-    })
-  return keys
+      keys.push(key);
+    });
+  return keys;
 }
 ```
 
@@ -335,31 +325,30 @@ function getKeys(list) {
 
 ```js
 function diffChildren(oldChild, newChild, index, patches) {
-  let { changes, list } = listDiff(oldChild, newChild, index, patches)
+  let { changes, list } = listDiff(oldChild, newChild, index, patches);
   if (changes.length) {
     if (patches[index]) {
-      patches[index] = patches[index].concat(changes)
+      patches[index] = patches[index].concat(changes);
     } else {
-      patches[index] = changes
+      patches[index] = changes;
     }
   }
   // 记录上一个遍历过的节点
-  let last = null
+  let last = null;
   oldChild &&
     oldChild.forEach((item, i) => {
-      let child = item && item.children
+      let child = item && item.children;
       if (child) {
-        index =
-          last && last.children ? index + last.children.length + 1 : index + 1
-        let keyIndex = list.indexOf(item.key)
-        let node = newChild[keyIndex]
+        index = last && last.children ? index + last.children.length + 1 : index + 1;
+        let keyIndex = list.indexOf(item.key);
+        let node = newChild[keyIndex];
         // 只遍历新旧中都存在的节点，其他新增或者删除的没必要遍历
         if (node) {
-          dfs(item, node, index, patches)
+          dfs(item, node, index, patches);
         }
-      } else index += 1
-      last = item
-    })
+      } else index += 1;
+      last = item;
+    });
 }
 ```
 
@@ -375,68 +364,67 @@ function diffChildren(oldChild, newChild, index, patches) {
 整体来说这部分代码还是很好理解的
 
 ```js
-let index = 0
+let index = 0;
 export default function patch(node, patchs) {
-  let changes = patchs[index]
-  let childNodes = node && node.childNodes
+  let changes = patchs[index];
+  let childNodes = node && node.childNodes;
   // 这里的深度遍历和 diff 中是一样的
-  if (!childNodes) index += 1
+  if (!childNodes) index += 1;
   if (changes && changes.length && patchs[index]) {
-    changeDom(node, changes)
+    changeDom(node, changes);
   }
-  let last = null
+  let last = null;
   if (childNodes && childNodes.length) {
     childNodes.forEach((item, i) => {
-      index =
-        last && last.children ? index + last.children.length + 1 : index + 1
-      patch(item, patchs)
-      last = item
-    })
+      index = last && last.children ? index + last.children.length + 1 : index + 1;
+      patch(item, patchs);
+      last = item;
+    });
   }
 }
 
 function changeDom(node, changes, noChild) {
   changes &&
     changes.forEach(change => {
-      let { type } = change
+      let { type } = change;
       switch (type) {
         case StateEnums.ChangeProps:
-          let { props } = change
+          let { props } = change;
           props.forEach(item => {
             if (item.value) {
-              node.setAttribute(item.prop, item.value)
+              node.setAttribute(item.prop, item.value);
             } else {
-              node.removeAttribute(item.prop)
+              node.removeAttribute(item.prop);
             }
-          })
-          break
+          });
+          break;
         case StateEnums.Remove:
-          node.childNodes[change.index].remove()
-          break
+          node.childNodes[change.index].remove();
+          break;
         case StateEnums.Insert:
-          let dom
+          let dom;
           if (isString(change.node)) {
-            dom = document.createTextNode(change.node)
+            dom = document.createTextNode(change.node);
           } else if (change.node instanceof Element) {
-            dom = change.node.create()
+            dom = change.node.create();
           }
-          node.insertBefore(dom, node.childNodes[change.index])
-          break
+          node.insertBefore(dom, node.childNodes[change.index]);
+          break;
         case StateEnums.Replace:
-          node.parentNode.replaceChild(change.node.create(), node)
-          break
+          node.parentNode.replaceChild(change.node.create(), node);
+          break;
         case StateEnums.Move:
-          let fromNode = node.childNodes[change.from]
-          let toNode = node.childNodes[change.to]
-          let cloneFromNode = fromNode.cloneNode(true)
-          let cloenToNode = toNode.cloneNode(true)
-          node.replaceChild(cloneFromNode, toNode)
-          node.replaceChild(cloenToNode, fromNode)
-          break
+          let fromNode = node.childNodes[change.from];
+          let toNode = node.childNodes[change.to];
+          let cloneFromNode = fromNode.cloneNode(true);
+          let cloenToNode = toNode.cloneNode(true);
+          node.replaceChild(cloneFromNode, toNode);
+          node.replaceChild(cloenToNode, fromNode);
+          break;
         default:
-          break
+          break;
       }
-    })
+    });
 }
 ```
 
@@ -449,39 +437,26 @@ Virtual Dom 算法的实现也就是以下三步
 3. 渲染差异
 
 ```js
-let test4 = new Element('div', { class: 'my-div' }, ['test4'])
-let test5 = new Element('ul', { class: 'my-div' }, ['test5'])
+let test4 = new Element('div', { class: 'my-div' }, ['test4']);
+let test5 = new Element('ul', { class: 'my-div' }, ['test5']);
 
-let test1 = new Element('div', { class: 'my-div' }, [test4])
+let test1 = new Element('div', { class: 'my-div' }, [test4]);
 
-let test2 = new Element('div', { id: '11' }, [test5, test4])
+let test2 = new Element('div', { id: '11' }, [test5, test4]);
 
-let root = test1.render()
+let root = test1.render();
 
-let pathchs = diff(test1, test2)
-console.log(pathchs)
+let pathchs = diff(test1, test2);
+console.log(pathchs);
 
 setTimeout(() => {
-  console.log('开始更新')
-  patch(root, pathchs)
-  console.log('结束更新')
-}, 1000)
+  console.log('开始更新');
+  patch(root, pathchs);
+  console.log('结束更新');
+}, 1000);
 ```
 
 当然目前的实现还略显粗糙，但是对于理解 Virtual Dom 算法来说已经是完全足够的了。
-
-### 说说你对 MVC 和 MVVM 的理解
-
-1. `MVC`
-   View 传送指令到 Controller
-   Controller 完成业务逻辑后，要求 Model 改变状态
-   Model 将新的数据发送到 View，用户得到反馈
-
-所有通信都是单向的。
-
-2. `MVVM`
-   `Angular`它采用双向绑定（data-binding）：`View`的变动，自动反映在 `ViewModel`，反之亦然。
-   组成部分 Model、View、ViewModel. View：UI 界面. ViewModel：它是 View 的抽象，负责 View 与 Model 之间信息转换，将 View 的 Command 传送到 Model；Model：数据访问层
 
 ### 虚拟 dom
 
@@ -692,3 +667,99 @@ const ul = {
 1. 将 Virtual DOM 作为一个兼容层，让我们还能对接非 Web 端的系统，实现跨端开发。
 2. 同样的，通过 Virtual DOM 我们可以渲染到其他的平台，比如实现 SSR、同构渲染等等。
 3. 实现组件的高度抽象化
+
+### Virtual DOM 真的比操作原生 DOM 快吗？谈谈你的想法。
+
+尤大大的回答：
+
+1. 原生 DOM 操作 vs. 通过框架封装操作。
+   这是一个性能 vs. 可维护性的取舍。框架的意义在于为你掩盖底层的 DOM 操作，让你用更声明式的方式来描述你的目的，从而让你的代码更容易维护。没有任何框架可以比纯手动的优化 DOM 操作更快，因为框架的 DOM 操作层需要应对任何上层 API 可能产生的操作，它的实现必须是普适的。针对任何一个 benchmark，我都可以写出比任何框架更快的手动优化，但是那有什么意义呢？在构建一个实际应用的时候，你难道为每一个地方都去做手动优化吗？出于可维护性的考虑，这显然不可能。框架给你的保证是，你在不需要手动优化的情况下，我依然可以给你提供过得去的性能。
+2. 对 React 的 Virtual DOM 的误解。
+   React 从来没有说过 “React 比原生操作 DOM 快”。React 的基本思维模式是每次有变动就整个重新渲染整个应用。如果没有 Virtual DOM，简单来想就是直接重置 innerHTML。很多人都没有意识到，在一个大型列表所有数据都变了的情况下，重置 innerHTML 其实是一个还算合理的操作... 真正的问题是在 “全部重新渲染” 的思维模式下，即使只有一行数据变了，它也需要重置整个 innerHTML，这时候显然就有大量的浪费。
+
+我们可以比较一下 innerHTML vs. Virtual DOM 的重绘性能消耗：
+
+innerHTML: render html string O(template size) + 重新创建所有 DOM 元素 O(DOM size)
+Virtual DOM: render Virtual DOM + diff O(template size) + 必要的 DOM 更新 O(DOM change)
+Virtual DOM render + diff 显然比渲染 html 字符串要慢，但是！它依然是纯 js 层面的计算，比起后面的 DOM 操作来说，依然便宜了太多。可以看到，innerHTML 的总计算量不管是 js 计算还是 DOM 操作都是和整个界面的大小相关，但 Virtual DOM 的计算量里面，只有 js 计算和界面大小相关，DOM 操作是和数据的变动量相关的。前面说了，和 DOM 操作比起来，js 计算是极其便宜的。这才是为什么要有 Virtual DOM：它保证了 1）不管你的数据变化多少，每次重绘的性能都可以接受；2) 你依然可以用类似 innerHTML 的思路去写你的应用。
+
+1. MVVM vs. Virtual DOM
+   相比起 React，其他 MVVM 系框架比如 Angular, Knockout 以及 Vue、Avalon 采用的都是数据绑定：通过 Directive/Binding 对象，观察数据变化并保留对实际 DOM 元素的引用，当有数据变化时进行对应的操作。MVVM 的变化检查是数据层面的，而 React 的检查是 DOM 结构层面的。MVVM 的性能也根据变动检测的实现原理有所不同：Angular 的脏检查使得任何变动都有固定的
+   O(watcher count) 的代价；Knockout/Vue/Avalon 都采用了依赖收集，在 js 和 DOM 层面都是 O(change)：
+
+脏检查：scope digest O(watcher count) + 必要 DOM 更新 O(DOM change)
+依赖收集：重新收集依赖 O(data change) + 必要 DOM 更新 O(DOM change)可以看到，Angular 最不效率的地方在于任何小变动都有的和 watcher 数量相关的性能代价。但是！当所有数据都变了的时候，Angular 其实并不吃亏。依赖收集在初始化和数据变化的时候都需要重新收集依赖，这个代价在小量更新的时候几乎可以忽略，但在数据量庞大的时候也会产生一定的消耗。
+MVVM 渲染列表的时候，由于每一行都有自己的数据作用域，所以通常都是每一行有一个对应的 ViewModel 实例，或者是一个稍微轻量一些的利用原型继承的 "scope" 对象，但也有一定的代价。所以，MVVM 列表渲染的初始化几乎一定比 React 慢，因为创建 ViewModel / scope 实例比起 Virtual DOM 来说要昂贵很多。这里所有 MVVM 实现的一个共同问题就是在列表渲染的数据源变动时，尤其是当数据是全新的对象时，如何有效地复用已经创建的 ViewModel 实例和 DOM 元素。假如没有任何复用方面的优化，由于数据是 “全新” 的，MVVM 实际上需要销毁之前的所有实例，重新创建所有实例，最后再进行一次渲染！这就是为什么题目里链接的 angular/knockout 实现都相对比较慢。相比之下，React 的变动检查由于是 DOM 结构层面的，即使是全新的数据，只要最后渲染结果没变，那么就不需要做无用功。
+
+Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示” 框架如何有效地复用实例和 DOM 元素。比如数据库里的同一个对象，在两次前端 API 调用里面会成为不同的对象，但是它们依然有一样的 uid。这时候你就可以提示 track by uid 来让 Angular 知道，这两个对象其实是同一份数据。那么原来这份数据对应的实例和 DOM 元素都可以复用，只需要更新变动了的部分。或者，你也可以直接 track by $index 来进行 “原地复用”：直接根据在数组里的位置进行复用。在题目给出的例子里，如果 angular 实现加上 track by $index 的话，后续重绘是不会比 React 慢多少的。甚至在 dbmonster 测试中，Angular 和 Vue 用了 track by \$index 以后都比 React 快: dbmon (注意 Angular 默认版本无优化，优化过的在下面）
+
+顺道说一句，React 渲染列表的时候也需要提供 key 这个特殊 prop，本质上和 track-by 是一回事。
+
+1. 性能比较也要看场合
+   在比较性能的时候，要分清楚初始渲染、小量数据更新、大量数据更新这些不同的场合。Virtual DOM、脏检查 MVVM、数据收集 MVVM 在不同场合各有不同的表现和不同的优化需求。Virtual DOM 为了提升小量数据更新时的性能，也需要针对性的优化，比如 shouldComponentUpdate 或是 immutable data。
+
+初始渲染：Virtual DOM > 脏检查 >= 依赖收集
+小量数据更新：依赖收集 >> Virtual DOM + 优化 > 脏检查（无法优化） > Virtual DOM 无优化
+大量数据更新：脏检查 + 优化 >= 依赖收集 + 优化 > Virtual DOM（无法/无需优化）>> MVVM 无优化
+不要天真地以为 Virtual DOM 就是快，diff 不是免费的，batching 么 MVVM 也能做，而且最终 patch 的时候还不是要用原生 API。在我看来 Virtual DOM 真正的价值从来都不是性能，而是它 1) 为函数式的 UI 编程方式打开了大门；2) 可以渲染到 DOM 以外的 backend，比如 ReactNative。
+
+1. 总结
+   以上这些比较，更多的是对于框架开发研究者提供一些参考。主流的框架 + 合理的优化，足以应对绝大部分应用的性能需求。如果是对性能有极致需求的特殊情况，其实应该牺牲一些可维护性采取手动优化：比如 Atom 编辑器在文件渲染的实现上放弃了 React 而采用了自己实现的 tile-based rendering；又比如在移动端需要 DOM-pooling 的虚拟滚动，不需要考虑顺序变化，可以绕过框架的内置实现自己搞一个。
+
+附上尤大的回答链接
+链接：https://www.zhihu.com/question/31809713/answer/53544875
+
+# 合集
+
+### vdom 是什么？为什么会存在 vdom？
+
+在 MVVM 开发方式中，页面的变化都是用数据去驱动的，而数据更新后，到底要去改那一块的 DOM 哪？
+虽然可以先删除那个部分再按照当前新的数据去重新生成一个新的页面或生成那一个部分（jQuery 做法），但是这样肯定非常耗费性能的。
+而且 JS 操作 DOM 是非常复杂，JS 操作 DOM 越多，控制与页面的耦合度就越高，代码越难以维护。
+
+虚拟 DOM，即用 JS 对象来描述 DOM 树结构，Diff 算法则是找旧 VDOM 与新的 VDOM 的最小差异，然后再把差异渲染出来
+
+![DOM](../images/domtree.png)
+![vdom](../images/vdon.png)
+
+描述一个 DOM 节点
+
+- tag 标签名
+- attrs DOM 属性键值对
+- childen DOM 字节点数组 或 文本内容
+
+[如何理解虚拟 DOM?-zhihu](https://www.zhihu.com/question/29504639?sort=created)
+
+### 为什么 DOM 操作慢？ 因为属性太多了
+
+![domattr](../images/domattr.png)
+
+### vdom 如何应用，核心 API 是什么
+
+- 创建虚拟节点
+  - h('标签名', {...属性...}, [...子元素...])
+  - h('标签名', {...属性...}, '文本内容')
+- 将 VNode 添加到一个 DOM 元素内
+  - patch(DOM_obj, vnode);
+- 用一个新的 vnode 来和旧的 vnode 进行比较，得出新旧 dom 的差异
+- patch(vnode, newVnode)
+
+### diff 算法
+
+对比 Vdom 树差异的算法
+[React 的 diff 算法](https://segmentfault.com/a/1190000000606216)
+
+#### 同层比对
+
+新旧状态的比对时采用同层比对，当发现某节点不一致了直接替换该节点的子树。而不管它的子树是不是真的改动了。
+
+#### key 值的使用
+
+在列表循环的时候 React 会要求每一个列表项有一个**独一无二**，**稳定的 key 值**，它的目的是为了当状态改变时新旧状态的每一个列表项能够对应起来，方便比对。
+
+Keys 是 React 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识。
+Diff 算法中 React 会借助元素的 Key 值来判断该元素是新近创建的还是被移动而来的元素，从而减少不必要的元素重渲染。此外，React 还需要借助 Key 值来判断元素与本地状态的关联关系
+
+#### 合并操作
+
+调用 component 的 setState 方法的时候, React 将其标记为 dirty.到每一个事件循环结束, React 检查所有标记 dirty 的 component 重新绘制

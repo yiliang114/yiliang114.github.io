@@ -10,18 +10,6 @@ draft: true
 
 https://aotu.io/notes/2016/06/24/Shadow-DOM/index.html
 
-**说说你对 MVC 和 MVVM 的理解**
-
-- MVC
-
-  - View 传送指令到 Controller
-
-  - Controller 完成业务逻辑后，要求 Model 改变状态
-
-  - Model 将新的数据发送到 View，用户得到反馈
-
-所有通信都是单向的
-
 **什么是单页面应用(SPA)？**
 
 - 单页面应用(SPA)是指用户在浏览器加载单一的 HTML 页面，后续请求都无需再离开此页

@@ -6,8 +6,6 @@ draft: true
 
 ### 前言
 
-本文整理出来的笔记都是书中的精华内容。
-
 ![ES6缩略](https://user-gold-cdn.xitu.io/2019/12/12/16ef8c13ece2bc0c?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 ### 修正

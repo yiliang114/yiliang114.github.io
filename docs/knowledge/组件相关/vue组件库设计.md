@@ -66,8 +66,8 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 
 ### 开发者标准
 
-- git commit 标准, gitemoji
-- eslint pretter ？ 代码标准
+- git commit 标准
+- eslint prettier 代码标准
 - css bem 命名标准
 - 能不能根据 css 的 bem 标准，衍生出一个关于 vue 的组件命名规范？
 - vue 命名规范

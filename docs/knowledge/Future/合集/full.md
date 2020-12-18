@@ -37,7 +37,6 @@ JS 基本数据类型
   - options
 - es6 以及新的特性：
   - proxy
-  - 变量提升解释
   - 块级作用域
 - amd cmd
   - seajs 是什么，seajs 如何加载 vuejs 的项目

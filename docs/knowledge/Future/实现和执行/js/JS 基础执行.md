@@ -453,10 +453,6 @@ function getFileExtension(filename) {
 原生对象： Object、Function、Array、String、Boolean、Number、Date、RegExp、Error、EvalError、RangeError、ReferenceError、SyntaxError、TypeError、URIError
 所有非本地对象都是宿主对象（host object），所有的 BOM 和 DOM 对象都是宿主对象。自己定义的对象 oPerson 就是宿主对象。
 
-### 变量提升，请解释变量声明提升 (hoisting)。
-
-变量的定义和函数的声明（注意这里和函数表达式的区别），都会被提前，所以在执行上下文中会导致在主观上的声明被提升的现象，看起来像是变量和函数可以先调用再声明。
-
 ### 函数表达式和函数声明
 
 ```

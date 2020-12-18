@@ -203,8 +203,6 @@ Form [Front-end-Developer-Interview-Questions](https://github.com/h5bp/Front-end
 
 ### Vue react 项目的路由懒加载
 
-### km 上有一篇 starkwwang 写的一篇 react 性能优化
-
 ### 图片懒加载，vue-lazyload 的实现原理
 
 ### 图片 base64 处理， 说一说 base64 做的处理是什么？

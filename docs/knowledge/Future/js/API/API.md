@@ -1,10 +1,10 @@
 ---
-title: 懒加载的实现原理
+title: API
 date: '2020-10-26'
 draft: true
 ---
 
-## 数组 API
+## 数组
 
 Array.isArray 的兼容性
 
@@ -154,7 +154,7 @@ console.log(tree);
 | slice()          | 复制整个数组                                                          | ×              |                  |
 | indexOf          | 找出某个元素在数组中的索引                                            | ×              |                  |
 
-## 字符串 API
+## 字符串
 
 ### js 的字符串类型有哪些方法？ replace
 
@@ -213,7 +213,7 @@ substring 会当做 0 来处理，而 slice 传入负值的规则是-1 指最后
   - count = 0 插入元素，count > 0 删除元素
   - [insert Elements] 向数组新插入的元素
 
-## 对象 API
+## 对象
 
 for in, for of, foreach, map 之类的区别
 
