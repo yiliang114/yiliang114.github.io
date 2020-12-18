@@ -6,10 +6,6 @@ aside: false
 draft: true
 ---
 
-# node-interview-questions
-
-Node 是搞后端的，不应该被被归为前端，更不应该用前端的观点去理解，去面试 node 开发人员。所以这份面试题大全，更侧重后端应用与对 Node 核心的理解。
-
 # node 开发技能图解
 
 <img src="http://media.zhijianzhang.cn/node_skillset.jpg" alt="">
@@ -18,57 +14,7 @@ Node 是搞后端的，不应该被被归为前端，更不应该用前端的观
 
 <img src="http://media.zhijianzhang.cn/event_loop.jpg" alt="">
 
-# 起源
-
-- node 正风生火起，很多介绍却停留在入门阶段，无法投入生产
-- node 相关的高质量面试题更是少之又少，很难全面考查应聘者的 node 能力
-- 许多文章在讲第三方类库，可是这些库质量差距较大，一旦遇到问题怎么办
-- 必需的，全面了解 node 核心才能成为一名合格的 node 开发人员
-
-# 目标与原则
-
-- 前后端兼顾，更侧重后端
-- 理论实战兼顾，侧重考察对实战中应用较多的理论的理解
-- 参考答案简单明了，一针见血，不为追求严谨而浪费口舌，绕弯子
-- 尽量用代码讲清理论的应用与区别，以接地气
-- 终极目标是让大家对 node 有一个快速完整的认识
-
-# 内容大纲
-
-- [node-interview-questions](#node-interview-questions)
-- [node 开发技能图解](#node-开发技能图解)
-- [node 事件循环机制](#node-事件循环机制)
-- [起源](#起源)
-- [目标与原则](#目标与原则)
-- [内容大纲](#内容大纲)
-  - [ES6 新特性](#es6-新特性)
-  - [javascript 高级话题(面向对象，作用域，闭包，设计模式等)](#javascript-高级话题面向对象作用域闭包设计模式等)
-  - [node 核心内置类库(事件，流，文件，网络等)](#node-核心内置类库事件流文件网络等)
-    - [node 概览](#node-概览)
-    - [node 全局对象](#node-全局对象)
-    - [EventEmitter](#eventemitter)
-    - [Stream](#stream)
-    - [文件系统](#文件系统)
-    - [网络](#网络)
-    - [child-process](#child-process)
-  - [node 高级话题(异步，部署，性能调优，异常调试等)](#node-高级话题异步部署性能调优异常调试等)
-  - [常用知名第三方类库(Async, Express 等)](#常用知名第三方类库async-express-等)
-  - [其它相关后端常用技术(MongoDB, Redis, Apache, Nginx 等)](#其它相关后端常用技术mongodb-redis-apache-nginx-等)
-  - [常用前端技术(Html5, CSS3, JQuery 等)](#常用前端技术html5-css3-jquery-等)
-- [node.js 设计模式](#nodejs-设计模式)
-  - [License](#license)
-
-## ES6 新特性
-
-- 1. ES6 有哪些新特性？
-
-参考答案：类的支持，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, for-of 遍历, generator, Map/Set, Promise
-
-- 2. 你对 ES6 的个人看法？
-
-参考答案：ES6 必火！从软件工程角度来看，以前真的很弱，不适合做大型应用，很容易导致烂尾工程。ES6 就相当于当年的 Java5,是历史性的发展，从此我们可以用 js 做大型项目了。事实上，各大主流浏览器现在已经支持大部分新特性了，后端的 Node.js 更是可以直接使用 ES6 的绝大多数语法。
-
-推荐 ES6 入门好书: [阮一峰 ECMAScript 6 入门](http://es6.ruanyifeng.com/)
+# node-questions
 
 ## javascript 高级话题(面向对象，作用域，闭包，设计模式等)
 

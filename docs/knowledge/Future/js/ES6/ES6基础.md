@@ -26,6 +26,8 @@ draft: true
 - 参数默认值，不定参数，扩展参数
 - 增强的字面量对象
 
+类的支持，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, for-of 遍历, generator, Map/Set, Promise
+
 ### Class 本质
 
 其实在 JS 中并不存在类，`class` 只是语法糖，本质还是函数。
