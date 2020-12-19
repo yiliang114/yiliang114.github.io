@@ -6,8 +6,6 @@ aside: false
 draft: true
 ---
 
-![ElemeFE-background](../../assets/ElemeFE-background.png)
-
 # 如何通过饿了么 Node.js 面试
 
 Hi, 欢迎来到 ElemeFE, 如标题所示本教程的目的是教你如何通过饿了么大前端的面试, 职位是 2~3 年经验的 Node.js 服务端程序员 (并不是全栈), 如果你对这个职位感兴趣或者学习 Node.js 一些进阶的内容, 那么欢迎围观.
