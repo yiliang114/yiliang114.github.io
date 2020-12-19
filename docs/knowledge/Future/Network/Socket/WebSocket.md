@@ -6,7 +6,19 @@ aside: false
 draft: true
 ---
 
-### 简要介绍一下 socket 协议
+### Websocket 简介
+
+WebSocket 是 HTML5 新增的协议，它的目的是在浏览器和服务器之间建立一个不受限的双向通信的通道，比如说，服务器可以在任意时刻发送消息给浏览器。
+
+为什么传统的 HTTP 协议不能做到 WebSocket 实现的功能？这是因为 HTTP 协议是一个请求－响应协议，请求必须先由浏览器发给服务器，服务器才能响应这个请求，再把数据发送给浏览器。换句话说，浏览器不主动请求，服务器是没法主动发数据给浏览器的。
+
+这样一来，要在浏览器中搞一个实时聊天，在线炒股（不鼓励），或者在线多人游戏的话就没法实现了，只能借助 Flash 这些插件。
+
+也有人说，HTTP 协议其实也能实现啊，比如用轮询或者 Comet。轮询是指浏览器通过 JavaScript 启动一个定时器，然后以固定的间隔给服务器发请求，询问服务器有没有新消息。这个机制的缺点一是实时性不够，二是频繁的请求会给服务器带来极大的压力。
+
+Comet 本质上也是轮询，但是在没有消息的情况下，服务器先拖一段时间，等到有消息了再回复。这个机制暂时地解决了实时性问题，但是它带来了新的问题：以多线程模式运行的服务器会让大部分线程大部分时间都处于挂起状态，极大地浪费服务器资源。另外，一个 HTTP 连接在长时间没有数据传输的情况下，链路上的任何一个网关都可能关闭这个连接，而网关是我们不可控的，这就要求 Comet 连接必须定期发一些 ping 数据表示连接“正常工作”。
+
+以上两种机制都治标不治本，所以，HTML5 推出了 WebSocket 标准，让浏览器和服务器之间可以建立无限制的全双工通信，任何一方都可以主动发消息给对方。
 
 ### Websocket
 
@@ -30,6 +42,118 @@ Websocket 是一个 持久化的协议， 基于 http ， 服务端可以 主动
 websocket
 
 - [你知道什么是 websocket 吗？它有什么应用场景？](https://github.com/haizlin/fe-interview/issues/575)
+
+### websocket
+
+在单个 TCP 连接上进行全双工通讯的协议。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建**持久性**的连接，并进行**双向**数据传输。
+
+- Socket.onopen 连接建立时触发
+- Socket.onmessage 客户端接收服务端数据时触发
+- Socket.onerror 通信发生错误时触发
+- Socket.onclose 连接关闭时触发
+
+### 对 websocket 的理解？
+
+WebSocket 协议在 2008 年诞生，2011 年成为国际标准。所有浏览器都已经支持了。
+
+WebSocket 是一个持久化的协议，是基于 http 协议来完成一部分握手。
+
+Websocket 握手中多了:
+Upgrade: websocket
+Connection: Upgrade
+这就是 WebSocket 的核心，告诉服务器是一个 WebSocket 协议。
+
+> ajax 轮询和 long poll 都是不断的建立 http 连接，等待服务端处理，可以体现 http 协议的一个特点：被动性（服务器端不能主动联系客户端，只能客户端发起）。
+>
+> - ajax 轮询</br>
+
+    ajax轮询的原理特别简单。让浏览器隔个几秒就发送一次请求，询问服务器是否有新信息。
+
+> - long poll</br>
+
+    long poll 其实原理跟 ajax轮询 差不多，都是采用轮询的方式，不过采取的是阻塞模型（一直打电话，没收到就不挂电话），也就是说，客户端发起连接后，如果没消息，就一直不返回Response给客户端。直到有消息才返回，返回完之后，客户端再次建立连接，周而复始。
+
+#### 特点
+
+- 服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于服务器推送技术的一种。
+- 建立在 TCP 协议之上，服务器端的实现比较容易。
+- 与 HTTP 协议有着良好的兼容性。默认端口也是 80 和 443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。
+
+* 数据格式比较轻量，性能开销小，通信高效。
+* 可以发送文本，也可以发送二进制数据。
+* 没有同源限制，客户端可以与任意服务器通信。
+* 协议标识符是 ws（如果加密，则为 wss），服务器网址就是 URL。
+
+  ![ws和wss](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/ws.png)
+
+#### 使用
+
+主要是的是`webSocket.onmessage`属性，用于指定接收服务器数据后的回调函数。`webSocket.send()`方法，可用于向服务器发送数据。
+
+#### 参考
+
+- [websocket 原理](https://www.cnblogs.com/fuqiang88/p/5956363.html)
+
+### 简要介绍一下 socket 协议
+
+### WebSocket 协议
+
+WebSocket 并不是全新的协议，而是利用了 HTTP 协议来建立连接。我们来看看 WebSocket 连接是如何创建的。
+
+首先，WebSocket 连接必须由浏览器发起，因为请求协议是一个标准的 HTTP 请求，格式如下：
+
+```
+GET ws://localhost:3000/ws/chat HTTP/1.1
+Host: localhost
+Upgrade: websocket
+Connection: Upgrade
+Origin: http://localhost:3000
+Sec-WebSocket-Key: client-random-string
+Sec-WebSocket-Version: 13
+```
+
+该请求和普通的 HTTP 请求有几点不同：
+
+1. GET 请求的地址不是类似/path/，而是以 ws://开头的地址；
+2. 请求头 Upgrade: websocket 和 Connection: Upgrade 表示这个连接将要被转换为 WebSocket 连接；
+3. Sec-WebSocket-Key 是用于标识这个连接，并非用于加密数据；
+4. Sec-WebSocket-Version 指定了 WebSocket 的协议版本。
+
+随后，服务器如果接受该请求，就会返回如下响应：
+
+```
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: server-random-string
+```
+
+该响应代码`101`表示本次连接的 HTTP 协议即将被更改，更改后的协议就是 Upgrade: websocket 指定的 WebSocket 协议。
+
+版本号和子协议规定了双方能理解的数据格式，以及是否支持压缩等等。如果仅使用 WebSocket 的 API，就不需要关心这些。
+
+现在，一个 WebSocket 连接就建立成功，浏览器和服务器就可以随时主动发送消息给对方。消息有两种，一种是文本，一种是二进制数据。通常，我们可以发送 JSON 格式的文本，这样，在浏览器处理起来就十分容易。
+
+为什么 WebSocket 连接可以实现全双工通信而 HTTP 连接不行呢？实际上 HTTP 协议是建立在 TCP 协议之上的，TCP 协议本身就实现了全双工通信，但是 HTTP 协议的请求－应答机制限制了全双工通信。WebSocket 连接建立以后，其实只是简单规定了一下：接下来，咱们通信就不使用 HTTP 协议了，直接互相发数据吧。
+
+安全的 WebSocket 连接机制和 HTTPS 类似。首先，浏览器用 wss://xxx 创建 WebSocket 连接时，会先通过 HTTPS 创建安全的连接，然后，该 HTTPS 连接升级为 WebSocket 连接，底层通信走的仍然是安全的 SSL/TLS 协议。
+
+**浏览器**
+
+很显然，要支持 WebSocket 通信，浏览器得支持这个协议，这样才能发出 ws://xxx 的请求。目前，支持 WebSocket 的主流浏览器如下：
+
+- Chrome
+- Firefox
+- IE >= 10
+- Sarafi >= 6
+- Android >= 4.4
+- iOS >= 8
+
+**服务器**
+
+由于 WebSocket 是一个协议，服务器具体怎么实现，取决于所用编程语言和框架本身。Node.js 本身支持的协议包括 TCP 协议和 HTTP 协议，要支持 WebSocket 协议，需要对 Node.js 提供的 HTTPServer 做额外的开发。已经有若干基于 Node.js 的稳定可靠的 WebSocket 实现，我们直接用 npm 安装使用即可。
+
+> 注：本篇文章转载于廖雪峰 websocket 教程
 
 ### WebSocket 的实现和应用
 
@@ -103,56 +227,5 @@ d、能够实现真正意义上的推送功能
 - ActiveX HTMLFile (IE) 、
 - 基于 multipart 编码发送 XHR 、
 - 基于长轮询的 XHR
-
-### websocket
-
-在单个 TCP 连接上进行全双工通讯的协议。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建**持久性**的连接，并进行**双向**数据传输。
-
-- Socket.onopen 连接建立时触发
-- Socket.onmessage 客户端接收服务端数据时触发
-- Socket.onerror 通信发生错误时触发
-- Socket.onclose 连接关闭时触发
-
-### 对 websocket 的理解？
-
-WebSocket 协议在 2008 年诞生，2011 年成为国际标准。所有浏览器都已经支持了。
-
-WebSocket 是一个持久化的协议，是基于 http 协议来完成一部分握手。
-
-Websocket 握手中多了:
-Upgrade: websocket
-Connection: Upgrade
-这就是 WebSocket 的核心，告诉服务器是一个 WebSocket 协议。
-
-> ajax 轮询和 long poll 都是不断的建立 http 连接，等待服务端处理，可以体现 http 协议的一个特点：被动性（服务器端不能主动联系客户端，只能客户端发起）。
->
-> - ajax 轮询</br>
-
-    ajax轮询的原理特别简单。让浏览器隔个几秒就发送一次请求，询问服务器是否有新信息。
-
-> - long poll</br>
-
-    long poll 其实原理跟 ajax轮询 差不多，都是采用轮询的方式，不过采取的是阻塞模型（一直打电话，没收到就不挂电话），也就是说，客户端发起连接后，如果没消息，就一直不返回Response给客户端。直到有消息才返回，返回完之后，客户端再次建立连接，周而复始。
-
-#### 特点
-
-- 服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于服务器推送技术的一种。
-- 建立在 TCP 协议之上，服务器端的实现比较容易。
-- 与 HTTP 协议有着良好的兼容性。默认端口也是 80 和 443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。
-
-* 数据格式比较轻量，性能开销小，通信高效。
-* 可以发送文本，也可以发送二进制数据。
-* 没有同源限制，客户端可以与任意服务器通信。
-* 协议标识符是 ws（如果加密，则为 wss），服务器网址就是 URL。
-
-  ![ws和wss](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/ws.png)
-
-#### 使用
-
-主要是的是`webSocket.onmessage`属性，用于指定接收服务器数据后的回调函数。`webSocket.send()`方法，可用于向服务器发送数据。
-
-#### 参考
-
-- [websocket 原理](https://www.cnblogs.com/fuqiang88/p/5956363.html)
 
 ### 了解 websocket 吗，websocket 是如何进行握手的

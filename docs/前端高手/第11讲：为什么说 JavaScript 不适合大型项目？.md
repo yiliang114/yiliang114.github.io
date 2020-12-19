@@ -16,9 +16,7 @@ draft: true
 
 前面在第 08 课时中已经提过命名的提升特性，如果某个变量命名提升到全局，那么将是危险的。比如下面的代码，函数 fn 内部使用了一个变量 c，由于忘记使用关键字来声明，结果导致覆盖了全局变量 c。
 
-复制
-
-```
+```js
 var c = 0
 ...
 function fn() {
@@ -37,22 +35,17 @@ fn();
 
 就函数 printId 本身而言，也无法在编译时校验参数的合法性，只能在运行时添加校验逻辑，这也大大增加了程序出现 bug 的概率。
 
-复制
-
-```
+```js
 function printId(user) {
-  return user.id
+  return user.id;
 }
-
 ```
 
 **3.** **弱类型**
 
 弱类型是指一个变量可以被赋予不同数据类型的值。这也是一个既灵活又可怕的特性，编写代码的时候非常方便，不用考虑变量的数据类型，但这也很容易出现 bug，调试起来会变得相当困难。
 
-复制
-
-```
+```js
 var tmp = []
 ...
 tmp = null
@@ -76,11 +69,8 @@ TypeScript 在 JavaScript 原生类型的基础上进行了扩展，但为了和
 
 元组可以看成是具有固定长度的数组，其中数组元素类型可以不同。比如下面的代码声明了一个元组变量 x，x 的第一个元素是字符串，第二个是数字；又比如 react hooks 就是用到了元组类型。
 
-复制
-
-```
+```js
 let x: [string, number];
-
 ```
 
 **2.** **枚举**
@@ -89,9 +79,7 @@ let x: [string, number];
 
 下面是一个异构枚举的例子，定义了数字枚举值 0 和字符串枚举值 "YES"。
 
-复制
-
-```
+```js
 enum example {
     No = 0,
     Yes = "YES",
@@ -101,9 +89,7 @@ enum example {
 
 也可以使用 const 修饰符来定义枚举值，通过这种定义方式，TypeScript 会在编译的时候，直接把枚举引用替换成对应的枚举值而非创建枚举对象。
 
-复制
-
-```
+```js
 enum example {
     No = 0,
     Yes = "YES",
@@ -139,61 +125,52 @@ void 表示没有任何类型，常用于描述无返回值的函数。
 
 never 类型表示的是那些永不存在的值的类型，对于一些特殊的校验场景比较有用，比如代码的完整性检查。下面的示例代码通过穷举判断变量 u 的值来执行对应逻辑，如果此时变量 u 的可选值新增了字符串 "c"，那么这段代码并不会给出提示告诉开发者还有一种 u 等于字符串 "c" 的场景，但如果增加 never 类型赋值的话在编译时就可以给出提示。
 
-复制
-
-```
-let u: 'a'|'b'
+```js
+let u: 'a' | 'b';
 //...
-if(u === 'a') {
-  //...
+if (u === 'a') {
+  //...
 } else if (u === 'b') {
-  //...
+  //...
 }
-
 ```
 
 增加了 never 类型变量赋值：
 
-复制
-
-```
-let u: 'a'|'b'|'c'
+```js
+let u: 'a' | 'b' | 'c';
 //...
-if(u === 'a') {
-  //...
+if (u === 'a') {
+  //...
 } else if (u === 'b') {
-  //...
+  //...
 } else {
-  let trmp: never = u // Type '"c"' is not assignable to type 'never'.
+  let trmp: never = u; // Type '"c"' is not assignable to type 'never'.
 }
-
 ```
 
 接口的作用和类型非常相似，在大多数情况下可以通用，只存在一些细小的区别（比如同名接口可以自动合并，而类型不能；在编译器中将鼠标悬停在接口上显示的是接口名称，悬停在类型上显示的是字面量类型），最明显的区别还是在写法上。
 
-复制
-
-```
+```js
 /* 声明 */
 interface IA {
-  id: string
+  id: string;
 }
 type TA = {
-  id: string
-}
+  id: string,
+};
 /* 继承 */
 interface IA2 extends IA {
-    name: string
+  name: string;
 }
-type TA2 = TA & { name: string }
+type TA2 = TA & { name: string };
 /* 实现 */
 class A implements IA {
-    id: string = ''
+  id: string = '';
 }
 class A2 implements TA {
-    id: string = ''
+  id: string = '';
 }
-
 ```
 
 ### 类型抽象
@@ -202,9 +179,7 @@ class A2 implements TA {
 
 下面代码是 react 的钩子函数 useState 的类型定义，就用到了泛型。
 
-复制
-
-```
+```js
 function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
 
 ```
@@ -214,11 +189,8 @@ function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S
 
 在使用泛型的时候，我们可以通过尖括号来手动指定泛型变量的类型，这个指定操作称之为\*\*类型断言，\*\*也可以不指定，让 TypeScript 自行推断类型。比如下面的代码就通过类型断言，将范型变量指定为 string 类型。
 
-复制
-
-```
-const [id, setId] = useState<string>('');
-
+```js
+const [id, setId] = useState < string > '';
 ```
 
 ### 类型组合
@@ -229,35 +201,27 @@ const [id, setId] = useState<string>('');
 
 交叉就是将多个类型合并为一个类型，操作符为 “&” 。下面的代码定义了一个 Admin 类型，它同时是类型 Student 和类型 Teacher 的交叉类型。 就是说 Admin 类型的对象同时拥有了这 2 种类型的成员。
 
-复制
-
-```
-type Admin = Student & Teacher
-
+```js
+type Admin = Student & Teacher;
 ```
 
 #### **联合**
 
 联合就是表示符合多种类型中的任意一个，不同类型通过操作符“|”连接。下面代码定义的类型是 AorB，表示该类型值可以是类型 A，也可以是类型 B。
 
-复制
-
-```
+```js
 type A = {
-  a: string
-}
+  a: string,
+};
 type B = {
-  b: number
-}
-type AorB = A | B
-
+  b: number,
+};
+type AorB = A | B;
 ```
 
 对于联合类型 AorB，我们能够确定的是它包含了 A 和 B 中共有的成员。如果我们想确切地了解值是否为类型 A，只能通过检查值的方法是否存在来进行判断。例如，下面的变量 v 属于 AorB 类型，在需要确认其具体类型时，先将变量 v 的类型断言为 A，然后再调用其属性 a 进行判断。
 
-复制
-
-```
+```js
 let v: AorB
 // ...
 if ((<A>v).a) {
@@ -277,9 +241,7 @@ if ((<A>v).a) {
 
 下面的示例代码实现了一个简单的函数 getValue ，传入对象和对象属性名获取对应的值。
 
-复制
-
-```
+```js
 function getValue<T, K extends keyof T>(o: T, name: K): T[K] {
     return o[name]; // o[name] is of type T[K]
 }
@@ -302,9 +264,7 @@ let no = getValue(com, 'no') //报错：Argument of type '"no"' is not assignabl
 
 下面是 Pick 类型的使用示例及源码，可以看到类型 Pick 从类型 task 中选择属性 "title" 和 "description" 生成了新的类型 simpleTask。
 
-复制
-
-```
+```js
 type Pick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
@@ -335,9 +295,7 @@ type simpleTask = Pick<task, 'title' | 'description'>// {title: string;descripti
 
 具体代码如下：
 
-复制
-
-```
+```js
 const debounce = <T extends Function, U, V extends any[]>(func: T, wait: number = 0) => {
   let timeout: number | null = null
   let args: V

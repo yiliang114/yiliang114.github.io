@@ -80,6 +80,70 @@ console.log('Hi!');
 
 上面代码中，Promise 新建后立即执行，所以首先输出的是 Promise。然后，then 方法指定的回调函数，将在当前脚本所有同步任务执行完才会执行，所以 Resolved 最后输出。
 
+### Promise 优缺点
+
+优点：
+
+- 避免可读性极差的回调地狱。
+- 使用`.then()`编写的顺序异步代码，既简单又易读。
+- 使用`Promise.all()`编写并行异步代码变得很容易。
+- 代码结构更加扁平化，易读易理解，更加清晰明了。
+- 能解决回调地狱的问题
+- 可以将数据请求和业务逻辑分离开来。
+- 便于维护管理
+- 可以更好的捕捉错误
+
+缺点：
+
+- 轻微地增加了代码的复杂度（这点存在争议）。
+- 在不支持 ES2015 的旧版浏览器中，需要引入 polyfill 才能使用。
+
+1. 无法取消 Promise，一旦新建它就会立即执行，无法中途取消。
+1. 如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。
+1. 当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+
+### API
+
+#### Promise.all
+
+Promise.all 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例:只有 p1、p2、p3 的状态都变成 fulfilled，p 的状态才会变成 fulfilled，此时 p1、p2、p3 的返回值组成一个数组，传递给 p 的回调函数。
+
+```js
+var p = Promise.all([p1, p2, p3]);
+```
+
+#### Promise.race()
+
+Promise.race 方法同样是将多个 Promise 实例，包装城一个新的 Promise 实例: 上面代码中，只要 p1、p2、p3 之中有一个实例率先改变状态，p 的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给 p 的回调函数。
+
+```js
+var p = Promise.race([p1, p2, p3]);
+```
+
+#### Promise.resolve()
+
+有时需要将现有对象转为 Promise 对象，Promise.resolve 方法就起到这个作用。
+
+```js
+Promise.resolve('foo')等价于 new Promise(resolve => resolve('foo'))
+```
+
+#### Promise.reject()
+
+Promise.reject(reason)方法也会返回一个新的 Promise 实例，该实例的状态为 rejected。
+
+#### done()
+
+Promise 对象的回调链，不管以 then 方法或 catch 方法结尾，要是最后一个方法抛出错误，都有可能无法捕捉到（因为 Promise 内部的错误不会冒泡到全局）。因此，我们可以提供一个 done 方法，总是处于回调链的尾端，保证抛出任何可能出现的错误。
+
+#### finally()
+
+finally 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。它与 done 方法的最大区别，它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。服务器使用 Promise 处理请求，然后使用 finally 方法关掉服务器。
+
+```js
+server.listen(0).then(function () {// run test}).finally(server.stop);
+```
+
 ### Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
 
 ```js
@@ -239,67 +303,3 @@ console.log(result); // ["Hello", "World"]
 掌握它的工作原理。`Promise`是一个可能在未来某个时间产生结果的对象：操作成功的结果或失败的原因（例如发生网络错误）。 `Promise`可能处于以下三种状态之一：fulfilled、rejected 或 pending。 用户可以对`Promise`添加回调函数来处理操作成功的结果或失败的原因。
 
 一些常见的 polyfill 是`$.deferred`、Q 和 Bluebird，但不是所有的 polyfill 都符合规范。ES2015 支持 Promises，现在通常不需要使用 polyfills。
-
-### Promise 优缺点
-
-优点：
-
-- 避免可读性极差的回调地狱。
-- 使用`.then()`编写的顺序异步代码，既简单又易读。
-- 使用`Promise.all()`编写并行异步代码变得很容易。
-- 代码结构更加扁平化，易读易理解，更加清晰明了。
-- 能解决回调地狱的问题
-- 可以将数据请求和业务逻辑分离开来。
-- 便于维护管理
-- 可以更好的捕捉错误
-
-缺点：
-
-- 轻微地增加了代码的复杂度（这点存在争议）。
-- 在不支持 ES2015 的旧版浏览器中，需要引入 polyfill 才能使用。
-
-1. 无法取消 Promise，一旦新建它就会立即执行，无法中途取消。
-1. 如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。
-1. 当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
-
-### API
-
-#### Promise.all
-
-Promise.all 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例:只有 p1、p2、p3 的状态都变成 fulfilled，p 的状态才会变成 fulfilled，此时 p1、p2、p3 的返回值组成一个数组，传递给 p 的回调函数。
-
-```js
-var p = Promise.all([p1, p2, p3]);
-```
-
-#### Promise.race()
-
-Promise.race 方法同样是将多个 Promise 实例，包装城一个新的 Promise 实例: 上面代码中，只要 p1、p2、p3 之中有一个实例率先改变状态，p 的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给 p 的回调函数。
-
-```js
-var p = Promise.race([p1, p2, p3]);
-```
-
-#### Promise.resolve()
-
-有时需要将现有对象转为 Promise 对象，Promise.resolve 方法就起到这个作用。
-
-```js
-Promise.resolve('foo')等价于 new Promise(resolve => resolve('foo'))
-```
-
-#### Promise.reject()
-
-Promise.reject(reason)方法也会返回一个新的 Promise 实例，该实例的状态为 rejected。
-
-#### done()
-
-Promise 对象的回调链，不管以 then 方法或 catch 方法结尾，要是最后一个方法抛出错误，都有可能无法捕捉到（因为 Promise 内部的错误不会冒泡到全局）。因此，我们可以提供一个 done 方法，总是处于回调链的尾端，保证抛出任何可能出现的错误。
-
-#### finally()
-
-finally 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。它与 done 方法的最大区别，它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。服务器使用 Promise 处理请求，然后使用 finally 方法关掉服务器。
-
-```js
-server.listen(0).then(function () {// run test}).finally(server.stop);
-```

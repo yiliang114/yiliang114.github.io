@@ -103,9 +103,7 @@ element 将样式文件统一放入了 /packages/theme\-chalk 目录下，目录
 
 所以优化后的目录结构如下所示：
 
-复制
-
-```
+```js
 src/
 |
 |– abstracts/
@@ -166,9 +164,7 @@ BEM 是 Block、Element、Modifier 三个单词的缩写，Block 代表独立的
 
 下面是一段 css 样式代码：
 
-复制
-
-```
+```js
 /* style.css */
 .className {
   color: green;
@@ -178,27 +174,21 @@ BEM 是 Block、Element、Modifier 三个单词的缩写，Block 代表独立的
 
 借助 css Modules 插件，可以将 css 以 JSON 对象的形式引用和使用。
 
-复制
-
-```
-import styles from "./style.css";
+```js
+import styles from './style.css';
 // import { className } from "./style.css";
 element.innerHTML = '<div class="' + styles.className + '">';
-
 ```
 
 编译之后的代码，样式类名被转化成了随机名称：
 
-复制
-
-```
+```html
 <div class="_3zyde4l1yATCOkgn-DBWEL"></div>
 <style>
-._3zyde4l1yATCOkgn-DBWEL {
-  color: green;
-}
+  ._3zyde4l1yATCOkgn-DBWEL {
+    color: green;
+  }
 </style>
-
 ```
 
 但这种命名方式带来了一个问题，那就是如果想在引用组件的同时，覆盖它的样式会变得困难，因为编译后的样式名是随机。例如，在上面的示例代码中，如果想在另一个组件中覆盖 className 样式就很困难，而在手动命名情况下则可以直接重新定义 className 样式进行覆盖。
@@ -241,9 +231,7 @@ element.innerHTML = '<div class="' + styles.className + '">';
 
 我们以 [styled\-compoents](https://styled-components.com/) 为例进行说明，下面是示例代码，第一段是源代码：
 
-复制
-
-```
+```js
 // 源代码
 const Button = styled.button`
   background: transparent;
@@ -252,60 +240,36 @@ const Button = styled.button`
   color: palevioletred;
   margin: 0.5em 1em;
   padding: 0.25em 1em;
-  ${props => props.primary && css`
-    background: palevioletred;
-    color: white;
-  `}
+  ${props =>
+    props.primary &&
+    css`
+      background: palevioletred;
+      color: white;
+    `}
 `;
 const Container = styled.div`
   text-align: center;
-`
+`;
 render(
   <Container>
     <Button>Normal Button</Button>
     <Button primary>Primary Button</Button>
-  </Container>
+  </Container>,
 );
-
 ```
 
 第二段是编译后生成的：
 
-复制
-
-```
+```html
 <!--HTML 代码-->
 <div class="sc-fzXfNJ ciXJHl">
   <button class="sc-fzXfNl hvaMnE">Normal Button</button>
   <button class="sc-fzXfNl kiyAbM">Primary Button</button>
 </div>
-/*CSS 代码*/
-.ciXJHl {
-  text-align: center;
-}
-.hvaMnE {
-  color: palevioletred;
-  background: transparent;
-  border-radius: 3px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: palevioletred;
-  border-image: initial;
-  margin: 0.5em 1em;
-  padding: 0.25em 1em;
-}
-.kiyAbM {
-  color: white;
-  border-radius: 3px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: palevioletred;
-  border-image: initial;
-  margin: 0.5em 1em;
-  padding: 0.25em 1em;
-  background: palevioletred;
-}
-
+/*CSS 代码*/ .ciXJHl { text-align: center; } .hvaMnE { color: palevioletred; background: transparent; border-radius:
+3px; border-width: 2px; border-style: solid; border-color: palevioletred; border-image: initial; margin: 0.5em 1em;
+padding: 0.25em 1em; } .kiyAbM { color: white; border-radius: 3px; border-width: 2px; border-style: solid; border-color:
+palevioletred; border-image: initial; margin: 0.5em 1em; padding: 0.25em 1em; background: palevioletred; }
 ```
 
 对比以上两段代码很容易发现，在编译后的样式代码中有很多重复的样式规则。这并不友好，不仅增加了编写样式的复杂度和代码量，连编译后也增加了冗余代码。

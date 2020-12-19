@@ -18,9 +18,7 @@ draft: true
 
 **目标 CSS 代码**，为 5 条样式规则。第 1 条和第 5 条样式规则是最简单的，使用 1 个选择器，定义了 1 条样式属性；第 2 条规则多用了一个标签选择器，样式属性值为多个字符串组成；第 3 条规则使用了类选择器；第 4 条规则增加了属性选择器，并且样式属性增加为 2 条。
 
-复制
-
-```
+```js
 div {color:darkkhaki;}
 div p {border:1px solid lightgreen;}
 div .a-b {background-color:lightyellow;}
@@ -31,9 +29,7 @@ div .a-b [data] {padding:15px;font-size:12px;}
 
 再来看看“源代码”，首先声明了两个变量，然后通过换行缩进定义了上述样式规则中的**选择器和样式**：
 
-复制
-
-```
+```js
 $ib inline-block
 $borderColor lightgreen
 div
@@ -104,9 +100,7 @@ div
 
 因此一个令牌对象结构如下，type 属性表示令牌类型，value 属性存储令牌字符内容，indent 属性记录缩进空格数：
 
-复制
-
-```
+```js
 {
   type: "variableDef" | "variableRef" | "selector" | "property" | "value", //枚举值，分别对应变量定义、变量引用、选择器、属性、值
   value: string, // token字符值，即被分解的字符串
@@ -129,48 +123,48 @@ div
 
 词法分析代码如下所示：
 
-复制
-
-```
-function tokenize(text) {
-  return text.trim().split(/\n|\r\n/).reduce((tokens, line, idx) => {
-    const spaces = line.match(/^\s+/) || ['']
-    const indent = spaces[0].length
-    const input = line.trim()
-    const words = input.split(/\s/)
-    let value = words.shift()
-    if (words.length === 0) {
-      tokens.push({
-        type: 'selector',
-        value,
-        indent
-      })
-    } else {
-      let type = ''
-      if (/^\$/.test(value)) {
-        type = 'variableDef'
-      } else if (/^[a-zA-Z-]+$/.test(value)) {
-        type = 'property'
-      } else {
-        throw new Error(`Tokenize error:Line ${idx} "${value}" is not a vairable or property!`)
-      }
-      tokens.push({
-        type,
-        value,
-        indent
-      })
-      while (value = words.shift()) {
-        tokens.push({
-          type: /^\$/.test(value) ? 'variableRef' : 'value',
-          value,
-          indent: 0
-        })
-      }
-    }
-    return tokens;
-  }, [])
+```js
+function tokenize(text) {
+  return text
+    .trim()
+    .split(/\n|\r\n/)
+    .reduce((tokens, line, idx) => {
+      const spaces = line.match(/^\s+/) || [''];
+      const indent = spaces[0].length;
+      const input = line.trim();
+      const words = input.split(/\s/);
+      let value = words.shift();
+      if (words.length === 0) {
+        tokens.push({
+          type: 'selector',
+          value,
+          indent,
+        });
+      } else {
+        let type = '';
+        if (/^\$/.test(value)) {
+          type = 'variableDef';
+        } else if (/^[a-zA-Z-]+$/.test(value)) {
+          type = 'property';
+        } else {
+          throw new Error(`Tokenize error:Line ${idx} "${value}" is not a vairable or property!`);
+        }
+        tokens.push({
+          type,
+          value,
+          indent,
+        });
+        while ((value = words.shift())) {
+          tokens.push({
+            type: /^\$/.test(value) ? 'variableRef' : 'value',
+            value,
+            indent: 0,
+          });
+        }
+      }
+      return tokens;
+    }, []);
 }
-
 ```
 
 #### 语法分析
@@ -190,9 +184,7 @@ function tokenize(text) {
 - **rules**，存储当前选择器的样式属性和值组成的对象，其中值以字符串数组的形式存储；
 - **children**，子选择器节点。
 
-复制
-
-```
+```js
 {
   type: 'root',
   children: [{
@@ -213,87 +205,84 @@ function tokenize(text) {
 
 语法分析代码如下所示。首先定义一个根节点，然后按照先进先出的方式遍历令牌数组，遇到变量定义时，将变量名和对应的值存入到缓存对象中；当遇到属性时，插入到当前选择器节点的 rules 属性中，遇到值和变量引用时都将插入到当前选择器节点 rules 属性数组最后一个对象的 value 数组中，但是变量引用在插入之前需要借助缓存对象的变量值进行替换。当遇到选择器节点时，则需要往对应的父选择器节点 children 属性中插入，并将指针指向被插入的节点，同时记得将被插入的节点添加到用于存储遍历路径的数组中：
 
-复制
-
-```
-function parse(tokens) {
-  var ast = {
-    type: 'root',
-    children: [],
-    indent: -1
-  };
-  let path = [ast]
-  let preNode = ast
-  let node
-  let vDict = {}
-  while (node = tokens.shift()) {
-    if (node.type === 'variableDef') {
-      if (tokens[0] && tokens[0].type === 'value') {
-        const vNode = tokens.shift()
-        vDict[node.value] = vNode.value
-      } else {
-        preNode.rules[preNode.rules.length - 1].value = vDict[node.value]
-      }
-      continue;
-    }
-    if (node.type === 'property') {
-      if (node.indent > preNode.indent) {
-        preNode.rules.push({
-          property: node.value,
-          value: []
-        })
-      } else {
-        let parent = path.pop()
-        while (node.indent <= parent.indent) {
-          parent = path.pop()
-        }
-        parent.rules.push({
-          property: node.value,
-          value: []
-        })
-        preNode = parent
-        path.push(parent)
-      }
-      continue;
-    }
-    if (node.type === 'value') {
-      try {
-        preNode.rules[preNode.rules.length - 1].value.push(node.value);
-      } catch (e) {
-        console.error(preNode)
-      }
-      continue;
-    }
-    if (node.type === 'variableRef') {
-      preNode.rules[preNode.rules.length - 1].value.push(vDict[node.value]);
-      continue;
-    }
-    if (node.type === 'selector') {
-      const item = {
-        type: 'selector',
-        value: node.value,
-        indent: node.indent,
-        rules: [],
-        children: []
-      }
-      if (node.indent > preNode.indent) {
-        path[path.length - 1].indent === node.indent && path.pop()
-        path.push(item)
-        preNode.children.push(item);
-        preNode = item;
-      } else {
-        let parent = path.pop()
-        while (node.indent <= parent.indent) {
-          parent = path.pop()
-        }
-        parent.children.push(item)
-        path.push(item)
-      }
-    }
-  }
-  return ast;
+```js
+function parse(tokens) {
+  var ast = {
+    type: 'root',
+    children: [],
+    indent: -1,
+  };
+  let path = [ast];
+  let preNode = ast;
+  let node;
+  let vDict = {};
+  while ((node = tokens.shift())) {
+    if (node.type === 'variableDef') {
+      if (tokens[0] && tokens[0].type === 'value') {
+        const vNode = tokens.shift();
+        vDict[node.value] = vNode.value;
+      } else {
+        preNode.rules[preNode.rules.length - 1].value = vDict[node.value];
+      }
+      continue;
+    }
+    if (node.type === 'property') {
+      if (node.indent > preNode.indent) {
+        preNode.rules.push({
+          property: node.value,
+          value: [],
+        });
+      } else {
+        let parent = path.pop();
+        while (node.indent <= parent.indent) {
+          parent = path.pop();
+        }
+        parent.rules.push({
+          property: node.value,
+          value: [],
+        });
+        preNode = parent;
+        path.push(parent);
+      }
+      continue;
+    }
+    if (node.type === 'value') {
+      try {
+        preNode.rules[preNode.rules.length - 1].value.push(node.value);
+      } catch (e) {
+        console.error(preNode);
+      }
+      continue;
+    }
+    if (node.type === 'variableRef') {
+      preNode.rules[preNode.rules.length - 1].value.push(vDict[node.value]);
+      continue;
+    }
+    if (node.type === 'selector') {
+      const item = {
+        type: 'selector',
+        value: node.value,
+        indent: node.indent,
+        rules: [],
+        children: [],
+      };
+      if (node.indent > preNode.indent) {
+        path[path.length - 1].indent === node.indent && path.pop();
+        path.push(item);
+        preNode.children.push(item);
+        preNode = item;
+      } else {
+        let parent = path.pop();
+        while (node.indent <= parent.indent) {
+          parent = path.pop();
+        }
+        parent.children.push(item);
+        path.push(item);
+      }
+    }
+  }
+  return ast;
 }
-
 ```
 
 #### 转换
@@ -302,9 +291,7 @@ function parse(tokens) {
 
 在遍历树节点时，需要记录当前遍历路径，以方便选择器的拼接；同时可以考虑将“值”类型的节点拼接在一起。最后形成下面的数组结构，数组中每个元素对象包括两个属性，selector 属性值为当前规则的选择器，rules 属性为数组，数组中每个元素对象包含 property 和 value 属性：
 
-复制
-
-```
+```js
 {
   selector: string,
   rules: {
@@ -317,34 +304,31 @@ function parse(tokens) {
 
 具体代码实现如下，递归遍历抽象语法树，遍历的时候完成选择器拼接以及属性值的拼接，最终返回一个与 CSS 样式规则相对应的数组：
 
-复制
-
-```
-function transform(ast) {
-  let newAst = [];
-  function traverse(node, result, prefix) {
-    let selector = ''
-    if (node.type === 'selector') {
-      selector = [...prefix, node.value];
-      result.push({
-        selector: selector.join(' '),
-        rules: node.rules.reduce((acc, rule) => {
-          acc.push({
-            property: rule.property,
-            value: rule.value.join(' ')
-          })
-          return acc;
-        }, [])
-      })
-    }
-    for (let i = 0; i < node.children.length; i++) {
-      traverse(node.children[i], result, selector)
-    }
-  }
-  traverse(ast, newAst, [])
-  return newAst;
+```js
+function transform(ast) {
+  let newAst = [];
+  function traverse(node, result, prefix) {
+    let selector = '';
+    if (node.type === 'selector') {
+      selector = [...prefix, node.value];
+      result.push({
+        selector: selector.join(' '),
+        rules: node.rules.reduce((acc, rule) => {
+          acc.push({
+            property: rule.property,
+            value: rule.value.join(' '),
+          });
+          return acc;
+        }, []),
+      });
+    }
+    for (let i = 0; i < node.children.length; i++) {
+      traverse(node.children[i], result, selector);
+    }
+  }
+  traverse(ast, newAst, []);
+  return newAst;
 }
-
 ```
 
 实现方式比较简单，通过函数递归遍历树，然后重新拼接选择器和属性的值，最终返回数组结构。
@@ -355,16 +339,15 @@ function transform(ast) {
 
 具体代码如下：
 
-复制
-
-```
-function generate(nodes) {
-  return nodes.map(n => {
-    let rules = n.rules.reduce((acc, item) => acc += `${item.property}:${item.value};`, '')
-    return `${n.selector} {${rules}}`
-  }).join('\n')
+```js
+function generate(nodes) {
+  return nodes
+    .map(n => {
+      let rules = n.rules.reduce((acc, item) => (acc += `${item.property}:${item.value};`), '');
+      return `${n.selector} {${rules}}`;
+    })
+    .join('\n');
 }
-
 ```
 
 ### 总结

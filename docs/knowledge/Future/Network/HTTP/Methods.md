@@ -190,7 +190,7 @@ xhr.setRequestHeader(('Content-Type': 'application/x-www-form-urlencoded'));
 xhr.send('key1=value1&key2=value2');
 ```
 
-# 二、HTTP 方法
+# HTTP 方法
 
 客户端发送的 **请求报文** 第一行为请求行，包含了方法字段。
 
@@ -279,7 +279,7 @@ CONNECT www.example.com:443 HTTP/1.1
 
 通常不会使用 TRACE，并且它容易受到 XST 攻击（Cross-Site Tracing，跨站追踪）。
 
-# 九、GET 和 POST 比较
+# GET 和 POST 比较
 
 ## 作用
 

@@ -27,22 +27,16 @@ draft: true
 
 假设要实现一个类似 PPT 自动播放的效果，你很可能会想到使用 JavaScript 定时器控制页面跳转来实现。但其实有更加简洁的实现方法，比如通过 meta 标签来实现：
 
-复制
-
-```
-<meta http-equiv="Refresh" content="5; URL=page2.html">
-
+```html
+<meta http-equiv="Refresh" content="5; URL=page2.html" />
 ```
 
 上面的代码会在 5s 之后自动跳转到同域下的 page2.html 页面。我们要实现 PPT 自动播放的功能，只需要在每个页面的 meta 标签内设置好下一个页面的地址即可。
 
 另一种场景，比如每隔一分钟就需要刷新页面的大屏幕监控，也可以通过 meta 标签来实现，只需去掉后面的 URL 即可：
 
-复制
-
-```
-<meta http-equiv="Refresh" content="60">
-
+```html
+<meta http-equiv="Refresh" content="60" />
 ```
 
 细心的你可能会好奇，既然这样做又方便又快捷，为什么这种用法比较少见呢？
@@ -59,23 +53,20 @@ draft: true
 
 下面这段代码中，通过定时修改 title 标签内容，模拟了类似消息提醒的闪烁效果：
 
-复制
-
-```
-let msgNum = 1 // 消息条数
-let cnt = 0 // 计数器
+```js
+let msgNum = 1; // 消息条数
+let cnt = 0; // 计数器
 const inerval = setInterval(() => {
-  cnt = (cnt + 1) % 2
-  if(msgNum===0) {
+  cnt = (cnt + 1) % 2;
+  if (msgNum === 0) {
     // 通过DOM修改title
-    document.title += `聊天页面`
-    clearInterval(interval)
-    return
+    document.title += `聊天页面`;
+    clearInterval(interval);
+    return;
   }
-  const prefix = cnt % 2 ? `新消息(${msgNum})` : ''
-  document.title = `${prefix}聊天页面`
-}, 1000)
-
+  const prefix = cnt % 2 ? `新消息(${msgNum})` : '';
+  document.title = `${prefix}聊天页面`;
+}, 1000);
 ```
 
 实现效果如下图所示，可以看到标签名称上有提示文字在闪烁。
@@ -156,11 +147,11 @@ const inerval = setInterval(() => {
 
 对应代码如下：
 
-复制
-
-```
-<meta content="拉勾,拉勾网,拉勾招聘,拉钩, 拉钩网 ,互联网招聘,拉勾互联网招聘, 移动互联网招聘, 垂直互联网招聘, 微信招聘, 微博招聘, 拉勾官网, 拉勾百科,跳槽, 高薪职位, 互联网圈子, IT招聘, 职场招聘, 猎头招聘,O2O招聘, LBS招聘, 社交招聘, 校园招聘, 校招,社会招聘,社招" name="keywords">
-
+```html
+<meta
+  content="拉勾,拉勾网,拉勾招聘,拉钩, 拉钩网 ,互联网招聘,拉勾互联网招聘, 移动互联网招聘, 垂直互联网招聘, 微信招聘, 微博招聘, 拉勾官网, 拉勾百科,跳槽, 高薪职位, 互联网圈子, IT招聘, 职场招聘, 猎头招聘,O2O招聘, LBS招聘, 社交招聘, 校园招聘, 校招,社会招聘,社招"
+  name="keywords"
+/>
 ```
 
 在实际工作中，推荐使用一些关键字工具来挑选，比如 [Google Trends](https://trends.google.com/trends)、[站长工具](https://data.chinaz.com/keyword/)。下图是我使用站长工具搜索“招聘”关键字得到的结果，可以看到得到了相当关键的一些信息，比如全网搜索指数、关键词特点。
@@ -177,11 +168,8 @@ const inerval = setInterval(() => {
 
 那么在这些页面中可以这样设置：
 
-复制
-
-```
-<link href="https://lagou.com/a.html" rel="canonical">
-
+```html
+<link href="https://lagou.com/a.html" rel="canonical" />
 ```
 
 这样可以让搜索引擎避免花费时间抓取重复网页。不过需要注意的是，它还有个限制条件，那就是指向的网站不允许跨域。
@@ -198,12 +186,7 @@ OGP 是 Facebook 公司在 2010 年提出的，目的是通过增加文档信息
 
 下面是微信文章支持 OGP 协议的代码，可以看到通过 meta 标签属性值声明了：网址、预览图片、描述信息、站点名称、网页类型和作者信息。
 
-复制
-
-```
-            ![1583480543843-477274458e5be00b.png](https://s0.lgstatic.com/i/image/M00/07/0F/CgqCHl647neAc1fJAACYggDXkeE601.png)
-
-```
+![1583480543843-477274458e5be00b.png](https://s0.lgstatic.com/i/image/M00/07/0F/CgqCHl647neAc1fJAACYggDXkeE601.png)
 
 现在百度已经宣布支持，微信文章的不少页面上也添加了相关标签属性，有兴趣的话你可以查看官方网站：[https://ogp.me/](https://ogp.me/)。
 

@@ -91,78 +91,69 @@ CSDN 首页，这是 3 列布局的第二种实现方式，蓝色部分就是 2 
 
 第 1 步，写好 HTML 结构。这里为了查看方便，我们为布局容器设置背景颜色和高度。
 
-复制
-
-```
+```html
 <style>
-  /* 为了方便查看，给布局容器设置高度和颜色 */
-  main,aside {
-    height: 100px;
-  }
-  main {
-    background-color: #f09e5a;
-  }
-  aside {
-    background-color: #c295cf;
-  }
+  /* 为了方便查看，给布局容器设置高度和颜色 */
+  main,aside {
+    height: 100px;
+  }
+  main {
+    background-color: #f09e5a;
+  }
+  aside {
+    background-color: #c295cf;
+  }
 </style>
 <div>
-  <main>主要布局容器</main>
-  <aside>次要布局容器</aside>
+  <main>主要布局容器</main>
+  <aside>次要布局容器</aside>
 </div>
-
 ```
 
 ![image011.png](https://s0.lgstatic.com/i/image/M00/0E/0E/CgqCHl7E7smAEPRpAAAvxBH_FHc839.png)
 
 第 2 步，将布局容器水平排列：
 
-复制
-
-```
+```html
 <style>
-  .wrap {
-    display: flex;
-    flex-direction: row-reverse;
-  }
-  .main {
-    flex: 1;
-  }
-  .aside {
-    flex: 1;
-  }
+  .wrap {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .main {
+    flex: 1;
+  }
+  .aside {
+    flex: 1;
+  }
 </style>
-<div class="wrap">
-  <main class="main">主要布局容器</main>
-  <aside class="aside">次要布局容器</aside>
+<div class="wrap">
+  <main class="main">主要布局容器</main>
+  <aside class="aside">次要布局容器</aside>
 </div>
-
 ```
 
 ![image013.png](https://s0.lgstatic.com/i/image/M00/0E/02/Ciqc1F7E7tOANF4CAAAvkbIVZBE683.png)
 
 第 3 步，调整布局容器宽度：
 
-复制
-
-```
+```html
 <style>
-  .wrap {
-    display: flex;
-    flex-direction: row-reverse;
-  }
-  .main {
-    flex: 1;
-  }
-  .aside {
-    width: 200px;
-  }
+  .wrap {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .main {
+    flex: 1;
+  }
+  .aside {
+    width: 200px;
+  }
 </style>
-<div class="wrap">
-  <main class="main">主要布局容器</main>
-  <aside class="aside">次要布局容器</aside>
+<div class="wrap">
+  <main class="main">主要布局容器</main>
+  <aside class="aside">次要布局容器</aside>
 </div>
-
 ```
 
 ![image015.png](https://s0.lgstatic.com/i/image/M00/0E/0E/CgqCHl7E7t2ADHFHAAAwDrjM5WI921.png)
@@ -173,35 +164,32 @@ CSDN 首页，这是 3 列布局的第二种实现方式，蓝色部分就是 2 
 
 第 5 步，增加媒体查询。
 
-复制
-
-```
+```html
 <style>
-  .wrap {
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-  }
-  .main {
-    flex: 1;
-  }
-  .aside {
-    width: 200px;
-  }
-  @media only screen and (max-width: 1000px) {
-    .wrap {
-      flex-direction: row;
-    }
-    .main {
-      flex: 100%;
-    }
-  }
+  .wrap {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+  }
+  .main {
+    flex: 1;
+  }
+  .aside {
+    width: 200px;
+  }
+  @media only screen and (max-width: 1000px) {
+    .wrap {
+      flex-direction: row;
+    }
+    .main {
+      flex: 100%;
+    }
+  }
 </style>
-<div class="wrap">
-  <main class="main">主要布局容器</main>
-  <aside class="aside">次要布局容器</aside>
+<div class="wrap">
+  <main class="main">主要布局容器</main>
+  <aside class="aside">次要布局容器</aside>
 </div>
-
 ```
 
 ![image019.gif](https://s0.lgstatic.com/i/image/M00/0E/03/Ciqc1F7E7vOAaoMnAALoOB59RVs256.gif)
@@ -210,50 +198,44 @@ CSDN 首页，这是 3 列布局的第二种实现方式，蓝色部分就是 2 
 
 第 1 步，写好 HTML 结构，为了辨认方便，我们给布局容器设置背景色和高度：
 
-复制
-
-```
+```html
 <style>
-  /* 为了方便查看，给布局容器设置高度和颜色 */
-  .main, .left, .right {
-    height: 100px;
-  }
-  .main {
-    background-color: red;
-  }
-  .left {
-    background-color: green;
-  }
-  .right {
-    background-color: blue;
-  }
+  /* 为了方便查看，给布局容器设置高度和颜色 */
+  .main, .left, .right {
+    height: 100px;
+  }
+  .main {
+    background-color: red;
+  }
+  .left {
+    background-color: green;
+  }
+  .right {
+    background-color: blue;
+  }
 </style>
-<div class="wrap">
-  <main class="main">main</main>
-  <aside class="left">left</aside>
-  <aside class="right">right</aside>
+<div class="wrap">
+  <main class="main">main</main>
+  <aside class="left">left</aside>
+  <aside class="right">right</aside>
 </div>
-
 ```
 
 ![image020.png](https://s0.lgstatic.com/i/image/M00/0E/0E/CgqCHl7E7wKAXwSWAAAp_ydHZSg960.png)
 
 第 2 步，让布局容器水平排列：
 
-复制
-
-```
+```html
 <style>
-  .main, .left, .right {
-    float: left;
-  }
+  .main, .left, .right {
+    float: left;
+  }
 </style>
-<div class="wrap">
-  <main class="main">main</main>
-  <aside class="left">left</aside>
-  <aside class="right">right</aside>
+<div class="wrap">
+  <main class="main">main</main>
+  <aside class="left">left</aside>
+  <aside class="right">right</aside>
 </div>
-
 ```
 
 ![image022.png](https://s0.lgstatic.com/i/image/M00/0E/03/Ciqc1F7E7wyAQ5-dAAAav_zx9fY631.png)
@@ -262,137 +244,128 @@ CSDN 首页，这是 3 列布局的第二种实现方式，蓝色部分就是 2 
 
 这里如果直接设置的话，布局容器 left 和 right 都会换行，所以我们需要通过设置父元素 wrap 内边距来压缩主要布局 main 给次要布局容器留出空间。同时通过设置次要布局容器边距以及采用相对定位调整次要布局容器至两侧。
 
-复制
-
-```
+```html
 <style>
-  .main, .left, .right {
-    float: left;
-  }
-  .wrap {
-    padding: 0 200px 0 300px;
-  }
-  .main {
-    width: 100%;
-  }
-  .left {
-    width: 300px;
-    position: relative;
-    left: -300px;
-    margin-left: -100%;
-  }
-  .right {
-    position: relative;
-    width: 200px;
-    margin-left: -200px;
-    right: -200px;
-  }
+  .main, .left, .right {
+    float: left;
+  }
+  .wrap {
+    padding: 0 200px 0 300px;
+  }
+  .main {
+    width: 100%;
+  }
+  .left {
+    width: 300px;
+    position: relative;
+    left: -300px;
+    margin-left: -100%;
+  }
+  .right {
+    position: relative;
+    width: 200px;
+    margin-left: -200px;
+    right: -200px;
+  }
 </style>
-<div class="wrap">
-  <main class="main">main</main>
-  <aside class="left">left</aside>
-  <aside class="right">right</aside>
+<div class="wrap">
+  <main class="main">main</main>
+  <aside class="left">left</aside>
+  <aside class="right">right</aside>
 </div>
-
 ```
 
 ![image024.png](https://s0.lgstatic.com/i/image/M00/0E/03/Ciqc1F7E7xuAdjuNAAAjJjRTGoc544.png)
 
 第 4 步，消除副作用。我们知道使用浮动会造成高度塌陷，如果在父元素后面添加新的元素就会产生这个问题。所以可以通过伪类来清除浮动，同时减小页面宽度，还会发现次要布局容器 left 和 right 都换行了，但这个副作用我们可以在第 5 步时进行消除。
 
-复制
-
-```
+```html
 <style>
-  .main, .left, .right {
-    float: left;
-  }
-  .wrap {
-    padding: 0 200px 0 300px;
-  }
-  .wrap::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-  .main {
-    width: 100%;
-  }
-  .left {
-    width: 300px;
-    position: relative;
-    left: -300px;
-    margin-left: -100%;
-  }
-  .right {
-    position: relative;
-    width: 200px;
-    margin-left: -200px;
-    right: -200px;
-  }
+  .main, .left, .right {
+    float: left;
+  }
+  .wrap {
+    padding: 0 200px 0 300px;
+  }
+  .wrap::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  .main {
+    width: 100%;
+  }
+  .left {
+    width: 300px;
+    position: relative;
+    left: -300px;
+    margin-left: -100%;
+  }
+  .right {
+    position: relative;
+    width: 200px;
+    margin-left: -200px;
+    right: -200px;
+  }
 </style>
-<div class="wrap">
-  <main class="main">main</main>
-  <aside class="left">left</aside>
-  <aside class="right">right</aside>
+<div class="wrap">
+  <main class="main">main</main>
+  <aside class="left">left</aside>
+  <aside class="right">right</aside>
 </div>
-
 ```
 
 ![image026.png](https://s0.lgstatic.com/i/image/M00/0E/0F/CgqCHl7E7y2AWIVNAAAjKqEadUw543.png)
 
 第 5 步，利用媒体查询调整页面宽度较小情况下的显示优先级。这里我们仍然希望优先显示主要布局容器 main，其次是次要布局容器 left，最后是布局容器 right。
 
-复制
-
-```
+```html
 <style>
-  .main, .left, .right {
-    float: left;
-  }
-  .wrap {
-    padding: 0 200px 0 300px;
-  }
-  .wrap::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-  .main {
-    width: 100%;
-  }
-  .left {
-    width: 300px;
-    position: relative;
-    left: -300px;
-    margin-left: -100%;
-  }
-  .right {
-    position: relative;
-    width: 200px;
-    margin-left: -200px;
-    right: -200px;
-  }
-  @media only screen and (max-width: 1000px) {
-    .wrap {
-      padding: 0;
-    }
-    .left {
-      left: 0;
-      margin-left: 0;
-    }
-    .right {
-      margin-left: 0;
-      right: 0;
-    }
-  }
+  .main, .left, .right {
+    float: left;
+  }
+  .wrap {
+    padding: 0 200px 0 300px;
+  }
+  .wrap::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  .main {
+    width: 100%;
+  }
+  .left {
+    width: 300px;
+    position: relative;
+    left: -300px;
+    margin-left: -100%;
+  }
+  .right {
+    position: relative;
+    width: 200px;
+    margin-left: -200px;
+    right: -200px;
+  }
+  @media only screen and (max-width: 1000px) {
+    .wrap {
+      padding: 0;
+    }
+    .left {
+      left: 0;
+      margin-left: 0;
+    }
+    .right {
+      margin-left: 0;
+      right: 0;
+    }
+  }
 </style>
-<div class="wrap">
-  <main class="main">main</main>
-  <aside class="left">left</aside>
-  <aside class="right">right</aside>
+<div class="wrap">
+  <main class="main">main</main>
+  <aside class="left">left</aside>
+  <aside class="right">right</aside>
 </div>
-
 ```
 
 ![image028.gif](https://s0.lgstatic.com/i/image/M00/0E/03/Ciqc1F7E72KAcZENAAI1dbZkP0I370.gif)
@@ -407,57 +380,52 @@ CSDN 首页，这是 3 列布局的第二种实现方式，蓝色部分就是 2 
 
 这种布局也称之为”sticky footer“，意思是下部分粘黏在屏幕底部。要实现这个功能，最简单的就是使用 flex 或 grid 进行布局。下面是使用 flex 的主要代码：
 
-复制
-
-```
+```html
 <style>
-  .container {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
+  .container  {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
   }
-  header, footer {
-    min-height: 100px;
+  header,
+   footer  {
+      min-height: 100px;
   }
-  main {
-    flex: 1;
+  main  {
+      flex: 1;
   }
 </style>
-<div class="container">
-  <header></header>
-  <main>
-      <div>...</div>
-  </main>
-  <footer></footer>
+<div class="container">
+  <header></header>
+  <main>
+    <div>...</div>
+  </main>
+  <footer></footer>
 </div>
-
 ```
 
 代码实现思路比较简单，将布局容器的父元素 display 属性设置成 flex，伸缩方向改为垂直方向，高度撑满页面，再将中间布局容器的 flex 属性设置为 1，让其自适应即可。
 如果要考虑兼容性的话，其实现起来要复杂些，下面是主要代码：
 
-复制
-
-```
+```html
 <style>
-  .container {
-    box-sizing: border-box;
-    min-height: 100vh;
-    padding-bottom: 100px;
-  }
-  header, footer {
-    height: 100px;
-  }
-  footer {
-    margin-top: -100px;
-  }
+  .container {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+  header, footer {
+    height: 100px;
+  }
+  footer {
+    margin-top: -100px;
+  }
 </style>
-<div class="container">
-  <header></header>
-  <main></main>
+<div class="container">
+  <header></header>
+  <main></main>
 </div>
 <footer></footer>
-
 ```
 
 将上部分布局容器与中间布局容器放入一个共同的父元素中，并让父元素高度撑满，然后设置内下边距给下部分布局容器预留空间，下部分布局容器设置上外边距“嵌入”父元素中。从而实现了随着中间布局容器高度而被撑开的效果。

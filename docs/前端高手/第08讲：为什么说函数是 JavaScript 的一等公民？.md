@@ -24,70 +24,68 @@ draft: true
 
 - 代码 3 则可以看成是通过全局对象来调用，this 会指向全局对象（需要注意的是，严格模式下会是 undefined）。
 
-复制
-
-```
+```js
 // 代码 1
 var o = {
   fn() {
-    console.log(this)
-  }
-}
-o.fn() // o
+    console.log(this);
+  },
+};
+o.fn(); // o
 // 代码 2
 class A {
   fn() {
-    console.log(this)
+    console.log(this);
   }
 }
-var a = new A()
-a.fn()// a
+var a = new A();
+a.fn(); // a
 // 代码 3
 function fn() {
-  console.log(this)
+  console.log(this);
 }
-fn() // 浏览器：Window；Node.js：global
-
+fn(); // 浏览器：Window；Node.js：global
 ```
 
 是不是觉得 this 的用法很简单？别着急，我们再来看看其他例子以加深理解。
 
 （1）如果在函数 fn2() 中调用函数 fn()，那么当调用函数 fn2() 的时候，函数 fn() 的 this 指向哪里呢？
 
-复制
-
-```
-function fn() {console.log(this)}
-function fn2() {fn()}
-fn2() // ?
-
+```js
+function fn() {
+  console.log(this);
+}
+function fn2() {
+  fn();
+}
+fn2(); // ?
 ```
 
 **由于没有找到调用 fn 的对象，所以 this 会指向全局对象**，答案就是 window（Node.js 下是 global）。
 
 （2）再把这段代码稍稍改变一下，让函数 fn2() 作为对象 obj 的属性，通过 obj 属性来调用 fn2，此时函数 fn() 的 this 指向哪里呢？
 
-复制
-
-```
-function fn() {console.log(this)}
-function fn2() {fn()}
-var obj = {fn2}
-obj.fn2() // ?
-
+```js
+function fn() {
+  console.log(this);
+}
+function fn2() {
+  fn();
+}
+var obj = { fn2 };
+obj.fn2(); // ?
 ```
 
 这里需要注意，调用函数 fn() 的是函数 fn2() 而不是 obj。虽然 fn2() 作为 obj 的属性调用，但 **fn2()中的 this 指向并不会传递给函数 fn()，** 所以答案也是 window（Node.js 下是 global）。
 （3）对象 dx 拥有数组属性 arr，在属性 arr 的 forEach 回调函数中输出 this，指向的是什么呢？
 
-复制
-
-```
+```js
 var dx = {
-  arr: [1]
-}
-dx.arr.forEach(function() {console.log(this)}) // ?
-
+  arr: [1],
+};
+dx.arr.forEach(function() {
+  console.log(this);
+}); // ?
 ```
 
 按照之前的说法，很多同学可能会觉得输出的应该是对象 dx 的属性 arr 数组。但其实仍然是全局对象。
@@ -98,87 +96,75 @@ dx.arr.forEach(function() {console.log(this)}) // ?
 
 （4）前面提到通过类实例来调用函数时，this 会指向实例。那么如果像下面的代码，创建一个 fun 变量来引用实例 b 的 fn() 函数，当调用 fun() 的时候 this 会指向什么呢？
 
-复制
-
-```
+```js
 class B {
   fn() {
-    console.log(this)
+    console.log(this);
   }
 }
-var b = new B()
-var fun = b.fn
-fun() // ?
-
+var b = new B();
+var fun = b.fn;
+fun(); // ?
 ```
 
 这道题你可能会很容易回答出来：fun 是在全局下调用的，所以 this 应该指向的是全局对象。这个思路没有没问题，但是这里有个隐藏的知识点。那就是 ES6 下的 class 内部默认采用的是严格模式，实际上面代码的类定义部分可以理解为下面的形式。
 
-复制
-
-```
+```js
 class B {
   'use strict';
   fn() {
-    console.log(this)
+    console.log(this);
   }
 }
-
 ```
 
 而严格模式下不会指定全局对象为默认调用对象，所以答案是 undefined。
 
 （5）ES6 新加入的箭头函数不会创建自己的 this，它只会从自己的作用域链的上一层继承 this。可以简单地理解为**箭头函数的 this 继承自上层的 this**，但在全局环境下定义仍会指向全局对象。
 
-复制
-
-```
-var arrow = {fn: () => {
-  console.log(this)
-}}
-arrow.fn() // ?
-
+```js
+var arrow = {
+  fn: () => {
+    console.log(this);
+  },
+};
+arrow.fn(); // ?
 ```
 
 所以虽然通过对象 arrow 来调用箭头函数 fn()，那么 this 指向不是 arrow 对象，而是全局对象。如果要让 fn() 箭头函数指向 arrow 对象，我们还需要再加一层函数，让箭头函数的上层 this 指向 arrow 对象。
 
-复制
-
-```
+```js
 var arrow = {
   fn() {
-    const a = () => console.log(this)
-    a()
-  }
-}
-arrow.fn()  // arrow
-
+    const a = () => console.log(this);
+    a();
+  },
+};
+arrow.fn(); // arrow
 ```
 
 （6）前面提到 this 指向的要么是调用它的对象，要么是 undefined，那么如果将 this 指向一个基础类型的数据会发生什么呢？
 
 比如下面的代码将 this 指向数字 0，打印出的 this 是什么呢？
 
-复制
-
-```
-[0].forEach(function() {console.log(this)}, 0) // ?
-
+```js
+[0].forEach(function() {
+  console.log(this);
+}, 0); // ?
 ```
 
 结合上一讲关于数据类型的知识，我们知道基础类型也可以转换成对应的引用对象。所以这里 this 指向的是一个值为 0 的 Number 类型对象。
 
 （7）改变 this 指向的常见 3 种方式有 bind、call 和 apply。call 和 apply 用法功能基本类似，都是通过传入 this 指向的对象以及参数来调用函数。区别在于传参方式，前者为逐个参数传递，后者将参数放入一个数组，以数组的形式传递。bind 有些特殊，它不但可以绑定 this 指向也可以绑定函数参数并返回一个新的函数，当 c 调用新的函数时，绑定之后的 this 或参数将无法再被改变。
 
-复制
-
-```
-function getName() {console.log(this.name)}
-var b = getName.bind({name: 'bind'})
-b()
-getName.call({name: 'call'})
-getName.apply({name: 'apply'})
-
+```js
+function getName() {
+  console.log(this.name);
+}
+var b = getName.bind({ name: 'bind' });
+b();
+getName.call({ name: 'call' });
+getName.apply({ name: 'apply' });
 ```
 
 由于 this 指向的不确定性，所以很容易在调用时发生意想不到的情况。在编写代码时，应尽量避免使用 this，比如可以写成纯函数的形式，也可以通过参数来传递上下文对象。实在要使用 this 的话，可以考虑使用 bind 等方式将其绑定。
@@ -199,13 +185,10 @@ getName.apply({name: 'apply'})
 
 在讲函数转化之前，先来看一道题：编写一个 add() 函数，支持对多个参数求和以及多次调用求和。示例如下：
 
-复制
-
-```
-add(1) // 1
-add(1)(2)// 3
-add(1, 2)(3, 4, 5)(6) // 21
-
+```js
+add(1); // 1
+add(1)(2); // 3
+add(1, 2)(3, 4, 5)(6); // 21
 ```
 
 对于不定参数的求和处理比较简单，很容易想到通过 arguments 或者扩展符的方式获取数组形式的参数，然后通过 reduce 累加求和。但如果直接返回结果那么后面的调用肯定会报错，所以每次返回的必须是函数，才能保证可以连续调用。也就是说 add 返回值既是一个可调用的函数又是求和的数值结果。
@@ -214,21 +197,18 @@ add(1, 2)(3, 4, 5)(6) // 21
 
 具体代码实现如下，在 add() 函数内部定义一个 fn() 函数并返回。fn() 函数的主要职能就是拼接参数并返回自身，当调用 toString() 和 valueOf() 函数时对拼接好的参数进行累加求和并返回。
 
-复制
-
-```
+```js
 function add(...args) {
-  let arr = args
-  function fn(...newArgs) {
-    arr = [...args, ...newArgs]
-    return fn;
-  }
-  fn.toString = fn.valueOf = function() {
-    return arr.reduce((acc, cur) => acc + parseInt(cur))
-  }
-  return fn
+  let arr = args;
+  function fn(...newArgs) {
+    arr = [...args, ...newArgs];
+    return fn;
+  }
+  fn.toString = fn.valueOf = function() {
+    return arr.reduce((acc, cur) => acc + parseInt(cur));
+  };
+  return fn;
 }
-
 ```
 
 ### 原型
@@ -237,12 +217,9 @@ function add(...args) {
 
 严格地说，原型应该是对象的特性，但函数其实也是一种特殊的对象。例如，我们对自定义的函数进行 instanceof Object 操作时，其结果是 true。
 
-复制
-
-```
-function fn(){}
-fn instanceof Object // true
-
+```js
+function fn() {}
+fn instanceof Object; // true
 ```
 
 而且我们为了实现类的特性，更多的是在函数中使用它，所以在函数这一课时中来深入讲解原型。
@@ -253,24 +230,18 @@ fn instanceof Object // true
 
 隐式原型通常在创建实例的时候就会自动指向构造函数的显式原型。例如，在下面的示例代码中，当创建对象 a 时，a 的隐式原型会指向构造函数 Object() 的显式原型。
 
-复制
-
-```
-var a = {}
-a.__proto__ === Object.prototype // true
-var b= new Object()
-b.__proto__ === a.__proto__ // true
-
+```js
+var a = {};
+a.__proto__ === Object.prototype; // true
+var b = new Object();
+b.__proto__ === a.__proto__; // true
 ```
 
 显式原型是内置函数（比如 Date() 函数）的默认属性，在自定义函数时（箭头函数除外）也会默认生成，生成的显式原型对象只有一个属性 constructor ，该属性指向函数自身。通常配合 new 关键字一起使用，当通过 new 关键字创建函数实例时，会将实例的隐式原型指向构造函数的显式原型。
 
-复制
-
-```
+```js
 function fn() {}
-fn.prototype.constructor === fn // true
-
+fn.prototype.constructor === fn; // true
 ```
 
 看到这里，不少同学可能会产生一种错觉，那就是隐式原型必须和显式原型配合使用，这种想法是错误的。
@@ -279,17 +250,14 @@ fn.prototype.constructor === fn // true
 
 当打印 child.name 的时候会输出对象 child 的 name 属性值，当打印 child.code 时由于对象 child 没有属性 code，所以会找到原型对象 parent 的属性 code，将 parent.code 的值打印出来。同时可以通过打印结果看到，对象 parent 并没有显式原型属性。如果要区分对象 child 的属性是否继承自原型对象，可以通过 hasOwnProperty() 函数来判断。
 
-复制
-
-```
-var parent = {code:'p',name:'parent'}
-var child = {__proto__: parent, name: 'child'}
-console.log(parent.prototype) // undefined
-console.log(child.name) // "child"
-console.log(child.code) // "p"
-child.hasOwnProperty('name') // true
-child.hasOwnProperty('code') // false
-
+```js
+var parent = { code: 'p', name: 'parent' };
+var child = { __proto__: parent, name: 'child' };
+console.log(parent.prototype); // undefined
+console.log(child.name); // "child"
+console.log(child.code); // "p"
+child.hasOwnProperty('name'); // true
+child.hasOwnProperty('code'); // false
 ```
 
 在这个例子中，如果对象 parent 也没有属性 code，那么会继续在对象 parent 的原型对象中寻找属性 code，以此类推，逐个原型对象依次进行查找，直到找到属性 code 或原型对象没有指向时停止。
@@ -302,12 +270,9 @@ child.hasOwnProperty('code') // false
 
 下面的代码通过 new 关键字创建了一个函数 F() 的实例。
 
-复制
-
-```
+```js
 function F(init) {}
-var f = new F(args)
-
+var f = new F(args);
 ```
 
 其中主要包含了 3 个步骤：
@@ -320,13 +285,10 @@ var f = new F(args)
 
 具体可以表述为下面的代码：
 
-复制
-
-```
-var fn = Object.create(F.prototype)
-var obj = F.apply(fn, args)
+```js
+var fn = Object.create(F.prototype);
+var obj = F.apply(fn, args);
 var f = obj && typeof obj === 'object' ? obj : fn;
-
 ```
 
 #### 怎么通过原型链实现多层继承？
@@ -335,24 +297,19 @@ var f = obj && typeof obj === 'object' ? obj : fn;
 
 假设构造函数 B() 需要继承构造函数 A()，就可以通过将函数 B() 的显式原型指向一个函数 A() 的实例，然后再对 B 的显式原型进行扩展。那么通过函数 B() 创建的实例，既能访问用函数 B() 的属性 b，也能访问函数 A() 的属性 a，从而实现了多层继承。
 
-复制
-
-```
-function A() {
-}
+```js
+function A() {}
 A.prototype.a = function() {
-  return 'a';
-}
-function B() {
-}
-B.prototype = new A()
+  return 'a';
+};
+function B() {}
+B.prototype = new A();
 B.prototype.b = function() {
-  return 'b';
-}
-var c = new B()
-c.b() // 'b'
-c.a() // 'a'
-
+  return 'b';
+};
+var c = new B();
+c.b(); // 'b'
+c.a(); // 'a'
 ```
 
 ### 补充 2：typeof 和 instanceof
@@ -376,9 +333,7 @@ c.a() // 'a'
 
 用于检测构造函数的 prototype 属性是否出现在某个实例对象的原型链上。例如，在表达式 left instanceof right 中，会沿着 left 的原型链查找，看看是否存在 right 的 prototype 对象。
 
-复制
-
-```
+```js
 left.__proto__.__proto__... =?= right.prototype
 
 ```
@@ -395,33 +350,25 @@ left.__proto__.__proto__... =?= right.prototype
 
 变量的命名提升允许我们在同（子）级作用域中，在变量声明之前进行引用，但要注意，得到的是未赋值的变量。而且仅限 var 关键字声明的变量，对于 let 和 const 在定义之前引用会报错。
 
-复制
-
-```
-console.log(a) // undefined
-var a = 1
-console.log(b) // 报错
-let b = 2
-
+```js
+console.log(a); // undefined
+var a = 1;
+console.log(b); // 报错
+let b = 2;
 ```
 
 函数的命名提升则意味着可以在同级作用域或者子级作用域里，在函数定义之前进行调用。
 
-复制
-
-```
-fn() // 2
+```js
+fn(); // 2
 function fn() {
-  return 2
+  return 2;
 }
-
 ```
 
 结合以上两点我们再来看看下面两种函数定义的区别，方式 1 将函数赋值给变量 f；方式 2 定义了一个函数 f()。
 
-复制
-
-```
+```js
 // 方式1
 var f = function() {...}
 // 方式2
@@ -437,64 +384,53 @@ function f() {...}
 
 比如下面的代码就通过闭包来实现单例模式。
 
-复制
-
-```
-var SingleStudent = (function () {
-    function Student() {}
-    var _student;
-    return function () {
-        if (_student) return _student;
-        _student = new Student()
-        return _student;
-    }
-}())
-var s = new SingleStudent()
-var s2 = new SingleStudent()
-s === s2 // true
-
+```js
+var SingleStudent = (function() {
+  function Student() {}
+  var _student;
+  return function() {
+    if (_student) return _student;
+    _student = new Student();
+    return _student;
+  };
+})();
+var s = new SingleStudent();
+var s2 = new SingleStudent();
+s === s2; // true
 ```
 
 函数 SingleStudent 内部通过闭包创建了一个私有变量 \_student，这个变量只能通过返回的匿名函数来访问，匿名函数在返回变量时对其进行判断，如果存在则直接返回，不存在则在创建保存后返回。
 
 ### 补充 3：经典笔试题
 
-复制
-
-```
-for( var i = 0; i < 5; i++ ) {
-	setTimeout(() => {
-		console.log( i );
-	}, 1000 * i)
+```js
+for (var i = 0; i < 5; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000 * i);
 }
-
 ```
 
 这是一道作用域相关的经典笔试题，需要实现的功能是每隔 1 秒控制台打印数字 1 到 5。但实际执行效果是每隔一秒打印的数字都是 5，为什么会这样呢？
 
 如果把这段代码转换一下，手动对变量 i 进行命名提升，你就会发现 for 循环和打印函数共享了同一个变量 i，这就是问题所在。
 
-复制
-
-```
+```js
 var i;
-for(i = 0; i < 5; i++ ) {
-	setTimeout(() => {
-		console.log(i);
-	}, 1000 * i)
+for (i = 0; i < 5; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000 * i);
 }
-
 ```
 
 要修复这段代码方法也有很多，比如将 var 关键字替换成 let，从而创建块级作用域。
 
-复制
-
-```
-for(let i = 0; i < 5; i++ ) {
-	setTimeout(() => {
-		console.log(i);
-	}, 1000 * i)
+```js
+for (let i = 0; i < 5; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000 * i);
 }
 /**
 等价于
@@ -505,7 +441,6 @@ for(var i = 0; i < 5; i++ ) {
 	}, 1000 * i)
 }
  */
-
 ```
 
 ### 总结
