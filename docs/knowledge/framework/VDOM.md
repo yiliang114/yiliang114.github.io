@@ -719,8 +719,8 @@ Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示”
 
 虚拟 DOM，即用 JS 对象来描述 DOM 树结构，Diff 算法则是找旧 VDOM 与新的 VDOM 的最小差异，然后再把差异渲染出来
 
-![DOM](../images/domtree.png)
-![vdom](../images/vdon.png)
+![DOM](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/domtree.png)
+![vdom](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/vdon.png)
 
 描述一个 DOM 节点
 
@@ -732,7 +732,7 @@ Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示”
 
 ### 为什么 DOM 操作慢？ 因为属性太多了
 
-![domattr](../images/domattr.png)
+![domattr](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/domattr.png)
 
 ### vdom 如何应用，核心 API 是什么
 

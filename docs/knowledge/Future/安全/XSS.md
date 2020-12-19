@@ -434,7 +434,7 @@ background 属性
 
 ### 其它字符混淆
 
-有的 waf 可能是用正则表达式去检测是否有 xss 攻击，如果我们能 fuzz 出正则的规则，则我们就可以使用其它字符去混淆我们注入的代码了  
+有的 waf 可能是用正则表达式去检测是否有 xss 攻击，如果我们能 fuzz 出正则的规则，则我们就可以使用其它字符去混淆我们注入的代码了
 下面举几个简单的例子
 
     可利用注释、标签的优先级等
@@ -516,11 +516,10 @@ base64 绕过
 
     但是要注意在windows下\本身就有特殊用途，是一个path 的写法，所以\\在Windows下是file协议，在linux下才会是当前域的协议
 
-Windows 下  
-![](https://xzfile.aliyuncs.com/media/upload/picture/20190208102122-3a40fff4-2b48-1.gif)  
-Linux 下  
-![](https://xzfile.aliyuncs.com/media/upload/picture/20190208103630-5775e02e-2b4a-1.gif)  
-6.使用中文逗号代替英文逗号  
+Windows 下
+![](https://xzfile.aliyuncs.com/media/upload/picture/20190208102122-3a40fff4-2b48-1.gif)
+Linux 下
+![](https://xzfile.aliyuncs.com/media/upload/picture/20190208103630-5775e02e-2b4a-1.gif) 6.使用中文逗号代替英文逗号
 如果你在你在域名中输入中文句号浏览器会自动转化成英文的逗号
 
     <img src="x" onerror="document.location=`http://www。baidu。com`">//会自动跳转到百度
@@ -537,7 +536,7 @@ XSS 可以分为多种类型，但是总体上我认为分为两类：**持久�
 
 举个例子，对于评论功能来说，就得防范持久型 XSS 攻击，因为我可以在评论中输入以下内容
 
-![img](../js/images/1676a843648d488c.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1676a843648d488c.jpg)
 
 这种情况如果前后端没有做好防御的话，这段评论就会被存储到数据库中，这样每个打开该页面的用户都会被攻击到。
 
@@ -552,7 +551,7 @@ XSS 可以分为多种类型，但是总体上我认为分为两类：**持久�
 
 但是对于这种攻击方式来说，如果用户使用 Chrome 这类浏览器的话，浏览器就能自动帮助用户防御攻击。但是我们不能因此就不防御此类攻击了，因为我不能确保用户都使用了该类浏览器。
 
-![img](../js/images/1676d5e1a09c8367.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1676d5e1a09c8367.jpg)
 
 对于 XSS 攻击来说，通常有两种方式可以用来防御。
 
@@ -624,7 +623,7 @@ CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部�
 
 对于这种方式来说，只要开发者配置了正确的规则，那么即使网站存在漏洞，攻击者也不能执行它的攻击代码，并且 CSP 的兼容性也不错。
 
-![img](../js/images/1676d8215a3d1f5b.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1676d8215a3d1f5b.jpg)
 
 ### XSS
 

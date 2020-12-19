@@ -141,15 +141,15 @@ self.addEventListener('fetch', e => {
 
 打开页面，可以在开发者工具中的 `Application` 看到 Service Worker 已经启动了
 
-![img](../js/images/11/1626b1e8eba68e1c.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/11/1626b1e8eba68e1c.jpg)
 
 在 Cache 中也可以发现我们所需的文件已被缓存
 
-![img](../js/images/11/1626b20dfc4fcd26.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/11/1626b20dfc4fcd26.jpg)
 
 当我们重新刷新页面可以发现我们缓存的数据是从 Service Worker 中读取的
 
-![img](../js/images/11/1626b20e4f8f3257.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/11/1626b20e4f8f3257.jpg)
 
 ### Service Worker 如何保证离线缓存资源更新
 
@@ -210,13 +210,13 @@ self.addEventListener('fetch', e => {
 ```
 
 打开页面，可以在开发者工具中的 Application 看到 Service Worker 已经启动了
-![](../images/serviceWorker.png)
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/serviceWorker.png)
 
 在 Cache 中也可以发现我们所需的文件已被缓存
-![](../images/cache-worker.png)
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/cache-worker.png)
 
 当我们重新刷新页面可以发现我们缓存的数据是从 Service Worker 中读取的
-![](../images/reload-worker.png)
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/reload-worker.png)
 
 ### Service Worker
 

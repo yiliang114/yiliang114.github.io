@@ -174,8 +174,6 @@ todo: 这里不确定是不是没有传参数。
 
 接下来就看看 `Vuex.install()` 函数。位于 `Vuex` 源码的 `src/store.js` 中。
 
-![image-20181023103834377](/var/folders/wq/zdlyxhd53zg8j874jhk14hnr0000gn/T/abnerworks.Typora/image-20181023103834377.png)
-
 这里的 `Vue` 是一个全局变量，可以看到，这里的 `install` 函数主要是执行 `applyMixin(Vue)` 。
 
 `applyMixin()` 函数位于 `src/mixin.js` 中：

@@ -1368,8 +1368,6 @@ div
 
 这样写，就算在不是 webkit 内核的浏览器，也可以优雅降级（高度=行高\*行数（webkit-line-clamp））！
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="481" height="108"></svg>)
-
 ### 文字阴影
 
 语法：text-shadow:水平阴影，垂直阴影，模糊的距离，以及阴影的颜色。
@@ -1446,16 +1444,6 @@ css3 的滤镜也是一个亮点，功能强大，写法也灵活。
 <p>阴影drop-shadow(5px 5px 5px #000)</p>
 <img src="test.jpg" style="filter:drop-shadow(5px 5px 5px #000);"/>复制代码
 ```
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="504" height="357"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="528" height="716"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="511" height="728"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="511" height="721"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="513" height="723"></svg>)
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40bbb4e9a7d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
@@ -1622,24 +1610,6 @@ css3 的混合模式，两个（background-blend-mode 和 mix-blend-mode）。�
 
 运行效果
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="502" height="362"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="506" height="710"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="512" height="711"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="516" height="711"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="514" height="353"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="523" height="709"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="521" height="708"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="544" height="713"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="525" height="705"></svg>)
-
 ### mix-blend-mode
 
 代码
@@ -1698,22 +1668,6 @@ css3 的混合模式，两个（background-blend-mode 和 mix-blend-mode）。�
 
 运行效果
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="556" height="406"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="550" height="400"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="554" height="400"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="554" height="398"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="551" height="401"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="544" height="400"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="568" height="402"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="555" height="391"></svg>)
-
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40ec2e01e59?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40e9a09db9f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
@@ -1721,12 +1675,6 @@ css3 的混合模式，两个（background-blend-mode 和 mix-blend-mode）。�
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40ecebd64e9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40eded5de01?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="560" height="400"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="558" height="400"></svg>)
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="547" height="402"></svg>)
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40f61d8f918?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 

@@ -8,7 +8,7 @@ draft: true
 
 ### 从输入 URL 到页面加载完成的过程
 
-![输入URL后.png](../../images/输入URL后.png)
+![输入URL后.png](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/输入URL后.png)
 
 1. 在浏览器地址栏输入 URL
 2. 判断是否有永久重定向(301)

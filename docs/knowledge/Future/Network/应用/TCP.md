@@ -12,7 +12,7 @@ TCP（Transmission Control Protocol），又叫传输控制协议。TCP 协议�
 
 #### TCP 头部
 
-![TCP header](../img/TCP.png)
+![TCP header](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/TCP.png)
 
 对于 TCP 头部来说，以下几个字段是很重要的:
 
@@ -32,7 +32,7 @@ TCP（Transmission Control Protocol），又叫传输控制协议。TCP 协议�
 
 从这个图上我们就可以发现 TCP 头部比 UDP 头部复杂的多。
 
-![img](./images/1631be45b084e4bc.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1631be45b084e4bc.jpg)
 
 对于 TCP 头部来说，以下几个字段是很重要的
 
@@ -91,7 +91,7 @@ PS：一般定时器设定的时间都会大于一个 RTT 的平均时间。
 
 发送端窗口包含已发送但未收到应答的数据和可以发送但是未发送的数据。
 
-![滑动窗口](../img/slideWindow.png)
+![滑动窗口](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/slideWindow.png)
 
 发送端窗口是由接收窗口剩余大小决定的。接收方会把当前接收窗口的剩余大小写入应答报文，发送端收到应答后根据该值和当前网络拥塞情况设置发送窗口的大小，所以发送窗口的大小是不断变化的。
 
@@ -121,7 +121,7 @@ PS：一般定时器设定的时间都会大于一个 RTT 的平均时间。
 
 #### 拥塞避免算法
 
-![拥塞避免](../img/ysbm.png)
+![拥塞避免](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/ysbm.png)
 
 拥塞避免算法相比简单点，每过一个 RTT 窗口大小只加一，这样能够避免指数级增长导致网络拥塞，慢慢将大小调整到最佳值。
 
@@ -188,13 +188,13 @@ PS：一般定时器设定的时间都会大于一个 RTT 的平均时间。
 
 TCP 的状态机是很复杂的，并且与建立断开连接时的握手息息相关，接下来就来详细描述下两种握手。
 
-![img](./images/1631bef9e3c60035.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1631bef9e3c60035.jpg)
 
 在这之前需要了解一个重要的性能指标 RTT。该指标表示发送端发送数据到接收到对端数据所需的往返时间。
 
 #### 建立连接三次握手
 
-![img](./images/1631bf1e79b3cd42.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1631bf1e79b3cd42.jpg)
 
 首先假设主动发起请求的一端称为客户端，被动连接的一端称为服务端。不管是客户端还是服务端，TCP 连接建立完后都能发送和接收数据，所以 TCP 是一个全双工的协议。
 
@@ -226,7 +226,7 @@ PS：在建立连接中，任意一端掉线，TCP 都会重发 SYN 包，一般
 
 #### 断开链接四次握手
 
-![img](./images/1631fb807f2c6c1b.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1631fb807f2c6c1b.jpg)
 
 TCP 是全双工的，在断开连接时两端都需要发送 FIN 和 ACK。
 
@@ -294,13 +294,13 @@ PS：一般定时器设定的时间都会大于一个 RTT 的平均时间。
 
 发送端窗口包含已发送但未收到应答的数据和可以发送但是未发送的数据。
 
-![img](./images/1632f25c587ffd54.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1632f25c587ffd54.jpg)
 
 发送端窗口是由接收窗口剩余大小决定的。接收方会把当前接收窗口的剩余大小写入应答报文，发送端收到应答后根据该值和当前网络拥塞情况设置发送窗口的大小，所以发送窗口的大小是不断变化的。
 
 当发送端接收到应答报文后，会随之将窗口进行滑动
 
-![img](./images/1632f25cca99c8f4.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1632f25cca99c8f4.jpg)
 
 滑动窗口是一个很重要的概念，它帮助 TCP 实现了流量控制的功能。接收方通过报文告知发送方还可以发送多少数据，从而保证接收方能够来得及接收数据，防止出现接收方带宽已满，但是发送方还一直发送数据的情况。
 

@@ -80,21 +80,21 @@ HTTP/2 相比于 HTTP/1，可以说是大幅度提高了网页的性能。
 
 大家可以通过 [该链接](https://link.juejin.im/?target=https%3A%2F%2Fhttp2.akamai.com%2Fdemo) 感受下 HTTP/2 比 HTTP/1 到底快了多少。
 
-![img](./images/163542ca61eaff17.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/163542ca61eaff17.jpg)
 
 在 HTTP/1 中，因为队头阻塞的原因，你会发现发送请求是长这样的
 
-![img](./images/163542c96df8563d.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/163542c96df8563d.jpg)
 
 在 HTTP/2 中，因为可以复用同一个 TCP 连接，你会发现发送请求是长这样的
 
-![img](./images/163542c9d3128c7a.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/163542c9d3128c7a.jpg)
 
 ## 二进制传输
 
 HTTP/2 中所有加强性能的核心点在于此。在之前的 HTTP 版本中，我们是通过文本的方式传输数据。在 HTTP/2 中引入了新的编码机制，所有传输的数据都会被分割，并采用二进制格式编码。
 
-![img](./images/163543c25e5e9f23.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/163543c25e5e9f23.jpg)
 
 ## 多路复用
 
@@ -104,7 +104,7 @@ HTTP/2 中所有加强性能的核心点在于此。在之前的 HTTP 版本中�
 
 多路复用，就是在一个 TCP 连接中可以存在多条流。换句话说，也就是可以发送多个请求，对端可以通过帧中的标识知道属于哪个请求。通过这个技术，可以避免 HTTP 旧版本中的队头阻塞问题，极大的提高传输性能。
 
-![img](./images/1635442531d3e5ee.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1635442531d3e5ee.jpg)
 
 ## Header 压缩
 

@@ -20,7 +20,7 @@ redux 是一个应用数据流框架，主要是解决了组件间状态共享�
 ### reducer 为什么是纯函数？
 
 从本质上讲，纯函数的定义如下：不修改函数的输入值，依赖于外部状态（比如数据库，DOM 和全局变量），同时对于任何相同的输入有着相同的输出结果。
-![](../images/pureRedux.png)
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/pureRedux.png)
 
 阅读源码可以看到，Redux 接收一个给定的 state（对象），然后通过循环将 state 的每一部分传递给每个对应的 reducer。如果有发生任何改变，reducer 将返回一个新的对象。如果不发生任何变化，reducer 将返回旧的 state。
 

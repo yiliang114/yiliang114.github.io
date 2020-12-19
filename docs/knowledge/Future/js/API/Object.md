@@ -36,7 +36,7 @@ var obj = { name: 'hehe', age: 27 };
 
 这些都是如何存储的？
 
-![值的存储](../images/object-store.png)
+![值的存储](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/object-store.png)
 
 > 如果给定的字符串是回文，返回 true，反之，返回 false。
 > 如果一个字符串忽略标点符号、大小写和空格，正着读和反着读一模一样，那么这个字符串就是 palindrome(回文)。

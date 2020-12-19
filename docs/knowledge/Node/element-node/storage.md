@@ -76,12 +76,6 @@ Cursor
 
 关于数据库基于各种模式的特点全部可以通过以下图片分清:
 
-![storage](/assets/storage.jpeg)
-
-图片出处：Google App Engine 的 co-founder Ryan Barrett 在 2009 年的 google i/o 上的演讲 [《Transaction Across DataCenter》](http://snarfed.org/transactions_across_datacenters_io.html)（视频： http://www.youtube.com/watch?v=srOgpXECblk）
-
-根据上图, 我们可以知道 Master/Slave 与 Master/Master 的关系.
-
 <table>
   <tr><th>attr</th><th>Master/Slave</th><th>Master/Master</th></tr>
   <tr><td>一致性</td><td colspan="2">Eventually：当你写入一个新值后，有可能读不出来，但在某个时间窗口之后保证最终能读出来。比如：DNS，电子邮件、Amazon S3，Google搜索引擎这样的系统。</td></tr>

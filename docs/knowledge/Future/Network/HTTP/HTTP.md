@@ -386,7 +386,7 @@ HTTP 协议采用“请求-应答”模式，并且 HTTP 是基于 TCP 进行连
 
 ### HTTP 管线化 （HTTP1.1 支持）
 
-![pipe](../img/pipe.png)
+![pipe](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/pipe.png)
 
 管线化后，请求和响应不再是依次交替的了。他可以支持一次性发送多个请求，并一次性接收多个响应。
 
@@ -466,7 +466,7 @@ HTTP2 中
 
 **多路复用，就是在一个 TCP 连接中可以存在多条流。** 换句话说，也就是可以发送多个请求，对端可以通过帧中的标识知道属于哪个请求。通过这个技术，可以避免 HTTP 旧版本中的队头阻塞问题，极大的提高传输性能。
 
-![http2](../img/http2Connet.png)
+![http2](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/http2Connet.png)
 
 ### Header 压缩
 

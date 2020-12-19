@@ -28,7 +28,7 @@ draft: true
 
 捕获从上到下， 冒泡从下到上。
 先捕获，再到目标，再冒泡
-![事件模型](../images/==dom事件模型.jpg)
+![事件模型](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/==dom事件模型.jpg)
 
 ### DOM 事件的绑定的几种方式?
 

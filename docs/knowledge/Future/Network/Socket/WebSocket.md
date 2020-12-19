@@ -145,7 +145,7 @@ Connection: Upgrade
 * 没有同源限制，客户端可以与任意服务器通信。
 * 协议标识符是 ws（如果加密，则为 wss），服务器网址就是 URL。
 
-  ![ws和wss](../images/ws.png)
+  ![ws和wss](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/ws.png)
 
 #### 使用
 

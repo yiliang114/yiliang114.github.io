@@ -50,7 +50,7 @@ UDP 包头部包含了以下几个数据
 - 整个数据报文的长度
 - 整个数据报文的检验和（IPv4 可选 字段），该字段用于发现头部信息和数据中的错误
 
-![UDP Header](../img/UDP.png)
+![UDP Header](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/UDP.png)
 
 ### 适合使用的场景
 

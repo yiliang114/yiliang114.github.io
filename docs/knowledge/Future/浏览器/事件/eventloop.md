@@ -16,7 +16,7 @@ https://zhuanlan.zhihu.com/p/41543963
 
 可以把执行栈认为是一个存储函数调用的**栈结构**，遵循先进后出的原则。
 
-![执行栈可视化](../../js/images/1670d2d20ead32ec.jpg)
+![执行栈可视化](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670d2d20ead32ec.jpg)
 
 当开始执行 JS 代码时，首先会执行一个 `main` 函数，然后执行我们的代码。根据先进后出的原则，后执行的函数会先弹出栈，在图中我们也可以发现，`foo` 函数后执行，当执行完毕后就从栈中弹出了。
 
@@ -32,7 +32,7 @@ function bar() {
 bar();
 ```
 
-![函数执行顺序](../../js/images/1670c0e21540090c.jpg)
+![函数执行顺序](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670c0e21540090c.jpg)
 
 大家可以在上图清晰的看到报错在 `foo` 函数，`foo` 函数又是在 `bar` 函数中调用的。
 
@@ -45,13 +45,13 @@ function bar() {
 bar();
 ```
 
-![爆栈](../../js/images/1670c128acce975f.jpg)
+![爆栈](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670c128acce975f.jpg)
 
 ## 浏览器中的 Event Loop
 
 执行 JS 代码其实就是往执行栈中放入函数，当遇到异步的代码时，会被**挂起**并在需要执行的时候加入到 Task（有多种 Task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为。
 
-![事件循环](../../js/images/16740fa4cd9c6937.jpg)
+![事件循环](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/16740fa4cd9c6937.jpg)
 
 不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（microtask） 和 **宏任务**（macrotask）。在 ES6 规范中，microtask 称为 `jobs`，macrotask 称为 `task`。下面来看以下代码的执行顺序：
 
@@ -184,7 +184,7 @@ Node 中的 Event Loop 和浏览器中的是完全不相同的东西。
 
 Node 的 Event Loop 分为 6 个阶段，它们会按照**顺序**反复运行。每当进入某一个阶段的时候，都会从对应的回调队列中取出函数去执行。当队列为空或者执行的回调函数数量到达系统设定的阈值，就会进入下一阶段。
 
-![img](../../js/images/1670c3fe3f9a5e2b.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670c3fe3f9a5e2b.jpg)
 
 ### timer
 
@@ -262,7 +262,7 @@ fs.readFile(__filename, () => {
 
 上面介绍的都是 macrotask 的执行情况，对于 microtask 来说，它会在以上每个阶段完成前**清空** microtask 队列，下图中的 Tick 就代表了 microtask
 
-![img](../../js/images/16710fb80dd42d27.jpg)
+![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/16710fb80dd42d27.jpg)
 
 ```js
 setTimeout(() => {

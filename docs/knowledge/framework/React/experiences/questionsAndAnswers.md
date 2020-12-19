@@ -31,11 +31,11 @@ draft: true
 ### 核心架构
 
 - O(n) 复杂度的的 diff 算法。
-  > ![](./images/react-diff.png)
+  > ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/react-diff.png)
   > React 通过 updateDepth 对 Virtual DOM 树进行层级控制，只会对相同颜色方框内的 DOM 节点进行比较，即同一个父节点下的所有子节点。当发现节点已经不存在，则该节点及其子节点会被完全删除掉，不会用于进一步的比较。这样只需要对树进行一次遍历，便能完成整个 DOM 树的比较。
   > [详细学习](https://blog.csdn.net/u011413061/article/details/77823299)
 - react 的生命周期
-  ![react-lifecycle.png](./images/react-lifecycle.png)
+  ![react-lifecycle.png](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/react-lifecycle.png)
 - setState 实现机制
 
 ### react 的工作原理
@@ -274,7 +274,7 @@ MVC 来源于服务器端的开发。前端开发中也引入了 MVC 的概念�
   在前端应用中，用户和网页之间的交互主要是通过操作事件（例如点击鼠标、键盘输入等）实现的，所以前端的 controller 这里可以简单理解为各种交互事件的 handler。
   > 前端 controller 的概念比较杂，比如 angularjs 中的 controller 被定义为一个作用域（`$scope`）的闭包，这个闭包可以和一段 HTML 模板绑定在一起，最终将数据渲染到模板中形成页面。
 
-![mvc](../images/mvc.png)
+![mvc](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/mvc.png)
 
 ### MVVM 模式
 
@@ -282,7 +282,7 @@ MVC 来源于服务器端的开发。前端开发中也引入了 MVC 的概念�
 - View
 - ViewModel
 
-![mvvm](../images/mvvm.png)
+![mvvm](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/mvvm.png)
 
 一个 MVC 的增强版，我们正式连接了视图和控制器，并将表示逻辑从 Controller 移出放到一个新的对象里，即 View Model。MVVM 听起来很复杂，但它本质上就是一个精心优化的 MVC 架构。
 
@@ -297,7 +297,7 @@ MVC 来源于服务器端的开发。前端开发中也引入了 MVC 的概念�
 - Model： 依然是业务逻辑和实体模型
 - Presenter： 负责完成 View 于 Model 间的交互
 
-![mvp](../images/mvp.png)
+![mvp](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/mvp.png)
 
 View 不直接与 Model 交互，而是通过与 Presenter 交互来与 Model 间接交互。
 

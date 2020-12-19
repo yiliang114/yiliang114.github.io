@@ -43,9 +43,7 @@ border-radius、::after、attr 和 content、box-sizing、linear-gradient、radi
     }复制代码
   ```
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
-
-- 那如果要画一个椭圆该怎么办呢？你会发现上面的语法貌似做不到了，其实 border-radius 的值还有一种语法: `x半径/y半径`：
+* 那如果要画一个椭圆该怎么办呢？你会发现上面的语法貌似做不到了，其实 border-radius 的值还有一种语法: `x半径/y半径`：
 
   ```
     div {
@@ -55,8 +53,6 @@ border-radius、::after、attr 和 content、box-sizing、linear-gradient、radi
         border-radius: 50px/25px;
     }复制代码
   ```
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
 
 - 如果我要画半个椭圆，又要咋办呢？
 
@@ -69,13 +65,9 @@ border-radius、::after、attr 和 content、box-sizing、linear-gradient、radi
     }复制代码
   ```
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
-
 # ::after
 
 这里拿个简单的例子来看，我们要画一个放大镜，如下图：
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
 
 分析一下，这个放大镜可以由两个 div 组成，一个是黑色的圆环，一个是黑色把手（旋转 45 度）。所以我们就需要用两个 div 来实现吗？答案是 NO，一个 div 也是可以的，我们可以借助`::after`来添加一个元素。同理如果需要三个 div，我们还可以使用`::before`再添加一个元素。下面看一下代码：
 
@@ -131,8 +123,6 @@ div:hover::after {
 
 当 hover 的时候，在元素尾部添加一个内容为 data-title 属性值的元素，所以就实现了 hover 显示的效果，如下图所示：
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
-
 # box-sizing
 
 我们知道，在标准盒子模型中，元素的总宽＝ content + padding + border + margin。 css 中的盒子模型大家可能都知道，但是这个盒子模型的属性可能没有那么多人知道，`box-sizing`属性就是用来重定义这个计算方式的，它有三个取值，分别是：`content-box（默认）`、`border-box`、`padding-box`
@@ -174,23 +164,15 @@ div {
 }复制代码
 ```
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
-
 是不是很有趣？其实，`linear-gradient`还有更多有趣的功能，你可以根据下面的动图去感受一下：
 
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
-
 你以为这就完了？等等，还有更强大的呢！`repeating-linear-gradient`，来感受一下：
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
 
 `linear-gradient`还有更加强大的功能，比如它可以给元素添加多个渐变，从而达到更 NB 的效果。
 
 # radial-gradient
 
 上面的`linear-gradient`是线性渐变，这个属性是径向渐变。下面的代码实现了一个 chrome 的 logo。
-
-![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"></svg>)
 
 ```
 div.chrome {

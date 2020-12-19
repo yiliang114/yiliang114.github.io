@@ -146,7 +146,7 @@ Form [Front-end-Developer-Interview-Questions](https://github.com/h5bp/Front-end
 
 这种技术的原理就是只渲染可视区域内的内容，非可见区域的那就完全不渲染了，当用户在滚动的时候就实时去替换渲染的内容。
 
-![滚动](../img/vScroll.png)
+![滚动](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/vScroll.png)
 
 从上图中我们可以发现，即使列表很长，但是渲染的 DOM 元素永远只有那么几个，当我们滚动页面的时候就会实时去更新 DOM，这个技术就能顺利解决这发问题。如果你想了解更多的内容可以了解下这个 [react-virtualized](https://github.com/bvaughn/react-virtualized)。
 
