@@ -136,7 +136,7 @@ mvc 和 mvvm 其实区别并不大。都是一种设计思想。主要就是 mvc
 - `Vue` 内部使用了 `Obeject.defineProperty()` 来实现双向绑定，通过这个函数可以监听到 `set` 和 `get`的事件
 
 ```js
-var data = { name: 'yck' };
+var data = { name: 'yiliang114' };
 observe(data);
 let name = data.name; // -> get value
 data.name = 'yyy'; // -> change value
@@ -221,7 +221,7 @@ class Watcher {
     this.cb(this.value);
   }
 }
-var data = { name: 'yck' };
+var data = { name: 'yiliang114' };
 observe(data);
 // 模拟解析到 `{{name}}` 触发的操作
 new Watcher(data, 'name', update);

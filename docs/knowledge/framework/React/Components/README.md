@@ -267,7 +267,7 @@ class Parent extends React.Component {
   render () {
     return (
       // value 就是传入 Context 中的值
-      <StateContext.Provider value='yck'>
+      <StateContext.Provider value='yiliang114'>
         <Child />
       </StateContext.Provider>
     )

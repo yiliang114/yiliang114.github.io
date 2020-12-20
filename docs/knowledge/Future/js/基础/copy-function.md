@@ -38,7 +38,7 @@ let a = {
   age: undefined,
   sex: Symbol('male'),
   jobs: function() {},
-  name: 'yck',
+  name: 'yiliang114',
 };
 let b = JSON.parse(JSON.stringify(a));
 console.log(b); // {name: "yck"}
