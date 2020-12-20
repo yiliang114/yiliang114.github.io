@@ -241,7 +241,7 @@ function insertNode(newNode) {
 - 每个 input 标签对应的说明文本都需要使用 label 标签，并且通过为 input 设置 id
   属性，在 lable 标签中设置 for=someld 来让说明文本和相对应的 input 关联起来
 
-## 写一个选择器，完成从 DOM 中获取所有`<a>`中包含`163.com`的链接筛选出来。
+### 写一个选择器，完成从 DOM 中获取所有`<a>`中包含`163.com`的链接筛选出来。
 
 > 其实考察的是如何自己实现`$`符号，使用的是`document.queryElementAll(a[href*=163.com])`。这个很可能是不对的。
 
@@ -508,3 +508,279 @@ XHTML 元素必须被正确地嵌套。
 XHTML 元素必须被关闭。
 标签名必须用小写字母。
 XHTML 文档必须拥有根元素。
+
+### head 元素
+
+head 子元素大概分为三类，分别是：
+
+- 描述网页基本信息的
+- 指向渲染网页需要其他文件链接的
+- 各大厂商根据自己需要定制的
+
+#### 网页基本信息
+
+一个网页，首先得有个标题，就跟人有名字一样。除此之外，还可以根据实际需要补充一些基本信息。
+
+- 文档标题（浏览器标签中显示的文本）：<title>深入了解 head 元素</title>
+- 编码格式：<meta charset="utf-8"> 如果你的页面出现乱码，那一般就是编码格式不对
+- 视窗设置：<meta name="viewport" content="width=device-width, initial-scale=1.0">
+- 搜索引擎优化相关内容： <meta name="description" content=“帮助你深层次了解HTML文档结构”>
+- IE 浏览器版本渲染设置：<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+#### 其他文件链接
+
+- CSS 文件：<link rel="stylesheet" type="text/css" href="style.css">
+- JavaScript 文件：<script src=“script.js"></script>
+
+但是为了让页面的样子更早的让用户看到，一般把 JS 文件放到 body 的底部
+
+#### 厂商定制
+
+同样分享页面到 QQ 的聊天窗口，有些页面直接就是一个链接，但是有些页面有标题，图片，还有文字介绍。为什么区别这么明显呢？其实就是看有没有设置下面这三个内容
+
+```html
+<meta itemprop="name" content="这是分享的标题" />
+<meta itemprop="image" content="http://imgcache.qq.com/qqshow/ac/v4/global/logo.png" />
+<meta name="description" itemprop="description" content="这是要分享的内容" />
+```
+
+### 哪种情况下应该使用`small`标签？当你想在`h1` 标题后创建副标题？还是当在`footer`里面增加版权信息？
+
+    `small`标签一般使用场景是在版权信息和法律文本里使用，也可以在标题里使用标注附加信息（bootstrap 中可见），但不可以用来创建副标题。
+
+### 如果你有一个搜索结果页面，你想高亮搜索的关键词。什么 HTML 标签可以使用?
+
+`<mark>` 标签表现高亮文本。
+
+### 下列代码中`scope` 属性是做什么的？
+
+```html
+<article>
+  <h1>Hello World</h1>
+  <style scoped>
+    p {
+      color: #ff0;
+    }
+  </style>
+  <p>This is my text</p>
+</article>
+
+<article>
+  <h1>This is awesome</h1>
+  <p>I am some other text</p>
+</article>
+```
+
+`scoped` 属性是一个布尔属性。如果使用该属性，则样式仅仅应用到 style 元素的父元素及其子元素。
+
+### 当下列的 HTML 代码加载时会触发新的 HTTP 请求吗？
+
+```html
+<img src="mypic.jpg" style="visibility: hidden" alt="My picture" />
+```
+
+会
+
+```html
+<div style="display: none;">
+  <img src="mypic.jpg" alt="My photo" />
+</div>
+```
+
+会
+
+### `main1.css`一定会在`alert('Hello world')`被加载和编译吗?
+
+```html
+<head>
+  <link href="main1.css" rel="stylesheet" />
+  <script>
+    alert('Hello World');
+  </script>
+</head>
+```
+
+是
+
+### 在`main2.css`获取前`main1`一定必须被下载解析吗？
+
+```html
+<head>
+  <link href="main1.css" rel="stylesheet" />
+  <link href="main2.css" rel="stylesheet" />
+</head>
+```
+
+no!
+
+### 在`Paragraph 1`加载后`main2.css`才会被加载编译吗？
+
+```html
+<head>
+  <link href="main1.css" rel="stylesheet" />
+</head>
+<body>
+  <p>Paragraph 1</p>
+  <p>Paragraph 2</p>
+  <link href="main2.css" rel="stylesheet" />
+</body>
+```
+
+yes!
+
+### `<bdo>` 标签是否可以改变文本方向？
+
+可以。
+
+`<bdo>`标签覆盖默认的文本方向。
+
+```html
+<bdo dir="rtl">Here is some text</bdo>
+```
+
+### 下列 HTML 代码是否正确？
+
+```html
+<figure>
+  <img src="myimage.jpg" alt="My image" />
+  <figcaption>
+    <p>This is my self portrait.</p>
+  </figcaption>
+</figure>
+```
+
+正确
+
+`<figure>` 标签规定独立的流内容（图像、图表、照片、代码等等）。`figure` 元素的内容应该与主内容相关，但如果被删除，则不应对文档流产生影响。使用`<figcaption>`元素为`figure`添加标题（caption）。
+
+### 对 WEB 标准以及 W3C 的理解与认识?
+
+标签闭合、标签小写、不乱嵌套、提高搜索机器人搜索几率、使用外 链 css 和 js 脚本、结构行为表现的分离、
+文件下载与页面速度更快、内容能被更多的用户所访问、内容能被更广泛的设备所访问、更少的代码和组件，
+容易维 护、改版方便，不需要变动页面内容、提供打印版本而不需要复制内容、提高网站易用性。
+
+### 列表
+
+#### 1. 无序列表
+
+unordered List: ul
+List Item: li
+
+**ul 标签里面只能包裹 li 标签，不能有别的；li 标签也只能由 ul 或者 ul 包裹。**
+
+浏览器默认给无序列表小圆点的“先导符号”。去掉小圆点：`list-style:none;`
+
+li 是一个容器级标签，li 标签里面放置的东西可能很多。导航条，新闻列表。
+
+#### 2. 有序列表
+
+ordered List： ol
+
+有序列表用的不多，一般手写序号
+
+#### 3. 定义列表
+
+dl 定义列表；dt 定义标题；dd 定义描述
+`<dl><dt><dd></dd></dt></dl>`
+
+定义列表语法灵活： 可以一个 dt 配多个 dd；还可以拆开，让每一个 dl 里面只有一个 dt 和 dd。
+
+一般用在 footer 中描述各项。（京东 footer，垂直菜单）
+
+dt、dd 都是容器级标签。
+
+**用什么标签，不是根据样子来决定，而是语义，语义决定网页的骨架。**
+
+### div 和 span
+
+css 中，这两个是最重要的盒子。
+
+div 是容器级标签；span 是文本级标签，里面只能放文字、图片、表单元素等。
+**span 里面不能放 p h ul dl ol div 等**
+
+div+css ： div 标签负责布局，负责结构，负责分块。css 负责样式。
+
+### 表单
+
+自封闭标签：
+
+```
+<meta name=“keywords” content=”” />
+<img src=”” alt=”” />
+<input type=”text” />
+
+```
+
+#### 输入框：
+
+value 表示“值”，value 属性就是默认有的值。
+`<input type="text" value="默认有的值" />`
+
+#### 密码框：
+
+`<input type="password" />`
+
+#### 单选框：
+
+```
+<input type="radio" name="xingbie" /> 男
+<input type="radio" name="xingbie" /> 女
+```
+
+#### 多选框：
+
+```
+<input type="checkbox" name="aihao"/> 睡觉
+<input type="checkbox" name="aihao"/> 吃饭
+<input type="checkbox" name="aihao"/> 足球
+```
+
+#### 下拉列表
+
+```
+<select>
+	<option>北京</option>
+	<option>河北</option>
+	<option>河南</option>
+</select>
+```
+
+#### 多行文本框（文本域）
+
+`<textarea cols="30" rows="10"></textarea>`
+
+cols 属性表示 columns“列”，rows 属性表示 rows“行”。
+
+#### HTML5 新增
+
+date、color 选择颜色和日期 等。
+
+#### label 标签
+
+本质上讲，“男”、“女”这两个汉字，和 input 元素没有关系。
+
+`<input type="radio" name="sex" /> 男`
+`<input type="radio" name="sex" check="checked"/> 女`
+
+label 就是解决这个问题的。
+
+`<input type="radio" name="sex" id="nan" /><label for="nan">男</label>`
+`<input type="radio" name="sex" id="nv" /><label for="nv">女</label>`
+
+input 元素要有一个 id，然后 label 标签就有一个 for 属性，和 id 相同，就表示绑定了，这个 label 和 input 就有绑定关系了。
+
+复选框也有 label：
+
+`<input type="checkbox" id="kk" />`
+`<label for="kk">10天内免登录</label>`
+
+什么表单元素都有 label。
+
+### 字符实体
+
+`&lt;` less than 小于
+`&gt;` greater than 大于
+`&copy;` 版权符号
+
+`&nbsp;` non-breaking spacing 空格
+`哈&nbsp;&nbsp;&nbsp;&nbsp;哈` 空出了 4 个字的格，可以防止空白折叠现象。

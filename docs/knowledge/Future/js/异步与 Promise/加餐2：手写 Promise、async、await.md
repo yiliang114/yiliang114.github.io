@@ -6,8 +6,6 @@ aside: false
 draft: true
 ---
 
-Promise、async/await 已经逐渐成为主流的异步处理方式，所以了解其实现原理非常重要。这一课时我们就来讲讲 Promise 和 async/await 的实现。
-
 async 函数内阻塞，函数外不阻塞
 
 ### Promise/A+ 规范
@@ -450,9 +448,3 @@ function generator2promise(generatorFn) {
 ```
 
 它将 Generator 函数包装成了一个新的匿名函数，调用这个匿名函数时返回一个 Promise。在这个 Promise 内部会创建一个 step() 函数，该函数负责递归调用 Generator 函数对应的迭代器，当迭代器执行完成时执行当前的 Promise，失败时则拒绝 Promise。
-
-### 总结
-
-本课时通过代码实例深入分析了 Promise/A+ 规范以及 async/await 的实现原理。对于手写 Promise 的过程，重点不在于实现结果，而在于实现过程，即先理解清楚规范，然后根据规范一步一步地去实现和优化。对于 async/await 语法糖，结合 Generator 函数，理解其封装原理即可。
-
-最后布置一道练习题：学完本课时内容后，试着自己动手写一个 Promise，看看能否通过测试用例。
