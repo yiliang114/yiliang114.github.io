@@ -16,10 +16,23 @@ JS 基本数据类型
 
 #### css
 
-1. 说一下你了解 CSS 盒模型。
-2. 说一下 box-sizing 的应用场景。
-3. 说一下你了解的弹性 FLEX 布局.
-4. 说一下一个未知宽高元素怎么上下左右垂直居中。
+- 说一下你了解 CSS 盒模型。
+- 说一下 box-sizing 的应用场景。
+- 说一下你了解的弹性 FLEX 布局.
+- 说一下一个未知宽高元素怎么上下左右垂直居中。
+- rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
+- 响应式布局是如何做的 ？
+- 媒体查询
+- margin 的合并
+- 高度塌陷的问题，如何解决
+- 水平居中、垂直居中 transform
+- 盒模型
+- bfc
+- 相对定位、绝对定位
+- flex 布局
+- fixed 是相对谁定位 如果加上 transform 会出现问题吗
+- 伪类的作用
+- 纯 css 换行
 
 #### js
 
@@ -52,9 +65,9 @@ JS 基本数据类型
 
 #### 详细 2
 
-1. webpack 的入口文件怎么配置，多个入口怎么分割啥的，我也没太听清楚。
-2. 我看到你的项目用到了 Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
-3. 我看到你的 webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
+1. webpack 的入口文件怎么配置，多个入口怎么分割。
+2. Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
+3. webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
 4. 简历上看见你了解 http 协议。说一下 200 和 304 的理解和区别
 5. DOM 事件中 target 和 currentTarget 的区别
 6. 说一下你平时怎么解决跨域的。以及后续 JSONP 的原理和实现以及 cors 怎么设置。
@@ -128,26 +141,6 @@ BOM 浏览器信息
 
 正向代理反向代理
 
-项目经验
-
-### 基础
-
-### css
-
-- rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
-- 响应式布局是如何做的 ？
-- 媒体查询
-- margin 的合并
-- 高度塌陷的问题，如何解决
-- 水平居中、垂直居中 transform
-- 盒模型
-- bfc
-- 相对定位、绝对定位
-- flex 布局
-- fixed 是相对谁定位 如果加上 transform 会出现问题吗
-- 伪类的作用
-- 纯 css 换行
-
 ### 网络
 
 - 三次握手、四次挥手
@@ -161,7 +154,7 @@ BOM 浏览器信息
 
 ### 浏览器
 
-- sessionStorge , localStorge , cookie , Web Storage
+- sessionStorage , localStorage , cookie , Web Storage
 - 首次进入的时候，
 - 缓存
 - 请指出 document load 和 document ready 的区别

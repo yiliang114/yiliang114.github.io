@@ -8,14 +8,6 @@ draft: true
 
 # IO
 
-- [`[Doc]` Buffer](/sections/zh-cn/io.md#buffer)
-- [`[Doc]` String Decoder (字符串解码)](/sections/zh-cn/io.md#string-decoder)
-- [`[Doc]` Stream (流)](/sections/zh-cn/io.md#stream)
-- [`[Doc]` Console (控制台)](/sections/zh-cn/io.md#console)
-- [`[Doc]` File System (文件系统)](/sections/zh-cn/io.md#file)
-- [`[Doc]` Readline](/sections/zh-cn/io.md#readline)
-- [`[Doc]` REPL](/sections/zh-cn/io.md#repl)
-
 # 简述
 
 Node.js 是以 IO 密集型业务著称. 那么问题来了, 你真的了解什么叫 IO, 什么又叫 IO 密集型业务吗?

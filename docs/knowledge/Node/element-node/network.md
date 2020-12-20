@@ -8,13 +8,6 @@ draft: true
 
 # Network
 
-- [`[Doc]` Net (网络)](#net)
-- [`[Doc]` UDP/Datagram](#udp)
-- [`[Doc]` HTTP](#http)
-- [`[Doc]` DNS (域名服务器)](#dns)
-- [`[Doc]` ZLIB (压缩)](#zlib)
-- [`[Point]` RPC](#rpc)
-
 ## Net
 
 目前互联化的核心是建立在 TCP/IP 协议的基础上的, 这些协议将数据分割成小的数据包进行传输, 并且解决传输过程中各种各样复杂的问题. 关于协议的具体细节推荐阅读 W.Richard Stevens 的[《TCP/IP 详解 卷 1：协议》](https://www.amazon.cn/TCP-IP%E8%AF%A6%E8%A7%A3%E5%8D%B71-%E5%8D%8F%E8%AE%AE-W-Richard-Stevens/dp/B00116OTVS/), 本文不做赘述, 只是列举一些常见的知识点, 新人推荐看[《图解 TCP/IP》](https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B00DMS9990/), 抓包工具推荐看[《Wireshark 网络分析就这么简单》](https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B00PB5QQ84/).

@@ -8,11 +8,6 @@ draft: true
 
 # util
 
-- `[Doc]` URL
-- `[Doc]` Query Strings (查询字符串)
-- `[Doc]` Utilities (实用函数)
-- `[Basic]` 正则表达式
-
 ## URL
 
 ```js

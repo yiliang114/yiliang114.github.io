@@ -8,14 +8,6 @@ draft: true
 
 # 安全
 
-- `[Doc]` Crypto (加密)
-- `[Doc]` TLS/SSL
-- `[Doc]` HTTPS
-- `[Point]` XSS
-- `[Point]` CSRF
-- `[Point]` 中间人攻击
-- `[Point]` Sql/Nosql 注入攻击
-
 ## Crypto
 
 Node.js 的 `crypto` 模块封装了诸多的加密功能, 包括 OpenSSL 的哈希、HMAC、加密、解密、签名和验证函数等.

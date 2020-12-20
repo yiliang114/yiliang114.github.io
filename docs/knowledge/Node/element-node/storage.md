@@ -8,11 +8,6 @@ draft: true
 
 # 存储
 
-- `[Point]` Sql
-- `[Point]` NoSql
-- `[Point]` 缓存
-- `[Point]` 数据一致性
-
 ## 简介
 
 科班的同学可以了解一下[数据库范式](http://www.cnblogs.com/CareySon/archive/2010/02/16/1668803.html), 在 ElemeFe 面试不会问, 但是其他地方可能会问 (比如阿里).

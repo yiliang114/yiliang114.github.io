@@ -8,12 +8,6 @@ draft: true
 
 # 事件/异步
 
-- [`[Basic]` Promise](/sections/zh-cn/event-async.md#promise)
-- [`[Doc]` Events (事件)](/sections/zh-cn/event-async.md#events)
-- [`[Doc]` Timers (定时器)](/sections/zh-cn/event-async.md#timers)
-- [`[Point]` 阻塞/异步](/sections/zh-cn/event-async.md#阻塞异步)
-- [`[Point]` 并行/并发](/sections/zh-cn/event-async.md#并行并发)
-
 ## 简述
 
 异步还是不异步? 这是一个问题.

@@ -303,3 +303,25 @@ console.log(result); // ["Hello", "World"]
 掌握它的工作原理。`Promise`是一个可能在未来某个时间产生结果的对象：操作成功的结果或失败的原因（例如发生网络错误）。 `Promise`可能处于以下三种状态之一：fulfilled、rejected 或 pending。 用户可以对`Promise`添加回调函数来处理操作成功的结果或失败的原因。
 
 一些常见的 polyfill 是`$.deferred`、Q 和 Bluebird，但不是所有的 polyfill 都符合规范。ES2015 支持 Promises，现在通常不需要使用 polyfills。
+
+### Promise 异步
+
+- promise 的 api
+  - then
+  - catch
+  - all
+  - race
+  - finally
+  - ...
+- promise 解决的问题
+- promise 与事件循环，settimeout 以及 react 的下一次循环
+- 什么时候 promise 不会被销毁
+
+### 异步
+
+- Promise 中 .then 的第二参数与 .catch 有什么区别?
+- Eventemitter 的 emit 是同步还是异步?
+- 如何判断接口是否异步? 是否只要有回调函数就是异步?
+- nextTick, setTimeout 以及 setImmediate 三者有什么区别?
+- 如何实现一个 sleep 函数?
+- 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)

@@ -8,14 +8,6 @@ draft: true
 
 # 错误处理/调试
 
-- `[Doc]` Errors (异常)
-- `[Doc]` Domain (域)
-- `[Doc]` Debugger (调试器)
-- `[Doc]` C/C++ 插件
-- `[Doc]` V8
-- `[Point]` 内存快照
-- `[Point]` CPU 剖析
-
 ## Errors
 
 在 Node.js 中的错误主要有一下四种类型：

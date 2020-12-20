@@ -8,13 +8,6 @@ draft: true
 
 # OS
 
-- `[Doc]` TTY
-- `[Doc]` OS (操作系统)
-- `[Doc]` 命令行参数
-- `[Basic]` 负载
-- `[Point]` CheckList
-- `[Basic]` 指标
-
 ## TTY
 
 "tty" 原意是指 "teletype" 即打字机, "pty" 则是 "pseudo-teletype" 即伪打字机. 在 Unix 中, `/dev/tty*` 是指任何表现的像打字机的设备, 例如终端 (terminal).

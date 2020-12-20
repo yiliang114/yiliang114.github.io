@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: safety
+title: 跨站请求伪造
 date: 2020-11-21
 aside: false
 draft: true

@@ -8,12 +8,6 @@ draft: true
 
 # 进程
 
-- [`[Doc]` Process (进程)](/sections/zh-cn/process.md#process)
-- [`[Doc]` Child Processes (子进程)](/sections/zh-cn/process.md#child-process)
-- [`[Doc]` Cluster (集群)](/sections/zh-cn/process.md#cluster)
-- [`[Basic]` 进程间通信](/sections/zh-cn/process.md#进程间通信)
-- [`[Basic]` 守护进程](/sections/zh-cn/process.md#守护进程)
-
 ## 简述
 
 关于 Process, 我们需要讨论的是两个概念, ① 操作系统的进程, ② Node.js 中的 Process 对象. 操作进程对于服务端而言, 好比 html 之于前端一样基础. 想做服务端编程是不可能绕过 Unix/Linux 的. 在 Linux/Unix/Mac 系统中运行 `ps -ef` 命令可以看到当前系统中运行的进程. 各个参数如下:
