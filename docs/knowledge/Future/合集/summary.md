@@ -1511,15 +1511,6 @@ sleep(1000).then(() => {
 computed: { message: { get () { return this.$store.state.obj.message }, set (value) { this.$store.commit('updateMessage', value) } } }
 ```
 
-### 49.为什么通常在发送数据埋点请求的时候使用的是 1x1 像素的透明 gif 图片？
-
-作用：工作中，用于前端监控，比如曝光等等，谷歌和百度的都是用的 1x1 像素的透明 gif 图片；
-why?
-
-没有跨域问题，一般这种上报数据，代码要写通用的；（排除 ajax）
-不会阻塞页面加载，影响用户的体验，只要 new Image 对象就好了；（排除 JS/CSS 文件资源方式上报）
-在所有图片中，体积最小；（比较 PNG/JPG）
-
 ### 50.实现 (5).add(3).minus(2) 功能。
 
 例： 5 + 3 - 2，结果为 6

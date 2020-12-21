@@ -824,7 +824,6 @@ loadImg(src)
 1. canvas css3 （动画： 1. dom 动画 2. svg 动画 3. canvas 动画）运营活动 h5 一般需要 canvas css3 做 GPU 加速
 2. 微信开发过程中常见的坑
 3. web 标准 => es6 HTML5 Typescript
-4. （可用性，可访问性）前端监控，如何捕获前端异常，异常分几种：1. js 即时运行异常 2. 资源加载错误
 
 #### 业务分析或者实战模拟
 
@@ -1482,42 +1481,6 @@ cors （支持跨域通信也支持跨域通信）
 
   - http-equiv="x-dns-prefetch-control" content="on"
   - rel="dns-prefetch"
-
-#### 错误监控
-
-提交代码之前。
-
-线上的错误收集。
-
-##### 前端错误的分类
-
-1. 即时运行错误： 代码错误
-
-2. 资源加载错误
-
-##### 错误的捕获方式
-
-###### 即时运行错误的捕获方式
-
-1. try catch
-2. window.onerror 或者 window.addEventListener('error', function(){}, false) 这个只能捕获即时运行错误，资源加载错误因为不会冒泡，所以不会被 window.onerror 捕获到。
-
-###### 资源加载错误
-
-1. object.onerror 比如说是一个 img 标签，这里就是 img 的 onerror 事件，就可以捕获到， script 标签也是。
-
-2. performance.getEntries 高级浏览器才有。这个 api 可以获取到所有已经加载资源的加载时长，可以间接获取到未加载的资源。
-
-3. Error 事件捕获 window.addEventListener('error', function(){}, true) 只是不能冒泡，但是捕获是可以的。
-
-###### 跨域的 js 运行错误可以捕获吗？ 错误是什么，应该怎么处理？
-
-![image-20190825223144340](http://media.zhijianzhang.cn/image-20190825223144340.png)
-
-上报错误的基本原理
-
-1. 采用 ajax 上报
-2. 利用 Image src 上报 (new Image ()).src = "xxxx"
 
 ### 三面、四面
 

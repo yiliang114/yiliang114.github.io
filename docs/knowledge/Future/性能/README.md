@@ -332,6 +332,48 @@ b. 图片预加载，如果为幻灯片、相册等，将当前展示图片的�
 c. 使用 CSSsprite，SVGsprite，Iconfont、Base64 等技术，如果图片为 css 图片的话。
 d. 如果图片过大，可以使用特殊编码的图片，加载时会先加载一张压缩的特别厉害的缩略图，以提高用户体验。
 
+### 图片懒加载与预加载
+
+图片懒加载的原理就是暂时不设置图片的 src 属性，而是将图片的 url 隐藏起来，比如先写在 data-src 里面，等某些事件触发的时候(比如滚动到底部，点击加载图片)再将图片真实的 url 放进 src 属性里面，从而实现图片的延迟加载
+
+图片预加载，是指在一些需要展示大量图片的网站，实现图片的提前加载。从而提升用户体验。常用的方式有两种，一种是隐藏在 css 的 background 的 url 属性里面，一种是通过 javascript 的 Image 对象设置实例对象的 src 属性实现图片的预加载。相关代码如下：
+css 实现
+
+```css
+#preload-01 {
+  background: url(http://domain.tld/image-01.png) no-repeat -9999px -9999px;
+}
+#preload-02 {
+  background: url(http://domain.tld/image-02.png) no-repeat -9999px -9999px;
+}
+#preload-03 {
+  background: url(http://domain.tld/image-03.png) no-repeat -9999px -9999px;
+}
+```
+
+Javascript 预加载图片的方式：
+
+```js
+function preloadImg(url) {
+  var img = new Image();
+  img.src = url;
+  if (img.complete) {
+    //接下来可以使用图片了
+    //do something here
+  } else {
+    img.onload = function() {
+      //接下来可以使用图片了
+      //do something here
+    };
+  }
+}
+```
+
+预加载：提前加载图片，当用户需要查看时可直接从本地缓存中渲染。
+懒加载：懒加载的主要目的是作为服务器前端的优化，减少请求数或延迟请求数。
+两种技术的本质：两者的行为是相反的，一个是提前加载，一个是迟缓甚至不加载。
+懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力
+
 ### cdn 的用法是什么？什么时候用到？
 
 ### 前端性能
