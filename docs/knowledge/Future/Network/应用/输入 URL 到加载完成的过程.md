@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: 应用
+title: 输入 URL 到加载完成的过程
 date: 2020-11-21
 aside: false
 draft: true

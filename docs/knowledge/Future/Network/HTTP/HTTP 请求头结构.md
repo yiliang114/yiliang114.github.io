@@ -203,3 +203,11 @@ Content-Type:text/html
 和缓存有关的请求头有 Cache-Control、If-Match、If-None-Match、If-Modified-Since、If-Unmodified-Since，在缓存中
 总体来说是 Cache-Control 优先于 Expires，Cache-Control 中会需要检测 Cache-Control 是否过期，过期的话检验会优先检测 Etag，
 也就是 If-Match、If-None-Match,不一致则验证 Last-Modify 请求头也就是 If-Modified-Since、If-Unmodified-Since。
+
+### http 请求的缓存
+
+如何对请求进行缓存，例如有 10 个异步请求，如果有一个异步请求返回结果剩下的请求就用这个结果，并且能过传入成功和失败的回调函数
+
+### cdn 的原理
+
+cdn 的原理，cdn 选择最近的缓存服务器是怎么实现

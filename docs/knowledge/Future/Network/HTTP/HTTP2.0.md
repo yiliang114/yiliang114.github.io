@@ -307,3 +307,9 @@ statusText 在 http2 的时候不是 ok 字符串，而 http1 的时候默认是
 - server push。
 
 ### http1.1 与 1.0 的区别
+
+### HTTP2 的新特性
+
+http2.0,websocket,https
+
+### http2 是如何实现多路复用的
