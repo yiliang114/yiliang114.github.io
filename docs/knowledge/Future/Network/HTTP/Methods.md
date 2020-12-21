@@ -472,7 +472,7 @@ DELETE /idX/delete HTTP/1.1   -> Returns 404
 7. **OPTIONS**方法请求 web 服务器告知其支持的各种功能。可以查询服务器支持哪些方法或者对某些特殊资源支持哪些方法。
 8. **DELETE**请求服务器删除请求 URL 指定的资源
 
-### http 请求的不同方法， get post put 等，post 和 get 有什么区别，哪一个安全等
+## http 请求的不同方法， get post put 等，post 和 get 有什么区别，哪一个安全等
 
 - 后台接口上如何限制频率（将所有的 post 请求都转化为 get 请求，参照掘金和 api3.0），前端又该如何限制频率？
 - 自己的网站上，页面请求的 cgi 地址如何写可以减少一次 dns 解析时间？
@@ -497,3 +497,16 @@ DELETE /idX/delete HTTP/1.1   -> Returns 404
 - 阿里： https://github.com/alibaba/anyproxy.git
 
 * https https://mp.weixin.qq.com/s/DIFf8VjduO5rviHkgR_8lg?utm_medium=hao.caibaojian.com&utm_source=hao.caibaojian.com
+
+#### HTTP Method 请求方法
+
+在 requestline 里面的方法部分，表示 HTTP 的操作类型，常见的几种请求方法如下：
+
+- GET：浏览器通过地址访问页面均属于 get 请求
+- POST：常见的表单提交
+- HEAD ：跟 get 类似，区别在于只返回请求头
+- PUT：表示添加资源
+- DELETE：表示删除资源
+- CONNECT： 多用于 HTTPS 和 WebSocket
+- OPTIONS
+- TRACE

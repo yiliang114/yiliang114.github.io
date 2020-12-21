@@ -71,3 +71,5 @@ nginx 如何处理能够保持连接不断开 ？ http1.1 的长连接特性
 
 - http 接口如何进行长连接？ （http 是无状态 之类的）如何 keep alive
 - Accept-Encoding https://blog.csdn.net/thewindkee/article/details/71190403 https://www.cnblogs.com/ct2011/p/5835990.html
+
+### http 长连接？
