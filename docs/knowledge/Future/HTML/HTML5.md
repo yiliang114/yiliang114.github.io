@@ -303,8 +303,6 @@ FALLBACK:
 
 在离线状态时，操作 window.applicationCache 进行需求实现。
 
-参考链接：[HTML5 离线缓存-manifest 简介](https://yanhaijing.com/html/2014/12/28/html5-manifest/)
-
 ## HTML5 的新特性（或者说 HTML5 有代表性的标签）
 
 ### HTML5 提供了新的元素来创建更好的页面结构：

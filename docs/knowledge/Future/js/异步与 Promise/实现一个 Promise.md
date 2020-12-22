@@ -798,6 +798,4 @@ p.then(
 );
 ```
 
-### 有一个场景，我们有很多以前的代码，都是回调函数的形式写的。如何将 callback 形式的回调函数转化为 promise 的调用方式？
-
-### promise.all race 以及 多层的 then 以及，多个 promise 异步 同步执行？ promise 如果没有 resolve 会怎么样？
+### promise.all race 以及 多层的 then 以及多个 promise 异步 同步执行？ promise 如果没有 resolve 会怎么样？

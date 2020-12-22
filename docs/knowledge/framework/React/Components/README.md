@@ -328,8 +328,6 @@ HOC 解决了这些问题，并且它们达成的效果也是一致的，同时�
 
 ### 何时使用 Component 还是 PureComponent？
 
-参考链接：https://segmentfault.com/a/1190000014979065
-
 PureComponent 通过 prop 和 state 的浅比较来实现 shouldComponentUpdate，某些情况下可以用 PureComponent 提升性能
 
 所谓浅比较(shallowEqual)，即 react 源码中的一个函数，然后根据下面的方法进行是不是 PureComponent 的判断，帮我们做了本来应该我们在 shouldComponentUpdate 中做的事情

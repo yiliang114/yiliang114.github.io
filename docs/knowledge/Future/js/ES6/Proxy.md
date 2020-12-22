@@ -330,14 +330,6 @@ console.log(a === 1 && a === 2 && a === 3); // true
 - 不能使用 polyfill 来处理兼容性
   > 接下来我们将会分别用 Proxy / Object.defineProperty 来实现双向绑定
 
-##### 参考链接：
-
->
-
-- [defineProperty](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
-- [Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
-- [数据劫持 OR 数据代理](https://mp.weixin.qq.com/s/SPoxin9LYJ4Bp0goliEaUw)
-
 # 用 Proxy 与 Object.defineProperty 实现双向绑定
 
 ### 前言
@@ -603,16 +595,6 @@ function Observer(target) {
   let p = new Proxy(target, handler);
 }
 ```
-
->
-
-### 参考链接
-
->
-
-- [基于 Object.defineProperty 实现双向数据绑定](https://segmentfault.com/a/1190000015427628)
-- [剖析 Vue 原理&实现双向绑定 MVVM](https://segmentfault.com/a/1190000006599500)
-- [vue 的双向绑定原理及实现](https://www.cnblogs.com/canfoo/p/6891868.html)
 
 ### Proxy
 
