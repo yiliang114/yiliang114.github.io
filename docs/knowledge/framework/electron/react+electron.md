@@ -57,31 +57,33 @@ cd electron-react
      .slice(2)
    ```
 
+```js
 // 对 createWindow 函数中的内容进行修改
 //判断是否是开发模式
 if (argv && argv[1] == 'dev') {
-mainWindow.loadURL("http://localhost:3000/")
+  mainWindow.loadURL('http://localhost:3000/');
 } else if (argv && argv[1] == 'build') {
-// window 加载 build 好的 html.
-mainWindow.loadURL(url.format({
-pathname: path.join(\_\_dirname, './build/index.html'),
-protocol: 'file:',
-slashes: true
-}))
+  // window 加载 build 好的 html.
+  mainWindow.loadURL(
+    url.format({
+      pathname: path.join(_dirname, './build/index.html'),
+      protocol: 'file:',
+      slashes: true,
+    }),
+  );
 }
-
 ```
 
 `mainWindow.loadURL("http://localhost:3000/")` 表示在开发模式下， electron 应用窗口加载的资源是 `ttp://localhost:3000/` 也就是我们的网页应用。
 
-```
-
-       mainWindow.loadURL(url.format({
-         pathname: path.join(__dirname, './build/index.html'),
-         protocol: 'file:',
-         slashes: true
-       }))
-
+```js
+mainWindow.loadURL(
+  url.format({
+    pathname: path.join(__dirname, './build/index.html'),
+    protocol: 'file:',
+    slashes: true,
+  }),
+);
 ```
 
 表示的是 electron 加载的是静态的资源文件，其实就是 react 应用 build 之后的入口文件。
@@ -91,46 +93,37 @@ slashes: true
 ### 引入 antd
 
 ```
-
 yarn add antd
-
 ```
 
 修改 `src/App.js`，引入 antd 的按钮组件。
 
-```
-
+```js
 import React, { Component } from 'react';
 import Button from 'antd/lib/button';
 import './App.css';
 
 class App extends Component {
-render() {
-return (
-
-<div className="App">
-<Button type="primary">Button</Button>
-</div>
-);
-}
+  render() {
+    return (
+      <div className="App">
+        <Button type="primary">Button</Button>
+      </div>
+    );
+  }
 }
 
 export default App;
-
 ```
 
 修改 `src/App.css`，在文件顶部引入 `antd/dist/antd.css`。
 
-```
-
+```css
 @import '~antd/dist/antd.css';
 
 .App {
-text-align: center;
+  text-align: center;
 }
-
-...
-
 ```
 
 #### 高级配置--- 按需加载 antd
@@ -142,54 +135,44 @@ text-align: center;
 引入 react-app-rewired 并修改 package.json 里的启动配置。
 
 ```
-
-\$ yarn add react-app-rewired --dev
-
-```
+yarn add react-app-rewired --dev
 
 ```
 
+```json
 /_ package.json _/
 "scripts": {
-
 - "start": "react-scripts start",
-
-* "start": "react-app-rewired start",
-
++ "start": "react-app-rewired start",
 - "build": "react-scripts build",
-
-* "build": "react-app-rewired build",
-
++ "build": "react-app-rewired build",
 - "test": "react-scripts test --env=jsdom",
-
-* "test": "react-app-rewired test --env=jsdom",
++ "test": "react-app-rewired test --env=jsdom",
   }
 
 ```
 
 然后在项目根目录创建一个 `config-overrides.js` 用于修改默认配置。
 
-```
-
+```js
 module.exports = function override(config, env) {
-// do stuff with the webpack config...
-return config;
+  // do stuff with the webpack config...
+  return config;
 };
-
 ```
 
-##### [使用 babel-plugin-import](https://ant.design/docs/react/use-with-create-react-app-cn#使用-babel-plugin-import)
+##### 使用 babel-plugin-import
+
+https://ant.design/docs/react/use-with-create-react-app-cn#使用-babel-plugin-import
 
 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) 是一个用于按需加载组件代码和样式的 babel 插件（[原理](https://ant.design/docs/react/getting-started-cn#按需加载)），现在我们尝试安装它并修改 `config-overrides.js` 文件。
 
 ```
-
-\$ yarn add babel-plugin-import --dev
-
-```
+yarn add babel-plugin-import --dev
 
 ```
 
+```
 - const { injectBabelPlugin } = require('react-app-rewired');
 
   module.exports = function override(config, env) {
@@ -202,29 +185,24 @@ return config;
 
 然后移除前面在 `src/App.css` 里全量添加的 `@import '~antd/dist/antd.css';` 样式代码，并且按下面的格式引入模块。
 
-```
-
+```js
 // src/App.js
 import React, { Component } from 'react';
 
-- import Button from 'antd/lib/button';
+import { Button } from 'antd';
+import './App.css';
 
-* import { Button } from 'antd';
-  import './App.css';
-
-  class App extends Component {
+class App extends Component {
   render() {
-  return (
-
-  <div className="App">
-  <Button type="primary">Button</Button>
-  </div>
-  );
+    return (
+      <div className="App">
+        <Button type="primary">Button</Button>
+      </div>
+    );
   }
-  }
+}
 
-  export default App;
-
+export default App;
 ```
 
 最后重启 `yarn start` 访问页面，antd 组件的 js 和 css 代码都会按需加载，你在控制台也不会看到这样的[警告信息](https://zos.alipayobjects.com/rmsportal/vgcHJRVZFmPjAawwVoXK.png)。关于按需加载的原理和其他方式可以阅读[这里](https://ant.design/docs/react/getting-started-cn#按需加载)。
@@ -234,7 +212,6 @@ import React, { Component } from 'react';
 安装`electron-package`打包插件
 
 ```
-
 cnpm i electron-package --save-dev
 
 ```
@@ -246,9 +223,7 @@ https://blog.csdn.net/arvin0/article/details/52690023
 electron-packager 的打包基本命令是：
 
 ```
-
 electron-packager <location of project> <name of project> <platform> <architecture> <electron version> <optional options>
-
 ```
 
 命令说明：
@@ -275,51 +250,43 @@ package.json 里添加代码，
 
 在项目`public/`目录下新建`renderer.js`文件,该文件是预加载的 js 文件，并且在该文件内可以使用所有的 Node.js 的 API。在`renderer.js`中添加
 
-```
-
-global.electron = require('electron')
-
+```js
+global.electron = require('electron');
 ```
 
 **修改`main.js`文件**
 
 修改创建浏览器的入口代码,添加`preload`配置项。将`renderer.js`作为预加载文件
 
-```
-
+```js
 win = new BrowserWindow({
-width: 800,
-height: 600,
-autoHideMenuBar: true,
-fullscreenable: false,
-webPreferences: {
-javascript: true,
-plugins: true,
-nodeIntegration: false, // 不集成 Nodejs
-webSecurity: false,
-preload: path.join(\_\_dirname, './public/renderer.js') // 但预加载的 js 文件内仍可以使用 Nodejs 的 API
-}
-})
-
+  width: 800,
+  height: 600,
+  autoHideMenuBar: true,
+  fullscreenable: false,
+  webPreferences: {
+    javascript: true,
+    plugins: true,
+    nodeIntegration: false, // 不集成 Nodejs
+    webSecurity: false,
+    preload: path.join(_dirname, './public/renderer.js'), // 但预加载的 js 文件内仍可以使用 Nodejs 的 API
+  },
+});
 ```
 
 **修改`piblic/index.html`文件**
 
 在`<div id="root"></div>`前引入`renderer.js`文件
 
-```
-
-<script>require('./renderer.js')</script>
+```html
+<script>
+  require('./renderer.js');
+</script>
 <div id="root"></div>
-
 ```
 
 **在 React 组件中如下使用`electron`**
 
-```
-
+```js
 const electron = window.electron;
-
-```
-
 ```

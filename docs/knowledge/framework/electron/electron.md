@@ -24,7 +24,7 @@ electron 核心可以分为两个部分，主进程和渲染进程。主进程�
 
 Electron 运行的`package.json`的 `main`脚本的进程成为**主进程**。在主进程中运行的脚本通过创建 web 也 main 来展示用户界面，一个 electron 应用总是有且只有一个主进程。
 
-electron 使用了 chromium 来展示 web 页面，所 i 一 chromium 的多进程架构也被使用到。每一个 electron 中的 web 页面运行在它自己的**渲染进程**
+electron 使用了 chromium 来展示 web 页面，所以 chromium 的多进程架构也被使用到。每一个 electron 中的 web 页面运行在它自己的**渲染进程**
 
 中。
 

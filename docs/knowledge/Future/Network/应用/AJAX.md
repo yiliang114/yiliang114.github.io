@@ -10,6 +10,8 @@ draft: true
 
 `AJAX(Asynchronous Javascript And XML)`= 异步 `JavaScript` + `XML` 。在后台与服务器进行异步数据交换，不用重载整个网页，实现局部刷新。
 
+创建一个 ajax 请求的步骤：
+
 - 创建 XMLHttpRequest 对象， 也就是创建一个异步调用对象
 - 建一个新的 HTTP 请求,并指定该 HTTP 请求的方法、URL 及验证信息
 - 设置响应 HTTP 请求状态变化的函数
@@ -253,7 +255,7 @@ if (XHR) {
 }
 ```
 
-## 3 如何创建 Ajax
+## 如何创建 Ajax
 
 1. `XMLHttpRequest` 的工作原理
 2. 兼容性处理。 `XMLHttpRequest`只有在高级浏览器中才支持。在回答问题时，这个兼容性问题不要忽略。

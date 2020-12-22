@@ -8,6 +8,8 @@ draft: true
 
 ## Lerna
 
+http://www.sosout.com/2018/07/21/lerna-repo.html
+
 A tool for managing JavaScript projects with multiple packages.https://lernajs.io/
 在设计框架的时候，经常做的事儿 是进行模块拆分，继而提供插件或集成 机制，这样是非常好的做法。但问题也 随之而来，当你的模块模块非常多时， 你该如何管理你的模块呢?
 

@@ -1,5 +1,5 @@
 ---
-title: 懒加载的实现原理
+title: Node 源码
 date: '2020-10-26'
 draft: true
 ---
@@ -9,8 +9,6 @@ https://github.com/yjhjstz/deep-into-node
 ## Node 源码
 
 Node 既不是一种语言，也不是一个框架，而是一个能执行 JavaScript 代码的运行时。
-
-![1632709-5b2db4fc4aed0f98](https://user-images.githubusercontent.com/11473889/57978149-c185b280-7a39-11e9-9d89-169e1e41e377.png)
 
 #### Node.js 模块类型
 
@@ -38,7 +36,7 @@ Node 既不是一种语言，也不是一个框架，而是一个能执行 JavaS
 
 #### Node.js 模块依赖
 
-##### ![1632709-a1a4c8670dc5c0c4](https://user-images.githubusercontent.com/11473889/57978148-c185b280-7a39-11e9-9559-7fa548bea6ce.png)
+![1632709-a1a4c8670dc5c0c4](https://user-images.githubusercontent.com/11473889/57978148-c185b280-7a39-11e9-9559-7fa548bea6ce.png)
 
 ##### Node Standard Library
 
