@@ -709,7 +709,7 @@ var { StyleSheet, Text, View } = React;
 
 箭头最神奇的地方在于他会让你写正确的代码。比如，this 在上下文和函数中的值应当是相同的，它不会变化，通常变化的原因都是因为你创建了闭包。
 
-使用箭头函数可以让我们不再用 that = this 或者 self = this 或者\_this = this 或者.bind(this)这样的代码。
+使用箭头函数可以让我们不再用 that = this 或者 self = this 或者 `that = this` 或者.bind(this)这样的代码。
 
 #### 延展操作符
 

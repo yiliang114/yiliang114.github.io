@@ -2014,20 +2014,20 @@ function zeroMove(array) {
 先看 Link 点击事件 handleClick 部分源码
 
 ```js
-if (_this.props.onClick) _this.props.onClick(event);
+if (that.props.onClick) that.props.onClick(event);
 
 if (
   !event.defaultPrevented && // onClick prevented default
   event.button === 0 && // ignore everything but left clicks
-  !_this.props.target && // let browser handle "target=_blank" etc.
+  !that.props.target && // let browser handle "target=_blank" etc.
   !isModifiedEvent(event) // ignore clicks with modifier keys
 ) {
   event.preventDefault();
 
-  var history = _this.context.router.history;
-  var _this$props = _this.props,
-    replace = _this$props.replace,
-    to = _this$props.to;
+  var history = that.context.router.history;
+  var that$props = that.props,
+    replace = that$props.replace,
+    to = that$props.to;
 
   if (replace) {
     history.replace(to);

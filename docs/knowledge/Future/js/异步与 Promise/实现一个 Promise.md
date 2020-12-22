@@ -1,14 +1,198 @@
 ---
-title: Promise 实现
+title: 实现一个 Promise
 date: '2020-10-26'
 draft: true
 ---
 
+### Promise 实现
+
+Promise 是 ES6 新增的语法，解决了回调地狱的问题。
+
+可以把 Promise 看成一个状态机。初始是 `pending` 状态，可以通过函数 `resolve` 和 `reject` ，将状态转变为 `resolved` 或者 `rejected` 状态，状态一旦改变就不能再次变化。
+
+`then` 函数会返回一个 Promise 实例，并且该返回值是一个新的实例而不是之前的实例。因为 Promise 规范规定除了 `pending` 状态，其他状态是不可以改变的，如果返回的是一个相同实例的话，多个 `then` 调用就失去意义了。
+
+对于 `then` 来说，本质上可以把它看成是 `flatMap`
+
+```js
+// 三种状态
+const PENDING = 'pending';
+const RESOLVED = 'resolved';
+const REJECTED = 'rejected';
+// promise 接收一个函数参数，该函数会立即执行
+function MyPromise(fn) {
+  let that = this;
+  that.currentState = PENDING;
+  that.value = undefined;
+  // 用于保存 then 中的回调，只有当 promise
+  // 状态为 pending 时才会缓存，并且每个实例至多缓存一个
+  that.resolvedCallbacks = [];
+  that.rejectedCallbacks = [];
+
+  that.resolve = function(value) {
+    if (value instanceof MyPromise) {
+      // 如果 value 是个 Promise，递归执行
+      return value.then(that.resolve, that.reject);
+    }
+    setTimeout(() => {
+      // 异步执行，保证执行顺序
+      if (that.currentState === PENDING) {
+        that.currentState = RESOLVED;
+        that.value = value;
+        that.resolvedCallbacks.forEach(cb => cb());
+      }
+    });
+  };
+
+  that.reject = function(reason) {
+    setTimeout(() => {
+      // 异步执行，保证执行顺序
+      if (that.currentState === PENDING) {
+        that.currentState = REJECTED;
+        that.value = reason;
+        that.rejectedCallbacks.forEach(cb => cb());
+      }
+    });
+  };
+  // 用于解决以下问题
+  // new Promise(() => throw Error('error))
+  try {
+    fn(that.resolve, that.reject);
+  } catch (e) {
+    that.reject(e);
+  }
+}
+
+MyPromise.prototype.then = function(onResolved, onRejected) {
+  var self = this;
+  // 规范 2.2.7，then 必须返回一个新的 promise
+  var promise2;
+  // 规范 2.2.onResolved 和 onRejected 都为可选参数
+  // 如果类型不是函数需要忽略，同时也实现了透传
+  // Promise.resolve(4).then().then((value) => console.log(value))
+  onResolved = typeof onResolved === 'function' ? onResolved : v => v;
+  onRejected = typeof onRejected === 'function' ? onRejected : r => throw r;
+
+  if (self.currentState === RESOLVED) {
+    return (promise2 = new MyPromise(function(resolve, reject) {
+      // 规范 2.2.4，保证 onFulfilled，onRjected 异步执行
+      // 所以用了 setTimeout 包裹下
+      setTimeout(function() {
+        try {
+          var x = onResolved(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (reason) {
+          reject(reason);
+        }
+      });
+    }));
+  }
+
+  if (self.currentState === REJECTED) {
+    return (promise2 = new MyPromise(function(resolve, reject) {
+      setTimeout(function() {
+        // 异步执行onRejected
+        try {
+          var x = onRejected(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (reason) {
+          reject(reason);
+        }
+      });
+    }));
+  }
+
+  if (self.currentState === PENDING) {
+    return (promise2 = new MyPromise(function(resolve, reject) {
+      self.resolvedCallbacks.push(function() {
+        // 考虑到可能会有报错，所以使用 try/catch 包裹
+        try {
+          var x = onResolved(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (r) {
+          reject(r);
+        }
+      });
+
+      self.rejectedCallbacks.push(function() {
+        try {
+          var x = onRejected(self.value);
+          resolutionProcedure(promise2, x, resolve, reject);
+        } catch (r) {
+          reject(r);
+        }
+      });
+    }));
+  }
+};
+// 规范 2.3
+function resolutionProcedure(promise2, x, resolve, reject) {
+  // 规范 2.3.1，x 不能和 promise2 相同，避免循环引用
+  if (promise2 === x) {
+    return reject(new TypeError('Error'));
+  }
+  // 规范 2.3.2
+  // 如果 x 为 Promise，状态为 pending 需要继续等待否则执行
+  if (x instanceof MyPromise) {
+    if (x.currentState === PENDING) {
+      x.then(function(value) {
+        // 再次调用该函数是为了确认 x resolve 的
+        // 参数是什么类型，如果是基本类型就再次 resolve
+        // 把值传给下个 then
+        resolutionProcedure(promise2, value, resolve, reject);
+      }, reject);
+    } else {
+      x.then(resolve, reject);
+    }
+    return;
+  }
+  // 规范 2.3.3.3.3
+  // reject 或者 resolve 其中一个执行过得话，忽略其他的
+  let called = false;
+  // 规范 2.3.3，判断 x 是否为对象或者函数
+  if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+    // 规范 2.3.3.2，如果不能取出 then，就 reject
+    try {
+      // 规范 2.3.3.1
+      let then = x.then;
+      // 如果 then 是函数，调用 x.then
+      if (typeof then === 'function') {
+        // 规范 2.3.3.3
+        then.call(
+          x,
+          y => {
+            if (called) return;
+            called = true;
+            // 规范 2.3.3.3.1
+            resolutionProcedure(promise2, y, resolve, reject);
+          },
+          e => {
+            if (called) return;
+            called = true;
+            reject(e);
+          },
+        );
+      } else {
+        // 规范 2.3.3.4
+        resolve(x);
+      }
+    } catch (e) {
+      if (called) return;
+      called = true;
+      reject(e);
+    }
+  } else {
+    // 规范 2.3.4，x 为基本类型
+    resolve(x);
+  }
+}
+```
+
+以上就是根据 Promise / A+ 规范来实现的代码，可以通过 `promises-aplus-tests` 的完整测试
+
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042629.png)
+
 ### 实现一个简易版 Promise
-
-在完成符合 Promise/A+ 规范的代码之前，我们可以先来实现一个简易版 `Promise`，因为在面试中，如果你能实现出一个简易版的 `Promise` 基本可以过关了。
-
-那么我们先来搭建构建函数的大体框架
 
 ```js
 const PENDING = 'pending';
@@ -123,8 +307,6 @@ MyPromise.prototype.then = function(onFulfilled, onRejected) {
 以上就是简单版 `Promise` 实现，接下来一小节是实现完整版 `Promise` 的解析，相信看完完整版的你，一定会对于 `Promise` 的理解更上一层楼。
 
 ### 实现一个符合 Promise/A+ 规范的 Promise
-
-这小节代码需要大家配合规范阅读，因为大部分代码都是根据规范去实现的。
 
 我们先来改造一下 `resolve` 和 `reject` 函数
 
@@ -286,194 +468,6 @@ if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
 
 以上就是符合 Promise/A+ 规范的实现了，如果你对于这部分代码尚有疑问，欢迎在评论中与我互动。
 
-### Promise 实现
-
-Promise 是 ES6 新增的语法，解决了回调地狱的问题。
-
-可以把 Promise 看成一个状态机。初始是 `pending` 状态，可以通过函数 `resolve` 和 `reject` ，将状态转变为 `resolved` 或者 `rejected` 状态，状态一旦改变就不能再次变化。
-
-`then` 函数会返回一个 Promise 实例，并且该返回值是一个新的实例而不是之前的实例。因为 Promise 规范规定除了 `pending` 状态，其他状态是不可以改变的，如果返回的是一个相同实例的话，多个 `then` 调用就失去意义了。
-
-对于 `then` 来说，本质上可以把它看成是 `flatMap`
-
-```js
-// 三种状态
-const PENDING = 'pending';
-const RESOLVED = 'resolved';
-const REJECTED = 'rejected';
-// promise 接收一个函数参数，该函数会立即执行
-function MyPromise(fn) {
-  let _this = this;
-  _this.currentState = PENDING;
-  _this.value = undefined;
-  // 用于保存 then 中的回调，只有当 promise
-  // 状态为 pending 时才会缓存，并且每个实例至多缓存一个
-  _this.resolvedCallbacks = [];
-  _this.rejectedCallbacks = [];
-
-  _this.resolve = function(value) {
-    if (value instanceof MyPromise) {
-      // 如果 value 是个 Promise，递归执行
-      return value.then(_this.resolve, _this.reject);
-    }
-    setTimeout(() => {
-      // 异步执行，保证执行顺序
-      if (_this.currentState === PENDING) {
-        _this.currentState = RESOLVED;
-        _this.value = value;
-        _this.resolvedCallbacks.forEach(cb => cb());
-      }
-    });
-  };
-
-  _this.reject = function(reason) {
-    setTimeout(() => {
-      // 异步执行，保证执行顺序
-      if (_this.currentState === PENDING) {
-        _this.currentState = REJECTED;
-        _this.value = reason;
-        _this.rejectedCallbacks.forEach(cb => cb());
-      }
-    });
-  };
-  // 用于解决以下问题
-  // new Promise(() => throw Error('error))
-  try {
-    fn(_this.resolve, _this.reject);
-  } catch (e) {
-    _this.reject(e);
-  }
-}
-
-MyPromise.prototype.then = function(onResolved, onRejected) {
-  var self = this;
-  // 规范 2.2.7，then 必须返回一个新的 promise
-  var promise2;
-  // 规范 2.2.onResolved 和 onRejected 都为可选参数
-  // 如果类型不是函数需要忽略，同时也实现了透传
-  // Promise.resolve(4).then().then((value) => console.log(value))
-  onResolved = typeof onResolved === 'function' ? onResolved : v => v;
-  onRejected = typeof onRejected === 'function' ? onRejected : r => throw r;
-
-  if (self.currentState === RESOLVED) {
-    return (promise2 = new MyPromise(function(resolve, reject) {
-      // 规范 2.2.4，保证 onFulfilled，onRjected 异步执行
-      // 所以用了 setTimeout 包裹下
-      setTimeout(function() {
-        try {
-          var x = onResolved(self.value);
-          resolutionProcedure(promise2, x, resolve, reject);
-        } catch (reason) {
-          reject(reason);
-        }
-      });
-    }));
-  }
-
-  if (self.currentState === REJECTED) {
-    return (promise2 = new MyPromise(function(resolve, reject) {
-      setTimeout(function() {
-        // 异步执行onRejected
-        try {
-          var x = onRejected(self.value);
-          resolutionProcedure(promise2, x, resolve, reject);
-        } catch (reason) {
-          reject(reason);
-        }
-      });
-    }));
-  }
-
-  if (self.currentState === PENDING) {
-    return (promise2 = new MyPromise(function(resolve, reject) {
-      self.resolvedCallbacks.push(function() {
-        // 考虑到可能会有报错，所以使用 try/catch 包裹
-        try {
-          var x = onResolved(self.value);
-          resolutionProcedure(promise2, x, resolve, reject);
-        } catch (r) {
-          reject(r);
-        }
-      });
-
-      self.rejectedCallbacks.push(function() {
-        try {
-          var x = onRejected(self.value);
-          resolutionProcedure(promise2, x, resolve, reject);
-        } catch (r) {
-          reject(r);
-        }
-      });
-    }));
-  }
-};
-// 规范 2.3
-function resolutionProcedure(promise2, x, resolve, reject) {
-  // 规范 2.3.1，x 不能和 promise2 相同，避免循环引用
-  if (promise2 === x) {
-    return reject(new TypeError('Error'));
-  }
-  // 规范 2.3.2
-  // 如果 x 为 Promise，状态为 pending 需要继续等待否则执行
-  if (x instanceof MyPromise) {
-    if (x.currentState === PENDING) {
-      x.then(function(value) {
-        // 再次调用该函数是为了确认 x resolve 的
-        // 参数是什么类型，如果是基本类型就再次 resolve
-        // 把值传给下个 then
-        resolutionProcedure(promise2, value, resolve, reject);
-      }, reject);
-    } else {
-      x.then(resolve, reject);
-    }
-    return;
-  }
-  // 规范 2.3.3.3.3
-  // reject 或者 resolve 其中一个执行过得话，忽略其他的
-  let called = false;
-  // 规范 2.3.3，判断 x 是否为对象或者函数
-  if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
-    // 规范 2.3.3.2，如果不能取出 then，就 reject
-    try {
-      // 规范 2.3.3.1
-      let then = x.then;
-      // 如果 then 是函数，调用 x.then
-      if (typeof then === 'function') {
-        // 规范 2.3.3.3
-        then.call(
-          x,
-          y => {
-            if (called) return;
-            called = true;
-            // 规范 2.3.3.3.1
-            resolutionProcedure(promise2, y, resolve, reject);
-          },
-          e => {
-            if (called) return;
-            called = true;
-            reject(e);
-          },
-        );
-      } else {
-        // 规范 2.3.3.4
-        resolve(x);
-      }
-    } catch (e) {
-      if (called) return;
-      called = true;
-      reject(e);
-    }
-  } else {
-    // 规范 2.3.4，x 为基本类型
-    resolve(x);
-  }
-}
-```
-
-以上就是根据 Promise / A+ 规范来实现的代码，可以通过 `promises-aplus-tests` 的完整测试
-
-![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042629.png)
-
 ### 链式调用实现
 
 光是实现了异步操作可不行，我们常常用到 new Promise().then().then()这样的链式调用来解决回调地狱。
@@ -578,52 +572,6 @@ function resolvePromise(promise2, x, resolve, reject) {
 ```
 
 此时链式调用支持已经实现，在相应的地方调用 resolvePromise 方法即可。
-
-### 如何用原生来实现 promise.all()?
-
-```js
-function PromiseM() {
-  this.status = 'pending';
-  this.msg = '';
-  var that = this;
-  var process = arguments[0];
-  process(
-    function() {
-      that.status = 'resolve';
-      that.msg = arguments[0];
-    },
-    function() {
-      that.status = 'reject';
-      that.msg = arguments[0];
-    },
-  );
-  return this;
-}
-PromiseM.prototype.then = function() {
-  if (this.status == 'resolve') {
-    arguments[0](this.msg);
-  }
-  if (this.status == 'reject' && arguments[1]) {
-    arguments[1](this.msg);
-  }
-};
-
-// 测试用例
-
-var p = new PromiseM(function(resolve, reject) {
-  resolve('123');
-});
-
-p.then(
-  function(success) {
-    console.log(success);
-    console.log('success');
-  },
-  function() {
-    console.log('fail！');
-  },
-);
-```
 
 ### 如何实现 Promise.all
 
@@ -802,6 +750,52 @@ const ajax = obj => {
     }
   });
 };
+```
+
+### 如何用原生来实现 promise.all()?
+
+```js
+function PromiseM() {
+  this.status = 'pending';
+  this.msg = '';
+  var that = this;
+  var process = arguments[0];
+  process(
+    function() {
+      that.status = 'resolve';
+      that.msg = arguments[0];
+    },
+    function() {
+      that.status = 'reject';
+      that.msg = arguments[0];
+    },
+  );
+  return this;
+}
+PromiseM.prototype.then = function() {
+  if (this.status == 'resolve') {
+    arguments[0](this.msg);
+  }
+  if (this.status == 'reject' && arguments[1]) {
+    arguments[1](this.msg);
+  }
+};
+
+// 测试用例
+
+var p = new PromiseM(function(resolve, reject) {
+  resolve('123');
+});
+
+p.then(
+  function(success) {
+    console.log(success);
+    console.log('success');
+  },
+  function() {
+    console.log('fail！');
+  },
+);
 ```
 
 ### 有一个场景，我们有很多以前的代码，都是回调函数的形式写的。如何将 callback 形式的回调函数转化为 promise 的调用方式？

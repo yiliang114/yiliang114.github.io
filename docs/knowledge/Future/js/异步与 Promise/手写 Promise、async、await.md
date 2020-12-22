@@ -1,12 +1,10 @@
 ---
 layout: CustomPages
-title: 前端高手进阶
+title: 手写 Promise、async、await
 date: 2020-11-16
 aside: false
 draft: true
 ---
-
-async 函数内阻塞，函数外不阻塞
 
 ### Promise/A+ 规范
 
@@ -17,8 +15,6 @@ Promise 是一个对象或者函数，对外提供了一个 then 函数，内部
 #### then 函数
 
 then 函数接收两个函数作为可选参数：
-
-复制
 
 ```
 promise.then(onFulfilled, onRejected)
@@ -77,8 +73,6 @@ Promise 解决过程是一个抽象的操作，即接收一个 promise 和一个
 
 由于 Promise 只有 3 个 状态，这里我们可以先创建 3 个“常量”来消除魔术字符串：
 
-复制
-
 ```
 var PENDING = 'pending'
 var FULFILLED = 'fulfilled'
@@ -89,8 +83,6 @@ var REJECTED = 'rejected
 由于 Promise 可以被实例化，所以可以定义成类或函数，这里为了增加难度，先考虑在 ES5 环境下实现，所以写成构造函数的形式。
 
 使用过 Promise 的人肯定知道，在创建 Promise 的时候会传入一个回调函数，该回调函数会接收两个参数，分别用来执行或拒绝当前 Promise。同时考虑到 Promise 在执行时可能会有返回值，在拒绝时会给出拒绝原因，我们分别用 value 和 reason 两个变量来表示。具体代码如下：
-
-复制
 
 ```
 function Promise(execute) {
@@ -123,8 +115,6 @@ function Promise(execute) {
 
 每个 Promise 实例都有一个 then() 函数，该函数会访问 Promise 内部的值或拒绝原因，所以通过函数原型 prototype 来实现。then() 函数接收两个回调函数作为参数，于是写成下面的形式：
 
-复制
-
 ```
 Promise.prototype.then = function (onFulfilled, onRejected) {
 }
@@ -132,8 +122,6 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
 ```
 
 根据第 1 条原则，如果可选参数不为函数时应该被忽略，所以在函数 then() 内部加上对参数的判断：
-
-复制
 
 ```
 onFulfilled = typeof onFulfilled === "function" ? onFulfilled : function (x) {
@@ -146,8 +134,6 @@ onRejected = typeof onRejected === "function" ? onRejected : function (e) {
 ```
 
 根据第 2 条规则，传入的回调函数是异步执行的。要模拟异步，可以通过 setTimeout 来延迟执行。再根据第 3 条和第 4 条规则，应根据 Promise 的状态来执行对应的回调，执行状态下调用 onFulfilled() 函数，拒绝状态下调用 onRejected() 函数。
-
-复制
 
 ```
 var self = this;
@@ -175,8 +161,6 @@ switch (self.state) {
 
 换个角度来看，在不考虑异常的情况下 Promise 的状态改变只依赖于构造函数中的 resolve() 函数和 reject() 函数执行。所以可考虑将 onFulfilled() 和 onRejected() 函数先保存到 Promise 属性 onFulfilledFn 和 onRejectedFn 中，等到状态改变时再调用。
 
-复制
-
 ```
 case PENDING:
   self.onFulfilledFn = function () {
@@ -190,8 +174,6 @@ case PENDING:
 ```
 
 最后看第 5 条规则，then() 被调用时应该返回一个新的 Promise，所以在上面的 3 种状态的处理逻辑中，都应该创建并返回一个 Promise 实例。以执行状态为例，可以改成下面的样子。
-
-复制
 
 ```
 case FULFILLED:
@@ -209,8 +191,6 @@ case FULFILLED:
 ```
 
 同时，它带来的另一个效果是**支持链式调用**。在链式调用的情况下，如果 Promise 实例处于等待状态，那么需要保存多个 resolve() 或 reject() 函数，所以 onFulfilledFn 和 onRejectedFn 应该改成数组。
-
-复制
 
 ```
 case PENDING:
@@ -235,8 +215,6 @@ case PENDING:
 ```
 
 对应的，Promise 构造函数中应该初始化属性 onFulfilledFn 和 onRejectedFn 为数组，同时 resolve() 和 reject() 函数在改变状态时应该调用这个数组中的函数，并且这个调用过程应该是异步的。
-
-复制
 
 ```
 function Promise(execute) {
@@ -268,8 +246,6 @@ function Promise(execute) {
 
 前面提到解决过程函数有两个参数及 3 种情况，先来考虑第 1 种情况，promise 与 x 相等，应该直接抛出 TypeError 错误：
 
-复制
-
 ```
 function resolvePromise(promise, x) {
   if (promise === x) {
@@ -286,8 +262,6 @@ function resolvePromise(promise, x) {
 如果 x 处于等待状态，那么 promise 继续保持等待状态，等待解决过程函数 resolvePromise() 执行，否则应该用相同的值执行或拒绝 promise。我们无法从外部拒绝或执行一个 Promise 实例，只能通过调用构造函数传入的 resolve() 和 reject() 函数来实现。所以还需要把这两个函数作为参数传递到 resolvePromise 函数中。
 
 在函数 resolvePromise() 内部加上情况 2 的判断，代码如下：
-
-复制
 
 ```
 function resolvePromise(promise, x, resolve, reject) {
@@ -308,8 +282,6 @@ function resolvePromise(promise, x, resolve, reject) {
 ```
 
 再来实现情况 3，将 x.then 取出然后执行，并将执行结果放入解决过程函数 resolvePromise() 中。 考虑到 x 可能只是一个 thenable 而非真正的 Promise，所以在调用 then() 函数的时候要设置一个变量 excuted 避免重复调用。同时记得在执行时添加异常捕获并及时拒绝当前 promise。
-
-复制
 
 ```
 if ((x !== null) && ((typeof x === 'object') || (typeof x === 'function'))) {
@@ -340,8 +312,6 @@ if ((x !== null) && ((typeof x === 'object') || (typeof x === 'function'))) {
 
 情况 4 就很简单了，直接把 x 作为值执行。
 
-复制
-
 ```
 resolve(x);
 
@@ -349,7 +319,7 @@ resolve(x);
 
 ### Promise 测试
 
-编写测试代码永远是一个好习惯，为了验证编写的 Promise 正确性，引用一个专门用来测试 Promise 规范性的模块 [promises\-aplus\-tests](https://github.com/promises-aplus/promises-tests)，该模块内置了数百个测试案例，支持命令行一键测试。只是在导出模块的时候需要遵循 CommonJS 规范，并且按照要求导出对应的函数。[最终代码地址请点击这里获取](https://github.com/yalishizhude/course/tree/master/plus2)。
+编写测试代码永远是一个好习惯，为了验证编写的 Promise 正确性，引用一个专门用来测试 Promise 规范性的模块 [promises-aplus-tests](https://github.com/promises-aplus/promises-tests)，该模块内置了数百个测试案例，支持命令行一键测试。只是在导出模块的时候需要遵循 CommonJS 规范，并且按照要求导出对应的函数。[最终代码地址请点击这里获取](https://github.com/yalishizhude/course/tree/master/plus2)。
 
 测试结果如下图所示：
 
@@ -365,8 +335,6 @@ Generator 函数是 ES6 提出的除 Promise 之外的另一种**异步解决方
 
 当声明一个 Generator 函数时，需要在 function 关键字与函数名之间加上一个星号，像下面这样：
 
-复制
-
 ```
 function* fn() {
   ...
@@ -381,8 +349,6 @@ function* fn() {
 - 当函数体外部调用迭代器的 next() 函数时，函数会执行到下一个 yield 表达式的位置，并返回一个对象，该对象包含属性 value 和 done，value 是调用 next() 函数时传入的参数，done 为布尔值表示是否执行完成。
 
 下面是一个将异步回调函数改写成 Generator 函数的示例代码：
-
-复制
 
 ```
 function asyncFn(cb) {
@@ -414,8 +380,6 @@ it.next()
 虽然说 Generator 函数号称是解决异步回调问题，但却带来了一些麻烦，比如函数外部无法捕获异常，比如多个 yield 会导致调试困难。所以相较之下 Promise 是更优秀的异步解决方案。
 
 async/await 做的事情就是将 Generator 函数转换成 Promise。下面代码描述的是 async 的实现逻辑：
-
-复制
 
 ```
 function generator2promise(generatorFn) {

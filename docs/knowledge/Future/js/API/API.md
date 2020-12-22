@@ -798,10 +798,10 @@ parseInt('3', 2); // NaN, 3 不是二进制
     }
 
     Function.prototype.myBind = function (obj) {
-      let context = obj || windowlet _this = thislet _args = [...arguments].splice(1)
+      let context = obj || windowlet that = thislet _args = [...arguments].splice(1)
 
       returnfunction () {
-        let args = arguments// 产生副作用// return obj.fn(..._args, ...args)return _this.apply(context, [..._args, ...args])
+        let args = arguments// 产生副作用// return obj.fn(..._args, ...args)return that.apply(context, [..._args, ...args])
       }
     }
 

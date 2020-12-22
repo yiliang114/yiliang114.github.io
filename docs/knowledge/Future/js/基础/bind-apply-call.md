@@ -22,10 +22,10 @@ Function.prototype.myBind = (that, ...args) => {
 };
 
 Function.prototype.mybind = function(ctx) {
-  var _this = this;
+  var that = this;
   var args = Array.prototype.slice.call(arguments, 1);
   return function() {
-    return _this.apply(ctx, args.concat(args, Array.prototype.slice.call(arguments)));
+    return that.apply(ctx, args.concat(args, Array.prototype.slice.call(arguments)));
   };
 };
 ```
@@ -182,15 +182,15 @@ Function.prototype.myBind = function(context) {
   if (typeof this !== 'function') {
     throw new TypeError('Error');
   }
-  const _this = this;
+  const that = this;
   const args = [...arguments].slice(1);
   // 返回一个函数
   return function F() {
     // 因为返回了一个函数，我们可以 new F()，所以需要判断
     if (this instanceof F) {
-      return new _this(...args, ...arguments);
+      return new that(...args, ...arguments);
     }
-    return _this.apply(context, args.concat(...arguments));
+    return that.apply(context, args.concat(...arguments));
   };
 };
 ```
@@ -310,15 +310,15 @@ Function.prototype.myBind = function(context) {
   if (typeof this !== 'function') {
     throw new TypeError('Error');
   }
-  var _this = this;
+  var that = this;
   var args = [...arguments].slice(1);
   // 返回一个函数
   return function F() {
     // 因为返回了一个函数，我们可以 new F()，所以需要判断
     if (this instanceof F) {
-      return new _this(...args, ...arguments);
+      return new that(...args, ...arguments);
     }
-    return _this.apply(context, args.concat(...arguments));
+    return that.apply(context, args.concat(...arguments));
   };
 };
 ```

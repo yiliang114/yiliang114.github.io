@@ -1,5 +1,5 @@
 ---
-title: 懒加载的实现原理
+title: async-and-await
 date: '2020-10-26'
 draft: true
 ---
@@ -312,11 +312,13 @@ p1.then(
 );
 ```
 
-### 说下 generater 和 yield
+### 说下 generator 和 yield
 
-### generater 的本质是什么，或者说下 generater 执行时操作系统中发生了什么
+### generator 的本质是什么，或者说下 generator 执行时操作系统中发生了什么
 
 ## async
+
+async 函数内阻塞，函数外不阻塞
 
 ### async 函数是什么，有什么作用？
 

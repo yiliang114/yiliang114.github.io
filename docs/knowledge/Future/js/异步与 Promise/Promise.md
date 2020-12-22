@@ -1,26 +1,24 @@
 ---
-title: 懒加载的实现原理
+title: Promise
 date: '2020-10-26'
 draft: true
 ---
 
 ### Promise 含义
 
-Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件更合理和更强大。
-
-从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。
+Promise 是异步编程的一种解决方案，比传统的解决方案--回调函数和事件更合理和更强大。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。
 
 Promise 对象有以下两个特点。
 
-1. 对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Fulfilled（已成功）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是 Promise 这个名字的由来，它的英语意思就是“承诺”，表示其他手段无法改变。
+1. 对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Fulfilled（已成功）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
 
-2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Fulfiled 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。
+2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Fulfilled 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
 
-依照 Promise/A+ 的定义，Promise 有四种状态：
+依照 Promise/A+ 的定义，Promise 有三种状态：
 
 - pending: 初始状态, 进行中
-- resolved: 已完成.
-- rejected: 已失败.
+- resolved: 已完成
+- rejected: 已失败
 
 执行 new 的时候状态就开始变化。promise 对象身上有两个方法：then()，和 catch()。
 
@@ -95,12 +93,10 @@ console.log('Hi!');
 
 缺点：
 
-- 轻微地增加了代码的复杂度（这点存在争议）。
 - 在不支持 ES2015 的旧版浏览器中，需要引入 polyfill 才能使用。
-
-1. 无法取消 Promise，一旦新建它就会立即执行，无法中途取消。
-1. 如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。
-1. 当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+- 无法取消 Promise，一旦新建它就会立即执行，无法中途取消。
+- 如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。
+- 当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
 
 ### API
 
@@ -294,31 +290,12 @@ console.log(result); // ["Hello", "World"]
 
 ### 为什么能一直 then ？
 
-> Promise 决议后的值仍然是 promise 对象。
-> 如何将一个立即值封装为 promise 对象?
-> var p1 = Promise.resolve(42);
-
-### 你对 Promises 及其 polyfill 的掌握程度如何？
-
-掌握它的工作原理。`Promise`是一个可能在未来某个时间产生结果的对象：操作成功的结果或失败的原因（例如发生网络错误）。 `Promise`可能处于以下三种状态之一：fulfilled、rejected 或 pending。 用户可以对`Promise`添加回调函数来处理操作成功的结果或失败的原因。
-
-一些常见的 polyfill 是`$.deferred`、Q 和 Bluebird，但不是所有的 polyfill 都符合规范。ES2015 支持 Promises，现在通常不需要使用 polyfills。
-
-### Promise 异步
-
-- promise 的 api
-  - then
-  - catch
-  - all
-  - race
-  - finally
-  - ...
-- promise 解决的问题
-- promise 与事件循环，settimeout 以及 react 的下一次循环
-- 什么时候 promise 不会被销毁
+Promise 决议后的值仍然是 promise 对象。
 
 ### 异步
 
+- 什么时候 promise 不会被销毁
+- promise 什么情况会发生内存泄漏
 - Promise 中 .then 的第二参数与 .catch 有什么区别?
 - Eventemitter 的 emit 是同步还是异步?
 - 如何判断接口是否异步? 是否只要有回调函数就是异步?
