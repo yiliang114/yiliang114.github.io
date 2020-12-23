@@ -11,14 +11,14 @@ draft: true
 // 处理输入，可以用.map，需要注意其所有参数
 // 此外其他迭代方法也需要掌握。
 let line = readline().split(' ');
-line = line.map((e) => parseInt(e, 10));
+line = line.map(e => parseInt(e, 10));
 
 // 去重
 arr = [...new Set(arr)];
 // 升序,排序可以用sort，默认是字典序,并且可以根据需要定制，需要深入掌握
 arr.sort((a, b) => a - b);
 // 迭代输出
-arr.forEach((i) => console.log(i));
+arr.forEach(i => console.log(i));
 // 求最大值，使用扩展运算符...
 max = Math.max.call(...arr);
 // 复制数组
@@ -45,28 +45,28 @@ str = str.split(''); // ["a","b"]
 halfLen = a.length >> 1;
 
 // 不过需要注意右移运算符>>优先级别加号+还低，例如
-console.log(3 + (5 - 3 >> 1)); // 2
+console.log(3 + ((5 - 3) >> 1)); // 2
 console.log(3 + ~~((5 - 3) / 2)); // 4
 
 // 因此在于其他操作符号想结合时候可以适当增加括号,例如求中位
-mid = left + (right - left >> 1);
+mid = left + ((right - left) >> 1);
 mid = left + ~~((right - left) / 2);
 // 不建议使用mid = (left + right)>>1;，因为加号操作可能造成溢出
 
 // ~~等价于Math.floor(),|0也等价于Math.floor()
 halfLen = ~~(a.length / 2);
-halfLen = a.length / 2 | 0;
+halfLen = (a.length / 2) | 0;
 
 // 判断奇偶
-evenNum & 1 === 0; // 偶数
-oddNum & 1 === 1; // 奇数
+evenNum & (1 === 0); // 偶数
+oddNum & (1 === 1); // 奇数
 
 // 善用异或
-5 ^ 5 === 0;
-5 ^ 5 ^ 6 ^ 6 ^ 7 === 7;
+5 ^ (5 === 0);
+5 ^ 5 ^ 6 ^ 6 ^ (7 === 7);
 
 // 判断数是否是2的幂次方
-num & num - 1 === 0;
+num & (num - 1 === 0);
 
 // 翻转数的第K位
 num ^= 1 << k;
@@ -78,23 +78,8 @@ num &= ~(1 << k);
 num |= 1 << K;
 
 // 判断第K位是否为0
-num & 1 << k === 0;
-
+num & (1 << k === 0);
 ```
-
-### ['1', '2', '3'].map(parseInt) what & why ?
-
-首先让我们回顾一下，map 函数的第一个参数 callback，一共可以接收三个参数，其中第一个参数代表当前被处理的元素，而第二个参数代表该元素的索引。
-
-而 parseInt 则是用来解析字符串的，使字符串成为指定基数的整数。`parseInt(string, radix)` 接收两个参数，第一个表示被处理的值（字符串），第二个表示为解析时的基数。
-
-了解这两个函数后，我们可以模拟一下运行情况
-
-parseInt('1', 0) //radix 为 0 时，且 string 参数不以“0x”和“0”开头时，按照 10 为基数处理。这个时候返回 1
-parseInt('2', 1) //基数为 1（1 进制）表示的数中，最大值小于 2，所以无法解析，返回 NaN
-parseInt('3', 2) //基数为 2（2 进制）表示的数中，最大值小于 3，所以无法解析，返回 NaN
-
-map 函数返回的是一个数组，所以最后结果为[1, NaN, NaN]
 
 ### 下面的代码打印什么内容，为什么？
 
@@ -571,60 +556,6 @@ if (typeof Object.assign2 != 'function') {
 }
 ```
 
-### 深拷贝的实现
-
-```js
-function cloneDeep(x) {
-  const root = {};
-
-  // 栈
-  const loopList = [
-    {
-      parent: root,
-      key: undefined,
-      data: x,
-    },
-  ];
-
-  while (loopList.length) {
-    // 广度优先
-    const node = loopList.pop();
-    const parent = node.parent;
-    const key = node.key;
-    const data = node.data;
-
-    // 初始化赋值目标，key为undefined则拷贝到父元素，否则拷贝到子元素
-    let res = parent;
-    if (typeof key !== 'undefined') {
-      res = parent[key] = {};
-    }
-
-    for (let k in data) {
-      if (data.hasOwnProperty(k)) {
-        if (typeof data[k] === 'object') {
-          // 下一次循环
-          loopList.push({
-            parent: res,
-            key: k,
-            data: data[k],
-          });
-        } else {
-          res[k] = data[k];
-        }
-      }
-    }
-  }
-
-  return root;
-}
-```
-
-扩展：深拷贝和浅拷贝的区别
-浅拷贝只是新开一个别名来引用这个内存区。即拷贝原对象的引用
-
-深拷贝会重新开辟一个内存区，并把之前内存区的值复制进来，这样两个内存区初始值是一样的，但接下去的操作互不影响
-[深拷贝终极探索](https://segmentfault.com/a/1190000016672263)
-
 ### 笔试题
 
 ```js
@@ -1017,6 +948,18 @@ function add() {
     return tmp;
   }
 }
+```
+
+老外版本：
+
+```js
+const add = (a, b) => {
+  if (a && b) return a + b;
+  else
+    return (buffAdd = b => {
+      return a + b;
+    });
+};
 ```
 
 参数固定版本：

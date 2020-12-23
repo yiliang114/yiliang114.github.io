@@ -90,10 +90,6 @@ Connection: Upgrade
 
 主要是的是`webSocket.onmessage`属性，用于指定接收服务器数据后的回调函数。`webSocket.send()`方法，可用于向服务器发送数据。
 
-#### 参考
-
-- [websocket 原理](https://www.cnblogs.com/fuqiang88/p/5956363.html)
-
 ### 简要介绍一下 socket 协议
 
 ### WebSocket 协议

@@ -63,7 +63,7 @@ console.log(a()()());
 
 ```js
 let a = {
-  b: function () {
+  b: function() {
     console.log(this);
   },
   c: () => {
@@ -116,7 +116,7 @@ this 的四种用法：
 
 ```js
 let a = {};
-let fn = function () {
+let fn = function() {
   console.log(this);
 };
 fn.bind().bind(a)(); // => ?
@@ -127,7 +127,7 @@ fn.bind().bind(a)(); // => ?
 ```js
 // fn.bind().bind(a) 等于
 let fn2 = function fn1() {
-  return function () {
+  return function() {
     return fn.apply();
   }.apply(a);
 };
@@ -140,7 +140,7 @@ fn2();
 var User = {
   count: 1,
 
-  getCount: function () {
+  getCount: function() {
     return this.count;
   },
 };
@@ -159,10 +159,10 @@ console.log(func()); // what?
 ```js
 Function.prototype.bind =
   Function.prototype.bind ||
-  function (context) {
+  function(context) {
     var self = this;
 
-    return function () {
+    return function() {
       return self.apply(context, arguments);
     };
   };
@@ -181,7 +181,7 @@ function fn() {
 }
 var obj = {
   length: 5,
-  method: function () {
+  method: function() {
     fn();
   },
 };
@@ -193,7 +193,7 @@ var obj = {
   num: 200,
   inner: {
     num: 300,
-    print: function () {
+    print: function() {
       console.log(this.num);
     },
   },
@@ -218,7 +218,7 @@ obj1.obj2.foo(); // ？
 var obj3 = { a: 2 };
 foo.call(obj3); // ？
 
-var bar = function () {
+var bar = function() {
   foo.call(obj3);
 };
 bar(); // ？
@@ -279,7 +279,7 @@ foo.apply(undefined); // ？
 // code 7 箭头函数
 
 function foo() {
-  return (a) => console.log(this.a);
+  return a => console.log(this.a);
 }
 
 var obj1 = { a: 2 };
@@ -290,18 +290,18 @@ bar.call(obj2); // ？
 
 ```js
 function Foo() {
-  getName = function () {
+  getName = function() {
     console.log(1);
   };
   return this;
 }
-Foo.getName = function () {
+Foo.getName = function() {
   console.log(2);
 };
-Foo.prototype.getName = function () {
+Foo.prototype.getName = function() {
   console.log(3);
 };
-var getName = function () {
+var getName = function() {
   console.log(4);
 };
 
@@ -558,3 +558,34 @@ test().fn(); // ?
 - 如果第一行的 var 改为了 let，那么答案会是 undefind， 因为 let 不会挂到 window 上
 
 ### 箭头函数的 this
+
+### 执行题
+
+谁调用函数，函数体中的 this 就指向谁
+
+```js
+var x = 1;
+
+var bar = function() {
+  console.log(this.x);
+};
+
+var obj1 = { x: 1 };
+var obj2 = { x: 2 };
+var obj3 = { x: 3 };
+
+var fun = bar.bind(obj1);
+fun();
+fun = bar.bind(obj1).bind(obj2);
+fun();
+fun = bar
+  .bind(obj1)
+  .bind(obj2)
+  .bind(obj3);
+fun();
+/*
+1
+1
+1
+*/
+```

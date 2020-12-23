@@ -327,8 +327,6 @@ location /api {
 
 其中配置二和配置三，本质上是一样的（使用 ip 和域名）ip 后面有没有 `/` 是由区别的，有 `/` 表示转发请求之后，`/api` 后面的内容才会被转发，相当于 url 是被截断的，正好我们需要这种形式，因为 `/api` 是我们添加的虚拟的 url 部分。
 
-详情可以参考 https://www.cnblogs.com/lemon-le/p/7800879.html 或者 《nginx 高性能 Web 服务器详解》
-
 ### 存在的问题
 
 1. 路径中需要将最后的 `/` 输入完整才能够访问成功。
@@ -572,10 +570,6 @@ https://blog.csdn.net/see__you__again/article/details/51896891
 https://blog.csdn.net/permanent_2008/article/details/45564613
 
 https://blog.csdn.net/dounine/article/details/53734631
-
-### 参考
-
-https://blog.csdn.net/see__you__again/article/details/51896891
 
 ### 实际使用建议
 

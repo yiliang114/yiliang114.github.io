@@ -853,10 +853,6 @@ module.exports = {
 
 ### 1. 准备工作
 
-关于 SCSS 处理的基础，请参考[webpack4 系列教程(六): 处理 SCSS](https://godbmw.com/passage/37)。
-
-本节课主要涉及 SCSS 在懒加载下提取的相关配置和插件使用。
-
 为了实现 SCSS 懒加载，我们使用了`extract-text-webpack-plugin`插件。
 
 需要注意，**在安装插件的时候，应该安装针对`v4`版本的`extract-text-webpack-plugin`**。npm 运行如下命令：`npm install --save-dev extract-text-webpack-plugin@next`

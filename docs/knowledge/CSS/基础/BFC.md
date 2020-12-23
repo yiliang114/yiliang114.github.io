@@ -315,7 +315,7 @@ BFC 是 W3C CSS 2.1 规范中的一个概念，它决定了元素如何对其内
 
 在 BFC 中，每个盒的左外边缘都与其包含的块的左边缘相接。
 
-两个相邻的块级盒在垂直方向上的边距会发生合并（collapse）。更多内容请参考[边距合并（margin collapsing）](https://www.sitepoint.com/web-foundations/collapsing-margins/)。
+两个相邻的块级盒在垂直方向上的边距会发生合并（collapse）。
 
 ### BFC 的约束规则
 

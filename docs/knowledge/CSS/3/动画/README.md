@@ -118,7 +118,7 @@ bezier 曲线在线效果网址 [cubic-bezier.com](http://cubic-bezier.com)
 ### 逐帧动画
 
 关键帧之间是有补间的，会选一个效果过渡过去，而逐帧动画则是每个 keyframe 之间没有过渡，直接切换过去
-参考[猎豹奔跑](./animal.html)
+
 关键是使用下面这行 CSS
 `animation-timing-function: steps(1);`
 这个 step 是指定关键帧之间需要有几个画面

@@ -700,8 +700,6 @@ parseInt(100, 2); // 4 -> converts 100 in base 2 to base 10
 - 如果字符串 string 以"0"开头, 基数是 8（八进制）或者 10（十进制），那么具体是哪个基数由实现环境决定。ECMAScript 5 规定使用 10，但是并不是所有的浏览器都遵循这个规定。因此，永远都要明确给出 radix 参数的值。
 - 如果字符串 string 以其它任何值开头，则基数是 10 (十进制)。
 
-更多详见[parseInt | MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/parseInt)
-
 #### map
 
 `map()` 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。
@@ -722,8 +720,6 @@ var new_array = arr.map(function callback(currentValue[,index[, array]]) {
 const arr = [1, 2, 3];
 arr.map(num => num + 1); // [2, 3, 4]
 ```
-
-更多详见[Array.prototype.map() | MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 
 #### 回到真实的事例上
 
@@ -819,4 +815,16 @@ parseInt('3', 2); // NaN, 3 不是二进制
     console.log(myFun.myApply(obj, [11, 22]))
     console.log(myFun.myBind(obj, 33)(11, 22))
 
+```
+
+### js 对象校验是否含有多个键值
+
+```js
+['id', 'name', 'check'].every(key => Object.keys(project).includes(key));
+```
+
+### js 两个数组取差集
+
+```js
+arrayA.filter(key => !arrayB.includes(key));
 ```

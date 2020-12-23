@@ -1074,8 +1074,6 @@ for (let _ in es6) {
 }
 ```
 
-**参考/推荐**：[《JavaScript 创建对象—从 es5 到 es6》](https://fed.renren.com/2017/08/07/js-oop-es52es6/)
-
 ### Proxy 代理器
 
 他可以实现 js 中的“元编程”：在目标对象之前架设拦截，可以过滤和修改外部的访问。

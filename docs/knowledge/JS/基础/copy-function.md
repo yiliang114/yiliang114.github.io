@@ -22,7 +22,7 @@ function shallowCopy(p, c) {
 }
 ```
 
-### 深拷贝
+###
 
 简单的做法：`JSON.parse(JSON.stringify(obj))`， 但是该方法也是有局限性的：
 
@@ -481,71 +481,6 @@ function clone(Obj) {
     return Obj;
   }
 }
-```
-
-_问题：`foo`的值是什么？_
-
-```js
-var foo = 10 + '20';
-```
-
-_问题：如何实现以下函数？_
-
-```js
-add(2, 5); // 7
-add(2)(5); // 7
-```
-
-_问题：下面的语句的返回值是什么？_
-
-```js
-"i'm a lasagna hog"
-  .split('')
-  .reverse()
-  .join('');
-```
-
-_问题：`window.foo`的值是什么？_
-
-```js
-window.foo || (window.foo = 'bar');
-```
-
-_问题：下面两个 alert 的结果是什么？_
-
-```js
-var foo = 'Hello';
-(function() {
-  var bar = ' World';
-  alert(foo + bar);
-})();
-alert(foo + bar);
-```
-
-_问题：`foo.length`的值是什么？_
-
-```js
-var foo = [];
-foo.push(1);
-foo.push(2);
-```
-
-_问题：`foo.x`的值是什么？_
-
-```js
-var foo = { n: 1 };
-var bar = foo;
-foo.x = foo = { n: 2 };
-```
-
-_问题：下面代码的输出是什么？_
-
-```js
-console.log('one');
-setTimeout(function() {
-  console.log('two');
-}, 0);
-console.log('three');
 ```
 
 ```js
@@ -1074,4 +1009,481 @@ const obj2 = deepClone(obj);
 console.log(obj, obj2);
 obj.fn(1, 2);
 obj2.fn(1, 2);
+```
+
+### 深拷贝的实现
+
+```js
+function cloneDeep(x) {
+  const root = {};
+
+  // 栈
+  const loopList = [
+    {
+      parent: root,
+      key: undefined,
+      data: x,
+    },
+  ];
+
+  while (loopList.length) {
+    // 广度优先
+    const node = loopList.pop();
+    const parent = node.parent;
+    const key = node.key;
+    const data = node.data;
+
+    // 初始化赋值目标，key为undefined则拷贝到父元素，否则拷贝到子元素
+    let res = parent;
+    if (typeof key !== 'undefined') {
+      res = parent[key] = {};
+    }
+
+    for (let k in data) {
+      if (data.hasOwnProperty(k)) {
+        if (typeof data[k] === 'object') {
+          // 下一次循环
+          loopList.push({
+            parent: res,
+            key: k,
+            data: data[k],
+          });
+        } else {
+          res[k] = data[k];
+        }
+      }
+    }
+  }
+
+  return root;
+}
+```
+
+扩展：深拷贝和浅拷贝的区别
+浅拷贝只是新开一个别名来引用这个内存区。即拷贝原对象的引用
+
+深拷贝会重新开辟一个内存区，并把之前内存区的值复制进来，这样两个内存区初始值是一样的，但接下去的操作互不影响
+[深拷贝终极探索](https://segmentfault.com/a/1190000016672263)
+
+### 实现一个类型判断函数，需要鉴别出基本类型、function、null、NaN、数组、对象？
+
+只需要鉴别这些类型那么使用 typeof 即可，要鉴别 null 先判断双等判断是否为 null，之后使用 typeof 判断，如果是 obejct 的话，再用 Array.isArray 判断
+是否为数组，如果是数字再使用 isNaN 判断是否为 NaN,（需要注意的是 NaN 并不是 JavaScript 数据类型，而是一种特殊值）如下：
+
+```js
+function type(ele) {
+  if (ele === null) {
+    return null;
+  } else if (typeof ele === 'object') {
+    if (Array.isArray(ele)) {
+      return 'array';
+    } else {
+      return typeof ele;
+    }
+  } else if (typeof ele === 'number') {
+    if (isNaN(ele)) {
+      return NaN;
+    } else {
+      return typeof ele;
+    }
+  } else {
+    return typeof ele;
+  }
+}
+
+console.log(type(1));
+console.log(type(''));
+console.log(type([]));
+console.log(type({}));
+console.log(type(() => {}));
+console.log(type(null));
+console.log(type(undefined));
+console.log(type(NaN));
+```
+
+```js
+function getType(ele) {
+  return Object.prototype.toString
+    .call(ele)
+    .slice(8, -1)
+    .toLowerCase();
+}
+function type1(ele) {
+  const eleType = getType(ele);
+  switch (eleType) {
+    case 'number':
+      return isNaN(ele) ? 'NaN' : 'number';
+    default:
+      return eleType;
+  }
+}
+
+console.log(type1(1));
+console.log(type1(''));
+console.log(type1([]));
+console.log(type1({}));
+console.log(type1(() => {}));
+console.log(type1(null));
+console.log(type1(undefined));
+console.log(type1(NaN));
+
+// 有一定问题，把 undefined  null NaN 这些都转成了 string
+```
+
+### 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
+
+```js
+// 工具函数
+let _toString = Object.prototype.toString;
+let map = {
+  array: 'Array',
+  object: 'Object',
+  function: 'Function',
+  string: 'String',
+  null: 'Null',
+  undefined: 'Undefined',
+  boolean: 'Boolean',
+  number: 'Number',
+};
+let getType = item => {
+  return _toString.call(item).slice(8, -1);
+};
+let isTypeOf = (item, type) => {
+  return map[type] && map[type] === getType(item);
+};
+```
+
+深度复制
+
+```js
+let DFSdeepClone = (obj, visitedArr = []) => {
+  let _obj = {};
+  if (isTypeOf(obj, 'array') || isTypeOf(obj, 'object')) {
+    let index = visitedArr.indexOf(obj);
+    _obj = isTypeOf(obj, 'array') ? [] : {};
+    if (~index) {
+      // 判断环状数据
+      _obj = visitedArr[index];
+    } else {
+      visitedArr.push(obj);
+      for (let item in obj) {
+        _obj[item] = DFSdeepClone(obj[item], visitedArr);
+      }
+    }
+  } else if (isTypeOf(obj, 'function')) {
+    _obj = eval('(' + obj.toString() + ')');
+  } else {
+    _obj = obj;
+  }
+  return _obj;
+};
+```
+
+广度复制
+
+```js
+let BFSdeepClone = obj => {
+  let origin = [obj],
+    copyObj = {},
+    copy = [copyObj];
+  // 去除环状数据
+  let visitedQueue = [],
+    visitedCopyQueue = [];
+  while (origin.length > 0) {
+    let items = origin.shift(),
+      _obj = copy.shift();
+    visitedQueue.push(items);
+    visitedCopyQueue.push(_obj);
+    if (isTypeOf(items, 'object') || isTypeOf(items, 'array')) {
+      for (let item in items) {
+        let val = items[item];
+        if (isTypeOf(val, 'object')) {
+          let index = visitedQueue.indexOf(val);
+          if (!~index) {
+            _obj[item] = {};
+            //下次while循环使用给空对象提供数据
+            origin.push(val);
+            // 推入引用对象
+            copy.push(_obj[item]);
+            visitedQueue.push(val);
+          } else {
+            _obj[item] = visitedCopyQueue[index];
+          }
+        } else if (isTypeOf(val, 'array')) {
+          // 数组类型在这里创建了一个空数组
+          _obj[item] = [];
+          origin.push(val);
+          copy.push(_obj[item]);
+        } else if (isTypeOf(val, 'function')) {
+          _obj[item] = eval('(' + val.toString() + ')');
+        } else {
+          _obj[item] = val;
+        }
+      }
+    } else if (isTypeOf(items, 'function')) {
+      copyObj = eval('(' + items.toString() + ')');
+    } else {
+      copyObj = obj;
+    }
+  }
+  return copyObj;
+};
+```
+
+测试
+
+```js
+/**测试数据 */
+// 输入 字符串String
+// 预期输出String
+let str = 'String';
+var strCopy = DFSdeepClone(str);
+var strCopy1 = BFSdeepClone(str);
+console.log(strCopy, strCopy1); // String String 测试通过
+// 输入 数字 -1980
+// 预期输出数字 -1980
+let num = -1980;
+var numCopy = DFSdeepClone(num);
+var numCopy1 = BFSdeepClone(num);
+console.log(numCopy, numCopy1); // -1980 -1980 测试通过
+// 输入bool类型
+// 预期输出bool类型
+let bool = false;
+var boolCopy = DFSdeepClone(bool);
+var boolCopy1 = BFSdeepClone(bool);
+console.log(boolCopy, boolCopy1); //false false 测试通过
+// 输入 null
+// 预期输出 null
+let nul = null;
+var nulCopy = DFSdeepClone(nul);
+var nulCopy1 = BFSdeepClone(nul);
+console.log(nulCopy, nulCopy1); //null null 测试通过
+
+// 输入undefined
+// 预期输出undefined
+let und = undefined;
+var undCopy = DFSdeepClone(und);
+var undCopy1 = BFSdeepClone(und);
+console.log(undCopy, undCopy1); //undefined undefined 测试通过
+//输入引用类型obj
+let obj = {
+  a: 1,
+  b: () => console.log(1),
+  c: {
+    d: 3,
+    e: 4,
+  },
+  f: [1, 2],
+  und: undefined,
+  nul: null,
+};
+var objCopy = DFSdeepClone(obj);
+var objCopy1 = BFSdeepClone(obj);
+console.log(objCopy === objCopy1); // 对象类型判断 false 测试通过
+console.log(obj.c === objCopy.c); // 对象类型判断 false 测试通过
+console.log(obj.c === objCopy1.c); // 对象类型判断 false 测试通过
+console.log(obj.b === objCopy1.b); // 函数类型判断 false 测试通过
+console.log(obj.b === objCopy.b); // 函数类型判断 false 测试通过
+console.log(obj.f === objCopy.f); // 数组类型判断 false 测试通过
+console.log(obj.f === objCopy1.f); // 数组类型判断 false 测试通过
+console.log(obj.nul, obj.und); // 输出null，undefined 测试通过
+
+// 输入环状数据
+// 预期不爆栈且深度复制
+let circleObj = {
+  foo: {
+    name: function() {
+      console.log(1);
+    },
+    bar: {
+      name: 'bar',
+      baz: {
+        name: 'baz',
+        aChild: null, //待会让它指向obj.foo
+      },
+    },
+  },
+};
+circleObj.foo.bar.baz.aChild = circleObj.foo;
+var circleObjCopy = DFSdeepClone(circleObj);
+var circleObjCopy1 = BFSdeepClone(circleObj);
+console.log(circleObjCopy, circleObjCopy1); // 测试通过?
+```
+
+扩展：深拷贝与浅拷贝
+基本类型--名值存储在栈内存中，
+引用数据类型--名存在栈内存中，值存在于堆内存中，但是栈内存会提供一个引用的地址指向堆内存中的值
+因此在浅拷贝引用类型进行复制时，复制对值指向对是同一个地址
+
+- 简单深拷贝
+
+```js
+function deepCopy(obj) {
+  let newObj = Array.isArray(obj) ? [] : {};
+  if (obj && typeof obj === 'object') {
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        //判断ojb子元素是否为对象，如果是，递归复制
+        if (obj[key] && typeof obj[key] === 'object') {
+          newObj[key] = deepCopy(obj[key]);
+        } else {
+          //如果不是，简单复制
+          newObj[key] = obj[key];
+        }
+      }
+    }
+  }
+  return newObj;
+}
+```
+
+- JSON 对象的 parse 和 stringify 也可以实现深拷贝
+- JQ 的 extend 方法。
+  \$.extend( [deep ], target, object1 [, objectN ] )
+
+deep 表示是否深拷贝，为 true 为深拷贝，为 false，则为浅拷贝
+
+target Object 类型 目标对象，其他对象的成员属性将被附加到该对象上。
+
+object1 objectN 可选。 Object 类型 第一个以及第 N 个被合并的对象。
+
+### 深浅拷贝
+
+```js
+let a = {
+  age: 1,
+};
+let b = a;
+a.age = 2;
+console.log(b.age); // 2
+```
+
+从上述例子中我们可以发现，如果给一个变量赋值一个对象，那么两者的值会是同一个引用，其中一方改变，另一方也会相应改变。
+
+通常在开发中我们不希望出现这样的问题，我们可以使用浅拷贝来解决这个问题。
+
+#### 浅拷贝
+
+首先可以通过 `Object.assign` 来解决这个问题。
+
+```js
+let a = {
+  age: 1,
+};
+let b = Object.assign({}, a);
+a.age = 2;
+console.log(b.age); // 1
+```
+
+当然我们也可以通过展开运算符（…）来解决
+
+```js
+let a = {
+  age: 1,
+};
+let b = { ...a };
+a.age = 2;
+console.log(b.age); // 1
+```
+
+通常浅拷贝就能解决大部分问题了，但是当我们遇到如下情况就需要使用到深拷贝了
+
+```js
+let a = {
+  age: 1,
+  jobs: {
+    first: 'FE',
+  },
+};
+let b = { ...a };
+a.jobs.first = 'native';
+console.log(b.jobs.first); // native
+```
+
+浅拷贝只解决了第一层的问题，如果接下去的值中还有对象的话，那么就又回到刚开始的话题了，两者享有相同的引用。要解决这个问题，我们需要引入深拷贝。
+
+#### 深拷贝
+
+这个问题通常可以通过 `JSON.parse(JSON.stringify(object))` 来解决。
+
+```js
+let a = {
+  age: 1,
+  jobs: {
+    first: 'FE',
+  },
+};
+let b = JSON.parse(JSON.stringify(a));
+a.jobs.first = 'native';
+console.log(b.jobs.first); // FE
+```
+
+但是该方法也是有局限性的：
+
+- 会忽略 `undefined`
+- 会忽略 `symbol`
+- 不能序列化函数
+- 不能解决循环引用的对象
+
+```js
+let obj = {
+  a: 1,
+  b: {
+    c: 2,
+    d: 3,
+  },
+};
+obj.c = obj.b;
+obj.e = obj.a;
+obj.b.c = obj.c;
+obj.b.d = obj.b;
+obj.b.e = obj.b.c;
+let newObj = JSON.parse(JSON.stringify(obj));
+console.log(newObj);
+```
+
+如果你有这么一个循环引用对象，你会发现你不能通过该方法深拷贝
+
+![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042627.png)
+
+在遇到函数、 `undefined` 或者 `symbol` 的时候，该对象也不能正常的序列化
+
+```js
+let a = {
+  age: undefined,
+  sex: Symbol('male'),
+  jobs: function() {},
+  name: 'yiliang114',
+};
+let b = JSON.parse(JSON.stringify(a));
+console.log(b); // {name: "yck"}
+```
+
+你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
+
+但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [lodash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
+
+如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
+
+```js
+function structuralClone(obj) {
+  return new Promise(resolve => {
+    const { port1, port2 } = new MessageChannel();
+    port2.onmessage = ev => resolve(ev.data);
+    port1.postMessage(obj);
+  });
+}
+
+var obj = {
+  a: 1,
+  b: {
+    c: b,
+  },
+}(
+  // 注意该方法是异步的
+  // 可以处理 undefined 和循环引用对象
+  async () => {
+    const clone = await structuralClone(obj);
+  },
+)();
 ```
