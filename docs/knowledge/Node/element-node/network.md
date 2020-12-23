@@ -286,12 +286,6 @@ hosts 文件是个没有扩展名的系统文件, 其作用就是将网址域名
 
 当我们访问一个域名时, 实际上需要的是访问对应的 IP 地址. 这时候, 获取 IP 地址的方式, 先是读取浏览器缓存, 如果未命中 => 接着读取本地 hosts 文件, 如果还是未命中 => 则向 DNS 服务器发送请求获取. 在向 DNS 服务器获取 IP 地址之前的行为, 叫做 DNS 本地解析.
 
-## ZLIB
-
-在网络传输过程中, 如果网速稳定的情况下, 对数据进行压缩, 压缩比率越大, 那么传输的效率就越高等同于速度越快了. zlib 模块提供了 Gzip/Gunzip, Deflate/Inflate 和 DeflateRaw/InflateRaw 等压缩方法的类, 这些类接收相同的参数, 都属于可读写的 Stream 实例.
-
-TODO
-
 ## RPC
 
 RPC (Remote Procedure Call Protocol) 基于 TCP/IP 来实现调用远程服务器的方法, 与 http 同属应用层. 常用于构建集群, 以及微服务 (推荐一本[《Node.js 微服务》](https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B01MXY8ARP)<del>虽然我还没看完</del>)
@@ -301,10 +295,6 @@ RPC (Remote Procedure Call Protocol) 基于 TCP/IP 来实现调用远程服务�
 - [Thrift](http://thrift.apache.org/)
 - HTTP
 - MQ
-
-### Thrift
-
-> **Thrift**是一种[接口描述语言](https://zh.wikipedia.org/wiki/%E6%8E%A5%E5%8F%A3%E6%8F%8F%E8%BF%B0%E8%AF%AD%E8%A8%80 '接口描述语言')和二进制通讯协议，它被用来定义和创建跨语言的服务。它被当作一个[远程过程调用](https://zh.wikipedia.org/wiki/%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8 '远程过程调用')（RPC）框架来使用，是由[Facebook](https://zh.wikipedia.org/wiki/Facebook 'Facebook')为“大规模跨语言服务开发”而开发的。它通过一个代码生成引擎联合了一个软件栈，来创建不同程度的、无缝的[跨平台](https://zh.wikipedia.org/wiki/%E8%B7%A8%E5%B9%B3%E5%8F%B0 '跨平台')高效服务，可以使用[C#](https://zh.wikipedia.org/wiki/C%E2%99%AF 'C♯')、[C++](https://zh.wikipedia.org/wiki/C%2B%2B 'C++')（基于[POSIX](https://zh.wikipedia.org/wiki/POSIX 'POSIX')兼容系统）、Cappuccino、[Cocoa](https://zh.wikipedia.org/wiki/Cocoa 'Cocoa')、[Delphi](https://zh.wikipedia.org/wiki/Delphi 'Delphi')、[Erlang](https://zh.wikipedia.org/wiki/Erlang 'Erlang')、[Go](https://zh.wikipedia.org/wiki/Go 'Go')、[Haskell](https://zh.wikipedia.org/wiki/Haskell 'Haskell')、[Java](https://zh.wikipedia.org/wiki/Java 'Java')、[Node.js](https://zh.wikipedia.org/wiki/Node.js 'Node.js')、[OCaml](https://zh.wikipedia.org/wiki/OCaml 'OCaml')、[Perl](https://zh.wikipedia.org/wiki/Perl 'Perl')、[PHP](https://zh.wikipedia.org/wiki/PHP 'PHP')、[Python](https://zh.wikipedia.org/wiki/Python 'Python')、[Ruby](https://zh.wikipedia.org/wiki/Ruby 'Ruby')和[Smalltalk](https://zh.wikipedia.org/wiki/Smalltalk 'Smalltalk')。虽然它以前是由 Facebook 开发的，但它现在是[Apache 软件基金会](https://zh.wikipedia.org/wiki/Apache%E8%BD%AF%E4%BB%B6%E5%9F%BA%E9%87%91%E4%BC%9A 'Apache软件基金会')的[开源](https://zh.wikipedia.org/wiki/%E5%BC%80%E6%BA%90 '开源')项目了。该实现被描述在 2007 年 4 月的一篇由 Facebook 发表的技术论文中，该论文现由 Apache 掌管。
 
 ### HTTP
 
