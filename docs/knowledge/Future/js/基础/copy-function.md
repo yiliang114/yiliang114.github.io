@@ -1036,10 +1036,42 @@ console.log(circleObjCopy, circleObjCopy1); // 测试通过?
 
 直接使用这个来用作深拷贝会有哪些问题
 
-#### ps
+```js
+// 可以拷贝普通函数、Date、RegExp和传统对象
+// 没有拷贝原型、没有解决循环引用
+function deepClone(obj) {
+  if (typeof obj === 'function') {
+    const str = obj.toString();
+    /^function\s*\w*\s*\((.*)\)\s*\{([\s\S]*)/.exec(str); // 匹配函数体
+    const args = RegExp.$1.split(',').map(item => item.trim());
+    const str1 = RegExp.$2.slice(0, -1); // 去除末尾花括号
+    return new Function(...args, str1);
+  }
+  if (!obj || typeof obj !== 'object') return obj;
+  if (Object.prototype.toString.call(obj) === '[object Date]') return new Date(obj); /*  */
+  if (Object.prototype.toString.call(obj) === '[object RegExp]') return new RegExp(obj);
+  const cloneObj = Array.isArray(obj) ? [] : {};
+  for (const i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      // 保证只遍历实例属性
+      cloneObj[i] = deepClone(obj[i]);
+    }
+  }
+  return cloneObj;
+}
+const obj = {
+  name: 'xm',
+  birth: new Date(),
+  desc: null,
+  reg: /^123$/,
+  ss: [1, 2, 3],
+  fn: function test(num1, num2) {
+    console.log(num1, num2);
+  },
+};
 
----
-
-关于深浅拷贝的问题博主已经在他的 git 上有文章说过了，我就不做多的叙述
-这两个方法我认为主要区别在于对于深层次以及环状数据，用深度优先遍历递归去做容易爆栈，广度优先遍历我对环状数据进行了处理，已经存在过的对象会存在数组中，下次直接赋值即可，无需继续遍历
-如果出现问题欢迎讨论指出
+const obj2 = deepClone(obj);
+console.log(obj, obj2);
+obj.fn(1, 2);
+obj2.fn(1, 2);
+```
