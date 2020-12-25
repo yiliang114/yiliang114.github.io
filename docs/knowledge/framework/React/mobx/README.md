@@ -34,15 +34,16 @@ appInfo.list[0].roomInfo.rateList[0].score = 90;
 
 ## mobx 定时向服务端同步数据：
 
-```
+```js
 reaction(
-    () => this.toJS(),
-    todo => fetch('/todos/' + todo.id, {
-        method: 'PUT',
-        headers: new Headers({'Content-Type': 'application/json'}),
-        body: JSON.stringify(todo)
-    })
-)
+  () => this.toJS(),
+  todo =>
+    fetch('/todos/' + todo.id, {
+      method: 'PUT',
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(todo),
+    }),
+);
 ```
 
 ## react 性能优化
@@ -59,8 +60,8 @@ https://www.jianshu.com/p/697669781276
 
 https://www.cnblogs.com/alan2kat/p/7754846.html
 
-```
-const Home = Loadable({ loader: () => import('../routers/Home'), loading: DelayLoading, delay: 3000 })
+```js
+const Home = Loadable({ loader: () => import('../routers/Home'), loading: DelayLoading, delay: 3000 });
 ```
 
 ### React 高阶组件（Higher-Order Components）

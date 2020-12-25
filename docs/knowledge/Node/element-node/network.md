@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: Node Interview
+title: Node Note
 date: 2020-11-21
 aside: false
 draft: true
@@ -83,7 +83,7 @@ backlog 用于设置客户端与服务端 `ESTABLISHED` 之后等待 accept 的�
 | CLOSING      | 主动方收到了 FIN, 却没收到 FIN-WAIT-1 时发的 ACK, 此时等待那个 ACK                                                             |
 | TIME-WAIT    | 主动方收到 FIN, 返回收到对方 FIN 的 ACK, 等待对方是否真的收到了 ACK, 如果过一会又来一个 FIN, 表示对方没收到, 这时要再 ACK 一次 |
 
-> <a name="q-time-wait"></a> `TIME_WAIT` 是什么情况? 出现过多的 `TIME_WAIT` 可能是什么原因?
+> `TIME_WAIT` 是什么情况? 出现过多的 `TIME_WAIT` 可能是什么原因?
 
 `TIME_WAIT` 是连接的某一方 (可能是服务端也可能是客户端) 主动断开连接时, 四次挥手等待被断开的一方是否收到最后一次挥手 (ACK) 的状态. 如果在等待时间中, 再次收到第三次挥手 (FIN) 表示对方没收到最后一次挥手, 这时要再 ACK 一次. 这个等待的作用是避免出现连接混用的情况 (`prevent potential overlap with new connections` see [TCP Connection Termination](http://www.tcpipguide.com/free/t_TCPConnectionTermination.htm) for more).
 
@@ -91,7 +91,7 @@ backlog 用于设置客户端与服务端 `ESTABLISHED` 之后等待 accept 的�
 
 ## UDP
 
-> <a name="q-tcp-udp"></a> TCP/UDP 的区别? UDP 有粘包吗?
+> TCP/UDP 的区别? UDP 有粘包吗?
 
 | 协议 | 连接性                            | 双工性      | 可靠性                     | 有序性                  | 有界性                  | 拥塞控制 | 传输速度 | 量级 | 头部大小   |
 | ---- | --------------------------------- | ----------- | -------------------------- | ----------------------- | ----------------------- | -------- | -------- | ---- | ---------- |
@@ -153,7 +153,7 @@ console.log(http.STATUS_CODES);
 
 跑题了, 简而言之, 讨论这二者的区别最好从 RESTful 提倡的语义角度来讲<del>比较符合当代程序员的逼格</del>比较合理.
 
-> <a name="q-post-put"></a> POST 和 PUT 有什么区别?
+> POST 和 PUT 有什么区别?
 
 POST 是新建 (create) 资源, 非幂等, 同一个请求如果重复 POST 会新建多个资源. PUT 是 Update/Replace, 幂等, 同一个 PUT 请求重复操作会得到同样的结果.
 
@@ -164,11 +164,11 @@ HTTP headers 是在进行 HTTP 请求的交互过程中互相支会对方一些�
 - [Request fields](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Request_fields)
 - [Response fields](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Response_fields)
 
-> <a name="q-cookie-session"></a> cookie 与 session 的区别? 服务端如何清除 cookie?
+> cookie 与 session 的区别? 服务端如何清除 cookie?
 
 主要区别在于, session 存在服务端, cookie 存在客户端. session 比 cookie 更安全. 而且 cookie 不一定一直能用 (可能被浏览器关掉). 服务端可以通过设置 cookie 的值为空并设置一个及时的 expires 来清除存在客户端上的 cookie.
 
-> <a name="q-cors"></a> 什么是请求? 如何允许跨域?
+> 什么是请求? 如何允许跨域?
 
 出于安全考虑, 默认情况下使用 XMLHttpRequest 和 Fetch 发起 HTTP 请求必须遵守同源策略, 即只能向相同 host 请求 (host = hostname : port) 注[1]. 向不同 host 的请求被称作跨域请求 (cross-origin HTTP request). 可以通过设置 [CORS headers](https://developer.mozilla.org/en-US/docs/Glossary/CORS) 即 `Access-Control-Allow-` 系列来允许跨域. 例如:
 

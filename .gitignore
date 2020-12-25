@@ -1,9 +1,5 @@
 node_modules/
-test/
 docs/.vuepress/dist/
-secretKeyConf.js
 files.txt
 temp
-
-.vscode
 .env

@@ -20,13 +20,13 @@ dva 是阿里体验技术部开发的 React 应用框架，命名是根据守望
 
 dva 的最简结构：
 
-```
+```js
 import dva from 'dva';
 const App = () => <div>Hello dva</div>;
 
 // 创建应用
 const app = dva();
-app.model(model)
+app.model(model);
 // 注册视图
 app.router(() => <App />);
 // 启动应用
@@ -53,7 +53,7 @@ state 是用于数据存储保存全局状态。view 是 react 组件构成的 U
 
 action 是用于描述一个事件的一个对象
 
-```
+```js
 {
     type: 'submit-form-data',
     payload: formData
@@ -66,7 +66,7 @@ dispatch 则用来发送 Action 到 State
 
 connect 是一个函数，绑定 State 到 View，connect 方法返回的也是一个 React 组件，通常称为容器组件，是用于生成 State 到 Prop 的映射
 
-```
+```js
 // 第一种写法这里使用来修饰器@
 @connect((state) => {
   return {
@@ -85,34 +85,34 @@ dva 中的 model 是所有的应用逻辑都定义在里面
 
 model 的栗子 🌰：
 
-```
+```js
 export default {
     namespace: 'modelName',
     state: {
-      num: 0
+ num: 0
     }，
     subscriptions: {
-      setup({dispatch,history}){
-        return history.listen(({pathname, query})=>{
-          dosomething....
-        })
-      }
+ setup({dispatch,history}){
+   return history.listen(({pathname, query})=>{
+     dosomething....
+   })
+ }
     }
     effects: {
-        *addAfter1Second({payload}, { call, put, select }) {
-          yield call(delay, 1000);
-          yield put({ type: 'add' , payload: 10});
-          const num =  yield select(state => state.modelNmae.num);
-          console.log(num)
-      },
+   *addAfter1Second({payload}, { call, put, select }) {
+     yield call(delay, 1000);
+     yield put({ type: 'add' , payload: 10});
+     const num =  yield select(state => state.modelNmae.num);
+     console.log(num)
+ },
     },
     reducers: {
-      add(state, action) {
-        return{
-          ...state,
-          num: action.payload
-        }
-      },
+ add(state, action) {
+   return{
+     ...state,
+     num: action.payload
+   }
+ },
   },
 }
 ```
@@ -316,38 +316,38 @@ Object.defineProperty 只能劫持对象的属性，从而需要对每个对象�
 
 ```js
     <script>
-        const input = document.getElementById('input');
-        const text = document.getElementById('text');
-        const button = document.getElementById('button');
-        const data = {
-            value: ''
-        }
-        function defineProperty(obj, attr) {
-            let val
-            Object.defineProperty(obj, attr, {
-                set(newValue) {
-                    console.log('set')
-                    if (val === newValue) {
-                        return;
-                    }
-                    val = newValue;
-                    input.value = newValue;
-                    text.innerHTML = newValue;
-                },
-                get() {
-                    console.log('get');
-                    return val
-                }
-            })
-        }
-        defineProperty(data, 'value')
-        function inputChange(event) {
-            data.value = event.target.value
-        }
+   const input = document.getElementById('input');
+   const text = document.getElementById('text');
+   const button = document.getElementById('button');
+   const data = {
+       value: ''
+   }
+   function defineProperty(obj, attr) {
+       let val
+       Object.defineProperty(obj, attr, {
+           set(newValue) {
+               console.log('set')
+               if (val === newValue) {
+                   return;
+               }
+               val = newValue;
+               input.value = newValue;
+               text.innerHTML = newValue;
+           },
+           get() {
+               console.log('get');
+               return val
+           }
+       })
+   }
+   defineProperty(data, 'value')
+   function inputChange(event) {
+       data.value = event.target.value
+   }
 
-        function clickChange() {
-            data.value = 'hello'
-        }
+   function clickChange() {
+       data.value = 'hello'
+   }
     </script>
 ```
 

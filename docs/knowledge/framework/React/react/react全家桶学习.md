@@ -96,8 +96,8 @@ draft: true
     │          userInfo.js
     │
     └─router                        #路由文件
-            Bundle.js
-            router.js
+       Bundle.js
+       router.js
 
 ```
 
@@ -132,27 +132,32 @@ webpack 实际上是在配置文件中指定了入口和输出文件夹，把入
    const path = require('path');
 
    module.exports = {
-
-       /*入口*/
-       entry: path.join(__dirname, 'src/index.js'),
-
-       /*输出到dist文件夹，输出文件名字为bundle.js*/
-       output: {
-           path: path.join(__dirname, './dist'),
-           filename: 'bundle.js'
-       }
-   };
    ```
 
-3) 使用 webpack 编译文件
+```js
+{
+entry: path.join(\_\_dirname, 'src/index.js'),
 
-   ```
-   webpack --config webpack.dev.config.js
+// 输出到 dist 文件夹，输出文件名字为 bundle.js
+output: {
+path: path.join(\_\_dirname, './dist'),
+filename: 'bundle.js'
+}
+};
 
-   // 这里需要webpack 全局安装，好像提示安装webpack-cli？？？
-   ```
+```
 
-   ​
+3. 使用 webpack 编译文件
+
+```
+
+webpack --config webpack.dev.config.js
+
+// 这里需要 webpack 全局安装，好像提示安装 webpack-cli？？？
+
+```
+
+​
 
 ### babel
 
@@ -167,57 +172,56 @@ webpack 实际上是在配置文件中指定了入口和输出文件夹，把入
 - babel-preset-stage-0 用于解析 ES7
 
 ```
+
 npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-0
+
 ```
 
 新建`babel`配置文件`.babelrc`
 
-```
+```json
 {
-  "presets": [
-    "es2015",
-    "react",
-    "stage-0"
-  ],
-  "plugins": [
-
-  ]
+  "presets": ["es2015", "react", "stage-0"],
+  "plugins": []
 }
 ```
 
 修改`webpack.dev.config.js`，增加`babel-loader`！
 
-```
- /*src文件夹下面的以.js结尾的文件，要使用babel解析*/
- /*cacheDirectory是用来缓存编译结果，下次编译加速*/
- module: {
-     rules: [{
-         test: /\.js$/,
-         use: ['babel-loader?cacheDirectory=true'],
-         include: path.join(__dirname, 'src')
-     }]
- }
+```json
+
+/_src 文件夹下面的以.js 结尾的文件，要使用 babel 解析_/
+/_cacheDirectory 是用来缓存编译结果，下次编译加速_/
+module: {
+rules: [{
+test: /\.js\$/,
+use: ['babel-loader?cacheDirectory=true'],
+include: path.join(\_\_dirname, 'src')
+}]
+}
+
 ```
 
 现在我们简单测试下，是否能正确转义 ES6~
 
 修改 `src/index.js`
 
-```
- /*使用es6的箭头函数*/
- var func = str => {
-     document.getElementById('app').innerHTML = str;
- };
- func('我现在在使用Babel!');
+```js
+/_使用 es6 的箭头函数_/;
+var func = str => {
+  document.getElementById('app').innerHTML = str;
+};
+func('我现在在使用 Babel!');
 ```
 
 在`package.json`中新添加一条 script 脚本：
 
-```
-   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --config webpack.dev.config.js"
-  }
+```json
+
+"scripts": {
+"test": "echo \"Error: no test specified\" && exit 1",
+"start": "webpack --config webpack.dev.config.js"
+}
 
 ```
 
@@ -236,3 +240,7 @@ A: 每一级包含上一级的功能，比如 `state-0`包含`state-1`的功能�
 ### 注意点
 
 react-router 4.x 和 2.x 是 官方同时维护的两个版本。需要注意使用。
+
+```
+
+```

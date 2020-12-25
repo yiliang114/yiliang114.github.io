@@ -228,7 +228,7 @@ draft: true
 - 你会用什么方式来增强网站的页面滚动效能？
 - 请解释 layout、painting 和 compositing 的区别。
 
-Form [Front-end-Developer-Interview-Questions](https://github.com/h5bp/Front-end-Developer-Interview-Questions)
+Form [Front-end-Developer-Note-Questions](https://github.com/h5bp/Front-end-Developer-Note-Questions)
 
 - [Yahoo Best Practices for Speeding Up Your Web Site](https://developer.yahoo.com/performance/rules.html)
 - [Google 使用 RAIL 模型评估性能](https://developers.google.com/web/fundamentals/performance/rail)
@@ -256,7 +256,7 @@ Form [Front-end-Developer-Interview-Questions](https://github.com/h5bp/Front-end
 
 ### a.b.c.d 和 a['b']['c']['d']，哪个性能更高？
 
-[参考链接](https://github.com/airuikun/Weekly-FE-Interview/issues/19)
+[参考链接](https://github.com/airuikun/Weekly-FE-Note/issues/19)
 
 ### 2 万小球问题：在浏览器端，用 js 存储 2 万个小球的信息，包含小球的大小，位置，颜色等，如何做到对这 2 万条小球信息进行最优检索和存储
 

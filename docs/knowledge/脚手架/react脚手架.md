@@ -70,7 +70,7 @@ lbs 页面
 
     React, JSX, ES6, 和 Flow 语法支持。
     ES6 之外的语言附加功能，比如对象扩展运算符。
-    Autoprefixed CSS，因此你不在需要 -webkit- 或其他前缀。
+    AutoPrefixed CSS，因此你不在需要 -webkit- 或其他前缀。
     一个快速的交互式单元测试运行程序，内置了对覆盖率报告的支持。
     一个实时开发服务器，用于警告常见错误。
     一个构建脚本，用于打包用于生产中包含 hashes 和 sourcemaps 的 JS、CSS 和 Images 文件。

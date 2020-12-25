@@ -22,7 +22,7 @@ React 的两种数据—prop 和 state。 无论 prop 或者 state 的改变都�
 
 外部传给组件的数据。
 
-```
+```html
 <SampleButton id="sample" borderWidth={2} onClick={onButtonClick} style={{ color: 'red'}} />
 ```
 
@@ -43,11 +43,11 @@ React 组件要反馈数据给外部世界，也可以用 prop，传递一个函
 - 组件支持哪些 prop
 - 每个 prop 应该是什么样的格式
 
-```
+```js
 Counter.propTypes = {
-    caption: PropTypes.string.isRequired,
-    initValue: PropTypes.number
-}
+  caption: PropTypes.string.isRequired,
+  initValue: PropTypes.number,
+};
 ```
 
 propTypes 虽然能够在开发阶段发现代码的问题，但是放在产品环境中就不太合适了。产品环境下耗费资源，并且 console 中输出错误信息对用户来说没有什么意义。所以最好的方式是，开发者在代码中定义 propTypes， 在开发过程避免犯错，但是在发布产品时，用一种自动的方式将 propTypes 去掉，这样最终部署到产品的代码会更优 。**`babel-react-optimize`**具有这个功能，确保只在发布产品中使用它。
@@ -58,7 +58,7 @@ propTypes 虽然能够在开发阶段发现代码的问题，但是放在产品�
 
 **初始化 state：**
 
-```
+```js
 // 通过判断逻辑，来给定state属性的值
 constructor(prop) {
     ...
@@ -70,18 +70,18 @@ constructor(prop) {
 
 不够让这样的判断逻辑充斥组件的构造函数并不是一件美观的事情，而且容易遗漏。我们可以使用 React 的 defaultProps 功能，让代码更加容易读懂。
 
-```
+```js
 Counter.defaultProps = {
-    initValue: 0
-}
+  initValue: 0,
+};
 ```
 
 有了这样的设定，`this.state`初始化中可以省略判断条件，可以认为代码执行到这，必定有 initValue 值：
 
-```
+```js
 this.state = {
-    count: props.initValue
-}
+  count: props.initValue,
+};
 ```
 
 **读取和更新 state：**

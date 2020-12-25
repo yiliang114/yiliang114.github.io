@@ -45,372 +45,361 @@ draft: true
 
    接着对`config/webpack.config.dev.js` 和 `config/webpack.config.prod.js`进行修改，添加 less 编译器
 
-   ```
-             {
-               test: /\.(css|less)$/,
-               use: [
-                 require.resolve('style-loader'), {
-                   loader: require.resolve('css-loader'),
-                   options: {
-                     importLoaders: 1
-                   }
-                 }, {
-                   loader: require.resolve('postcss-loader'),
-                   options: {
-                     // Necessary for external CSS imports to work
-                     // https://github.com/facebookincubator/create-react-app/issues/2677
-                     ident: 'postcss',
-                     plugins: () => [
-                       require('postcss-flexbugs-fixes'),
-                       autoprefixer({
-                         browsers: [
-                           '>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9', // React doesn't support IE8 anyway
-                         ],
-                         flexbox: 'no-2009'
-                       })
-                     ]
-                   }
-                 },
-                 // mrj add
-                 {
-                   loader: require.resolve('less-loader')
-                 }
-               ]
-             },
+   ```js
+        {
+          test: /\.(css|less)$/,
+          use: [
+            require.resolve('style-loader'), {
+              loader: require.resolve('css-loader'),
+              options: {
+                importLoaders: 1
+              }
+            }, {
+              loader: require.resolve('postcss-loader'),
+              options: {
+                // Necessary for external CSS imports to work
+                // https://github.com/facebookincubator/create-react-app/issues/2677
+                ident: 'postcss',
+                plugins: () => [
+                  require('postcss-flexbugs-fixes'),
+                  autoprefixer({
+                    browsers: [
+                      '>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9', // React doesn't support IE8 anyway
+                    ],
+                    flexbox: 'no-2009'
+                  })
+                ]
+              }
+            },
+            // mrj add
+            {
+              loader: require.resolve('less-loader')
+            }
+          ]
+        },
    ```
 
    检验一下是否添加成功。
 
    在 src 目录下新建 component 存放组件，新建 Home 文件夹，index.js 和 index.less
 
-   ```
+   ```js
    // index.js
    import React from 'react'
    import './index.less'
 
    const Home = () => {
-       return(
-           <div className='Home'>
-               <div>react demo</div>
-               <div>react demo</div>
-               <div>react demo</div>
-           </div>
-
-       );
-   }
-
-   export default Home
-      //index.less
-   .Home {
-     background: beige;
-     display: flex;
-     flex-direction: column;
-     justify-content: flex-start;
-     align-items: flex-end;
-   }
+   return(
+      <div className='Home'>
+          <div>react demo</div>
+          <div>react demo</div>
+          <div>react demo</div>
+      </div>
    ```
 
-   修改`App.js`:
+修改`App.js`:
 
-   ```
-   import React, { Component } from 'react';
-   import logo from './logo.svg';
-   import './App.css'
-   import Home from './component/Home'
+```js
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import Home from './component/Home';
 
-   class App extends Component {
-     render() {
-       return (
-         <div className="App">
-           <Home />
-         </div>
-       );
-     }
-   }
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Home />
+      </div>
+    );
+  }
+}
 
-   export default App;
-   ```
+export default App;
+```
 
-   打开浏览器查看 less 是否生效。
+打开浏览器查看 less 是否生效。
 
-4. 引入 antd， 并添加按需加载配置。
+1. 引入 antd， 并添加按需加载配置。
 
-   ```
-   cnpm install --save antd
-   cnpm install babel-plugin-import --save-dev
-   ```
+```
+cnpm install --save antd
+cnpm install babel-plugin-import --save-dev
+```
 
-   修改配置文件（按需加载）：
+修改配置文件（按需加载）：
 
-   ```
-   //webpack.config.dev.js
+```js
+//webpack.config.dev.js
+{
+  test: /\.(js|jsx|mjs)$/,
+  include: paths.appSrc,
+  loader: require.resolve('babel-loader'),
+  options: {
 
-             {
-               test: /\.(js|jsx|mjs)$/,
-               include: paths.appSrc,
-               loader: require.resolve('babel-loader'),
-               options: {
+    // This is a feature of `babel-loader` for webpack (not Babel itself). It
+    // enables caching results in ./node_modules/.cache/babel-loader/ directory for
+    // faster rebuilds.
+    cacheDirectory: true,
+    // antd 按需加载
+    plugins: [
+      [
+        "import", {
+          "libraryName": "antd",
+          "style": true
+        }
+      ]
+    ]
+  }
+```
 
-                 // This is a feature of `babel-loader` for webpack (not Babel itself). It
-                 // enables caching results in ./node_modules/.cache/babel-loader/ directory for
-                 // faster rebuilds.
-                 cacheDirectory: true,
-                 // antd 按需加载
-                 plugins: [
-                   [
-                     "import", {
-                       "libraryName": "antd",
-                       "style": true
-                     }
-                   ]
-                 ]
-               }
-             },
+```js
+//webpack.config.prod.js
+{
+test: /\.(js|jsx|mjs)\$/,
+include: paths.appSrc,
+loader: require.resolve('babel-loader'),
+options: {
+compact: true,
+// antd 按需加载
+plugins: [
+[
+"import", {
+"libraryName": "antd",
+"style": true
+}
+]
+]
+}
+},
+```
 
-   //webpack.config.prod.js
-             {
-               test: /\.(js|jsx|mjs)$/,
-               include: paths.appSrc,
-               loader: require.resolve('babel-loader'),
-               options: {
-                 compact: true,
-                 // antd 按需加载
-                 plugins: [
-                   [
-                     "import", {
-                       "libraryName": "antd",
-                       "style": true
-                     }
-                   ]
-                 ]
-               }
-             },
-   ```
+检查一下是否配置成功。
 
-   检查一下是否配置成功。
+```js
+// index.js
+import React from 'react';
+import './index.less';
+import { Button } from 'antd';
 
-   ```
-   // index.js
-   import React from 'react'
-   import './index.less'
-   import {Button} from 'antd'
+const Home = () => {
+  return (
+    <div className="Home">
+      <Button type="primary">antd Button</Button>
+      <Button type="primary">antd Button</Button>
+      <Button type="primary">antd Button</Button>
+      <Button type="primary">antd Button</Button>
+    </div>
+  );
+};
 
-   const Home = () => {
-       return (
-           <div className='Home'>
-               <Button type="primary">antd Button</Button>
-               <Button type="primary">antd Button</Button>
-               <Button type="primary">antd Button</Button>
-               <Button type="primary">antd Button</Button>
-           </div>
+export default Home;
+```
 
-       );
-   }
+结果报错了：
 
-   export default Home
-   ```
+```
 
-   结果报错了：
+./node_modules/\_antd@3.4.0@antd/lib/button/style/index.less
+Module build failed:
 
-   ```
-   ./node_modules/_antd@3.4.0@antd/lib/button/style/index.less
-   Module build failed:
+// https://github.com/ant-design/ant-motion/issues/44
+.bezierEasingMixin();
+^
+Inline JavaScript is not enabled. Is it set in your options?
+in F:\kaiyuan\react\react-mobx-template\node_modules_antd@3.4.0@antd\lib\style\color\bezierEasing.less (line 110, column 0)
 
-   // https://github.com/ant-design/ant-motion/issues/44
-   .bezierEasingMixin();
-   ^
-   Inline JavaScript is not enabled. Is it set in your options?
-         in F:\kaiyuan\react\react-mobx-template\node_modules\_antd@3.4.0@antd\lib\style\color\bezierEasing.less (line 110, column 0)
-   ```
+```
 
-   查询资料之后发现如果 package.json 里 less 是不是 3.x 或者 3.x 以上的话，less-loader 还需要加个 options
+查询资料之后发现如果 package.json 里 less 是不是 3.x 或者 3.x 以上的话，less-loader 还需要加个 options
 
-   ```
-   { loader: 'less-loader', options: { javascriptEnabled: true } }
-   ```
+```
 
-   问题就解决啦，antd 引入成功~
+{ loader: 'less-loader', options: { javascriptEnabled: true } }
+
+```
+
+问题就解决啦，antd 引入成功~
 
 ### add mobx
 
 1. 安装 mobx,mobx-react
 
-   ```
-   cnpm i --save mobx mobx-react
-   ```
+```
+
+cnpm i --save mobx mobx-react
+
+```
 
 2. 安装装饰器所需的 babel 插件并配置
 
-   ```
-   cnpm i babel-plugin-transform-decorators-legacy -D
-   ```
+```
 
-   在`package.json`中 或者 建立`.babelrc`文件, 或者在 webpack 配置中都可以配置`babel`配置（`presets`和 `plugins`）:
+cnpm i babel-plugin-transform-decorators-legacy -D
 
-   ```
-     "babel": {
-       "plugins": [
-         "transform-decorators-legacy"
-       ],
-       "presets": [
-         "react-app"
-       ]
-     },
-   ```
+```
 
-   安装了这个之后才能使用装饰器。
+在`package.json`中 或者 建立`.babelrc`文件, 或者在 webpack 配置中都可以配置`babel`配置（`presets`和 `plugins`）:
+
+```json
+{
+  "babel": {
+    "plugins": ["transform-decorators-legacy"],
+    "presets": ["react-app"]
+  }
+}
+```
+
+安装了这个之后才能使用装饰器。
 
 3. 下面来检查一下是否有问题：
 
-   1. 建立 store 文件：
+1. 建立 store 文件：
 
-      ```
-      mkdir src/stores
-      touch src/stores/index.js
-      touch src/stores/homeStore.js
-      ```
+```
 
-   2. 添加`homeStore.js`如下内容：
+mkdir src/stores
+touch src/stores/index.js
+touch src/stores/homeStore.js
 
-      ```
-      import {observable, action, computed} from 'mobx'
+```
 
-      class HomeStore {
-        @observable name = 'testname'
-        @observable time = {
-          now: new Date()
-        }
-        @computed get getTimeToString() {
-          return this
-            .time
-            .now
-            .toString()
-        }
+2. 添加`homeStore.js`如下内容：
 
-        @action setName = (value) => {
-          this.name = value
-        }
+```js
+import { observable, action, computed } from 'mobx';
 
-        @action changeTime = () => {
-          this.time.now = new Date()
-        }
+class HomeStore {
+  @observable name = 'testname';
+  @observable time = {
+    now: new Date(),
+  };
+  @computed get getTimeToString() {
+    return this.time.now.toString();
+  }
 
-      }
+  @action setName = value => {
+    this.name = value;
+  };
 
-      const homeStore = new HomeStore()
+  @action changeTime = () => {
+    this.time.now = new Date();
+  };
+}
 
-      export default homeStore
-      ```
+const homeStore = new HomeStore();
 
-   3. 添加`index.js` 和 `index.less`如下内容：
+export default homeStore;
+```
 
-      ```
-      // index.js
-      import HomeStore from './homeStore'
+3. 添加`index.js` 和 `index.less`如下内容：
 
-      const stores = {
-        HomeStore
-      }
+```js
 
-      export default stores
+// index.js
+import HomeStore from './homeStore'
 
-      // index.less
-      .Home {
-          background: beige;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-content: center;
-          .buttons {
-            display: flex;
-            flex-direction: row;
-            margin-top: 20px;
-            .btn {
-              margin: 0 10px;
-            }
-          }
-        }
+const stores = {
+HomeStore
+}
 
-      ```
+export default stores
 
-      ​
+// index.less
+.Home {
+background: beige;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-content: center;
+.buttons {
+display: flex;
+flex-direction: row;
+margin-top: 20px;
+.btn {
+margin: 0 10px;
+}
+}
+}
 
-   4. 使用`provider`和`inject`渗透`store`, 修改`App.js`:
+```
 
-      ```
-      import React, {Component} from 'react';
-      import {Provider} from 'mobx';
-      import './App.css';
-      import Home from './component/Home'
-      import stores from './stores'
+​
 
-      class App extends Component {
-        render() {
-          return (
-            <Provider {...stores}>
-              <div className="App">
-                <Home/>
-              </div>
-            </Provider>
-          );
-        }
-      }
+4. 使用`provider`和`inject`渗透`store`, 修改`App.js`:
 
-      export default App;
-      ```
+```js
+import React, { Component } from 'react';
+import { Provider } from 'mobx';
+import './App.css';
+import Home from './component/Home';
+import stores from './stores';
 
-   5. 尽情使用`store`吧：
+class App extends Component {
+  render() {
+    return (
+      <Provider {...stores}>
+        <div className="App">
+          <Home />
+        </div>
+      </Provider>
+    );
+  }
+}
 
-      ```
-      // home文件加中的index.js
-      import React from 'react'
-      import './index.less'
-      import {Button} from 'antd'
-      import {observer, inject} from 'mobx-react'
+export default App;
+```
 
-      const Home = inject('homeStore')(observer(({homeStore}) => {
-        const {name, time, setName, changeTime} = homeStore
-        return (
-          <div className='Home'>
-            <div>{name}</div>
-            <div>
-              {time
-                .now
-                .toString()}
-            </div>
-            <div className="buttons">
-              <Button className="btn" type="primary" onClick={() => setName('hahahaa')}>setName</Button>
-              <Button className="btn" type="primary" onClick={() => changeTime()}>antd Button</Button>
-            </div>
+5. 尽情使用`store`吧：
 
-          </div>
+```js
+// home 文件加中的 index.js
+import React from 'react';
+import './index.less';
+import { Button } from 'antd';
+import { observer, inject } from 'mobx-react';
 
-        );
-      }))
+const Home = inject('homeStore')(
+  observer(({ homeStore }) => {
+    const { name, time, setName, changeTime } = homeStore;
+    return (
+      <div className="Home">
+        <div>{name}</div>
+        <div>{time.now.toString()}</div>
+        <div className="buttons">
+          <Button className="btn" type="primary" onClick={() => setName('hahahaa')}>
+            setName
+          </Button>
+          <Button className="btn" type="primary" onClick={() => changeTime()}>
+            antd Button
+          </Button>
+        </div>
+      </div>
+    );
+  }),
+);
 
-      export default Home
-      ```
+export default Home;
+```
 
-      ```
-      // 新建的一个count组件，不使用无状态组件创建，注意与home组件写法上的不同。
-      import React from 'react'
-      import {observer, inject} from 'mobx-react'
+```js
+// 新建的一个 count 组件，不使用无状态组件创建，注意与 home 组件写法上的不同。
+import React from 'react';
+import { observer, inject } from 'mobx-react';
 
-      @inject('countStore')
-      @observer
-      class Count extends React.Component {
-        render() {
-          return (
-            <div>{this.props.countStore.num}</div>
-          )
-        }
-      }
+@inject('countStore')
+@observer
+class Count extends React.Component {
+  render() {
+    return <div>{this.props.countStore.num}</div>;
+  }
+}
 
-      export default Count
-      ```
+export default Count;
+```
 
-   6. 注意到`homeSTore.js`文件内有很多红线警告，虽然这不影响项目，但是看着真的非常难受，[移除 vscode 装饰器报错](https://blog.csdn.net/greekmrzzj/article/details/79842657)
+6. 注意到`homeSTore.js`文件内有很多红线警告，虽然这不影响项目，但是看着真的非常难受，[移除 vscode 装饰器报错](https://blog.csdn.net/greekmrzzj/article/details/79842657)
 
-   7. 安装 MobX Developer Tools 插件有助于调试~
+7. 安装 MobX Developer Tools 插件有助于调试~
 
 ### add react-router

@@ -42,7 +42,7 @@ draft: true
 
 ### 请解释 HTTP status 301 与 302 的区别？
 
-https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/249
+https://github.com/Advanced-Frontend/Daily-Note-Question/issues/249
 
 301 Moved Permanently 请求的网页已永久移动到新位置。
 302 Found 临时性重定向

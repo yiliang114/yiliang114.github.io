@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: Node Interview
+title: Node Note
 date: 2020-11-21
 aside: false
 draft: true
@@ -14,7 +14,7 @@ draft: true
 
 ## 内存释放
 
-> <a name="q-mem"></a> JavaScript 中不同类型以及不同环境下变量的内存都是何时释放?
+> JavaScript 中不同类型以及不同环境下变量的内存都是何时释放?
 
 引用类型是在没有引用之后, 通过 v8 的 GC 自动回收, 值类型如果是处于闭包的情况下, 要等闭包没有引用才会被 GC 回收, 非闭包的情况下等待 v8 的新生代 (new space) 切换的时候回收.
 

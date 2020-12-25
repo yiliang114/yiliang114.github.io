@@ -665,7 +665,7 @@ let parse = unary(parseInt);
 console.log(['1.1', '2', '0.3'].map(parse));
 ```
 
-这是今天在 [Advanced-Frontend 组织](https://github.com/Advanced-Frontend/Daily-Interview-Question) 看到一个比较有意思的题目。
+这是今天在 [Advanced-Frontend 组织](https://github.com/Advanced-Frontend/Daily-Note-Question) 看到一个比较有意思的题目。
 主要是讲**JS 的映射与解析**
 早在 2013 年, 加里·伯恩哈德就在微博上发布了以下代码段:
 

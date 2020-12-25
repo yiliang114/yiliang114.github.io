@@ -307,5 +307,3 @@ function multicastChannel() {
   };
 }
 ```
-
-### dva

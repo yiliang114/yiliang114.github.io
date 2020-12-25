@@ -10,17 +10,17 @@ draft: true
 
 redux 的 todomvc 代码实例：
 
-```
+```js
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
     case 'SHOW_ALL':
-      return todos
+      return todos;
     case 'SHOW_COMPLETED':
-      return todos.filter(t => t.completed)
+      return todos.filter(t => t.completed);
     case 'SHOW_ACTIVE':
-      return todos.filter(t => !t.completed)
+      return todos.filter(t => !t.completed);
   }
-}
+};
 ```
 
 **这个代码有一个潜在的问题，每当 state tree 改变时，selector 都要重新运行。当 state tree 特别大，或者 selector 计算特别耗时时，那么将代码严重的运行效率问题。**

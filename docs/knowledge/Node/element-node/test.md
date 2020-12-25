@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: Node Interview
+title: Node Note
 date: 2020-11-21
 aside: false
 draft: true
@@ -10,7 +10,7 @@ draft: true
 
 ## 简述
 
-> <a name="q-why-write-test"></a> 为什么要写测试? 写测试是否会拖累开发进度?
+> 为什么要写测试? 写测试是否会拖累开发进度?
 
 项目在多人合作的时候, 为了某个功能修改了某个模块的某部分代码, 实际的情况中修改一个地方可能会影响到别人开发的多个功能, 在自己不知情的情况下想要保证自己修改的代码不影响到其他功能, 最简单的办法是通过测试来保证.
 
@@ -44,7 +44,7 @@ D
 - 过度测试, 不必要的测试
 - 为了迎合测试, 而忽略了实际需求
 
-> <a name="q-death-loop"></a> 测试是如何保证业务逻辑中不会出现死循环的?
+> 测试是如何保证业务逻辑中不会出现死循环的?
 
 你可以通过测试来避免坑爹的同事在某些逻辑中写出死循环, 在通常的测试中加上超时的时间, 在覆盖率足够的情况下, 就可以通过跑出超时的测试来排查出现死循环以及低性能的情况.
 
@@ -92,6 +92,58 @@ Mock 与 Stub 的区别参见: [Mocks Aren't Stubs](https://martinfowler.com/art
 - [Mocha](https://github.com/mochajs/mocha)
 - [ava](https://github.com/avajs/ava)
 - [Jest](https://github.com/facebook/jest)
+
+#### 什么是 Jest?
+
+*Jest*是一个由 Facebook 基于 Jasmine 创建的 JavaScript 单元测试框架，提供自动模拟创建和`jsdom`环境。它通常用于测试组件。
+
+#### Jest 对比 Jasmine 有什么优势?
+
+与 Jasmine 相比，有几个优点：
+
+- 自动查找在源代码中要执行测试。
+- 在运行测试时自动模拟依赖项。
+- 允许您同步测试异步代码。
+- 使用假的 DOM 实现（通过`jsdom`）运行测试，以便可以在命令行上运行测试。
+- 在并行流程中运行测试，以便更快完成。
+
+#### 举一个简单的 Jest 测试用例
+
+让我们为`sum.js`文件中添加两个数字的函数编写一个测试：
+
+```js
+const sum = (a, b) => a + b;
+
+export default sum;
+```
+
+创建一个名为`sum.test.js`的文件，其中包含实际测试：
+
+```js
+import sum from './sum';
+
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+```
+
+然后将以下部分添加到`package.json`：
+
+```json
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+
+最后，运行`yarn test`或`npm test`，Jest 将打印结果：
+
+```console
+$ yarn test
+PASS ./sum.test.js
+✓ adds 1 + 2 to equal 3 (2ms)
+```
 
 ## 集成测试
 

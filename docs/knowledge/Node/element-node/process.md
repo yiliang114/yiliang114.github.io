@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: Node Interview
+title: Node Note
 date: 2020-11-21
 aside: false
 draft: true
@@ -87,7 +87,7 @@ function test() {
 
 你可以通过[设置环境变量](http://cn.bing.com/search?q=linux+%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)来指定配置, 然后通过 `process.env` 来获取配置项. 另外也可以通过读取定义好的配置文件来获取, 在这方面有很多不错的库例如 `dotenv`, `node-config` 等, 而在使用这些库来加载配置文件的时候, 通常都会碰到一个当前工作目录的问题.
 
-> <a name="q-cwd"></a> 进程的当前工作目录是什么? 有什么作用?
+> 进程的当前工作目录是什么? 有什么作用?
 
 当前进程启动的目录, 通过 process.cwd() 获取当前工作目录 (current working directory), 通常是命令行启动的时候所在的目录 (也可以在启动时指定), 文件操作等使用相对路径的时候会相对当前工作目录来获取文件.
 
@@ -107,7 +107,7 @@ function test() {
 
 子进程 (Child Process) 是进程中一个重要的概念. 你可以通过 Node.js 的 `child_process` 模块来执行可执行文件, 调用命令行命令, 比如其他语言的程序等. 也可以通过该模块来将 .js 代码以子进程的方式启动. 比较有名的网易的分布式架构 [pomelo](https://github.com/NetEase/pomelo) 就是基于该模块 (而不是 `cluster`) 来实现多进程分布式架构的.
 
-> <a name="q-fork"></a> child_process.fork 与 POSIX 的 fork 有什么区别?
+> child_process.fork 与 POSIX 的 fork 有什么区别?
 
 Node.js 的 `child_process.fork()` 在 Unix 上的实现最终调用了 POSIX [fork(2)](http://man7.org/linux/man-pages/man2/fork.2.html), 而 POSIX 的 fork 需要手动管理子进程的资源释放 (waitpid), child_process.fork 则不用关心这个问题, Node.js 会自动释放, 并且可以在 option 中选择父进程死后是否允许子进程存活.
 
@@ -127,7 +127,7 @@ Node.js 的 `child_process.fork()` 在 Unix 上的实现最终调用了 POSIX [f
 
 常见会问的面试题, 如 `child.kill` 与 `child.send` 的区别. 二者一个是基于信号系统, 一个是基于 IPC.
 
-> <a name="q-child"></a> 父进程或子进程的死亡是否会影响对方? 什么是孤儿进程?
+> 父进程或子进程的死亡是否会影响对方? 什么是孤儿进程?
 
 子进程死亡不会影响父进程, 不过子进程死亡时（线程组的最后一个线程，通常是“领头”线程死亡时），会向它的父进程发送死亡信号. 反之父进程死亡, 一般情况下子进程也会随之死亡, 但如果此时子进程处于可运行态、僵死状态等等的话, 子进程将被`进程1`（init 进程）收养，从而成为孤儿进程. 另外, 子进程死亡的时候（处于“终止状态”），父进程没有及时调用 `wait()` 或 `waitpid()` 来返回死亡进程的相关信息，此时子进程还有一个 `PCB` 残留在进程表中，被称作僵尸进程.
 
@@ -203,7 +203,7 @@ Node.js 中的 IPC 通信是由 libuv 通过管道技术实现的, 在 windows �
 
 如果了解 Node.js 的 IPC 的话, 可以问个比较有意思的问题
 
-> <a name="q-ipc-fd"></a> 在 IPC 通道建立之前, 父进程与子进程是怎么通信的? 如果没有通信, 那 IPC 是怎么建立的?
+> 在 IPC 通道建立之前, 父进程与子进程是怎么通信的? 如果没有通信, 那 IPC 是怎么建立的?
 
 这个问题也挺简单, 只是个思路的问题. 在通过 child_process 建立子进程的时候, 是可以指定子进程的 env (环境变量) 的. 所以 Node.js 在启动子进程的时候, 主进程先建立 IPC 频道, 然后将 IPC 频道的 fd (文件描述符) 通过环境变量 (`NODE_CHANNEL_FD`) 的方式传递给子进程, 然后子进程通过 fd 连上 IPC 与父进程建立连接.
 

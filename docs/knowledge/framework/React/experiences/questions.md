@@ -93,23 +93,23 @@ state = {
 
 ```js
 this.state = {
-      val: 0
+ val: 0
     };
 
 componentDidMount() {
     this.setState({ val: this.state.val + 1 }, () => {
-      console.log("A ", this.state.val);
+ console.log("A ", this.state.val);
     });
     console.log("B ", this.state.val);
     setTimeout(() => {
-      console.log("C ", this.state.val);
-      this.setState({ val: this.state.val + 1 }, () => {
-        console.log("D ", this.state.val);
-      });
-      setTimeout(() => {
-        console.log("E ", this.state.val);
-      }, 0);
-      console.log("F ", this.state.val);
+ console.log("C ", this.state.val);
+ this.setState({ val: this.state.val + 1 }, () => {
+   console.log("D ", this.state.val);
+ });
+ setTimeout(() => {
+   console.log("E ", this.state.val);
+ }, 0);
+ console.log("F ", this.state.val);
     }, 0);
   }
 ```

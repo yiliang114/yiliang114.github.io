@@ -39,63 +39,64 @@ DIFF 算法为什么是 O(n)复杂度而不是 O(n^3)
 
 ### 什么是差异算法?
 
-     React 需要使用算法来了解如何有效地更新 UI 以匹配最新的树。差异算法将生成将一棵树转换为另一棵树的最小操作次数。然而，算法具有 O(n3) 的复杂度，其中 n 是树中元素的数量。在这种情况下，对于显示 1000 个元素将需要大约 10 亿个比较。这太昂贵了。相反，React 基于两个假设实现了一个复杂度为 O(n) 的算法：
+React 需要使用算法来了解如何有效地更新 UI 以匹配最新的树。差异算法将生成将一棵树转换为另一棵树的最小操作次数。然而，算法具有 O(n3) 的复杂度，其中 n 是树中元素的数量。在这种情况下，对于显示 1000 个元素将需要大约 10 亿个比较。这太昂贵了。相反，React 基于两个假设实现了一个复杂度为 O(n) 的算法：
 
-     两种不同类型的元素会产生不同的树结构。
-     开发者可以通过一个 key 属性，标识哪些子元素可以在不同渲染中保持稳定。
+两种不同类型的元素会产生不同的树结构。
+开发者可以通过一个 key 属性，标识哪些子元素可以在不同渲染中保持稳定。
 
 ### 差异算法涵盖了哪些规则?
 
-     在区分两棵树时，React 首先比较两个根元素。根据根元素的类型，行为会有所不同。它在重构算法中涵盖了以下规则：
+在区分两棵树时，React 首先比较两个根元素。根据根元素的类型，行为会有所不同。它在重构算法中涵盖了以下规则：
 
-     **不同类型的元素：**
-        每当根元素具有不同的类型时，React 将移除旧树并从头开始构建新树。例如，元素 <a> 到 <img>，或从 <Article> 到 <Comment> 的不同类型的元素引导完全重建。
+**不同类型的元素：**
+每当根元素具有不同的类型时，React 将移除旧树并从头开始构建新树。例如，元素 <a> 到 <img>，或从 <Article> 到 <Comment> 的不同类型的元素引导完全重建。
 
-     **相同类型的DOM元素：**
-        当比较两个相同类型的 React DOM 元素时，React 查看两者的属性，保持相同的底层 DOM 节点，并仅更新已更改的属性。让我们以相同的 DOM 元素为例，除了 className 属性，
+**相同类型的 DOM 元素：**
+当比较两个相同类型的 React DOM 元素时，React 查看两者的属性，保持相同的底层 DOM 节点，并仅更新已更改的属性。让我们以相同的 DOM 元素为例，除了 className 属性，
 
-        ```js
-        <div className="show" title="ReactJS" />
+```js
+<div className="show" title="ReactJS" />
 
-        <div className="hide" title="ReactJS" />
-        ```
+<div className="hide" title="ReactJS" />
+```
 
-     **相同类型的组件元素：**
+**相同类型的组件元素：**
 
-        当组件更新时，实例保持不变，以便在渲染之间保持状态。React 更新底层组件实例的 props 以匹配新元素，并在底层实例上调用 componentWillReceiveProps() 和 componentWillUpdate()。之后，调用 render() 方法，diff 算法对前一个结果和新结果进行递归。
+当组件更新时，实例保持不变，以便在渲染之间保持状态。React 更新底层组件实例的 props 以匹配新元素，并在底层实例上调用 componentWillReceiveProps() 和 componentWillUpdate()。之后，调用 render() 方法，diff 算法对前一个结果和新结果进行递归。
 
-     **递归子节点：**
-        当对 DOM 节点的子节点进行递归时，React 会同时迭代两个子节点列表，并在出现差异时生成变异。例如，在子节点末尾添加元素时，在这两个树之间进行转换效果很好。
+**递归子节点：**
+当对 DOM 节点的子节点进行递归时，React 会同时迭代两个子节点列表，并在出现差异时生成变异。例如，在子节点末尾添加元素时，在这两个树之间进行转换效果很好。
 
-        ```js
-        <ul>
-          <li>first</li>
-          <li>second</li>
-        </ul>
+```js
+<ul>
+<li>first</li>
+<li>second</li>
+</ul>
 
-        <ul>
-          <li>first</li>
-          <li>second</li>
-          <li>third</li>
-        </ul>
+<ul>
+<li>first</li>
+<li>second</li>
+<li>third</li>
+</ul>
 
-        ```
-     **处理 Key：**
+```
 
-     React支持 key 属性。当子节点有 key 时，React 使用 key 将原始树中的子节点与后续树中的子节点相匹配。例如，添加 key 可以使树有效地转换，
+**处理 Key：**
 
-     ```js
-     <ul>
-       <li key="2015">Duke</li>
-       <li key="2016">Villanova</li>
-     </ul>
+React 支持 key 属性。当子节点有 key 时，React 使用 key 将原始树中的子节点与后续树中的子节点相匹配。例如，添加 key 可以使树有效地转换，
 
-     <ul>
-       <li key="2014">Connecticut</li>
-       <li key="2015">Duke</li>
-       <li key="2016">Villanova</li>
-     </ul>
-     ```
+```js
+<ul>
+  <li key="2015">Duke</li>
+  <li key="2016">Villanova</li>
+</ul>
+
+<ul>
+  <li key="2014">Connecticut</li>
+  <li key="2015">Duke</li>
+  <li key="2016">Villanova</li>
+</ul>
+```
 
 # diff 实现方式
 
@@ -121,33 +122,33 @@ console.log(str);
 
 ```js
  var element = {
-      tagName: 'ul',
-      props: {
-        id: 'list'
-      },
-      children: {
-        {
-          tagName: 'li',
-          props: {
-            class: 'item'
-          },
-          children: ['Item1']
-        },
-        {
-          tagName: 'li',
-          props: {
-            class: 'item'
-          },
-          children: ['Item1']
-        },
-        {
-          tagName: 'li',
-          props: {
-            class: 'item'
-          },
-          children: ['Item1']
-        }
-      }
+ tagName: 'ul',
+ props: {
+   id: 'list'
+ },
+ children: {
+   {
+tagName: 'li',
+props: {
+  class: 'item'
+},
+children: ['Item1']
+   },
+   {
+tagName: 'li',
+props: {
+  class: 'item'
+},
+children: ['Item1']
+   },
+   {
+tagName: 'li',
+props: {
+  class: 'item'
+},
+children: ['Item1']
+   }
+ }
     }
 ```
 
@@ -254,45 +255,45 @@ Element.prototype.render = function() {
   <script>
 
     function Element(tagName, props, children) {
-      this.tagName = tagName;
-      this.props = props;
-      this.children = children;
+ this.tagName = tagName;
+ this.props = props;
+ this.children = children;
     }
 
 
     var ul = new Element('ul', {id: 'list'}, [
-        new Element('li', {class: 'item'}, ['item1']),
-        new Element('li', {class: 'item'}, ['item2']),
-        new Element('li', {class: 'item'}, ['item3'])
-      ]);
+   new Element('li', {class: 'item'}, ['item1']),
+   new Element('li', {class: 'item'}, ['item2']),
+   new Element('li', {class: 'item'}, ['item3'])
+ ]);
 
     Element.prototype.render = function () {
-      // 根据tagName创建一个真实的元素
-      var el = document.createElement(this.tagName);
-      // 得到这个元素的属性对象，方便我们遍历。
-      var props = this.props;
+ // 根据tagName创建一个真实的元素
+ var el = document.createElement(this.tagName);
+ // 得到这个元素的属性对象，方便我们遍历。
+ var props = this.props;
 
-      for (var propName in props) {
-        // 获取到这个元素值
-        var propValue = props[propName];
+ for (var propName in props) {
+   // 获取到这个元素值
+   var propValue = props[propName];
 
-        // 通过setAttribute设置元素属性。
-        el.setAttribute(propName, propValue);
-      }
+   // 通过setAttribute设置元素属性。
+   el.setAttribute(propName, propValue);
+ }
 
-      // 注意： 这里的children，我们传入的是一个数组，所以，children不存在时我们用【】来替代。
-      var children = this.children || [];
+ // 注意： 这里的children，我们传入的是一个数组，所以，children不存在时我们用【】来替代。
+ var children = this.children || [];
 
-      //遍历children
-      children.forEach(function (child) {
-        var childEl = (child instanceof Element)
-                      ? child.render()
-                      : document.createTextNode(child);
-        // 无论childEl是元素还是文字节点，都需要添加到这个元素中。
-        el.appendChild(childEl);
-      });
+ //遍历children
+ children.forEach(function (child) {
+   var childEl = (child instanceof Element)
+  ? child.render()
+  : document.createTextNode(child);
+   // 无论childEl是元素还是文字节点，都需要添加到这个元素中。
+   el.appendChild(childEl);
+ });
 
-      return el;
+ return el;
     }
 
     var ulRoot = ul.render();
@@ -319,41 +320,41 @@ Element.prototype.render = function() {
 ```js
 // diff函数，对比两颗树
     function diff(oldTree, newTree) {
-      // 当前的节点的标志。因为在深度优先遍历的过程中，每个节点都有一个index。
-      var index = 0;
+ // 当前的节点的标志。因为在深度优先遍历的过程中，每个节点都有一个index。
+ var index = 0;
 
-      // 在遍历到每个节点的时候，都需要进行对比，找到差异，并记录在下面的对象中。
-      var pathches = {};
+ // 在遍历到每个节点的时候，都需要进行对比，找到差异，并记录在下面的对象中。
+ var pathches = {};
 
-      // 开始进行深度优先遍历
-      dfsWalk(oldTree, newTree, index, pathches);
+ // 开始进行深度优先遍历
+ dfsWalk(oldTree, newTree, index, pathches);
 
-      // 最终diff算法返回的是一个两棵树的差异。
-      return pathches;
+ // 最终diff算法返回的是一个两棵树的差异。
+ return pathches;
     }
 
     // 对两棵树进行深度优先遍历。
     function dfsWalk(oldNode, newNode, index, pathches) {
-      // 对比oldNode和newNode的不同，记录下来
-      pathches[index] = [...];
+ // 对比oldNode和newNode的不同，记录下来
+ pathches[index] = [...];
 
-      diffChildren(oldNode.children, newNode.children, index, pathches);
+ diffChildren(oldNode.children, newNode.children, index, pathches);
     }
 
     // 遍历子节点
     function diffChildren(oldChildren, newChildren, index, pathches) {
-      var leftNode = null;
-      var currentNodeIndex = index;
-      oldChildren.forEach(function (child, i) {
-        var newChild = newChildren[i];
-        currentNodeIndex = (leftNode && leftNode.count)
-        ? currentNodeIndex + leftNode.count + 1
-        : currentNodeIndex + 1
+ var leftNode = null;
+ var currentNodeIndex = index;
+ oldChildren.forEach(function (child, i) {
+   var newChild = newChildren[i];
+   currentNodeIndex = (leftNode && leftNode.count)
+   ? currentNodeIndex + leftNode.count + 1
+   : currentNodeIndex + 1
 
-        // 深度遍历子节点
-        dfsWalk(child, newChild, currentNodeIndex, pathches);
-        leftNode = child;
-      });
+   // 深度遍历子节点
+   dfsWalk(child, newChild, currentNodeIndex, pathches);
+   leftNode = child;
+ });
     }
 ```
 

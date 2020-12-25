@@ -36,7 +36,7 @@ babel 是通过安装插件（plugin）或者预设（preset， 就是一组设�
 
 首先创建一个配置文件`.babelrc`。
 
-```
+```js
 // .babelrc
 {
   "preset":[],
@@ -52,7 +52,7 @@ npm i --save-dev babel-preset-es2015
 
 将这个 preset 添加到配置文件中：
 
-```
+```js
 {
   "preset":['es2015'],
   "plugins":[]
@@ -63,9 +63,9 @@ npm i --save-dev babel-preset-es2015
 
 ### ES6 模块
 
-```
+```js
 // 通过相对路径获得依赖模块
-import bar from './bar'
+import bar from './bar';
 // 模块产出
 export default function() {
   // ...

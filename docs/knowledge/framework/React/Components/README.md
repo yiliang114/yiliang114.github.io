@@ -160,43 +160,41 @@ ReactDOM.render(<HelloConponent name="yiliang" />, mountNode)
 
 `React.Component` 是以 ES6 的形式来创建 React 组件，是目前 React 目前极为推荐的创建有状态组件的方式，相对于`React.createClass`可以更好地实现代码复用。
 
-```
-class TestComponent extends React.Compoent {
-  constructer(props) {
+```js
+class TestComponent extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = {
-      text: props.text || 'text'
-    }
+      text: props.text || 'text',
+    };
 
     // ES6 类中函数必须手动绑定this
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
     this.setState({
-      text: event.target.value
-    })
+      text: event.target.value,
+    });
   }
 
   render() {
     return (
       <div>
         Input something:
-        <input onChange={this.handleChange}
-        value={this.state.text} />
+        <input onChange={this.handleChange} value={this.state.text} />
       </div>
-    )
+    );
   }
 }
 
 TestComponent.propTypes = {
-  text: React.propTypes.string
-}
+  text: React.propTypes.string,
+};
 TestComponent.defaultProps = {
-  text: 'default text'
-}
-
+  text: 'default text',
+};
 ```
 
 `React.createClass` 创建的组件，每一个成员函数的 this 都由 React 自动绑定，无论何时使用，直接使用`this.methodName`即可。
@@ -205,9 +203,9 @@ TestComponent.defaultProps = {
 
 为了绑定 this，有三种方法：
 
-```
+```js
 // 在构造函数中
-constructer(props) {
+constructor(props) {
   super(props)
   this.methodName = this.methodName.bind(this)
 }

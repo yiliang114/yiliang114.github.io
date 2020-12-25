@@ -27,7 +27,7 @@ Redux 分为三大部分，store， action ， reducer。
 
 action 可以理解为一种指令，action 是一个对象，需要至少有一个元素 type， type 是 action 的唯一标识。
 
-```
+```js
 {
   type: ACTION_TYPE,
   text: "content",
@@ -62,20 +62,20 @@ action creator 动作创建器
 
 redux 中的 action 是具有如下格式的 js 对象，带有一个 type 值
 
-```
+```json
 {
-  type: 'ADD_TODO',
-  payload: {
-    text: 'Do something.'
+  "type": "ADD_TODO",
+  "payload": {
+    "text": "Do something."
   }
 }
 ```
 
 action creator 是 生成 action 的辅助函数，用来创建 action 。它本身是一个函数，在返回 action 对象之前， 可以对 action 中的值进行相关操作。
 
-```
+```js
 export function addTodo(text) {
-  return { type: ADD_TODO, text }
+  return { type: ADD_TODO, text };
 }
 ```
 
@@ -83,21 +83,19 @@ https://blog.csdn.net/real_bird/article/details/77113264
 
 只要记得 action creator 最终是服务于 dispatch 的，因为 dispatch 需要的是一个 action （触发一个动作）
 
-```
-const getDataAction = (someData) => (dispatch, getState) => {
-  dispatch({ type: GET_DATA, data: someData});
+```js
+const getDataAction = someData => (dispatch, getState) => {
+  dispatch({ type: GET_DATA, data: someData });
 
   fetch() // 我使用的是fetch，并对fetch做了封装
-  .then(res => res.json()) // 以json数据为例
-  .then(jsonData => {
-    dispatch({ type: GET_DATA_SUCCESS })
-  })
-  .catch(err => {
-    dispatch({ type: GET_DATA_FAILED })
-  })
-}
-
-
+    .then(res => res.json()) // 以json数据为例
+    .then(jsonData => {
+      dispatch({ type: GET_DATA_SUCCESS });
+    })
+    .catch(err => {
+      dispatch({ type: GET_DATA_FAILED });
+    });
+};
 ```
 
 ### 迷糊之处 1

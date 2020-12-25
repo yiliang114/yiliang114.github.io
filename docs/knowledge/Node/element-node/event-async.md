@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: Node Interview
+title: Node Note
 date: 2020-11-21
 aside: false
 draft: true
@@ -18,7 +18,7 @@ draft: true
 
 关于它的基础知识/概念推荐看阮一峰的 [Promise 对象](http://javascript.ruanyifeng.com/advanced/promise.html#toc9) 这里就不多不赘述.
 
-> <a name="q-1"></a> Promise 中 .then 的第二参数与 .catch 有什么区别?
+> Promise 中 .then 的第二参数与 .catch 有什么区别?
 
 参见 [We have a problem with promises](https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html)
 
@@ -85,7 +85,7 @@ console.log(5);
 
 通过继承 EventEmitter 来使得一个类具有 node 提供的基本的 event 方法, 这样的对象可以称作 emitter, 而触发(emit)事件的 cb 则称作 listener. 与前端 DOM 树上的事件并不相同, emitter 的触发不存在冒泡, 逐层捕获等事件行为, 也没有处理事件传递的方法.
 
-> <a name="q-2"></a> Eventemitter 的 emit 是同步还是异步?
+> Eventemitter 的 emit 是同步还是异步?
 
 Node.js 中 Eventemitter 的 emit 是同步的. 在官方文档中有说明:
 
@@ -145,7 +145,7 @@ emitter.emit('myEvent');
 
 ## 阻塞/异步
 
-> <a name="q-3"></a> 如何判断接口是否异步? 是否只要有回调函数就是异步?
+> 如何判断接口是否异步? 是否只要有回调函数就是异步?
 
 开放性问题, 每个写 node 的人都有一套自己的判断方式.
 
@@ -159,7 +159,7 @@ emitter.emit('myEvent');
 
 Node.js 中执行 js 代码的过程是单线程的. 只有当前代码都执行完, 才会切入事件循环, 然后从事件队列中 pop 出下一个回调函数开始执行代码. 所以 ① 实现一个 sleep 函数, 只要通过一个死循环就可以阻塞整个 js 的执行流程. (关于如何避免坑爹的同事写出死循环, 在后面的测试环节有写到.)
 
-> <a name="q-5"></a> 如何实现一个 sleep 函数? ①
+> 如何实现一个 sleep 函数? ①
 
 ```js
 function sleep(ms) {
@@ -174,7 +174,7 @@ function sleep(ms) {
 
 如果在线上的网站中出现了死循环的逻辑被触发, 整个进程就会一直卡在死循环中, 如果没有多进程部署的话, 之后的网站请求全部会超时, js 代码没有结束那么事件队列就会停下等待不会执行异步, 整个网站无法响应.
 
-> <a name="q-6"></a> 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)
+> 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)
 
 需要了解 reduce 的情况, 是第 n 个与 n+1 的结果异步处理完之后, 在用新的结果与第 n+2 个元素继续依次异步下去. 不贴答案, 期待诸君的版本.
 
@@ -184,7 +184,7 @@ function sleep(ms) {
 
 硬异步是指由于 IO 操作或者外部调用走 libuv 而需要异步的情况. 当然, 也存在 readFileSync, execSync 等例外情况, 不过 node 由于是单线程的, 所以如果常规业务在普通时段执行可能比较耗时同步的 IO 操作会使得其执行过程中其他的所有操作都不能响应, 有点作死的感觉. 不过在启动/初始化以及一些工具脚本的应用场景下是完全没问题的. 而一般的场景下 IO 操作都是需要异步的.
 
-软异步是指, 通过 setTimeout 等方式来实现的异步. <a name="q-4"></a> 关于 nextTick, setTimeout 以及 setImmediate 三者的区别参见[该帖](https://cnodejs.org/topic/5556efce7cabb7b45ee6bcac)
+软异步是指, 通过 setTimeout 等方式来实现的异步. 关于 nextTick, setTimeout 以及 setImmediate 三者的区别参见[该帖](https://cnodejs.org/topic/5556efce7cabb7b45ee6bcac)
 
 **Event loop 示例**
 

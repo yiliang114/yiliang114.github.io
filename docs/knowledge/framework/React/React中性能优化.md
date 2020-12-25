@@ -31,26 +31,18 @@ VDOM 的意义在于实现了对 DOM 的抽象，从而配合 Diff 算法来比�
 
 另外如果只是单纯的浅比较一下，可以直接使用 `PureComponent`，底层就是实现了浅比较 `state`。
 
-```
+```js
 class Test extends React.PureComponent {
   render() {
-    return (
-      <div>
-        PureComponent
-      </div>
-    )
+    return <div>PureComponent</div>;
   }
 }
 ```
 
 这时候你可能会考虑到函数组件就不能使用这种方式了，如果你使用 16.6.0 之后的版本的话，可以使用 `React.memo` 来实现相同的功能。
 
-```
-const Test = React.memo(() => (
-    <div>
-        PureComponent
-    </div>
-))
+```js
+const Test = React.memo(() => <div>PureComponent</div>);
 ```
 
 通过这种方式我们就可以既实现了 `shouldComponentUpdate` 的浅比较，又能够使用函数组件。
@@ -67,65 +59,71 @@ https://zhuanlan.zhihu.com/p/43145754
 
 ### 对于渲染属性来说是否必须将 prop 属性命名为 render?
 
-     即使模式名为 `render props`，你也不必使用名为 render 的属性名来使用此模式。也就是说，组件用于知道即将渲染内容的任何函数属性，在技术上都是一个 `render props`。让我们举一个名为 children 渲染属性的示例：
+即使模式名为 `render props`，你也不必使用名为 render 的属性名来使用此模式。也就是说，组件用于知道即将渲染内容的任何函数属性，在技术上都是一个 `render props`。让我们举一个名为 children 渲染属性的示例：
 
-     ```js
-     <Mouse children={mouse => (
-       <p>The mouse position is {mouse.x}, {mouse.y}</p>
-     )}/>
-     ```
+```js
+<Mouse
+  children={mouse => (
+    <p>
+      The mouse position is {mouse.x}, {mouse.y}
+    </p>
+  )}
+/>
+```
 
-     实际上，以上的 children 属性不一定需要在 JSX 元素的 `attributes` 列表中命名。反之，你可以将它直接放在元素内部：
+实际上，以上的 children 属性不一定需要在 JSX 元素的 `attributes` 列表中命名。反之，你可以将它直接放在元素内部：
 
-     ```js
-     <Mouse>
-       {mouse => (
-         <p>The mouse position is {mouse.x}, {mouse.y}</p>
-       )}
-     </Mouse>
-     ```
+```js
+<Mouse>
+  {mouse => (
+    <p>
+      The mouse position is {mouse.x}, {mouse.y}
+    </p>
+  )}
+</Mouse>
+```
 
-     当使用上述的技术，需要在 propTypes 中明确声明 children 必须为函数类型：
+当使用上述的技术，需要在 propTypes 中明确声明 children 必须为函数类型：
 
-     ```js
-     Mouse.propTypes = {
-       children: PropTypes.func.isRequired
-     };
-     ```
+```js
+Mouse.propTypes = {
+  children: PropTypes.func.isRequired,
+};
+```
 
 ### 在使用 context 时，如何解决性能方面的问题?
 
-     Context 使用引用标识来确定何时重新渲染，当 Provider 的父元素重新渲染时，会有一些问题即可能会在 Consumers 中触发无任何意图的渲染。 例如，下面的代码将在每次 Provider 重新渲染时，重新渲染所有的 Consumers，这是因为渲染 Provider 时，始终会为 value 属性创建一个新的对象：
+Context 使用引用标识来确定何时重新渲染，当 Provider 的父元素重新渲染时，会有一些问题即可能会在 Consumers 中触发无任何意图的渲染。 例如，下面的代码将在每次 Provider 重新渲染时，重新渲染所有的 Consumers，这是因为渲染 Provider 时，始终会为 value 属性创建一个新的对象：
 
-     ```js
-     class App extends React.Component {
-       render() {
-         return (
-           <Provider value={{something: 'something'}}>
-             <Toolbar />
-           </Provider>
-         );
-       }
-     }
-     ```
+```js
+class App extends React.Component {
+  render() {
+    return (
+      <Provider value={{ something: 'something' }}>
+        <Toolbar />
+      </Provider>
+    );
+  }
+}
+```
 
-     可以通过把 value 的值提升到父状态中来解决这个问题：
+可以通过把 value 的值提升到父状态中来解决这个问题：
 
-     ```js
-     class App extends React.Component {
-       constructor(props) {
-         super(props);
-         this.state = {
-           value: {something: 'something'},
-         };
-       }
+```js
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: { something: 'something' },
+    };
+  }
 
-       render() {
-         return (
-           <Provider value={this.state.value}>
-             <Toolbar />
-           </Provider>
-         );
-       }
-     }
-     ```
+  render() {
+    return (
+      <Provider value={this.state.value}>
+        <Toolbar />
+      </Provider>
+    );
+  }
+}
+```

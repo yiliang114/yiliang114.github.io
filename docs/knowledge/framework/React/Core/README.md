@@ -51,7 +51,7 @@ props 对于模块属于外来属性。
 
 子组件向父组件传递数据只能通过事件的形式，父组件传一个函数到子组件的 props，通过这个函数获取到子组件传出的值。
 
-```
+```js
  // 父组件
 handleFunc(event) {
   this.setState({age: event.target.value})
@@ -64,7 +64,7 @@ handleFunc(event) {
 
 **bind 传参**：
 
-```
+```js
 this.changeInfo.bind(this,a,b,c)
 
 changeInfo(a,b,c) { ... }
@@ -78,28 +78,28 @@ this 后面的参数都作为函数的参数被调用。这里需要知道`bind`
 
 父子组件传参的时候属性验证:
 
-```
+```js
 // 对象定义完了之后,强制约束props的类型和 是否必须
 BodyIndex.propTypes = {
   userid: React.PropTypes.number.isRequired,
-  url:React.PropTypes.string.isRequired,
-  text: React.PropTypes.string
-}
+  url: React.PropTypes.string.isRequired,
+  text: React.PropTypes.string,
+};
 
 // 父组件未传props，子组件默认值
 const defaultProps = {
-  username: '默认值'
-}
-BodyIndex.defaultProps = defaultProps
+  username: '默认值',
+};
+BodyIndex.defaultProps = defaultProps;
 ```
 
 父组件传给子组件的 props 如果继续需要传递给孙子组件：
 
-```
+```html
 // 将父组件的属性全部传递给孙子组件
 <bodyChild {...this.props} />
 // 子组件额外再传递props给孙子组件
-<bodyChild {...this.props} id={123} />
+<bodyChild {...this.props} id="{123}" />
 ```
 
 ### 组件的 refs
@@ -108,19 +108,19 @@ React 虽然能够直接通过组件中的 state 的更改而改变组件的 UI 
 
 1. 为 dom 节点声明 id 值，通过 getElementById 以及 ReactDOM.findDOMNode 方法获取到真实的 DOM 节点。
 
-   ```
-   var mySubmitButton = document.getElementById('mySubmitButton')
-   ReactDOM.findDOMNode(mySubmitButton).style.color = 'red'
-   ```
+```js
+var mySubmitButton = document.getElementById('mySubmitButton');
+ReactDOM.findDOMNode(mySubmitButton).style.color = 'red';
+```
 
 2. 为 dom 节点声明 ref 值, 通过 refs 获取到 DOM 节点：
 
-   ```
-   <input ref="mySubmitButton" />
-   // mySubmitButton 为 ref值
-   console.log(this.refs.mySubmitButton)
-   this.refs.mySubmitButton.style.color = 'red'
-   ```
+```js
+<input ref="mySubmitButton" />;
+// mySubmitButton 为 ref值
+console.log(this.refs.mySubmitButton);
+this.refs.mySubmitButton.style.color = 'red';
+```
 
 Refs 是访问到组件内部 DOM 节点唯一可靠的方法。Refs 会自动销毁对子组件的引用。
 
@@ -134,45 +134,45 @@ Refs 是访问到组件内部 DOM 节点唯一可靠的方法。Refs 会自动�
 
 比如有一个 log 方法，每一个组件都希望调用，避免每一个组件都写一遍。
 
-```
+```js
 const MixinLog = {
   log() {
-    console.log('log')
-  }
-}
+    console.log('log');
+  },
+};
 
-export default MixinLog
+export default MixinLog;
 ```
 
 在 ES6 中使用 Mixins 需要`react-mixin`组件的支持。
 
-```
-cnpm -i --save react-mixin
+`cnpm -i --save react-mixin`
 
+```js
 // 引用
-import ReactMixin from 'react-mixin'
-import MixinLog from './mixins'
+import ReactMixin from 'react-mixin';
+import MixinLog from './mixins';
 
 // 注册，类似于PropTypes的使用
-ReactMixin(BodyIndex.prototype, MixinLog)
+ReactMixin(BodyIndex.prototype, MixinLog);
 
 // 使用mixins.js中的log方法
-MixinLog.log()
+MixinLog.log();
 ```
 
 Mixins 的一个好处是，**mixins 对象可以和页面类似有自身的生命周期**：
 
-```
+```js
 const MixinLog = {
   componentDidMount() {
-	console.log('componentDidMount')
+    console.log('componentDidMount');
   },
   log() {
-  	console.log('log')
-  }
-}
+    console.log('log');
+  },
+};
 
-export default MixinLog
+export default MixinLog;
 ```
 
 比如可以把一些获取项目公用的默认属性，可以写到 Mixins 中。
@@ -183,14 +183,14 @@ export default MixinLog
 
 用 js 来写 css 样式，使用驼峰命名，值都需要引号。
 
-```
+```js
 render() {
   const styleComponentHeader = {
-    header: {
-      backgroundColor: "#333",
-      color: "#FFF",
-      paddingBottom: "15px"
-    }
+ header: {
+backgroundColor: "#333",
+color: "#FFF",
+paddingBottom: "15px"
+ }
   }
   return (
   	<header style={styleComponentHeader.header}>
@@ -210,13 +210,13 @@ webpack 热加载不会监听 html 文件。
 
 通过 state 属性的改变来改变 **css 即时样式**
 
-```
+```js
   const styleComponentHeader = {
-    header: {
-      backgroundColor: "#333",
-      color: "#FFF",
-      paddingBottom: {this.state.minHeader} ? "8px" ： "15px"
-    }
+ header: {
+backgroundColor: "#333",
+color: "#FFF",
+paddingBottom: {this.state.minHeader} ? "8px" ： "15px"
+ }
   }
 ```
 
@@ -232,19 +232,19 @@ webpack 热加载不会监听 html 文件。
 
 安装 style-loader 和 css-loader 之后需要在 webpack 配置文件中声明编译 css 的规则：
 
-```
+```js
 module: {
   loaders: [
-    {
-      ...
-      // 处理js jsx
-    },
-    // 下面是添加css的loader，就是css模块化的配置方法。
-    {
-      test: /\.css$/,
-      // 生成css链的规则
-      loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]'
-    }
+ {
+...
+// 处理js jsx
+ },
+ // 下面是添加css的loader，就是css模块化的配置方法。
+ {
+test: /\.css$/,
+// 生成css链的规则
+loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]'
+ }
   ]
 }
 ```
@@ -292,37 +292,33 @@ webpack 的配置需要更改一下，不需要 base64 形式的 css 名：
 3. react 和 react-dom 的区别？
 4. this.props.children 是什么作用？
 
-   this.props.children 就是组件内嵌套的元素。
+this.props.children 就是组件内嵌套的元素。
 
-   ```
-   class Father extends React.Component {
-     render () {
-       return (
-         <div>
-           {/* ... */}
-           <Child author="HUnter">
-             <h1>hello world</h1>
-           </Child>
-         </div>
-       )
-     }
-   }
-   class Child extends React.Component {
-     render () {
-       return (
-         <div>
-           <p>{this.props.author}</p>
-           {this.props.children}
-           {/* 相当于<h1>hello world</h1> */}
-         </div>
-       )
-     }
-   }
-   ```
-
-   ​
-
-   ​
+```js
+class Father extends React.Component {
+  render() {
+    return (
+      <div>
+        {/* ... */}
+        <Child author="HUnter">
+          <h1>hello world</h1>
+        </Child>
+      </div>
+    );
+  }
+}
+class Child extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>{this.props.author}</p>
+        {this.props.children}
+        {/* 相当于<h1>hello world</h1> */}
+      </div>
+    );
+  }
+}
+```
 
 5. react 组件的三种创建方式
 6. state 声明的位置问题，有什么区别
@@ -335,14 +331,18 @@ webpack 的配置需要更改一下，不需要 base64 形式的 css 名：
 
 ### 我现在有一个 button，要用 react 在上面绑定点击事件，要怎么做？
 
-```
+```js
 class Demo {
   render() {
-    return <button onClick={(e) => {
-      alert('我点击了按钮')
-    }}>
-      按钮
-    </button>
+    return (
+      <button
+        onClick={e => {
+          alert('我点击了按钮');
+        }}
+      >
+        按钮
+      </button>
+    );
   }
 }
 ```
@@ -353,17 +353,14 @@ class Demo {
 
 修改
 
-```
+```js
 class Demo {
-
-  onClick = (e) => {
-    alert('我点击了按钮')
-  }
+  onClick = e => {
+    alert('我点击了按钮');
+  };
 
   render() {
-    return <button onClick={this.onClick}>
-      按钮
-    </button>
+    return <button onClick={this.onClick}>按钮</button>;
   }
 }
 ```

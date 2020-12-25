@@ -62,19 +62,19 @@ npm i --save antd babel-plugin-import
 
 编辑`.roadhogrc.mock.js`, 是 babel-plugin-import （按需加载）插件生效
 
-```
+```js
 export default {
-    "extraBabelPlugins" : [
-        "transform-runtime",
-        [
-            "import", {
-                "libraryName": "antd",
-                "style": "css"
-            }
-        ]
-    ]
+  extraBabelPlugins: [
+    'transform-runtime',
+    [
+      'import',
+      {
+        libraryName: 'antd',
+        style: 'css',
+      },
+    ],
+  ],
 };
-
 ```
 
 定义路由

@@ -14,9 +14,9 @@ mobx 是一个状态管理工具，可以把应用变为响应式。
 
 ES7 装饰器： @observable
 
-```
+```js
 class Todo {
-  @observable name = 'yiliang'
+  @observable name = 'yiliang';
 }
 ```
 
@@ -30,11 +30,11 @@ class Todo {
 
 当依赖数据变化时会自动计算更新。通过@computed 装饰器调用的 setter / getter 函数进行使用。
 
-```
+```js
 class Todo {
-  @observable name = 'yiliang'
+  @observable name = 'yiliang';
   @computed get getNameLength() {
-    return this.name.length
+    return this.name.length;
   }
 }
 ```
@@ -49,7 +49,7 @@ Mobx 里启用严格模式 “ useStrict ”时，只有在 actions 中，才可
 
 注意当使用装饰器模式时，@action 中的 this 没有绑定在当前这个实例上，要用`@action.bound` 来绑定使得 this 绑定在实例对象上。
 
-```
+```js
 @action.bound setName() {
 	this.name = 'yiliang'
 }
@@ -59,17 +59,17 @@ Mobx 里启用严格模式 “ useStrict ”时，只有在 actions 中，才可
 
 mobx 最关键的函数在于`autorun`。
 
-```
+```js
 const obj = observable({
-  a:1,
-  b:2
-})
+  a: 1,
+  b: 2,
+});
 autorun(() => {
-  console.log(obj.a)
-})
+  console.log(obj.a);
+});
 
-obj.b = 3 // 没有打印
-obj.a = 2 // 控制台输出2
+obj.b = 3; // 没有打印
+obj.a = 2; // 控制台输出2
 ```
 
 `auturun` 这个函数非常智能，用到了什么属性，就会和这个属性挂上钩，只要这个属性改变就会触发回调。没有用到的属性，无论怎么修改都不会触发回调。
@@ -90,7 +90,7 @@ https://zhuanlan.zhihu.com/p/25585910?refer=purerender
 
 上面简单介绍了 mobx 的使用，我们知道 react 组件中 state 变化之后，要通过 setState 来触发视图的更新。mobx 能够为 react 组件定义 state，以及如何修改 state。而`mobx-react` 提供了将 react 组件转变为响应式组件，确保 state 改变时可以强制刷新组件。
 
-```
+```js
 @observer
 class TodoComponent extends React.Component {
   // ...
@@ -101,41 +101,39 @@ class TodoComponent extends React.Component {
 
 1. 定义 observable state
 
-   ```
+   ```js
    class Store {
-     @observable data = []
-     @observable name = ''
+     @observable data = [];
+     @observable name = '';
      @computed get getData() {
-       return data
+       return data;
      }
      @action.bound setName(value) {
-       this.name = value
+       this.name = value;
      }
    }
    ```
 
 2. 创建视图。 通过 React 创建视图时，推荐无状态组件，即组件内部没有 state 和生命周期函数，只通过 props 获得数据。
 
-   ```
+   ```js
    @observer
-   class MyComponent extends React.Component {
-
-   }
+   class MyComponent extends React.Component {}
    ```
 
 3. 通过调用 mobx 中的 actions 改变状态
 
-   ```
+   ```js
    @observer
    class MyComponent extends React.Component {
-     render() {
-       let store = {this.props}
-       return (
-       	<div>
-       		<input onChange={store.setName} />
-       	</div>
-       )
-     }
+   render() {
+   let store = {this.props}
+   return (
+   <div>
+   	<input onChange={store.setName} />
+   </div>
+   )
+   }
    }
    ```
 
@@ -173,8 +171,6 @@ https://blog.csdn.net/qq_30100043/article/details/53462945
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
 
-<<<<<<< HEAD
-
 ### [mobx 源码解读 1](http://www.cnblogs.com/rubylouvre/p/6058045.html)
 
 如何自己实现一个 mobx： https://zhuanlan.zhihu.com/p/26559530
@@ -193,7 +189,7 @@ _注意: 从 mobx-react 4 开始，注入 stores 的语法发生了变化，应�
 
 尝试用 transaction ，但是不知道为什么一直没有效果。
 
-```
+```js
   constructor() {
     this.initData()
   }
@@ -201,45 +197,45 @@ _注意: 从 mobx-react 4 开始，注入 stores 的语法发生了变化，应�
   initData = async () => {
     let result = await getBaseInfo()
     runInAction("上面的action修饰不到", () => {
-      // console.log('runInAction...')
-      this.baseInfo = result.data
+ // console.log('runInAction...')
+ this.baseInfo = result.data
     })
 
     result = await getExtractInfo()
     runInAction("上面的action修饰不到", () => {
-      this.extractInfo = result.data
+ this.extractInfo = result.data
     })
 
     result = await getExtractStatus()
     runInAction("上面的action修饰不到", () => {
-      this.extractStatus = result.data
+ this.extractStatus = result.data
     })
   }
 ```
 
-```
+```js
   // ????
   constructor() {
     transaction(()=>{
-        this.initData()
+   this.initData()
     })
   }
 
   initData = async () => {
     let result = await getBaseInfo()
     runInAction("上面的action修饰不到", () => {
-      // console.log('runInAction...')
-      this.baseInfo = result.data
+ // console.log('runInAction...')
+ this.baseInfo = result.data
     })
 
     result = await getExtractInfo()
     runInAction("上面的action修饰不到", () => {
-      this.extractInfo = result.data
+ this.extractInfo = result.data
     })
 
     result = await getExtractStatus()
     runInAction("上面的action修饰不到", () => {
-      this.extractStatus = result.data
+ this.extractStatus = result.data
     })
   }
 ```
@@ -250,26 +246,26 @@ _注意: 从 mobx-react 4 开始，注入 stores 的语法发生了变化，应�
 
 action 只能影响当前运行的函数，而不能影响函数中的异步回调函数，因此需要对异步回调函数也使用 action 标注。如果是用 async function，则可以使用 runInAction 函数来解决。
 
-```
+```js
 class Store {
   @observable name = '';
   @action load = async () => {
     const data = await getData();
     runInAction(() => {
-this.name = data.name;
+      this.name = data.name;
     });
-  }
+  };
 }
 ```
 
 但是 为什么下面这样不行呢？这样就不用额外的 runInAction 了啊 不是很方便么？！！！！！
 
-```
+```js
 class Store {
   @observable name = '';
   @action load = async () => {
     this.data = await getData();
-  }
+  };
 }
 ```
 
@@ -277,7 +273,7 @@ class Store {
 
 加上@compute 的作用在于可以使用 mobx 的缓存策略自动优化系统，当计算结果不变的情况下，不会引起无用的渲染，有了这个属性，才真的可以做到在 JSX 中只有 render 函数，所有组件需要的数据只有两种：基础数据和可以通过基础数据计算转化的数据。
 
-```
+```js
 @computed get getValue() {
     return this.value * 10;
   }
@@ -295,7 +291,5 @@ https://juejin.im/entry/598306fa6fb9a03c367ced24
 https://juejin.im/search?query=mobx
 
 http://react-china.org/search?q=mobx
-
-读文档啊 少年！
 
 http://cn.mobx.js.org/refguide/action.html

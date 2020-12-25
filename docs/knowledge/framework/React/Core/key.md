@@ -6,43 +6,41 @@ draft: true
 
 ### 安全地使用索引作为键的条件是什么?
 
-     有三个条件可以确保，使用索引作为键是安全的：
+有三个条件可以确保，使用索引作为键是安全的：
 
-     列表项是静态的，它们不会被计算，也不会更改。
-     列表中的列表项没有 ids 属性。
-     列表不会被重新排序或筛选。
+列表项是静态的，它们不会被计算，也不会更改。
+列表中的列表项没有 ids 属性。
+列表不会被重新排序或筛选。
 
 ### keys 是否需要全局唯一?
 
-     数组中使用的键在其同级中应该是唯一的，但它们不需要是全局唯一的。也就是说，你可以在两个不同的数组中使用相同的键。例如，下面的 book 组件在不同的组件中使用相同的数组：
+数组中使用的键在其同级中应该是唯一的，但它们不需要是全局唯一的。也就是说，你可以在两个不同的数组中使用相同的键。例如，下面的 book 组件在不同的组件中使用相同的数组：
 
-     ```js
-     function Book(props) {
-       const index = (
-         <ul>
-           {props.pages.map((page) =>
-             <li key={page.id}>
-               {page.title}
-             </li>
-           )}
-         </ul>
-       );
-       const content = props.pages.map((page) =>
-         <div key={page.id}>
-           <h3>{page.title}</h3>
-           <p>{page.content}</p>
-           <p>{page.pageNumber}</p>
-         </div>
-       );
-       return (
-         <div>
-           {index}
-           <hr />
-           {content}
-         </div>
-       );
-     }
-     ```
+```js
+function Book(props) {
+  const index = (
+    <ul>
+      {props.pages.map(page => (
+        <li key={page.id}>{page.title}</li>
+      ))}
+    </ul>
+  );
+  const content = props.pages.map(page => (
+    <div key={page.id}>
+      <h3>{page.title}</h3>
+      <p>{page.content}</p>
+      <p>{page.pageNumber}</p>
+    </div>
+  ));
+  return (
+    <div>
+      {index}
+      <hr />
+      {content}
+    </div>
+  );
+}
+```
 
 ### 索引作为键的影响是什么?
 
@@ -52,21 +50,24 @@ draft: true
 
     ```jsx
     {todos.map((todo, index) =>
-      <Todo
-        {...todo}
-        key={index}
-      />
-    )}
-    ```
+
+<Todo
+{...todo}
+key={index}
+/>
+)}
+
+````
 
     假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
 
     ```jsx
     {todos.map((todo) =>
-      <Todo {...todo}
-        key={todo.id} />
-    )}
-    ```
+
+<Todo {...todo}
+key={todo.id} />
+)}
+````
 
 ### 写 React / Vue 项目时为什么要在组件中写 key，其作用是什么
 
@@ -81,40 +82,40 @@ vue 和 react 都是采用 diff 算法来对比新旧虚拟节点，从而更新
 
 vue 部分源码如下：
 
-```
+```js
 // vue项目  src/core/vdom/patch.js  -488行
 // oldCh 是一个旧虚拟节点数组，
- if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx)
-        idxInOld = isDef(newStartVnode.key)
-          ? oldKeyToIdx[newStartVnode.key]
-          : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx)
+if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+idxInOld = isDef(newStartVnode.key)
+  ? oldKeyToIdx[newStartVnode.key]
+  : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx);
 ```
 
 创建 map 函数
 
-```
-function createKeyToOldIdx (children, beginIdx, endIdx) {
-  let i, key
-  const map = {}
+```js
+function createKeyToOldIdx(children, beginIdx, endIdx) {
+  let i, key;
+  const map = {};
   for (i = beginIdx; i <= endIdx; ++i) {
-    key = children[i].key
-    if (isDef(key)) map[key] = i
+    key = children[i].key;
+    if (isDef(key)) map[key] = i;
   }
-  return map
+  return map;
 }
 ```
 
 遍历寻找
 
-```
+```js
 // sameVnode 是对比新旧节点是否相同的函数
- function findIdxInOld (node, oldCh, start, end) {
-    for (let i = start; i < end; i++) {
-      const c = oldCh[i]
+function findIdxInOld(node, oldCh, start, end) {
+  for (let i = start; i < end; i++) {
+    const c = oldCh[i];
 
-      if (isDef(c) && sameVnode(node, c)) return i
-    }
+    if (isDef(c) && sameVnode(node, c)) return i;
   }
+}
 ```
 
 - 思考：

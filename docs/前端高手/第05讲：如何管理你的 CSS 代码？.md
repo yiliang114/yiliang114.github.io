@@ -229,7 +229,7 @@ element.innerHTML = '<div class="' + styles.className + '">';
 - 可以通过随机命名解决作用域问题，但命名规则和 CSS Modules 都可以解决这个问题；
 - 样式可以使用 JavaScript 语言特性，比如函数、循环，实现元素不同的样式效果可以通过新建不同样式类，修改元素样式类来实现。
 
-我们以 [styled\-compoents](https://styled-components.com/) 为例进行说明，下面是示例代码，第一段是源代码：
+我们以 [styled\-Components](https://styled-components.com/) 为例进行说明，下面是示例代码，第一段是源代码：
 
 ```js
 // 源代码
