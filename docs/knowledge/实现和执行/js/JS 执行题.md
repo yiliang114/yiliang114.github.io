@@ -4,70 +4,7 @@ date: '2020-11-02'
 draft: true
 ---
 
-```js
-console.log(employeeId);
-// ReferenceError: employeeId is not defined
-```
-
-```js
-function func() {
-  function a() {
-    console.log(b);
-  }
-  a();
-  const b = 'bbb';
-}
-func();
-// Cannot access 'b' before initialization
-```
-
-```js
-console.log(employeeId);
-var employeeId = '19000';
-// undefined
-```
-
-```js
-var employeeId = '1234abe';
-(function() {
-  console.log(employeeId);
-  var employeeId = '122345';
-})();
-// undefined
-```
-
-```js
-var employeeId = '1234abe';
-(function() {
-  console.log(employeeId);
-  var employeeId = '122345';
-  (function() {
-    var employeeId = 'abc1234';
-  })();
-})();
-// undefined
-```
-
-```js
-(function() {
-  console.log(typeof displayFunc);
-  var displayFunc = function() {
-    console.log('Hi I am inside displayFunc');
-  };
-})();
-// undefined
-```
-
-```js
-var employeeId = 'abc123';
-function foo() {
-  employeeId = '123bcd';
-  return;
-}
-foo();
-console.log(employeeId);
-// 123bcd
-```
+### 变量提升
 
 ```js
 var employeeId = 'abc123';
@@ -110,22 +47,6 @@ function foo() {
 }
 foo();
 // undefined
-```
-
-```js
-(function foo() {
-  bar();
-
-  function bar() {
-    abc();
-    console.log(typeof abc);
-  }
-
-  function abc() {
-    console.log(typeof bar);
-  }
-})();
-//  function function
 ```
 
 ```js
@@ -1175,7 +1096,7 @@ employee.age = 30; // fails silently unless in strict mode
 delete employee.name; // fails silently unless it's in strict mode
 ```
 
-## Question 48. 动态编写合并两个 JavaScript 对象的代码。
+## 动态编写合并两个 JavaScript 对象的代码。
 
 Let say you have two objects
 

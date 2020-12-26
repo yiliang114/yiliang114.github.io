@@ -3234,20 +3234,6 @@ function deleteCopy(arr) {
 }
 ```
 
-### 下面代码打印出什么？
-
-```js
-const a = 2;
-console.log(a); //   2
-a = 3; // TypeError: Assignment to constant variable.
-```
-
-常量的值在设定之后就不能再更改。
-
-> 顺便记录一下`TypeError`与`ReferenceError`的区别：
-> `ReferenceError`： 如果 RHS 查询（取值查询）在所有前台的作用域中找寻不到所需的变量，引擎就会抛出`ReferenceError`异常。
-> `ReferenceError`同作用域判别失败相关，而`TypeError`则代表作用域判别成功了，但是对结果的操作是非法或者不合理的。比如视图对一个非函数类型的值进行函数调用，或者引用`null`或`undefined`类型的值中的属性，那么引擎会抛出类型异常，`TypeError`.
-
 ### 下面代码分别输出什么？
 
 ```js

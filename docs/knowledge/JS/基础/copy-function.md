@@ -6,7 +6,7 @@ draft: true
 
 ### 浅拷贝
 
-浅拷贝（shallow copy）：只复制指向某个对象的指针，而不复制对象本身，新旧对象共享一块内存
+只复制指向某个对象的指针，而不复制对象本身，新旧对象共享一块内存
 
 - `Object.assign`
 - 展开运算符 `...`
@@ -22,7 +22,15 @@ function shallowCopy(p, c) {
 }
 ```
 
-###
+#### 实现数组的拷贝
+
+```js
+const a1 = [1, 2];
+const a2 = a1.concat();
+const a3 = a1.slice();
+```
+
+### 深拷贝
 
 简单的做法：`JSON.parse(JSON.stringify(obj))`， 但是该方法也是有局限性的：
 
@@ -41,7 +49,7 @@ let a = {
   name: 'yiliang114',
 };
 let b = JSON.parse(JSON.stringify(a));
-console.log(b); // {name: "yck"}
+console.log(b); // {name: "yiliang114"}
 ```
 
 你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
@@ -656,7 +664,9 @@ publisher.notify({ name: 'michaelqin', ageo: 30 }); // 发布一个对象到所�
 publisher.notify('2 subscribers will both perform process'); // 发布一个字符串到所有订阅者
 ```
 
-#### 实现一个函数 clone，可以对 JavaScript 中的 5 种主要的数据类型（包括 Number、String、Object、Array、Boolean）进行值复制
+### 实现一个函数 clone
+
+可以对 JavaScript 中的 5 种主要的数据类型（包括 Number、String、Object、Array、Boolean）进行值复制
 
 ```js
 Object.prototype.clone = function() {
@@ -668,14 +678,6 @@ Object.prototype.clone = function() {
 
   return o;
 };
-```
-
-### 实现数组的拷贝
-
-```js
-const a1 = [1, 2];
-const a2 = a1.concat();
-const a3 = a1.slice();
 ```
 
 ### 介绍下深度优先遍历和广度优先遍历，如何实现？
@@ -783,9 +785,6 @@ let widthTraversal2 = node => {
 
 ### 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
 
-话不多说直接放代码
-发现了比较多的错误，但由于最近工作有点忙，一直没来得及纠正
-
 #### 更改(0226)
 
 ```js
@@ -885,86 +884,6 @@ let BFSdeepClone = obj => {
   }
   return copyObj;
 };
-```
-
-#### 测试
-
-```js
-/**测试数据 */
-// 输入 字符串String
-// 预期输出String
-let str = 'String';
-var strCopy = DFSdeepClone(str);
-var strCopy1 = BFSdeepClone(str);
-console.log(strCopy, strCopy1); // String String 测试通过
-// 输入 数字 -1980
-// 预期输出数字 -1980
-let num = -1980;
-var numCopy = DFSdeepClone(num);
-var numCopy1 = BFSdeepClone(num);
-console.log(numCopy, numCopy1); // -1980 -1980 测试通过
-// 输入bool类型
-// 预期输出bool类型
-let bool = false;
-var boolCopy = DFSdeepClone(bool);
-var boolCopy1 = BFSdeepClone(bool);
-console.log(boolCopy, boolCopy1); //false false 测试通过
-// 输入 null
-// 预期输出 null
-let nul = null;
-var nulCopy = DFSdeepClone(nul);
-var nulCopy1 = BFSdeepClone(nul);
-console.log(nulCopy, nulCopy1); //null null 测试通过
-
-// 输入undefined
-// 预期输出undefined
-let und = undefined;
-var undCopy = DFSdeepClone(und);
-var undCopy1 = BFSdeepClone(und);
-console.log(undCopy, undCopy1); //undefined undefined 测试通过
-//输入引用类型obj
-let obj = {
-  a: 1,
-  b: () => console.log(1),
-  c: {
-    d: 3,
-    e: 4,
-  },
-  f: [1, 2],
-  und: undefined,
-  nul: null,
-};
-var objCopy = DFSdeepClone(obj);
-var objCopy1 = BFSdeepClone(obj);
-console.log(objCopy === objCopy1); // 对象类型判断 false 测试通过
-console.log(obj.c === objCopy.c); // 对象类型判断 false 测试通过
-console.log(obj.c === objCopy1.c); // 对象类型判断 false 测试通过
-console.log(obj.b === objCopy1.b); // 函数类型判断 false 测试通过
-console.log(obj.b === objCopy.b); // 函数类型判断 false 测试通过
-console.log(obj.f === objCopy.f); // 数组类型判断 false 测试通过
-console.log(obj.f === objCopy1.f); // 数组类型判断 false 测试通过
-console.log(obj.nul, obj.und); // 输出null，undefined 测试通过
-
-// 输入环状数据
-// 预期不爆栈且深度复制
-let circleObj = {
-  foo: {
-    name: function() {
-      console.log(1);
-    },
-    bar: {
-      name: 'bar',
-      baz: {
-        name: 'baz',
-        aChild: null, //待会让它指向obj.foo
-      },
-    },
-  },
-};
-circleObj.foo.bar.baz.aChild = circleObj.foo;
-var circleObjCopy = DFSdeepClone(circleObj);
-var circleObjCopy1 = BFSdeepClone(circleObj);
-console.log(circleObjCopy, circleObjCopy1); // 测试通过?
 ```
 
 ### JSON.stringify 和 JSON.parse
@@ -1230,91 +1149,6 @@ let BFSdeepClone = obj => {
 };
 ```
 
-测试
-
-```js
-/**测试数据 */
-// 输入 字符串String
-// 预期输出String
-let str = 'String';
-var strCopy = DFSdeepClone(str);
-var strCopy1 = BFSdeepClone(str);
-console.log(strCopy, strCopy1); // String String 测试通过
-// 输入 数字 -1980
-// 预期输出数字 -1980
-let num = -1980;
-var numCopy = DFSdeepClone(num);
-var numCopy1 = BFSdeepClone(num);
-console.log(numCopy, numCopy1); // -1980 -1980 测试通过
-// 输入bool类型
-// 预期输出bool类型
-let bool = false;
-var boolCopy = DFSdeepClone(bool);
-var boolCopy1 = BFSdeepClone(bool);
-console.log(boolCopy, boolCopy1); //false false 测试通过
-// 输入 null
-// 预期输出 null
-let nul = null;
-var nulCopy = DFSdeepClone(nul);
-var nulCopy1 = BFSdeepClone(nul);
-console.log(nulCopy, nulCopy1); //null null 测试通过
-
-// 输入undefined
-// 预期输出undefined
-let und = undefined;
-var undCopy = DFSdeepClone(und);
-var undCopy1 = BFSdeepClone(und);
-console.log(undCopy, undCopy1); //undefined undefined 测试通过
-//输入引用类型obj
-let obj = {
-  a: 1,
-  b: () => console.log(1),
-  c: {
-    d: 3,
-    e: 4,
-  },
-  f: [1, 2],
-  und: undefined,
-  nul: null,
-};
-var objCopy = DFSdeepClone(obj);
-var objCopy1 = BFSdeepClone(obj);
-console.log(objCopy === objCopy1); // 对象类型判断 false 测试通过
-console.log(obj.c === objCopy.c); // 对象类型判断 false 测试通过
-console.log(obj.c === objCopy1.c); // 对象类型判断 false 测试通过
-console.log(obj.b === objCopy1.b); // 函数类型判断 false 测试通过
-console.log(obj.b === objCopy.b); // 函数类型判断 false 测试通过
-console.log(obj.f === objCopy.f); // 数组类型判断 false 测试通过
-console.log(obj.f === objCopy1.f); // 数组类型判断 false 测试通过
-console.log(obj.nul, obj.und); // 输出null，undefined 测试通过
-
-// 输入环状数据
-// 预期不爆栈且深度复制
-let circleObj = {
-  foo: {
-    name: function() {
-      console.log(1);
-    },
-    bar: {
-      name: 'bar',
-      baz: {
-        name: 'baz',
-        aChild: null, //待会让它指向obj.foo
-      },
-    },
-  },
-};
-circleObj.foo.bar.baz.aChild = circleObj.foo;
-var circleObjCopy = DFSdeepClone(circleObj);
-var circleObjCopy1 = BFSdeepClone(circleObj);
-console.log(circleObjCopy, circleObjCopy1); // 测试通过?
-```
-
-扩展：深拷贝与浅拷贝
-基本类型--名值存储在栈内存中，
-引用数据类型--名存在栈内存中，值存在于堆内存中，但是栈内存会提供一个引用的地址指向堆内存中的值
-因此在浅拷贝引用类型进行复制时，复制对值指向对是同一个地址
-
 - 简单深拷贝
 
 ```js
@@ -1337,72 +1171,7 @@ function deepCopy(obj) {
 }
 ```
 
-- JSON 对象的 parse 和 stringify 也可以实现深拷贝
-- JQ 的 extend 方法。
-  \$.extend( [deep ], target, object1 [, objectN ] )
-
-deep 表示是否深拷贝，为 true 为深拷贝，为 false，则为浅拷贝
-
-target Object 类型 目标对象，其他对象的成员属性将被附加到该对象上。
-
-object1 objectN 可选。 Object 类型 第一个以及第 N 个被合并的对象。
-
-### 深浅拷贝
-
-```js
-let a = {
-  age: 1,
-};
-let b = a;
-a.age = 2;
-console.log(b.age); // 2
-```
-
-从上述例子中我们可以发现，如果给一个变量赋值一个对象，那么两者的值会是同一个引用，其中一方改变，另一方也会相应改变。
-
-通常在开发中我们不希望出现这样的问题，我们可以使用浅拷贝来解决这个问题。
-
-#### 浅拷贝
-
-首先可以通过 `Object.assign` 来解决这个问题。
-
-```js
-let a = {
-  age: 1,
-};
-let b = Object.assign({}, a);
-a.age = 2;
-console.log(b.age); // 1
-```
-
-当然我们也可以通过展开运算符（…）来解决
-
-```js
-let a = {
-  age: 1,
-};
-let b = { ...a };
-a.age = 2;
-console.log(b.age); // 1
-```
-
-通常浅拷贝就能解决大部分问题了，但是当我们遇到如下情况就需要使用到深拷贝了
-
-```js
-let a = {
-  age: 1,
-  jobs: {
-    first: 'FE',
-  },
-};
-let b = { ...a };
-a.jobs.first = 'native';
-console.log(b.jobs.first); // native
-```
-
-浅拷贝只解决了第一层的问题，如果接下去的值中还有对象的话，那么就又回到刚开始的话题了，两者享有相同的引用。要解决这个问题，我们需要引入深拷贝。
-
-#### 深拷贝
+### 深拷贝
 
 这个问题通常可以通过 `JSON.parse(JSON.stringify(object))` 来解决。
 
@@ -1456,7 +1225,7 @@ let a = {
   name: 'yiliang114',
 };
 let b = JSON.parse(JSON.stringify(a));
-console.log(b); // {name: "yck"}
+console.log(b); // {name: "yiliang114"}
 ```
 
 你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
