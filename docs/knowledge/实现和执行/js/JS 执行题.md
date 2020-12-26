@@ -4,891 +4,6 @@ date: '2020-11-02'
 draft: true
 ---
 
-### 变量提升
-
-```js
-var employeeId = 'abc123';
-
-function foo() {
-  employeeId = '123bcd';
-  return;
-
-  function employeeId() {}
-}
-foo();
-console.log(employeeId);
-// abc123
-```
-
-```js
-var employeeId = 'abc123';
-
-function foo() {
-  employeeId();
-  return;
-
-  function employeeId() {
-    console.log(typeof employeeId);
-  }
-}
-foo();
-// function
-```
-
-```js
-function foo() {
-  employeeId();
-  var product = 'Car';
-  return;
-
-  function employeeId() {
-    console.log(product);
-  }
-}
-foo();
-// undefined
-```
-
-```js
-(function() {
-  'use strict';
-
-  var person = {
-    name: 'John',
-  };
-  person.salary = '10000$';
-  person['country'] = 'USA';
-
-  Object.defineProperty(person, 'phoneNo', {
-    value: '8888888888',
-    enumerable: true,
-  });
-
-  console.log(Object.keys(person));
-})();
-// ["name", "salary", "country", "phoneNo"]
-```
-
-```js
-(function() {
-  'use strict';
-
-  var person = {
-    name: 'John',
-  };
-  person.salary = '10000$';
-  person['country'] = 'USA';
-
-  Object.defineProperty(person, 'phoneNo', {
-    value: '8888888888',
-    enumerable: false,
-  });
-
-  console.log(Object.keys(person));
-})();
-// ["name", "salary", "country"]
-```
-
-```js
-(function() {
-  var objA = {
-    foo: 'foo',
-    bar: 'bar',
-  };
-  var objB = {
-    foo: 'foo',
-    bar: 'bar',
-  };
-  console.log(objA == objB);
-  console.log(objA === objB);
-})();
-// false false
-```
-
-```js
-function mul(x) {
-  return function(y) {
-    return {
-      result: x * y,
-      sum: function(z) {
-        return x * y + z;
-      },
-    };
-  };
-}
-console.log(mul(2)(3).result);
-console.log(mul(2)(3).sum(4));
-
-//  6, 10
-```
-
-```js
-function mul(x) {
-  return function(y) {
-    return [
-      x * y,
-      function(z) {
-        return x * y + z;
-      },
-    ];
-  };
-}
-
-console.log(mul(2)(3)[0]);
-console.log(mul(2)(3)[1](4));
-
-// 6, 10
-```
-
-```js
-function getNumber() {
-  return;
-}
-
-var numb = getNumber();
-console.log(numb);
-// undefined
-```
-
-```js
-function getNumber() {
-  return 2, 4, 5;
-}
-
-var numb = getNumber();
-console.log(numb);
-// 5 最后一个值就是 return 回的值
-```
-
-```js
-(function() {
-  function sayHello() {
-    var name = 'Hi John';
-    return;
-    {
-      fullName: name;
-    }
-  }
-  console.log(sayHello().fullName);
-})();
-// 需要在同一行
-// Uncaught TypeError: Cannot read property 'fullName' of undefined
-```
-
-```js
-(function() {
-  var arrayNumb = [2, 8, 15, 16, 23, 42];
-  Array.prototype.sort = function(a, b) {
-    return a - b;
-  };
-  arrayNumb.sort();
-  console.log(arrayNumb);
-})();
-(function() {
-  var numberArray = [2, 8, 15, 16, 23, 42];
-  numberArray.sort(function(a, b) {
-    if (a == b) {
-      return 0;
-    } else {
-      return a < b ? -1 : 1;
-    }
-  });
-  console.log(numberArray);
-})();
-(function() {
-  var numberArray = [2, 8, 15, 16, 23, 42];
-  numberArray.sort(function(a, b) {
-    return a - b;
-  });
-  console.log(numberArray);
-})();
-
-// [ 2, 8, 15, 16, 23, 42 ]
-// [ 2, 8, 15, 16, 23, 42 ]
-// [ 2, 8, 15, 16, 23, 42 ]
-```
-
-```js
-function getDataFromServer(apiUrl) {
-  var name = 'John';
-  return {
-    then: function(fn) {
-      fn(name);
-    },
-  };
-}
-
-getDataFromServer('www.google.com').then(function(name) {
-  console.log(name);
-});
-// John
-```
-
-```js
-(function greetNewCustomer() {
-  console.log('Hello ' + this.name);
-}.bind({
-  name: 'John',
-})());
-// Hello John
-```
-
-```js
-(function() {
-  var fooAccount = {
-    name: 'John',
-    amount: 6000,
-    deductAmount: function(amount) {
-      this.amount -= amount;
-      return this.amount;
-    },
-  };
-  var barAccount = {
-    name: 'John',
-    amount: 4000,
-  };
-  var withdrawAmountBy = function(totalAmount) {
-    return fooAccount.deductAmount.call(barAccount, totalAmount);
-  };
-  console.log(withdrawAmountBy(400));
-  console.log(withdrawAmountBy(300));
-  console.log(withdrawAmountBy(200));
-})();
-
-// 4000 - 400
-// 3600 - 300
-// 3300 - 200
-// 3600 3300 3100
-```
-
-```js
-(function() {
-  var objA = new Object({ foo: 'foo' });
-  var objB = new Object({ foo: 'foo' });
-  console.log(objA == objB);
-  console.log(objA === objB);
-})();
-// false false
-```
-
-```js
-(function() {
-  var objA = Object.create({
-    foo: 'foo',
-  });
-  var objB = Object.create({
-    foo: 'foo',
-  });
-  console.log(objA == objB);
-  console.log(objA === objB);
-})();
-// false false
-```
-
-```js
-(function() {
-  var objA = Object.create({
-    foo: 'foo',
-  });
-  var objB = Object.create(objA);
-  console.log(objA == objB);
-  console.log(objA === objB);
-})();
-// false false
-```
-
-```js
-(function() {
-  var objA = Object.create({
-    foo: 'foo',
-  });
-  var objB = Object.create(objA);
-  console.log(objA.toString() == objB.toString());
-  console.log(objA.toString() === objB.toString());
-})();
-//  true true
-```
-
-```js
-(function() {
-  var objA = Object.create({
-    foo: 'foo',
-  });
-  var objB = objA;
-  console.log(objA == objB);
-  console.log(objA === objB);
-  console.log(objA.toString() == objB.toString());
-  console.log(objA.toString() === objB.toString());
-})();
-// true true true true
-```
-
-```js
-(function() {
-  var objA = Object.create({
-    foo: 'foo',
-  });
-  var objB = objA;
-  objB.foo = 'bar';
-  console.log(objA.foo);
-  console.log(objB.foo);
-})();
-// bar bar
-```
-
-```js
-(function() {
-  var objA = Object.create({
-    foo: 'foo',
-  });
-  var objB = objA;
-  objB.foo = 'bar';
-
-  delete objA.foo;
-  console.log(objA.foo);
-  console.log(objB.foo);
-})();
-// foo foo
-```
-
-```js
-(function() {
-  var objA = {
-    foo: 'foo',
-  };
-  var objB = objA;
-  objB.foo = 'bar';
-
-  delete objA.foo;
-  console.log(objA.foo);
-  console.log(objB.foo);
-})();
-// undefined undefined
-```
-
-```js
-(function() {
-  var array = new Array('100');
-  console.log(array);
-  console.log(array.length);
-})();
-// ["100"] 1
-```
-
-```js
-(function() {
-  var array1 = [];
-  var array2 = new Array(100);
-  var array3 = new Array(['1', 2, '3', 4, 5.6]);
-  console.log(array1);
-  console.log(array2);
-  console.log(array3);
-  console.log(array3.length);
-})();
-// [] [] [Array[5]] 1
-```
-
-```js
-(function() {
-  var array = new Array('a', 'b', 'c', 'd', 'e');
-  array[10] = 'f';
-  delete array[10];
-  console.log(array.length);
-})();
-// 11
-```
-
-```js
-(function() {
-  var animal = ['cow', 'horse'];
-  animal.push('cat');
-  animal.push('dog', 'rat', 'goat');
-  console.log(animal.length);
-})();
-//  6
-```
-
-```js
-(function() {
-  var animal = ['cow', 'horse'];
-  animal.push('cat');
-  animal.unshift('dog', 'rat', 'goat');
-  console.log(animal);
-})();
-// [ 'dog', 'rat', 'goat', 'cow', 'horse', 'cat' ]
-```
-
-```js
-(function() {
-  var array = [1, 2, 3, 4, 5];
-  console.log(array.indexOf(2));
-  console.log([{ name: 'John' }, { name: 'John' }].indexOf({ name: 'John' }));
-  console.log([[1], [2], [3], [4]].indexOf([3]));
-  console.log('abcdefgh'.indexOf('e'));
-})();
-// 1 -1 -1 4
-```
-
-```js
-(function() {
-  var array = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6];
-  console.log(array.indexOf(2));
-  console.log(array.indexOf(2, 3));
-  console.log(array.indexOf(2, 10));
-})();
-//  1 6 -1
-```
-
-```js
-(function() {
-  var numbers = [2, 3, 4, 8, 9, 11, 13, 12, 16];
-  var even = numbers.filter(function(element, index) {
-    return element % 2 === 0;
-  });
-  console.log(even);
-
-  var containsDivisibleby3 = numbers.some(function(element, index) {
-    return element % 3 === 0;
-  });
-
-  console.log(containsDivisibleby3);
-})();
-// [ 2, 4, 8, 12, 16 ] true
-```
-
-```js
-(function() {
-  var containers = [2, 0, false, '', '12', true];
-  var containers = containers.filter(Boolean);
-  console.log(containers);
-  var containers = containers.filter(Number);
-  console.log(containers);
-  var containers = containers.filter(String);
-  console.log(containers);
-  var containers = containers.filter(Object);
-  console.log(containers);
-})();
-
-// [ 2, '12', true ]
-// [ 2, '12', true ]
-// [ 2, '12', true ]
-// [ 2, '12', true ]
-```
-
-```js
-(function() {
-  var list = ['foo', 'bar', 'john', 'ritz'];
-  console.log(list.slice(1));
-  console.log(list.slice(1, 3));
-  console.log(list.slice());
-  console.log(list.slice(2, 2));
-  console.log(list);
-})();
-// [ 'bar', 'john', 'ritz' ]
-// [ 'bar', 'john' ]
-// [ 'foo', 'bar', 'john', 'ritz' ]
-// []
-// [ 'foo', 'bar', 'john', 'ritz' ]
-```
-
-```js
-(function() {
-  var list = ['foo', 'bar', 'john'];
-  console.log(list.splice(1));
-  console.log(list.splice(1, 2));
-  console.log(list);
-})();
-// [ 'bar', 'john' ] [] [ 'foo' ]
-```
-
-```js
-(function() {
-  var arrayNumb = [2, 8, 15, 16, 23, 42];
-  arrayNumb.sort();
-  console.log(arrayNumb);
-})();
-// [ 15, 16, 2, 23, 42, 8 ]
-```
-
-```js
-function funcA() {
-  console.log('funcA ', this);
-  (function innerFuncA1() {
-    console.log('innerFunc1', this);
-    (function innerFunA11() {
-      console.log('innerFunA11', this);
-    })();
-  })();
-}
-
-console.log(funcA());
-// funcA  Window {...}
-// innerFunc1 Window {...}
-// innerFunA11 Window {...}
-```
-
-```js
-var obj = {
-  message: 'Hello',
-  innerMessage: !(function() {
-    console.log(this.message);
-  })(),
-};
-
-console.log(obj.innerMessage);
-// undefined true
-```
-
-```js
-var obj = {
-  message: 'Hello',
-  innerMessage: function() {
-    return this.message;
-  },
-};
-
-console.log(obj.innerMessage());
-// Hello
-```
-
-```js
-var obj = {
-  message: 'Hello',
-  innerMessage: function() {
-    (function() {
-      console.log(this.message);
-    })();
-  },
-};
-console.log(obj.innerMessage());
-// undefined
-```
-
-```js
-var obj = {
-  message: 'Hello',
-  innerMessage: function() {
-    var self = this;
-    (function() {
-      console.log(self.message);
-    })();
-  },
-};
-console.log(obj.innerMessage());
-// Hello
-```
-
-```js
-function myFunc() {
-  console.log(this.message);
-}
-myFunc.message = 'Hi John';
-
-console.log(myFunc());
-// undefined
-```
-
-```js
-function myFunc() {
-  console.log(myFunc.message);
-}
-myFunc.message = 'Hi John';
-
-console.log(myFunc());
-// 'Hi John'
-```
-
-```js
-function myFunc() {
-  myFunc.message = 'Hi John';
-  console.log(myFunc.message);
-}
-console.log(myFunc());
-// 'Hi John'
-```
-
-```js
-function myFunc(param1, param2) {
-  console.log(myFunc.length);
-}
-console.log(myFunc());
-console.log(myFunc('a', 'b'));
-console.log(myFunc('a', 'b', 'c', 'd'));
-// 2 2 2
-```
-
-```js
-function myFunc() {
-  console.log(arguments.length);
-}
-console.log(myFunc());
-console.log(myFunc('a', 'b'));
-console.log(myFunc('a', 'b', 'c', 'd'));
-// 0 2 4
-```
-
-```js
-function Person(name, age) {
-  this.name = name || 'John';
-  this.age = age || 24;
-  this.displayName = function() {
-    console.log(this.name);
-  };
-}
-
-Person.name = 'John';
-Person.displayName = function() {
-  console.log(this.name);
-};
-
-var person1 = new Person('John');
-person1.displayName();
-Person.displayName();
-
-// John Person
-```
-
-### Scopes
-
-```js
-function passWordMngr() {
-  var password = '12345678';
-  this.userName = 'John';
-  return {
-    pwd: password,
-  };
-}
-// Block End
-var userInfo = passWordMngr();
-console.log(userInfo.pwd);
-console.log(userInfo.userName);
-// 12345678 undefined
-```
-
-```js
-var employeeId = 'aq123';
-function Employee() {
-  this.employeeId = 'bq1uy';
-}
-console.log(Employee.employeeId);
-// undefined
-```
-
-```js
-var employeeId = 'aq123';
-
-function Employee() {
-  this.employeeId = 'bq1uy';
-}
-console.log(new Employee().employeeId);
-Employee.prototype.employeeId = 'kj182';
-Employee.prototype.JobId = '1BJKSJ';
-console.log(new Employee().JobId);
-console.log(new Employee().employeeId);
-// bq1uy 1BJKSJ bq1uy
-```
-
-```js
-var employeeId = 'aq123';
-(function Employee() {
-  try {
-    throw 'foo123';
-  } catch (employeeId) {
-    console.log(employeeId);
-  }
-  console.log(employeeId);
-})();
-// foo123 aq123
-```
-
-```js
-// Call, Apply, Bind
-(function() {
-  var greet = 'Hello World';
-  var toGreet = [].filter.call(greet, function(element, index) {
-    return index > 5;
-  });
-  console.log(toGreet);
-})();
-// [ 'W', 'o', 'r', 'l', 'd' ]
-```
-
-```js
-var output = (function(x) {
-  delete x;
-  return x;
-})(0);
-
-console.log(output);
-// 0
-// delete 只能用于删除对象的属性
-```
-
-```js
-var x = 1;
-var output = (function() {
-  delete x;
-  return x;
-})();
-
-console.log(output);
-// 1
-```
-
-```js
-var x = { foo: 1 };
-var output = (function() {
-  delete x.foo;
-  return x.foo;
-})();
-
-console.log(output);
-// undefined
-```
-
-```js
-var Employee = {
-  company: 'xyz',
-};
-var emp1 = Object.create(Employee);
-delete emp1.company;
-console.log(emp1.company);
-// xyz
-// 会去拿原型链上的属性
-```
-
-```js
-var strA = 'hi there';
-var strB = strA;
-strB = 'bye there!';
-console.log(strA);
-// hi there
-```
-
-```js
-var objA = { prop1: 42 };
-var objB = objA;
-objB.prop1 = 90;
-console.log(objA);
-// {prop1: 90}
-```
-
-```js
-var objA = { prop1: 42 };
-var objB = objA;
-objB = {};
-console.log(objA);
-// {prop1: 42}
-```
-
-```js
-var arrA = [0, 1, 2, 3, 4, 5];
-var arrB = arrA;
-arrB[0] = 42;
-console.log(arrA);
-// [42,1,2,3,4,5]
-```
-
-```js
-var arrA = [0, 1, 2, 3, 4, 5];
-var arrB = arrA.slice();
-arrB[0] = 42;
-console.log(arrA);
-// [0,1,2,3,4,5]
-```
-
-```js
-var arrA = [{ prop1: 'value of array A!!' }, { someProp: 'also value of array A!' }, 3, 4, 5];
-var arrB = arrA;
-arrB[0].prop1 = 42;
-console.log(arrA);
-// [{prop1: 42}, {someProp: "also value of array A!"}, 3,4,5]
-```
-
-```js
-var arrA = [{ prop1: 'value of array A!!' }, { someProp: 'also value of array A!' }, 3, 4, 5];
-var arrB = arrA.slice();
-arrB[0].prop1 = 42;
-arrB[3] = 20;
-console.log(arrA);
-
-// [{prop1: 42}, {someProp: "also value of array A!"}, 3,4,5]
-function slice(arr) {
-  var result = [];
-  for (i = 0; i < arr.length; i++) {
-    result.push(arr[i]);
-  }
-  return result;
-}
-```
-
-```js
-var trees = ['xyz', 'xxxx', 'test', 'ryan', 'apple'];
-delete trees[3];
-console.log(trees.length);
-// 5
-```
-
-```js
-var bar = true;
-console.log(bar + 0);
-console.log(bar + 'xyz');
-console.log(bar + true);
-console.log(bar + false);
-// 1, "truexyz", 2, 1
-```
-
-```js
-var z = 1,
-  y = (z = typeof y);
-console.log(y);
-// undefined
-```
-
-```js
-// NFE (Named Function Expression)
-var foo = function bar() {
-  return 12;
-};
-typeof bar();
-// Reference Error
-```
-
-```js
-bar();
-(function abc() {
-  console.log('something');
-})();
-function bar() {
-  console.log('bar got called');
-}
-// bar got called
-// something
-```
-
-```js
-var salary = '1000$';
-
-(function() {
-  console.log('Original salary was ' + salary);
-
-  var salary = '5000$';
-
-  console.log('My New Salary ' + salary);
-})();
-// undefined, 5000$
-```
-
-```js
-function User(name) {
-  this.name = name || 'JsGeeks';
-}
-
-var person = (new User('xyz')['location'] = 'USA');
-console.log(person);
-// USA
-```
-
 ### 检测对象未定义的属性
 
 ```js
@@ -1096,31 +211,7 @@ employee.age = 30; // fails silently unless in strict mode
 delete employee.name; // fails silently unless it's in strict mode
 ```
 
-## 动态编写合并两个 JavaScript 对象的代码。
-
-Let say you have two objects
-
-```js
-var person = {
-  name: 'John',
-  age: 24,
-};
-
-var address = {
-  addressLine1: 'Some Location x',
-  addressLine2: 'Some Location y',
-  city: 'NewYork',
-};
-```
-
-Write merge function which will take two object and add all the own property of second object into first object.
-
-```js
-merge(person, address);
-
-/* Now person should have 5 properties
-name , age , addressLine1 , addressLine2 , city */
-```
+### 合并两个对象
 
 **Method 1: Using ES6, Object.assign method**
 
@@ -1147,7 +238,7 @@ function merge(toObj, fromObj) {
 }
 ```
 
-## Question 49. JavaScript 中的不可枚举属性是什么?如何创建一个不可枚举属性?
+### JavaScript 中的不可枚举属性是什么?如何创建一个不可枚举属性?
 
 Object can have properties that don't show up when you iterate through object using for...in loop or using Object.keys() to get an array of property names. This properties is know as non-enumerable properties.
 
@@ -1908,8 +999,11 @@ obj.toString(); // "[object Object]"
 
 在[这里](http://davidshariff.com/quiz/)看到一些测试题，我 HTML 和 CSS 比较一般，尝试把里面的 JS 题目都解答一下：
 
-#1.
-"1" + 2 + "3" + 4
+### 1.
+
+```js
+'1' + 2 + '3' + 4;
+```
 
 - 10
 - 1234
@@ -1919,9 +1013,11 @@ obj.toString(); // "[object Object]"
 
 <!--more-->
 
-#2.
+### 2.
 
-    4 + 3 + 2 + "1"
+```js
+4 + 3 + 2 + '1';
+```
 
 - 10
 - 4321
@@ -1929,15 +1025,18 @@ obj.toString(); // "[object Object]"
 
 答案：91，优先级同上，从左往右，等同于：7+2+"1" = 9+"1" = "91"。
 
-#3.
+### 3.
+
+```js
 var foo = 1;
 function bar() {
-foo = 10;
-return;
-function foo() {}
+  foo = 10;
+  return;
+  function foo() {}
 }
 bar();
 alert(foo);
+```
 
 - 1
 - 10
@@ -1947,26 +1046,30 @@ alert(foo);
 
 答案：1，function 的定义会提前到当前作用域之前，所以等同于：
 
-    var foo = 1;
-    function bar() {
-    	function foo() {}
-    	foo = 10;
-    	return;
-    }
-    bar();
-    alert(foo);
+```js
+var foo = 1;
+function bar() {
+  function foo() {}
+  foo = 10;
+  return;
+}
+bar();
+alert(foo);
+```
 
 所以，在 foo=10 的时候，foo 是有定义的，属于局部变量，影响不到外层的 foo。
 
-#4.
+### 4.
 
-    function bar() {
-        return foo;
-        foo = 10;
-        function foo() {}
-        var foo = 11;
-    }
-    alert(typeof bar());
+```js
+function bar() {
+  return foo;
+  foo = 10;
+  function foo() {}
+  var foo = 11;
+}
+alert(typeof bar());
+```
 
 - number
 - function
@@ -1975,13 +1078,15 @@ alert(foo);
 
 答案：function，与上题类似，等同于：
 
-    function bar() {
-        function foo() {}
-        return foo;
-        foo = 10;
-        var foo = 11;
-    }
-    alert(typeof bar());
+```js
+function bar() {
+  function foo() {}
+  return foo;
+  foo = 10;
+  var foo = 11;
+}
+alert(typeof bar());
+```
 
 在 return 之后声明和赋值的 foo 都无效，所以返回了 function。
 
@@ -1989,24 +1094,26 @@ alert(foo);
 
 > @尤里卡 Eureka：JS 中 function 声明和 var 声明都会被提前，最终得到结果为 function，是因为*名称解析顺序-Name Resolution Order*(http://t.cn/8kcIRts导致的function声明优先级大于var声明，而不是由return语句退出导致最后的结果~
 
-#5.
+### 5.
 
-    var x = 3;
+```js
+var x = 3;
 
-    var foo = {
-        x: 2,
-        baz: {
-            x: 1,
-            bar: function() {
-                return this.x;
-            }
-        }
-    }
+var foo = {
+  x: 2,
+  baz: {
+    x: 1,
+    bar: function() {
+      return this.x;
+    },
+  },
+};
 
-    var go = foo.baz.bar;
+var go = foo.baz.bar;
 
-    alert(go());
-    alert(foo.baz.bar());
+alert(go());
+alert(foo.baz.bar());
+```
 
 - 1,2
 - 1,3
@@ -2018,20 +1125,22 @@ alert(foo);
 答案：3,1
 this 指向执行时刻的作用域，go 的作用域是全局，所以相当于 window，取到的就是 window.x，也就是 var x=3;这里定义的 x。而 foo.baz.bar()里面，this 指向 foo.baz，所以取到的是这个上面的 x，也就是 1。
 
-#6.
+### 6.
 
-    var x = 4,
-        obj = {
-            x: 3,
-            bar: function() {
-                var x = 2;
-                setTimeout(function() {
-                    var x = 1;
-                    alert(this.x);
-                }, 1000);
-            }
-        };
-    obj.bar();
+```js
+var x = 4,
+  obj = {
+    x: 3,
+    bar: function() {
+      var x = 2;
+      setTimeout(function() {
+        var x = 1;
+        alert(this.x);
+      }, 1000);
+    },
+  };
+obj.bar();
+```
 
 - 1
 - 2
@@ -2041,15 +1150,17 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案：4，不管有这个 setTimeout 还是把这个函数立即执行，它里面这个 function 都是孤立的，this 只能是全局的 window，即使不延时，改成立即执行结果同样是 4。
 
-#7.
+### 7.
 
-    x = 1;
-    function bar() {
-        this.x = 2;
-        return x;
-    }
-    var foo = new bar();
-    alert(foo.x);
+```js
+x = 1;
+function bar() {
+  this.x = 2;
+  return x;
+}
+var foo = new bar();
+alert(foo.x);
+```
 
 - 1
 - 2
@@ -2057,12 +1168,14 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案：2，这里主要问题是最外面 x 的定义，试试把 x=1 改成 x={}，结果会不同的。这是为什么呢？在把函数当作构造器使用的时候，如果手动返回了一个值，要看这个值是否简单类型，如果是，等同于不写返回，如果不是简单类型，得到的就是手动返回的值。如果，不手动写返回值，就会默认从原型创建一个对象用于返回。
 
-#8.
+### 8.
 
-    function foo(a) {
-        alert(arguments.length);
-    }
-    foo(1, 2, 3);
+```js
+function foo(a) {
+  alert(arguments.length);
+}
+foo(1, 2, 3);
+```
 
 - 1
 - 2
@@ -2071,10 +1184,12 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案 3，arguments 取的是实参的个数，而 foo.length 取的是形参个数。
 
-#9.
+### 9.
 
-    var foo = function bar() {};
-    alert(typeof bar);
+```js
+var foo = function bar() {};
+alert(typeof bar);
+```
 
 - function
 - object
@@ -2082,13 +1197,15 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案：undefined，这种情况下 bar 的名字从外部不可见，那是不是这个名字别人就没法知道了呢？不是，toString 就可以看到它，比如说 alert(foo)，可以看看能打出什么。
 
-#10.
+### 10.
 
-    var arr = [];
-    arr[0]  = 'a';
-    arr[1]  = 'b';
-    arr.foo = 'c';
-    alert(arr.length);
+```js
+var arr = [];
+arr[0] = 'a';
+arr[1] = 'b';
+arr.foo = 'c';
+alert(arr.length);
+```
 
 - 1
 - 2
@@ -2097,13 +1214,15 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案：2，数组的原型是 Object，所以可以像其他类型一样附加属性，不影响其固有性质。
 
-#11.
+### 11.
 
-    function foo(a) {
-        arguments[0] = 2;
-        alert(a);
-    }
-    foo(1);
+```js
+function foo(a) {
+  arguments[0] = 2;
+  alert(a);
+}
+foo(1);
+```
 
 - 1
 - 2
@@ -2111,11 +1230,13 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案：2，实参可以直接从 arguments 数组中修改。
 
-#12.
+### 12.
 
-    function foo(){}
-    delete foo.length;
-    alert(typeof foo.length);
+```js
+function foo() {}
+delete foo.length;
+alert(typeof foo.length);
+```
 
 - number
 - undefined

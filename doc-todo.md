@@ -10,11 +10,11 @@
 
 ### todo
 
-- 12-24
-  - promise
-  - 性能优化
-  - url
-  - 安全
+- promise
+- es6
+- 性能优化
+- url
+- 安全
 
 ## full
 
