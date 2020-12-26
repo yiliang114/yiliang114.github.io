@@ -94,3 +94,509 @@ console.log(Array.from({ length: 0 }));
 console.log(Array.from(''));
 //[]
 ```
+
+### 数组
+
+Array.isArray 的兼容性
+Array 对象自带的排序函数底层是怎么实现的
+如何遍历一个对象的属性
+创建数组的几种方法？ 有什么不同？数组可以直接通过 length 来指定长度，自动扩展，自动清空。
+
+### JavaScript 怎么清空数组？
+
+```js
+var ary = [1, 2, 3, 4];
+ary.splice(0, ary.length);
+console.log(ary); // 输出 []，空数组，即被清空了
+```
+
+### reduce
+
+reduce 可以将数组中的元素通过回调函数最终转换为一个值。
+如果我们想实现一个功能将函数里的元素全部相加得到一个值，可能会这样写代码
+
+```js
+const arr = [1, 2, 3];
+let total = 0;
+for (let i = 0; i < arr.length; i++) {
+  total += arr[i];
+}
+console.log(total); //6
+```
+
+但是如果我们使用 reduce 的话就可以将遍历部分的代码优化为一行代码
+
+```js
+const arr = [1, 2, 3];
+const sum = arr.reduce((acc, current) => acc + current, 0);
+console.log(sum);
+```
+
+对于 reduce 来说，它接受两个参数，分别是回调函数和初始值，接下来我们来分解上述代码中 reduce 的过程
+
+- 首先初始值为 0，该值会在执行第一次回调函数时作为第一个参数传入
+- 回调函数接受四个参数，分别为累计值、当前元素、当前索引、原数组，后三者想必大家都可以明白作用，这里着重分析第一个参数
+- 在一次执行回调函数时，当前值和初始值相加得出结果 1，该结果会在第二次执行回调函数时当做第一个参数传入
+- 所以在第二次执行回调函数时，相加的值就分别是 1 和 2，以此类推，循环结束后得到结果 6。
+
+### 用 reduce 实现 map 的功能
+
+```js
+Array.prototype.map = function(callback) {
+  const array = this;
+  return array.reduce((acc, cur, index) => {
+    acc.push(callback(cur, index, array));
+    return acc;
+  }, []);
+};
+```
+
+测试：
+
+```js
+var m = [1, 2, 3, 4, 5].map(function(v, i, arr) {
+  return v + v;
+});
+console.log(m);
+```
+
+```js
+var array = [
+  {
+    selector: 'sss',
+    rules: 'rrrr',
+  },
+  {
+    selector: 'sss2',
+    rules: 'rrr3',
+  },
+];
+
+function transform(array, key, value) {
+  return array.reduce((obj, item) => {
+    obj[item[key]] = (obj[item[key]] || []).concat(item[value]);
+    return obj;
+  }, {});
+}
+
+var tree = transform(array, 'selector', 'rules');
+
+console.log(tree);
+```
+
+### 数组的哪些操作会改变数组？
+
+- pop
+- push
+- shift
+- unshift
+- sort
+- reverse
+- splice(删除)
+
+### 请说明下列方法功能：
+
+| 方法             | 功能                                                                  | 是否改变原数组 | 备注             |
+| ---------------- | --------------------------------------------------------------------- | -------------- | ---------------- |
+| push             | 添加元素到数组的末尾                                                  | √              |                  |
+| pop              | 删除数组末尾的元素                                                    | √              |                  |
+| shift            | 删除数组头部的元素                                                    | √              | 第一次写错啦     |
+| unshift          | 添加元素到数组的头部                                                  | √              | 第一次写错啦     |
+| splice(pos,n)    | 通过索引,从 pos 位置开始删除 n 个元素                                 | √              | 第一次写错啦     |
+| slice(start,end) | 返回一个新的数组，包含从`start`到`end`(不包括该元素）的数组中的元素。 | ×              | 和 splice 记混啦 |
+| sort             | 数组排序                                                              | √              |                  |
+| reverse          | 数组倒序                                                              | √              | 是改变原数组的   |
+| slice()          | 复制整个数组                                                          | ×              |                  |
+| indexOf          | 找出某个元素在数组中的索引                                            | ×              |                  |
+
+### 数组 Array 对象常用方法
+
+修改器方法
+下面的这些方法会**改变调用它们的对象自身的值**：
+
+- Array.prototype.pop()
+  - 删除数组的最后一个元素，并返回这个元素。
+- Array.prototype.push()
+
+  - 在数组的末尾增加一个或多个元素，并返回数组的新长度。
+
+- Array.prototype.shift()
+  - 删除数组的第一个元素，并返回这个元素。
+- Array.prototype.unshift()
+
+  - 在数组的开头增加一个或多个元素，并返回数组的新长度。
+
+- Array.prototype.splice()
+
+  - 在任意的位置给数组添加或删除任意个元素。
+
+- Array.prototype.reverse()
+  - 颠倒数组中元素的排列顺序，即原先的第一个变为最后一个，原先的最后一个变为第一个。
+- Array.prototype.sort()
+
+  - 对数组元素进行排序，并返回当前数组。
+
+- Array.prototype.fill()
+  - 将数组中指定区间的所有元素的值，都替换成某个固定的值。
+- Array.prototype.copyWithin()
+  - 在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值。
+
+访问方法
+下面的这些方法绝对不会改变调用它们的对象的值，只会返回一个新的数组或者返回一个其它的期望值。
+
+- Array.prototype.join()
+  - 连接所有数组元素组成一个字符串。把数组中的所有元素放入一个字符串中
+- Array.prototype.slice()
+  - 抽取当前数组中的一段元素组合成一个新数组。
+- Array.prototype.concat()
+
+  - 返回一个由当前数组和其它若干个数组或者若干个非数组值组合而成的新数组。
+
+- Array.prototype.includes()
+
+  - 判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false。
+
+- Array.prototype.indexOf()
+  - 返回数组中第一个与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。
+- Array.prototype.lastIndexOf()
+
+  - 返回数组中最后一个（从右边数第一个）与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。
+
+- Array.prototype.toSource()
+  - 返回一个表示当前数组字面量的字符串。遮蔽了原型链上的 Object.prototype.toSource() 方法。
+- Array.prototype.toString()
+  - 返回一个由所有数组元素组合而成的字符串。遮蔽了原型链上的 Object.prototype.toString() 方法。
+- Array.prototype.toLocaleString()
+  - 返回一个由所有数组元素组合而成的本地化后的字符串。遮蔽了原型链上的 Object.prototype.toLocaleString() 方法。
+
+迭代方法
+
+在下面的众多遍历方法中，有很多方法都需要指定一个回调函数作为参数。在每一个数组元素都分别执行完回调函数之前，数组的 length 属性会被缓存在某个地方，所以，如果你在回调函数中为当前数组添加了新的元素，那么那些新添加的元素是不会被遍历到的。此外，如果在回调函数中对当前数组进行了其它修改，比如改变某个元素的值或者删掉某个元素，那么随后的遍历操作可能会受到未预期的影响。总之，不要尝试在遍历过程中对原数组进行任何修改，虽然规范对这样的操作进行了详细的定义，但为了可读性和可维护性，请不要这样做。
+
+- Array.prototype.forEach()
+
+  - 为数组中的每个元素执行一次回调函数。
+
+- Array.prototype.map()
+  - 返回一个由回调函数的返回值组成的新数组。
+- Array.prototype.reduce()
+  - 从左到右为每个数组元素执行一次回调函数，并把上次回调函数的返回值放在一个暂存器中传给下次回调函数，并返回最后一次回调函数的返回值。
+- Array.prototype.filter()
+
+  - 将所有在过滤函数中返回 true 的数组元素放进一个新数组中并返回。
+
+- Array.prototype.every()
+  - 如果数组中的每个元素都满足测试函数，则返回 true，否则返回 false。
+- Array.prototype.some()
+
+  - 如果数组中至少有一个元素满足测试函数，则返回 true，否则返回 false。
+
+- Array.prototype.find()
+  - 找到第一个满足测试函数的元素并返回那个元素的值，如果找不到，则返回 undefined。
+- Array.prototype.findIndex()
+  - 找到第一个满足测试函数的元素并返回那个元素的索引，如果找不到，则返回 -1。
+- Array.prototype.keys()
+  - 返回一个数组迭代器对象，该迭代器会包含所有数组元素的键。
+- Array.prototype.entries()
+  - 返回一个数组迭代器对象，该迭代器会包含所有数组元素的键值对。
+
+### Array 对象自带的排序函数底层是怎么实现的？
+
+### map, filter, reduce
+
+map, filter, reduce 各自有什么作用？
+
+`map` 作用是生成一个新数组，遍历原数组，将每个元素拿出来做一些变换然后放入到新的数组中。
+
+```
+[1, 2, 3].map(v => v + 1) // -> [2, 3, 4]
+```
+
+另外 `map` 的回调函数接受三个参数，分别是当前索引元素，索引，原数组
+
+```
+['1','2','3'].map(parseInt)
+```
+
+- 第一轮遍历 `parseInt('1', 0) -> 1`
+- 第二轮遍历 `parseInt('2', 1) -> NaN`
+- 第三轮遍历 `parseInt('3', 2) -> NaN`
+
+`filter` 的作用也是生成一个新数组，在遍历数组的时候将返回值为 `true` 的元素放入新数组，我们可以利用这个函数删除一些不需要的元素
+
+```
+let array = [1, 2, 4, 6]
+let newArray = array.filter(item => item !== 6)
+console.log(newArray) // [1, 2, 4]
+```
+
+和 `map` 一样，`filter` 的回调函数也接受三个参数，用处也相同。
+
+最后我们来讲解 `reduce` 这块的内容，同时也是最难理解的一块内容。`reduce` 可以将数组中的元素通过回调函数最终转换为一个值。
+
+如果我们想实现一个功能将函数里的元素全部相加得到一个值，可能会这样写代码
+
+```
+const arr = [1, 2, 3]
+let total = 0
+for (let i = 0; i < arr.length; i++) {
+  total += arr[i]
+}
+console.log(total) //6
+```
+
+但是如果我们使用 `reduce` 的话就可以将遍历部分的代码优化为一行代码
+
+```
+const arr = [1, 2, 3]
+const sum = arr.reduce((acc, current) => acc + current, 0)
+console.log(sum)
+```
+
+对于 `reduce` 来说，它接受两个参数，分别是回调函数和初始值，接下来我们来分解上述代码中 `reduce` 的过程
+
+- 首先初始值为 `0`，该值会在执行第一次回调函数时作为第一个参数传入
+- 回调函数接受四个参数，分别为累计值、当前元素、当前索引、原数组，后三者想必大家都可以明白作用，这里着重分析第一个参数
+- 在一次执行回调函数时，当前值和初始值相加得出结果 `1`，该结果会在第二次执行回调函数时当做第一个参数传入
+- 所以在第二次执行回调函数时，相加的值就分别是 `1` 和 `2`，以此类推，循环结束后得到结果 `6`
+
+想必通过以上的解析大家应该明白 `reduce` 是如何通过回调函数将所有元素最终转换为一个值的，当然 `reduce` 还可以实现很多功能，接下来我们就通过 `reduce` 来实现 `map` 函数
+
+```
+const arr = [1, 2, 3]
+const mapArray = arr.map(value => value * 2)
+const reduceArray = arr.reduce((acc, current) => {
+  acc.push(current * 2)
+  return acc
+}, [])
+console.log(mapArray, reduceArray) // [2, 4, 6]
+```
+
+如果你对这个实现还有困惑的话，可以根据上一步的解析步骤来分析过程。
+
+### js 两个数组取差集
+
+```js
+arrayA.filter(key => !arrayB.includes(key));
+```
+
+### Map、FlatMap 和 Reduce
+
+`Map` 作用是生成一个新数组，遍历原数组，将每个元素拿出来做一些变换然后 `append` 到新的数组中。
+
+```js
+[1, 2, 3].map(v => v + 1);
+// -> [2, 3, 4]
+```
+
+`Map` 有三个参数，分别是当前索引元素，索引，原数组
+
+```js
+['1', '2', '3'].map(parseInt);
+//  parseInt('1', 0) -> 1
+//  parseInt('2', 1) -> NaN
+//  parseInt('3', 2) -> NaN
+```
+
+`FlatMap` 和 `map` 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。可以将 `FlatMap` 看成是 `map` + `flatten` ，目前该函数在浏览器中还不支持。
+
+```js
+[1, [2], 3].flatMap(v => v + 1);
+// -> [2, 3, 4]
+```
+
+如果想将一个多维数组彻底的降维，可以这样实现
+
+```js
+const flattenDeep = arr => (Array.isArray(arr) ? arr.reduce((a, b) => [...a, ...flattenDeep(b)], []) : [arr]);
+
+flattenDeep([1, [[2], [3, [4]], 5]]);
+```
+
+`Reduce` 作用是数组中的值组合起来，最终得到一个值
+
+```js
+function a() {
+  console.log(1);
+}
+
+function b() {
+  console.log(2);
+}
+
+[a, b].reduce((a, b) => a(b()));
+// -> 2 1
+```
+
+### 请说明`.forEach`循环和`.map()`循环的主要区别，它们分别在什么情况下使用？
+
+为了理解两者的区别，我们看看它们分别是做什么的。
+
+**`forEach`**
+
+- 遍历数组中的元素。
+- 为每个元素执行回调。
+- 无返回值。
+
+```js
+const a = [1, 2, 3];
+const doubled = a.forEach((num, index) => {
+  // 执行与 num、index 相关的代码
+});
+
+// doubled = undefined
+```
+
+**`map`**
+
+- 遍历数组中的元素
+- 通过对每个元素调用函数，将每个元素“映射（map）”到一个新元素，从而创建一个新数组。
+
+```js
+const a = [1, 2, 3];
+const doubled = a.map(num => {
+  return num * 2;
+});
+
+// doubled = [2, 4, 6]
+```
+
+`.forEach`和`.map()`的主要区别在于`.map()`返回一个新的数组。如果你想得到一个结果，但不想改变原始数组，用`.map()`。如果你只需要在数组上做迭代修改，用`forEach`。
+
+### 列举一下 JavaScript 数组和对象有哪些原生方法？
+
+- 数组：
+
+  - arr.concat(arr1, arr2, arrn);
+  - arr.join(",");
+  - arr.sort(func);
+  - arr.pop();
+  - arr.push(e1, e2, en);
+  - arr.shift();
+  - unshift(e1, e2, en);
+  - arr.reverse();
+  - arr.slice(start, end);
+  - arr.splice(index, count, e1, e2, en);
+  - arr.indexOf(el);
+  - arr.includes(el); // ES6
+
+- 对象：
+  - object.hasOwnProperty(prop);
+  - object.propertyIsEnumerable(prop);
+  - object.valueOf();
+  - object.toString();
+  - object.toLocaleString();
+  - Class.prototype.isPropertyOf(object);
+
+### Array.splice() 与 Array.splice() 的区别？
+
+- slice -- “读取”数组指定的元素，不会对原数组进行修改
+
+  - 语法：arr.slice(start, end)
+  - start 指定选取开始位置（含）
+  - end 指定选取结束位置（不含）
+
+- splice
+
+  - “操作”数组指定的元素，会修改原数组，返回被删除的元素
+  - 语法：arr.splice(index, count, [insert Elements])
+  - index 是操作的起始位置
+  - count = 0 插入元素，count > 0 删除元素
+  - [insert Elements] 向数组新插入的元素
+
+### for in, for of, foreach, map 之类的区别
+
+### flat 拍平数组
+
+已知如下数组：
+
+> `var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
+>
+> 编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+
+```js
+Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {
+  return a - b;
+});
+```
+
+**竟然原生就有这个 flat 函数，用来拍平数组**
+
+### 21.有以下 3 个判断数组的方法，请分别介绍它们之间的区别和优劣
+
+Object.prototype.toString.call() 、 instanceof 以及 Array.isArray()
+
+#### 1. Object.prototype.toString.call()
+
+每一个继承 Object 的对象都有 `toString` 方法，如果 `toString` 方法没有重写的话，会返回 `[Object type]`，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 `toString` 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或者 apply 方法来改变 toString 方法的执行上下文。
+
+```js
+const an = ['Hello', 'An'];
+an.toString(); // "Hello,An"
+Object.prototype.toString.call(an); // "[object Array]"
+```
+
+这种方法对于所有基本的数据类型都能进行判断，即使是 null 和 undefined 。
+
+```js
+Object.prototype.toString.call('An'); // "[object String]"
+Object.prototype.toString.call(1); // "[object Number]"
+Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
+Object.prototype.toString.call(null); // "[object Null]"
+Object.prototype.toString.call(undefined); // "[object Undefined]"
+Object.prototype.toString.call(function() {}); // "[object Function]"
+Object.prototype.toString.call({ name: 'An' }); // "[object Object]"
+```
+
+`Object.prototype.toString.call()` 常用于判断浏览器内置对象时。
+
+更多实现可见 [谈谈 Object.prototype.toString](https://juejin.im/post/591647550ce4630069df1c4a)
+
+#### 2. instanceof
+
+`instanceof` 的内部机制是通过判断对象的原型链中是不是能找到类型的 `prototype`。
+
+使用 `instanceof`判断一个对象是否为数组，`instanceof` 会判断这个对象的原型链上是否会找到对应的 `Array` 的原型，找到返回 `true`，否则返回 `false`。
+
+```js
+[] instanceof Array; // true
+```
+
+但 `instanceof` 只能用来判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true。
+
+```js
+[] instanceof Object; // true
+```
+
+#### 3. Array.isArray()
+
+- 功能：用来判断对象是否为数组
+
+- instanceof 与 isArray
+
+  当检测 Array 实例时，`Array.isArray` 优于 `instanceof` ，因为 `Array.isArray` 可以检测出 `iframes`
+
+  ```js
+  var iframe = document.createElement('iframe');
+  document.body.appendChild(iframe);
+  xArray = window.frames[window.frames.length - 1].Array;
+  var arr = new xArray(1, 2, 3); // [1,2,3]
+
+  // Correctly checking for Array
+  Array.isArray(arr); // true
+  Object.prototype.toString.call(arr); // true
+  // Considered harmful, because doesn't work though iframes
+  arr instanceof Array; // false
+  ```
+
+- `Array.isArray()` 与 `Object.prototype.toString.call()`
+
+  `Array.isArray()`是 ES5 新增的方法，当不存在 `Array.isArray()` ，可以用 `Object.prototype.toString.call()` 实现。
+
+  ```js
+  if (!Array.isArray) {
+    Array.isArray = function(arg) {
+      return Object.prototype.toString.call(arg) === '[object Array]';
+    };
+  }
+  ```

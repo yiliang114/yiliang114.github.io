@@ -302,3 +302,51 @@ Promise 决议后的值仍然是 promise 对象。
 - nextTick, setTimeout 以及 setImmediate 三者有什么区别?
 - 如何实现一个 sleep 函数?
 - 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)
+
+### 64.模拟实现一个 Promise.finally
+
+```js
+Promise.prototype.finally = function(callback) {
+  let P = this.constructor;
+  return this.then(
+    value => P.resolve(callback()).then(() => value),
+    reason =>
+      P.resolve(callback()).then(() => {
+        throw reason;
+      }),
+  );
+};
+```
+
+### 80.介绍下 Promise.all 使用、原理实现及错误处理
+
+```js
+all(list) {
+        return new Promise((resolve, reject) => {
+            let resValues = [];
+            let counts = 0;
+            for (let [i, p] of list) {
+                resolve(p).then(res => {
+                    counts++;
+                    resValues[i] = res;
+                    if (counts === list.length) {
+                        resolve(resValues)
+                    }
+                }, err => {
+                    reject(err)
+                })
+            }
+        })
+    }
+```
+
+### 89.设计并实现 Promise.race()
+
+```js
+Promise._race = promises =>
+  new Promise((resolve, reject) => {
+    promises.forEach(promise => {
+      promise.then(resolve, reject);
+    });
+  });
+```

@@ -466,3 +466,51 @@ Function.prototype.bind = function(oThis) {
   return fBound;
 };
 ```
+
+### bind 源码的实现
+
+```js
+    Function.prototype.myCall = function (obj) {
+      obj.fn = thislet args = [...arguments].splice(1)
+      let result = obj.fn(...args)
+      delete obj.fn
+      return result
+    }
+
+    Function.prototype.myApply = function (obj) {
+      obj.fn = thislet args = arguments[1]
+      let result
+      if (args) {
+        result = obj.fn(...args)
+      } else {
+        result = obj.fn()
+      }
+
+      delete obj.fn
+
+      return result
+    }
+
+    Function.prototype.myBind = function (obj) {
+      let context = obj || windowlet that = thislet _args = [...arguments].splice(1)
+
+      returnfunction () {
+        let args = arguments// 产生副作用// return obj.fn(..._args, ...args)return that.apply(context, [..._args, ...args])
+      }
+    }
+
+    functionmyFun (argumentA, argumentB) {
+      console.log(this.value)
+      console.log(argumentA)
+      console.log(argumentB)
+      returnthis.value
+    }
+
+    let obj = {
+      value: 'ziyi2'
+    }
+    console.log(myFun.myCall(obj, 11, 22))
+    console.log(myFun.myApply(obj, [11, 22]))
+    console.log(myFun.myBind(obj, 33)(11, 22))
+
+```
