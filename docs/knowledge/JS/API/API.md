@@ -129,6 +129,38 @@ var tree = transform(array, 'selector', 'rules');
 console.log(tree);
 ```
 
+### String.slice() 和 String.substring(),String.substr()的区别
+
+Syntax: string.slice(start, stop);
+Syntax: string.substring(start, stop);
+返回一个字符串，左包含，右不包含
+
+Syntax:String.substr(start, num);
+返回字符串,包含 start 开始,num 为字符数
+
+---
+
+slice VS substring
+
+相同：
+
+1.  如果 start == stop,return 一个空字符串
+2.  stop 如果被省略，则直接扫至字符串尾
+3.  如果 start 或 stop 大于了字符串长度，则会被替换成字符串长度
+
+不同：
+
+substring():
+
+- 1.如果 start > stop,则会交换这两个参数
+- 2.如果 start or stop 是负数或 NaN，会把它当成 0 对待
+
+slice():
+
+- 1.如果 start > stop,不会交换这两个参数，返回空字符串””
+- 2.如果 start,or stop 是负数，且绝对值小于字符串长度，则开头\结尾是 start\stop+字符串长度
+- 3.如果 start or stop 是负数，且绝对值大于字符串长度，则当作 0 处理
+
 ### 数组的哪些操作会改变数组？
 
 - pop

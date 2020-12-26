@@ -31,19 +31,17 @@ SQL (Structured Query Language) 是[关系式数据库管理系统](https://en.w
 - 你经常使用什么样的查询模式？
 - 你的数据有多大？
 
-参见 [MYSQL: INNODB 还是 MYISAM?](http://coolshell.cn/articles/652.html)
-
 ### 索引
 
-索引是用空间换时间的一种优化策略. 推荐阅读: [mysql 索引类型](http://www.cnblogs.com/cq-home/p/3482101.html) 以及 [主键与唯一索引的区别](http://blog.mimvp.com/2015/03/the-difference-between-primary-key-and-unique-index/)
+索引是用空间换时间的一种优化策略.
 
 ## Mongodb
 
-> Monogdb 连接问题(超时/断开等)有可能是什么问题导致的?
+> Mongodb 连接问题(超时/断开等)有可能是什么问题导致的?
 
 - 网络问题
 - 任务跑不完, 超过了 driver 的默认链接超时时间 (如 30s)
-- Monogdb 宕机了
+- Mongodb 宕机了
 - 超过了连接空闲时间 (connection idle time) 被断开
 - fd 不够用 (ulimit 设置)
 - mongodb 最大连接数不够用 (可能是连接未复用导致)

@@ -642,7 +642,7 @@ define 部分定义一个简单的模板类，使用{}作为转义标记，中�
     console.log(serializeForm(form));
     </script>
 
-### 使用原生 javascript 给下面列表中的 li 节点绑定点击事件,点击时创建一个 Object 对象,兼容 IE 和标准浏览器
+### 使用原生 js 给下面列表中的 li 节点绑定点击事件,点击时创建一个 Object 对象,兼容 IE 和标准浏览器
 
 ```
 <ul id="nav">

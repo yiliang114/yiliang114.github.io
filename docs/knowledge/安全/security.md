@@ -44,7 +44,7 @@ Node.js 的加密貌似有点问题, 某些算法算出来跟别的语言 (比�
 
 在 TLS/SSL 中你可以使用 OpenSSL 来生成 TLS/SSL 传输时用来认证的 public/private key. 不过这个 public/private key 是自己生成的, 而通过 PKI 基础设施可以获得权威的第三方证书 (key) 从而加密 HTTP 传输安全. 目前博客圈子里比较流行的是 [Let's Encrypt 签发免费的 HTTPS 证书](https://imququ.com/post/letsencrypt-certificate.html).
 
-需要注意的是, 如果 PKI 受到攻击, 那么 HTTPS 也一样不安全. 可以参见 [HTTPS 劫持 - 知乎讨论](https://www.zhihu.com/question/22795329) 中的情况, 证书由 CA 机构签发, 一般浏览器遇到非权威的 CA 机构是会告警的 (参见 [12306](https://kyfw.12306.cn/otn/)), 但是如果你在某些特殊的情况下信任了某个未知机构/证书, 那么也可能被劫持.
+需要注意的是, 如果 PKI 受到攻击, 那么 HTTPS 也一样不安全. 证书由 CA 机构签发, 一般浏览器遇到非权威的 CA 机构是会告警的, 但是如果你在某些特殊的情况下信任了某个未知机构/证书, 那么也可能被劫持.
 
 此外有的 CA 机构以邮件方式认证, 那么当某个网站的邮件服务收到攻击/渗透, 那么攻击者也可能以此从 CA 机构获取权威的正确的证书.
 
@@ -119,8 +119,6 @@ content-security-policy: script-src 'sha256-wxWy1+9LmiuOeDwtQyZNmWpT0jqCUikqaqVl
 </script>
 <!-- 执行 -->
 ```
-
-策略指令可以参见 [CSP Policy Directives](https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives)以及[阮一峰的博文](http://www.ruanyifeng.com/blog/2016/09/csp.html), [屈大神的博文](https://imququ.com/post/content-security-policy-reference.html)
 
 ## CSRF
 

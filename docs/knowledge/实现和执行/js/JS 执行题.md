@@ -1893,7 +1893,11 @@ obj['3'] = 'bar';
 obj['[object Object]'] = 'baz';
 ```
 
-obj.toString() // "[object Object]",所有对象的`toString()`的值都是`"[object Object]"`
+所有对象的`toString()`的值都是`"[object Object]"`
+
+```js
+obj.toString(); // "[object Object]"
+```
 
 备注：
 `.a` - 属性访问值
@@ -1954,10 +1958,6 @@ alert(foo);
 
 所以，在 foo=10 的时候，foo 是有定义的，属于局部变量，影响不到外层的 foo。
 
-参见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FFunctions_and_function_scope
-
-> Unlike functions defined by function expressions or by the Function constructor, a function defined by a function declaration can be used before the function declaration itself.
-
 #4.
 
     function bar() {
@@ -1984,10 +1984,6 @@ alert(foo);
     alert(typeof bar());
 
 在 return 之后声明和赋值的 foo 都无效，所以返回了 function。
-
-参见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return
-
-> A function immediately stops at the point where return is called.
 
 补充，这个解答有问题：
 
@@ -2021,8 +2017,6 @@ alert(foo);
 
 答案：3,1
 this 指向执行时刻的作用域，go 的作用域是全局，所以相当于 window，取到的就是 window.x，也就是 var x=3;这里定义的 x。而 foo.baz.bar()里面，this 指向 foo.baz，所以取到的是这个上面的 x，也就是 1。
-
-参见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FOperators%2Fthis
 
 #6.
 
@@ -2063,8 +2057,6 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案：2，这里主要问题是最外面 x 的定义，试试把 x=1 改成 x={}，结果会不同的。这是为什么呢？在把函数当作构造器使用的时候，如果手动返回了一个值，要看这个值是否简单类型，如果是，等同于不写返回，如果不是简单类型，得到的就是手动返回的值。如果，不手动写返回值，就会默认从原型创建一个对象用于返回。
 
-参见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
-
 #8.
 
     function foo(a) {
@@ -2079,11 +2071,6 @@ this 指向执行时刻的作用域，go 的作用域是全局，所以相当于
 
 答案 3，arguments 取的是实参的个数，而 foo.length 取的是形参个数。
 
-参见：
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/arguments/length?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FFunctions_and_function_scope%2Farguments%2Flength
-
-> arguments.length provides the number of arguments actually passed to a function. This can be more or less than the defined parameter count (See Function.length).
-
 #9.
 
     var foo = function bar() {};
@@ -2094,11 +2081,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_
 - undefined
 
 答案：undefined，这种情况下 bar 的名字从外部不可见，那是不是这个名字别人就没法知道了呢？不是，toString 就可以看到它，比如说 alert(foo)，可以看看能打出什么。
-
-参见：
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FFunctions_and_function_scope
-
-> The function name can be used only within the function's body. Attempting to use it outside the function's body results in an error (or undefined if the function name was previously declared via a var statement).
 
 #10.
 
@@ -2129,11 +2111,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_
 
 答案：2，实参可以直接从 arguments 数组中修改。
 
-参见：
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/arguments?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FFunctions_and_function_scope%2Farguments
-
-> The arguments can also be set
-
 #12.
 
     function foo(){}
@@ -2146,7 +2123,3 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_
 - Error
 
 答案：number，foo.length 是无法删除的，它在 Function 原型上，重点它的 configurable 是 false。
-
-参见：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete
-
-> delete can't remove certain properties of predefined objects (like Object, Array, Math etc). These are described in ECMAScript 5 and later as non-configurable

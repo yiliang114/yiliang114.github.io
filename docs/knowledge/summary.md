@@ -1389,7 +1389,7 @@ if(a == 1 && a == 2 && a == 3){
 ```js
 var a = ?;
 if(a == 1 && a == 2 && a == 3){
- 	conso.log(1);
+ 	console.log(1);
 }
 ```
 
@@ -2162,42 +2162,6 @@ https 协议由 http + ssl 协议构成，具体的链接过程可参考[SSL 或
 这时，如果你想让用户看到“12345”，你在页面中渲染的数字就应该是“23154”。这种手段也可以算作一种加密。
 具体的实现方法可以看一下《[Web 端反爬虫技术方案](https://juejin.im/post/5b6d579cf265da0f6e51a7e0)》。
 
-### 98.写出如下代码的打印结果
-
-```js
-function changeObjProperty(o) {
-  o.siteUrl = 'http://www.baidu.com';
-  o = new Object();
-  o.siteUrl = 'http://www.google.com';
-}
-let webSite = new Object();
-changeObjProperty(webSite);
-console.log(webSite.siteUrl);
-```
-
-### 100.请写出如下代码的打印结果
-
-```js
-function Foo() {
-  Foo.a = function() {
-    console.log(1);
-  };
-  this.a = function() {
-    console.log(2);
-  };
-}
-Foo.prototype.a = function() {
-  console.log(3);
-};
-Foo.a = function() {
-  console.log(4);
-};
-Foo.a();
-let obj = new Foo();
-obj.a();
-Foo.a();
-```
-
 ### 101.修改以下 print 函数，使之输出 0 到 99，或者 99 到 0
 
 要求：
@@ -2326,36 +2290,6 @@ String('11') == new String('11').toString();
 比如有个数组有 100K 个元素，从中不重复随机选取 10K 个元素。
 
 由于随机从 100K 个数据中随机选取 10k 个数据，可采用统计学中随机采样点的选取进行随机选取，如在 0-50 之间生成五个随机数，然后依次将每个随机数进行加 50 进行取值，性能应该是最好的。
-
-### 108.请写出如下代码的打印结果
-
-```js
-var name = 'Tom';
-(function() {
-  if (typeof name == 'undefined') {
-    var name = 'Jack';
-    console.log('Goodbye ' + name);
-  } else {
-    console.log('Hello ' + name);
-  }
-})();
-```
-
-Goodbye Jack
-
-### 109.扩展题，请写出如下代码的打印结果
-
-```js
-var name = 'Tom';
-(function() {
-  if (typeof name == 'undefined') {
-    name = 'Jack';
-    console.log('Goodbye ' + name);
-  } else {
-    console.log('Hello ' + name);
-  }
-})();
-```
 
 ### 110.编程题，请写一个函数，完成以下功能
 

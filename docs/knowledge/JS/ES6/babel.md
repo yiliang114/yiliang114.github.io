@@ -154,36 +154,31 @@ third({ x: 100 });
 - 如何创建一个对象，以及各种方式的区别
 - js 创建一个空对象的几种方法和区别， vuex 中使用 Object.create(null) ？ 为什么不直接使用 {}
 
-- 手动实现 call apply bind , 区别是什么
-  bind 返回的是绑定 this 之后的函数，需要手动再次执行
-  call 与 bind 一样传入的第一个参数是 this， 后面跟的参数是函数的参数， 函数立即执行
-  apply 第一个参数是 this， 后面需要跟一个数组， 函数也是立即执行
+* Object.keys 输出顺序 https://mp.weixin.qq.com/s?__biz=MzA5NzkwNDk3MQ==&mid=2650587762&idx=1&sn=0b9fc52be79943be1f37005d231a1529&chksm=8891d256bfe65b40ae4ae66cefcf262dd5e4382b6dbcf891eaea1c36e4b9519723cacb196975&scene=0#rd
+* this 以及 箭头函数的 this
+* prototype 和 **proto** 的关系
 
-- Object.keys 输出顺序 https://mp.weixin.qq.com/s?__biz=MzA5NzkwNDk3MQ==&mid=2650587762&idx=1&sn=0b9fc52be79943be1f37005d231a1529&chksm=8891d256bfe65b40ae4ae66cefcf262dd5e4382b6dbcf891eaea1c36e4b9519723cacb196975&scene=0#rd
-- this 以及 箭头函数的 this
-- prototype 和 **proto** 的关系
+- Typeof null
+- var undefined
+- undefined == null // true
+- null === null
+- undefined === undefined
+- 1 == true;
+- 2 == true;
+- 0 == false;
+- 0 == '';
+- NaN == NaN
+- []==![]
+- []==false
+- typeof 去判断数据类型时返回值有哪些
+- == 与===
+- undefined 和 not defined 的区别
 
-* Typeof null
-* var undefined
-* undefined == null // true
-* null === null
-* undefined === undefined
-* 1 == true;
-* 2 == true;
-* 0 == false;
-* 0 == '';
-* NaN == NaN
-* []==![]
-* []==false
-* typeof 去判断数据类型时返回值有哪些
-* == 与===
-* undefined 和 not defined 的区别
-
-* typeof, instance of, Object.prototype.toString()
-* 怎么判断一个 object 是否是一个数组
-* 0.1 + 0.2 为啥不等于 0.3
-* js number 最大和最小的数是多少？ 超出该如何表示？
-* 说一说 promise 和 await async 分别的优势和劣势
+- typeof, instance of, Object.prototype.toString()
+- 怎么判断一个 object 是否是一个数组
+- 0.1 + 0.2 为啥不等于 0.3
+- js number 最大和最小的数是多少？ 超出该如何表示？
+- 说一说 promise 和 await async 分别的优势和劣势
 
   - 首先 await 的劣势有几个
 
@@ -192,36 +187,36 @@ third({ x: 100 });
 
   - 普通限频函数的实现原理，以及缺点，造成的问题(promise) 以及解决的办法
 
-* 如果我们使用 js 的 "关联数组"， 我们如何计算 "关联数组" 的长度？
-* 对于 arguments , object prototype, context, this 的理解
-* settimeout setinterval requestAnimation 之间的区别
-* 优化 http 请求需要全部打包还是进行拆分，如何查分？
-* 如何监控 js 对象属性变更 proxy 以及 defineProperty
-* js 中的 in 操作符号， 判断对象中是否有某一个 key 但是不能用于 数组 <https://www.cnblogs.com/yu-709213564/p/6580392.html>
-* document load 和 ready 的区别
-* 低版本的 浏览器不支持 html5 如何解决
-* 说一说 基本的浏览器兼容问题
-* js 的 curry 化
-* 解释 event-loop 和 macro-task mico-task 的理解和应用举例
-* promise generator 和 async/await 是如何实现的？
-* jquery 源码中你对哪个部分印象最深，讲一讲？（我就说了构造函数返回原型链中的 this）
-* 原型链是干啥的么，为什么要有原型链？
-* 熟悉 this 吗？js 中的 this 和 c++/java 中的 this 有什么区别？ this 的三种应用场景
-* 如果在构造函数中为 this 赋值 1 会发生什么？应该怎么改变 this 的值？
-* JS 如何实现重载和多态
-* 浮点型如何存储
-* 原生事件绑定（跨浏览器），dom0 和 dom2 的区别？
-* 说出一些函数的原型链
-* 严格模式(在非严格模式中，未声明变量默认为全局变量，可以在全局环境中通过 this 访问。严格模式取消了默认 this 全局变量，因此在函数 foo 外访问会报错)
-* 执行环境和作用域链的解释
-* 如何用原生 JS 实现 jQuery 选择器？（querySelector 和 querySeletorAll）
-* 如何给子元素到父元素依次绑定事件？（不考虑兼容性的话，使用 addEventListenr）
-* addEventListenr 有三个参数，解释一下最后一个参数？（事件冒泡和事件捕获的区别）
-* 如何让一个函数调用自身（函数内部可以使用其函数名或者 argument.callee 进行调用）
-* argument.callee 是什么?（表示当前执行的函数，但是在 ES5 的严格模式下是不能使用的。(要勇敢地发散问题，这个 ES5 就是发散出来的，体现自身知识广度））
-* 如何创建 DOM 节点（这个很简单），追问：元素节点和文本节点有什么区别（只回答了他们的 nodeType 不一样，元素节点是 1，文本节点是 3）
-* 什么是预加载、懒加载
-* 如何判断一个变量是字符串
+- 如果我们使用 js 的 "关联数组"， 我们如何计算 "关联数组" 的长度？
+- 对于 arguments , object prototype, context, this 的理解
+- settimeout setinterval requestAnimation 之间的区别
+- 优化 http 请求需要全部打包还是进行拆分，如何查分？
+- 如何监控 js 对象属性变更 proxy 以及 defineProperty
+- js 中的 in 操作符号， 判断对象中是否有某一个 key 但是不能用于 数组 <https://www.cnblogs.com/yu-709213564/p/6580392.html>
+- document load 和 ready 的区别
+- 低版本的 浏览器不支持 html5 如何解决
+- 说一说 基本的浏览器兼容问题
+- js 的 curry 化
+- 解释 event-loop 和 macro-task mico-task 的理解和应用举例
+- promise generator 和 async/await 是如何实现的？
+- jquery 源码中你对哪个部分印象最深，讲一讲？（我就说了构造函数返回原型链中的 this）
+- 原型链是干啥的么，为什么要有原型链？
+- 熟悉 this 吗？js 中的 this 和 c++/java 中的 this 有什么区别？ this 的三种应用场景
+- 如果在构造函数中为 this 赋值 1 会发生什么？应该怎么改变 this 的值？
+- JS 如何实现重载和多态
+- 浮点型如何存储
+- 原生事件绑定（跨浏览器），dom0 和 dom2 的区别？
+- 说出一些函数的原型链
+- 严格模式(在非严格模式中，未声明变量默认为全局变量，可以在全局环境中通过 this 访问。严格模式取消了默认 this 全局变量，因此在函数 foo 外访问会报错)
+- 执行环境和作用域链的解释
+- 如何用原生 JS 实现 jQuery 选择器？（querySelector 和 querySeletorAll）
+- 如何给子元素到父元素依次绑定事件？（不考虑兼容性的话，使用 addEventListenr）
+- addEventListenr 有三个参数，解释一下最后一个参数？（事件冒泡和事件捕获的区别）
+- 如何让一个函数调用自身（函数内部可以使用其函数名或者 argument.callee 进行调用）
+- argument.callee 是什么?（表示当前执行的函数，但是在 ES5 的严格模式下是不能使用的。(要勇敢地发散问题，这个 ES5 就是发散出来的，体现自身知识广度））
+- 如何创建 DOM 节点（这个很简单），追问：元素节点和文本节点有什么区别（只回答了他们的 nodeType 不一样，元素节点是 1，文本节点是 3）
+- 什么是预加载、懒加载
+- 如何判断一个变量是字符串
 
   ```
     Object.prototype.toString.call('str') // '[object String]'
@@ -231,7 +226,7 @@ third({ x: 100 });
     false
   ```
 
-* JavaScript 原型，原型链 ?
+- JavaScript 原型，原型链 ?
   原型：
   a. 原型是一个对象，其他对象可以通过它实现属性继承。
   b. 一个对象的真正原型是被对象内部的[[Prototype]]属性(property)所持有。浏览器支持非标准的访问器 proto。
@@ -246,20 +241,20 @@ third({ x: 100 });
     {}.__proto__.__proto__; //null
   ```
 
-- 显示原型和隐式原型，手绘原型链，原型链是什么？为什么要有原型链
-- 指出 JS 的宿主对象和原生对象的区别，为什么扩展 JS 内置对象不是好的做法？有哪些内置对象和内置函数？
-- document load 和 document DOMContentLoaded 两个事件的区别
-- typeof 能够得到哪些值
-- 给定一个元素获取它相对于视图窗口的坐标
-- navigator 对象，location 和 history
-- js 动画和 css3 动画比较
-- js 处理异常
-- websocket 的工作原理和机制。
+* 显示原型和隐式原型，手绘原型链，原型链是什么？为什么要有原型链
+* 指出 JS 的宿主对象和原生对象的区别，为什么扩展 JS 内置对象不是好的做法？有哪些内置对象和内置函数？
+* document load 和 document DOMContentLoaded 两个事件的区别
+* typeof 能够得到哪些值
+* 给定一个元素获取它相对于视图窗口的坐标
+* navigator 对象，location 和 history
+* js 动画和 css3 动画比较
+* js 处理异常
+* websocket 的工作原理和机制。
 
-- 什么是函数柯里化？以及说一下 JS 的 API 有哪些应用到了函数柯里化的实现？(函数柯里化一些了解，以及在函数式编程的应用，最后说了一下 JS 中 bind 函数和数组的 reduce 方法用到了函数柯里化。)
-- JS 代码调试
-- String 对象方法不包含 length ， 数组中的 length 是 Array 的属性
-- 判断数组或者对象是否为空
+* 什么是函数柯里化？以及说一下 JS 的 API 有哪些应用到了函数柯里化的实现？(函数柯里化一些了解，以及在函数式编程的应用，最后说了一下 JS 中 bind 函数和数组的 reduce 方法用到了函数柯里化。)
+* JS 代码调试
+* String 对象方法不包含 length ， 数组中的 length 是 Array 的属性
+* 判断数组或者对象是否为空
 
   ```
   export const isArrayEmpty = (array) => {
@@ -273,11 +268,11 @@ third({ x: 100 });
   }
   ```
 
-- isPrototypeOf https://www.jianshu.com/p/44ba37660b4a
-- babel 入门篇
+* isPrototypeOf https://www.jianshu.com/p/44ba37660b4a
+* babel 入门篇
   https://blog.csdn.net/mm19931027/article/details/78741128
 
-- js 对象拷贝
+* js 对象拷贝
   https://blog.csdn.net/wang839305939/article/details/80819132
 
   - 深拷贝
@@ -291,18 +286,18 @@ third({ x: 100 });
     - Object.assign({}, a)
     - ... 扩展对象符
 
-- 四舍五入 Math.round()
-- function(foo) { var foo = {n: 1}} var foo 的优先级低于形参，无效
-- 只要为 img 标签设置了 src 属性，无论是 display: none 还是 visibility: hidden 都会产生请求；把图片设置为不存在的属性，比如 data-src 此时 display: none 还是 visibility: hidden 都不会产生请求
-- js 中最大能表示的数是多少？最小的数是多少？ 一个字符串占几个字节， 一个 number 类型占多少字节
-- new Array 与 [] 声明数组的区别，new String 与 "" 声明字符串的区别
-- a href="javascript: void(0)" 标签的 href 空属性
+* 四舍五入 Math.round()
+* function(foo) { var foo = {n: 1}} var foo 的优先级低于形参，无效
+* 只要为 img 标签设置了 src 属性，无论是 display: none 还是 visibility: hidden 都会产生请求；把图片设置为不存在的属性，比如 data-src 此时 display: none 还是 visibility: hidden 都不会产生请求
+* js 中最大能表示的数是多少？最小的数是多少？ 一个字符串占几个字节， 一个 number 类型占多少字节
+* new Array 与 [] 声明数组的区别，new String 与 "" 声明字符串的区别
+* a href="javascript: void(0)" 标签的 href 空属性
 
-* 描述一种 JavaScript 中实现 memoization(避免重复运算)的策略。
+- 描述一种 JavaScript 中实现 memoization(避免重复运算)的策略。
 
-- 你如何从浏览器的 URL 中获取查询字符串参数。
+* 你如何从浏览器的 URL 中获取查询字符串参数。
 
-- 如何实现下列代码：
+* 如何实现下列代码：
 
 ```js
 [1, 2, 3, 4, 5].duplicator(); // [1,2,3,4,5,1,2,3,4,5]

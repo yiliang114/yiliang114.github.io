@@ -77,15 +77,13 @@ D
 
 常用的测试覆盖率框架 [istanbul](https://github.com/gotwarlost/istanbul).
 
-当然覆盖率并不完全是由单元测试贡献, 在单元测试之上还有集成测试等. 更多关于覆盖率的内容可以参见[测试覆盖（率）到底有什么用?](http://www.infoq.com/cn/articles/test-coverage-rate-role)
+当然覆盖率并不完全是由单元测试贡献, 在单元测试之上还有集成测试等.
 
 ### Mock
 
 Mock 主要用于单元测试中. 当一个测试的对象可能依赖其他 (也许复杂/多个) 的对象. 为了确保其行为不受其他对象的影响, 你可以通过模拟其他对象的行为来隔离你要测试的对象.
 
 当你要测试的单元依赖了一些很难纳入单元测试的情况时 (例如要测试的单元依赖数据库/文件操作/第三方服务 等情况的返回时), 使用 mock 是非常有用的. 简而言之, Mock 是模拟其他依赖的 behaviour.
-
-Mock 与 Stub 的区别参见: [Mocks Aren't Stubs](https://martinfowler.com/articles/mocksArentStubs.html)
 
 ### 常见测试工具
 

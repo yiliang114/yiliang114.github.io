@@ -288,6 +288,8 @@ var bar = foo.call(obj1);
 bar.call(obj2); // ？
 ```
 
+<!-- 经典前端笔试题 -->
+
 ```js
 function Foo() {
   getName = function() {
@@ -555,7 +557,7 @@ test().fn(); // ?
 因为 fn 处绑定的是箭头函数，箭头函数并不创建 this，它只会从自己的作用域链的上一层继承 this。这里它的上一层是 test()，非严格模式下 test 中 this 值为 window。
 
 - 如果在绑定 fn 的时候使用了 function，那么答案会是 'jack'
-- 如果第一行的 var 改为了 let，那么答案会是 undefind， 因为 let 不会挂到 window 上
+- 如果第一行的 var 改为了 let，那么答案会是 undefined， 因为 let 不会挂到 window 上
 
 ### 箭头函数的 this
 
@@ -589,3 +591,269 @@ fun();
 1
 */
 ```
+
+### 以下代码执行结果是什么？
+
+- 1
+
+  ```js
+  var foo = 1,
+    bar = 2,
+    j,
+    test;
+  test = function(j) {
+    j = 5;
+    var bar = 5;
+    console.log(bar); // 5
+    foo = 5;
+  };
+  test(10);
+  console.log(foo); // 5 改变的全局变量
+  console.log(bar); // 2 由于函数作用域对全局作用域的隐藏，所以只有在test函数内部，bar=5,并不能影响到全局中的bar
+  console.log(j); // undefined  test(10)函数调用的时候，是函数内部的参数j接收到了10，但是它也是函数作用域内的变量，并不会改变全局作用域中的j。
+  ```
+
+  > 这个题目还有一个类似的题目：这个考察的是，数组和对象都是引用复制
+
+  ```js
+  var j = [1, 2, 3];
+  test = function(j) {
+    j.push(4);
+  };
+  test(j);
+  console.log(j); // [1,2,3,4],因为test(j)中的j是对[1,2,3]的引用复制给function(j)中的j,而在test函数内部，通过引用改变的是[1,2,3]这是数组本身，所以console.log(j); 为 [1,2,3,4]
+  ```
+
+- 2
+
+  ```js
+  for (var i = 0; i < 5; i++) {
+    window.setTimeout(function() {
+      console.log(i); // 
+    }, 1000);
+  }
+  console.log('i=' + i); // 先输出“i=5”,然后再隔1s后输出一个5个5
+  ```
+
+  只有
+
+  ```js
+  for (var i = 0; i < 5; i++) {
+    window.setTimeout(function() {
+      console.log(i);
+    }, i * 1000); // 只有i*1000才会每隔1S输出一个
+  }
+  ```
+
+  > "i=5" </br>
+  > 5</br>
+  > 5</br>
+  > 5</br>
+  > 5</br>
+  > 5</br>
+
+  > setTimeout </br>
+  > 语法: `var timeoutID = scope.setTimeout(function[, delay, param1, param2,...]);` `var timeoutID = scope.setTimeout(code[, delay]);`
+  >
+  > - function 是你想要在 delay 毫秒之后执行的函数。
+  > - delay (可选) 延迟的毫秒数 (一秒等于 1000 毫秒)，函数的调用会在该延迟之后发生。如果省略该参数，delay 取默认值 0。实际的延迟时间可能会比 delay 值长，原因请查看 Reasons for delays longer than specified。
+  > - param1, ..., paramN (可选) 附加参数，一旦定时器到期，它们会作为参数传递给 function 或 执行字符串（setTimeout 参数中的 code）
+  >
+  > ```js
+  > for (var i = 0; i < 5; i++) {
+  >   window.setTimeout(
+  >     function(j) {
+  >       console.log(i + j); // 每隔100ms输出一个13
+  >     },
+  >     100,
+  >     8,
+  >   );
+  > }
+  > console.log('i=' + i); // 5
+  > ```
+
+* 3
+
+  ```js
+  var length = 10;
+  function fn() {
+    alert(this.length);
+  }
+  var obj = {
+    length: 5,
+    method: function() {
+      fn();
+    },
+  };
+  obj.method(); // 10 , 对fn间接引用，调用这个函数会应用默认的绑定规则
+  ```
+
+> 这个考察的是`this`的指向问题。
+
+还有一个类似的问题：
+
+```js
+var num = 100;
+
+var obj = {
+  num: 200,
+  inner: {
+    num: 300,
+    print: function() {
+      console.log(this.num);
+    },
+  },
+};
+
+obj.inner.print(); //300
+
+var func = obj.inner.print;
+func(); //100
+
+obj.inner.print(); //300
+
+(obj.inner.print = obj.inner.print)(); //100
+
+// 问题：第一个和第三个有什么区别？第三个和第四个有什么区别？
+```
+
+1.第一个和第三个没有区别，运行的都是 obj.inner.print()，里面的 this 指向 obj.inner.num
+
+2.第四个，首先你要知道一点，复制操作，会返回所赋的值。
+
+```js
+var a;
+console.log((a = 5)); //5
+```
+
+所以(obj.inner.print = obj.inner.print)的结果就是一个函数，内容是
+
+```js
+function () {
+    console.log(this.num);
+}
+```
+
+在全局下运行这个函数，里面的 this 指向的就是 window，所以(obj.inner.print = obj.inner.print)();的结果就是
+
+```js
+var num = 100;
+function () {
+    console.log(this.num);
+}()
+// 100
+```
+
+3.  第二个
+
+赋值操作，fun 完全就是一个函数引用，这个引用丢失了函数原本所在的上下文信息，所以最终是在全局上下文中运行
+
+```js
+function() {
+  console.log(this.num);
+}
+```
+
+所以这个时候 num 是全局的 num,也就是 100
+
+- 4
+
+  ```js
+  function Foo() {
+    this.value = 42;
+  }
+  Foo.prototype = {
+    method: function() {
+      return true;
+    },
+  };
+  function Bar() {
+    var value = 1;
+    return {
+      method: function() {
+        return value;
+      },
+    };
+  }
+  Foo.prototype = new Bar();
+  console.log(Foo.prototype.constructor); // ƒ Object() { [native code] } 指向内置的Object()方法
+  console.log(Foo.prototype instanceof Bar); // false
+  var test = new Foo();
+  console.log(test instanceof Foo); // true
+  console.log(test instanceof Bar); // false
+  console.log(test.method()); // 1
+  ```
+
+  > 1: Foo.prototype 的.constructor 属性只是 Foo 函数在声明时的默认属性。如果你创建了一个新对象并替换了函数默认的.prototype 对象引用，**那么新对象并不会自动获得.constructor 属性**。（这也是原型继承时，需要重新赋值的原因。）
+  > Foo.prototype 没有.constructor 属性，所以他会委托[[Prototype]]链上的委托连顶端的 Object.prototype。这个对象有.constructor 属性，只想内置的 Object(...)函数。
+
+- 5
+
+  ```js
+  if (!('sina' in window)) {
+    var sina = 1;
+  }
+  console.log('sina:', sina); // undefined
+  ```
+
+  > 由于 JavaScript 在编译阶段会对声明进行提升，所以上述代码会做如下处理：
+
+  ```js
+  var sina;
+  if (!('sina' in window)) {
+    sina = 1;
+  }
+  console.log('sina:', sina);
+  ```
+
+  >  声明被提升后，`window.sina`的值就是 undefined，但是`!("sina" in window)`这段代码的运行结果是`true`，所以`sina = 1;`就不会被执行，所以  本题目的输出结果是`undefined`。
+
+- 6
+
+  ```js
+  var t1 = new Date().getTime();
+  var timer1 = setTimeout(function() {
+    clearTimeout(timer1);
+    console.info('实际执行延迟时间：', new Date().getTime() - t1, 'ms'); // 500+ms
+  }, 500);
+  ```
+
+  > 需要查看`setTimeout`的运行机制。
+
+  > 阮一峰老师有篇不错的文章（[JavaScript 运行机制详解：再谈 Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)），我就不再重复造轮子了；如果觉得太长不看的话，楼主简短地大白话描述下。
+
+  JavaScript 都是单线程的，单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。如果排队是因为计算量大，CPU 忙不过来，倒也算了，但是很多时候 CPU 是闲着的，因为 IO 设备（输入输出设备）很慢（比如 Ajax 操作从网络读取数据），不得不等着结果出来，再往下执行。
+  JavaScript 语言的设计者意识到，这时主线程完全可以不管 IO 设备，挂起处于等待中的任务，先运行排在后面的任务。等到 IO 设备返回了结果，再回过头，把挂起的任务继续执行下去。于是，所有任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）。同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入主线程、而进入"任务队列"（task queue）的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。具体来说，异步执行的运行机制如下。（同步执行也是如此，因为它可以被视为没有异步任务的异步执行。）
+  （1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。
+  （2）主线程之外，还存在一个"任务队列"（task queue）。只要异步任务有了运行结果，就在"任务队列"之中放置一个事件。
+  （3）一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
+  （4）主线程不断重复上面的第三步。
+
+  > 一段 js 代码（里面可能包含一些 setTimeout、鼠标点击、ajax 等事件），从上到下开始执行，遇到 setTimeout、鼠标点击等事件，异步执行它们，此时并不会影响代码主体继续往下执行(当线程中没有执行任何同步代码的前提下才会执行异步代码)，一旦异步事件执行完，回调函数返回，将它们按次序加到执行队列中,加入到队列中，只是在确定额  的时间候调用，但是并不一定立马执行。
+
+综上所述， 500ms 后异步任务执行完毕，然后就在“任务队列”之中防止一个事件。但是，需要主线程的 “执行栈”中所有的同步任务执行完毕后，“任务队列”中的时间才会开始执行。所以，500+ms 后才真正的执行输出。
+
+- 7
+  ```js
+  function SINA() {
+    return 1;
+  }
+  var SINA;
+  console.log(typeof SINA); // function
+  ```
+
+> 重复声明被忽略掉了，所以`var SINA`并没有起到作用，而是被忽略掉了。
+
+- 8
+
+```js
+var sinaNews = {
+  name: 'sinNewsName',
+  test: function() {
+    console.log('this.name:', this.name, '//');
+  },
+};
+setTimeout(sinaNews.test, 500); // "this.name:  //"
+```
+
+> 回调函数丢失 this 绑定
