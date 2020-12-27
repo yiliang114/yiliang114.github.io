@@ -6,14 +6,6 @@ draft: true
 
 ### Promise 实现
 
-Promise 是 ES6 新增的语法，解决了回调地狱的问题。
-
-可以把 Promise 看成一个状态机。初始是 `pending` 状态，可以通过函数 `resolve` 和 `reject` ，将状态转变为 `resolved` 或者 `rejected` 状态，状态一旦改变就不能再次变化。
-
-`then` 函数会返回一个 Promise 实例，并且该返回值是一个新的实例而不是之前的实例。因为 Promise 规范规定除了 `pending` 状态，其他状态是不可以改变的，如果返回的是一个相同实例的话，多个 `then` 调用就失去意义了。
-
-对于 `then` 来说，本质上可以把它看成是 `flatMap`
-
 ```js
 // 三种状态
 const PENDING = 'pending';
@@ -187,10 +179,6 @@ function resolutionProcedure(promise2, x, resolve, reject) {
   }
 }
 ```
-
-以上就是根据 Promise / A+ 规范来实现的代码，可以通过 `promises-aplus-tests` 的完整测试
-
-![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042629.png)
 
 ### 实现一个简易版 Promise
 
@@ -573,104 +561,6 @@ function resolvePromise(promise2, x, resolve, reject) {
 
 此时链式调用支持已经实现，在相应的地方调用 resolvePromise 方法即可。
 
-### 如何实现 Promise.all
-
-要实现 Promise.all,首先我们需要知道 Promise.all 的功能：
-
-1. 如果传入的参数是一个空的可迭代对象，那么此 promise 对象回调完成(resolve),只有此情况，是同步执行的，其它都是异步返回的。
-2. 如果传入的参数不包含任何 promise，则返回一个异步完成.
-3. promises 中所有的 promise 都“完成”时或参数中不包含 promise 时回调完成。
-4. 如果参数中有一个 promise 失败，那么 Promise.all 返回的 promise 对象失败
-   在任何情况下，Promise.all 返回的 promise 的完成状态的结果都是一个数组
-
-```js
-Promise.all = function(promises) {
-  return new Promise((resolve, reject) => {
-    let index = 0;
-    let result = [];
-    if (promises.length === 0) {
-      resolve(result);
-    } else {
-      function processValue(i, data) {
-        result[i] = data;
-        if (++index === promises.length) {
-          resolve(result);
-        }
-      }
-      for (let i = 0; i < promises.length; i++) {
-        //promises[i] 可能是普通值
-        Promise.resolve(promises[i]).then(
-          data => {
-            processValue(i, data);
-          },
-          err => {
-            reject(err);
-            return;
-          },
-        );
-      }
-    }
-  });
-};
-```
-
-### 如何实现 Promise.finally
-
-```js
-Promise.prototype.finally = function(callback) {
-  return this.then(
-    value => {
-      return Promise.resolve(callback()).then(() => {
-        return value;
-      });
-    },
-    err => {
-      return Promise.resolve(callback()).then(() => {
-        throw err;
-      });
-    },
-  );
-};
-```
-
-### 如何实现 Promise.race
-
-在代码实现前，我们需要先了解 Promise.race 的特点：
-
-1. Promise.race 返回的仍然是一个 Promise.
-   它的状态与第一个完成的 Promise 的状态相同。它可以是完成（ resolves），也可以是失败（rejects），这要取决于第一个 Promise 是哪一种状态。
-2. 如果传入的参数是不可迭代的，那么将会抛出错误。
-3. 如果传的参数数组是空，那么返回的 promise 将永远等待。
-4. 如果迭代包含一个或多个非承诺值和/或已解决/拒绝的承诺，则 Promise.race 将解析为迭代中找到的第一个值。
-
-```js
-Promise.race = function(promises) {
-  //promises 必须是一个可遍历的数据结构，否则抛错
-  return new Promise((resolve, reject) => {
-    if (typeof promises[Symbol.iterator] !== 'function') {
-      //真实不是这个错误
-      Promise.reject('args is not iteratable!');
-    }
-    if (promises.length === 0) {
-      return;
-    } else {
-      for (let i = 0; i < promises.length; i++) {
-        Promise.resolve(promises[i]).then(
-          data => {
-            resolve(data);
-            return;
-          },
-          err => {
-            reject(err);
-            return;
-          },
-        );
-      }
-    }
-  });
-};
-```
-
 ### 使用 Promise 封装一个 AJAX
 
 #### ajax 的 xhr 对象的 7 个事件
@@ -734,7 +624,7 @@ const ajax = obj => {
 
     // 发送请求
     if (method === 'POST') {
-      xhr.open('POST', obj.url, ture);
+      xhr.open('POST', obj.url, true);
       xhr.responseType = 'json';
       xhr.setRequestHeader('Accept', 'application/json');
       xhr.send(JSON.parse(obj.data));
@@ -751,51 +641,3 @@ const ajax = obj => {
   });
 };
 ```
-
-### 如何用原生来实现 promise.all()?
-
-```js
-function PromiseM() {
-  this.status = 'pending';
-  this.msg = '';
-  var that = this;
-  var process = arguments[0];
-  process(
-    function() {
-      that.status = 'resolve';
-      that.msg = arguments[0];
-    },
-    function() {
-      that.status = 'reject';
-      that.msg = arguments[0];
-    },
-  );
-  return this;
-}
-PromiseM.prototype.then = function() {
-  if (this.status == 'resolve') {
-    arguments[0](this.msg);
-  }
-  if (this.status == 'reject' && arguments[1]) {
-    arguments[1](this.msg);
-  }
-};
-
-// 测试用例
-
-var p = new PromiseM(function(resolve, reject) {
-  resolve('123');
-});
-
-p.then(
-  function(success) {
-    console.log(success);
-    console.log('success');
-  },
-  function() {
-    console.log('fail！');
-  },
-);
-```
-
-### promise.all race 以及 多层的 then 以及多个 promise 异步 同步执行？ promise 如果没有 resolve 会怎么样？

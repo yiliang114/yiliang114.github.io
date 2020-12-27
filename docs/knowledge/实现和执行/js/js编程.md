@@ -13,7 +13,7 @@ var date = new Date();
 console.log('今天是星期' + days[date.getDay()]);
 ```
 
-### 现有一个 Page 类,其原型对象上有许多以 post 开头的方法(如 postMsg);另有一拦截函数 check,只返回 ture 或 false.请设计一个函数,该函数应批量改造原 Page 的 postXXX 方法,在保留其原有功能的同时,为每个 postXXX 方法增加拦截验证功能,当 check 返回 true 时继续执行原 postXXX 方法,返回 false 时不再执行原 postXXX 方法
+### 现有一个 Page 类,其原型对象上有许多以 post 开头的方法(如 postMsg);另有一拦截函数 check,只返回 true 或 false.请设计一个函数,该函数应批量改造原 Page 的 postXXX 方法,在保留其原有功能的同时,为每个 postXXX 方法增加拦截验证功能,当 check 返回 true 时继续执行原 postXXX 方法,返回 false 时不再执行原 postXXX 方法
 
 ```js
 function Page() {}

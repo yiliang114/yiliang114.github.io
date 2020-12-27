@@ -4,9 +4,9 @@ date: '2020-10-26'
 draft: true
 ---
 
-### Promise 含义
+## Promise 概念
 
-Promise 是异步编程的一种解决方案，比传统的解决方案--回调函数和事件更合理和更强大。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。
+Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。比传统的解决方案--回调函数和事件更合理和更强大。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。
 
 Promise 对象有以下两个特点。
 
@@ -29,7 +29,6 @@ Promise 对象是一个构造函数，用来生成 Promise 实例。下面代码
 ```js
 var promise = new Promise(function(resolve, reject) {
   // ... some code
-
   if (/* 异步操作成功 */){
     resolve(value);
   } else {
@@ -55,6 +54,8 @@ promise.then(
 );
 ```
 
+then 函数返回的也是一个 Promise 对象。所以可以一直 then 下去。
+
 then 方法可以接受两个回调函数作为参数。第一个回调函数是 Promise 对象的状态变为 Resolved 时调用，第二个回调函数是 Promise 对象的状态变为 Rejected 时调用。其中，第二个函数是可选的，不一定要提供。这两个函数都接受 Promise 对象传出的值作为参数。
 
 Promise 新建后就会立即执行。
@@ -75,6 +76,8 @@ console.log('Hi!');
 // Hi!
 // Resolved
 ```
+
+Promise 构造函数是同步执行，then 方法是异步执行。
 
 上面代码中，Promise 新建后立即执行，所以首先输出的是 Promise。然后，then 方法指定的回调函数，将在当前脚本所有同步任务执行完才会执行，所以 Resolved 最后输出。
 
@@ -100,201 +103,123 @@ console.log('Hi!');
 
 ### API
 
-#### Promise.all
+#### then
 
-Promise.all 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例:只有 p1、p2、p3 的状态都变成 fulfilled，p 的状态才会变成 fulfilled，此时 p1、p2、p3 的返回值组成一个数组，传递给 p 的回调函数。
+**连续调用`then`**
 
-```js
-var p = Promise.all([p1, p2, p3]);
-```
+因为`then`方法返回另一个`Promise`对象。当这个对象状态发生改变，就会分别调用`resolve`和`reject`
 
-#### Promise.race()
+#### catch
 
-Promise.race 方法同样是将多个 Promise 实例，包装城一个新的 Promise 实例: 上面代码中，只要 p1、p2、p3 之中有一个实例率先改变状态，p 的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给 p 的回调函数。
+等同于 `.then(null, rejection)`。另外，`then`方法指定的回调函数运行中的错误，也会被`catch`捕获。
 
-```js
-var p = Promise.race([p1, p2, p3]);
-```
+#### all
 
-#### Promise.resolve()
+用于将多个 `Promise` 实例，包装成一个新的 `Promise` 实例。它接收一个具有`Iterator`接口的参数。其中，`item`如果不是`Promise`对象，会自动调用`Promise.resolve`方法。所有实例状态都变成 fulfilled，p 的状态才会变成 fulfilled，此时所以参数实例的返回值组成一个数组，传递给 p 的回调函数。
 
-有时需要将现有对象转为 Promise 对象，Promise.resolve 方法就起到这个作用。
+或者其中有一个变为`rejected`，才会调用`Promise.all`方法后面的回调函数。而对于每个`promise`对象，一旦它被自己定义`catch`方法捕获异常，那么状态就会更新为`resolved`而不是`rejected`。
 
 ```js
-Promise.resolve('foo')等价于 new Promise(resolve => resolve('foo'))
+'use strict';
+const p1 = new Promise((resolve, reject) => {
+  resolve('hello');
+})
+  .then(result => result)
+  .catch(e => e);
+
+const p2 = new Promise((resolve, reject) => {
+  throw new Error('p2 error');
+})
+  .then(result => result)
+  .catch(
+    // 如果注释掉 catch，进入情况2
+    // 否则，情况1
+    e => e.message,
+  );
+
+Promise.all([p1, p2])
+  .then(
+    result => console.log(result), // 情况1
+  )
+  .catch(
+    e => console.log('error in all'), // 情况2
+  );
+
+// p1, p2 的状态都是 fulfilled
 ```
 
-#### Promise.reject()
+#### race
 
-Promise.reject(reason)方法也会返回一个新的 Promise 实例，该实例的状态为 rejected。
+和`all`方法类似，`Promise.race`方法同样是将多个 `Promise` 实例，包装成一个新的 `Promise` 实例。而且只要有一个状态被改变，那么新的`Promise`状态会立即改变。只要所有参数实例之中有一个实例率先改变状态，p 的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给 p 的回调函数。
 
-#### done()
+#### resolve
+
+可将现有对象转为 Promise 对象，Promise.resolve 方法就起到这个作用。
+
+#### reject
+
+Promise.reject(reason) 方法也会返回一个新的 Promise 实例，该实例的状态为 rejected。
+
+#### done
 
 Promise 对象的回调链，不管以 then 方法或 catch 方法结尾，要是最后一个方法抛出错误，都有可能无法捕捉到（因为 Promise 内部的错误不会冒泡到全局）。因此，我们可以提供一个 done 方法，总是处于回调链的尾端，保证抛出任何可能出现的错误。
 
-#### finally()
+#### finally
 
 finally 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。它与 done 方法的最大区别，它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。服务器使用 Promise 处理请求，然后使用 finally 方法关掉服务器。
 
+### 错误冒泡
+
+> `Promise` 对象的错误具有“冒泡”性质，**会一直向后传递，直到被捕获为止**。也就是说，错误总是会被下一个`catch`语句捕获
+
+### "吃掉错误"机制
+
+> `Promise`会吃掉内部的错误，并不影响外部代码的运行。所以需要`catch`，以防丢掉错误信息。
+
+阮一峰大大给出的 demo：
+
 ```js
-server.listen(0).then(function () {// run test}).finally(server.stop);
+'use strict';
+
+const someAsyncThing = function() {
+  return new Promise(function(resolve, reject) {
+    // 下面一行会报错，因为x没有声明
+    resolve(x + 2);
+  });
+};
+
+someAsyncThing().then(function() {
+  console.log('everything is great');
+});
+
+setTimeout(() => {
+  console.log(123);
+}, 2000);
 ```
 
-### Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+还有如下 demo
 
 ```js
-console.log(1);
-let promise = new Promise(function(resolve, reject) {
-  console.log(3);
-  resolve();
-})
+someAsyncThing()
   .then(function() {
-    console.log(4);
+    return someOtherAsyncThing();
   })
-  .then(function() {
-    console.log(9);
-  });
-console.log(5);
-1, 3, 5, 4, 9;
-```
-
-答案：Promise 构造函数是同步执行，then 方法是异步执行
-
-扩展：
-
-```js
-console.log(1);
-setTimeout(function() {
-  console.log(2);
-  let promise = new Promise(function(resolve, reject) {
-    console.log(7);
-    resolve();
-  }).then(function() {
-    console.log(8);
-  });
-}, 1000);
-setTimeout(function() {
-  console.log(10);
-  let promise = new Promise(function(resolve, reject) {
-    console.log(11);
-    resolve();
-  }).then(function() {
-    console.log(12);
-  });
-}, 0);
-let promise = new Promise(function(resolve, reject) {
-  console.log(3);
-  resolve();
-})
-  .then(function() {
-    console.log(4);
+  .catch(function(error) {
+    console.log('oh no', error);
+    // 下面一行会报错，因为y没有声明
+    y + 2;
   })
-  .then(function() {
-    console.log(9);
+  .catch(function(error) {
+    console.log('carry on', error);
   });
-console.log(5);
-/// 1,3，5，4，9，10，11，12，2，7，8
+// oh no [ReferenceError: x is not defined]
+// carry on [ReferenceError: y is not defined]
 ```
 
-思考：
-
-```js
-async function timeout(ms) {
-  await new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
-
-async function asyncPrint(value, ms) {
-  await timeout(ms);
-  console.log(value);
-}
-
-asyncPrint('hello world', 50);
-async function async1() {
-  console.log('async1 start');
-  await async2();
-  console.log('async1 end');
-}
-async function async2() {
-  console.log('async2');
-}
-console.log('script start');
-setTimeout(function() {
-  console.log('setTimeout');
-}, 0);
-async1();
-new Promise(function(resolve) {
-  console.log('promise1');
-  resolve();
-}).then(function() {
-  console.log('promise2');
-});
-console.log('script end');
-// script start， async1 start，async2,promise1，script end， async1 end，promise2，setTime
-```
-
-### Promise 的构造函数
-
-构造一个 `Promise`，最基本的用法如下：
-
-```js
-	var promise = new Promise(function(resolve, reject) {
-	  if (...) {  // succeed
-	    resolve(result);
-	  } else {   // fails
-	    reject(Error(errMessage));
-	  }
-	});
-```
-
-`Promise` 实例拥有 `then` 方法（具有 `then` 方法的对象，通常被称为 `thenable`）。它的使用方法如下：
-
-```js
-promise.then(onFulfilled, onRejected);
-```
-
-接收两个函数作为参数，一个在 `fulfilled` 的时候被调用，一个在 `rejected` 的时候被调用，接收参数就是 `future，onFulfilled` 对应 `resolve`, `onRejected` 对应 `reject`。
-
-使用了 Promise 对象之后可以链式调用的方式组织代码
-
-```js
-new Promise(test).then(function (result) {
-console.log('成功：' + result);
-}).catch(function (reason) {
-console.log('失败：' + reason);
-});
-
-Promise.all: 都成功才会返回
-
-Promise.race: 有一个成功就返回
-
-var p1 = new Promise(function (resolve) {
-setTimeout(function () {
-resolve("Hello");
-}, 3000);
-});
-
-var p2 = new Promise(function (resolve) {
-setTimeout(function () {
-resolve("World");
-}, 1000);
-});
-
-Promise.all([p1, p2]).then(function (result) {
-console.log(result); // ["Hello", "World"]
-});
-```
-
-有了 Promise 对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
-
-### 为什么能一直 then ？
-
-Promise 决议后的值仍然是 promise 对象。
-
-### 异步
+## 异步
 
 - 什么时候 promise 不会被销毁
+- promise 如果没有 resolve 会怎么样？
 - promise 什么情况会发生内存泄漏
 - Promise 中 .then 的第二参数与 .catch 有什么区别?
 - Eventemitter 的 emit 是同步还是异步?
@@ -302,51 +227,3 @@ Promise 决议后的值仍然是 promise 对象。
 - nextTick, setTimeout 以及 setImmediate 三者有什么区别?
 - 如何实现一个 sleep 函数?
 - 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)
-
-### 64.模拟实现一个 Promise.finally
-
-```js
-Promise.prototype.finally = function(callback) {
-  let P = this.constructor;
-  return this.then(
-    value => P.resolve(callback()).then(() => value),
-    reason =>
-      P.resolve(callback()).then(() => {
-        throw reason;
-      }),
-  );
-};
-```
-
-### 80.介绍下 Promise.all 使用、原理实现及错误处理
-
-```js
-all(list) {
-        return new Promise((resolve, reject) => {
-            let resValues = [];
-            let counts = 0;
-            for (let [i, p] of list) {
-                resolve(p).then(res => {
-                    counts++;
-                    resValues[i] = res;
-                    if (counts === list.length) {
-                        resolve(resValues)
-                    }
-                }, err => {
-                    reject(err)
-                })
-            }
-        })
-    }
-```
-
-### 89.设计并实现 Promise.race()
-
-```js
-Promise._race = promises =>
-  new Promise((resolve, reject) => {
-    promises.forEach(promise => {
-      promise.then(resolve, reject);
-    });
-  });
-```

@@ -99,7 +99,7 @@ doc.onclick = function(e) {
 然后 Dialog 可能需要自定义头 head 和底部 footer，默认有头部和底部，底部有一个确认按钮和取消按钮，确认按钮会执行外部传进来的 onOk 事件，然后取消按钮会执行外部传进来的 onCancel 事件。
 当组件的 visible 为 true 时候，设置 body 的 overflow 为 hidden，隐藏 body 的滚动条，反之显示滚动条。
 组件高度可能大于页面高度，组件内部需要滚动条。
-只有组件的 visible 有变化且为 ture 时候，才重渲染组件内的所有内容
+只有组件的 visible 有变化且为 true 时候，才重渲染组件内的所有内容
 
 ### 怎么从十万个节点中找到想要的节点，怎么快速在某个节点前插入一个节点
 
