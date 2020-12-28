@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# 个人总结（css3 新特性）
+# css3 新特性
 
 ## 1.前言
 
