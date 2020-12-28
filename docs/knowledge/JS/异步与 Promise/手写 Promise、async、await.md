@@ -1530,3 +1530,141 @@ Promise.reject = function(reason) {
   });
 };
 ```
+
+
+### Generator 与 yield
+
+`generator`函数是 es6 提供的新特性，它的最大特点是：**控制函数的执行**。让我们从网上最火的一个例子来看：
+
+```js
+function* foo(x) {
+  var y = 2 * (yield x + 1);
+  var z = yield y / 3;
+  return x + y + z;
+}
+
+var b = foo(5);
+b.next(); // { value:6, done:false }
+b.next(12); // { value:8, done:false }
+b.next(13); // { value:42, done:true }
+```
+
+通俗的解释下为什么会有这种输出：
+
+1. 给函数 foo 传入参数 5，但由于它是 generator，所以执行到**第一个 yield 前**就停止了。
+1. 第一次调用 next()，**这次传入的参数会被忽略**暂停\*\*。
+1. 第二次调用 next(12)，**传入的参数会被当作上一个 yield 表达式的返回值**。因此，y = 2 \* 12 = 24。执行到第二个 yield，返回其后的表达式的值 24 / 3 = 8。然后函数在此处暂停。
+1. 第三次调用 next(13)，没有 yield，只剩 return 了，按照正常函数那样返回 return 的表达式的值，并且`done`为`true`。
+
+**难点**：在于为什么最后的`value`是 42 呢？
+
+首先，`x`的值是刚开始调用 foo 函数传入的 5。而最后传入的 13 被当作第二个 yield 的返回值，所以`z`的值是 13。对于`y`的值，我们在前面第三步中已经计算出来了，就是 24。
+
+所以，`x + y + z = 5 + 24 + 13 = 42`
+
+看懂了上面的分析，再看下面这段代码就很好理解了：
+
+```js
+function* foo(x) {
+  var y = 2 * (yield x + 1);
+  var z = yield y / 3;
+  return x + y + z;
+}
+
+var a = foo(5);
+a.next(); // Object{value:6, done:false}
+a.next(); // Object{value:NaN, done:false}
+a.next(); // Object{value:NaN, done:true}
+```
+
+只有第一次调用 next 函数的时候，输出的 value 是 6。其他时候由于没有给 next 传入参数，因此 yield 的返回值都是`undefined`，进行运算后自然是`NaN`。
+
+### Promise 介绍
+
+简单归纳下 Promise：**三个状态、两个过程、一个方法**
+
+- 三个状态：`pending`、`fulfilled`、`rejected`
+- 两个过程（**单向不可逆**）：
+  - `pending`->`fulfilled`
+  - `pending`->`rejected`
+- 一个方法`then`：`Promise`本质上只有一个方法，`catch`和`all`方法都是基于`then`方法实现的。
+
+请看下面这段代码：
+
+```js
+// 构造 Promise 时候, 内部函数立即执行
+new Promise((resolve, reject) => {
+  console.log('new Promise');
+  resolve('success');
+});
+console.log('finifsh');
+
+//  then 中 使用了 return，那么 return 的值会被 Promise.resolve() 包装
+Promise.resolve(1)
+  .then(res => {
+    console.log(res); // => 1
+    return 2; // 包装成 Promise.resolve(2)
+  })
+  .then(res => {
+    console.log(res); // => 2
+  });
+```
+
+### async/await 介绍
+
+`async`函数返回一个`Promise`对象，可以使用`then`方法添加回调函数。
+
+当函数执行的时候，一旦遇到`await`就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
+
+这也是它最受欢迎的地方：**能让异步代码写起来像同步代码，并且方便控制顺序**。
+
+可以利用它实现一个`sleep`函数阻塞进程：
+
+```js
+function sleep(millisecond) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve, millisecond);
+  });
+}
+
+/**
+ * 以下是测试代码
+ */
+async function test() {
+  console.log('start');
+  await sleep(1000); // 睡眠1秒
+  console.log('end');
+}
+
+test(); // 执行测试函数
+```
+
+虽然方便，**但是它也不能取代`Promise`，尤其是我们可以很方便地用`Promise.all()`来实现并发**，而`async/await`只能实现串行。
+
+```js
+function sleep(second) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log(Math.random());
+      resolve();
+    }, second);
+  });
+}
+
+async function chuanXingDemo() {
+  await sleep(1000);
+  await sleep(1000);
+  await sleep(1000);
+}
+
+async function bingXingDemo() {
+  var tasks = [];
+  for (let i = 0; i < 3; ++i) {
+    tasks.push(sleep(1000));
+  }
+
+  await Promise.all(tasks);
+}
+```
+
+运行`bingXingDemo()`，几乎同时输出，它是并发执行；运行`chuanXingDemo()`，每个输出间隔 1s，它是串行执行。

@@ -8,6 +8,8 @@ draft: true
 
 https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#visitors%E8%AE%BF%E9%97%AE%E8%80%85
 
+https://juejin.im/post/5c03b85ae51d450c740de19c
+
 ## babel 介绍
 
 babel 是一个解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。这意味着你可以直接写 ES6 ES7 之类的代码，而不用担心现有的环境支不支持。
@@ -48,26 +50,9 @@ presets (预设)字段设定转码规则，官方提供以下的规则集，你�
   }
 ```
 
-### preset 预设
+#### preset 预设
 
-### plugin 插件
-
-### babel-polyfill
-
-https://blog.csdn.net/chjj0904/article/details/79169821
-Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，
-以及一些定义在全局对象上的方法（比如 Object.assign）都不会转码。
-举例来说，ES6 在 Array 对象上新增了 Array.from 方法。Babel 就不会转码这个方法。如果想让这个方法运行，必须使用 babel-polyfill，为当前环境提供一个垫片
-
-### babel-register
-
-babel-register 字面意思能看出来，这是 babel 的一个注册器，它在底层改写了 node 的 require 方法，引入 babel-register 之后所有 require 并以.es6, .es, .jsx 和 .js 为后缀的模块都会经过 babel 的转译
-
-### babel 不支持 proxy
-
-### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
-
-### 插件
+#### plugin 插件
 
 transform-runtime 以及 stage-2 说一下他们的作用
 
@@ -76,10 +61,17 @@ transform-runtime 以及 stage-2 说一下他们的作用
 - 按需加载插件的实现原理
 - (vue 的) jsx 插件的实现原理
 
-### polyfill 的作用
+##### babel-polyfill
 
-### babel
+https://blog.csdn.net/chjj0904/article/details/79169821
+Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，
+以及一些定义在全局对象上的方法（比如 Object.assign）都不会转码。
+举例来说，ES6 在 Array 对象上新增了 Array.from 方法。Babel 就不会转码这个方法。如果想让这个方法运行，必须使用 babel-polyfill，为当前环境提供一个垫片
 
-https://juejin.im/post/5c03b85ae51d450c740de19c
+##### babel-register
 
-## babel
+babel-register 字面意思能看出来，这是 babel 的一个注册器，它在底层改写了 node 的 require 方法，引入 babel-register 之后所有 require 并以.es6, .es, .jsx 和 .js 为后缀的模块都会经过 babel 的转译
+
+### babel 不支持 proxy
+
+### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？

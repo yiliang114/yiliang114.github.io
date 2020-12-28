@@ -834,6 +834,43 @@ myOwnObj.wuwuwu
   });
 ```
 
+### Proxy 代理器
+
+他可以实现 js 中的“元编程”：在目标对象之前架设拦截，可以过滤和修改外部的访问。
+
+它支持多达 13 种拦截操作，例如下面代码展示的`set`和`get`方法，分别可以在设置对象属性和访问对象属性时候进行拦截。
+
+```js
+const handler = {
+  // receiver 指向 proxy 实例
+  get(target, property, receiver) {
+    console.log(`GET: target is ${target}, property is ${property}`);
+    return Reflect.get(target, property, receiver);
+  },
+  set(target, property, value, receiver) {
+    console.log(`SET: target is ${target}, property is ${property}`);
+    return Reflect.set(target, property, value);
+  },
+};
+
+const obj = { a: 1, b: { c: 0, d: { e: -1 } } };
+const newObj = new Proxy(obj, handler);
+
+/**
+ * 以下是测试代码
+ */
+
+newObj.a; // output: GET...
+newObj.b.c; // output: GET...
+
+newObj.a = 123; // output: SET...
+newObj.b.c = -1; // output: GET...
+```
+
+运行这段代码，会发现最后一行的输出是 `GET ...`。也就是说它触发的是`get`拦截器，而不是期望的`set`拦截器。**这是因为对于对象的深层属性，需要专门对其设置 Proxy**。
+
+**更多请见**：[《阮一峰 ES6 入门：Proxy》](http://es6.ruanyifeng.com/#docs/proxy)
+
 ## Reflect
 
 ### 补充

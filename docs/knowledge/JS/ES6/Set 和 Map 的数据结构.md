@@ -46,3 +46,108 @@ weakMap
 1. 直接受对象作为键名（null 除外），不接受其他类型的值作为键名
 2. 键名所指向的对象，不计入垃圾回收机制
 3. 不能遍历，方法同 get,set,has,delete
+
+### Map
+
+对象缺陷: key 必须是字符串
+
+Map 就是支持全类型的 key(如:number)
+
+```js
+var m = new Map([
+  ['Michael', 95],
+  ['Bob', 75],
+  ['Tracy', 85],
+]);
+m.get('Michael'); // 95
+
+var m = new Map(); // 空 Map
+m.set('Adam', 67); // 添加新的 key-value
+m.set('Bob', 59);
+m.has('Adam'); // 是否存在 key 'Adam': true
+m.get('Adam'); // 67
+m.delete('Adam'); // 删除 key 'Adam'
+m.get('Adam'); // undefined
+```
+
+### Set
+
+没有重复值得 Array,重复值会被自动过滤掉
+
+```js
+var s1 = new Set(); // 空 Set
+var s2 = new Set([1, 2, 3]); // 含 1, 2, 3
+var s = new Set([1, 2, 3, 3, '3']);
+s; // Set {1, 2, 3, "3"}
+s.add(4); //添加(重复添加无效果)
+s.delete(3); //删除
+```
+
+### es6 为什么推出 Map 结构？
+
+JavaScript 的对象（object）本质上就是键值对的集合（Hash 结构），但是只能用字符串作为键。这就给它的使用带来了很大的限制。
+
+### Set 和 Map
+
+> 题目：解释下`Set`和`Map`。
+
+- Set 元素不允许重复
+- Map 类似对象，但是它的键（key）可以是任意数据类型
+
+**①Set 常用方法**
+
+```js
+// 实例化一个set
+const set = new Set([1, 2, 3, 4]);
+
+// 遍历set
+for (let item of set) {
+  console.log(item);
+}
+
+// 添加元素，返回Set本身
+set.add(5).add(6);
+
+// Set大小
+console.log(set.size);
+
+// 检查元素存在
+console.log(set.has(0));
+
+// 删除指定元素，返回bool
+let success = set.delete(1);
+console.log(success);
+
+set.clear();
+```
+
+其他遍历方法：由于没有键名，`values()`和`keys()`返回同样结果。
+
+```js
+for (let item of set.keys()) {
+  console.log(item);
+}
+
+for (let item of set.values()) {
+  console.log(item);
+}
+
+for (let item of set.entries()) {
+  console.log(item);
+}
+```
+
+**②Map 常用方法**
+
+Map 接口基本和 Set 一致。不同的是增加新元素的 API 是：`set(key, value)`
+
+```js
+const map = new Map();
+
+// 以任意对象为 Key 值
+// 这里以 Date 对象为例
+let key = new Date();
+map.set(key, 'today');
+
+console.log(map.get(key));
+```
