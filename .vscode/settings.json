@@ -1,5 +1,13 @@
 {
   "GitCommitPlugin.MaxSubjectWords": 30,
   "GitCommitPlugin.ShowEmoji": false,
-  "files.exclude": {}
+  "files.exclude": {
+    "docs/arithmetic": true,
+    "arithmetic": true,
+    "docs/knowledge/非技术.md": true,
+    "docs/knowledge/技术栈描述.md": true,
+    "docs/knowledge/summary.md": true,
+    "docs/前端高手": true,
+    "docs/knowledge/实现和执行": true
+  }
 }

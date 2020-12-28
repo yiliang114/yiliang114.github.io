@@ -4,6 +4,16 @@ date: '2020-10-26'
 draft: true
 ---
 
+### 简要介绍 ES6
+
+`ES2015`特指在`2015`年发布的新一代`JS`语言标准，`ES6`泛指下一代 JS 语言标准，包含`ES2015`、`ES2016`、`ES2017`、`ES2018`等。现阶段在绝大部分场景下，`ES2015`默认等同`ES6`。`ES5`泛指上一代语言标准。`ES2015`可以理解为`ES5`和`ES6`的时间分界线
+
+ES6 在变量的声明和定义方面增加了 let、const 声明变量，有局部变量的概念，赋值中有比较吸引人的结构赋值，同时 ES6 对字符串、
+数组、正则、对象、函数等拓展了一些方法，如字符串方面的模板字符串、函数方面的默认参数、对象方面属性的简洁表达方式，ES6 也
+引入了新的数据类型 symbol，新的数据结构 set 和 map,symbol 可以通过 typeof 检测出来，为解决异步回调问题，引入了 promise 和
+generator，还有最为吸引人了实现 Class 和模块，通过 Class 可以更好的面向对象编程，使用模块加载方便模块化编程，当然考虑到
+浏览器兼容性，我们在实际开发中需要使用 babel 进行编译。
+
 ### ES6 的新特性
 
 - 块级作用区域 `let a = 1;`
@@ -28,6 +38,53 @@ draft: true
 
 类的支持，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, for-of 遍历, generator, Map/Set, Promise
 
+ES6 就是 ES2015。目前并不是所有浏览器都能兼容 ES6 全部特性。
+
+#### 最常用的 ES6 特性
+
+`let, const, class, extends, super, arrow functions, template string, destructuring, default, rest arguments`
+
+- **表达式**：声明、解构赋值
+- **内置对象**：字符串扩展、数值扩展、对象扩展、数组扩展、函数扩展、正则扩展、Symbol、Set、Map、Proxy、Reflect
+- **语句与运算**：Class、Module、Iterator
+- **异步编程**：Promise、Generator、Async
+
+### class, extends, super
+
+```js
+class Animal {
+  constructor() {
+    this.type = 'animal';
+  }
+  says(say) {
+    console.log(this.type + ' says ' + say);
+  }
+}
+
+let animal = new Animal();
+animal.says('hello'); //animal says hello
+
+class Cat extends Animal {
+  constructor() {
+    super();
+    this.type = 'cat';
+  }
+}
+
+let cat = new Cat();
+cat.says('hello'); //cat says hello
+```
+
+上面代码首先用`class`定义了一个“类”，可以看到里面有一个`constructor`方法，这就是构造方法，而`this`关键字则代表实例对象。简单地说，`constructor`内定义的方法和属性是实例对象自己的，而`constructor`外定义的方法和属性则是所有实例对象可以共享的。
+
+Class 之间可以通过`extends`关键字实现继承，这比 ES5 的通过修改原型链实现继承，要清晰和方便很多。上面定义了一个 Cat 类，该类通过`extends`关键字，继承了 Animal 类的所有属性和方法。
+
+`super`关键字，它指代父类的实例（即父类的 this 对象）。子类必须在`constructor`方法中调用`super`方法，否则新建实例时会报错。这是因为子类没有自己的`this`对象，而是继承父类的`this`对象，然后对其进行加工。如果不调用`super`方法，子类就得不到`this`对象。
+
+ES6 的继承机制，实质是先创造父类的实例对象 this（所以必须先调用 super 方法），然后再用子类的构造函数修改 this。
+
+P.S 如果你写 react 的话，就会发现以上三个东西在最新版 React 中出现得很多。创建的每个 component 都是一个继承`React.Component`的类。[详见 react 文档](https://facebook.github.io/react/docs/reusable-components.html)
+
 ### Class 本质
 
 其实在 JS 中并不存在类，`class` 只是语法糖，本质还是函数。
@@ -36,22 +93,6 @@ draft: true
 class Person {}
 Person instanceof Function; // true
 ```
-
-### ES5、ES6 和 ES2015 有什么区别?
-
-`ES2015`特指在`2015`年发布的新一代`JS`语言标准，`ES6`泛指下一代 JS 语言标准，包含`ES2015`、`ES2016`、`ES2017`、`ES2018`等。现阶段在绝大部分场景下，`ES2015`默认等同`ES6`。`ES5`泛指上一代语言标准。`ES2015`可以理解为`ES5`和`ES6`的时间分界线
-
-### ES6 的了解
-
-新增模板字符串（为 JavaScript 提供了简单的字符串插值功能）、箭头函数（操作符左边为输入的参数，而右边则是进行的操作以及返回的值 Inputs=>outputs。）、for-of（用来遍历数据—例如数组中的值。）arguments 对象可被不定参数和默认参数完美代替。ES6 将 promise 对象纳入规范，提供了原生的 Promise 对象。增加了 let 和 const 命令，用来声明变量。增加了块级作用域。let 命令实际上就增加了块级作用域。ES6 规定，var 命令和 function 命令声明的全局变量，属于全局对象的属性；let 命令、const 命令、class 命令声明的全局变量，不属于全局对象的属性。。还有就是引入 module 模块的概念
-
-### 简要介绍 ES6
-
-ES6 在变量的声明和定义方面增加了 let、const 声明变量，有局部变量的概念，赋值中有比较吸引人的结构赋值，同时 ES6 对字符串、
-数组、正则、对象、函数等拓展了一些方法，如字符串方面的模板字符串、函数方面的默认参数、对象方面属性的简洁表达方式，ES6 也
-引入了新的数据类型 symbol，新的数据结构 set 和 map,symbol 可以通过 typeof 检测出来，为解决异步回调问题，引入了 promise 和
-generator，还有最为吸引人了实现 Class 和模块，通过 Class 可以更好的面向对象编程，使用模块加载方便模块化编程，当然考虑到
-浏览器兼容性，我们在实际开发中需要使用 babel 进行编译。
 
 ### 举一些 ES6 对 String 字符串类型做的常用升级优化?
 
@@ -209,173 +250,3 @@ ES6 的模块自动采用严格模式，不管你有没有在模块头部加上�
 
 https://www.jianshu.com/p/779f48bb342d
 不支持多重继承，如何实现比较好
-
-### this
-
-不同情况的调用，`this`指向分别如何。顺带可以提一下 `es6` 中箭头函数没有 `this`, `arguments`, `super` 等，这些只依赖包含箭头函数最接近的函数
-
-### 变量声明提升
-
-`js` 代码在运行前都会进行 `AST` 解析，函数申明默认会提到当前作用域最前面，变量申明也会进行提升。但赋值不会得到提升。关于 `AST` 解析，这里也可以说是形成词法作用域的主要原因
-
-### Iterator 是什么，有什么作用？(重要)
-
-- `Iterator`是`ES6`中一个很重要概念，它并不是对象，也不是任何一种数据类型。因为`ES6`新增了`Set`、`Map`类型，他们和`Array`、`Object`类型很像，`Array`、`Object`都是可以遍历的，但是`Set`、`Map`都不能用 for 循环遍历，解决这个问题有两种方案，一种是为`Set`、`Map`单独新增一个用来遍历的`API`，另一种是为`Set`、`Map`、`Array`、`Object`新增一个统一的遍历`API`，显然，第二种更好，`ES6`也就顺其自然的需要一种设计标准，来统一所有可遍历类型的遍历方式。`Iterator`正是这样一种标准。或者说是一种规范理念
-- 就好像`JavaScript`是`ECMAScript`标准的一种具体实现一样，`Iterator`标准的具体实现是`Iterator`遍历器。`Iterator`标准规定，所有部署了`key`值为`[Symbol.iterator]`，且`[Symbol.iterator]`的`value`是标准的`Iterator`接口函数(标准的`Iterator`接口函数: 该函数必须返回一个对象，且对象中包含`next`方法，且执行`next()`能返回包含`value/done`属性的`Iterator`对象)的对象，都称之为可遍历对象，`next()`后返回的`Iterator`对象也就是`Iterator`遍历器
-
-```js
-//obj就是可遍历的，因为它遵循了Iterator标准，且包含[Symbol.iterator]方法，方法函数也符合标准的Iterator接口规范。
-//obj.[Symbol.iterator]() 就是Iterator遍历器
-let obj = {
-  data: ['hello', 'world'],
-  [Symbol.iterator]() {
-    const self = this;
-    let index = 0;
-    return {
-      next() {
-        if (index < self.data.length) {
-          return {
-            value: self.data[index++],
-            done: false,
-          };
-        } else {
-          return { value: undefined, done: true };
-        }
-      },
-    };
-  },
-};
-```
-
-`ES6`给`Set`、`Map`、`Array`、`String`都加上了`[Symbol.iterator]`方法，且`[Symbol.iterator]`方法函数也符合标准的`Iterator`接口规范，所以`Set`、`Map`、`Array`、`String`默认都是可以遍历的
-
-```js
-//Array
-let array = ['red', 'green', 'blue'];
-array[Symbol.iterator]() //Iterator遍历器
-array[Symbol.iterator]().next() //{value: "red", done: false}
-
-//String
-let string = '1122334455';
-string[Symbol.iterator]() //Iterator遍历器
-string[Symbol.iterator]().next() //{value: "1", done: false}
-
-//set
-let set = new Set(['red', 'green', 'blue']);
-set[Symbol.iterator]() //Iterator遍历器
-set[Symbol.iterator]().next() //{value: "red", done: false}
-
-//Map
-let map = new Map();
-let obj= {map: 'map'};
-map.set(obj, 'mapValue');
-map[Symbol.iterator]().next()  {value: Array(2), done: false}
-
-```
-
-### filter
-
-```js
-var b = [['A', 'B', 'C'], ['D', 'E'], ['F']];
-
-// 获取二维数组铺平展开的下标值
-spreadArrayIndex = array => {
-  if (array instanceof Array && array[0] instanceof Array) {
-    const indexResult = array.map((list, index) => {
-      const target = list.filter((item, idx) => {
-        if (item === value) {
-          return idx;
-        }
-      });
-      if (target.length !== 0) {
-        return target[0];
-      }
-    });
-    if (indexResult.length !== 0) {
-      return indexResult[0];
-    }
-  }
-};
-
-// 获得二维数组的总长度
-sumArrayNum = array => {
-  // 二维数组
-  if (array instanceof Array && array[0] instanceof Array) {
-    const lengthArray = array.map(item => item.length);
-    return lengthArray.reduce((total, num) => total + num);
-  }
-};
-
-console.log();
-var b = ['D', 'E'];
-b.map((item, idx) => {
-  console.log(item, idx, item === 'D');
-  if (item === 'D') {
-    console.log('D: ', idx);
-    return idx;
-  }
-});
-
-// 获取一维数组下标
-var b = ['D', 'E'];
-var idx = b.indexOf('D');
-console.log(idx);
-
-// 获取二维数组下标
-var b = [['A', 'B', 'C'], ['D', 'E'], ['F']];
-var target = b.filter(item => item.indexOf('D') > -1);
-if (target && target[0]) {
-  var idx1 = b.indexOf(target[0]);
-  var idx2 = target[0].indexOf('D');
-  console.log(idx1, idx2);
-}
-var total = 0;
-for (var i = 0; i < idx1; i++) {
-  total += b[i].length;
-}
-total += idx2 + 1;
-console.log(total);
-
-// 获取平铺之后二维数组下标
-function spreadArrayIndex(array, value) {
-  // var b = [['A', 'B', 'C'], ['D', 'E'], ['F']]
-  if (array instanceof Array && array[0] instanceof Array) {
-    var target = array.filter(item => item.indexOf(value) > -1);
-    if (target && target[0]) {
-      var idx1 = array.indexOf(target[0]);
-      var idx2 = target[0].indexOf(value);
-      // console.log(idx1, idx2)
-    }
-    var total = 0;
-    for (var i = 0; i < idx1; i++) {
-      total += array[i].length;
-    }
-    total += idx2 + 1;
-    // console.log(total)
-    return total;
-  }
-}
-
-// 获取子元素是对象的二维数组平铺之后的下标
-function spreadArrayObjectIndex(ArrayObject, value) {
-  // var b = [[{ name: 'A' }, { name: 'B' }, { name: 'C' }], [{ name: 'D' }, { name: 'E' }], [{ name: 'F' }]]
-  if (ArrayObject instanceof Array && ArrayObject[0] instanceof Array && ArrayObject[0][0] instanceof Object) {
-    var targetX = ArrayObject.filter(xitem => {
-      var result = xitem.map(yitem => yitem.name === value);
-      return result.includes(true);
-    });
-    var idxX = ArrayObject.indexOf(targetX[0]);
-    var targetY = targetX[0].filter(item => item.name === value);
-    var idxY = targetX[0].indexOf(targetY[0]);
-
-    // console.log(idxX, idxY)
-    var total = 0;
-    for (var i = 0; i < idxX; i++) {
-      total += ArrayObject[i].length;
-    }
-    total += idxY;
-    console.log(total);
-    return total;
-  }
-}
-```

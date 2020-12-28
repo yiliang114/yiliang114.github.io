@@ -600,3 +600,165 @@ Object.prototype.toString.call({ name: 'An' }); // "[object Object]"
     };
   }
   ```
+
+### filter
+
+```js
+var b = [['A', 'B', 'C'], ['D', 'E'], ['F']];
+
+// 获取二维数组铺平展开的下标值
+spreadArrayIndex = array => {
+  if (array instanceof Array && array[0] instanceof Array) {
+    const indexResult = array.map((list, index) => {
+      const target = list.filter((item, idx) => {
+        if (item === value) {
+          return idx;
+        }
+      });
+      if (target.length !== 0) {
+        return target[0];
+      }
+    });
+    if (indexResult.length !== 0) {
+      return indexResult[0];
+    }
+  }
+};
+
+// 获得二维数组的总长度
+sumArrayNum = array => {
+  // 二维数组
+  if (array instanceof Array && array[0] instanceof Array) {
+    const lengthArray = array.map(item => item.length);
+    return lengthArray.reduce((total, num) => total + num);
+  }
+};
+
+console.log();
+var b = ['D', 'E'];
+b.map((item, idx) => {
+  console.log(item, idx, item === 'D');
+  if (item === 'D') {
+    console.log('D: ', idx);
+    return idx;
+  }
+});
+
+// 获取一维数组下标
+var b = ['D', 'E'];
+var idx = b.indexOf('D');
+console.log(idx);
+
+// 获取二维数组下标
+var b = [['A', 'B', 'C'], ['D', 'E'], ['F']];
+var target = b.filter(item => item.indexOf('D') > -1);
+if (target && target[0]) {
+  var idx1 = b.indexOf(target[0]);
+  var idx2 = target[0].indexOf('D');
+  console.log(idx1, idx2);
+}
+var total = 0;
+for (var i = 0; i < idx1; i++) {
+  total += b[i].length;
+}
+total += idx2 + 1;
+console.log(total);
+
+// 获取平铺之后二维数组下标
+function spreadArrayIndex(array, value) {
+  // var b = [['A', 'B', 'C'], ['D', 'E'], ['F']]
+  if (array instanceof Array && array[0] instanceof Array) {
+    var target = array.filter(item => item.indexOf(value) > -1);
+    if (target && target[0]) {
+      var idx1 = array.indexOf(target[0]);
+      var idx2 = target[0].indexOf(value);
+      // console.log(idx1, idx2)
+    }
+    var total = 0;
+    for (var i = 0; i < idx1; i++) {
+      total += array[i].length;
+    }
+    total += idx2 + 1;
+    // console.log(total)
+    return total;
+  }
+}
+
+// 获取子元素是对象的二维数组平铺之后的下标
+function spreadArrayObjectIndex(ArrayObject, value) {
+  // var b = [[{ name: 'A' }, { name: 'B' }, { name: 'C' }], [{ name: 'D' }, { name: 'E' }], [{ name: 'F' }]]
+  if (ArrayObject instanceof Array && ArrayObject[0] instanceof Array && ArrayObject[0][0] instanceof Object) {
+    var targetX = ArrayObject.filter(xitem => {
+      var result = xitem.map(yitem => yitem.name === value);
+      return result.includes(true);
+    });
+    var idxX = ArrayObject.indexOf(targetX[0]);
+    var targetY = targetX[0].filter(item => item.name === value);
+    var idxY = targetX[0].indexOf(targetY[0]);
+
+    // console.log(idxX, idxY)
+    var total = 0;
+    for (var i = 0; i < idxX; i++) {
+      total += ArrayObject[i].length;
+    }
+    total += idxY;
+    console.log(total);
+    return total;
+  }
+}
+```
+
+### Iterator 是什么，有什么作用？(重要)
+
+- `Iterator`是`ES6`中一个很重要概念，它并不是对象，也不是任何一种数据类型。因为`ES6`新增了`Set`、`Map`类型，他们和`Array`、`Object`类型很像，`Array`、`Object`都是可以遍历的，但是`Set`、`Map`都不能用 for 循环遍历，解决这个问题有两种方案，一种是为`Set`、`Map`单独新增一个用来遍历的`API`，另一种是为`Set`、`Map`、`Array`、`Object`新增一个统一的遍历`API`，显然，第二种更好，`ES6`也就顺其自然的需要一种设计标准，来统一所有可遍历类型的遍历方式。`Iterator`正是这样一种标准。或者说是一种规范理念
+- 就好像`JavaScript`是`ECMAScript`标准的一种具体实现一样，`Iterator`标准的具体实现是`Iterator`遍历器。`Iterator`标准规定，所有部署了`key`值为`[Symbol.iterator]`，且`[Symbol.iterator]`的`value`是标准的`Iterator`接口函数(标准的`Iterator`接口函数: 该函数必须返回一个对象，且对象中包含`next`方法，且执行`next()`能返回包含`value/done`属性的`Iterator`对象)的对象，都称之为可遍历对象，`next()`后返回的`Iterator`对象也就是`Iterator`遍历器
+
+```js
+//obj就是可遍历的，因为它遵循了Iterator标准，且包含[Symbol.iterator]方法，方法函数也符合标准的Iterator接口规范。
+//obj.[Symbol.iterator]() 就是Iterator遍历器
+let obj = {
+  data: ['hello', 'world'],
+  [Symbol.iterator]() {
+    const self = this;
+    let index = 0;
+    return {
+      next() {
+        if (index < self.data.length) {
+          return {
+            value: self.data[index++],
+            done: false,
+          };
+        } else {
+          return { value: undefined, done: true };
+        }
+      },
+    };
+  },
+};
+```
+
+`ES6`给`Set`、`Map`、`Array`、`String`都加上了`[Symbol.iterator]`方法，且`[Symbol.iterator]`方法函数也符合标准的`Iterator`接口规范，所以`Set`、`Map`、`Array`、`String`默认都是可以遍历的
+
+```js
+//Array
+let array = ['red', 'green', 'blue'];
+array[Symbol.iterator]() //Iterator遍历器
+array[Symbol.iterator]().next() //{value: "red", done: false}
+
+//String
+let string = '1122334455';
+string[Symbol.iterator]() //Iterator遍历器
+string[Symbol.iterator]().next() //{value: "1", done: false}
+
+//set
+let set = new Set(['red', 'green', 'blue']);
+set[Symbol.iterator]() //Iterator遍历器
+set[Symbol.iterator]().next() //{value: "red", done: false}
+
+//Map
+let map = new Map();
+let obj= {map: 'map'};
+map.set(obj, 'mapValue');
+map[Symbol.iterator]().next()  {value: Array(2), done: false}
+
+```

@@ -1,16 +1,18 @@
 ---
-title: 懒加载的实现原理
+title: Proxy & Reflect
 date: '2020-10-26'
 draft: true
 ---
 
-# Proxy 与 Object.defineProperty 的对比
+## Proxy
 
-### 前言
+### Proxy 与 Object.defineProperty 的对比
+
+#### 前言
 
 > Object.defineProperty() 和 ES2015 中新增的 Proxy 对象,会经常用来做数据劫持(数据劫持:在访问或者修改对象的某个属性时，通过一段代码拦截这个行为，进行额外的操作或者修改返回结果)，数据劫持的典型应用就是我们经常在面试中遇到的双向数据绑定。
 
-### Object.defineProperty
+#### Object.defineProperty
 
 > Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象
 > 语法：
@@ -69,7 +71,7 @@ Object.defineProperty({}, 'a', {
 
 >
 
-#### Setters 和 Getters
+##### Setters 和 Getters
 
 > 下面的例子展示了如何实现一个自存档对象。 当设置 temperature 属性时，archive 数组会获取日志条目
 
@@ -104,7 +106,7 @@ arc.getArchive() // [{ val: 11 }, { val: 13 }]
 
 >
 
-### 存在对问题
+#### 存在对问题
 
 > 一、不能监听数组的变化
 > 数组的以下几个方法不会触发 set,push、pop、shift、unshift、splice、sort、reverse
@@ -140,7 +142,7 @@ Object.keys(obj).forEach(key => {
 > 三、必须深层遍历嵌套的对象
 > 如果嵌套对象，那就必须逐层遍历，直到把每个对象的每个属性都调用 Object.defineProperty() 为止。 Vue 的源码中就能找到这样的逻辑 (叫做 walk 方法)。
 
-### Proxy
+#### Proxy
 
 > Proxy 对象用于定义基本操作的自定义行为（如属性查找，赋值，枚举，函数调用等），ES6 原生提供 Proxy 构造函数，用来生成 一个 Proxy 实例。
 > 语法：
@@ -175,7 +177,7 @@ console.log(target); // {a: 1, b: undefined}. 操作已经被正确地转发
 > 在例子中，通过 new Proxy(target, handler)返回了一个 Prosy 实例，在访问或者添加实例对象的某个属性时
 > ，调用了 get 或者 set 操作，在 get 操作中，在当对象不存在属性名时，会返回 37.除了进行 get 和 set 操作外，还会进行无操作转发代理，代理会将所有应用到它的操作转发到这个目标对象上。
 
-### 解决问题
+#### 解决问题
 
 > 一、针对对象
 > Proxy 是针对 整个对象 obj 的。因此无论 obj 内部包含多少个 key ，都可以走进 set。(并不需要通过 Object.keys() 的遍历)，解决了上述 Object.defineProperty() 的第二个问题
@@ -257,11 +259,11 @@ proxy.info.blogs.push('proxy');
 
 >
 
-### 扩展
+#### 扩展
 
 >
 
-#### 实现构造函数
+##### 实现构造函数
 
 > 方法代理可以轻松地通过一个新构造函数来扩展一个已有的构造函数,这个例子使用了 construct 和 apply。
 
@@ -300,7 +302,7 @@ console.log(Peter.age); // 13
 
 >
 
-#### 面试题
+##### 面试题
 
 > 什么样的 a 可以满足 (a === 1 && a === 2 && a === 3) === true 呢？这里我们就可以采用数据劫持来实现
 
@@ -317,7 +319,7 @@ console.log(a === 1 && a === 2 && a === 3); // true
 
 >
 
-### 总结
+#### 总结
 
 > Proxy / Object.defineProperty 两者的区别：
 
@@ -330,9 +332,9 @@ console.log(a === 1 && a === 2 && a === 3); // true
 - 不能使用 polyfill 来处理兼容性
   > 接下来我们将会分别用 Proxy / Object.defineProperty 来实现双向绑定
 
-# 用 Proxy 与 Object.defineProperty 实现双向绑定
+### 用 Proxy 与 Object.defineProperty 实现双向绑定
 
-### 前言
+#### 前言
 
 > 上文我们讲了[Proxy 与 Object.defineProperty 的对比](https://github.com/LuoShengMen/StudyNotes/issues/455)，Proxy 与 Object.defineProperty 最典型的应用就是用于实现双向数据绑定。但实现双向数据绑定的方法不止于此。
 
@@ -341,12 +343,12 @@ console.log(a === 1 && a === 2 && a === 3); // true
 - 数据劫持（vue.js）：采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty()来劫持各个属性的 setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调
   > 不过我们今天只讲一讲如何使用 Proxy 与 Object.defineProperty 来实现双向数据绑定。
 
-### 双向数据绑定
+#### 双向数据绑定
 
 > 简单来说双向数据绑定就是数据和 UI 建立双向的通信通道，可以通过数据来更新 UI 显示，也可以通过 UI 的操做来更新数据。下图可以很好的说明一切
 > ![image](https://user-images.githubusercontent.com/21194931/58619925-73559680-82f8-11e9-9848-c6af48e3914e.png)
 
-### 实现思路
+#### 实现思路
 
 > 实现一个简单的双向数据绑定并不难，我们来看一个简单的例子
 > html:
@@ -404,7 +406,7 @@ console.log(a === 1 && a === 2 && a === 3); // true
 > 流程图如下：
 > ![image](https://user-images.githubusercontent.com/21194931/58623762-48237500-8301-11e9-8a69-75b342eaa7ab.png)
 
-#### 实现 Observer
+##### 实现 Observer
 
 > 使用 Object.defineProperty 定义一个 Observer
 
@@ -441,7 +443,7 @@ function Observer(data) {
 
 >
 
-#### 实现 Dep
+##### 实现 Dep
 
 > 创建一个用来存储订阅者 Watcher 的订阅器，订阅器 Dep 主要负责收集订阅者，然后再属性变化的时候执行对应订阅者的更新函数。
 
@@ -463,7 +465,7 @@ Dep.prototype = {
 
 >
 
-#### 实现 Watcher
+##### 实现 Watcher
 
 > 既然实现了一个订阅器，那么就需要一个订阅者，订阅者 Watcher 在初始化的时候需要将自己添加进订阅器 Dep 中，
 > 1、在自身实例化时往属性订阅器(dep)里面添加自己
@@ -528,7 +530,7 @@ function defineProperty(obj, key, value) {
 
 > Observer 改造完成后，已经具备了监听数据， 添加订阅器和数据变化通知订阅者的功能。接下来就是将 watcher 添加进入订阅者，模拟实现 Compile，并进行数据初始化。
 
-#### 模拟实现 Compile
+##### 模拟实现 Compile
 
 > 我们这里不解析指令所以直接写出 watcher,并添加进去订阅者
 
@@ -566,7 +568,7 @@ Observer(data);
 
 > 这样一个简单的基于 Object.defineProperty 的双向数据绑定就完成了。
 
-### Proxy
+#### Proxy
 
 > 由于 Object.defineProperty 在数组监控方面的不足，我们可以采用 Proxy，只需要修改 Observer 即可实现上面例子的功能
 
@@ -596,7 +598,7 @@ function Observer(target) {
 }
 ```
 
-### Proxy
+#### Proxy
 
 Proxy 是 ES6 中新增的功能，它可以用来自定义对象中的操作。 Vue3.0 中将会通过 Proxy 来替换原本的 Object.defineProperty 来实现数据响应式。
 
@@ -639,7 +641,7 @@ p.a; // 'a' = 2
 
 当然这是简单版的响应式实现，如果需要实现一个 Vue 中的响应式，需要我们在 get 中收集依赖，在 set 派发更新，之所以 Vue3.0 要使用 Proxy 替换原本的 API 原因在于 Proxy 无需一层层递归为每个属性添加代理，一次即可完成以上操作，性能上更好，并且原本的实现有一些数据更新不能监听到，但是 Proxy 可以完美监听到任何方式的数据改变，唯一缺陷可能就是浏览器的兼容性不好了。
 
-### Proxy
+#### Proxy
 
 Proxy 是 ES6 中新增的功能，可以用来自定义对象中的操作
 
@@ -681,7 +683,7 @@ p.a = 2; // bind `value` to `2`
 p.a; // -> Get 'a' = 2
 ```
 
-### Proxy
+#### Proxy
 
 [Proxy](./Proxy.md)
 
@@ -737,7 +739,7 @@ Proxy 支持的拦截操作一览，一共 13 种。
 * babel 是如何将 es6 代码编译成 es5 的
 * 手写 Object.create 函数的 ployfill
 
-### Proxy
+#### Proxy
 
 Proxy 可以实现什么功能？
 
@@ -784,7 +786,7 @@ p.a // 'a' = 2
 
 当然这是简单版的响应式实现，如果需要实现一个 Vue 中的响应式，需要我们在 `get` 中收集依赖，在 `set` 派发更新，之所以 Vue3.0 要使用 `Proxy` 替换原本的 API 原因在于 `Proxy` 无需一层层递归为每个属性添加代理，一次即可完成以上操作，性能上更好，并且原本的实现有一些数据更新不能监听到，但是 `Proxy` 可以完美监听到任何方式的数据改变，唯一缺陷可能就是浏览器的兼容性不好了。
 
-### Proxy 是什么，有什么作用？
+#### Proxy 是什么，有什么作用？
 
 `Proxy`是`ES6`新增的一个构造函数，可以理解为 JS 语言的一个代理，用来改变 JS 默认的一些语言行为，包括拦截默认的`get/set`等底层方法，使得 JS 的使用自由度更高，可以最大限度的满足开发者的需求。比如通过拦截对象的`get/set`方法，可以轻松地定制自己想要的`key`或者`value`。下面的例子可以看到，随便定义一个`myOwnObj`的`key`,都可以变成自己想要的函数`
 
@@ -831,3 +833,316 @@ myOwnObj.wuwuwu
     console.log(error); //你的wuwuwu运气不行，失败了
   });
 ```
+
+## Reflect
+
+### 补充
+
+http://es6.ruanyifeng.com/?search=Reflect&x=13&y=8#docs/
+https://www.jianshu.com/p/653bce04db0b
+
+### 什么是 Reflect？
+
+`Reflect`是`ES6`引入的一个新的对象，他的主要作用有两点，一是将原生的一些零散分布在`Object`、`Function`或者全局函数里的方法(如`apply`、`delete`、`get`、`set`等等)，统一整合到`Reflect`上，这样可以更加方便更加统一的管理一些原生`API`。其次就是因为`Proxy`可以改写默认的原生 API，如果一旦原生`API`被改写可能就找不到了，所以`Reflect`也可以起到备份原生 API 的作用，使得即使原生`API`被改写了之后，也可以在被改写之后的`API`用上默认的`API`
+
+### 为什么要设计 Reflect？
+
+1. 将 Object 对象的属于语言内部的方法放到 Reflect 对象上，即从 Reflect 对象上拿 Object 对象内部方法。
+2. 将用 老 Object 方法 报错的情况，改为返回 false
+
+   老写法
+
+   ```js
+   try {
+     Object.defineProperty(target, property, attributes);
+     // success
+   } catch (e) {
+     // failure
+   }
+   ```
+
+   新写法
+
+   ```js
+   if (Reflect.defineProperty(target, property, attributes)) {
+     // success
+   } else {
+     // failure
+   }
+   ```
+
+3. 让 Object 操作变成函数行为
+
+   老写法（命令式写法）
+
+   ```js
+   'name' in Object; //true
+   ```
+
+   新写法
+
+   ```js
+   Reflect.has(Object, 'name'); //true
+   ```
+
+4. Reflect 与 Proxy 是相辅相成的，在 Proxy 上有的方法，在 Reflect 就一定有
+
+   ```js
+   let target = {};
+   let handler = {
+     set(target, proName, proValue, receiver) {
+       //确认对象的属性赋值成功
+       let isSuccess = Reflect.set(target, proName, proValue, receiver);
+       if (isSuccess) {
+         console.log('成功');
+       }
+       return isSuccess;
+     },
+   };
+   let proxy = new Proxy(target, handler);
+   ```
+
+**确保对象的属性能正确赋值，广义上讲，即确保对象的原生行为能够正常进行，这就是 Reflect 的作用**
+
+### Reflect 的 API
+
+注：由于和 Proxy 的 API 一致，所以参数就不解释了。
+
+**（1）Reflect.get(target,property,receiver)**
+**查找并返回**target 对象的 property 属性
+**例 1：**
+
+```jsx
+let obj = {
+  name: 'chen',
+};
+let result = Reflect.get(obj, 'name');
+console.log(result); //chen
+```
+
+**例 2：**
+
+```jsx
+let obj = {
+  //属性yu部署了getter读取函数
+  get yu() {
+    //this返回的是Reflect.get的receiver参数对象
+    return this.name + this.age;
+  },
+};
+
+let receiver = {
+  name: 'shen',
+  age: '18',
+};
+
+let result = Reflect.get(obj, 'yu', receiver);
+console.log(result); //shen18
+```
+
+注意：如果 Reflect.get()的第一个参数不是对象，则会报错。
+
+**（2）Reflect.set(target,propName,propValue,receiver)**
+设置 target 对象的 propName 属性为 propValue
+**例 1：**
+
+```jsx
+let obj = {
+  name: 'chen',
+};
+
+let result = Reflect.set(obj, 'name', 'shi');
+console.log(result); //true
+console.log(obj.name); //shi
+```
+
+**例 2：原理同 3（1）的例 2**
+
+```jsx
+let obj = {
+  age: 38,
+  set setAge(value) {
+    return (this.age = value);
+  },
+};
+
+let receiver = {
+  age: 28,
+};
+
+let result = Reflect.set(obj, 'setAge', 18, receiver);
+console.log(result); //true
+console.log(obj.age); //38
+console.log(receiver.age); //18
+```
+
+**（3）Reflect.set 与 Proxy.set 联合使用,并且传入 receiver，则会进行定义属性操作**
+
+```jsx
+let obj = {
+  name: 'chen',
+};
+
+let handler = {
+  set(target, key, value, receiver) {
+    console.log('Proxy拦截赋值操作');
+    //Reflect完成赋值操作
+    Reflect.set(target, key, value, receiver);
+  },
+  defineProperty(target, key, attribute) {
+    console.log('Proxy拦截定义属性操作');
+    //Reflect完成定义属性操作
+    Reflect.defineProperty(target, key, attribute);
+  },
+};
+
+let proxy = new Proxy(obj, handler);
+proxy.name = 'ya';
+//Proxy拦截赋值操作
+//Proxy拦截定义属性操作
+```
+
+- **为什么 Reflect.set()传入 receiver 参数，就会触发定义属性的操作？**
+  因为 Proxy.set()中的 receiver 是 Proxy 的实例（[详情见这篇文章](https://www.jianshu.com/p/5b8153c87949)），即 obj，而 Reflect.set 一旦传入 receiver，就会将属性赋值到 receiver 上面，也是 obj，所以就会触发 defineProperty 拦截。
+
+**（4）Reflect.has(obj,name)**
+
+```csharp
+var obj= {
+  name: "chen",
+};
+```
+
+老写法
+
+```bash
+'name' in obj // true
+```
+
+新写法
+
+```jsx
+Reflect.has(obj, 'name'); // true
+```
+
+**（5）Reflect.deleteProperty(obj, name)**
+删除对象的属性
+
+老写法：
+
+```cpp
+delete obj.name;
+```
+
+新写法
+
+```jsx
+Reflect.deleteProperty(obj, 'name');
+```
+
+**（6）Reflect.construct(target, args)**
+
+```jsx
+function Person(name) {
+  this.name = name;
+}
+```
+
+new 的写法
+
+```csharp
+let person= new Person('chen')
+```
+
+Reflect.construct 的写法
+
+```jsx
+let person = Reflect.construct(Person, ['chen']);
+```
+
+**（7）Reflect.getPrototypeOf(obj)**
+用于读取对象的**proto**属性，对应 Object.getPrototypeOf(obj)
+
+**（8）Reflect.setPrototypeOf(obj, newProto)**
+设置目标对象的原型（prototype），对应 Object.setPrototypeOf(obj, newProto)方法
+
+**（9）Reflect.apply(func, thisArg, args)**
+继承目标对象的特定方法
+
+```bash
+let array=[1,2,3,4,5,6]
+```
+
+老写法：
+
+```tsx
+let small = Math.min.apply(Math, array); //1
+let big = Math.max.apply(Math, array); //6
+let type = Object.prototype.toString.call(small); //"[object Number]"
+```
+
+新写法：
+
+```jsx
+const small = Reflect.apply(Math.min, Math, array);
+const big = Reflect.apply(Math.max, Math, array);
+//第三个参数是Object类型的就好，因为调用的是Object的原型方法toString
+const type = Reflect.apply(Object.prototype.toString, small, []);
+```
+
+**（10）Reflect.defineProperty(target, propertyKey, attributes)**
+
+```jsx
+function MyDate() {
+  ...
+  ...
+}
+```
+
+老写法
+
+```jsx
+Object.defineProperty(MyDate, 'now', {
+  value: () => Date.now(),
+});
+```
+
+新写法
+
+```jsx
+Reflect.defineProperty(MyDate, 'now', {
+  value: () => Date.now(),
+});
+```
+
+与 Proxy.defineProperty 配合使用
+
+```jsx
+let proxy = new Proxy(
+  {},
+  {
+    defineProperty(target, prop, descriptor) {
+      console.log(descriptor);
+      return Reflect.defineProperty(target, prop, descriptor);
+    },
+  },
+);
+
+proxy.name = 'chen';
+// {value: "chen", writable: true, enumerable: true, configurable: true}
+p.name; // "chen"
+```
+
+如上，Proxy.defineProperty**对属性赋值设置拦截**，然后使用 Reflect.defineProperty**完成赋值**
+
+**（11）Reflect.getOwnPropertyDescriptor(target, propertyKey)**
+基本等同于 Object.getOwnPropertyDescriptor，用于得到指定属性的描述对象
+
+**（12）Reflect.isExtensible (target)**
+对应 Object.isExtensible，返回一个布尔值，表示当前对象是否可扩展
+
+**（13）Reflect.preventExtensions(target)**
+对应 Object.preventExtensions 方法，用于让一个对象变为不可扩展。它返回一个布尔值，表示是否操作成功
+
+**（14）Reflect.ownKeys (target)**
+用于返回对象的所有属性

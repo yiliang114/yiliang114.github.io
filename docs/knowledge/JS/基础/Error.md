@@ -36,6 +36,16 @@ func();
 // Cannot access 'b' before initialization
 ```
 
+````js
+var a = 100;
+if (1) {
+  a = 10;
+  // 在当前块作用域中存在 a 使用 let/const 声明的情况下，给 a 赋值 10 时，只会在当前作用域找变量 a，
+  // 而这时，还未到声明时候，所以控制台 ReferenceError: Cannot access 'a' before initialization
+  let a = 1;
+}
+```
+
 变量声明会提升， 赋值不会提升。
 
 ```js
@@ -50,7 +60,7 @@ var employeeId = '19000';
   };
 })();
 // undefined
-```
+````
 
 内外作用域有同名的变量，就近原则。
 

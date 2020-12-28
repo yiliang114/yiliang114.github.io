@@ -4,21 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-### 前言
-
-![ES6缩略](https://user-gold-cdn.xitu.io/2019/12/12/16ef8c13ece2bc0c?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
-
-### 修正
-
-**ES6**是`ECMA`为`JavaScript`制定的第 6 个标准版本。**ES6**既是一个历史名词也是一个泛指，含义是`5.1版本`以后的`JavaScript下一代标准`，目前涵盖了`ES2015`、`ES2016`、`ES2017`、`ES2018`、`ES2019`。
-
-另外，ES6 更新的内容主要分为以下几点
-
-- **表达式**：声明、解构赋值
-- **内置对象**：字符串扩展、数值扩展、对象扩展、数组扩展、函数扩展、正则扩展、Symbol、Set、Map、Proxy、Reflect
-- **语句与运算**：Class、Module、Iterator
-- **异步编程**：Promise、Generator、Async
-
 ## ES2015
 
 ### 声明
