@@ -65,11 +65,11 @@ keep-alive 的优点：
 - 减少了后续请求的延迟（无需再进行握手）
 - 报告错误无需关闭 TCP 连
 
+### http 长连接？
+
 ### 其他
 
 nginx 如何处理能够保持连接不断开 ？ http1.1 的长连接特性
 
 - http 接口如何进行长连接？ （http 是无状态 之类的）如何 keep alive
 - Accept-Encoding https://blog.csdn.net/thewindkee/article/details/71190403 https://www.cnblogs.com/ct2011/p/5835990.html
-
-### http 长连接？
