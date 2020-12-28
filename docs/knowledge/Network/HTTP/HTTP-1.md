@@ -6,37 +6,19 @@ aside: false
 draft: true
 ---
 
-# 一 、基础概念
-
-## Web 基础
-
-- HTTP（HyperText Transfer Protocol，超文本传输协议）。
-- WWW（World Wide Web）的三种技术：HTML、HTTP、URL。
-- RFC（Request for Comments，征求修正意见书），互联网的设计文档。
-
-## URL
+# 一、基础概念
 
 - URI（Uniform Resource Indentifier，统一资源标识符）
 - URL（Uniform Resource Locator，统一资源定位符）
-- URN（Uniform Resource Name，统一资源名称），例如 urn:isbn:0-486-27557-4 。
-
-URI 包含 URL 和 URN，目前 WEB 只有 URL 比较流行，所以见到的基本都是 URL。
-
-<div align="center"> <img src="../pics//f716427a-94f2-4875-9c86-98793cf5dcc3.jpg" width="400"/> </div><br>
-
-## 请求和响应报文
-
-### 1. 请求报文
-
-<div align="center"> <img src="../pics//HTTP_RequestMessageExample.png" width=""/> </div><br>
-
-### 2. 响应报文
-
-<div align="center"> <img src="../pics//HTTP_ResponseMessageExample.png" width=""/> </div><br>
 
 # 二、HTTP 方法
 
 客户端发送的 **请求报文** 第一行为请求行，包含了方法字段。
+
+HTTP 的特性:
+
+- HTTP 协议构建于 TCP/IP 协议之上，是一个应用层协议，默认端口号是 80
+- HTTP 是**无连接无状态**的
 
 ## GET
 
@@ -48,9 +30,7 @@ URI 包含 URL 和 URN，目前 WEB 只有 URL 比较流行，所以见到的基
 
 > 获取报文首部
 
-和 GET 方法一样，但是不返回报文实体主体部分。
-
-主要用于确认 URL 的有效性以及资源更新的日期时间等。
+和 GET 方法一样，但是不返回报文实体主体部分。主要用于确认 URL 的有效性以及资源更新的日期时间等。
 
 ## POST
 
@@ -58,19 +38,11 @@ URI 包含 URL 和 URN，目前 WEB 只有 URL 比较流行，所以见到的基
 
 POST 主要用来传输数据，而 GET 主要用来获取资源。
 
-更多 POST 与 GET 的比较请见第八章。
-
 ## PUT
 
 > 上传文件
 
 由于自身不带验证机制，任何人都可以上传文件，因此存在安全性问题，一般不使用该方法。
-
-```html
-PUT /new.html HTTP/1.1 Host: example.com Content-type: text/html Content-length: 16
-
-<p>New File</p>
-```
 
 ## PATCH
 
@@ -78,50 +50,17 @@ PUT /new.html HTTP/1.1 Host: example.com Content-type: text/html Content-length:
 
 PUT 也可以用于修改资源，但是只能完全替代原始资源，PATCH 允许部分修改。
 
-```html
-PATCH /file.txt HTTP/1.1 Host: www.example.com Content-Type: application/example If-Match: "e0023aa4e" Content-Length:
-100 [description of changes]
-```
-
 ## DELETE
 
 > 删除文件
 
 与 PUT 功能相反，并且同样不带验证机制。
 
-```html
-DELETE /file.html HTTP/1.1
-```
-
 ## OPTIONS
 
 > 查询支持的方法
 
-查询指定的 URL 能够支持的方法。
-
-会返回 Allow: GET, POST, HEAD, OPTIONS 这样的内容。
-
-## CONNECT
-
-> 要求用隧道协议连接代理
-
-要求在与代理服务器通信时建立隧道，使用 SSL（Secure Sockets Layer，安全套接层）和 TLS（Transport Layer Security，传输层安全）协议把通信内容加密后经网络隧道传输。
-
-```html
-CONNECT www.example.com:443 HTTP/1.1
-```
-
-<div align="center"> <img src="../pics//dc00f70e-c5c8-4d20-baf1-2d70014a97e3.jpg" width=""/> </div><br>
-
-## TRACE
-
-> 追踪路径
-
-服务器会将通信路径返回给客户端。
-
-发送请求时，在 Max-Forwards 首部字段中填入数值，每经过一个服务器就会减 1，当数值为 0 时就停止传输。
-
-通常不会使用 TRACE，并且它容易受到 XST 攻击（Cross-Site Tracing，跨站追踪），因此更不会去使用它。
+查询指定的 URL 能够支持的方法。 会返回 Allow: GET, POST, HEAD, OPTIONS 这样的内容。
 
 # 三、HTTP 状态码
 
@@ -142,9 +81,7 @@ CONNECT www.example.com:443 HTTP/1.1
 ## 2XX 成功
 
 - **200 OK**
-
 - **204 No Content** ：请求已经成功处理，但是返回的响应报文不包含实体的主体部分。一般在只需要从客户端往服务器发送信息，而不需要返回数据时使用。
-
 - **206 Partial Content** ：表示客户端进行了范围请求。响应报文包含由 Content-Range 指定范围的实体内容。
 
 ## 3XX 重定向
@@ -183,7 +120,7 @@ CONNECT www.example.com:443 HTTP/1.1
 
 各种首部字段及其含义如下（不需要全记，仅供查阅）：
 
-## 通用首部字段
+## 1. 通用首部字段
 
 |    首部字段名     |                    说明                    |
 | :---------------: | :----------------------------------------: |
@@ -197,7 +134,7 @@ CONNECT www.example.com:443 HTTP/1.1
 |        Via        |            代理服务器的相关信息            |
 |      Warning      |                  错误通知                  |
 
-## 请求首部字段
+## 2. 请求首部字段
 
 |     首部字段名      |                      说明                       |
 | :-----------------: | :---------------------------------------------: |
@@ -221,7 +158,7 @@ CONNECT www.example.com:443 HTTP/1.1
 |         TE          |                传输编码的优先级                 |
 |     User-Agent      |              HTTP 客户端程序的信息              |
 
-## 响应首部字段
+## 3. 响应首部字段
 
 |     首部字段名     |             说明             |
 | :----------------: | :--------------------------: |
@@ -235,7 +172,7 @@ CONNECT www.example.com:443 HTTP/1.1
 |        Vary        |   代理服务器缓存的管理信息   |
 |  WWW-Authenticate  |   服务器对客户端的认证信息   |
 
-## 实体首部字段
+## 4. 实体首部字段
 
 |    首部字段名    |          说明          |
 | :--------------: | :--------------------: |
@@ -427,7 +364,7 @@ HTTP/1.1 使用虚拟主机技术，使得一台服务器拥有多个域名，�
 
 使用 SSL 等加密手段，为客户端和服务器之间建立一条安全的通信线路。隧道本身不去解析 HTTP 请求。
 
-# 六、HTTPs
+# 六、HTTPS
 
 HTTP 有以下安全性问题：
 
@@ -743,9 +680,3 @@ HTTP/1.1 的首部带有大量信息，而且每次都要重复发送。HTTP/2.0
 ### 4. 二进制格式
 
 HTTP/1.1 的解析是基于文本的，而 HTTP/2.0 采用二进制格式。
-
-# 其他
-
-- http 报文的包装方式，是如何将一个 tcp 包包装起来的。
-- 了解 http 协议。说一下 200 和 304 的理解和区别(协商缓存和强制缓存的区别，流程，还有一些细节，提到了 expires,Cache-Control,If-none-match,- Etag,last-Modified 的匹配和特征)
-- cache-control 中 public 和 private 有什么区别

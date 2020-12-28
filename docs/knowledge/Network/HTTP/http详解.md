@@ -52,10 +52,6 @@ ajax 的请求，在请求头中多了一个“**X-Requested-With**”属性。
 
 跨域的时候，ajax 请求 “**X-Requested-With**”属性会丢失。
 
-### 同步请求和异步请求的区别
-
-同步是指： 发送
-
 ## 问题
 
 nodejs 后台的网络请求模块是 httpRequest 对象发出的，这个难道是 同步的请求？
@@ -68,7 +64,9 @@ nodejs 后台的网络请求模块是 httpRequest 对象发出的，这个难道
 
 我理解的 http 请求是包含 ajax 请求的，然后用的比较多的 ajax 请求的场景就是 请求 api，用的比较多的 http 请求的场景比如说 浏览器访问一个 url 地址，或者 img 标签之类的，或者请求 js css 资源应该都算。但是该如何解释使用 axios 等库发起请求时 不设置 X-Requested-With 属性，请求也能异步且成功呢？我查看到的资料来看，axios 没有对请求头中的 X-Requested-With 做默认处理，在 chrome 开发者工具中的 network 中的 xhr 下，确实也能找到请求头中不含 X-Requested-With 的一个请求，结果也正常了。那就不明白这个区别到底在哪里了？？？
 
-![img](https://reactchina.sxlcdn.com/uploads/default/original/2X/d/df46d1bc674f83a697fcb156c30a3a479621557e.jpeg)![img](https://reactchina.sxlcdn.com/uploads/default/original/2X/c/c65f5adfdde3fe9e1057fb4e93bb269872ba72a2.jpeg)
+![img](https://reactchina.sxlcdn.com/uploads/default/original/2X/d/df46d1bc674f83a697fcb156c30a3a479621557e.jpeg)
+
+![img](https://reactchina.sxlcdn.com/uploads/default/original/2X/c/c65f5adfdde3fe9e1057fb4e93bb269872ba72a2.jpeg)
 
 #### axios 发两次请求
 

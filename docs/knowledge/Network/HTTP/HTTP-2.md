@@ -6,11 +6,6 @@ aside: false
 draft: true
 ---
 
-## HTTP 的特性
-
-- HTTP 协议构建于 TCP/IP 协议之上，是一个应用层协议，默认端口号是 80
-- HTTP 是**无连接无状态**的
-
 ## HTTP 报文
 
 ### 请求报文
