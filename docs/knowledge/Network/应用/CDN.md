@@ -1,6 +1,6 @@
 ---
 layout: CustomPages
-title: 应用
+title: CDN
 date: 2020-11-21
 aside: false
 draft: true

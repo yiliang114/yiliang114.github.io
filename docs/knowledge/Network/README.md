@@ -92,5 +92,4 @@ TCP/IP 分层（4 层）：网络接口层、 网际层、运输层、 应用层
 
 ### 其他
 
-- cookie 与 session 的区别? 服务端如何清除 cookie?
 - `TIME_WAIT` 是什么情况? 出现过多的 `TIME_WAIT` 可能是什么原因?
