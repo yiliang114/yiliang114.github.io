@@ -6,6 +6,11 @@ aside: false
 draft: true
 ---
 
+### HTML 和 DOM 的关系
+
+- HTML 只是一个字符串
+- DOM 由 HTML 解析而来
+
 ### iframe 框架都有哪些优缺点？
 
 优点：
@@ -27,12 +32,6 @@ draft: true
 - 框架结构中出现各种滚动条
 - 使用框架结构时，保证设置正确的导航链接。
 - iframe 页面会增加服务器的 http 请求
-
-### HTML 和 DOM 的关系
-
-- HTML 只是一个字符串
-- DOM 由 HTML 解析而来
-- JS 可以维护 DOM
 
 ### offsetWidth/offsetHeight,clientWidth/clientHeight 与 scrollWidth/scrollHeight 区别
 

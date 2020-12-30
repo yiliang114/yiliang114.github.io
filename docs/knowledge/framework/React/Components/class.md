@@ -1,5 +1,5 @@
 ---
-title: 懒加载的实现原理
+title: React Class Component
 date: '2020-10-26'
 draft: true
 ---
