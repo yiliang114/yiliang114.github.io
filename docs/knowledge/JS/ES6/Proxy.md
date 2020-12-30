@@ -336,12 +336,7 @@ console.log(a === 1 && a === 2 && a === 3); // true
 
 #### 前言
 
-> 上文我们讲了[Proxy 与 Object.defineProperty 的对比](https://github.com/LuoShengMen/StudyNotes/issues/455)，Proxy 与 Object.defineProperty 最典型的应用就是用于实现双向数据绑定。但实现双向数据绑定的方法不止于此。
-
-- 发布者-订阅者模式（backbone.js）：一般通过 sub, pub 的方式实现数据和视图的绑定监听
-- 脏值检查（angular.js） ：通过脏值检测的方式比对数据是否有变更，来决定是否更新视图
-- 数据劫持（vue.js）：采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty()来劫持各个属性的 setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调
-  > 不过我们今天只讲一讲如何使用 Proxy 与 Object.defineProperty 来实现双向数据绑定。
+Proxy 与 Object.defineProperty 最典型的应用就是用于实现双向数据绑定.
 
 #### 双向数据绑定
 
@@ -869,7 +864,76 @@ newObj.b.c = -1; // output: GET...
 
 运行这段代码，会发现最后一行的输出是 `GET ...`。也就是说它触发的是`get`拦截器，而不是期望的`set`拦截器。**这是因为对于对象的深层属性，需要专门对其设置 Proxy**。
 
-**更多请见**：[《阮一峰 ES6 入门：Proxy》](http://es6.ruanyifeng.com/#docs/proxy)
+### Proxy 与 Object.defineProperty 对比
+
+`Object.defineProperty` 虽然已经能够实现双向绑定了，但是他还是有缺陷的。
+
+1. 只能对属性进行数据劫持，所以需要深度遍历整个对象
+2. 对于数组不能监听到数据的变化
+
+虽然 Vue 中确实能检测到数组数据的变化，但是其实是使用了 hack 的办法，并且也是有缺陷的。
+
+```js
+const arrayProto = Array.prototype;
+export const arrayMethods = Object.create(arrayProto);
+// hack 以下几个函数
+const methodsToPatch = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'];
+methodsToPatch.forEach(function(method) {
+  // 获得原生函数
+  const original = arrayProto[method];
+  def(arrayMethods, method, function mutator(...args) {
+    // 调用原生函数
+    const result = original.apply(this, args);
+    const ob = this.__ob__;
+    let inserted;
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args;
+        break;
+      case 'splice':
+        inserted = args.slice(2);
+        break;
+    }
+    if (inserted) ob.observeArray(inserted);
+    // 触发更新
+    ob.dep.notify();
+    return result;
+  });
+});
+```
+
+反观 Proxy 就没以上的问题，原生支持监听数组变化，并且可以直接对整个对象进行拦截，所以 Vue 也将在下个大版本中使用 Proxy 替换 Object.defineProperty
+
+```js
+let onWatch = (obj, setBind, getLogger) => {
+  let handler = {
+    get(target, property, receiver) {
+      getLogger(target, property);
+      return Reflect.get(target, property, receiver);
+    },
+    set(target, property, value, receiver) {
+      setBind(value);
+      return Reflect.set(target, property, value);
+    },
+  };
+  return new Proxy(obj, handler);
+};
+
+let obj = { a: 1 };
+let value;
+let p = onWatch(
+  obj,
+  v => {
+    value = v;
+  },
+  (target, property) => {
+    console.log(`Get '${property}' = ${target[property]}`);
+  },
+);
+p.a = 2; // bind `value` to `2`
+p.a; // -> Get 'a' = 2
+```
 
 ## Reflect
 
