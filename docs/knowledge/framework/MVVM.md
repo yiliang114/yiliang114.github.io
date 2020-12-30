@@ -42,3 +42,50 @@ draft: true
 2. `MVVM`
    `Angular`它采用双向绑定（data-binding）：`View`的变动，自动反映在 `ViewModel`，反之亦然。
    组成部分 Model、View、ViewModel. View：UI 界面. ViewModel：它是 View 的抽象，负责 View 与 Model 之间信息转换，将 View 的 Command 传送到 Model；Model：数据访问层
+
+### 原生 js 实现 MVVM
+
+```js
+<span id="box">
+  <h1 id="text"></h1>
+  <input type="text" id="input" oninput="inputChange(event)" />
+  <button id="button" onclick="clickChange()">
+    Click me
+  </button>
+</span>
+```
+
+```js
+const input = document.getElementById('input');
+const text = document.getElementById('text');
+const button = document.getElementById('button');
+const data = {
+  value: '',
+};
+function defineProperty(obj, attr) {
+  let val;
+  Object.defineProperty(obj, attr, {
+    set(newValue) {
+      console.log('set');
+      if (val === newValue) {
+        return;
+      }
+      val = newValue;
+      input.value = newValue;
+      text.innerHTML = newValue;
+    },
+    get() {
+      console.log('get');
+      return val;
+    },
+  });
+}
+defineProperty(data, 'value');
+function inputChange(event) {
+  data.value = event.target.value;
+}
+
+function clickChange() {
+  data.value = 'hello';
+}
+```

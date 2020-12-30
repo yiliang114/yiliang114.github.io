@@ -377,7 +377,7 @@ PS：一般定时器设定的时间都会大于一个 RTT 的平均时间。
 
 重传计时器：Retransmission Timer
 坚持计时器：Persistent Timer
-保活计时器：Keeplive Timer
+保活计时器：keepalive Timer
 时间等待计时器：Time#\_Wait Timer
 
 ### keep alive 的话是如何进行处理的？ 有几个 TCP 请求

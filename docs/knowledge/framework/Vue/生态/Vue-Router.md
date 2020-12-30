@@ -1231,3 +1231,14 @@ history 模式下，前端的 URL 必须和实际向后端发起请求的 URL �
 - to：route 即将进入的目标路由对象，
 - from：route 当前导航正要离开的路由
 - next：function 一定要调用该方法 resolve 这个钩子。执行效果依赖 next 方法的调用参数。可以控制网页的跳转。
+
+### vue-router 原理
+
+说简单点，vue-router 的原理就是通过对 URL 地址变化的监听，继而对不同的组件进行渲染。
+每当 URL 地址改变时，就对相应的组件进行渲染。原理是很简单，实现方式可能有点复杂，主要有 hash 模式和 history 模式。
+
+### $route和$router 的区别
+
+\$route 是路由信息对象，包括 path，params，hash，query，fullPath，matched，name 等路由信息参数。
+
+而 \$router 是路由实例对象，包括了路由的跳转方法，钩子函数等

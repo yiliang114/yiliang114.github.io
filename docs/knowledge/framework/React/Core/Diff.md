@@ -169,7 +169,7 @@ Virtual DOM 的本质就是在 JS 和 DOM 之间做一个缓存，可以类比 C
 
 ### 算法实现
 
-##### 1、 用 JavaScript 对象模拟 DOM 树
+##### 1. 用 JavaScript 对象模拟 DOM 树
 
 用 JavaScript 对象来模拟一个 DOM 节点并不难，你只需要记录他的节点类型（tagName）、属性（props）、子节点（children）。
 element.js

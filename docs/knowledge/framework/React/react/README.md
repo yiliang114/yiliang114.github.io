@@ -96,3 +96,15 @@ Link 做了 3 件事情：
 1. 有 onclick 那就执行 onclick
 2. click 的时候阻止 a 标签默认事件（这样子点击`[123]()`就不会跳转和刷新页面）
 3. 再取得跳转 href（即是 to），用 history（前端路由两种方式之一，history & hash）跳转，此时只是链接变了，并没有刷新页面
+
+### react 面试题
+
+1. mixin、hoc、render props、react-hooks 的优劣如何？
+1. 你是如何理解 fiber 的?
+1. 你对 Time Slice 的理解?
+1. react-redux 是如何工作的?
+1. redux 与 mobx 的区别?
+1. redux 异步中间件之间的优劣?
+1. redux 中如何进行异步操作?
+1. React 如何进行组件/逻辑复用?
+   https://github.com/xiaomuzhu/front-end-interview/blob/master/docs/### guide/react.md

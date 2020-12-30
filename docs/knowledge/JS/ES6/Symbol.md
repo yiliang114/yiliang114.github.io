@@ -93,7 +93,7 @@ console.log(name1 === name2); // true
 console.log(Symbol.keyFor(name1)); // name 备注：字符串类型的
 ```
 
-#### 使用 Symbol.iterator 迭代器来逐个返回数组的单项
+#### 使用 Symbol.iterator 迭代器来逐个返回数组的单向
 
 ```js
 et arr = ['a', 'b', 'c'];

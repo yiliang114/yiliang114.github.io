@@ -248,7 +248,7 @@ PanResponder
 
 简单来说：
 
-Flux 本身是一套单项数据流的设计框架。
+Flux 本身是一套单向数据流的设计框架。
 Redux 是其中的一种具体实现。
 React 和 redux 总是一起出现，是因为如果单单使用 react，它仅仅是一个 view 的框架，不足以提供足够的前端管理和使用功能。而 redux 的引用就好像 react+MC 一样，赋予了 react 完整的生态系统。当然 redux 不是基于 mvc 的。简单说，redux+react 换了个更直接的法子实现了 MVC 能提供的数据管理功能。
 
