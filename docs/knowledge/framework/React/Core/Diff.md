@@ -453,8 +453,8 @@ patches[0] = [{
 
 这样，我们就可以通过深度优先遍历两棵树，每层的节点进行对比，记录下每个节点的差异了。完整 diff 算法代码可见 diff.js。
 
-3、把差异引用到真正的 DOM 树上
-　　因为步骤一所构建的 JavaScript 对象树和 render 出来真正的 DOM 树的信息、结构是一样的。所以我们可以对那棵 DOM 树也进行深度优先的遍历，遍历的时候从步骤二生成的 patches 对象中找出当前遍历的节点差异，然后进行 DOM 操作。
+3. 把差异引用到真正的 DOM 树上
+   　　因为步骤一所构建的 JavaScript 对象树和 render 出来真正的 DOM 树的信息、结构是一样的。所以我们可以对那棵 DOM 树也进行深度优先的遍历，遍历的时候从步骤二生成的 patches 对象中找出当前遍历的节点差异，然后进行 DOM 操作。
 
 ```js
 function patch(node, patches) {
@@ -504,8 +504,8 @@ function applyPatches(node, currentPatches) {
 }
 ```
 
-5、结语
-　　 virtual DOM 算法主要实现上面步骤的三个函数： element、diff、patch，然后就可以实际的进行使用了。
+5. 结语
+   　　 virtual DOM 算法主要实现上面步骤的三个函数： element、diff、patch，然后就可以实际的进行使用了。
 
 ```js
 // 1. 构建虚拟DOM

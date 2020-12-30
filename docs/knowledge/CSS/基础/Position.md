@@ -65,9 +65,10 @@ position：static | relative | absolute | fixed | center | page | sticky
 ### absolute 的 containing block(容器块)计算方式跟正常流有什么不同？
 
 无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
-1、若此元素为 inline 元素，则 containing block 为能够包含这个元素生成的第一个和最后一个 inline box 的 padding box (除 margin, border 外的区域) 的最小矩形；
-2、否则,则由这个祖先元素的 padding box 构成。
-如果都找不到，则为 initial containing block。
+
+1. 若此元素为 inline 元素，则 containing block 为能够包含这个元素生成的第一个和最后一个 inline box 的 padding box (除 margin, border 外的区域) 的最小矩形；
+2. 否则,则由这个祖先元素的 padding box 构成。
+   如果都找不到，则为 initial containing block。
 
 补充：
 

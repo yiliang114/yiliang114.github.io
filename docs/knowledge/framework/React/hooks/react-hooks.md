@@ -75,10 +75,6 @@ function Example() {
 }
 ```
 
-阅读资源：
-
-[掘金 - 30 分钟精通 React Hooks](https://juejin.im/post/5be3ea136fb9a049f9121014)
-
 ### Hooks 需要遵循什么规则?
 
 为了使用 hooks，你需要遵守两个规则：

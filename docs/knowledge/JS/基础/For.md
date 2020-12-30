@@ -55,8 +55,9 @@ for (var atr in obj) {
 ```
 
 会输出什么呢？
-1、IE6/7/8 下和没有重写 toString 一样，仍然只输出 name,getName
-2、IE9/Firefox/Chrome/Opera/Safari 下则输出 name,getName,toString
+
+1. IE6/7/8 下和没有重写 toString 一样，仍然只输出 name,getName
+2. IE9/Firefox/Chrome/Opera/Safari 下则输出 name,getName,toString
 
 如果给内置原型添加属性/方法，那么 for in 时也是可遍历的
 

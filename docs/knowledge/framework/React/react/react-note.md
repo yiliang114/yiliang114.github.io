@@ -204,3 +204,9 @@ ReactDOM.render 渲染一个 App 标签到一个 id 节点上去。 JSX 的语�
 - 异步渲染
 - 事件系统
 - fiber
+
+### React 中是怎么实现事件代理的？
+
+React 并不会真正的绑定事件到每一个具体的元素上，而是采用事件代理的模式：在根节点 document 上为每种事件添加唯一的 Listener，然后通过事件的 target 找到真实的触发元素。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React 都会触发对应的事件处理函数。这就是所谓的 React 模拟事件系统。
+
+尽管整个事件系统由 React 管理，但是其 API 和使用方法与原生事件一致。这种机制确保了跨浏览器的一致性：在所有浏览器（IE8 及以上）都可以使用符合 W3C 标准的 API，包括 stopPropagation()，preventDefault()等等。对于事件的冒泡（bubble）和捕获（capture）模式也都完全支持。

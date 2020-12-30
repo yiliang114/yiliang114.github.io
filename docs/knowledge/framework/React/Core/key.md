@@ -44,30 +44,23 @@ function Book(props) {
 
 ### 索引作为键的影响是什么?
 
-    Keys 应该是稳定的，可预测的和唯一的，这样 React 就能够跟踪元素。
+Keys 应该是稳定的，可预测的和唯一的，这样 React 就能够跟踪元素。
 
-    在下面的代码片段中，每个元素的键将基于列表项的顺序，而不是绑定到即将展示的数据上。这将限制 React 能够实现的优化。
+在下面的代码片段中，每个元素的键将基于列表项的顺序，而不是绑定到即将展示的数据上。这将限制 React 能够实现的优化。
 
-    ```jsx
-    {todos.map((todo, index) =>
+```jsx
+{
+  todos.map((todo, index) => <Todo {...todo} key={index} />);
+}
+```
 
-<Todo
-{...todo}
-key={index}
-/>
-)}
+假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
 
-````
-
-    假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
-
-    ```jsx
-    {todos.map((todo) =>
-
-<Todo {...todo}
-key={todo.id} />
-)}
-````
+```jsx
+{
+  todos.map(todo => <Todo {...todo} key={todo.id} />);
+}
+```
 
 ### 写 React / Vue 项目时为什么要在组件中写 key，其作用是什么
 
@@ -121,3 +114,7 @@ function findIdxInOld(node, oldCh, start, end) {
 - 思考：
 
 知其然知其所以然，我需要看源码，需要更加深入
+
+```
+
+```

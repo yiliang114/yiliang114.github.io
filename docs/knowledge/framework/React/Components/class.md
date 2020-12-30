@@ -91,10 +91,6 @@ class MyComponent extends React.Component {
 
 在 `constructor()` 函数之外，访问 `this.props` 属性会显示相同的值。
 
-阅读资源：
-
-[为什么我们要写 super(props)？](https://overreacted.io/zh-hans/why-do-we-write-super-props/)
-
 ### 如何在 attribute 引号中访问 props 属性?
 
 React (或 JSX) 不支持属性值内的变量插值。下面的形式将不起作用：

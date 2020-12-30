@@ -230,7 +230,7 @@ constructor(props) {
 1. 只要有可能，尽量使用无状态组件创建形式
 2. 否则（如果需要 state，生命周期方法等），使用`React.Component` 这种 ES6 形式创建。
 
-## 通信
+### 通信
 
 其实 React 中的组件通信基本和 Vue 中的一致。同样也分为以下三种情况：
 
@@ -253,7 +253,7 @@ constructor(props) {
 
 如果你使用 16.3 以上版本的话，对于这种情况可以使用 Context API。
 
-```
+```js
 // 创建 Context，可以在开始就传入值
 const StateContext = React.createContext()
 class Parent extends React.Component {
@@ -284,7 +284,7 @@ class Child extends React.Component {
 
 这种方式可以通过 Redux 或者 Event Bus 解决，另外如果你不怕麻烦的话，可以使用这种方式解决上述所有的通信情况
 
-## HOC 是什么？相比 mixins 有什么优点？
+### HOC 是什么？相比 mixins 有什么优点？
 
 很多人看到高阶组件（HOC）这个概念就被吓到了，认为这东西很难，其实这东西概念真的很简单，我们先来看一个例子。
 
@@ -389,10 +389,6 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
       const instance = new Greeting(props); // Greeting {}
       const result = instance.render(); // <p>Hello</p>
     ```
-
-    阅读资源：
-
-    [React 如何区分 Class 和 Function?](https://overreacted.io/zh-hans/how-does-react-tell-a-class-from-a-function/)
 
 ### 何时使用类组件和函数组件?
 
@@ -584,11 +580,11 @@ withLogAdd(1, 2);
 
 这个做法在函数式编程里称之为高阶函数，大家都知道 React 的思想中是存在函数式编程的，高阶组件和高阶函数就是同一个东西。我们实现一个函数，传入一个组件，然后在函数内部再实现一个函数去扩展传入的组件，最后返回一个新的组件，这就是高阶组件的概念，作用就是为了更好的复用代码。
 
-## createElement 与 cloneElement 的区别是什么
+### createElement 与 cloneElement 的区别是什么
 
 > createElement 函数是 JSX 编译之后使用的创建 React Element 的函数，而 cloneElement 则是用于复制某个元素并传入新的 Props
 
-## react 组件的划分业务组件技术组件？
+### react 组件的划分业务组件技术组件？
 
 - 根据组件的职责通常把组件分为 UI 组件和容器组件。
 - UI 组件负责 UI 的呈现，容器组件负责管理数据和逻辑。
@@ -685,10 +681,6 @@ https://blog.csdn.net/baidu_38151187/article/details/80582416
       </div>
     )
     ```
-
-    阅读资源：
-
-    [掘金 - 精读《React 八种条件渲染》](https://juejin.im/post/5b285c0d5188257494641d0b)
 
 ### 如何 memoize（记忆）组件?
 

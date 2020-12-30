@@ -129,11 +129,6 @@ this.setState((prevState) => ({ count: prevState.count + 1 }), () => {
 setState({ name: 'John' }, () => console.log('The name has updated and component re-rendered'));
 ```
 
-阅读资源：
-
-[掘金 - 揭密 React setState](https://juejin.im/post/5b87d14e6fb9a01a18268caf)
-[setState 如何知道该做什么?](https://overreacted.io/zh-hans/how-does-setstate-know-what-to-do/)
-
 ### 为什么我们需要将函数传递给 setState() 方法?
 
 这背后的原因是 `setState()` 是一个异步操作。出于性能原因，React 会对状态更改进行批处理，因此在调用 `setState()` 方法之后，状态可能不会立即更改。这意味着当你调用 `setState()` 方法时，你不应该依赖当前状态，因为你不能确定当前状态应该是什么。这个问题的解决方案是将一个函数传递给 `setState()`，该函数会以上一个状态作为参数。通过这样做，你可以避免由于 `setState()` 的异步性质而导致用户在访问时获取旧状态值的问题。
@@ -345,13 +340,11 @@ class Example extends React.Component {
 
 0 0 2 3
 
-1、第一次和第二次都是在 react 自身生命周期内，触发时 isBatchingUpdates 为 true，所以并不会直接执行更新 state，而是加入了 dirtyComponents，所以打印时获取的都是更新前的状态 0。
+1. 第一次和第二次都是在 react 自身生命周期内，触发时 isBatchingUpdates 为 true，所以并不会直接执行更新 state，而是加入了 dirtyComponents，所以打印时获取的都是更新前的状态 0。
 
-2、两次 setState 时，获取到 this.state.val 都是 0，所以执行时都是将 0 设置成 1，在 react 内部会被合并掉，只执行一次。设置完成后 state.val 值为 1。
+2. 两次 setState 时，获取到 this.state.val 都是 0，所以执行时都是将 0 设置成 1，在 react 内部会被合并掉，只执行一次。设置完成后 state.val 值为 1。
 
-3、setTimeout 中的代码，触发时 isBatchingUpdates 为 false，所以能够直接进行更新，所以连着输出 2，3。
-
-可参考 19 题
+3. setTimeout 中的代码，触发时 isBatchingUpdates 为 false，所以能够直接进行更新，所以连着输出 2，3。
 
 ### 18.React 中 setState 什么时候是同步的，什么时候是异步的？
 

@@ -36,10 +36,11 @@ draft: true
 
 已经了解到 vue 是通过数据劫持的方式来做数据绑定的，其中最核心的方法便是通过`Object.defineProperty()`来实现对属性的劫持，达到监听数据变动的目的，无疑这个方法是本文中最重要、最基础的内容之一，如果不熟悉 defineProperty，猛戳[这里](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 整理了一下，要实现 mvvm 的双向绑定，就必须要实现以下几点：
-1、实现一个数据监听器 Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者
-2、实现一个指令解析器 Compile，对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数
-3、实现一个 Watcher，作为连接 Observer 和 Compile 的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图
-4、mvvm 入口函数，整合以上三者
+
+1. 实现一个数据监听器 Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者
+2. 实现一个指令解析器 Compile，对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数
+3. 实现一个 Watcher，作为连接 Observer 和 Compile 的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图
+4. mvvm 入口函数，整合以上三者
 
 上述流程如图所示：
 ![图片描述](https://segmentfault.com/img/bVBQYu?w=730&h=390)
@@ -250,10 +251,11 @@ var updater = {
 ### 3、实现 Watcher
 
 Watcher 订阅者作为 Observer 和 Compile 之间通信的桥梁，主要做的事情是:
-1、在自身实例化时往属性订阅器(dep)里面添加自己
-2、自身必须有一个 update()方法
-3、待属性变动 dep.notice()通知时，能调用自身的 update()方法，并触发 Compile 中绑定的回调，则功成身退。
-如果有点乱，可以回顾下前面的思路整理
+
+1. 在自身实例化时往属性订阅器(dep)里面添加自己
+2. 自身必须有一个 update()方法
+3. 待属性变动 dep.notice()通知时，能调用自身的 update()方法，并触发 Compile 中绑定的回调，则功成身退。
+   如果有点乱，可以回顾下前面的思路整理
 
 ```
 function Watcher(vm, exp, cb) {
