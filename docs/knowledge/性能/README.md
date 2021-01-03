@@ -244,7 +244,7 @@ Form [Front-end-Developer-Note-Questions](https://github.com/h5bp/Front-end-Deve
 
 肯定不能一次性把几万个 DOM 全部插入，这样肯定会造成卡顿，所以解决问题的重点应该是如何分批次部分渲染 DOM。部分人应该可以想到通过 `requestAnimationFrame` 的方式去循环的插入 DOM，其实还有种方式去解决这个问题：**虚拟滚动**（virtualized scroller）。
 
-这种技术的原理就是只渲染可视区域内的内容，非可见区域的那就完全不渲染了，当用户在滚动的时候就实时去替换渲染的内容。
+**这种技术的原理就是只渲染可视区域内的内容，非可见区域的那就完全不渲染了，当用户在滚动的时候就实时去替换渲染的内容。**
 
 ![滚动](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/vScroll.png)
 
@@ -253,10 +253,6 @@ Form [Front-end-Developer-Note-Questions](https://github.com/h5bp/Front-end-Deve
 项目中使用过哪些优化方法
 优化中会提到缓存的问题，问：静态资源或者接口等如何做缓存优化
 页面 DOM 节点太多，会出现什么问题？如何优化？
-
-### a.b.c.d 和 a['b']['c']['d']，哪个性能更高？
-
-[参考链接](https://github.com/airuikun/Weekly-FE-Note/issues/19)
 
 ### 2 万小球问题：在浏览器端，用 js 存储 2 万个小球的信息，包含小球的大小，位置，颜色等，如何做到对这 2 万条小球信息进行最优检索和存储
 

@@ -39,25 +39,11 @@ offsetWidth/offsetHeight 返回值包含 content + padding + border，效果与 
 clientWidth/clientHeight 返回值只包含 content + padding，如果有滚动条，也不包含滚动条
 scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺寸
 
-### 如果页面使用 ‘application/xhtml+xml’ 会有什么问题吗？
-
-要求比较严格，必须有 head、body 标签且每个元素必须是关闭的。
-一些老的浏览器不支持，实际上，任何最新的浏览器都将支持 application/xhtml+xml 媒体类型。大多数浏览器也接受以 application/xml 发送的 XHTML 文档。
-
-### 如果网页内容需要支持多语言，你会怎么做？
-
-采用统一编码 UTF-8 方式编码
-应用字符集的选择；所以对提供了多语言版本的网站来说，Unicode 字符集应该是最理想的选择。它是一种双字节编码机制的字符集，不管是东方文字还是西方文字，在 Unicode 中一律用两个字节来表示，因而至少可以定义 65536 个不同的字符，几乎可以涵盖世界上目前所有通用的语言的每一种字符。 所以在设计和开发多语言网站时，一定要注意先把非中文页面的字符集定义为“utf-8”格式，即：这一步非常重要，原因在于若等页面做好之后再更改字符集设置，可说是一件非常非常吃力不讨好的工作，有时候甚至可能需要从头再来，重新输入网站的文字内容。
-
 ### 为什么通常推荐将 CSS 放置在 之间，而将 JS <script> 放置在 之前？你知道有哪些例外吗？
 
 浏览器在处理 HTML 页面渲染和 JavaScript 脚本执行的时候是单一进程的,所以在当浏览器在渲染 HTML 遇到了<script>标签会先去执行标签内的代码(如果是使用 src 属性加载的外链文件,则先下载再执行),在这个过程中,页面渲染和交互都会被阻塞。所以将<script>放在之前,当页面渲染完成再去执行<script>。
 
 一般希望 DOM 还没加载必须需要先加载的 js 会放置在中,有些加了 defer、async 的<script>也会放在中。
-
-### 你用过哪些不同的 HTML 模板语言？
-
-有过，比如 Pug （以前叫 Jade）、 ERB、 Slim、 Handlebars、 Jinja、 Liquid 等等。在我看来，这些模版语言大多是相似的，都提供了用于展示数据的内容替换和过滤器的功能。大部分模版引擎都支持自定义过滤器，以展示自定义格式的内容
 
 ### 请指出 document load 和 document DOMContentLoaded 两个事件的区别
 
@@ -240,29 +226,6 @@ function insertNode(newNode) {
 - 每个 input 标签对应的说明文本都需要使用 label 标签，并且通过为 input 设置 id
   属性，在 lable 标签中设置 for=someld 来让说明文本和相对应的 input 关联起来
 
-### 写一个选择器，完成从 DOM 中获取所有`<a>`中包含`163.com`的链接筛选出来。
-
-> 其实考察的是如何自己实现`$`符号，使用的是`document.queryElementAll(a[href*=163.com])`。这个很可能是不对的。
-
-### 如何提供包含多种语言内容的页面？
-
-这个问题有点问得含糊其辞，我认为这是在询问最常见的情况：如何提供包含多种语言内容的页面，并保证页面内容语言的一致性。
-
-当客户端向服务器发送 HTTP 请求时，通常会发送有关语言首选项的信息，比如使用`Accept-Language`请求头。如果替换语言存在，服务器可以利用该信息返回与之相匹配的 HTML 文档。返回的 HTML 文档还应在`<html>`标签中声明`lang`属性，比如`<html lang="en">...</html>`
-
-在后台中，HTML 将包含`i18n`占位符和待以替换的内容，这些按照不同语言，以 YML 或 JSON 格式存储。然后，服务器将动态生成指定语言内容的 HTML 页面。整个过程通常需要借助后台框架实现。
-
-### 在设计开发多语言网站时，需要留心哪些事情？
-
-- 在 HTML 中使用`lang`属性。
-- 引导用户切换到自己的母语——让用户能够轻松地切换到自己的国家或语言，而不用麻烦。
-- 在图片中展示文本会阻碍网站规模增长——把文本放在图片中展示，仍然是一种非常流行的方式。这样做可以在所有终端上，都能显示出美观的非系统字体。然而，为了翻译图片中的文本，需要为每种语言单独创建对应的图片，这种做法很容易在图片数量不断增长的过程中失控。
-- 限制词语或句子的长度——网页内容在使用其他语言表述时，文字长度会发生变化。设计时，需要警惕文字长度溢出布局的问题，最好不要使用受文字长度影响较大的设计。比如标题、标签、按钮的设计，往往很受文字长度影响，这些设计中的文字与正文或评论部分不同，一般不可以自由换行。
-- 注意颜色的使用——颜色在不同的语言和文化中，意义和感受是不同的。设计时应该使用恰当的颜色。
-- 日期和货币的格式化——日期在不同的国家和地区，会以不同的方式显示。比如美国的日期格式是“May 31, 2012”，而在欧洲部分地区，日期格式是“31 May 2012”。
-- 不要使用连接的翻译字符串——不要做类似这样的事情，比如`“今天的日期是”+具体日期`。这样做可能会打乱其他语言的语序。替代方案是，为每种语言编写带变量替换的模版字符串。请看下面两个分别用英语和中文表示的句子：`I will travel on {% date %}`和`{% date %} 我会出发`。可以看到，语言的语法规则不同，变量的位置是不同的。
-- 注意语言阅读的方向——在英语中，文字是从左向右阅读的；而在传统日语中，文字是从右向左阅读的。
-
 ### 什么是渐进式渲染（progressive rendering）？
 
 渐进式渲染是用于提高网页性能（尤其是提高用户感知的加载速度），以尽快呈现页面的技术。
@@ -297,86 +260,6 @@ Repaint 和 Reflow 是不可避免的，只能说对性能的影响减到最小�
 2. 避免频繁操作 DOM。创建一个 documentFragment 或 div，在它上面应用所有 DOM 操作，最后添加到文档里。设置 display:none 的元素上操作，最后显示出来。
 3. 避免频繁读取元素几何属性（例如 scrollTop）。绝对定位具有复杂动画的元素。
 4. 绝对定位使它脱离文档流，避免引起父元素及后续元素大量的回流
-
-### favicon.ico 有什么作用？怎么在页面中引用？常用尺寸有哪些？可以修改后缀名吗？
-
-https://github.com/haizlin/fe-interview/issues/513
-
-### 怎样禁止表单记住密码自动填充？
-
-https://github.com/haizlin/fe-interview/issues/494
-
-### 请写出唤醒拔打电话、发送邮件、发送短信的例子](https://github.com/haizlin/fe-interview/issues/407)
-
-### html 直接输入多个空格为什么只能显示一个空格？](https://github.com/haizlin/fe-interview/issues/299)
-
-### 写出 html 提供的几种空格实体（5 种以上）](https://github.com/haizlin/fe-interview/issues/293)
-
-### 什么是 html 的字符实体？版权符号代码怎么写？](https://github.com/haizlin/fe-interview/issues/279)
-
-### web workers 有用过吗？能帮我们解决哪些问题？](https://github.com/haizlin/fe-interview/issues/207)
-
-### From 表单提交时为什么会刷新页面？怎么预防刷新？](https://github.com/haizlin/fe-interview/issues/202)
-
-### Form 表单是怎么上传文件的？你了解它的原理吗？](https://github.com/haizlin/fe-interview/issues/198)
-
-### Ajax 与 Flash 的优缺点分别是什么？](https://github.com/haizlin/fe-interview/issues/189)
-
-### 说说你对 target="\_blank"的理解？有啥安全性问题？如何防范？](https://github.com/haizlin/fe-interview/issues/185)
-
-### 说说你对 WEB 标准和 W3C 的理解与认识？](https://github.com/haizlin/fe-interview/issues/181)
-
-### 说说 video 标签中预加载视频用到的属性是什么？](https://github.com/haizlin/fe-interview/issues/165)
-
-### 如何让元素固定在页面底部？有哪些比较好的实践？](https://github.com/haizlin/fe-interview/issues/161)
-
-### 解释下什么是 ISISO8859-2 字符集？](https://github.com/haizlin/fe-interview/issues/156)
-
-### 说说你对 HTML 元素的显示优先级的理解](https://github.com/haizlin/fe-interview/issues/114)
-
-### DOM 和 BOM 有什么区别？](https://github.com/haizlin/fe-interview/issues/110)
-
-### 你了解什么是无障碍 web（WAI）吗？在开发过程中要怎么做呢？](https://github.com/haizlin/fe-interview/issues/102)
-
-### 说说你对影子(Shadow)DOM 的了解](https://github.com/haizlin/fe-interview/issues/94)
-
-### 解释下你对 GBK 和 UTF-8 的理解？并说说页面上产生乱码的可能原因](https://github.com/haizlin/fe-interview/issues/90)
-
-### 关于`<form>`标签的 enctype 属性你有哪些了解？
-
-https://github.com/haizlin/fe-interview/issues/78
-
-### js 放在 html 的`<body>`和`<head>`有什么区别？
-
-https://github.com/haizlin/fe-interview/issues/74
-
-### 谈谈你对 input 元素中 readonly 和 disabled 属性的理解
-
-https://github.com/haizlin/fe-interview/issues/70
-
-### 请描述 HTML 元素的显示优先级
-
-https://github.com/haizlin/fe-interview/issues/66
-
-### 说说你对 html 中的置换元素和非置换元素的理解
-
-https://github.com/haizlin/fe-interview/issues/62
-
-### 怎样在页面上实现一个圆形的可点击区域？
-
-https://github.com/haizlin/fe-interview/issues/58
-
-### 你认为 table 的作用和优缺点是什么呢？
-
-https://github.com/haizlin/fe-interview/issues/54
-
-### 浏览器内多个标签页之间的通信方式有哪些？
-
-https://github.com/haizhilin2013/interview/issues/25
-
-### 其他
-
-input 和 textarea 的区别
 
 ### 页面编码和被请求的资源编码如果不一致如何处理？
 
@@ -783,3 +666,7 @@ input 元素要有一个 id，然后 label 标签就有一个 for 属性，和 i
 
 `&nbsp;` non-breaking spacing 空格
 `哈&nbsp;&nbsp;&nbsp;&nbsp;哈` 空出了 4 个字的格，可以防止空白折叠现象。
+
+### 其他
+
+input 和 textarea 的区别

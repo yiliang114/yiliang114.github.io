@@ -176,20 +176,6 @@ vue-cli
 2. 数据日志、error、埋点上报
 3. 日志可视化
 
-- [vue-cli 提供了的哪几种脚手架模板？](https://github.com/haizlin/fe-interview/issues/543)
-- [vue-cli 工程中常用的 npm 命令有哪些？](https://github.com/haizlin/fe-interview/issues/542)
-- [在使用 vue-cli 开发 vue 项目时，自动刷新页面的原理你了解吗？](https://github.com/haizlin/fe-interview/issues/541)
-- [vue-cli3 插件有写过吗？怎么写一个代码生成插件？](https://github.com/haizlin/fe-interview/issues/540)
-- [vue-cli 生成的项目可以使用 es6、es7 的语法吗？为什么？](https://github.com/haizlin/fe-interview/issues/488)
-- [vue-cli 怎么解决跨域的问题？](https://github.com/haizlin/fe-interview/issues/487)
-- [vue-cli 中你经常的加载器有哪些？](https://github.com/haizlin/fe-interview/issues/486)
-- [你知道什么是脚手架吗？](https://github.com/haizlin/fe-interview/issues/485)
-- [说下你了解的 vue-cli 原理？你可以自己实现个类 vue-cli 吗？](https://github.com/haizlin/fe-interview/issues/484)
-- [怎么使用 vue-cli3 创建一个项目？](https://github.com/haizlin/fe-interview/issues/483)
-- [vue-cli3 你有使用过吗？它和 2.x 版本有什么区别？](https://github.com/haizlin/fe-interview/issues/482)
-- [vue-cli 默认是单页面的，那要弄成多页面该怎么办呢？](https://github.com/haizlin/fe-interview/issues/360)
-- [不用 vue-cli，你自己有搭建过 vue 的开发环境吗？流程是什么？](https://github.com/haizlin/fe-interview/issues/351)
-
 ### vue-cli 中自定义指令的使用
 
 ### vue-cli 开发环境使用全局常量

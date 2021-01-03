@@ -41,13 +41,13 @@ css 有三种基本的定位机制： 标准文档流、浮动和绝对定位。
 ```js
 .grid-container {
     width : 100%;
-    max-width : 1200px; 
+    max-width : 1200px;
     margin: 0 auto;
 }
 .grid-container *{
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
-.row:before, 
+.row:before,
 .row:after {
     content:"";
     display: table ;
@@ -55,19 +55,19 @@ css 有三种基本的定位机制： 标准文档流、浮动和绝对定位。
 }
 [class*='col-'] {
     float: left;
-    min-height: 1px; 
-    width: 16.66%; 
+    min-height: 1px;
+    width: 16.66%;
     padding: 12px;
     background-color: #FFDCDC;
 }
 .col-1{
-    width: 16.66%; 
+    width: 16.66%;
 }
 .col-2{
-    width: 33.33%; 
+    width: 33.33%;
 }
 .col-3{
-    width: 50%; 
+    width: 50%;
 }
 .col-4{
     width: 66.664%;
@@ -81,16 +81,16 @@ css 有三种基本的定位机制： 标准文档流、浮动和绝对定位。
 
 
 .outline, .outline *{
-    outline: 1px solid #F6A1A1; 
+    outline: 1px solid #F6A1A1;
 }
 
 
 [class*='col-'] > p {
- background-color: #FFC2C2; 
+ background-color: #FFC2C2;
  padding: 0;
  margin: 0;
- text-align: center; 
- color: white; 
+ text-align: center;
+ color: white;
 }
 
 
@@ -104,12 +104,12 @@ css 有三种基本的定位机制： 标准文档流、浮动和绝对定位。
 
 
     .row .col-2:last-of-type{
-        width: 100%; 
+        width: 100%;
     }
 
 
     .row .col-5 ~ .col-1{
-        width: 100%; 
+        width: 100%;
     }
 }
 
@@ -127,33 +127,33 @@ HTML代码：
 
 <div class="grid-container outline">
    <div class="row">
-       <div class="col-1"><p>col-1</p></div> 
-       <div class="col-1"><p>col-1</p></div> 
-       <div class="col-1"><p>col-1</p></div> 
-       <div class="col-1"><p>col-1</p></div> 
-       <div class="col-1"><p>col-1</p></div> 
-       <div class="col-1"><p>col-1</p></div> 
-   </div> 
+       <div class="col-1"><p>col-1</p></div>
+       <div class="col-1"><p>col-1</p></div>
+       <div class="col-1"><p>col-1</p></div>
+       <div class="col-1"><p>col-1</p></div>
+       <div class="col-1"><p>col-1</p></div>
+       <div class="col-1"><p>col-1</p></div>
+   </div>
    <div class="row">
-       <div class="col-2"><p>col-2</p></div> 
-       <div class="col-2"><p>col-2</p></div> 
-       <div class="col-2"><p>col-2</p></div> 
-   </div> 
+       <div class="col-2"><p>col-2</p></div>
+       <div class="col-2"><p>col-2</p></div>
+       <div class="col-2"><p>col-2</p></div>
+   </div>
    <div class="row">
-       <div class="col-3"><p>col-3</p></div> 
-       <div class="col-3"><p>col-3</p></div> 
-   </div> 
+       <div class="col-3"><p>col-3</p></div>
+       <div class="col-3"><p>col-3</p></div>
+   </div>
    <div class="row">
-       <div class="col-4"><p>col-4</p></div> 
-       <div class="col-2"><p>col-2</p></div> 
-   </div> 
+       <div class="col-4"><p>col-4</p></div>
+       <div class="col-2"><p>col-2</p></div>
+   </div>
    <div class="row">
-       <div class="col-5"><p>col-5</p></div> 
-       <div class="col-1"><p>col-1</p></div> 
-   </div> 
+       <div class="col-5"><p>col-5</p></div>
+       <div class="col-1"><p>col-1</p></div>
+   </div>
    <div class="row">
-       <div class="col-6"><p>col-6</p></div> 
-   </div> 
+       <div class="col-6"><p>col-6</p></div>
+   </div>
 
 </div>
 ```
@@ -174,27 +174,11 @@ HTML代码：
 
 ### 如何实现两个 div 左右百分之五十布局
 
-### 写出你知道的 CSS 水平和垂直居中的方法
-
-https://github.com/haizlin/fe-interview/issues/145
-
-### 你知道的等高布局有多少种？写出来
-
-https://github.com/haizlin/fe-interview/issues/170
-
-### grid 网格布局
-
-https://www.imooc.com/article/28513
-
 ### 怎么实现从一个 DIV 左上角到右下角的移动,有哪些方法,都怎么实现?
 
 ### 做一个两栏布局;左边 fixed width,右边 responsive,用纸笔手写
 
 ### Css 现三列市局 Css 实现保持长宽比 1:1 Css 实现两个自适应等宽元素中间空 10 个像素。
-
-### 怎样把一个 div 居中？怎样把一个浮动元素居中？怎样把绝对定位的 div 居中？
-
-https://github.com/haizlin/fe-interview/issues/255
 
 ### 对栅格的理解
 

@@ -4,27 +4,20 @@ date: '2020-10-26'
 draft: true
 ---
 
-### 介绍一下你对浏览器内核的理解？
-
-- 主要分成两部分：渲染引擎(layout engineer 或 Rendering Engine)和 JS 引擎。
-- 渲染引擎：负责取得网页的内容（HTML、XML、图像等等）、整理讯息（例如加入 CSS 等），以及计算网页的显示方式，然后会输出至显示器或打印机。浏览器的内核的不同对于网页的语法解释会有不同，所以渲染的效果也不相同。所有网页浏览器、电子邮件客户端以及其它需要编辑、显示网络内容的应用程序都需要内核
-- JS 引擎则：解析和执行 javascript 来实现网页的动态效果
-- 最开始渲染引擎和 JS 引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。
-
 ### 什么是 WebKit
 
-- WebKit 是一个开源的浏览器内核，由渲染引擎(WebCore)和 JS 解释引擎(JSCore)组成
-- 通常所说的 WebKit 指的是 WebKit(WebCore)，主要工作是进行 HTML/CSS 渲染
-- WebKit 一直是 Safari 和 Chrome(之前) 使用的浏览器内核，后来 Chrome 改用 Blink 内核
+WebKit 是一个开源的浏览器内核，由渲染引擎(WebCore)和 JS 解释引擎(JSCore)组成
 
-### 你做的页面在哪些流览器测试过？这些浏览器的内核分别是什么?
+通常所说的 WebKit 指的是 WebKit(WebCore)，主要工作是进行 HTML/CSS 渲染。WebKit 一直是 Safari 和 Chrome(之前) 使用的浏览器内核，后来 Chrome 改用 Blink 内核。
 
-IE: trident 内核
-Firefox：gecko 内核
-Safari:webkit 内核
-Opera:以前是 presto 内核，Opera 现已改用 Google Chrome 的 Blink 内核
-Chrome:Blink(基于 webkit，Google 与 Opera Software 共同开发)
-对于 Android 手机而言，使用率最高的就是 Webkit 内核。
+### 介绍一下你对浏览器内核的理解？
+
+主要分成两部分：渲染引擎(layout engineer 或 Rendering Engine)和 JS 引擎。
+
+- 渲染引擎：负责取得网页的内容（HTML、XML、图像等等）、整理讯息（例如加入 CSS 等），以及计算网页的显示方式，然后会输出至显示器或打印机。浏览器的内核的不同对于网页的语法解释会有不同，所以渲染的效果也不相同。所有网页浏览器、电子邮件客户端以及其它需要编辑、显示网络内容的应用程序都需要内核
+- JS 引擎则：解析和执行 javascript 来实现网页的动态效果
+
+最开始渲染引擎和 JS 引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。
 
 ### 功能检测（feature detection）、功能推断（feature inference）和使用 UA 字符串之间有什么区别？
 
@@ -215,3 +208,12 @@ function GetRequest() {
   }
 }
 ```
+
+### 你做的页面在哪些流览器测试过？这些浏览器的内核分别是什么?
+
+IE: trident 内核
+Firefox：gecko 内核
+Safari:webkit 内核
+Opera:以前是 presto 内核，Opera 现已改用 Google Chrome 的 Blink 内核
+Chrome:Blink(基于 webkit，Google 与 Opera Software 共同开发)
+对于 Android 手机而言，使用率最高的就是 Webkit 内核。

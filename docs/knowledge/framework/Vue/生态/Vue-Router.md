@@ -977,32 +977,6 @@ this.$route.query.robotId === 111
 
 #### vue 的内置 keep-alive 是如何实现的？ 为什么能够缓存，并可以直接读取组件 ？
 
-#### vue-router
-
-- [vue-router 怎么重定向页面？](https://github.com/haizlin/fe-interview/issues/419)
-- [vue-router 怎么配置 404 页面？](https://github.com/haizlin/fe-interview/issues/418)
-- [切换路由时，需要保存草稿的功能，怎么实现呢？](https://github.com/haizlin/fe-interview/issues/417)
-- [vue-router 路由有几种模式？说说它们的区别？](https://github.com/haizlin/fe-interview/issues/416)
-- [vue-router 有哪几种导航钩子（ 导航守卫 ）？](https://github.com/haizlin/fe-interview/issues/415)
-- [说说你对 router-link 的了解](https://github.com/haizlin/fe-interview/issues/414)
-- [vue-router 如何响应路由参数的变化？](https://github.com/haizlin/fe-interview/issues/383)
-- [你有看过 vue-router 的源码吗？说说看](https://github.com/haizlin/fe-interview/issues/382)
-- [切换到新路由时，页面要滚动到顶部或保持原先的滚动位置怎么做呢？](https://github.com/haizlin/fe-interview/issues/381)
-- [在什么场景下会用到嵌套路由？](https://github.com/haizlin/fe-interview/issues/380)
-- [如何获取路由传过来的参数？](https://github.com/haizlin/fe-interview/issues/379)
-- [说说 active-class 是哪个组件的属性？](https://github.com/haizlin/fe-interview/issues/378)
-- [在 vue 组件中怎么获取到当前的路由信息？](https://github.com/haizlin/fe-interview/issues/377)
-- [vur-router 怎么重定向？](https://github.com/haizlin/fe-interview/issues/376)
-- [怎样动态加载路由？](https://github.com/haizlin/fe-interview/issues/375)
-- [怎么实现路由懒加载呢？](https://github.com/haizlin/fe-interview/issues/374)
-- [如果让你从零开始写一个 vue 路由，说说你的思路](https://github.com/haizlin/fe-interview/issues/373)
-- [说说 vue-router 完整的导航解析流程是什么？](https://github.com/haizlin/fe-interview/issues/372)
-- [路由之间是怎么跳转的？有哪些方式？](https://github.com/haizlin/fe-interview/issues/371)
-- [如果 vue-router 使用 history 模式，部署时要注意什么？](https://github.com/haizlin/fe-interview/issues/370)
-- [route 和 router 有什么区别？](https://github.com/haizlin/fe-interview/issues/369)
-- [vue-router 钩子函数有哪些？都有哪些参数？](https://github.com/haizlin/fe-interview/issues/368)
-- [vue-router 是用来做什么的？它有哪些组件？](https://github.com/haizlin/fe-interview/issues/367)
-
 ### 路由原理
 
 前端路由原理？两种实现方式有什么区别？

@@ -461,115 +461,13 @@ cursor：pointer 设定鼠标的形状为一只伸出食指的手，这也是绝
 
 ### offsetHeight, scrollHeight, clientHeight 分别代表什么
 
-### style 标签写在 body 前和 body 后的区别是什么？
-
-https://github.com/haizlin/fe-interview/issues/47
-
-### rgba()和 opacity 这两个的透明效果有什么区别呢？
-
-https://github.com/haizlin/fe-interview/issues/99
-
-### 说说你对 z-index 的理解
-
-https://github.com/haizlin/fe-interview/issues/91
-
-### css 的属性 content 有什么作用呢？有哪些场景可以用到？
-
-https://github.com/haizlin/fe-interview/issues/63
-
-### 实现单行文本居中和多行文本左对齐并超出显示"..."
-
-https://github.com/haizlin/fe-interview/issues/141
-
-### 不使用 border 画出 1px 高的线，在不同浏览器的标准和怪异模式下都能保持效果一样
-
-https://github.com/haizlin/fe-interview/issues/137
-
-### 写出主流浏览器内核私有属性的 css 前缀
-
-https://github.com/haizlin/fe-interview/issues/133
-
-### 怎么让英文单词的首字母大写？
-
-https://github.com/haizlin/fe-interview/issues/153
-
-### 怎么才能让图文不可复制？
-
-https://github.com/haizlin/fe-interview/issues/149
-
-### 列举 CSS 优化、提高性能的方法
-
-https://github.com/haizlin/fe-interview/issues/190
-
-### 假如设计稿使用了非标准的字体，你该如何去实现它？
-
-https://github.com/haizlin/fe-interview/issues/186
-
-### 你知道全屏滚动的原理是什么吗？它用到了 CSS 的那些属性？
-
-https://github.com/haizlin/fe-interview/issues/182
-
-### 你是怎样抽离样式模块的？
-
-https://github.com/haizlin/fe-interview/issues/178
-
-### 说说你对媒体查询的理解
-
-https://github.com/haizlin/fe-interview/issues/174
-
-### 怎么使用自定义字体？有什么注意事项？
-
-https://github.com/haizlin/fe-interview/issues/208
-
-### 什么是视差滚动？如何实现视差滚动的效果？
-
-https://github.com/haizlin/fe-interview/issues/216
-
 ### 只有块级元素才能定义宽度和高度
 
 ### 什么操作会引起浏览器对 css 进行重绘. css repaint 机制
 
 ### 文档流的概念,定位的理解以之 z-index 计算规则 & 浏览器差异性
 
-### 在实际编写 css 中你有遇到过哪些浏览器兼容性的问题？怎么解决的？
-
-https://github.com/haizlin/fe-interview/issues/514
-
 ### 实现三个 DIV 等分排布在一行(考察 border-box
-
-### 为 DIV 设置的背景颜色默认会延伸到哪里?
-
-### 写例子说明如何强制（自动）中、英文换行与不换行
-
-https://github.com/haizlin/fe-interview/issues/573
-
-### 说说你对 BEM 规范的理解，同时举例说明常见的 CSS 规范有哪些？
-
-https://github.com/haizlin/fe-interview/issues/569
-
-### 遇到 overflow: scroll 不能平滑滚动怎么解决？
-
-https://github.com/haizlin/fe-interview/issues/563
-
-### 说说你对!important 的理解，一般在哪些场景使用？
-
-https://github.com/haizlin/fe-interview/issues/518
-
-### 怎么改变选中文本的文字颜色和背景色？
-
-https://github.com/haizlin/fe-interview/issues/510
-
-### 说说你对 jpg、png、gif 的理解，分别在什么场景下使用？有使用过 webp 吗？
-
-https://github.com/haizlin/fe-interview/issues/491
-
-### 元素竖向的百分比设置是相对容器的高度吗？
-
-https://github.com/haizlin/fe-interview/issues/404
-
-### 举例说明 css 中颜色的表示方法有几种
-
-https://github.com/haizlin/fe-interview/issues/294
 
 ### iconfont 原理
 
@@ -589,10 +487,6 @@ https://github.com/haizlin/fe-interview/issues/294
 一句话总结：
 !important > 行内样式 > ID 选择器 > (类选择器 | 属性选择器 | 伪类选择器 ) > 元素选择器 > \*
 ![大鱼吃小鱼](http://image.zhangxinxu.com/image/blog/201208/specifishity1-1.png)
-
-### 请描述 css 的权重计算规则
-
-https://github.com/haizlin/fe-interview/issues/103
 
 ### 浏览器解析 CSS
 

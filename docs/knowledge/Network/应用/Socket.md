@@ -272,8 +272,6 @@ Websocket 是一个 持久化的协议， 基于 http ， 服务端可以 主动
 
 websocket
 
-- [你知道什么是 websocket 吗？它有什么应用场景？](https://github.com/haizlin/fe-interview/issues/575)
-
 ### websocket
 
 在单个 TCP 连接上进行全双工通讯的协议。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建**持久性**的连接，并进行**双向**数据传输。

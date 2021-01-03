@@ -25,33 +25,34 @@ draft: true
 - 新的技术 webworker, websocket 等
 - XMLHTTPRequest2， 在线和离线事件等
 
-#### HTML5 有哪些新增的表单元素？
+**新的 API**
 
-HTML5 新增了很多表单元素让开发者构建更优秀的 Web 应用程序，主要有：
-datalist
-keygen
-output
+- Media API
+- Text Track API
+- Application Cache API
+- User Interaction
+- Data Transfer API
+- Command API
+- Constraint Validation API
+- History API
 
-#### HTML5 标准提供了哪些新的 API？
+**HTML5 提供了新的元素来创建更好的页面结构**
 
-· Media API
-· Text Track API
-· Application Cache API
-· User Interaction
-· Data Transfer API
-· Command API
-· Constraint Validation API
-· History API
+| 标签       | 描述                              |
+| ---------- | --------------------------------- |
+| <article>  | 定义页面独立的内容区域。          |
+| <aside>    | 定义页面的侧边栏内容。            |
+| <header>   | 定义了文档的头部区域              |
+| <footer>   | 定义 section 或 document 的页脚。 |
+| <mark>     | 定义带有记号的文本。              |
+| <nav>      | 定义导航链接的部分。              |
+| <progress> | 定义任何类型的任务的进度。        |
+| <time>     | 定义日期或时间。                  |
 
 #### 移除元素：
 
 1. 纯表现的元素：basefont，big，center, s，strike，tt，u；
 1. 对可用性产生负面影响的元素：frame，frameset，noframes；
-
-### HTML5 为什么只需要写 <!DOCTYPE HTML>？
-
-HTML5 不基于 SGML，因此不需要对 DTD 进行引用，但是需要 doctype 来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
-而 HTML4.01 基于 SGML,所以需要对 DTD 进行引用，才能告知浏览器文档所使用的文档类型。
 
 ### HTML5 的优点与缺点？
 
@@ -81,40 +82,6 @@ HTML5 指的是包括 HTML 、 CSS 和 JavaScript 在内的一套技术组合。
 HTML4 陈旧不能满足日益发展的互联网需要，特别是移动互联网。为了增强浏览器功能 Flash 被广泛使用，但安全与稳定堪忧，不适合在移动端使用（耗电、触摸、不开放）。
 HTML5 增强了浏览器的原生功能，符合 HTML5 规范的浏览器功能将更加强大，减少了 Web 应用对插件的依赖，让用户体验更好，让开发更加方便，另外 W3C 从推出 HTML4.0 到 5.0 之间共经历了 17 年， HTML 的变化很小，这并不符合一个好产品的演进规则。
 
-### html5 有哪些新特性、移除了那些元素？如何处理 HTML5 新标签的浏览器兼容问题？如何区分 HTML 和 HTML5？
-
-- HTML5 现在已经不是 SGML 的子集，主要是关于图像，位置，存储，多任务等功能的增加。
-
-- 拖拽释放(Drag and drop) API
-  语义化更好的内容标签（header,nav,footer,aside,article,section）
-  音频、视频 API(audio,video)
-  画布(Canvas) API
-  地理(Geolocation) API
-  本地离线存储 localStorage 长期存储数据，浏览器关闭后数据不丢失；
-  sessionStorage 的数据在浏览器关闭后自动删除
-  表单控件，calendar、date、time、email、url、search
-  新的技术 webworker, websocket, Geolocation
-
-- 移除的元素
-
-  纯表现的元素：basefont，big，center，font, s，strike，tt，u；
-  对可用性产生负面影响的元素：frame，frameset，noframes；
-  支持 HTML5 新标签：
-
-- IE8/IE7/IE6 支持通过 document.createElement 方法产生的标签，
-  可以利用这一特性让这些浏览器支持 HTML5 新标签，浏览器支持新标签后，还需要添加标签默认的样式：
-
-- 当然最好的方式是直接使用成熟的框架、使用最多的是 html5shim 框架
-  <!--[if lt IE 9]>
-       <script> src="http://html5shim.googlecode.com/svn/trunk/html5.js"</script>
-       <![endif]-->
-  如何区分： DOCTYPE 声明\新增的结构元素\功能元素
-
-### `<keygen>` 是正确的 HTML5 标签吗
-
-是。
-`<keygen>` 标签规定用于表单的密钥对生成器字段。当提交表单时，私钥存储在本地，公钥发送到服务器。是 HTML5 标签。
-
 ### 将 HTML5 看作成开放的网络平台，什么是 HTML5 的基本构件（building block）？
 
 语义 - 提供更准确地描述内容。
@@ -126,278 +93,30 @@ HTML5 增强了浏览器的原生功能，符合 HTML5 规范的浏览器功能�
 设备访问 - 允许使用各种输入、输出设备。
 外观 - 可以开发丰富的主题
 
-### HTML5 的存储方案有哪些
-
-HTML5 提供了 sessionStorage、localStorage 和离线存储作为新的存储方案，其中 sessionStorage 和 localStorage
-都是采用键值对的形式存储，两者都是通过 setItem、getItem、removeItem 来实现增删查改，而 sessionStorage 是会话存储，也就是说
-当浏览器关闭之后 sessionStorage 也自动清空了，而 localStorage 不会，它没有时间上的限制。离线存储也就是应用程序缓存，这个通常用来
-确保 web 应用能够在离线情况下使用，通过在 html 标签中属性 manifest 来声明需要缓存的文件，这个属性的值是一个包含需要缓存的文件的文件名的文件，
-这个 manifest 文件声明的缓存文件可在初次加载后缓存在客户端，可以通过更新这个 manifest 文件来达到更新缓存文件的目的。
-
-### HTML5 的离线储存
-
-在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件
-
-##### 原理：
-
-HTML5 的离线存储是基于一个新建的.appcache 文件的缓存机制(不是存储技术)，通过这个文件上的解析清单离线存储资源，这些资源就会像 cookie 一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示 #####如何使用：
-
-- 页面头部像下面一样加入一个 manifest 的属性；
-- 在 cache.manifest 文件的编写离线存储的资源
-- 在离线状态时，操作 window.applicationCache 进行需求实现
-
-##### 浏览器如何加载
-
-在线的情况下，浏览器发现 html 头部有 manifest 属性，它会请求 manifest 文件，如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储。如果已经访问过 app 并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的资源并进行离线存储。
-
-### HTML5 的 form 如何关闭自动完成功能？
-
-给不想要提示的 form 或某个 input 设置为 autocomplete=off。
-
-### HTML5 应用程序缓存和浏览器缓存有什么区别？
-
-    应用程序缓存是 HTML5  的重要特性之一，提供了离线使用的功能，让应用程序可以获取本地的网站内容，例如 HTML 、 CSS 、图片以及 JavaScript 。这个特性可以提高网站性能，它的实现借助于 manifest 文件，如下：
-    <!doctype html>
-    <html manifest=”example.appcache”>
-    …..
-    </html>
-
-    与传统浏览器缓存相比，它不强制用户访问的网站内容被缓存。
-
-### HTML5 Canvas 元素有什么用？
-
-    Canvas 元素用于在网页上绘制图形，该元素标签强大之处在于可以直接在 HTML 上进行图形操作，
-    <canvas id=” canvas1 ″ width= ” 300 ″ height= ” 100 ″ >
-    </canvas>
-
-### 除了 audio 和 video，HTML5 还有哪些媒体标签？
-
-HTML5 对于多媒体提供了强有力的支持，除了 audio 和 video 标签外，还支持以下标签：
-
-```js
-<embed> 标签定义嵌入的内容，比如插件。
-<embed type=” video/quicktime ” src= ” Fishing.mov ” >
-<source> 对于定义多个数据源很有用。
-<video width=” 450 ″ height= ” 340 ″ controls>
-    <source src=” jamshed.mp4 ″ type= ” video/mp4 ″ >
-    <source src=” jamshed.ogg ” type= ” video/ogg ” >
-</video>
-<track> 标签为诸如 video 元素之类的媒介规定外部文本轨道。 用于规定字幕文件或其他包含文本的文件，当媒介播放时，这些文件是可见的。
-<video width=” 450 ″ height= ” 340 ″ controls>
-    <source src=” jamshed.mp4 ″ type= ” video/mp4 ″ >
-    <source src=” jamshed.ogg ” type= ” video/ogg ” >
-    <track kind=” subtitles ” label= ” English ” src= ” jamshed_en.vtt ” srclang= ” en ” default></track>
-    <track kind=” subtitles ” label= ” Arabic ” src= ” jamshed_ar.vtt ” srclang= ” ar ” ></track>
-</video>
-```
-
-据源很有用。标签为诸如 video 元素之类的媒介规定外部文本轨道。 用于规定字幕文件或其他包含文本的文件，当媒介播放时，这些文件是可见的。
-
-### 新的 HTML5 文档类型和字符集是？
-
-HTML5 文档类型很简单：
-
-<!doctype html>
-
-HTML5 使用 UTF-8 编码示例：
-
-<meta charset=” UTF-8 ″ >
-
-### 如何处理 HTML5 新标签的浏览器兼容问题？
-
-- 通过 document.createElement 创建新标签
-- 使用垫片 html5shiv.js
-
-### 如何区分 HTML 和 HTML5？
-
-- DOCTYPE 声明、新增的结构元素、功能元素
-
-### 浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的？
-
-- 在线的情况下，浏览器发现 html 标签有 manifest 属性，它会请求 manifest 文件
-- 如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储
-- 如果已经访问过 app 且资源已经离线存储了，浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作。如果文件改变了，那么就会重新下载文件中的资源并进行离线存储
-- 离线的情况下，浏览器就直接使用离线存储的资源。
-
-### HTML5 的离线储存怎么使用，工作原理能不能解释一下？
-
-- 在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件
-- 原理：HTML5 的离线存储是基于一个新建的.appcache 文件的缓存机制(不是存储技术)，通过这个文件上的解析清单离线存储资源，这些资源就会像 cookie 一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示
-
-- 如何使用：
-
-  - 在文档的 html 标签设置 manifest 属性，如 manifest="/offline.appcache"
-  - 在项目中新建 manifest 文件，manifest 文件的命名建议：xxx.appcache
-  - 在 web 服务器配置正确的 MIME-type，即 text/cache-manifest
-
-```
-CACHE MANIFEST
-#v0.11
-CACHE:
-js/app.js
-css/style.css
-NETWORK:
-resourse/logo.png
-FALLBACK:
-/ /offline.html
-```
-
-### 浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？
-
-- 在线的情况下，浏览器发现 html 头部有 manifest 属性，它会请求 manifest 文件，如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储。如果已经访问过 app 并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的资源并进行离线存储
-- 离线的情况下，浏览器就直接使用离线存储的资源
-
-### HTML5 的离线储存怎么使用，工作原理能不能解释一下？
-
-在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件。
-
-原理：HTML5 的离线存储是基于一个新建的.appcache 文件的缓存机制(不是存储技术)，通过这个文件上的解析清单离线存储资源，这些资源就会像 cookie 一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示。
-
-如何使用：
-
-1. 页面头部像下面一样加入一个 manifest 的属性；
-2. 在 cache.manifest 文件的编写离线存储的资源
-
-```
-CACHE MANIFEST
-#v1.0
-
-CACHE:
-js/app.js
-css/style.css
-
-NETWORK:
-assets/logo.png
-
-FALLBACK:
-/html5/ /404.html
-```
-
-### 浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？
-
-- 在线的情况下，浏览器发现 html 头部有 manifest 属性，它会请求 manifest 文件，如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储。如果已经访问过 app 并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的资源并进行离线存储。
-- 离线的情况下，浏览器就直接使用离线存储的资源。
-
-在离线状态时，操作 window.applicationCache 进行需求实现。
-
-## HTML5 的新特性
-
-### HTML5 提供了新的元素来创建更好的页面结构：
-
-| 标签       | 描述                              |
-| ---------- | --------------------------------- |
-| <article>  | 定义页面独立的内容区域。          |
-| <aside>    | 定义页面的侧边栏内容。            |
-| <header>   | 定义了文档的头部区域              |
-| <footer>   | 定义 section 或 document 的页脚。 |
-| <mark>     | 定义带有记号的文本。              |
-| <nav>      | 定义导航链接的部分。              |
-| <progress> | 定义任何类型的任务的进度。        |
-| <time>     | 定义日期或时间。                  |
-
 ### HTML5 Canvas
 
-HTML5 <canvas> 元素用于图形的绘制，通过脚本 (通常是 JavaScript)来完成.
-
-<canvas> 标签只是图形容器，您必须使用脚本来绘制图形。
+HTML5 <canvas> 元素用于图形的绘制，通过脚本 (通常是 JavaScript)来完成。<canvas> 标签只是图形容器，您必须使用脚本来绘制图形。
 
 ### HTML5 拖放
 
 `<img draggable="true">`
 
-### HTML5 地理定位
-
-Geolocation API 用于获得用户的地理位置。
-
-### HTML5 Audio(音频)、Video(视频)
-
-### HTML5 Web 存储
-
-- localStorage
-- sessionStorage
-
-### 用 HTML5 实现手机摇一摇功能你有做过吗？你知道它的原理吗？
-
-https://github.com/haizlin/fe-interview/issues/580
-
-### 你有用过 HTML5 的 Device API 吗？说说它都有哪些应用场景？
-
-https://github.com/haizlin/fe-interview/issues/576
-
-### HTML5 的应用程序缓存与浏览器缓存有什么不同？
-
-https://github.com/haizlin/fe-interview/issues/568
-
-### 你有用过 HTML5 中的 datalist 标签吗？说说你对它的理解
-
-https://github.com/haizlin/fe-interview/issues/562
-
-### 说说你对 HTML5 的 img 标签属性 srcset 和 sizes 的理解？都有哪些应用场景？
-
-https://github.com/haizlin/fe-interview/issues/530
-
-### HTML5 如何识别语音读出的内容和朗读指定的内容？
-
-https://github.com/haizlin/fe-interview/issues/526
-
-### HTML5 如果不写`<! DOCTYPE html>` ，页面还会正常工作么？](https://github.com/haizlin/fe-interview/issues/403)
-
-### 有使用过 HTML5 的拖放 API 吗？说说你对它的理解](https://github.com/haizlin/fe-interview/issues/275)
-
-### 有用过 HTML5 的 webSQL 和 IndexedDB 吗？说说你对它们的理解](https://github.com/haizlin/fe-interview/issues/254)
-
-### HTML5 相对于 HTML4 有哪些优势？](https://github.com/haizlin/fe-interview/issues/240)
-
-### 你了解 HTML5 的 download 属性吗？](https://github.com/haizlin/fe-interview/issues/236)
-
-### 你有了解 HTML5 的地理定位吗？怎么使用？](https://github.com/haizlin/fe-interview/issues/207)
-
-### HTML5 如何使用音频和视频？](https://github.com/haizlin/fe-interview/issues/177)
-
-### html5 哪些标签可以优化 SEO?](https://github.com/haizlin/fe-interview/issues/136)
-
-### HTML5 的文件离线储存怎么使用，工作原理是什么？
-
-https://github.com/haizhilin2013/interview/issues/10
-
 ### HTML5 的 form 如何关闭自动补全功能？
 
 给不想要提示的 form 或某个 input 设置为 autocomplete=off。
 
-### 简述下 html5 的离线储存原理，同时说明如何使用？
+### HTML5 的离线储存
 
-https://github.com/haizhilin2013/interview/issues/22
+在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件
 
-### html 的元素有哪些（包含 H5）？
+#### 原理：
 
-https://github.com/haizhilin2013/interview/issues/4
+HTML5 的离线存储是基于一个新建的 .appcache 文件的缓存机制(不是存储技术)，通过这个文件上的解析清单离线存储资源，这些资源就会像 cookie 一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示 #####如何使用：
 
-HTML5 的 video 在有的移动端设备无法自动播放？怎么解决？
+- 页面头部像下面一样加入一个 manifest 的属性；
+- 在 cache.manifest 文件的编写离线存储的资源
+- 在离线状态时，操作 window.applicationCache 进行需求实现
 
-### HTML 废弃标签介绍
+#### 浏览器如何加载
 
-这些标签都有着浓重的样式的作用，干涉了 css。
-
-- font
-- b
-- u
-- i
-- del
-- hr
-- em
-- strong
-
-br 很少用，尽量使用 p 标签来换行。
-
-标准的 div+css 页面，用的标签种类很少：
-
-- div
-- p
-- h1
-- span
-- a
-- img
-- ul
-- ol
-- dl
-- input 等
+在线的情况下，浏览器发现 html 头部有 manifest 属性，它会请求 manifest 文件，如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储。如果已经访问过 app 并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的资源并进行离线存储。

@@ -13,7 +13,3 @@ A: 答案是不会。同上题比较纠结，不太明白这里的 dimensions �
 <http://codepen.io/paddingme/pen/CnFpa>
 
 ### padding 百分比是相对于父级宽度还是自身的宽度
-
-### margin 和 padding 使用的场景有哪些？
-
-https://github.com/haizlin/fe-interview/issues/220

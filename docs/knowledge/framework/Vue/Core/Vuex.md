@@ -460,25 +460,6 @@ vuex 旧列表数据在页面进行切换的时候，在 vuex 中还存在旧数
 
 ### vuex
 
-- [你有写过 vuex 中 store 的插件吗？](https://github.com/haizlin/fe-interview/issues/539)
-- [你有使用过 vuex 的 module 吗？主要是在什么场景下使用？](https://github.com/haizlin/fe-interview/issues/538)
-- [vuex 中 actions 和 mutations 有什么区别？](https://github.com/haizlin/fe-interview/issues/537)
-- [vuex 使用 actions 时不支持多参数传递怎么办？](https://github.com/haizlin/fe-interview/issues/413)
-- [你觉得 vuex 有什么缺点？](https://github.com/haizlin/fe-interview/issues/412)
-- [你觉得要是不用 vuex 的话会带来哪些问题？](https://github.com/haizlin/fe-interview/issues/411)
-- [vuex 怎么知道 state 是通过 mutation 修改还是外部直接修改的？](https://github.com/haizlin/fe-interview/issues/393)
-- [请求数据是写在组件的 methods 中还是在 vuex 的 action 中？](https://github.com/haizlin/fe-interview/issues/392)
-- [怎么监听 vuex 数据的变化？](https://github.com/haizlin/fe-interview/issues/391)
-- [vuex 的 action 和 mutation 的特性是什么？有什么区别？](https://github.com/haizlin/fe-interview/issues/390)
-- [页面刷新后 vuex 的 state 数据丢失怎么解决？](https://github.com/haizlin/fe-interview/issues/389)
-- [vuex 的 state、getter、mutation、action、module 特性分别是什么？](https://github.com/haizlin/fe-interview/issues/388)
-- [vuex 的 store 有几个属性值？分别讲讲它们的作用是什么？](https://github.com/haizlin/fe-interview/issues/387)
-- [你理解的 vuex 是什么呢？哪些场景会用到？不用会有问题吗？有哪些特性？](https://github.com/haizlin/fe-interview/issues/386)
-- [使用 vuex 的优势是什么？](https://github.com/haizlin/fe-interview/issues/385)
-- [有用过 vuex 吗？它主要解决的是什么问题？推荐在哪些场景用？](https://github.com/haizlin/fe-interview/issues/384)
-
-### vuex
-
 state: 状态中心
 mutations: 更改状态
 actions: 异步更改状态

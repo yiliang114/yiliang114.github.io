@@ -1244,3 +1244,30 @@ alert(typeof foo.length);
 - Error
 
 答案：number，foo.length 是无法删除的，它在 Function 原型上，重点它的 configurable 是 false。
+
+```js
+var x = 1;
+
+var bar = function() {
+  console.log(this.x);
+};
+
+var obj1 = { x: 1 };
+var obj2 = { x: 2 };
+var obj3 = { x: 3 };
+
+var fun = bar.bind(obj1);
+fun();
+fun = bar.bind(obj1).bind(obj2);
+fun();
+fun = bar
+  .bind(obj1)
+  .bind(obj2)
+  .bind(obj3);
+fun();
+/*
+1
+1
+1
+*/
+```

@@ -420,12 +420,8 @@ function dispatch(action) {
 // 用以初始化 state
 ```
 
-- [在 react 中怎样改变组件状态，以及状态改变的过程是什么？](https://github.com/haizlin/fe-interview/issues/606)
-- [在 react 中你是怎么进行状态管理的？](https://github.com/haizlin/fe-interview/issues/605)
-- [react 声明组件有哪几种方法，各有什么不同？](https://github.com/haizlin/fe-interview/issues/604)
-
-* react hook 了解么
-* 为什么之前的 render 函数必须有一个顶层节点，现在不需要了，可以直接渲染一个数组？
+- react hook 了解么
+- 为什么之前的 render 函数必须有一个顶层节点，现在不需要了，可以直接渲染一个数组？
 
 ### 在 Redux 中，何为 store
 
