@@ -1049,3 +1049,16 @@ CDN 的原理是尽可能的在各个地方分布机房缓存数据，这样即�
 ![1583470467405-1d2eb8baf7568d31.png](https://s0.lgstatic.com/i/image/M00/07/0E/Ciqc1F647j-AFiBtAABWh7ld3uA965.png)
 
 浏览器获取资源文件的流程
+
+### 首屏加速
+
+Vue-Router 路由懒加载（利用 Webpack 的代码切割）
+使用 CDN 加速，将通用的库从 vendor 进行抽离
+Nginx 的 gzip 压缩
+Vue 异步组件
+服务端渲染 SSR
+如果使用了一些 UI 库，采用按需加载
+Webpack 开启 gzip 压缩
+如果首屏为登录页，可以做成多入口
+Service Worker 缓存文件处理
+使用 link 标签的 rel 属性设置 prefetch（这段资源将会在未来某个导航或者功能要用到，但是本资源的下载顺序权重比较低，prefetch 通常用于加速下一次导航）、preload（preload 将会把资源得下载顺序权重提高，使得关键数据提前下载好，优化页面打开速度）

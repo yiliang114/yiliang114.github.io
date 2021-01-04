@@ -6,6 +6,19 @@ draft: true
 
 # Event Loop
 
+在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
+
+macro-task(宏任务)
+
+setTimeout
+setInterval
+setImmediate
+
+micro-task(微任务)
+
+Promise
+process.nextTick
+
 https://www.cnblogs.com/cangqinglang/p/8967268.html
 https://zhuanlan.zhihu.com/p/41543963
 
@@ -867,7 +880,6 @@ my.Event = {
   },
 };
 ```
-
 
 ### javascript 实现一个带并发限制的异步调度器，保证同时最多运行 2 个任务
 

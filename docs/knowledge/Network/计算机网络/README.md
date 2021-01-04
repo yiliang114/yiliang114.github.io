@@ -6,28 +6,6 @@ aside: false
 draft: true
 ---
 
-### 实现浏览器内多个标签页之间的通信
-
-- 可以调用 localStorage, cookies 等本地存储方式；
-- localStorage 另一个浏览上下文里被添加、修改或删除时，它都会触发一个事件，我们通过监听事件，控制它的值来进行页面信息通信；监听 window.onstorage。
-  1. 重复写入相同的值无法触发。
-  2. 会受到浏览器隐身模式等的限制
-- 注意 quirks： Safari 在无痕模式下设置 localStorage 值时会抛出 QuotaExceededError 的异常；
-- iframe + contentWindow
-- 通过父页面 window.open()和子页面 postMessage
-- SharedWorker(Web Worker API)
-- storage 事件(localStorage API)
-- 借助服务端或者中间层实现
-
-### WEB 应用从服务器主动推送 Data 到客户端有那些方式？
-
-1. html5 websocket
-2. WebSocket 通过 Flash
-3. XHR 长时间连接
-4. XHR Multipart Streaming
-5. 不可见的 Iframe
-6. script 标签的长时间连接(可跨域)
-
 ### 什么是一级域名，什么是二级域名，什么是三级域名
 
 通俗的解释：baidu.com 是一级域名，zhidao.baidu.com 是二级域名。www.baidu.com 是域名 baidu.com 的一个二级域名，只不过是一个比较特殊的二级域名罢了。他的特殊就在于现在的实践中，人们在解析域名的的时候，在惯例和默认的情况下，是把 www.baidu.com 这个二级域名指向它的一级域名 baidu.com。因此，现在的大部分情况下，baidu.com 和 www.baidu.com，都是一样的，有和没有 www 一般没有关系。
