@@ -630,10 +630,10 @@ promise.then 里的回调函数会放到相应宏任务的微任务队列里，�
 ```js
 console.log('script start'); //1. 打印 script start
 setTimeout(function() {
-  console.log('settimeout'); // 4. 打印 settimeout
+  console.log('setTimeout'); // 4. 打印 setTimeout
 }); // 2. 调用 setTimeout 函数，并定义其完成后执行的回调函数
 console.log('script end'); //3. 打印 script start
-// 输出顺序：script start->script end->settimeout
+// 输出顺序：script start->script end->setTimeout
 ```
 
 ##### 2. Promise
@@ -650,18 +650,18 @@ let promise1 = new Promise(function(resolve) {
   console.log('promise2');
 });
 setTimeout(function() {
-  console.log('settimeout');
+  console.log('setTimeout');
 });
 console.log('script end');
-// 输出顺序: script start->promise1->promise1 end->script end->promise2->settimeout
+// 输出顺序: script start->promise1->promise1 end->script end->promise2->setTimeout
 ```
 
 当 JS 主线程执行到 Promise 对象时，
 
 - promise1.then() 的回调就是一个 task
-- promise1 是 resolved 或 rejected: 那这个 task 就会放入当前事件循环回合的 microtask queue
-- promise1 是 pending: 这个 task 就会放入 事件循环的未来的某个(可能下一个)回合的 microtask queue 中
-- setTimeout 的回调也是个 task ，它会被放入 macrotask queue 即使是 0ms 的情况
+- promise1 是 resolved 或 rejected: 那这个 task 就会放入当前事件循环回合的 micro-task queue
+- promise1 是 pending: 这个 task 就会放入 事件循环的未来的某个(可能下一个)回合的 micro-task queue 中
+- setTimeout 的回调也是个 task ，它会被放入 macro-task queue 即使是 0ms 的情况
 
 ##### 3. async/await
 
@@ -764,7 +764,7 @@ setTimeout(obj.foo.bind(obj), 100); //2
 
 ##### 不同点：
 
-then 和 settimeout 执行顺序，即 setTimeout(fn, 0)在下一轮“事件循环”开始时执行，Promise.then()在本轮“事件循环”结束时执行。因此 then 函数先输出，settimeout 后输出。
+then 和 setTimeout 执行顺序，即 setTimeout(fn, 0)在下一轮“事件循环”开始时执行，Promise.then()在本轮“事件循环”结束时执行。因此 then 函数先输出，setTimeout 后输出。
 例子：
 
 ```js
@@ -1530,7 +1530,6 @@ Promise.reject = function(reason) {
   });
 };
 ```
-
 
 ### Generator 与 yield
 

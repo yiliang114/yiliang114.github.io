@@ -4,8 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-# [深入 setState 机制](https://github.com/sisterAn/blog/issues/26)
-
 ### 异步更新
 
 考虑到性能问题，setState 使用一个**队列机制**来更新 state。

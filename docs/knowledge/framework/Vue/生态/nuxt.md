@@ -56,24 +56,23 @@ context 主要包含：
 - res
 - ...
 
-```
+```js
 export default {
-    data () {
-        return { project: 'default' }
-    },
-    async asyncData({ req, error }) {
-        const page = 0
-        let [pageRes, countRes] = await Promise.all([
-            axios.get(`/api/post/page/${page}?scope=published`),
-            axios.get('/api/post/count/published'),
-        ])
-        return {
-            posts: pageRes.data.list,
-            count: countRes.data.result,
-        }
-    }
-}
-
+  data() {
+    return { project: 'default' };
+  },
+  async asyncData({ req, error }) {
+    const page = 0;
+    let [pageRes, countRes] = await Promise.all([
+      axios.get(`/api/post/page/${page}?scope=published`),
+      axios.get('/api/post/count/published'),
+    ]);
+    return {
+      posts: pageRes.data.list,
+      count: countRes.data.result,
+    };
+  },
+};
 ```
 
 ### 中间件
@@ -84,10 +83,8 @@ export default {
 
 - 安装 postcss 插件 以及 sass 插件（预处理器）
 
-  ```
-  npm install --save-dev node-sass sass-loader
-  npm install --save-dev postcss-nested postcss-responsive-type postcss-hexrgba
-  npm i less less-loader --save--dev
-  ```
-
-- rem 单位，是相对于 html 的根元素的字体大小的倍数。只要调整 html 的根元素字体的大小就能够对布局进行等比例缩放，从而做到自适应。https://www.cnblogs.com/dannyxie/p/6640903.html
+```
+npm install --save-dev node-sass sass-loader
+npm install --save-dev postcss-nested postcss-responsive-type postcss-hexrgba
+npm i less less-loader --save--dev
+```

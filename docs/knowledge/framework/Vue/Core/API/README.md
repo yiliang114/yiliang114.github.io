@@ -98,30 +98,30 @@ include 和 exclude 的属性允许组件有条件地缓存。二者都可以用
 
 另外 `computed` 和 `watch` 还都支持对象的写法，这种方式知道的人并不多。
 
-```
+```js
 vm.$watch('obj', {
-    // 深度遍历
-    deep: true,
-    // 立即触发
-    immediate: true,
-    // 执行的函数
-    handler: function(val, oldVal) {}
-})
+  // 深度遍历
+  deep: true,
+  // 立即触发
+  immediate: true,
+  // 执行的函数
+  handler: function(val, oldVal) {},
+});
 var vm = new Vue({
   data: { a: 1 },
   computed: {
     aPlus: {
       // this.aPlus 时触发
-      get: function () {
-        return this.a + 1
+      get: function() {
+        return this.a + 1;
       },
       // this.aPlus = 1 时触发
-      set: function (v) {
-        this.a = v - 1
-      }
-    }
-  }
-})
+      set: function(v) {
+        this.a = v - 1;
+      },
+    },
+  },
+});
 ```
 
 ## keep-alive 组件有什么作用
@@ -174,10 +174,10 @@ list2.push('d'); // 不输出内容
 
 ```js
 // 参照 vue 源码实现
-var EventEmiter = function() {
+var EventEmitter = function() {
   this._events = {};
 };
-EventEmiter.prototype.on = function(event, cb) {
+EventEmitter.prototype.on = function(event, cb) {
   if (Array.isArray(event)) {
     for (let i = 0, l = event.length; i < l; i++) {
       this.on(event[i], cb);
@@ -187,7 +187,7 @@ EventEmiter.prototype.on = function(event, cb) {
   }
   return this;
 };
-EventEmiter.prototype.once = function(event, cb) {
+EventEmitter.prototype.once = function(event, cb) {
   function on() {
     this.off(event, cb);
     cb.apply(this, arguments);
@@ -196,7 +196,7 @@ EventEmiter.prototype.once = function(event, cb) {
   this.on(event, on);
   return this;
 };
-EventEmiter.prototype.off = function(event, cb) {
+EventEmitter.prototype.off = function(event, cb) {
   if (!arguments.length) {
     this._events = Object.create(null);
     return this;
@@ -223,7 +223,7 @@ EventEmiter.prototype.off = function(event, cb) {
     return this;
   }
 };
-EventEmiter.prototype.emit = function(event) {
+EventEmitter.prototype.emit = function(event) {
   let cbs = this._events[event];
   let args = Array.prototype.slice.call(arguments, 1);
   if (cbs) {

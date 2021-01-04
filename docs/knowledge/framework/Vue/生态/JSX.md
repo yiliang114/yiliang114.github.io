@@ -18,13 +18,6 @@ const directives = [{ name: 'my-dir', value: 123, modifiers: { abc: true } }];
 return <div {...{ directives }} />;
 ```
 
-### vue 中使用 jsx
-
-https://juejin.im/post/5affa64df265da0b93488fdd
-https://zhuanlan.zhihu.com/p/37920151
-
-### 引入 ts 之后的问题
-
 ### 使用 jsx 的优劣
 
 好处：
@@ -40,3 +33,10 @@ https://zhuanlan.zhihu.com/p/37920151
 
 1. render 函数的写法需要有一定的基础
 2. 与 TS 结合之后，mixins 的写法有一定的误解性， 因为需要类型推导，所以 只能通过 Vue.extend 来实现一个 mixins ，每一个 mixins 需要写成一个 vue 类，而不是 options 的一部分，一个简单的对象即可
+
+### 引入 ts 之后的问题
+
+### vue 中使用 jsx
+
+https://juejin.im/post/5affa64df265da0b93488fdd
+https://zhuanlan.zhihu.com/p/37920151

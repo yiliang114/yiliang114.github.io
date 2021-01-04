@@ -80,11 +80,11 @@ key 是 React 中用于追踪哪些列表中元素被修改、删除或者被添
 
 ```js
 shouldComponentUpdate(nextProps, nextState) {
-    if(nextProps.content === this.props.content) {
-        return false;
-    } else {
-        return true;
-    }
+if(nextProps.content === this.props.content) {
+return false;
+} else {
+return true;
+}
 }
 ```
 
@@ -258,24 +258,24 @@ constructor(props) {
 const StateContext = React.createContext()
 class Parent extends React.Component {
   render () {
-    return (
-      // value 就是传入 Context 中的值
-      <StateContext.Provider value='yiliang114'>
-        <Child />
-      </StateContext.Provider>
-    )
+return (
+  // value 就是传入 Context 中的值
+  <StateContext.Provider value='yiliang114'>
+<Child />
+  </StateContext.Provider>
+)
   }
 }
 class Child extends React.Component {
   render () {
-    return (
-      <ThemeContext.Consumer>
-        // 取出值
-        {context => (
-          name is { context }
-        )}
-      </ThemeContext.Consumer>
-    );
+return (
+  <ThemeContext.Consumer>
+// 取出值
+{context => (
+  name is { context }
+)}
+  </ThemeContext.Consumer>
+);
   }
 }
 ```
@@ -290,7 +290,7 @@ class Child extends React.Component {
 
 ```
 function add(a, b) {
-    return a + b
+return a + b
 }
 ```
 
@@ -298,12 +298,12 @@ function add(a, b) {
 
 ```
 function withLog (fn) {
-    function wrapper(a, b) {
-        const result = fn(a, b)
-        console.log(result)
-        return result
-    }
-    return wrapper
+function wrapper(a, b) {
+const result = fn(a, b)
+console.log(result)
+return result
+}
+return wrapper
 }
 const withLogAdd = withLog(add)
 withLogAdd(1, 2)
@@ -333,7 +333,7 @@ if (this._compositeType === CompositeTypes.PureClass) {
 
 ```js
 shouldComponentUpdate(nextProps, nextState) {
-    return (nextState.person !== this.state.person);
+return (nextState.person !== this.state.person);
 }
 ```
 
@@ -353,193 +353,193 @@ https://segmentfault.com/a/1190000008112017?_ea=1553893
 
 ### 如何在 React 中创建组件?
 
-    有两种可行的方法来创建一个组件：
+有两种可行的方法来创建一个组件：
 
-    **Function Components:** 这是创建组件最简单的方式。这些是纯 JavaScript 函数，接受 props 对象作为第一个参数并返回 React 元素：
+**Function Components:** 这是创建组件最简单的方式。这些是纯 JavaScript 函数，接受 props 对象作为第一个参数并返回 React 元素：
 
-        ```jsx
-        function Greeting({ message }) {
-          return <h1>{`Hello, ${message}`}</h1>
-        }
-        ```
+```jsx
+function Greeting({ message }) {
+  return <h1>{`Hello, ${message}`}</h1>;
+}
+```
 
-    **Class Components:** 你还可以使用 ES6 类来定义组件。上面的函数组件若使用 ES6 的类可改写为：
+**Class Components:** 你还可以使用 ES6 类来定义组件。上面的函数组件若使用 ES6 的类可改写为：
 
-        ```jsx
-        class Greeting extends React.Component {
-          render() {
-            return <h1>{`Hello, ${this.props.message}`}</h1>
-          }
-        }
-        ```
+```jsx
+class Greeting extends React.Component {
+  render() {
+    return <h1>{`Hello, ${this.props.message}`}</h1>;
+  }
+}
+```
 
-    通过以上任意方式创建的组件，可以这样使用：
+通过以上任意方式创建的组件，可以这样使用：
 
-    ```jsx
-      <Greeting message="semlinker"/>
-    ```
+```jsx
+<Greeting message="semlinker" />
+```
 
-    在 React 内部对函数组件和类组件的处理方式是不一样的，如：
+在 React 内部对函数组件和类组件的处理方式是不一样的，如：
 
-    ```js
-      // 如果 Greeting 是一个函数
-      const result = Greeting(props); // <p>Hello</p>
+```js
+// 如果 Greeting 是一个函数
+const result = Greeting(props); // <p>Hello</p>
 
-      // 如果 Greeting 是一个类
-      const instance = new Greeting(props); // Greeting {}
-      const result = instance.render(); // <p>Hello</p>
-    ```
+// 如果 Greeting 是一个类
+const instance = new Greeting(props); // Greeting {}
+const result = instance.render(); // <p>Hello</p>
+```
 
 ### 何时使用类组件和函数组件?
 
-    如果组件需要使用**状态或生命周期方法**，那么使用类组件，否则使用函数组件。
+如果组件需要使用**状态或生命周期方法**，那么使用类组件，否则使用函数组件。
 
 ### 什么是 Pure Components?
 
-    `React.PureComponent` 与 `React.Component` 完全相同，只是它为你处理了 `shouldComponentUpdate()` 方法。当属性或状态发生变化时，PureComponent 将对属性和状态进行**浅比较**。另一方面，一般的组件不会将当前的属性和状态与新的属性和状态进行比较。因此，在默认情况下，每当调用 `shouldComponentUpdate` 时，默认返回 true，所以组件都将重新渲染。
+`React.PureComponent` 与 `React.Component` 完全相同，只是它为你处理了 `shouldComponentUpdate()` 方法。当属性或状态发生变化时，PureComponent 将对属性和状态进行**浅比较**。另一方面，一般的组件不会将当前的属性和状态与新的属性和状态进行比较。因此，在默认情况下，每当调用 `shouldComponentUpdate` 时，默认返回 true，所以组件都将重新渲染。
 
 ### 什么是受控组件?
 
-    在随后的用户输入中，能够控制表单中输入元素的组件被称为受控组件，即每个状态更改都有一个相关联的处理程序。
+在随后的用户输入中，能够控制表单中输入元素的组件被称为受控组件，即每个状态更改都有一个相关联的处理程序。
 
-    例如，我们使用下面的 handleChange 函数将输入框的值转换成大写：
+例如，我们使用下面的 handleChange 函数将输入框的值转换成大写：
 
-    ```js
-    handleChange(event) {
-      this.setState({value: event.target.value.toUpperCase()})
-    }
-    ```
+```js
+handleChange(event) {
+  this.setState({value: event.target.value.toUpperCase()})
+}
+```
 
 ### 什么是非受控组件?
 
-    非受控组件是在内部存储其自身状态的组件，当需要时，可以使用 ref 查询 DOM 并查找其当前值。这有点像传统的 HTML。
+非受控组件是在内部存储其自身状态的组件，当需要时，可以使用 ref 查询 DOM 并查找其当前值。这有点像传统的 HTML。
 
-    在下面的 UserProfile 组件中，我们通过 ref 引用 `name` 输入框：
+在下面的 UserProfile 组件中，我们通过 ref 引用 `name` 输入框：
 
-    ```jsx
-    class UserProfile extends React.Component {
-      constructor(props) {
-        super(props)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.input = React.createRef()
-      }
+```jsx
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.input = React.createRef();
+  }
 
-      handleSubmit(event) {
-        alert('A name was submitted: ' + this.input.current.value)
-        event.preventDefault()
-      }
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.input.current.value);
+    event.preventDefault();
+  }
 
-      render() {
-        return (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              {'Name:'}
-              <input type="text" ref={this.input} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-        );
-      }
-    }
-    ```
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          {'Name:'}
+          <input type="text" ref={this.input} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
 
-    在大多数情况下，建议使用受控组件来实现表单。
+在大多数情况下，建议使用受控组件来实现表单。
 
 ### 什么是无状态组件?
 
-    如果行为独立于其状态，则它可以是无状态组件。你可以使用函数或类来创建无状态组件。但除非你需要在组件中使用生命周期钩子，否则你应该选择函数组件。无状态组件有很多好处： 它们易于编写，理解和测试，速度更快，而且你可以完全避免使用`this`关键字。
+如果行为独立于其状态，则它可以是无状态组件。你可以使用函数或类来创建无状态组件。但除非你需要在组件中使用生命周期钩子，否则你应该选择函数组件。无状态组件有很多好处： 它们易于编写，理解和测试，速度更快，而且你可以完全避免使用`this`关键字。
 
 ### 什么是有状态组件?
 
-    如果组件的行为依赖于组件的*state*，那么它可以被称为有状态组件。这些*有状态组件*总是*类组件*，并且具有在`constructor`中初始化的状态。
+如果组件的行为依赖于组件的*state*，那么它可以被称为有状态组件。这些*有状态组件*总是*类组件*，并且具有在`constructor`中初始化的状态。
 
-    ```js
-    class App extends Component {
-      constructor(props) {
-        super(props)
-        this.state = { count: 0 }
-      }
+```js
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
 
-      render() {
-        // ...
-      }
-    }
-    ```
+  render() {
+    // ...
+  }
+}
+```
 
 ### createElement() 和 cloneElement() 方法有什么区别?
 
-    JSX 元素将被转换为 `React.createElement()` 函数来创建 React 元素，这些对象将用于表示 UI 对象。而 `cloneElement` 用于克隆元素并传递新的属性。
+JSX 元素将被转换为 `React.createElement()` 函数来创建 React 元素，这些对象将用于表示 UI 对象。而 `cloneElement` 用于克隆元素并传递新的属性。
 
 ### 推荐的组件命名方法是什么?
 
-    建议通过引用命名组件，而不是使用 `displayName`。
+建议通过引用命名组件，而不是使用 `displayName`。
 
-    使用 `displayName` 命名组件:
+使用 `displayName` 命名组件:
 
-    ```js
-    export default React.createClass({
-      displayName: 'TodoApp',
-      // ...
-    })
-    ```
+```js
+export default React.createClass({
+  displayName: 'TodoApp',
+  // ...
+});
+```
 
-    推荐的方式：
+推荐的方式：
 
-    ```js
-    export default class TodoApp extends React.Component {
-      // ...
-    }
-    ```
+```js
+export default class TodoApp extends React.Component {
+  // ...
+}
+```
 
 ### 在组件类中方法的推荐顺序是什么?
 
-    从 *mounting* 到 *render stage* 阶段推荐的方法顺序：
+从 _mounting_ 到 _render stage_ 阶段推荐的方法顺序：
 
-    `static` 方法
-    `constructor()`
-    `getChildContext()`
-    `componentWillMount()`
-    `componentDidMount()`
-    `componentWillReceiveProps()`
-    `shouldComponentUpdate()`
-    `componentWillUpdate()`
-    `componentDidUpdate()`
-    `componentWillUnmount()`
-    点击处理程序或事件处理程序，如 `onClickSubmit()` 或 `onChangeDescription()`
-    用于渲染的getter方法，如 `getSelectReason()` 或 `getFooterContent()`
-    可选的渲染方法，如 `renderNavigation()` 或 `renderProfilePicture()`
-    `render()`
+`static` 方法
+`constructor()`
+`getChildContext()`
+`componentWillMount()`
+`componentDidMount()`
+`componentWillReceiveProps()`
+`shouldComponentUpdate()`
+`componentWillUpdate()`
+`componentDidUpdate()`
+`componentWillUnmount()`
+点击处理程序或事件处理程序，如 `onClickSubmit()` 或 `onChangeDescription()`
+用于渲染的 getter 方法，如 `getSelectReason()` 或 `getFooterContent()`
+可选的渲染方法，如 `renderNavigation()` 或 `renderProfilePicture()`
+`render()`
 
 ### 什么是 switching 组件?
 
-    switching 组件是渲染多个组件之一的组件。我们需要使用对象将 prop 映射到组件中。
+switching 组件是渲染多个组件之一的组件。我们需要使用对象将 prop 映射到组件中。
 
-    例如，以下的 switching 组件将基于 `page` 属性显示不同的页面：
+例如，以下的 switching 组件将基于 `page` 属性显示不同的页面：
 
-    ```jsx
-    import HomePage from './HomePage'
-    import AboutPage from './AboutPage'
-    import ServicesPage from './ServicesPage'
-    import ContactPage from './ContactPage'
+```jsx
+import HomePage from './HomePage';
+import AboutPage from './AboutPage';
+import ServicesPage from './ServicesPage';
+import ContactPage from './ContactPage';
 
-    const PAGES = {
-      home: HomePage,
-      about: AboutPage,
-      services: ServicesPage,
-      contact: ContactPage
-    }
+const PAGES = {
+  home: HomePage,
+  about: AboutPage,
+  services: ServicesPage,
+  contact: ContactPage,
+};
 
-    const Page = (props) => {
-      const Handler = PAGES[props.page] || ContactPage
+const Page = props => {
+  const Handler = PAGES[props.page] || ContactPage;
 
-      return <Handler {...props} />
-    }
+  return <Handler {...props} />;
+};
 
-    // The keys of the PAGES object can be used in the prop types to catch dev-time errors.
-    Page.propTypes = {
-      page: PropTypes.oneOf(Object.keys(PAGES)).isRequired
-    }
-    ```
+// The keys of the PAGES object can be used in the prop types to catch dev-time errors.
+Page.propTypes = {
+  page: PropTypes.oneOf(Object.keys(PAGES)).isRequired,
+};
+```
 
 ### 怎么阻止组件的渲染
 
@@ -606,99 +606,90 @@ https://blog.csdn.net/baidu_38151187/article/details/80582416
 
 ### portals 的典型使用场景是什么?
 
-     当父组件拥有 `overflow: hidden` 或含有影响堆叠上下文的属性（z-index、position、opacity 等样式），且需要脱离它的容器进行展示时，React portal 就非常有用。例如，对话框、全局消息通知、悬停卡和工具提示。
+当父组件拥有 `overflow: hidden` 或含有影响堆叠上下文的属性（z-index、position、opacity 等样式），且需要脱离它的容器进行展示时，React portal 就非常有用。例如，对话框、全局消息通知、悬停卡和工具提示。
 
 ### 如何设置非受控组件的默认值?
 
-     在 React 中，表单元素的属性值将覆盖其 DOM 中的值。对于非受控组件，你可能希望能够指定其初始值，但不会控制后续的更新。要处理这种情形，你可以指定一个 **defaultValue** 属性来取代 **value** 属性。
+在 React 中，表单元素的属性值将覆盖其 DOM 中的值。对于非受控组件，你可能希望能够指定其初始值，但不会控制后续的更新。要处理这种情形，你可以指定一个 **defaultValue** 属性来取代 **value** 属性。
 
-     ```js
-     render() {
-       return (
-         <form onSubmit={this.handleSubmit}>
-           <label>
-             User Name:
-             <input
-               defaultValue="John"
-               type="text"
-               ref={this.input} />
-           </label>
-           <input type="submit" value="Submit" />
-         </form>
-       );
-     }
-     ```
+```js
+render() {
+  return (
+<form onSubmit={this.handleSubmit}>
+  <label>
+User Name:
+<input
+  defaultValue="John"
+  type="text"
+  ref={this.input} />
+  </label>
+  <input type="submit" value="Submit" />
+</form>
+  );
+}
+```
 
-     这同样适用于 `select` 和 `textArea` 输入框。但对于 `checkbox` 和 `radio` 控件，需要使用 **defaultChecked**。
+这同样适用于 `select` 和 `textArea` 输入框。但对于 `checkbox` 和 `radio` 控件，需要使用 **defaultChecked**。
 
 ### 在 Pure Component 中使用渲染属性会有什么问题?
 
-     如果在渲染方法中创建函数，则会否定纯组件的用途。因为浅属性比较对于新属性总是返回 false，在这种情况下，每次渲染都将为渲染属性生成一个新值。你可以通过将渲染函数定义为实例方法来解决这个问题。
+如果在渲染方法中创建函数，则会否定纯组件的用途。因为浅属性比较对于新属性总是返回 false，在这种情况下，每次渲染都将为渲染属性生成一个新值。你可以通过将渲染函数定义为实例方法来解决这个问题。
 
 ### 如何使用渲染属性创建 HOC?
 
-     可以使用带有渲染属性的常规组件实现大多数高阶组件（HOC）。例如，如果希望使用 withMouse HOC 而不是 `<Mouse>` 组件，则你可以使用带有渲染属性的常规 `<Mouse>` 组件轻松创建一个 HOC 组件。
+可以使用带有渲染属性的常规组件实现大多数高阶组件（HOC）。例如，如果希望使用 withMouse HOC 而不是 `<Mouse>` 组件，则你可以使用带有渲染属性的常规 `<Mouse>` 组件轻松创建一个 HOC 组件。
 
-     ```js
-     function withMouse(Component) {
-       return class extends React.Component {
-         render() {
-           return (
-             <Mouse render={mouse => (
-               <Component {...this.props} mouse={mouse} />
-             )}/>
-           );
-         }
-       }
-     }
-     ```
+```js
+function withMouse(Component) {
+  return class extends React.Component {
+    render() {
+      return <Mouse render={mouse => <Component {...this.props} mouse={mouse} />} />;
+    }
+  };
+}
+```
 
 ### 如何有条件地渲染组件?
 
-    在某些情况下，你希望根据某些状态渲染不同的组件。 JSX 不会渲染 `false` 或 `undefined`，因此你可以使用 `&&` 运算符，在某个条件为 true 时，渲染组件中指定的内容。
+在某些情况下，你希望根据某些状态渲染不同的组件。 JSX 不会渲染 `false` 或 `undefined`，因此你可以使用 `&&` 运算符，在某个条件为 true 时，渲染组件中指定的内容。
 
-    ```jsx
-    const MyComponent = ({ name, address }) => (
-      <div>
-        <h2>{name}</h2>
-        {address &&
-          <p>{address}</p>
-        }
-      </div>
-    )
-    ```
+```jsx
+const MyComponent = ({ name, address }) => (
+  <div>
+    <h2>{name}</h2>
+    {address && <p>{address}</p>}
+  </div>
+);
+```
 
-    如果你需要一个 `if-else` 条件，那么使用三元运算符：
+如果你需要一个 `if-else` 条件，那么使用三元运算符：
 
-    ```jsx
-    const MyComponent = ({ name, address }) => (
-      <div>
-        <h2>{name}</h2>
-        {address
-          ? <p>{address}</p>
-          : <p>{'Address is not available'}</p>
-        }
-      </div>
-    )
-    ```
+```jsx
+const MyComponent = ({ name, address }) => (
+  <div>
+    <h2>{name}</h2>
+    {address ? <p>{address}</p> : <p>{'Address is not available'}</p>}
+  </div>
+);
+```
 
 ### 如何 memoize（记忆）组件?
 
-    有可用于函数组件的 memoize 库。例如 `moize` 库可以将组件存储在另一个组件中。
+有可用于函数组件的 memoize 库。例如 `moize` 库可以将组件存储在另一个组件中。
 
-    ```jsx
-    import moize from 'moize'
-    import Component from './components/Component' // this module exports a non-memoized component
+```jsx
+import moize from 'moize';
+import Component from './components/Component'; // this module exports a non-memoized component
 
-    const MemoizedFoo = moize.react(Component)
+const MemoizedFoo = moize.react(Component);
 
-    const Consumer = () => {
-      <div>
-        {'I will memoize the following entry:'}
-        <MemoizedFoo/>
-      </div>
-    }
-    ```
+const Consumer = () => {
+  <div>
+    {'I will memoize the following entry:'}
+    <MemoizedFoo />
+  </div>;
+};
+```
 
 ### React Mixins 是什么?
 
@@ -717,202 +708,200 @@ const Button = React.createClass({
 
 ### 为什么组件名称应该以大写字母开头?
 
-    如果使用 JSX 渲染组件，则该组件的名称必须以大写字母开头，否则 React 将会抛出无法识别标签的错误。这种约定是因为只有 HTML 元素和 SVG 标签可以以小写字母开头。
+如果使用 JSX 渲染组件，则该组件的名称必须以大写字母开头，否则 React 将会抛出无法识别标签的错误。这种约定是因为只有 HTML 元素和 SVG 标签可以以小写字母开头。
 
-    定义组件类的时候，你可以以小写字母开头，但在导入时应该使用大写字母。
+定义组件类的时候，你可以以小写字母开头，但在导入时应该使用大写字母。
 
-    ```jsx
-    class myComponent extends Component {
-      render() {
-        return <div />
-      }
-    }
+```jsx
+class myComponent extends Component {
+  render() {
+    return <div />;
+  }
+}
 
-    export default myComponent
-    ```
+export default myComponent;
+```
 
-    当在另一个文件导入时，应该以大写字母开头：
+当在另一个文件导入时，应该以大写字母开头：
 
-    ```jsx
-    import MyComponent from './MyComponent'
-    ```
+```jsx
+import MyComponent from './MyComponent';
+```
 
 ### 为什么不需要使用继承?
 
-     在 React 中，建议使用组合而不是继承来重用组件之间的代码。Props 和 composition 都为你提供了以一种明确和安全的方式自定义组件外观和行为所需的灵活性。但是，如果你希望在组件之间复用非 UI 功能，建议将其提取到单独的 JavaScript 模块中。之后的组件导入它并使用该函数、对象或类，而不需扩展它。
+在 React 中，建议使用组合而不是继承来重用组件之间的代码。Props 和 composition 都为你提供了以一种明确和安全的方式自定义组件外观和行为所需的灵活性。但是，如果你希望在组件之间复用非 UI 功能，建议将其提取到单独的 JavaScript 模块中。之后的组件导入它并使用该函数、对象或类，而不需扩展它。
 
 ### 我可以在 React 应用程序中可以使用 web components 么?
 
-     是的，你可以在 React 应用程序中使用 Web Components。尽管许多开发人员不会使用这种组合方式，但如果你使用的是使用 Web Components 编写的第三方 UI 组件，则可能需要这种组合。例如，让我们使用 Vaadin 提供的 Web Components 日期选择器组件：
+是的，你可以在 React 应用程序中使用 Web Components。尽管许多开发人员不会使用这种组合方式，但如果你使用的是使用 Web Components 编写的第三方 UI 组件，则可能需要这种组合。例如，让我们使用 Vaadin 提供的 Web Components 日期选择器组件：
 
-     ```js
-     import React, { Component } from 'react';
-     import './App.css';
-     import '@vaadin/vaadin-date-picker';
+```js
+import React, { Component } from 'react';
+import './App.css';
+import '@vaadin/vaadin-date-picker';
 
-     class App extends Component {
-       render() {
-         return (
-           <div className="App">
-             <vaadin-date-picker label="When were you born?"></vaadin-date-picker>
-           </div>
-         );
-       }
-     }
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <vaadin-date-picker label="When were you born?"></vaadin-date-picker>
+      </div>
+    );
+  }
+}
 
-     export default App;
-     ```
+export default App;
+```
 
 ### 什么是动态导入?
 
-     动态导入语法是 ECMAScript 提案，目前不属于语言标准的一部分。它有望在不久的将来被采纳。在你的应用程序中，你可以使用动态导入来实现代码拆分。让我们举一个加法的例子：
+动态导入语法是 ECMAScript 提案，目前不属于语言标准的一部分。它有望在不久的将来被采纳。在你的应用程序中，你可以使用动态导入来实现代码拆分。让我们举一个加法的例子：
 
-     **Normal Import**
-     ```js
-     import { add } from './math';
-     console.log(add(10, 20));
-     ```
+**Normal Import**
 
-     **Dynamic Import**
-     ```js
-     import("./math").then(math => {
-       console.log(math.add(10, 20));
-     });
-     ```
+```js
+import { add } from './math';
+console.log(add(10, 20));
+```
+
+**Dynamic Import**
+
+```js
+import('./math').then(math => {
+  console.log(math.add(10, 20));
+});
+```
 
 ### 什么是 loadable 组件?
 
-     如果你想要在服务端渲染的应用程序中实现代码拆分，建议使用 Loadable 组件，因为 React.lazy 和 Suspense 还不可用于服务器端渲染。Loadable 允许你将动态导入的组件作为常规的组件进行渲染。让我们举一个例子：
+如果你想要在服务端渲染的应用程序中实现代码拆分，建议使用 Loadable 组件，因为 React.lazy 和 Suspense 还不可用于服务器端渲染。Loadable 允许你将动态导入的组件作为常规的组件进行渲染。让我们举一个例子：
 
-     ```js
-     import loadable from '@loadable/component'
+```js
+import loadable from '@loadable/component';
 
-     const OtherComponent = loadable(() => import('./OtherComponent'))
+const OtherComponent = loadable(() => import('./OtherComponent'));
 
-     function MyComponent() {
-       return (
-         <div>
-           <OtherComponent />
-         </div>
-       )
-     }
-     ```
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  );
+}
+```
 
-     现在，其他组件将以单独的包进行加载。
+现在，其他组件将以单独的包进行加载。
 
 ### 什么是 suspense 组件?
 
-     如果父组件在渲染时包含 dynamic import 的模块尚未加载完成，在此加载过程中，你必须使用一个 loading 指示器显示后备内容。这可以使用 **Suspense** 组件来实现。例如，下面的代码使用 Suspense 组件：
+如果父组件在渲染时包含 dynamic import 的模块尚未加载完成，在此加载过程中，你必须使用一个 loading 指示器显示后备内容。这可以使用 **Suspense** 组件来实现。例如，下面的代码使用 Suspense 组件：
 
-     ```js
-     const OtherComponent = React.lazy(() => import('./OtherComponent'));
+```js
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
 
-     function MyComponent() {
-       return (
-         <div>
-           <Suspense fallback={<div>Loading...</div>}>
-             <OtherComponent />
-           </Suspense>
-         </div>
-       );
-     }
-     ```
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
 
-     正如上面的代码中所展示的，懒加载的组件被包装在 Suspense 组件中。
+正如上面的代码中所展示的，懒加载的组件被包装在 Suspense 组件中。
 
 ### 什么是基于路由的代码拆分?
 
-     进行代码拆分的最佳位置之一是路由。整个页面将立即重新渲染，因此用户不太可能同时与页面中的其他元素进行交互。因此，用户体验不会受到干扰。让我们以基于路由的网站为例，使用像 React Router 和 React.lazy 这样的库：
+进行代码拆分的最佳位置之一是路由。整个页面将立即重新渲染，因此用户不太可能同时与页面中的其他元素进行交互。因此，用户体验不会受到干扰。让我们以基于路由的网站为例，使用像 React Router 和 React.lazy 这样的库：
 
-     ```js
-     import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-     import React, { Suspense, lazy } from 'react';
+```js
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
 
-     const Home = lazy(() => import('./routes/Home'));
-     const About = lazy(() => import('./routes/About'));
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
 
-     const App = () => (
-       <Router>
-         <Suspense fallback={<div>Loading...</div>}>
-           <Switch>
-             <Route exact path="/" component={Home}/>
-             <Route path="/about" component={About}/>
-           </Switch>
-         </Suspense>
-       </Router>
-     );
-     ```
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
 
-     在上面的代码中，代码拆分将发生在每个路由层级。
+在上面的代码中，代码拆分将发生在每个路由层级。
 
 ### 什么是 Keyed Fragments ?
 
-     使用显式 <React.Fragment> 语法声明的片段可能具有 key 。一般用例是将集合映射到片段数组，如下所示，
+使用显式 <React.Fragment> 语法声明的片段可能具有 key 。一般用例是将集合映射到片段数组，如下所示，
 
-     ```js
-     function Glossary(props) {
-       return (
-         <dl>
-           {props.items.map(item => (
-             // Without the `key`, React will fire a key warning
-             <React.Fragment key={item.id}>
-               <dt>{item.term}</dt>
-               <dd>{item.description}</dd>
-             </React.Fragment>
-           ))}
-         </dl>
-       );
-     }
-     ```
+```js
+function Glossary(props) {
+  return (
+    <dl>
+      {props.items.map(item => (
+        // Without the `key`, React will fire a key warning
+        <React.Fragment key={item.id}>
+          <dt>{item.term}</dt>
+          <dd>{item.description}</dd>
+        </React.Fragment>
+      ))}
+    </dl>
+  );
+}
+```
 
-     **注意：** 键是唯一可以传递给 Fragment 的属性。将来，可能会支持其他属性，例如事件处理程序。
+**注意：** 键是唯一可以传递给 Fragment 的属性。将来，可能会支持其他属性，例如事件处理程序。
 
 ### 如何每秒更新一个组件?
 
-     你需要使用 `setInterval()` 来触发更改，但也需要在组件卸载时清除计时器，以防止错误和内存泄漏。
+你需要使用 `setInterval()` 来触发更改，但也需要在组件卸载时清除计时器，以防止错误和内存泄漏。
 
-     ```js
-     componentDidMount() {
-       this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000)
-     }
+```js
+componentDidMount() {
+  this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000)
+}
 
-     componentWillUnmount() {
-       clearInterval(this.interval)
-     }
-     ```
+componentWillUnmount() {
+  clearInterval(this.interval)
+}
+```
 
 ### 如何使用 React 和 ES6 导入和导出组件?
 
-     导出组件时，你应该使用默认导出：
+导出组件时，你应该使用默认导出：
 
-     ```jsx
-     import React from 'react'
-     import User from 'user'
+```jsx
+import React from 'react';
+import User from 'user';
 
-     export default class MyProfile extends React.Component {
-       render(){
-         return (
-           <User type="customer">
-             //...
-           </User>
-         )
-       }
-     }
-     ```
+export default class MyProfile extends React.Component {
+  render() {
+    return <User type="customer">//...</User>;
+  }
+}
+```
 
-     使用 export 说明符，MyProfile 将成为成员并导出到此模块，此外在其他组件中你无需指定名称就可以导入相同的内容。
+使用 export 说明符，MyProfile 将成为成员并导出到此模块，此外在其他组件中你无需指定名称就可以导入相同的内容。
 
 ### 为什么 React 组件名称必须以大写字母开头?
 
-     在 JSX 中，小写标签被认为是 HTML 标签。但是，含有 `.` 的大写和小写标签名却不是。
+在 JSX 中，小写标签被认为是 HTML 标签。但是，含有 `.` 的大写和小写标签名却不是。
 
-     `<component />` 将被转换为 `React.createElement('component')` (i.e, HTML 标签)
-     `<obj.component />` 将被转换为 `React.createElement(obj.component)`
-     `<Component />` 将被转换为 `React.createElement(Component)`
+`<component />` 将被转换为 `React.createElement('component')` (i.e, HTML 标签)
+`<obj.component />` 将被转换为 `React.createElement(obj.component)`
+`<Component />` 将被转换为 `React.createElement(Component)`
 
 ### 为什么组件的构造函数只被调用一次?
 
-     React 协调算法假设如果自定义组件出现在后续渲染的相同位置，则它与之前的组件相同，因此重用前一个实例而不是创建新实例。
+React 协调算法假设如果自定义组件出现在后续渲染的相同位置，则它与之前的组件相同，因此重用前一个实例而不是创建新实例。
 
 ### 如何选择哪种方式创建组件
 
@@ -939,14 +928,14 @@ React.createElement 会一个虚拟 dom 元素。
 
 ```js
 ReactDOM.render(
-    React.createElement({
-        type：'botton',
-        porps:{
-            color:'blue',
-            children:'OK!'
-        }
-    }),
-    document.getElementById('root')
+React.createElement({
+type：'button',
+props:{
+color:'blue',
+children:'OK!'
+}
+}),
+document.getElementById('root')
 );
 ```
 
@@ -978,7 +967,7 @@ const DeleteAccount = () => {
   <div>
     <p>Are you sure?</p>
     <DangerButton>Yep</DangerButton>
-    <botton color="blue">Cancel</botton>
+    <button color="blue">Cancel</button>
   </div>;
 };
 ```
@@ -986,28 +975,32 @@ const DeleteAccount = () => {
 React.createElement 会把这个 JSX 转换为如下的虚拟 DOM:
 
 ```js
-const DeleteAccount = ()=>{
-    type:'div',
-    porps:{
-        children:[{
-            type:'p',
-            props:{
-                children:'Are you sure?'
-            }
-        },{
-            type:'DangerButton',
-            props:{
-                children:'Yep'
-            }
-        },{
-            type: 'botton',
-            props: {
-                color: 'blue',
-                children: 'Cancel'
-            }
-        }]
-    }
-}
+const DeleteAccount = () => ({
+  type: 'div',
+  props: {
+    children: [
+      {
+        type: 'p',
+        props: {
+          children: 'Are you sure?',
+        },
+      },
+      {
+        type: 'DangerButton',
+        props: {
+          children: 'Yep',
+        },
+      },
+      {
+        type: 'button',
+        props: {
+          color: 'blue',
+          children: 'Cancel',
+        },
+      },
+    ],
+  },
+});
 ```
 
 当 React 碰到 type 是 function|class 时，它就知道这是个组件了

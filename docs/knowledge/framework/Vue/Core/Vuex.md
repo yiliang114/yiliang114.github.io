@@ -164,9 +164,9 @@ Vue.use(Vuex)
 
 内部实现：
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/4bf5cd431af845a6814635362395d22f_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/4bf5cd431af845a6814635362395d22f_image.png)
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/9fccaaca083c473e9c60b33eeaacf535_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/9fccaaca083c473e9c60b33eeaacf535_image.png)
 
 `this._installedPlugins` 目前还是空的，因此不会执行到下面的 `plugin.install` 的部分。 `Vue.install(Vuex)` 调用 `use` 函数，根据判断条件， `Vuex` 这个 `plugin` 的安装是直接调用 `Vuex.install()` 函数。
 
@@ -188,13 +188,13 @@ todo: 这里不确定是不是没有传参数。
 
 这里在 Vue 版本大于 2 的时候，就执行 `Vue.mixin(...)` ，暂时就先不看 `Vue@1.x` 的 `applyMixin` 逻辑了。
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/8fb0094a0d0b4f67ab5ac6f1ad2453a7_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/8fb0094a0d0b4f67ab5ac6f1ad2453a7_image.png)
 
 黄线框出的部分比较好理解，就是为 vue 实例创建一个 `$store` 属性，值是 `Vuex` 的实例 `store`。如果你不了解 `this.$options` 的值，可以参考官网 [\$options](https://cn.vuejs.org/v2/api/#vm-options)。 事实上，`this.$options` 能够获取当前的 vue 实例，在调用 `new Vue()` 初始化函数的时候传入的所有参数。
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/ccbfca617b0040efbcd1ea15e460f33e_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/ccbfca617b0040efbcd1ea15e460f33e_image.png)
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/77675ecd9b224ce7b4ad83ca3abf753f_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/77675ecd9b224ce7b4ad83ca3abf753f_image.png)
 
 也就是说，在 当前的 vue 实例中，直接通过 `this.$store` 能够获取到 `vuex` 的实例，也就是能够直接 `this.$store.commit(...)` `this.$store.dispatch(...)` 等操作。
 
@@ -202,15 +202,15 @@ Todo: 不过红色部分，我暂时不是很能理解，为什么明明 `Vue.us
 
 main.js
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/4e84021d763043098a55b3315fd42bbd_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/4e84021d763043098a55b3315fd42bbd_image.png)
 
 store.js
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/19054c98613c4cb8aca824946390990a_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/19054c98613c4cb8aca824946390990a_image.png)
 
 接着来看一下上文中的 `applyMixin(Vue)` 函数中出现的 `Vue.mixin(...)` 函数是如何实现的， 该函数定位位于 `src/global-api/mixin.js` 中。
 
-![imagepng](http://media.zhijianzhang.cn//file/2018/10/6bef2da22edf4954bae88b5cfbe1af38_image.png)
+![](http://media.zhijianzhang.cn//file/2018/10/6bef2da22edf4954bae88b5cfbe1af38_image.png)
 
 很简单，就是将每一次 `Vue.mixin(...)` 传入的参数进行一次 merge，最后再将 merge 好之后的 vue 实例返回。
 

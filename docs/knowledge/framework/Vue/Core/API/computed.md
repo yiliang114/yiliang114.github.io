@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+## Computed
+
 new Watcher(vm, expFn,)
 
 ```js
@@ -101,7 +103,7 @@ depend() {
   // 也就是说， 整个过程就是 watcher.addDep(dep), dep.addSub(watcher)
 ```
 
-### Set
+### 通知
 
 ```js
 dep.notify();
@@ -144,3 +146,9 @@ https://segmentfault.com/q/1010000010358438
 - 初始化 `computed`, 遍历 `computed` 里的每个属性，每个 computed 属性都是一个 watch 实例。每个属性提供的函数作为属性的 getter，使用 Object.defineProperty 转化。
 - `Object.defineProperty getter` 依赖收集。用于依赖发生变化时，触发属性重新计算。
 - 若出现当前 computed 计算属性嵌套其他 computed 计算属性时，先进行其他的依赖收集
+
+### 计算属性有什么作用
+
+先来看一下计算属性的定义：
+当其依赖的属性的值发生变化的时，计算属性会重新计算。反之则使用缓存中的属性值。
+计算属性和 vue 中的其它数据一样，都是响应式的，只不过它必须依赖某一个数据实现，并且只有它依赖的数据的值改变了，它才会更新。

@@ -54,3 +54,9 @@ new SuperComponent().$mount('#app');
 ### 提取 npm 包
 
 ### 直接内嵌一个 js 文件，写入参数即可，插入一段 dom 的形式
+
+### vue 组件复用
+
+1. 最基础的复用是 抽离一个公共组件，通过 props 传值。
+2. slot
+3. 组件继承

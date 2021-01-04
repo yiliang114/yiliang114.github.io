@@ -121,8 +121,8 @@ DOM 的变化影响到了元素的几何属性（宽高）,浏览器重新计算
 - 使用 Fragment
 
 ```js
-var fragment = document.createDocumentFragment()
-fragment.appendChild(elem)
+var fragment = document.createDocumentFragment();
+fragment.appendChild(elem);
 ```
 
 - 向 1000 个并排的 div 元素中，插入一个平级的 div 元素，如何优化插入的性能
