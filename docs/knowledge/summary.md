@@ -54,51 +54,6 @@ for (var i = 0; i < 10; i++) {
 }
 ```
 
-### 33.下面的代码打印什么内容，为什么？
-
-```js
-var b = 10;
-(function b() {
-  b = 20;
-  console.log(b);
-})();
-```
-
-```js
-var b = 10;
-(function b() {
-  b = 20;
-  console.log(b);
-})();
-```
-
-针对这题，在知乎上看到别人的回答说：
-
-1. 函数表达式与函数声明不同，函数名只在该函数内部有效，并且此绑定是常量绑定。
-2. 对于一个常量进行赋值，在 strict 模式下会报错，非 strict 模式下静默失败。
-3. IIFE 中的函数是函数表达式，而不是函数声明。
-
-实际上，有点类似于以下代码，但不完全相同，因为使用 const 不管在什么模式下，都会 TypeError 类型的错误
-
-```js
-const foo = (function() {
-  foo = 10;
-  console.log(foo);
-})(foo)(); // Uncaught TypeError: Assignment to constant variable.
-```
-
-我的理解是，b 函数是一个相当于用 const 定义的常量，内部无法进行重新赋值，如果在严格模式下，会报错"Uncaught TypeError: Assignment to constant variable."
-例如下面的：
-
-```js
-var b = 10;
-(function b() {
-  'use strict';
-  b = 20;
-  console.log(b);
-})(); // "Uncaught TypeError: Assignment to constant variable."
-```
-
 ### 34.简单改造下面的代码，使之分别打印 10 和 20。
 
 ```js
@@ -191,35 +146,6 @@ if (a == 1 && a == 2 && a == 3) {
 }
 ```
 
-### 47.双向绑定和 vuex 是否冲突
-
-在严格模式中使用 Vuex，当用户输入时，v-model 会试图直接修改属性值，但这个修改不是在 mutation 中修改的，所以会抛出一个错误。当需要在组件中使用 vuex 中的 state 时，有 2 种解决方案：
-1、在 input 中绑定 value(vuex 中的 state)，然后监听 input 的 change 或者 input 事件，在事件回调中调用 mutation 修改 state 的值
-2、使用带有 setter 的双向绑定计算属性。见以下例子（来自官方文档）：
-
-```html
-<input v-model="message" />
-```
-
-```js
-computed: { message: { get () { return this.$store.state.obj.message }, set (value) { this.$store.commit('updateMessage', value) } } }
-```
-
-### 41.下面代码输出什么
-
-```js
-var a = 10;
-(function() {
-  console.log(a);
-  a = 5;
-  console.log(window.a);
-  var a = 20;
-  console.log(a);
-})();
-```
-
-分别为 undefined 　 10 　 20，原因是作用域问题，在内部声名 var a = 20;相当于先声明 var a;然后再执行赋值操作，这是在ＩＩＦＥ内形成的独立作用域，如果把 var a=20 注释掉，那么 a 只有在外部有声明，显示的就是外部的Ａ变量的值了。结果Ａ会是 10 　 5 　 5
-
 ### 42.实现一个 sleep 函数
 
 比如 sleep(1000) 意味着等待 1000 毫秒，可从 Promise、Generator、Async/Await 等角度实现
@@ -245,6 +171,7 @@ sleep(1000).then(() => {
 [102, 15, 22, 29, 3, 8]
 
 解析：
+
 根据 MDN 上对 Array.sort()的解释，默认的排序方法会将数组元素转换为字符串，然后比较字符串中字符的 UTF-16 编码顺序来进行排序。所以'102' 会排在 '15' 前面。
 
 ### 50.实现 (5).add(3).minus(2) 功能。
@@ -261,91 +188,6 @@ Number.prototype.minus = function(n) {
 ```
 
 [![image](https://user-images.githubusercontent.com/13726966/55743276-79e83000-5a64-11e9-9227-39b7fe4b98de.png)](https://user-images.githubusercontent.com/13726966/55743276-79e83000-5a64-11e9-9227-39b7fe4b98de.png)
-
-### 52.怎么让一个 div 水平垂直居中
-
-```js
-<div class="parent">
-  <div class="child"></div>
-</div>
-```
-
-1.
-
-```
-div.parent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-```
-
-1.
-
-```js
-div.parent {
-    position: relative;
-}
-div.child {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-/* 或者 */
-div.child {
-    width: 50px;
-    height: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -25px;
-    margin-top: -5px;
-}
-/* 或 */
-div.child {
-    width: 50px;
-    height: 10px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
-```
-
-1.
-
-```js
-div.parent {
-    display: grid;
-}
-div.child {
-    justify-self: center;
-    align-self: center;
-}
-```
-
-1.
-
-```js
-div.parent {
-    font-size: 0;
-    text-align: center;
-    &::before {
-        content: "";
-        display: inline-block;
-        width: 0;
-        height: 100%;
-        vertical-align: middle;
-    }
-}
-div.child{
-  display: inline-block;
-  vertical-align: middle;
-}
-```
 
 ### 57.分析比较 opacity: 0、visibility: hidden、display: none 优劣和适用场景。
 
@@ -444,9 +286,9 @@ useEffect(() => {
 
 ### 65. `a.b.c.d` 和 `a['b']['c']['d']`，哪个性能更高？
 
-应该是 a.b.c.d 比 a['b']['c']['d'] 性能高点，后者还要考虑 [ ] 中是变量的情况，再者，从两种形式的结构来看，显然编译器解析前者要比后者容易些，自然也就快一点。
+应该是 `a.b.c.d` 比 `a['b']['c']['d']` 性能高点，后者还要考虑 [ ] 中是变量的情况，再者，从两种形式的结构来看，显然编译器解析前者要比后者容易些，自然也就快一点。
 
-### 66.ES6 代码转成 ES5 代码的实现思路是什么
+### 66. ES6 代码转成 ES5 代码的实现思路是什么
 
 将 ES6 的代码转换为 AST 语法树，然后再将 ES6 AST 转为 ES5 AST，再将 AST 转为代码
 
@@ -501,101 +343,6 @@ array.forEach(function(currentValue, index, arr), thisValue)
 ```
 
 它不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考虑进来，这里可能拖慢性能；
-
-### 74. 使用 JavaScript Proxy 实现简单的数据绑定
-
-```html
-<body>
-  hello,world
-  <input type="text" id="model" />
-  <p id="word"></p>
-</body>
-<script>
-  const model = document.getElementById('model');
-  const word = document.getElementById('word');
-  var obj = {};
-
-  const newObj = new Proxy(obj, {
-    get: function(target, key, receiver) {
-      console.log(`getting ${key}!`);
-      return Reflect.get(target, key, receiver);
-    },
-    set: function(target, key, value, receiver) {
-      console.log('setting', target, key, value, receiver);
-      if (key === 'text') {
-        model.value = value;
-        word.innerHTML = value;
-      }
-      return Reflect.set(target, key, value, receiver);
-    },
-  });
-
-  model.addEventListener('keyup', function(e) {
-    newObj.text = e.target.value;
-  });
-</script>
-```
-
-### 76.输出以下代码运行结果
-
-```js
-// example 1
-var a={}, b='123', c=123;
-a[b]='b';
-a[c]='c';
-// 输出 c
-console.log(a[b]);
-
----------------------
-// example 2
-var a={}, b=Symbol('123'), c=Symbol('123');
-a[b]='b';
-a[c]='c';
-console.log(a[b]);
-
----------------------
-// example 3
-var a={}, b={key:'123'}, c={key:'456'};
-a[b]='b';
-a[c]='c';
-console.log(a[b]);
-```
-
-### 77.算法题「旋转数组」
-
-给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
-
-示例 1：
-
-```js
-输入: [1, 2, 3, 4, 5, 6, 7] 和 k = 3
-输出: [5, 6, 7, 1, 2, 3, 4]
-解释:
-向右旋转 1 步: [7, 1, 2, 3, 4, 5, 6]
-向右旋转 2 步: [6, 7, 1, 2, 3, 4, 5]
-向右旋转 3 步: [5, 6, 7, 1, 2, 3, 4]
-```
-
-示例 2：
-
-```js
-输入: [-1, -100, 3, 99] 和 k = 2
-输出: [3, 99, -1, -100]
-解释:
-向右旋转 1 步: [99, -1, -100, 3]
-向右旋转 2 步: [3, 99, -1, -100]
-```
-
-因为步数有可能大于数组长度，所以要先取余
-
-```js
-function rotate(arr, k) {
-  const len = arr.length;
-  const step = k % len;
-  return arr.slice(-step).concat(arr.slice(0, len - step));
-}
-// rotate([1, 2, 3, 4, 5, 6], 7) => [6, 1, 2, 3, 4, 5]
-```
 
 ### 79.input 搜索如何防抖，如何处理中文输入
 
@@ -655,37 +402,6 @@ function rotate(arr, k) {
 ```
 
 [![image](https://user-images.githubusercontent.com/16409424/58295339-52290d80-7e01-11e9-81db-4716426e039d.png)](https://user-images.githubusercontent.com/16409424/58295339-52290d80-7e01-11e9-81db-4716426e039d.png)
-
-### 82.周一算法题之「移动零」
-
-给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
-示例:
-
-```js
-输入: [0, 1, 0, 3, 12];
-输出: [1, 3, 12, 0, 0];
-```
-
-说明:
-
-1. 必须在原数组上操作，不能拷贝额外的数组。
-1. 尽量减少操作次数。
-
-```js
-function zeroMove(array) {
-  let len = array.length;
-  let j = 0;
-  for (let i = 0; i < len - j; i++) {
-    if (array[i] === 0) {
-      array.push(0);
-      array.splice(i, 1);
-      i--;
-      j++;
-    }
-  }
-  return array;
-}
-```
 
 ### 101.修改以下 print 函数，使之输出 0 到 99，或者 99 到 0
 
@@ -945,52 +661,12 @@ console.log(filterArray([123, [1, 2, 3], [1, '2', 3], [1, 2, 3], 'meili']));
 console.log(filterArray([123, { a: 1 }, { a: { b: 1 } }, { a: '1' }, { a: { b: 1 } }, 'meili']));
 ```
 
-### 116.输出以下代码运行结果
-
-```js
-1 + "1";
->
-2 * "2"[(1, 2)] + [2, 1];
->
-"a" + +"b";
-```
-
-'11'
-4
-'1,22,1'
-'aNaN'
-
-//"a" + + "b"其实可以理解为
-// + "b" -> NaN
-//“a”+NaN
-
 ### 124.永久性重定向（301）和临时性重定向（302）对 SEO 有什么影响
 
 1）301 redirect——301 代表永久性转移(Permanently Moved)，301 重定向是网页更改地址后对搜索引擎友好的最好方法，只要不是暂时搬移的情况,都建议使用 301 来做转址。
 如果我们把一个地址采用 301 跳转方式跳转的话，搜索引擎会把老地址的 PageRank 等信息带到新地址，同时在搜索引擎索引库中彻底废弃掉原先的老地址。旧网址的排名等完全清零
 
 2）302 redirect——302 代表暂时性转移(Temporarily Moved )，在前些年，不少 Black Hat SEO 曾广泛应用这项技术作弊，目前，各大主要搜索引擎均加强了打击力度，象 Google 前些年对 Business.com 以及近来对 BMW 德国网站的惩罚。即使网站客观上不是 spam，也很容易被搜寻引擎容易误判为 spam 而遭到惩罚。
-
-### 125.算法题
-
-如何将`[{id: 1}, {id: 2, pId: 1}, ...]` 的重复数组（有重复数据）转成树形结构的数组 `[{id: 1, child: [{id: 2, pId: 1}]}, ...]` （需要去重）
-
-```js
-const fn = arr => {
-  const res = [];
-  const map = arr.reduce((res, item) => ((res[item.id] = item), res), {});
-  for (const item of Object.values(map)) {
-    if (!item.pId) {
-      res.push(item);
-    } else {
-      const parent = map[item.pId];
-      parent.child = parent.child || [];
-      parent.child.push(item);
-    }
-  }
-  return res;
-};
-```
 
 ### 126.扑克牌问题
 
@@ -1053,49 +729,11 @@ background: -moz-linear-gradient(right, transparent, #fff 55%);
 background: linear-gradient(to right, transparent, #fff 55%);
 }
 
-### 129.输出以下代码执行结果
-
-```js
-function wait() {
-  return new Promise(resolve => setTimeout(resolve, 10 * 1000));
-}
->
-async function main() {
-  console.time();
-  const x = wait();
-  const y = wait();
-  const z = wait();
-  await x;
-  await y;
-  await z;
-  console.timeEnd();
-}
-main();
-```
-
-### 130.输出以下代码执行结果，大致时间就好（不同于上题）
-
-```js
-function wait() {
-  return new Promise(resolve => setTimeout(resolve, 10 * 1000));
-}
->
-async function main() {
-  console.time();
-  await wait();
-  await wait();
-  await wait();
-  console.timeEnd();
-}
-main();
-```
-
 ### 131.接口如何防刷
 
 referer 校验
 UA 校验
 频率限制（1s 内接口调用次数限制）
-
 把某个 key 加配料，带上时间戳，加密，请求时带上，过期或解密失败则 403。
 
 ### 132.实现一个 Dialog 类，Dialog 可以创建 dialog 对话框，对话框支持可拖拽（腾讯）
@@ -1166,33 +804,3 @@ class Dialog {
 let dialog = new Dialog('Hello');
 dialog.open();
 ```
-
-### 133.用 setTimeout 实现 setInterval，阐述实现的效果与 setInterval 的差异
-
-```js
-function mySetInterval() {
-  mySetInterval.timer = setTimeout(() => {
-    arguments[0]();
-    mySetInterval(...arguments);
-  }, arguments[1]);
-}
-
-mySetInterval.clear = function() {
-  clearTimeout(mySetInterval.timer);
-};
-
-mySetInterval(() => {
-  console.log(11111);
-}, 1000);
-
-setTimeout(() => {
-  // 5s 后清理
-  mySetInterval.clear();
-}, 5000);
-```
-
-### 136.如何实现骨架屏，说说你的思路
-
-封装多个不同大小的模块
-根据页面需求配置组合模块
-请求数据并处理成功后替换

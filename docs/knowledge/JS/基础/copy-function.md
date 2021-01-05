@@ -1256,3 +1256,45 @@ var obj = {
   },
 )();
 ```
+
+### 深拷贝和浅拷贝
+
+> 题目：实现对象的深拷贝。
+
+在 JS 中，函数和对象都是浅拷贝（地址引用）；其他的，例如布尔值、数字等基础数据类型都是深拷贝（值引用）。
+
+值得提醒的是，ES6 的`Object.assign()`和 ES7 的`...`解构运算符都是“浅拷贝”。实现深拷贝还是需要自己手动撸“轮子”或者借助第三方库（例如`lodash`）：
+
+- 手动做一个“完美”的深拷贝函数：[https://godbmw.com/passages/2019-03-18-interview-js-code/](https://godbmw.com/passages/2019-03-18-interview-js-code/)
+
+- 借助第三方库：jq 的`extend(true, result, src1, src2[ ,src3])`、lodash 的`cloneDeep(src)`
+
+- `JSON.parse(JSON.stringify(src))`：这种方法有局限性，如果属性值是函数或者一个类的实例的时候，无法正确拷贝
+
+- 借助 HTML5 的`MessageChannel`：这种方法有局限性，当属性值是函数的时候，会报错
+
+  ```html
+  <script>
+    function deepClone(obj) {
+      return new Promise(resolve => {
+        const { port1, port2 } = new MessageChannel();
+        port2.onmessage = ev => resolve(ev.data);
+        port1.postMessage(obj);
+      });
+    }
+
+    const obj = {
+      a: 1,
+      b: {
+        c: [1, 2],
+        d: '() => {}',
+      },
+    };
+
+    deepClone(obj).then(obj2 => {
+      obj2.b.c[0] = 100;
+      console.log(obj.b.c); // output: [1, 2]
+      console.log(obj2.b.c); // output: [100, 2]
+    });
+  </script>
+  ```

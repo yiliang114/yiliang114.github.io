@@ -290,3 +290,36 @@ new Promise(function(resolve) {
 console.log('script end');
 // script start， async1 start，async2,promise1，script end， async1 end，promise2，setTime
 ```
+
+```js
+function wait() {
+  return new Promise(resolve => setTimeout(resolve, 10 * 100));
+}
+async function main() {
+  console.time();
+  const x = wait();
+  const y = wait();
+  const z = wait();
+  await x;
+  await y;
+  await z;
+  console.timeEnd();
+}
+main();
+// 1s 左右
+```
+
+```js
+function wait() {
+  return new Promise(resolve => setTimeout(resolve, 10 * 100));
+}
+async function main() {
+  console.time();
+  await wait();
+  await wait();
+  await wait();
+  console.timeEnd();
+}
+main();
+// 3s 左右
+```
