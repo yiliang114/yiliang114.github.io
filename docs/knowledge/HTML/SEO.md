@@ -112,33 +112,25 @@ prerender-spa-plugin 原理
 
 ```js
 // 打开页面
-page.open(url, function (status) {
-...
-// 没有设置捕获钩子时，在脚本执行完捕获
-if (
-!options.captureAfterDocumentEvent &&
-!options.captureAfterElementExists &&
-!options.captureAfterTime
-) {
-// 拼接 html
-var html = page.evaluate(function () {
-var doctype = new window.XMLSerializer().serializeToString(document.doctype)
-var outerHTML = document.documentElement.outerHTML
-return doctype + outerHTML
-})
-returnResult(html) // 捕获输出
-}
-...
-})
+page.open(url, function(status) {
+  // ...
+  // 没有设置捕获钩子时，在脚本执行完捕获
+  if (!options.captureAfterDocumentEvent && !options.captureAfterElementExists && !options.captureAfterTime) {
+    // 拼接 html
+    var html = page.evaluate(function() {
+      var doctype = new window.XMLSerializer().serializeToString(document.doctype);
+      var outerHTML = document.documentElement.outerHTML;
+      return doctype + outerHTML;
+    });
+    returnResult(html); // 捕获输出
+  }
+  // ...
+});
 ```
 
-#### 请解释单页应用是什么，如何使其对 SEO 友好。
+### 请解释单页应用是什么，如何使其对 SEO 友好。
 
-以下摘自 [Grab Front End Guide](https://github.com/grab/front-end-guide)，碰巧的是，这正是我自己写的！
-
-现如今，Web 开发人员将他们构建的产品称为 Web 应用，而不是网站。虽然这两个术语之间没有严格的区别，但网络应用往往具有高度的交互性和动态性，允许用户执行操作并接收他们的操作响应。在过去，浏览器从服务器接收 HTML 并渲染。当用户导航到其它 URL 时，需要整页刷新，服务器会为新页面发送新的 HTML。这被称为服务器端渲染。
-
-然而，在现代的 SPA 中，客户端渲染取而代之。浏览器从服务器加载初始页面、整个应用程序所需的脚本（框架、库、应用代码）和样式表。当用户导航到其他页面时，不会触发页面刷新。该页面的 URL 通过 [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) 进行更新。浏览器通过 [AJAX](https://developer.mozilla.org/en-US/docs/AJAX/Getting_Started) 请求向服务器检索新页面所需的数据（通常采用 JSON 格式）。然后，SPA 通过 JavaScript 来动态更新页面，这些 JavaScript 在初始页面加载时已经下载。这种模式类似于原生移动应用的工作方式。
+在现代的 SPA 中，客户端渲染取而代之。浏览器从服务器加载初始页面、整个应用程序所需的脚本（框架、库、应用代码）和样式表。当用户导航到其他页面时，不会触发页面刷新。该页面的 URL 通过 [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) 进行更新。浏览器通过 [AJAX](https://developer.mozilla.org/en-US/docs/AJAX/Getting_Started) 请求向服务器检索新页面所需的数据（通常采用 JSON 格式）。然后，SPA 通过 JavaScript 来动态更新页面，这些 JavaScript 在初始页面加载时已经下载。这种模式类似于原生移动应用的工作方式。
 
 **好处：**
 
@@ -152,7 +144,7 @@ returnResult(html) // 捕获输出
 - 服务器还需要进行额外的工作，需要将所有请求路由配置到单个入口点，然后由客户端接管路由。
 - SPA 依赖于 JavaScript 来呈现内容，但并非所有搜索引擎都在抓取过程中执行 JavaScript，他们可能会在你的页面上看到空的内容。这无意中损害了应用的搜索引擎优化（SEO）。然而，当你构建应用时，大多数情况下，搜索引擎优化并不是最重要的因素，因为并非所有内容都需要通过搜索引擎进行索引。为了解决这个问题，可以在服务器端渲染你的应用，或者使用诸如 [Prerender](https://prerender.io/) 的服务来“在浏览器中呈现你的 javascript，保存静态 HTML，并将其返回给爬虫”。
 
-#### 前后端分离的项目如何 seo
+### 前后端分离的项目如何 seo
 
 1. 使用 prerender。但是回答 prerender，面试官肯定会问你，如果不用 prerender，让你直接去实现，好的，请看下面的第二个答案。
 2. 先去 https://www.baidu.com/robots.txt 找出常见的爬虫，然后在 nginx 上判断来访问页面用户的 User-Agent 是否是爬虫，如果是爬虫，就用 nginx 方向代理到我们自己用 nodejs + puppeteer 实现的爬虫服务器上，然后用你的爬虫服务器爬自己的前后端分离的前端项目页面，增加扒页面的接收延时，保证异步渲染的接口数据返回，最后得到了页面的数据，返还给来访问的爬虫即可。

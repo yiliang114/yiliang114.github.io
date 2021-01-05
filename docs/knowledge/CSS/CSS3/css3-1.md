@@ -6,16 +6,6 @@ aside: false
 draft: true
 ---
 
-# CSS3 初体验之奇技淫巧
-
----
-
-自 CSS3 流行以来，虽然以前看过一遍所有的新增属性，但其实在实际项目中用到的少之又少。所以没有形成系统性的认识，以及看到效果立马就能想到解决方案的能力。然后最近正好遇到一个需要绘制大量动画的需求，所以决定趁此机会好好研究一下这个既熟悉又陌生的 css3。
-
-在正式开始 css3 之前，先来介绍一些比较经典的`css3实例`，让大家好好感受一下 css3 的魅力，本文会提到以下几个 css3 的属性：
-
-border-radius、::after、attr 和 content、box-sizing、linear-gradient、radial-gradient、box-shadow
-
 # border-radius
 
 - 相信这个属性，写过 css 的同学都知道，用来产生圆角，比如画一个圆形：
@@ -221,7 +211,3 @@ div.chrome {
 ![img](https://lc-api-gold-cdn.xitu.io/28ee989d549a334778a3.gif?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 `使用这种方法的缺点就是，只能支持两层的边框，而且还不能根据容器的border-radius自动贴合。`
-
-# 总结
-
-通过这段时间对 css3 的深入了解，发现 css3 真的很强大，研究起来还是挺有趣的，只有想不到，感觉没有做不到。不过为了实现很酷炫的效果，可能需要编写大量的 css 代码，这个时候使用什么技术就需要我们自己来衡量了。
