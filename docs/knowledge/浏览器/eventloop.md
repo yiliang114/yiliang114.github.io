@@ -6,7 +6,14 @@ draft: true
 
 ## Event Loop
 
-在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
+在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
+
+#### Micro-Task 与 Macro-Task
+
+浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。**宏任务队列可以有多个，微任务队列只有一个**。
+
+- 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染等。
+- 常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5 新特性) 等。
 
 macro-task(宏任务)
 
@@ -19,11 +26,7 @@ micro-task(微任务)
 Promise
 process.nextTick
 
-https://www.cnblogs.com/cangqinglang/p/8967268.html
-https://zhuanlan.zhihu.com/p/41543963
-
-为什么 `setTimeout` 会比 `Promise` 后执行，明明代码写在 `Promise` 之前。
-在浏览器和 Node 中 Event Loop 其实是不相同的。
+所以这也就是为什么 `setTimeout` 会比 `Promise` 后执行，明明代码写在 `Promise` 之前。
 
 ### 执行栈
 
@@ -66,7 +69,7 @@ bar();
 
 ![事件循环](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/16740fa4cd9c6937.jpg)
 
-不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（microtask） 和 **宏任务**（macrotask）。在 ES6 规范中，microtask 称为 `jobs`，macrotask 称为 `task`。下面来看以下代码的执行顺序：
+不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（micro-task） 和 **宏任务**（macro-task）。在 ES6 规范中，micro-task 称为 `jobs`，macro-task 称为 `task`。下面来看以下代码的执行顺序：
 
 ```js
 console.log('script start');
@@ -135,13 +138,6 @@ new Promise((resolve, reject) => {
 宏任务包括 `script` ， `setTimeout` ，`setInterval` ，`setImmediate` ，`I/O` ，`UI rendering`。
 
 这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了 `script` ，浏览器会**先执行一个宏任务**，接下来有异步代码的话才会先执行微任务。
-
-#### Micro-Task 与 Macro-Task
-
-浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。**宏任务队列可以有多个，微任务队列只有一个**。
-
-- 常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染等。
-- 常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5 新特性) 等。
 
 #### Event Loop 过程解析
 
@@ -287,7 +283,7 @@ Promise.resolve().then(function() {
 });
 ```
 
-对于以上代码来说，其实和浏览器中的输出是一样的，microtask 永远执行在 macro-task 前面。
+对于以上代码来说，其实和浏览器中的输出是一样的，micro-task 永远执行在 macro-task 前面。
 
 最后我们来讲讲 Node 中的 `process.nextTick`，这个函数其实是独立于 Event Loop 之外的，它有一个自己的队列，当每个阶段完成后，如果存在 nextTick 队列，就会**清空队列中的所有回调函数**，并且优先于其他 micro-task 执行。
 
@@ -464,9 +460,9 @@ process.nextTick(() => {
 
 ### Node 与浏览器的 Event Loop 差异
 
----
+> 在浏览器和 Node 中 Event Loop 其实是不相同的
 
-**浏览器环境下，microtask 的任务队列是每个 macro-task 执行完之后执行。而在 Node.js 中，microtask 会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行 micro-task 队列的任务**。
+**浏览器环境下，micro-task 的任务队列是每个 macro-task 执行完之后执行。而在 Node.js 中，micro-task 会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行 micro-task 队列的任务**。
 ![](https://camo.githubusercontent.com/71b607cd363565c5d61299d31d9fd72b889de645/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343162616431636461373431663f773d3130353126683d33343426663d706e6726733d3932363835)
 
 接下我们通过一个例子来说明两者区别：
@@ -511,10 +507,10 @@ Node 端的处理过程如下：
 
 ### 总结
 
-浏览器和 Node 环境下，microtask 任务队列的执行时机不同
+浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
 
-- Node 端，microtask 在事件循环的各个阶段之间执行
-- 浏览器端，microtask 在事件循环的 macro-task 执行完之后执行
+- Node 端，micro-task 在事件循环的各个阶段之间执行
+- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
 
 ### 补充
 
@@ -534,7 +530,7 @@ setTimeout(function() {
 console.log('script end');
 ```
 
-> 不同的任务源会被分配到不同的 `Task` 队列中，任务源可以分为 微任务（`micro-task`） 和 宏任务（`macro-task`）。在 `ES6` 规范中，`micro-task` 称为 jobs，macrotask 称为 task
+> 不同的任务源会被分配到不同的 `Task` 队列中，任务源可以分为 微任务（`micro-task`） 和 宏任务（`macro-task`）。在 `ES6` 规范中，`micro-task` 称为 jobs，macro-task 称为 task
 
 ```js
 console.log('script start');
@@ -662,7 +658,7 @@ setImmediate(() => {
 // 否则会执行 setTimeout
 ```
 
-> 上面介绍的都是 macro-task 的执行情况，microtask 会在以上每个阶段完成后立即执行
+> 上面介绍的都是 macro-task 的执行情况，micro-task 会在以上每个阶段完成后立即执行
 
 ```js
 setTimeout(() => {
@@ -731,57 +727,9 @@ Node 的 Event Loop
 
 [浏览器与 Node 的事件循环(Event Loop)有何区别?](https://juejin.im/post/5c337ae06fb9a049bc4cd218#heading-12)
 
-#### setTimeout 和 promise 的区别？宏任务和微任务是什么？有什么区别？
-
-宏任务队列可以有多个，微任务队列只有一个。
-
-宏任务：script（全局任务）, setTimeout, setInterval, setImmediate, I/O, UI rendering.
-微任务：process.nextTick, Promise, Object.observer, MutationObserver.
-
-取一个宏任务来执行。执行完毕后，下一步。
-取一个微任务来执行，执行完毕后，再取一个微任务来执行。直到微任务队列为空，执行下一步。
-更新 UI 渲染。
-
-写出下面的执行结果：
-
-```js
-console.log('1');
-
-setTimeout(function() {
-  console.log('2');
-  new Promise(function(resolve) {
-    console.log('3');
-    resolve();
-  }).then(function() {
-    console.log('4');
-  });
-});
-
-new Promise(function(resolve) {
-  console.log('5');
-  resolve();
-}).then(function() {
-  console.log('6');
-});
-
-setTimeout(function() {
-  console.log('7');
-
-  new Promise(function(resolve) {
-    console.log('8');
-    resolve();
-  }).then(function() {
-    console.log('9');
-  });
-});
-```
-
-结果是：
-1 5 6 2 3 4 7 8 9
-
 #### 你说说 event loop 吧
 
-首先，js 是单线程的，主要的任务是处理用户的交互，而用户的交互无非就是响应 DOM 的增删改，使用事件队列的形式，一次事件循环只处理一个事件响应，使得脚本执行相对连续，所以有了事件队列，用来储存待执行的事件，那么事件队列的事件从哪里被 push 进来的呢。那就是另外一个线程叫事件触发线程做的事情了，他的作用主要是在定时触发器线程、异步 HTTP 请求线程满足特定条件下的回调函数 push 到事件队列中，等待 js 引擎空闲的时候去执行，当然 js 引擎执行过程中有优先级之分，首先 js 引擎在一次事件循环中，会先执行 js 线程的主任务，然后会去查找是否有微任务 microtask（promise），如果有那就优先执行微任务，如果没有，在去查找宏任务 macrotask（setTimeout、setInterval）进行执行。
+首先，js 是单线程的，主要的任务是处理用户的交互，而用户的交互无非就是响应 DOM 的增删改，使用事件队列的形式，一次事件循环只处理一个事件响应，使得脚本执行相对连续，所以有了事件队列，用来储存待执行的事件，那么事件队列的事件从哪里被 push 进来的呢。那就是另外一个线程叫事件触发线程做的事情了，他的作用主要是在定时触发器线程、异步 HTTP 请求线程满足特定条件下的回调函数 push 到事件队列中，等待 js 引擎空闲的时候去执行，当然 js 引擎执行过程中有优先级之分，首先 js 引擎在一次事件循环中，会先执行 js 线程的主任务，然后会去查找是否有微任务 micro-task（promise），如果有那就优先执行微任务，如果没有，在去查找宏任务 macro-task（setTimeout、setInterval）进行执行。
 
 #### 宏任务和微任务的打印顺序
 
@@ -1308,3 +1256,51 @@ function test2(num) {
   return str.replace(reg, ',');
 }
 ```
+
+#### setTimeout 和 promise 的区别？宏任务和微任务是什么？有什么区别？
+
+宏任务队列可以有多个，微任务队列只有一个。
+
+宏任务：script（全局任务）, setTimeout, setInterval, setImmediate, I/O, UI rendering.
+微任务：process.nextTick, Promise, Object.observer, MutationObserver.
+
+取一个宏任务来执行。执行完毕后，下一步。
+取一个微任务来执行，执行完毕后，再取一个微任务来执行。直到微任务队列为空，执行下一步。
+更新 UI 渲染。
+
+写出下面的执行结果：
+
+```js
+console.log('1');
+
+setTimeout(function() {
+  console.log('2');
+  new Promise(function(resolve) {
+    console.log('3');
+    resolve();
+  }).then(function() {
+    console.log('4');
+  });
+});
+
+new Promise(function(resolve) {
+  console.log('5');
+  resolve();
+}).then(function() {
+  console.log('6');
+});
+
+setTimeout(function() {
+  console.log('7');
+
+  new Promise(function(resolve) {
+    console.log('8');
+    resolve();
+  }).then(function() {
+    console.log('9');
+  });
+});
+```
+
+结果是：
+1 5 6 2 3 4 7 8 9

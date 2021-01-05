@@ -787,16 +787,16 @@ will be executed at the bottom of the next Event Loop
 
 原因：
 
-> JavaScript 将异步任务分为 MacroTask 和 MicroTask，
+> JavaScript 将异步任务分为 macro-task 和 micro-task，
 
-- MacroTask 包含 MacroTask Queue（宏任务队列）主要包括 setTimeout,setInterval, setImmediate, requestAnimationFrame, NodeJS 中的 I/O 等。
-- MicroTask 包含独立回调 microTask：如 Promise，其成功／失败回调函数相互独立；复合回调 microTask：如 Object.observe, MutationObserver 和 NodeJs 中的 process.nextTick ，不同状态回调在同一函数体；
+- macro-task 包含 macro-task Queue（宏任务队列）主要包括 setTimeout,setInterval, setImmediate, requestAnimationFrame, NodeJS 中的 I/O 等。
+- micro-task 包含独立回调 micro-task：如 Promise，其成功／失败回调函数相互独立；复合回调 micro-task：如 Object.observe, MutationObserver 和 NodeJs 中的 process.nextTick ，不同状态回调在同一函数体；
 
 - js 执行顺序
 - 依次执行同步代码直至执行完毕；
-- 检查 MacroTask 队列，若有触发的异步任务，则取第一个并调用其事件处理函数，然后跳至第三步，若没有需处理的异步任务，则直接跳至第三步；
-- 检查 MicroTask 队列，然后执行所有已触发的异步任务，依次执行事件处理函数，直至执行完毕，然后跳至第二步，若没有需处理的异步任务中，则直接返回第二步，依次>执行后续步骤；
-- 最后返回第二步，继续检查 MacroTask 队列，依次执行后续步骤；
+- 检查 macro-task 队列，若有触发的异步任务，则取第一个并调用其事件处理函数，然后跳至第三步，若没有需处理的异步任务，则直接跳至第三步；
+- 检查 micro-task 队列，然后执行所有已触发的异步任务，依次执行事件处理函数，直至执行完毕，然后跳至第二步，若没有需处理的异步任务中，则直接返回第二步，依次>执行后续步骤；
+- 最后返回第二步，继续检查 macro-task 队列，依次执行后续步骤；
 - 如此往复，若所有异步任务处理完成，则结束；
 
 promise 与 asyns/await 的不同：

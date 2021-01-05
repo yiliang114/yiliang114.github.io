@@ -55,7 +55,7 @@ export function nextTick(cb?: Function, ctx?: Object) {
   });
   if (!pending) {
     pending = true;
-    if (useMacroTask) {
+    if (usemacro - task) {
       macroTimerFunc();
     } else {
       microTimerFunc();

@@ -82,3 +82,29 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 ### UI 选择
 
 个人博客类型： http://www.17sucai.com/pins/30191.html
+
+## 移动端组件库
+
+### TODO
+
+1. 按需加载
+2. 组件库的拆包
+3. 可视化的 example （内嵌一个移动端手机页面）
+4. site 站点
+5. icon svg 大小的处理
+6. 正常尺寸、min 文件不同版本的的 cdn 版本、npm 版本 build
+7. code 与 demo 的展示结合， 一键拷贝代码
+8. issues 模板
+9. eslint commitlint 规范
+10. common utils 等之类的代码复用
+11. ts
+12. 分预览版和正式版，dev 分支 push 触发预览版的发布，提供一个组件库页面； 正式版类似
+13. 组件库 t1-cli 用于校验一些信息之类的。
+
+### 要点
+
+1. 内嵌一个 h5，开发环境下，组件的编辑实时可见。
+2. css 文件单独提取出来。
+3. 文档自动编译生成。
+
+### 组件库按需加载原理
