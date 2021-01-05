@@ -457,7 +457,7 @@ process.stdin.pipe(new MyWritable()); // stdin作为输入源，MyWritable作为
 
 - 4. fs.watch 和 fs.watchFile 有什么区别，怎么应用?
 
-参考答案: 二者主要用来监听文件变动．fs.watch 利用操作系统原生机制来监听，可能不适用网络文件系统; fs.watchFile 则是定期检查文件状态变更，适用于网络文件系统，但是相比 fs.watch 有些慢，因为不是实时机制．
+参考答案: 二者主要用来监听文件变动．fs.watch 利用操作系统原生机制来监听，可能不使用网络文件系统; fs.watchFile 则是定期检查文件状态变更，适用于网络文件系统，但是相比 fs.watch 有些慢，因为不是实时机制．
 
 ### 网络
 

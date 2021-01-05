@@ -1,9 +1,7 @@
 ---
-layout: CustomPages
-title: JQuery
-date: 2020-11-21
+title: jquery 源码
+date: 2018-11-21
 aside: false
-draft: true
 ---
 
 # jquery 源码
@@ -15,7 +13,7 @@ draft: true
 1. jq 的闭包结构是 function 参数是 window 和 undefined，传入的参数是 window，避免污染全局变量。这样的写法代码压缩的时候参数会成为 w 和 u
 2. jq 的无 new 构造，可以直接用\$进行构造，这很便捷，但是实质上还是 new jq()
 
-```
+```js
 var jquery = function(selector,context){
     return new Jquery.fn.init(selector,context,rootjQuery)
 }

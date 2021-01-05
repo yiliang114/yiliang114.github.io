@@ -1,9 +1,7 @@
 ---
-layout: CustomPages
 title: electron
-date: 2020-11-21
+date: 2018-11-21
 aside: false
-draft: true
 ---
 
 # electron

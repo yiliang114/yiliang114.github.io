@@ -1,9 +1,7 @@
 ---
-layout: CustomPages
-title: electron
-date: 2020-11-21
+title: react + electron
+date: 2018-11-21
 aside: false
-draft: true
 ---
 
 # 使用 create-react-app 创建 Electron 桌面应用

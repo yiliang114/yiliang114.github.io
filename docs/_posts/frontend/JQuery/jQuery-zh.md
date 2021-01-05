@@ -1,9 +1,7 @@
 ---
-layout: CustomPages
-title: JQuery
-date: 2020-11-21
+title: JQuery 源码分析
+date: 2018-11-21
 aside: false
-draft: true
 ---
 
 ### 你觉得 jQuery 或 zepto 源码有哪些写的好的地方

@@ -227,3 +227,25 @@ someAsyncThing()
 - nextTick, setTimeout 以及 setImmediate 三者有什么区别?
 - 如何实现一个 sleep 函数?
 - 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)
+
+### 用 promise 和 setTimeout 实现一个 delay 函数
+
+```js
+function delay(delayTime) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(resolve, delayTime);
+  });
+}
+delay(1000).then(function() {
+  console.log('0：执行成功！');
+});
+
+delay(2000)
+  .then(function() {
+    console.log('1：执行成功！');
+    return delay(1000);
+  })
+  .then(function() {
+    console.log('2：执行失败！');
+  });
+```

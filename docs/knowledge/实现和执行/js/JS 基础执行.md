@@ -266,7 +266,7 @@ set.has(1);
 ```
 
 所有对象键（不包括 Symbols）都会被存储为字符串，即使你没有给定字符串类型的键。 这就是为什么 obj.hasOwnProperty（'1'）也返回 true。
-上面的说法不适用于 Set。 在我们的 Set 中没有“1”：set.has（'1'）返回 false。 它有数字类型 1，set.has（1）返回 true。
+上面的说法不使用于 Set。 在我们的 Set 中没有“1”：set.has（'1'）返回 false。 它有数字类型 1，set.has（1）返回 true。
 
 25. 下面代码的输出是什么?
 

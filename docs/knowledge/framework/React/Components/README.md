@@ -339,7 +339,7 @@ return (nextState.person !== this.state.person);
 
 **什么时候不该用？**
 
-PureComponent 中的判断逻辑是浅比较，如果当状态更新时是一个引用对象内部的更新，那么这个时候是不适用的
+PureComponent 中的判断逻辑是浅比较，如果当状态更新时是一个引用对象内部的更新，那么这个时候是不使用的
 
 #### 组件的异步数据加载
 
