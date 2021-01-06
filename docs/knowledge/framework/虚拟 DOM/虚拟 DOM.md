@@ -218,7 +218,7 @@ Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示”
 
 ### 什么是 Virtual DOM?
 
-_Virtual DOM_ (VDOM) 是 _Real DOM_ 的内存表示形式。UI 的展示形式被保存在内存中并与真实的 DOM 同步。这是在调用的渲染函数和在屏幕上显示元素之间发生的一个步骤。整个过程被称为 _reconciliation_。
+`Virtual DOM` (VDOM) 是 _Real DOM_ 的内存表示形式。UI 的展示形式被保存在内存中并与真实的 DOM 同步。这是在调用的渲染函数和在屏幕上显示元素之间发生的一个步骤。整个过程被称为 _reconciliation_。
 
 Real DOM vs Virtual DOM
 
@@ -232,7 +232,7 @@ Real DOM vs Virtual DOM
 
 ### Virtual DOM 如何工作?
 
-_Virtual DOM_ 分为三个简单的步骤。
+`Virtual DOM` 分为三个简单的步骤。
 
 每当任何底层数据发生更改时，整个 UI 都将以 Virtual DOM 的形式重新渲染。
 ![vdom](images/vdom1.png)
@@ -245,7 +245,7 @@ _Virtual DOM_ 分为三个简单的步骤。
 
 ### Shadow DOM 和 Virtual DOM 之间有什么区别?
 
-[Shadow DOM](https://developers.google.com/web/fundamentals/web-components/shadowdom?hl=zh-cn) 是一种浏览器技术，它解决了构建网络应用的脆弱性问题。Shadow DOM 修复了 CSS 和 DOM。它在网络平台中引入作用域样式。 无需工具或命名约定，你即可使用原生 JavaScript 捆绑 CSS 和标记、隐藏实现详情以及编写独立的组件。_Virtual DOM_ 是一个由 JavaScript 库在浏览器 API 之上实现的概念。
+[Shadow DOM](https://developers.google.com/web/fundamentals/web-components/shadowdom?hl=zh-cn) 是一种浏览器技术，它解决了构建网络应用的脆弱性问题。Shadow DOM 修复了 CSS 和 DOM。它在网络平台中引入作用域样式。 无需工具或命名约定，你即可使用原生 JavaScript 捆绑 CSS 和标记、隐藏实现详情以及编写独立的组件。`Virtual DOM` 是一个由 JavaScript 库在浏览器 API 之上实现的概念。
 
 ### 为什么使用 Virtual DOM，直接操作 DOM 的弊端是什么？
 
@@ -705,3 +705,25 @@ function changeDom(node, changes, noChild) {
   - patch(DOM_obj, vnode);
 - 用一个新的 vnode 来和旧的 vnode 进行比较，得出新旧 dom 的差异
 - patch(vnode, newVnode)
+
+### 虚拟 dom 的三个步骤
+
+- createElement(): 用 js 对象（虚拟树）描述真实的 dom 对象（真实树）
+- diff(oldnode,newNode) 对比新旧两个树的区别
+- patch(): 将差异应用到真实树上
+
+### 数据更新的 diff 机制
+
+视图更新效率主要在大列表和深层数据更新这两方面。大多数研究都是对于大列表数据的更新，代码在 directive/repeat.js 中。首先，diff(data,oldvalue)，先比较新旧两个列表的 view model 的数据状态，然后差量更新 dom。第一步，遍历一遍新列表里的每一项，如果该项的 vm 之前就存在，则打一个\_rensed 的标，如果不存在对应的 vm 就创建一个新的。第二部：遍历一遍就得列表的每一项，如果\_rensed 的标没有被打上（其实就是指\_rensed=false）则说明新列表中已经没有它了，就销毁这个 vm。`this.uncacheVm(vm),vm.$destory()`。第三步：整理新的 vm 在试图上的顺序，同时还原之前打上的\_rensed 标，全部赋值为 false。就渲染完成了。
+
+### Real DOM 和 Virtual DOM 有什么区别?
+
+以下是 Real DOM 和 Virtual DOM 之间的主要区别：
+
+| Real DOM                          | Virtual DOM                   |
+| --------------------------------- | ----------------------------- |
+| 更新速度慢                        | 更新速度快                    |
+| DOM 操作非常昂贵                  | DOM 操作非常简单              |
+| 可以直接更新 HTML                 | 你不能直接更新 HTML           |
+| 造成太多内存浪费                  | 更少的内存消耗                |
+| 如果元素更新了，创建新的 DOM 节点 | 如果元素更新，则更新 JSX 元素 |

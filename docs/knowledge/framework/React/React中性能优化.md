@@ -121,3 +121,45 @@ class App extends React.Component {
   }
 }
 ```
+
+### react 最佳实践
+
+- 不考虑使用状态管理工具的话，可以在 componentDidMount 或者 componentDidUpdate 中去执行 ajax 获取数据，但是这样代码臃肿，结构混乱，性能降低，最好是将异步的请求数据交给 redux，ajax 操作都放到 action 中是最好的。
+- 生命周期中逻辑太多不好，想办法放一部分到 render 函数中，不过需要注意的是，render 函数中逻辑过多也会增加 re-render 时的计算时间。
+- this.state = {} 不要有计算，比如 obj.name + “sss”之类的。
+- 少用 state，多用 props，多用无状态组件（没有生命周期函数，没有 state？）
+- 每一个 react 组件记得都需要 PropTypes 来规范，无状态组件的 PropTypes 规范也是需要的。
+- 能用三元判断符，就不用 If ，直接放在 render()里
+- 合理运用 context
+- 使用 immutable data，是一种在创建之后就不可修改的对象。不可变对象可以让我们免于痛楚，并通过引用级别的比对检查来，改善渲染性能。 比如说在 shouldComponentUpdate.
+- 代码分割，惰性加载
+- 使用高阶组件 代理 mixins， 高阶组件 本质上来说，你可以由原始组件创造一个新的组件并且扩展它的行为。你可以在多种情况下使用它，比如授权：requireAuth({ role: 'admin' })(MyComponent)
+- 使用 pureRender 优化可以减少重复加载的浪费，考虑好 shouldComponentUpdate 的设计。
+- **保持数据扁平化：**API 经常会返回嵌套资源。这在 Flux 或基于 Redux 的架构中处理起来会非常困难。我们推荐使用 normalizr 之类的库将数据进行扁平化处理。
+- 测试，redux 测试
+- 组件级别的热加载。关于如何搭建热重载，可以参考 react-transform-boilerplate
+- 代码规范，eslint
+- 1. 能做成组件就尽量做成组件，细分化，do one thing and do it well；还能复用‘
+  2. 基于第一点，只传入必要的 props, 再使用 immutablejs 或者 react.addons.update 来实现不可变数据结构，再结合 React.addons.PureRenderMixin 来减少 reRender
+  3. 在 shouldComponentUpdate 中优化组件减少 reRender
+  4. context 虽然没有官方文档，但还是很好用的。(不会的同学可以自己 google react context)
+  5. 能不做 dom 操作就尽量不要，始终让 UI 能够基于 State 还原，尽量在 render()中把该做的做好
+  6. propTypes, defaultProps 不要懒的去写，别人通过你的 propTypes 很容易理解组件，也容易 debug
+  7. 在 store 和 action 中不要有 dom 操作或者访问 window.属性，让 store 和 action 中的逻辑只与数据打交道，好处：测试，服务器端渲染
+  8. 推荐使用 ES6，arrow function"=>"和 destructuring {...this.props} var {a,b}=this.props 很好用
+  9. npm 的 debug 包前后端公用很方便，开发的时候把组件渲染的每个步骤和动作都 log 下来，很容易在开发的时候就发现问题
+  10. 使用 es6 时，事件 handler 尽量不要用这样偷懒的写法 onClick={e=>(this.doSomething("val"))},如果传递这个 function 给子组件，子组件就没法用 PureRenderMixin 来减少重复渲染了，因为这是个匿名函数
+- **DOM 操作是不可避免的**
+  但凡是上点儿规模的前端项目，没有 DOM 操作基本是不可能的。且不说最常见的后端「埋点」，你总得用 DOM API 去取值吧；就说一个最简单的，比如右手边这个「回到顶部」的按钮，你纯用 React 写一个试试。当然你会说什么 requestAnimationFrame，什么 ReactCSSTransitionGroup blah blah blah，真正到项目里你会发现还是 DOM API 简单。
+
+### 部分源码
+
+#### 组件编译
+
+ReactDOM.render 渲染一个 App 标签到一个 id 节点上去。 JSX 的语法会被 babel 编译成 js, jsx 会有一个 h 函数，是用于将 App 标签编译成渲染 js 节点的，这就是为什么要 import React 的原理，因为在编译之后需要调用 React.createElement 这个函数 ？
+
+### react 性能优化
+
+在使用 react 的过程中，我们绕不开渲染性能优化问题，因为默认情况下 react 组件的 shouldComponentUpdate 函数会一直返回 true，这回导致所有的组件都会进行耗时的虚拟 DOM 比较。在使用 redux 作为 react 的逻辑层框架时，我们可以使用经典的 PureComponent+ShallowCompare 的方式进行渲染性能优化。
+
+那么在使用 mobx 作为 react 的 store 时，我们该如何进行渲染性能优化呢？

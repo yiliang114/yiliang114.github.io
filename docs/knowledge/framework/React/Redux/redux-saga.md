@@ -4,11 +4,7 @@ date: '2020-10-26'
 draft: true
 ---
 
-# redux-saga
-
-https://www.jianshu.com/p/e84493c7af35
-
-## 介绍
+## redux-saga 介绍
 
 redux-saga 是 redux 的中间件，中间件的作用是为 redux 提供额外的功能。
 

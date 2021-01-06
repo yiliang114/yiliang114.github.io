@@ -20,7 +20,7 @@ setState 它是一个异步函数，他会合并多次修改，降低 diff 算�
 
 因为 this.props 和 this.state 的**更新是异步的**，**不能依赖它们的值**去计算下一个 state。
 
-# setState
+### setState
 
 `setState` 在 React 中是经常使用的一个 API，但是它存在一些问题，可能会导致犯错，核心原因就是因为这个 API 是异步的。
 
@@ -69,7 +69,7 @@ this.setState((prevState) => ({ count: prevState.count + 1 }), () => {
 
 因为 `this.props` 和 `this.state` 的更新可能是异步的，不能依赖它们的值去计算下一个 state。
 
-## setState
+### setState
 
 `setState` 在 React 中是经常使用的一个 API，但是它存在一些的问题经常会导致初学者出错，核心原因就是因为这个 API 是异步的。
 
@@ -156,7 +156,7 @@ this.setState((prevState, props) => ({
 
 setState 的第二个参数是一个回调函数，组件更新完后执行的回调函数（setState 函数是异步的）
 
-## 传入 setState 函数的第二个参数的作用是什么？
+### 传入 setState 函数的第二个参数的作用是什么？
 
 > 该函数会在 setState 函数调用完成并且组件开始重渲染的时候被调用，我们可以用该函数来监听渲染是否完成：
 
@@ -346,13 +346,13 @@ class Example extends React.Component {
 
 3. setTimeout 中的代码，触发时 isBatchingUpdates 为 false，所以能够直接进行更新，所以连着输出 2，3。
 
-### 18.React 中 setState 什么时候是同步的，什么时候是异步的？
+### React 中 setState 什么时候是同步的，什么时候是异步的？
 
 在 React 中，如果是由 React 引发的事件处理（比如通过 onClick 引发的事件处理），调用 setState 不会同步更新 this.state，除此之外的 setState 调用会同步执行 this.state。所谓“除此之外”，指的是绕过 React 通过 addEventListener 直接添加的事件处理函数，还有通过 setTimeout/setInterval 产生的异步调用。
 
 **原因：**在 React 的 setState 函数实现中，会根据一个变量 isBatchingUpdates 判断是直接更新 this.state 还是放到队列中回头再说，而 isBatchingUpdates 默认是 false，也就表示 setState 会同步更新 this.state，但是，有一个函数 batchedUpdates，这个函数会把 isBatchingUpdates 修改为 true，而当 React 在调用事件处理函数之前就会调用这个 batchedUpdates，造成的后果，就是由 React 控制的事件处理过程 setState 不会同步更新 this.state。
 
-### 19.React setState 笔试题，下面的代码输出什么？
+### React setState 笔试题，下面的代码输出什么？
 
 ```js
 class Example extends React.Component {
@@ -392,3 +392,130 @@ class Example extends React.Component {
 3. setTimeout 中的代码，触发时 isBatchingUpdates 为 false，所以能够直接进行更新，所以连着输出 2，3。
 
 输出： 0 0 2 3
+
+### React 中 setState 什么时候是同步的，什么时候是异步的？
+
+在 React 中，如果是由 React 引发的事件处理（比如通过 onClick 引发的事件处理），调用 setState 不会同步更新 this.state，除此之外的 setState 调用会同步执行 this.state。所谓“除此之外”，指的是绕过 React 通过 addEventListener 直接添加的事件处理函数，还有通过 setTimeout/setInterval 产生的异步调用。
+
+**原因：**在 React 的 setState 函数实现中，会根据一个变量 isBatchingUpdates 判断是直接更新 this.state 还是放到队列中回头再说，而 isBatchingUpdates 默认是 false，也就表示 setState 会同步更新 this.state，但是，有一个函数 batchedUpdates，这个函数会把 isBatchingUpdates 修改为 true，而当 React 在调用事件处理函数之前就会调用这个 batchedUpdates，造成的后果，就是由 React 控制的事件处理过程 setState 不会同步更新 this.state。
+
+### React setState 笔试题，下面的代码输出什么？
+
+```js
+class Example extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      val: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ val: this.state.val + 1 });
+    console.log(this.state.val); // 第 1 次 log
+
+    this.setState({ val: this.state.val + 1 });
+    console.log(this.state.val); // 第 2 次 log
+
+    setTimeout(() => {
+      this.setState({ val: this.state.val + 1 });
+      console.log(this.state.val); // 第 3 次 log
+
+      this.setState({ val: this.state.val + 1 });
+      console.log(this.state.val); // 第 4 次 log
+    }, 0);
+  }
+
+  render() {
+    return null;
+  }
+}
+```
+
+1. 第一次和第二次都是在 react 自身生命周期内，触发时 isBatchingUpdates 为 true，所以并不会直接执行更新 state，而是加入了 dirtyComponents，所以打印时获取的都是更新前的状态 0。
+
+2. 两次 setState 时，获取到 this.state.val 都是 0，所以执行时都是将 0 设置成 1，在 react 内部会被合并掉，只执行一次。设置完成后 state.val 值为 1。
+
+3. setTimeout 中的代码，触发时 isBatchingUpdates 为 false，所以能够直接进行更新，所以连着输出 2，3。
+
+输出： 0 0 2 3
+
+### setState 是异步还是同步的
+
+不要着急回答是异步的，再上问的基础上 setState 也可以是同步的。
+setState 只在合成事件和钩子函数中是“异步”的，在原生事件和 setTimeout 中都是同步的。
+
+### 异步更新
+
+考虑到性能问题，setState 使用一个**队列机制**来更新 state。
+当执行 setState 时，会将需要更新的 state**浅合并**后放入状态队列，不会立即更新 state。而如果不使用 setState，而直接修改 state 的值就不会放入状态队列，下一次调用 setState 对状态队列进行更新的时候可能会造成不可预知的错误。
+
+例子：
+
+```js
+// 假设 state.count === 0
+this.setState({ count: state.count + 1 });
+this.setState({ count: state.count + 1 });
+this.setState({ count: state.count + 1 });
+// state.count === 1, 而不是 3
+```
+
+本质上等同于：
+
+```js
+// 假设 state.count === 0
+Object.assign(state, { count: state.count + 1 }, { count: state.count + 1 }, { count: state.count + 1 });
+// {count: 1}
+```
+
+**解决方法**为： **传递一个签名为 (state, props) => newState 的函数作为参数。** 向 setState 中传入函数时，这个函数不会被浅合并，一定会执行，是一个原子性更新操作。
+
+```js
+// 正确用法
+this.setState((prevState, props) => ({
+  count: prevState.count + props.increment,
+}));
+```
+
+### setState 循环调用风险
+
+但，如果在`shouldComponentUpdate`或`componentWillUpdate` 方法里调用 this.setState 方法，就会造成崩溃。
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/setStateCercle.png)
+
+### 何时同步？何时异步？
+
+如果是由 React 引发的事件处理（比如通过 onClick 引发的事件处理），调用 setState 不会同步更新 this.state，除此之外的 setState 调用会同步执行 this.state。
+所谓“除此之外”，指的是绕过 React 通过 addEventListener 直接添加的事件处理函数，还有通过 setTimeout/setInterval 产生的异步调用。而这一切都是因为一个非常核心的概念--事务
+
+```js
+class Example extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+ val: 0
+    };
+  }
+
+  componentDidMount() {
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 1 次 log
+
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 2 次 log
+
+    setTimeout(() => {
+ this.setState({val: this.state.val + 1});
+ console.log(this.state.val);  // 第 3 次 log
+
+ this.setState({val: this.state.val + 1});
+ console.log(this.state.val);  // 第 4 次 log
+    }, 0);
+  }
+
+  render() {
+    return null;
+  }
+};
+
+答案是 0 0 2 3
+```

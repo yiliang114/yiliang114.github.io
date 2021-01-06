@@ -307,7 +307,7 @@ beforeCreate () {
 接下来看下路由初始化会做些什么
 
 ```js
-init(app: any /* Vue component instance */) {
+init(app /* Vue component instance */) {
     // 保存组件实例
     this.apps.push(app)
     // 如果根组件已经有了就返回
@@ -450,7 +450,7 @@ export function createRoute(
 ): Route {
   const stringifyQuery = router && router.options.stringifyQuery;
   // 克隆参数
-  let query: any = location.query || {};
+  let query = location.query || {};
   try {
     query = clone(query);
   } catch (e) {}
@@ -568,7 +568,7 @@ confirmTransition(route: Route, onComplete: Function, onAbort?: Function) {
     }
     try {
     // 执行钩子
-      hook(route, current, (to: any) => {
+      hook(route, current, (to) => {
         // 只有执行了钩子函数中的 next，才会继续执行下一个钩子函数
         // 否则会暂停跳转
         // 以下逻辑是在判断 next() 中的传参
@@ -857,7 +857,7 @@ function bindEnterGuard(
 // 当 router-view 外面包裹了 mode 为 out-in 的 transition 组件
 // 会在组件初次导航到时获得不到组件实例对象
 function poll(
-  cb: any, // somehow flow cannot infer this is a function
+  cb, // somehow flow cannot infer this is a function
   instances: Object,
   key: string,
   isValid: () => boolean,

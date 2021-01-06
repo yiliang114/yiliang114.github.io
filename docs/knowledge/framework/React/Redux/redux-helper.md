@@ -63,7 +63,7 @@ Fetch 的状态主要是对于 拉取接口的时候，将拉取的状态存储�
 
 但是如果只是简单处理 redux 的状态，减少使用 redux 过程中的重复代码，其实只需要一个 Fetch 就够了，另外的异步处理中间件，开发者自行添加 redux-saga 也好，redux-thunk 也好，这个跟 helpers 没有关系。
 
-### Redux-promsie 的另一种探索思路
+### Redux-promise 的另一种探索思路
 
 在 react 组件中 dispatch 一个 action， 合理的异步思路是（假设支持 async 和 await）,等待某一个 action 触发的事件结束，之后，再执行下一个操作。这里的异步不仅仅指的是访问接口的操作，简单的 redux 赋值操作也是异步的。很多时候，我需要赋值给 redux 结束之后，再从 redux 中取值（赋值之前判断，再执行之后的异步操作，也是合理的。）
 

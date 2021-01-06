@@ -445,7 +445,7 @@ redux 的缺点也是足够明显的。每一次 dispatch 事件之后都会导�
 - 一个组件所需要的数据，必须由父组件传过来，而不能像 flux 中直接从 store 取。
 - 当一个组件相关数据更新时，即使父组件不需要用到这个组件，父组件还是会重新 render，可能会有效率影响，或者需要写复杂的`shouldComponentUpdate`进行判断。
 
-## reducer
+### reducer
 
 redux 的另一个缺点是：reducer 要求每次返回一个新的对象引用。当需要修改的数据层级较深，reducer 写起来很难保证优雅。所以一般 redux 项目都会刻意的保持 store 的平坦化，没有深层级的数据，用`Object.assign`几步搞定。如果 store 不可避免的太大了，怎么办呢？很多工程开始使用`Immutable.js`，以上的代码可以改写为：
 
