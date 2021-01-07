@@ -8,32 +8,7 @@ draft: true
 
 ### AJAX
 
-`AJAX(Asynchronous Javascript And XML)`= 异步 `JavaScript` + `XML` 。在后台与服务器进行异步数据交换，不用重载整个网页，实现局部刷新。
-
-Ajax 是什么：
-
-1. 通过异步模式，提升了用户体验
-2. 优化了浏览器和服务器之间的传输，减少不必要的数据往返，减少了带宽占用
-3. Ajax 在客户端运行，承担了一部分本来由服务器承担的工作，减少了大用户量下的服务器负载。
-
-Ajax 的最大的特点：
-
-1. Ajax 可以实现动态不刷新（局部刷新）
-2. readyState 属性 状态 有 5 个可取值： 0 = 未初始化，1 = 启动， 2 = 发送，3 = 接收，4 = 完成
-
-Ajax 同步和异步的区别:
-
-1. 同步：提交请求 -> 等待服务器处理 -> 处理完毕返回，这个期间客户端浏览器不能干任何事
-2. 异步：请求通过事件触发 -> 服务器处理（这是浏览器仍然可以作其他事情）-> 处理完毕
-   ajax.open 方法中，第 3 个参数是设同步或者异步。
-
-Ajax 的缺点：
-
-1. Ajax 不支持浏览器 back 按钮
-2. 安全问题 Ajax 暴露了与服务器交互的细节
-3. 对搜索引擎的支持比较弱
-4. 破坏了程序的异常机制
-5. 不容易调试
+`AJAX(Asynchronous Javascript And XML)`= 异步 `JavaScript` + `XML` 。
 
 创建一个 ajax 请求的步骤：
 
@@ -44,62 +19,23 @@ Ajax 的缺点：
 - 获取异步调用返回的数据
 
 ```js
-function ajax(url, handler) {
-  var xhr;
-  xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      handler(xhr.responseXML);
-    }
-  };
-  xhr.open('GET', url, true);
-  xhr.send();
-}
-```
-
-- 创建 XMLHttpRequest 对象
-
-```js
-if (window.XMLHttpRequest) {
-  // Mozilla, Safari, IE7+ ...
-  httpRequest = new XMLHttpRequest();
-} else if (window.ActiveXObject) {
-  // IE 6 and older
-  httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
-}
-```
-
-- 绑定 onreadystatechange 事件
-
-```js
-httpRequest.onreadystatechange = function() {
-  // Process the server response here.
-};
-```
-
-- 向服务器发送请求
-
-```js
-httpRequest.open('GET', 'http://www.example.org/some.file', true);
-httpRequest.send();
-```
-
-完整的例子
-
-```js
 function ajax(url, cb) {
   let xhr;
+  // 创建 XMLHttpRequest 对象
   if (window.XMLHttpRequest) {
+    // `XMLHttpRequest`只有在高级浏览器中才支持
     xhr = new XMLHttpRequest();
   } else {
     xhr = ActiveXObject('Microsoft.XMLHTTP');
   }
+  // 绑定 onreadystatechange 事件
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
+      //  获取异步调用返回的数据
       cb(xhr.responseText);
     }
   };
+  // 向服务器发送请求
   xhr.open('GET', url, true);
   xhr.send();
 }
@@ -132,25 +68,6 @@ xhr.withCredentials = true;
 xhr.send(null);
 ```
 
-#### 创建 Ajax 的过程
-
-1. 创建`XMLHttpRequest`对象,也就是创建一个异步调用对象.
-2. 创建一个新的`HTTP`请求,并指定该`HTTP`请求的方法、`URL`及验证信息.
-3. 设置响应`HTTP`请求状态变化的函数.
-4. 发送`HTTP`请求.
-5. 获取异步调用返回的数据.
-6. 使用 JavaScript 和 DOM 实现局部刷新.
-
-```js
-var xmlHttp = new XMLHttpRequest();
-xmlHttp.onreadystatechange = function() {
-  if ((xmlHttp.readyState === 4) & (xmlHttp.status === 200)) {
-  }
-};
-xmlHttp.open('GET', 'demo.php', 'true');
-xmlHttp.send();
-```
-
 ### httpRequest.readyState 的值
 
 - 0 (未初始化) or (请求还未初始化)
@@ -161,13 +78,6 @@ xmlHttp.send();
 
 ajax 的 readyState 共有 5 个状态，分别是 0-4，其中每个数字的含义分别是 0 代表还没调用 open 方法，1 代表的是未调用 send 方法，也就是还没发送数据给服务器
 2 代表的是还没有接收到响应，3 代表的是开始接收到了部分数据，4 代表的是接收完成，数据可以在客户端使用了。
-
-### 访问服务端返回的数据
-
-- httpRequest.responseText
-  - 服务器以文本字符的形式返回
-- httpRequest.responseXML
-  - 以 XMLDocument 对象方式返回，之后就可以使用 JavaScript 来处理
 
 ### Ajax 和 Fetch 区别
 
