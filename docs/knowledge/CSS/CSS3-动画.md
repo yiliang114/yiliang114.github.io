@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# CSS 动画
+### CSS 动画
 
 - 位置 - 平移
 - 方向 - 旋转
@@ -389,3 +389,54 @@ animation-iteration-count
 
 animation-direction
 规定是否应该轮流反向播放动画。
+
+
+
+### linear-gradient
+
+做活动页面的时候我们经常会遇到这样的需求：
+
+顶部的中间一张大 banner 图片，然后整个区域的背景色要根据图片背景色渐变。就可以使用这个属性了。
+
+```
+div {
+    width: 200px;
+    height: 50px;
+    background: linear-gradient(to right, red, yellow, black, green);
+}
+```
+
+是不是很有趣？其实，`linear-gradient`还有更多有趣的功能，你可以根据下面的动图去感受一下：
+
+你以为这就完了？等等，还有更强大的呢！`repeating-linear-gradient`，来感受一下：
+
+`linear-gradient`还有更加强大的功能，比如它可以给元素添加多个渐变，从而达到更 NB 的效果。
+
+### radial-gradient
+
+上面的`linear-gradient`是线性渐变，这个属性是径向渐变。下面的代码实现了一个 chrome 的 logo。
+
+```css
+div.chrome {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    box-shadow: 0 0 4px #999, 0 0 2px #ddd inset;
+    background: radial-gradient(circle, #4FACF5 0, #2196F3 28%, transparent 28%),
+                radial-gradient(circle, #fff 33%, transparent 33%),
+                linear-gradient(-50deg, #FFEB3B 34%, transparent 34%),
+                linear-gradient(60deg, #4CAF50 33%, transparent 33%),
+                linear-gradient(180deg, #FF756B 0, #F44336 30%, transparent 30%),
+                linear-gradient(-120deg, #FFEB3B 40%, transparent 40%),
+                linear-gradient(-60deg, #FFEB3B 30%, transparent 30%),
+                linear-gradient(0deg, #4CAF50 45%, transparent 45%),
+                linear-gradient(60deg, #4CAF50 30%, transparent 30%),
+                linear-gradient(120deg, #F44336 50%, transparent 50%),
+                linear-gradient(180deg, #F44336 30%, transparent 30%);
+}
+```
+
+实现原理就是使用了多个渐变色放在 div 上，友协被遮住，视觉上就产生了想要的效果，是不是很强大！看了下图你就知道其实就是在 div 上加了很多个渐变。
+
+![img](https://lc-api-gold-cdn.xitu.io/3ce54ea0817bf4ff8084.gif?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+

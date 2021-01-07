@@ -591,7 +591,7 @@ const person = observable({ age: 25, name: "Yajun" });
 const print = () => console.log(`${person.name} is ${person.age} years old`);
 observe(print);
 person.name = "Joway";
-复制代码
+
 ```
 
 ### Class
@@ -718,7 +718,7 @@ class Person {
         console.log(`${this[name]} is ${this.age} years old`);
     }
 }
-复制代码
+
 ```
 
 > 继承混合类
@@ -747,7 +747,7 @@ function MixClass(...mixins) {
     return Mix;
 }
 class Student extends MixClass(Person, Kid) {}
-复制代码
+
 ```
 
 ### Module
@@ -962,15 +962,15 @@ const NAME = "Bruce";
 const AGE = 25;
 const SEX = "male";
 export { AGE, NAME, SEX };
-复制代码
+
 // file1.js
 import { AGE } from "person";
 console.log(AGE);
-复制代码
+
 // file2.js
 import { AGE, NAME, SEX } from "person";
 console.log(AGE, NAME, SEX);
-复制代码
+
 ```
 
 > 默认导入互换整体导入
@@ -978,10 +978,10 @@ console.log(AGE, NAME, SEX);
 ```
 import Person from "person";
 console.log(Person.AGE);
-复制代码
+
 import * as Person from "person";
 console.log(Person.default.AGE);
-复制代码
+
 ```
 
 ### Iterator
@@ -1249,7 +1249,7 @@ const print = Wrapper(function*() {
     return "done";
 });
 print().next("hello");
-复制代码
+
 ```
 
 ## ES2016

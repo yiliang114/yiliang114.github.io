@@ -32,7 +32,7 @@ let name = 'ConardLi';
 }
 ```
 
-复制代码 let 变量如果不存在变量提升，console.log(name)就会输出 ConardLi，结果却抛出了 ReferenceError，那么这很好的说明了，let 也存在变量提升，但是它存在一个“暂时死区”，在变量未初始化或赋值前不允许访问。
+ let 变量如果不存在变量提升，console.log(name)就会输出 ConardLi，结果却抛出了 ReferenceError，那么这很好的说明了，let 也存在变量提升，但是它存在一个“暂时死区”，在变量未初始化或赋值前不允许访问。
 变量的赋值可以分为三个阶段：
 
 1. 创建变量，在内存中开辟空间
