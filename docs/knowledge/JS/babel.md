@@ -4,19 +4,9 @@ date: '2020-10-26'
 draft: true
 ---
 
-[babel](https://www.vanadis.cn/2017/03/18/babel-stage-x/)
+## babel
 
-https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#visitors%E8%AE%BF%E9%97%AE%E8%80%85
-
-https://juejin.im/post/5c03b85ae51d450c740de19c
-
-## babel 介绍
-
-babel 是一个解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。这意味着你可以直接写 ES6 ES7 之类的代码，而不用担心现有的环境支不支持。
-
-- Babel 是一个 JS 编译器，自带一组 ES6 语法转化器，用于转化 JS 代码。
-  这些转化器让开发者提前使用最新的 JS 语法(ES6/ES7)，而不用等浏览器全部兼容。
-- Babel 默认只转换新的 JS 句法(syntax)，而不转换新的 API。
+babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。让开发者提前使用最新的 JS 语法(ES6/ES7)，而不用等浏览器全部兼容。Babel 默认只转换新的 JS 句法(syntax)，而不转换新的 API。
 
 ### stage 几个阶段的区别
 

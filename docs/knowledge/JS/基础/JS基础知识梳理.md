@@ -458,7 +458,7 @@ Foo.prototype.alertName = function() {
   alert(this.name);
 };
 // 创建示例
-var f = new Foo('zhangsan');
+var f = new Foo('yiliang');
 f.printName = function() {
   console.log(this.name);
 };

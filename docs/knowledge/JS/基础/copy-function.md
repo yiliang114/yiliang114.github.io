@@ -22,7 +22,7 @@ function shallowCopy(p, c) {
 }
 ```
 
-#### 实现数组的拷贝
+#### 数组的浅拷贝
 
 ```js
 const a1 = [1, 2];
@@ -32,6 +32,8 @@ const a3 = a1.slice();
 
 ### 深拷贝
 
+#### JSON.parse JSON.stringify
+
 简单的做法：`JSON.parse(JSON.stringify(obj))`， 但是该方法也是有局限性的：
 
 - 会忽略`undefined`
@@ -39,24 +41,11 @@ const a3 = a1.slice();
 - 会忽略函数
 - 不能解决循环引用的对象 （会报错）
 
-如果你有这么一个循环引用对象，你会发现并不能通过该方法实现深拷贝；在遇到函数、 `undefined` 或者 `symbol` 的时候，该对象也不能正常的序列化。
+这种方法有局限性，如果属性值是函数或者一个类的实例的时候，无法正确拷贝
 
-```js
-let a = {
-  age: undefined,
-  sex: Symbol('male'),
-  jobs: function() {},
-  name: 'yiliang114',
-};
-let b = JSON.parse(JSON.stringify(a));
-console.log(b); // {name: "yiliang114"}
-```
+#### MessageChannel
 
-你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
-
-但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题。
-
-如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
+如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`。 这种方法有局限性，当属性值是函数的时候，会报错。
 
 ```js
 function structuralClone(obj) {
@@ -85,7 +74,9 @@ const test = async () => {
 test();
 ```
 
-- lodash，也有提供 `_.cloneDeep`
+#### lodash
+
+有提供 `_.cloneDeep`
 
 ### 自封装深拷贝
 
@@ -886,50 +877,6 @@ let BFSdeepClone = obj => {
 };
 ```
 
-### JSON.stringify 和 JSON.parse
-
-直接使用这个来用作深拷贝会有哪些问题
-
-```js
-// 可以拷贝普通函数、Date、RegExp和传统对象
-// 没有拷贝原型、没有解决循环引用
-function deepClone(obj) {
-  if (typeof obj === 'function') {
-    const str = obj.toString();
-    /^function\s*\w*\s*\((.*)\)\s*\{([\s\S]*)/.exec(str); // 匹配函数体
-    const args = RegExp.$1.split(',').map(item => item.trim());
-    const str1 = RegExp.$2.slice(0, -1); // 去除末尾花括号
-    return new Function(...args, str1);
-  }
-  if (!obj || typeof obj !== 'object') return obj;
-  if (Object.prototype.toString.call(obj) === '[object Date]') return new Date(obj); /*  */
-  if (Object.prototype.toString.call(obj) === '[object RegExp]') return new RegExp(obj);
-  const cloneObj = Array.isArray(obj) ? [] : {};
-  for (const i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      // 保证只遍历实例属性
-      cloneObj[i] = deepClone(obj[i]);
-    }
-  }
-  return cloneObj;
-}
-const obj = {
-  name: 'xm',
-  birth: new Date(),
-  desc: null,
-  reg: /^123$/,
-  ss: [1, 2, 3],
-  fn: function test(num1, num2) {
-    console.log(num1, num2);
-  },
-};
-
-const obj2 = deepClone(obj);
-console.log(obj, obj2);
-obj.fn(1, 2);
-obj2.fn(1, 2);
-```
-
 ### 深拷贝的实现
 
 ```js
@@ -1170,131 +1117,3 @@ function deepCopy(obj) {
   return newObj;
 }
 ```
-
-### 深拷贝
-
-这个问题通常可以通过 `JSON.parse(JSON.stringify(object))` 来解决。
-
-```js
-let a = {
-  age: 1,
-  jobs: {
-    first: 'FE',
-  },
-};
-let b = JSON.parse(JSON.stringify(a));
-a.jobs.first = 'native';
-console.log(b.jobs.first); // FE
-```
-
-但是该方法也是有局限性的：
-
-- 会忽略 `undefined`
-- 会忽略 `symbol`
-- 不能序列化函数
-- 不能解决循环引用的对象
-
-```js
-let obj = {
-  a: 1,
-  b: {
-    c: 2,
-    d: 3,
-  },
-};
-obj.c = obj.b;
-obj.e = obj.a;
-obj.b.c = obj.c;
-obj.b.d = obj.b;
-obj.b.e = obj.b.c;
-let newObj = JSON.parse(JSON.stringify(obj));
-console.log(newObj);
-```
-
-如果你有这么一个循环引用对象，你会发现你不能通过该方法深拷贝
-
-![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042627.png)
-
-在遇到函数、 `undefined` 或者 `symbol` 的时候，该对象也不能正常的序列化
-
-```js
-let a = {
-  age: undefined,
-  sex: Symbol('male'),
-  jobs: function() {},
-  name: 'yiliang114',
-};
-let b = JSON.parse(JSON.stringify(a));
-console.log(b); // {name: "yiliang114"}
-```
-
-你会发现在上述情况中，该方法会忽略掉函数和 `undefined` 。
-
-但是在通常情况下，复杂数据都是可以序列化的，所以这个函数可以解决大部分问题，并且该函数是内置函数中处理深拷贝性能最快的。当然如果你的数据中含有以上三种情况下，可以使用 [lodash 的深拷贝函数](https://lodash.com/docs#cloneDeep)。
-
-如果你所需拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
-
-```js
-function structuralClone(obj) {
-  return new Promise(resolve => {
-    const { port1, port2 } = new MessageChannel();
-    port2.onmessage = ev => resolve(ev.data);
-    port1.postMessage(obj);
-  });
-}
-
-var obj = {
-  a: 1,
-  b: {
-    c: b,
-  },
-}(
-  // 注意该方法是异步的
-  // 可以处理 undefined 和循环引用对象
-  async () => {
-    const clone = await structuralClone(obj);
-  },
-)();
-```
-
-### 深拷贝和浅拷贝
-
-> 题目：实现对象的深拷贝。
-
-在 JS 中，函数和对象都是浅拷贝（地址引用）；其他的，例如布尔值、数字等基础数据类型都是深拷贝（值引用）。
-
-值得提醒的是，ES6 的`Object.assign()`和 ES7 的`...`解构运算符都是“浅拷贝”。实现深拷贝还是需要自己手动撸“轮子”或者借助第三方库（例如`lodash`）：
-
-- 手动做一个“完美”的深拷贝函数：[https://godbmw.com/passages/2019-03-18-interview-js-code/](https://godbmw.com/passages/2019-03-18-interview-js-code/)
-
-- 借助第三方库：jq 的`extend(true, result, src1, src2[ ,src3])`、lodash 的`cloneDeep(src)`
-
-- `JSON.parse(JSON.stringify(src))`：这种方法有局限性，如果属性值是函数或者一个类的实例的时候，无法正确拷贝
-
-- 借助 HTML5 的`MessageChannel`：这种方法有局限性，当属性值是函数的时候，会报错
-
-  ```html
-  <script>
-    function deepClone(obj) {
-      return new Promise(resolve => {
-        const { port1, port2 } = new MessageChannel();
-        port2.onmessage = ev => resolve(ev.data);
-        port1.postMessage(obj);
-      });
-    }
-
-    const obj = {
-      a: 1,
-      b: {
-        c: [1, 2],
-        d: '() => {}',
-      },
-    };
-
-    deepClone(obj).then(obj2 => {
-      obj2.b.c[0] = 100;
-      console.log(obj.b.c); // output: [1, 2]
-      console.log(obj2.b.c); // output: [100, 2]
-    });
-  </script>
-  ```
