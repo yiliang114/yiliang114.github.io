@@ -65,4 +65,4 @@ Vue.use(VueLazyload);
 
 1. 注入 Vue 创建 LazyClass， 传入 options 参数创建 lazy 实例
 2. 将 lazy 实例作为参数初始化 LazyContainer
-3. Vue 原型链上添加 \$Lazyload
+3. Vue 原型链上添加 `$Lazyload`

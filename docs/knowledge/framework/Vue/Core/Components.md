@@ -4,8 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-### 父子组件的渲染顺序（生命周期函数执行顺序）
-
 ### 组件 keep-alive 的时候又是什么道理？
 
 直接将组件缓存在了内存中，而没有直接走入销毁阶段。
@@ -23,13 +21,6 @@ https://blog.csdn.net/qq_30758077/article/details/83069715
 不会实际渲染。
 
 https://www.cnblogs.com/ghost-xyx/p/7640204.html
-
-### Vue 的父组件和子组件生命周期钩子执行顺序是什么
-
-父组建： beforeCreate -> created -> beforeMount
-子组件： -> beforeCreate -> created -> beforeMount -> mounted
-父组件： -> mounted
-总结：从外到内，再从内到外
 
 ### 在 Vue 中子组件为何不可以修改父组件传递的 Prop，如果修改了，Vue 是如何监控到属性的修改并给出警告的
 

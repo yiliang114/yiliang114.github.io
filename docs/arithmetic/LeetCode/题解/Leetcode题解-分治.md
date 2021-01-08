@@ -6,12 +6,6 @@ aside: false
 draft: true
 ---
 
-<!-- GFM-TOC -->
-
-- [1. 给表达式加括号](#1-给表达式加括号)
-- [2. 不同的二叉搜索树](#2-不同的二叉搜索树)
-  <!-- GFM-TOC -->
-
 # 1. 给表达式加括号
 
 [241. Different Ways to Add Parentheses (Medium)](https://leetcode.com/problems/different-ways-to-add-parentheses/description/)

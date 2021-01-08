@@ -203,3 +203,68 @@ WeakMap 的设计目的在于: 有时我们想在某个对象上面存放一些�
 - `forEach`：`arr.forEach(function (el, index) { ... })`。这个语句结构有时会更精简，因为如果你所需要的只是数组元素，你不必使用`index`。还有`every`和`some`方法可以让你提前终止遍历。
 
 大多数情况下，我更喜欢`.forEach`方法，但这取决于你想要做什么。`for`循环有更强的灵活性，比如使用`break`提前终止循环，或者递增步数大于一。
+
+### 如何防止在 JavaScript 中修改对象 ?
+
+```js
+var employee = {
+  name: 'yiliang',
+};
+
+//Freeze the object
+Object.freeze(employee);
+
+// Seal the object
+Object.seal(employee);
+
+console.log(Object.isExtensible(employee)); // false
+console.log(Object.isSealed(employee)); // true
+console.log(Object.isFrozen(employee)); // true
+
+employee.name = 'xyz'; // fails silently unless in strict mode
+employee.age = 30; // fails silently unless in strict mode
+delete employee.name; // fails silently unless it's in strict mode
+```
+
+### 合并两个对象
+
+```js
+const merge = (toObj, fromObj) => Object.assign(toObj, fromObj);
+```
+
+```js
+function merge(toObj, fromObj) {
+  // Make sure both of the parameter is an object
+  if (typeof toObj === 'object' && typeof fromObj === 'object') {
+    for (var pro in fromObj) {
+      // Assign only own properties not inherited properties
+      if (fromObj.hasOwnProperty(pro)) {
+        // Assign property and value
+        toObj[pro] = fromObj[pro];
+      }
+    }
+  } else {
+    throw 'Merge function can apply only on object';
+  }
+}
+```
+
+```js
+/**
+ * 判断对象是否为函数，如果当前运行环境对可调用对象（如正则表达式）
+ * 的typeof返回'function'，采用通用方法，否则采用优化方法
+ *
+ * @param {Any} arg 需要检测是否为函数的对象
+ * @return {boolean} 如果参数是函数，返回true，否则false
+ */
+function isFunction(arg) {
+  if (arg) {
+    if (typeof /./ !== 'function') {
+      return typeof arg === 'function';
+    } else {
+      return Object.prototype.toString.call(arg) === '[object Function]';
+    }
+  } // end if
+  return false;
+}
+```

@@ -4,29 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-# vuex
-
-## 安装
-
-```
-npm i --save vuex
-
-yarn add vuex
-```
-
-一个模块化的打包系统，必须显示地通过`Vue.use()`来安装 Vuex：
-
-```
-import Vue from 'vue';
-import Vuex from 'vuex;
-
-Vue.use(Vuex);
-```
-
-当使用全局 script 标签引用 Vuex 时，不需要以上安装过程。
-
-## Vuex 是什么
-
 Vuex 是一个专为 vue 应用程序开发的状态管理模式，集中式存储应用的所有组件状态，并以相应的规则保证状态一种可预测的方式发生变化。
 
 ### 状态自管理应用
@@ -287,14 +264,12 @@ import store from './store'
 
 ### vuex 的 mutation 特性是什么
 
-- action 类似于 muation, 不同在于：action 提交的是 mutation,而不是直接变更状态
+- action 类似于 mutation, 不同在于：action 提交的是 mutation,而不是直接变更状态
 - action 可以包含任意异步操作
 
 ### vue 中 ajax 请求代码应该写在组件的 methods 中还是 vuex 的 action 中
 
-如果请求来的数据不是要被其他组件公用，仅仅在请求的组件内使用，就不需要放入 vuex 的 state 里
-
-如果被其他地方复用，请将请求放入 action 里，方便复用，并包装成 promise 返回
+如果请求来的数据不是要被其他组件公用，仅仅在请求的组件内使用，就不需要放入 vuex 的 state 里。如果被其他地方复用，请将请求放入 action 里，方便复用，并包装成 promise 返回
 
 ### 不用 vuex 会带来什么问题
 
@@ -392,12 +367,6 @@ a: moduleA,
 b: moduleB
 })
 ```
-
-### 其他
-
-- 挂载时机
-- 通知
-- 插件
 
 ### vuex 原理
 

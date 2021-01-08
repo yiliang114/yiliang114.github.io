@@ -747,3 +747,22 @@ CSRF 是一种跨站请求伪造，冒充用户发起请求，完成一些违背
 - 关键请求使用验证码，比如转账请求，避免恶意脚本发送这些关键请求
 
 ## 最好不使用 vue 的 v-html ？
+
+### 请写一个函数 escapeHtml，将<, >, &, "进行转义
+
+```js
+function escapeHtml(str) {
+  return str.replace(/[<>&]/g, function(match) {
+    switch (match) {
+      case '<':
+        return '<';
+      case '>':
+        return '>';
+      case '&':
+        return '&';
+      case '\\':
+        return '';
+    }
+  });
+}
+```

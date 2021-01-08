@@ -762,3 +762,116 @@ map.set(obj, 'mapValue');
 map[Symbol.iterator]().next()  {value: Array(2), done: false}
 
 ```
+
+### 检查一个变量是否是数组?
+
+```js
+function(value){
+   // ECMAScript 5 feature
+	if(typeof Array.isArray === 'function'){
+		return Array.isArray(value);
+	}else{
+	   return Object.prototype.toString.call(value) === '[object Array]';
+	}
+}
+```
+
+### 有一个大数组,var a = ['1', '2', '3', ...];a 的长度是 100,内容填充随机整数的字符串.请先构造此数组 a,然后设计一个算法将其内容去重
+
+```js
+/**
+ * 数组去重
+ **/
+function normalize(arr) {
+  if (arr && Array.isArray(arr)) {
+    var i,
+      len,
+      map = {};
+    for (i = arr.length; i >= 0; --i) {
+      if (arr[i] in map) {
+        arr.splice(i, 1);
+      } else {
+        map[arr[i]] = true;
+      }
+    }
+  }
+  return arr;
+}
+
+/**
+ * 用100个随机整数对应的字符串填充数组。
+ **/
+function fillArray(arr, start, end) {
+  start = start == undefined ? 1 : start;
+  end = end == undefined ? 100 : end;
+
+  if (end <= start) {
+    end = start + 100;
+  }
+
+  var width = end - start;
+  var i;
+  for (i = 100; i >= 1; --i) {
+    arr.push('' + (Math.floor(Math.random() * width) + start));
+  }
+  return arr;
+}
+
+var input = [];
+fillArray(input, 1, 100);
+input.sort(function(a, b) {
+  return a - b;
+});
+console.log(input);
+
+normalize(input);
+console.log(input);
+```
+
+### 有以下 3 个判断数组的方法，请分别介绍它们之间的区别和优劣
+
+1. Object.prototype.toString.call()
+2. instanceof
+3. Array.isArray()
+
+性能方面：Array.isArray()性能最好，instanceof 次之，Object.prototype.toString.call()第三
+
+功能方面：
+`Object.prototype.toString.call()` 所有的类型都可以判断, instanceof 只能判断对象原型，原始类型不可以。
+
+```js
+[] instanceof Object; // true
+```
+
+Array.isArray 优于 instanceof ，因为 Array.isArray 可以检测出 iframes，Array.isArray()是 ES5 新增的方法，当不存在 Array.isArray() ，可以用 Object.prototype.toString.call() 实现
+
+### 如何判断一个数据是不是 Array
+
+- `Array.isArray(obj)`
+  - ECMAScript 5 种的函数，当使用 ie8 的时候就会出现问题。
+- `obj instanceof Array`
+  - 当用来检测在不同的 window 或 iframe 里构造的数组时会失败。这是因为每一个 iframe 都有它自己的执行环境，彼此之间并不共享原型链，所以此时的判断一个对象是否为数组就会失败。此时我们有一个更好的方式去判断一个对象是否为数组。
+- `Object.prototype.toString.call(obj) == '[object Array]'`
+  - 这个方法比较靠谱
+- `obj.constructor === Array`
+  - constructor 属性返回对创建此对象的函数的引用
+
+
+### 如何判断一个对象是否为数组
+
+如果浏览器支持 Array.isArray()可以直接判断否则需进行必要判断
+
+```js
+/**
+ * 判断一个对象是否是数组，参数不是对象或者不是数组，返回false
+ *
+ * @param {Object} arg 需要测试是否为数组的对象
+ * @return {Boolean} 传入参数是数组返回true，否则返回false
+ */
+function isArray(arg) {
+  if (typeof arg === 'object') {
+    return Object.prototype.toString.call(arg) === '[object Array]';
+  }
+  return false;
+}
+```
