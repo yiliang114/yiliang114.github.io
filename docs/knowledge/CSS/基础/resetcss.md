@@ -1,9 +1,6 @@
 ---
-layout: CustomPages
-title: 基础
+title: Reset Css
 date: 2020-11-21
-aside: false
-draft: true
 ---
 
 ### 为什么要初始化 CSS 样式

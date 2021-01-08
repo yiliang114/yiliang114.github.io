@@ -8,14 +8,6 @@ draft: true
 
 ## Flex
 
-### 链接
-
-https://juejin.im/post/58e3a5a0a0bb9f0069fc16bb
-
-[基本概念](https://www.cnblogs.com/nuannuan7362/p/5823381.html)
-[Flex - 阮一峰 （语法篇）](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
-[Flex - 阮一峰 （实战篇）](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
-
 ### flex 弹性布局
 
 采用 flex 布局的容器称为 flex 容器（flex container），当一个元素采用 flex 布局后，它的子元素将自动成为容器成员（flex item）。flex 容器默认存在 2 根轴线，主轴（main axis，默认为横轴）和交叉轴（cross axis，默认为纵轴），flex 布局所有的属性都围绕这 2 条轴线上的元素如何布排进行设定。
@@ -78,40 +70,38 @@ https://juejin.im/post/58e3a5a0a0bb9f0069fc16bb
 ```css
 /* 上下左右居中 */
 .box-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 /* item 两端对齐（左右两端不留空间） */
-.item-between{
-  display: flex;
-  justify-content: space-between;
+.item-between {
+   display: flex;
+   justify-content: space-between;
 }
 
 /* item 两端对齐且上下居中（主轴在横轴） */
-.lr-bettem{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.lr-bettem {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
 }
-
 
 /* item 从左到右排列，且上下居中（主轴在横轴） */
-.lr-start{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+.lr-start {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
 }
 
-
 /* item 从左到右排列，上下不居中 */
-.lr-start2{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+.lr-start2 {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
 }
 
 /* item从右到左排列，且上下居中 */
@@ -123,10 +113,10 @@ https://juejin.im/post/58e3a5a0a0bb9f0069fc16bb
 }
 
 /* item 上下两端对齐（主轴在纵轴） */
-.ud-bettem{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.ud-bettem {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
 }
 ```
 
@@ -375,35 +365,11 @@ Flexbox 解决了 CSS 中的许多常见问题，例如容器中元素的垂直�
 
 Grid 创建基于栅格的布局，是迄今为止最直观的方法（最好是！），但目前浏览器支持并不广泛。
 
-### 简要介绍一下 flex 布局
-
-### 请解释一下 CSS3 的 Flexbox（弹性盒布局模型）,以及适用场景？
-
-### 11
-
-- flex 弹性盒子，两侧定宽之后，中间自适应， `flex: 1` https://blog.csdn.net/weixin_42592438/article/details/80952442
-  flex 布局，以及局限性，哪些浏览器不支持？
-
-https://juejin.im/post/58e3a5a0a0bb9f0069fc16bb
-
-### 解释一下 css3 的 flexbox，以及适用场景
-
-### 有用过 Flex 吗？简要说下你对它的了解
-
-https://github.com/haizlin/fe-interview/issues/198
-
 ### 设置 width 的 flex 元素,flex 属性值是多少?
 
-### flex 布局介绍
+### flex:1 表示什么
 
-[flex 布局介绍](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?%5E%$)
-
-扩展：flex:1 表示什么
 ![image](https://user-images.githubusercontent.com/21194931/56741835-2edd5500-67a6-11e9-885c-7047f8ca4b9c.png)
-
-### 使用 flex 实现三栏布局，两边固定，中间自适应
-
-https://github.com/haizlin/fe-interview/issues/129
 
 ### 你了解 CSS Flex 和 Grid 吗？
 
@@ -427,8 +393,6 @@ CSS 网格布局用于将页面分割成数个主要区域，或者用来定义�
 
 像表格一样，网格布局让我们能够按行或列来对齐元素。但是，使用 CSS 网格可能还是比 CSS 表格更容易布局。例如，网格容器的子元素可以自己定位，以便它们像 CSS 定位的元素一样，真正的有重叠和层次。
 
-### 列举不同的清除浮动的技巧，并指出它们各自适用的使用场景。
-
 ### flex 布局设置 width 无效
 
 常常我们布局会使用到 flex，但布局中存在一些问题，比如无法设置宽度
@@ -445,8 +409,6 @@ flex: 0 0 50px;
 ```
 
 子元素不能直接设置 width: 50px，需要通过 flex 布局指定宽度，关于里面的具体参数，可以看这篇文章： 链接
-
-https://zhoon.github.io/css3/2014/08/23/flex.html
 
 ### flex 设置成 1 和 auto 有什么区别
 

@@ -31,8 +31,9 @@ draft: true
   background: #fcc;
 }
 .text {
-  /*盒子main的外面包一个div，通过改变此div的属性使两个盒子分属于两个不同的BFC，以此来阻止margin重叠*/
-  overflow: hidden; //此时已经触发了BFC属性。
+  /* 盒子main的外面包一个div，通过改变此div的属性使两个盒子分属于两个不同的BFC，以此来阻止margin重叠 */
+  /* 此时已经触发了BFC属性 */
+  overflow: hidden;
 }
 ```
 
