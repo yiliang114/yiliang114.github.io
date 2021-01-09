@@ -524,7 +524,7 @@ yes!
 
 ```html
 <figure>
-  <img src="myimage.jpg" alt="My image" />
+  <img src="myImage.jpg" alt="My image" />
   <figcaption>
     <p>This is my self portrait.</p>
   </figcaption>

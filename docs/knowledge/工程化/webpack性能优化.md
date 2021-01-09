@@ -218,3 +218,51 @@ import { a } from './test.js';
 ### 文章
 
 https://juejin.im/post/6844903549290151949
+
+- webpack 插件、loader
+- webpack plugins 与 module 之类的区别
+- webpack 的热重载
+
+### vue 如何优化首页的加载速度？vue 首页白屏是什么问题引起的？如何解决呢？
+
+首页白屏的原因：
+单页面应用的 html 是靠 js 生成，因为首屏需要加载很大的 js 文件(app.js vendor.js)，所以当网速差的时候会产生一定程度的白屏
+
+解决办法：
+
+优化 webpack 减少模块打包体积，code-split 按需加载
+服务端渲染，在服务端事先拼装好首页所需的 html
+首页加 loading 或 骨架屏 （仅仅是优化体验）
+
+### webpack 打包 vue 速度太慢怎么办？
+
+1. 使用`webpack-bundle-analyzer`对项目进行模块分析生成 report，查看 report 后看看哪些模块体积过大，然后针对性优化，比如我项目中引用了常用的 UI 库 element-ui 和 v-charts 等
+
+2. 配置 webpack 的`externals`，官方文档的解释：防止将某些`import`的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖。
+   所以，可以将体积大的库分离出来：
+
+```js
+// ...
+externals: {
+    'element-ui': 'Element',
+    'v-charts': 'VCharts'
+}
+```
+
+3. 然后在`main.js`中移除相关库的 import
+
+4. 在`index.html`模板文件中，添加相关库的`cdn`引用，如：
+
+```html
+<script src="https://unpkg.com/element-ui@2.10.0/lib/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/v-charts/lib/index.min.js"></script>
+```
+
+### vue-cli@3 的 cdn 打包处理
+
+包大小分析：https://cli.vuejs.org/zh/guide/cli-service.html#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4
+
+https://www.jianshu.com/p/d1fb954f5713
+
+https://www.jianshu.com/p/9d6c1efebcd9

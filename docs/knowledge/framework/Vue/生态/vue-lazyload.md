@@ -4,17 +4,9 @@ date: '2020-10-26'
 draft: true
 ---
 
-## Vue-lazyload
+## VueLazyLoad
 
 在有比较多图片加载的 vue 项目开发的初期一般我们会考虑”图片懒加载“来提高首屏加载的时间，图片懒加载的实际其实就是在页面视图可见范围以内图片就加载，当页面滑动的时候，原本不可见的图片现在可见了，就再去加载的过程。
-
-mint-ui 组件库的 Lazy load 组件实际是直接引用了 vue-lazyload 组件。
-
-### 原理
-
-- 图片是通过 v-lazy 这个指令来实现。
-- 组件
-- 容器
 
 ### 懒加载的实现原理
 
@@ -26,26 +18,22 @@ mint-ui 组件库的 Lazy load 组件实际是直接引用了 vue-lazyload 组�
 ##### height 和 width
 
 1. innerHeight innerWidth 是返回窗口的文档显示区的高度和宽度（只包括网页的部分）
-
 2. outerHeight outerWidth 是返回整个浏览器的高度和宽度（从浏览器最外部开始算）
-
-3. offsetWidth 获取物体宽度的数值， 这个实际的宽度是受盒模型的影响的。offsetWidth 实际获取的是盒模型(width+border + padding) <https://www.cnblogs.com/huaci/p/3863797.html>
-
+3. offsetWidth 获取物体宽度的数值， 这个实际的宽度是受盒模型的影响的。offsetWidth 实际获取的是盒模型(width+border + padding)
 4. image: naturalHeight, naturalWidth HTML5 的新属性，用来判断图片的真实宽度和高度。 但有个前提是，必须在图片完全下载到客户端浏览器才能判断，目前在 ie 9,Firefox, Chrome, Safari 和 Opera 都是可以使用的， 如果是不支持的版本浏览器，那可以用传统方法判断。
 
-   ```
-   var myimage = document.getElementById("myimage");
-   if (typeof myimage.naturalWidth == "undefined") {
-   // IE 6/7/8
-   var i = new Image();
-   i.src = myimage.src;
-   var rw = i.width;
-   var rh = i.height;
-   }
-   else {
-   // HTML5 browsers
-   var rw = myimage.naturalWidth;
-   var rh = myimage.naturalHeight;
+   ```js
+   var myImage = document.getElementById('myImage');
+   if (typeof myImage.naturalWidth == 'undefined') {
+     // IE 6/7/8
+     var i = new Image();
+     i.src = myImage.src;
+     var rw = i.width;
+     var rh = i.height;
+   } else {
+     // HTML5 browsers
+     var rw = myImage.naturalWidth;
+     var rh = myImage.naturalHeight;
    }
    ```
 

@@ -187,3 +187,7 @@ node_modules
 当前 npm 工程如果定义了钩子此时会被执行（按照 install、postinstall、prepublish、prepare 的顺序）。
 
 最后一步是生成或更新版本描述文件，npm install 过程完成。
+
+### package.json 里面的 dependencies 和 devDependencies 的差异
+
+### lock 文件的作用：lock 文件的作用是统一版本号， 锁版本。 不然不同的人，不同的时间安装的包可能不一样
