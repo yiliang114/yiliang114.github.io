@@ -549,3 +549,81 @@ self.addEventListener('fetch', event => {
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/233327/1554262033555-b36bfb5a-16ee-4079-a400-b2239a93ee9c.png#align=left&display=inline&height=733&name=image.png&originHeight=916&originWidth=1920&size=285955&status=done&width=1536)
 
 在第 2 次刷新后，通过上图可以看到，缓存版本内容已更新到 v2，并且左侧内容区已经被改变。
+
+### ServiceWorker
+
+ServiceWorker 是浏览器在后台独立于网页运行的脚本，也可以这样理解，它是浏览器和服务端之间的代理服务器。ServiceWorker 非常强大，可以实现包括推送通知和后台同步等功能，更多功能还在进一步扩展，但其最主要的功能是**实现离线缓存**。
+
+#### 1\. 使用限制
+
+越强大的东西往往越危险，所以浏览器对 ServiceWorker 做了很多限制：
+
+- 在 ServiceWorker 中无法直接访问 DOM，但可以通过 postMessage 接口发送的消息来与其控制的页面进行通信；
+
+- ServiceWorker 只能在本地环境下或 HTTPS 网站中使用；
+
+- ServiceWorker 有作用域的限制，一个 ServiceWorker 脚本只能作用于当前路径及其子路径；
+
+- 由于 ServiceWorker 属于实验性功能，所以兼容性方面会存在一些问题，具体兼容情况请看下面的截图。
+
+![Drawing 3.png](https://s0.lgstatic.com/i/image/M00/31/43/Ciqc1F8MKYGAMRqhAACGt0bNhOM842.png)
+
+ServiceWorker 在浏览器中的支持情况
+
+#### 2\. 使用方法
+
+在使用 ServiceWorker 脚本之前先要通过“注册”的方式加载它。常见的注册代码如下所示：
+
+```js
+if ('serviceWorker' in window.navigator) {
+  window.navigator.serviceWorker
+    .register('./sw.js')
+    .then(console.log)
+    .catch(console.error)
+} else {
+  console.warn('浏览器不支持 ServiceWorker!')
+
+```
+
+首先考虑到浏览器的兼容性，判断 window.navigator 中是否存在 serviceWorker 属性，然后通过调用这个属性的 register 函数来告诉浏览器 ServiceWorker 脚本的路径。
+
+浏览器获取到 ServiceWorker 脚本之后会进行解析，解析完成会进行安装。可以通过监听 “install” 事件来监听安装，但这个事件只会在第一次加载脚本的时候触发。要让脚本能够监听浏览器的网络请求，还需要激活脚本。
+
+在脚本被激活之后，我们就可以通过监听 fetch 事件来拦截请求并加载缓存的资源了。
+
+下面是一个利用 ServiceWorker 内部的 caches 对象来缓存文件的示例代码。
+
+```js
+const CACHE_NAME = 'ws';
+let preloadUrls = ['/index.css'];
+
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function(cache) {
+      return cache.addAll(preloadUrls);
+    }),
+  );
+});
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
+      }
+      return caches
+        .open(CACHE_NAME)
+        .then(function(cache) {
+          const path = event.request.url.replace(self.location.origin, '');
+          return cache.add(path);
+        })
+        .catch(e => console.error(e));
+    }),
+  );
+});
+```
+
+这段代码首先监听 install 事件，在回调函数中调用了 event.waitUntil() 函数并传入了一个 Promise 对象。event.waitUntil 用来监听多个异步操作，包括缓存打开和添加缓存路径。如果其中一个操作失败，则整个 ServiceWorker 启动失败。
+
+然后监听了 fetch 事件，在回调函数内部调用了函数 event.respondWith() 并传入了一个 Promise 对象，当捕获到 fetch 请求时，会直接返回 event.respondWith 函数中 Promise 对象的结果。
+
+在这个 Promise 对象中，我们通过 caches.match 来和当前请求对象进行匹配，如果匹配上则直接返回匹配的缓存结果，否则返回该请求结果并缓存。
