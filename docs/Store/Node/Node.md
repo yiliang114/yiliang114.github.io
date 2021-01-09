@@ -9,8 +9,6 @@ draft: true
 - 一个小工具： 能够保存所有请求的返回到本地 json 中，保证离线状态下 web 的可运行性。
 - 浏览器的 js 是单线程，但是 nodejs 是多线程，为什么说 node 对于多线程支持很好？
 - nodejs 的环境变量： process.env.NODE_ENV = 'production'
-- 获取脚本执行的 localhost 地址 https://blog.csdn.net/panyang01/article/details/79353999
-- Eggjs: https://cnodejs.org/topic/5b7d1504632c7f422e5b8080
 - nodejs html 解析 -- Cheerio http://www.cnblogs.com/CraryPrimitiveMan/p/3674421.html
 - nodejs 你了解多少？
 - 所有的 ES6 特性你都知道吗？如果遇到一个东西不知道是 ES6 还是 ES5, 你该怎么区分它
@@ -46,46 +44,9 @@ draft: true
   3. 日志系统如何进行处理
   4. 如何鉴权
 
-  <https://baijiahao.baidu.com/s?id=1589718820513455212&wfr=spider&for=pc>
-
-### API
-
-https://www.cnblogs.com/qiuzhimutou/p/4758898.html
-http://blog.csdn.net/fdipzone/article/details/51253955
-
 ### 为什么要用 node?
 
 总结起来 node 有以下几个特点:简单强大，轻量可扩展．简单体现在 node 使用的是 javascript,json 来进行编码，人人都会；强大体现在非阻塞 IO,可以适应分块传输数据，较慢的网络环境，尤其擅长高并发访问；轻量体现在 node 本身既是代码，又是服务器，前后端使用统一语言;可扩展体现在可以轻松应对多实例，多服务器架构，同时有海量的第三方应用组件
-
-### node 有哪些全局对象?
-
-process, console, Buffer
-
-process 常用方法:
-
-- process.stdin,
-- process.stdout
-- process.stderr,
-- process.on,
-- process.env
-- process.argv
-- process.arch
-- process.platform
-- process.exit
-
-console 常用方法:
-
-- console.log/console.info
-- console.error/console.warning,
-- console.time/console.timeEnd
-- console.trace
-- console.table
-
-Buffer 是用来处理二进制数据的，比如图片，mp3,数据库文件等.Buffer 支持各种编码解码，二进制字符串互转
-
-### node 有哪些定时功能
-
-setTimeout/clearTimeout, setInterval/clearInterval, setImmediate/clearImmediate, process.nextTick
 
 ### node 的构架是什么样子的?
 
@@ -97,12 +58,12 @@ node 核心模块：EventEmitter, Stream, FS, Net 和全局对象
 
 ### 对 Node 的优点和缺点提出了自己的看法？
 
-\*（优点）因为 Node 是基于事件驱动和无阻塞的，所以非常适合处理并发请求，
+（优点）因为 Node 是基于事件驱动和无阻塞的，所以非常适合处理并发请求，
 因此构建在 Node 上的代理服务器相比其他技术实现（如 Ruby）的服务器表现要好得多。
 此外，与 Node 代理服务器交互的客户端代码是由 javascript 语言编写的，
 因此客户端和服务器端都用同一种语言编写，这是非常美妙的事情。
 
-\*（缺点）Node 是一个相对新的开源项目，所以不太稳定，它总是一直在变，
+（缺点）Node 是一个相对新的开源项目，所以不太稳定，它总是一直在变，
 而且缺少足够多的第三方库支持。看起来，就像是 Ruby/Rails 当年的样子。
 
 ### Node 的应用场景
@@ -363,8 +324,8 @@ async 是一个 js 类库，它的目的是解决 js 中异常流程难以控制
 
 ```js
 async.parallel([
-	    function(){ ... },
-	    function(){ ... }
+	function(){ ... },
+	function(){ ... }
 	], callback);
 ```
 
@@ -372,8 +333,8 @@ async.parallel([
 
 ```js
 	async.series([
-	    function(){ ... },
-	    function(){ ... }
+	function(){ ... },
+	function(){ ... }
 	]);
 ```
 
@@ -488,13 +449,13 @@ console.log(DIST_DIRs); //...../React-Whole-barrels/build/dist 这是将两个�
 
 ### Node.js 的适用场景
 
-    1. 高并发
-    2. 聊天
-    3. 实时消息推送
+1. 高并发
+2. 聊天
+3. 实时消息推送
 
 ### 如何判断当前脚本运行在浏览器还是 node 环境中？
 
-    通过判断 Global 对象是否为window，如果不为window，当前脚本没有运行在浏览器中。即在node中的全局变量是global ,浏览器的全局变量是window。 可以通过该全局变量是否定义来判断宿主环境
+通过判断 Global 对象是否为 window，如果不为 window，当前脚本没有运行在浏览器中。即在 node 中的全局变量是 global ,浏览器的全局变量是 window。 可以通过该全局变量是否定义来判断宿主环境
 
 ### 对 Node 的优点和缺点提出了自己的看法？
 

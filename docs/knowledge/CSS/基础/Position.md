@@ -6,20 +6,6 @@ aside: false
 draft: true
 ---
 
-### 绝对定位、相对定位
-
-#### position 的值 relative 和 absolute 定位原点是？
-
-- absolute：生成绝对定位的元素，相对于 static 定位以外的第一个祖先元素进行定位
-- fixed：生成绝对定位的元素，相对于浏览器窗口进行定位。 （IE6 不支持）
-- relative：生成相对定位的元素，相对于其在普通流中的位置进行定位
-- static：默认值。没有定位，元素出现在正常的流中
-- sticky
-
-#### css 的绝对定位
-
-参照物的问题，这里是因为 position: absolute 忽略根元素的 padding。https://my.oschina.net/hcliu/blog/1186752 写篇总结吧。父元素的 padding 可以承装绝对定位的子元素。原因见： https://gist.github.com/wengeezhang/6666442 测试代码见 jsbin： https://jsbin.com/movevay/edit?html,css,output
-
 ### position 的值
 
 - static 默认值。没有定位，元素出现在正常的流中
@@ -51,6 +37,20 @@ position：static | relative | absolute | fixed | center | page | sticky
    与 absolute 一致。元素在分页媒体或者区域块内，元素的包含块始终是初始包含块，否则取决于每个 absolute 模式。（CSS3）
 7. sticky
    对象在常态时遵循常规流。它就像是 relative 和 fixed 的合体，当在屏幕中时按常规流排版，当卷动到屏幕外时则表现如 fixed。该属性的表现是现实中你见到的吸附效果。（CSS3）
+
+### 绝对定位、相对定位
+
+#### position 的值 relative 和 absolute 定位原点是？
+
+- absolute：生成绝对定位的元素，相对于 static 定位以外的第一个祖先元素进行定位
+- fixed：生成绝对定位的元素，相对于浏览器窗口进行定位。 （IE6 不支持）
+- relative：生成相对定位的元素，相对于其在普通流中的位置进行定位
+- static：默认值。没有定位，元素出现在正常的流中
+- sticky
+
+#### css 的绝对定位
+
+参照物的问题，这里是因为 position: absolute 忽略根元素的 padding。https://my.oschina.net/hcliu/blog/1186752 写篇总结吧。父元素的 padding 可以承装绝对定位的子元素。原因见： https://gist.github.com/wengeezhang/6666442 测试代码见 jsbin： https://jsbin.com/movevay/edit?html,css,output
 
 ### `relative`、`fixed`、`absolute`和`static`四种定位有什么区别？
 
@@ -126,3 +126,10 @@ absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固�
 - `relative` 生成相对定位的元素，相对于其在普通流中的位置进行定位。
 - `static` 默认值。没有定位，元素出现在正常的流中
 - `sticky` 生成粘性定位的元素，容器的位置根据正常文档流计算得出
+
+### 绝对定位和相对定位的区别？
+
+绝对定位是相对于最近的已经定位的祖先元素，没有则相对于 body，绝对定位脱离文档流，而相对定位是相对于元素在文档中的初始位置，并且
+相对定位的元素仍然占据原有的空间。
+
+绝对定位和相对定位相对的基准是 第一个非 static 的父元素 ？

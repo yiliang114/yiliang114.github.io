@@ -30,10 +30,6 @@ draft: true
 先捕获，再到目标，再冒泡
 ![事件模型](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/==dom事件模型.jpg)
 
-### DOM 事件的绑定的几种方式?
-
-TODO:
-
 ### DOM 事件流
 
 DOM 标准采用捕获+冒泡。两种事件流都会触发 DOM 的所有对象，从 window 对象开始，也在 window 对象结束。
@@ -160,19 +156,6 @@ function getStyle(obj, attr) {
 }
 ```
 
-### JS 实现鼠标拖拽
-
-https://blog.csdn.net/qq_37746973/article/details/80748879
-
-### 区分什么是"客户区坐标","页面坐标","屏幕坐标"
-
-- 客户区坐标
-  - 鼠标指针在可视区中的水平坐标(clientX)和垂直坐标(clientY)
-- 页面坐标
-  - 鼠标指针在页面布局中的水平坐标(pageX)和垂直坐标
-- 屏幕坐标
-  - 设备物理屏幕的水平坐标(screenX)和垂直坐标(screenY)
-
 ### focus/blur 与 focusin/focusout 的区别与联系
 
 1. focus/blur 不冒泡，focusin/focusout 冒泡
@@ -183,56 +166,6 @@ https://blog.csdn.net/qq_37746973/article/details/80748879
 1. mouseover/mouseout 是标准事件，**所有浏览器都支持**；mouseenter/mouseleave 是 IE5.5 引入的特有事件后来被 DOM3 标准采纳，现代标准浏览器也支持
 2. mouseover/mouseout 是**冒泡**事件；mouseenter/mouseleave**不冒泡**。需要为**多个元素监听鼠标移入/出事件时，推荐 mouseover/mouseout 托管，提高性能**
 3. 标准事件模型中 event.target 表示发生移入/出的元素,**vent.relatedTarget**对应移出/如元素；在老 IE 中 event.srcElement 表示发生移入/出的元素，**event.toElement**表示移出的目标元素，**event.fromElement**表示移入时的来源元素
-
-### document.write 和 innerHTML 的区别
-
-    document.write 只能重绘整个页面
-    innerHTML 可以重绘页面的一部分
-
-#### 在什么时候你会使用 `document.write()`？
-
-DOM 方法，可向文档写入 HTML 表达式或 JavaScript 代码。
-大多数生成的广告代码依旧使用 `document.write()`，虽然这种用法会让人很不爽。
-
-### 如何实现对一个 DOM 元素的深拷贝，包括元素的绑定事件？
-
-### 页面上某一个点的坐标，如何获取该左边上的所有元素
-
-### insertAdjacentHTML
-
-insertAdjacentHTML() 将指定的文本解析为 HTML 或 XML，并将结果节点插入到 DOM 树中的指定位置。它不会重新解析它正在使用的元素，因此它不会破坏元素内的现有元素。这避免了额外的序列化步骤，使其比直接 innerHTML 操作更快。
-
-```js
-element.insertAdjacentHTML(position, text);
-```
-
-position 是相对于元素的位置，并且必须是以下字符串之一：
-
-- 'beforebegin' 元素自身的前面。
-- 'afterbegin' 插入元素内部的第一个子节点之前。
-- 'beforeend' 插入元素内部的最后一个子节点之后。
-- 'afterend' 元素自身的后面。
-
-text 是要被解析为 HTML 或 XML,并插入到 DOM 树中的字符串。
-
-示例：
-
-```js
-// <div id="one">one</div>
-var d1 = document.getElementById('one');
-d1.insertAdjacentHTML('afterend', '<div id="two">two</div>');
-
-// 此时，新结构变成： // <div id="one">one</div><div id="two">two</div>
-
-// ES6 version
-
-let html = `<div id="two">two</div>`;
-div.insertAdjacentHTML(`beforeend`, html);
-```
-
-### 要动态改变层中内容可以使用的方法？
-
-innerHTML，innerText
 
 ### innerText 和 innerHTML 的区别
 
@@ -250,23 +183,11 @@ BOM 是 browser object model 的缩写， 简称浏览器对象模型。 主要�
 
 ### BOM 与 DOM 的关系
 
-1. js 是通过访问 BOM 对象来访问、 控制、 修改浏览器
-2. BOM 的 window 包含了 document， 因此通过 window 对象的 document 属性就可以访问、检索、 修改文档内容与结构。
-3. document 对象又是 DOM 模型的根节点。
+- js 是通过访问 BOM 对象来访问、 控制、 修改浏览器
+- BOM 的 window 包含了 document， 因此通过 window 对象的 document 属性就可以访问、检索、 修改文档内容与结构。
+- document 对象又是 DOM 模型的根节点。
 
 因此， BOM 包含了 DOM， 浏览器提供出来给予访问的是 BOM 对象， 从 BOM 对象再访问到 DOM 对象， 从而 js 可以操作浏览器以及浏览器读取到的文档
-
-### DOM 和 BOM 有什么区别
-
-DOM
-Document Object Model，文档对象模型
-DOM 是为了操作文档出现的 API，document 是其的一个对象
-DOM 和文档有关，这里的文档指的是网页，也就是 html 文档。DOM 和浏览器无关，他关注的是网页本身的内容。
-
-BOM
-Browser Object Model，浏览器对象模型
-BOM 是为了操作浏览器出现的 API，window 是其的一个对象
-window 对象既为 javascript 访问浏览器提供 API，同时在 ECMAScript 中充当 Global 对象
 
 ### BOM 对象包含哪些内容？
 

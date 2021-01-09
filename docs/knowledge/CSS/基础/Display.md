@@ -6,36 +6,13 @@ aside: false
 draft: true
 ---
 
-### 绝对定位和相对定位的区别？
-
-绝对定位是相对于最近的已经定位的祖先元素，没有则相对于 body，绝对定位脱离文档流，而相对定位是相对于元素在文档中的初始位置，并且
-相对定位的元素仍然占据原有的空间。
-
-绝对定位和相对定位相对的基准是 第一个非 static 的父元素 ？
-
-### 行内元素和块级元素的具体区别是什么？行内元素的 padding 和 margin 可以设置吗？
-
-行内元素:
-
-- 和相邻的内联元素在同一行；
-- width\height\padding-bottom\padding-bottom 和 margin-top\margin-bottom 都不可改变（也就是 padding 和 margin 的 left 和 right 是可以改变的）
-- 宽度只与内容有关；
-- 行内元素只能容纳文本或其他行内元素。
-
-块级元素
-
-- 总是在新的一行上开始，占据一整行，而且后面的元素也会另起一行显示；
-- width\height\padding\margin 都可控制；
-- 宽度始终与浏览器宽度一致，与内容无关；
-- 它可以容纳内联元素和其他块元素。
-
-### 1.1 内联元素(inline)
+### 内联元素(inline)
 
 - 元素显示方式："文本方式"，1 个挨着 1 个，不独自占有 1 行；
 - 内嵌的元素也必须是内联元素：如<a></a>,不能在里面嵌入<div></div>等块级元素；
 - 包含的标签有：<a>、<input>、<label>、<img> 等等；
 
-### 1.2 块元素(block)
+### 块元素(block)
 
 - 元素显示方式：每个元素独自占有 1 行，相当于前后都带有换行符；
 - 内嵌的元素可以是内联或块级元素；
@@ -53,10 +30,6 @@ draft: true
 
 适用范围：导航条(导航条里有多个 a 标签，可放在一个 div 里，并给 div 附加 width 属性；以免浏览器缩小，造成导航排版乱掉)；
 
-### 内联与块级标签有何区别？
-
-Html 中的标签默认主要分为两大类型，一类为块级元素，另一类是行内元素，许多人也把行内称为内联，所以叫内联元素，其实就是一个意思。为了很好的布局，必须理解它们间的区别。
-
 ### 行内元素、块级元素区别
 
 行内元素：和其他元素都在一行上，高度、行高及外边距和内边距都不可改变，文字图片的宽度不可改变，只能容纳文本或者其他行内元素；其中 img 是行元素
@@ -64,19 +37,6 @@ Html 中的标签默认主要分为两大类型，一类为块级元素，另一
 块级元素：总是在新行上开始，高度、行高及外边距和内边距都可控制，可以容纳内敛元素和其他元素；行元素转换为块级元素方式：display：block；
 
 一边固定宽度一边宽度自适应
-
-### 行内元素和块级元素的具体区别是什么？行内元素的 padding 和 margin 可设置吗？
-
-块级元素(block)特性：
-
-总是独占一行，表现为另起一行开始，而且其后的元素也必须另起一行显示;
-宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制;
-　　内联元素(inline)特性：
-和相邻的内联元素在同一行;
-宽度(width)、高度(height)、内边距的 top/bottom(padding-top/padding-bottom)和外边距的 top/bottom(margin-top/margin-bottom)都不可改变（也就是 padding 和 margin 的 left 和 right 是可以设置的），就是里面文字或图片的大小。
-　　那么问题来了，浏览器还有默认的天生 inline-block 元素（拥有内在尺寸，可设置高宽，但不会自动换行），有哪些？
-
-答案：<input> 、<img> 、<button> 、<textarea> 、<label>。
 
 ### display 有哪些值？说明他们的作用。
 
@@ -112,17 +72,6 @@ Html 中的标签默认主要分为两大类型，一类为块级元素，另一
 - inline-flexbox： 将对象作为内联块级弹性伸缩盒显示。（伸缩盒过渡版本）（CSS3）
 - flex： 将对象作为弹性伸缩盒显示。（伸缩盒最新版本）（CSS3）
 - inline-flex： 将对象作为内联块级弹性伸缩盒显示。（伸缩盒最新版本）（CSS3）
-
-### 如何确定一个元素的包含块(containing block)
-
-1. 根元素的包含块叫做初始包含块，在连续媒体中他的尺寸与 viewport 相同并且 anchored at the canvas origin；对于 paged media，它的尺寸等于 page area。初始包含块的 direction 属性与根元素相同。
-2. position 为 relative 或者 static 的元素，它的包含块由最近的块级（display 为 block,list-item, table）祖先元素的内容框组成
-3. 如果元素 position 为 fixed。对于连续媒体，它的包含块为 viewport；对于 paged media，包含块为 page area
-4. 如果元素 position 为 absolute，它的包含块由祖先元素中最近一个 position 为 relative,absolute 或者 fixed 的元素产生，规则如下：
-5. 如果祖先元素为行内元素，the containing block is the bounding box around the padding boxes of the first and the last inline boxes generated for that element.
-
-- 其他情况下包含块由祖先节点的 padding edge 组成
-- 如果找不到定位的祖先元素，包含块为初始包含块
 
 ### block，inline 和 inline-block 细节对比？
 
@@ -195,29 +144,6 @@ Html 中的标签默认主要分为两大类型，一类为块级元素，另一
 - letter-spacing
 - word-spacing
 
-### 请问为何要使用 transform 而非 absolute positioning，或反之的理由？为什么？
-
-- 使用 transform 或 position 实现动画效果时是有很大差别。
-- 使用 transform 时，可以让 GPU 参与运算，动画的 FPS 更高。
-- 使用 position 时，最小的动画变化的单位是 1px，而使用 transform 参与时，可以做到更小（动画效果更加平滑）
-- 功能都一样。但是 translate 不会引起浏览器的重绘和重排，这就相当 nice 了。
-
-反之
-
-- transform 改变 fixed 子元素的定位对象
-- transform 改变元素层叠顺序
-  [transform 的副作用](http://imweb.io/topic/5a23e1f1a192c3b460fce26e)
-
-### display,float,position 的关系
-
-1. 如果`display`为 none，那么 position 和 float 都不起作用，这种情况下元素不产生框
-2. 否则，如果 position 值为 absolute 或者 fixed，框就是绝对定位的，float 的计算值为 none，display 根据下面的表格进行调整。
-3. 否则，如果 float 不是 none，框是浮动的，display 根据下表进行调整
-4. 否则，如果元素是根元素，display 根据下表进行调整
-5. 其他情况下 display 的值为指定值
-   总结起来：**绝对定位、浮动、根元素都需要调整`display`**
-   ![display转换规则](img/display-adjust.png)
-
 ### absolute 的 containing block 计算方式跟正常流有什么不同？
 
 无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
@@ -244,3 +170,29 @@ Html 中的标签默认主要分为两大类型，一类为块级元素，另一
 - 可以借助 vertical-align:top; 消除垂直间隙
 - 可以在父级加 font-size：0; 在子元素里设置需要的字体大小，消除垂直间隙
 - 把 li 标签写到同一行可以消除垂直间隙，但代码可读性差
+
+### 行内元素和块级元素的具体区别是什么？行内元素的 padding 和 margin 可以设置吗？
+
+行内元素:
+
+- 和相邻的内联元素在同一行；
+- width\height\padding-bottom\padding-bottom 和 margin-top\margin-bottom 都不可改变（也就是 padding 和 margin 的 left 和 right 是可以改变的）
+- 宽度只与内容有关；
+- 行内元素只能容纳文本或其他行内元素。
+
+块级元素
+
+- 总是在新的一行上开始，占据一整行，而且后面的元素也会另起一行显示；
+- width\height\padding\margin 都可控制；
+- 宽度始终与浏览器宽度一致，与内容无关；
+- 它可以容纳内联元素和其他块元素。
+
+### display,float,position 的关系
+
+1. 如果`display`为 none，那么 position 和 float 都不起作用，这种情况下元素不产生框
+2. 否则，如果 position 值为 absolute 或者 fixed，框就是绝对定位的，float 的计算值为 none，display 根据下面的表格进行调整。
+3. 否则，如果 float 不是 none，框是浮动的，display 根据下表进行调整
+4. 否则，如果元素是根元素，display 根据下表进行调整
+5. 其他情况下 display 的值为指定值
+   总结起来：**绝对定位、浮动、根元素都需要调整`display`**
+   ![display转换规则](img/display-adjust.png)

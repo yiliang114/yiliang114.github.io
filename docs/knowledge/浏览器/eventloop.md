@@ -1,12 +1,12 @@
 ---
-title: 懒加载的实现原理
+title: Event Loop
 date: '2020-10-26'
 draft: true
 ---
 
 ## Event Loop
 
-在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
+异步事件会被放置到对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
 
 #### Micro-Task 与 Macro-Task
 
@@ -186,6 +186,76 @@ setTimeout(() => {
 - 然后去查看宏任务队列，宏任务 setTimeout1 在 setTimeout2 之前，先执行宏任务 setTimeout1，输出 setTimeout1
 - 在执行宏任务 setTimeout1 时会生成微任务 Promise2 ，放入微任务队列中，接着先去清空微任务队列中的所有任务，输出 Promise2
 - 清空完微任务队列中的所有任务后，就又会去宏任务队列取一个，这回执行的是 setTimeout2
+
+### JS 中的 event loop
+
+> 众所周知 JS 是门非阻塞单线程语言，因为在最初 JS 就是为了和浏览器交互而诞生的。如果 JS 是门多线程的语言话，我们在多个线程中处理 DOM 就可能会发生问题（一个线程中新加节点，另一个线程中删除节点）
+
+- JS 在执行的过程中会产生执行环境，这些执行环境会被顺序的加入到执行栈中。如果遇到异步的代码，会被挂起并加入到 Task（有多种 task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为
+
+```js
+console.log('script start');
+
+setTimeout(function() {
+  console.log('setTimeout');
+}, 0);
+
+console.log('script end');
+```
+
+> 不同的任务源会被分配到不同的 `Task` 队列中，任务源可以分为 微任务（`micro-task`） 和 宏任务（`macro-task`）。在 `ES6` 规范中，`micro-task` 称为 jobs，macro-task 称为 task
+
+```js
+console.log('script start');
+
+setTimeout(function() {
+  console.log('setTimeout');
+}, 0);
+
+new Promise(resolve => {
+  console.log('Promise');
+  resolve();
+})
+  .then(function() {
+    console.log('promise1');
+  })
+  .then(function() {
+    console.log('promise2');
+  });
+
+console.log('script end');
+// script start => Promise => script end => promise1 => promise2 => setTimeout
+```
+
+> 以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务
+
+**微任务**
+
+- `process.nextTick`
+- `promise`
+- `Object.observe`
+- `MutationObserver`
+
+**宏任务**
+
+- `script`
+- `setTimeout`
+- `setInterval`
+- `setImmediate`
+- `I/O`
+- `UI rendering`
+
+> 宏任务中包括了 script ，浏览器会先执行一个宏任务，接下来有异步代码的话就先执行微任务
+
+**所以正确的一次 Event loop 顺序是这样的**
+
+- 执行同步代码，这属于宏任务
+- 执行栈为空，查询是否有微任务需要执行
+- 执行所有微任务
+- 必要的话渲染 UI
+- 然后开始下一轮 `Event loop`，执行宏任务中的异步代码
+
+> 通过上述的 `Event loop` 顺序可知，如果宏任务中的异步代码有大量的计算并且需要操作 `DOM` 的话，为了更快的响应界面响应，我们可以把操作 `DOM` 放入微任务中
 
 ### Node 中的 Event Loop
 
@@ -458,133 +528,7 @@ process.nextTick(() => {
 // nextTick=>nextTick=>nextTick=>nextTick=>timer1=>promise1
 ```
 
-### Node 与浏览器的 Event Loop 差异
-
-> 在浏览器和 Node 中 Event Loop 其实是不相同的
-
-**浏览器环境下，micro-task 的任务队列是每个 macro-task 执行完之后执行。而在 Node.js 中，micro-task 会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行 micro-task 队列的任务**。
-![](https://camo.githubusercontent.com/71b607cd363565c5d61299d31d9fd72b889de645/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343162616431636461373431663f773d3130353126683d33343426663d706e6726733d3932363835)
-
-接下我们通过一个例子来说明两者区别：
-
-```js
-setTimeout(() => {
-  console.log('timer1');
-  Promise.resolve().then(function() {
-    console.log('promise1');
-  });
-}, 0);
-setTimeout(() => {
-  console.log('timer2');
-  Promise.resolve().then(function() {
-    console.log('promise2');
-  });
-}, 0);
-```
-
-浏览器端运行结果：`timer1=>promise1=>timer2=>promise2`
-
-浏览器端的处理过程如下：
-
-![](https://camo.githubusercontent.com/b325e476f0336804b8bdbcd7e4e3674a52dfbd80/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343164363339326538663533373f773d36313126683d33343126663d67696626733d373232393739)
-
-Node 端运行结果分两种情况：
-
-- 如果是 node11 版本一旦执行一个阶段里的一个宏任务(setTimeout,setInterval 和 setImmediate)就立刻执行微任务队列，这就跟浏览器端运行一致，最后的结果为`timer1=>promise1=>timer2=>promise2`
-- 如果是 node10 及其之前版本：要看第一个定时器执行完，第二个定时器是否在完成队列中。
-
-  - 如果是第二个定时器还未在完成队列中，最后的结果为`timer1=>promise1=>timer2=>promise2`
-  - 如果是第二个定时器已经在完成队列中，则最后的结果为`timer1=>timer2=>promise1=>promise2`(下文过程解释基于这种情况下)
-
-    1.全局脚本（main()）执行，将 2 个 timer 依次放入 timer 队列，main()执行完毕，调用栈空闲，任务队列开始执行；
-
-    2.首先进入 timers 阶段，执行 timer1 的回调函数，打印 timer1，并将 promise1.then 回调放入 micro-task 队列，同样的步骤执行 timer2，打印 timer2；
-
-    3.至此，timer 阶段执行结束，event loop 进入下一个阶段之前，执行 micro-task 队列的所有任务，依次打印 promise1、promise2
-
-Node 端的处理过程如下：
-![](https://camo.githubusercontent.com/34b3491060826045c67bd57c6dcf97222620a722/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343164356638353436383034373f773d35393826683d33333326663d67696626733d343637363635)
-
-### 总结
-
-浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
-
-- Node 端，micro-task 在事件循环的各个阶段之间执行
-- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
-
-### 补充
-
-#### JS 中的 event loop
-
-> 众所周知 JS 是门非阻塞单线程语言，因为在最初 JS 就是为了和浏览器交互而诞生的。如果 JS 是门多线程的语言话，我们在多个线程中处理 DOM 就可能会发生问题（一个线程中新加节点，另一个线程中删除节点）
-
-- JS 在执行的过程中会产生执行环境，这些执行环境会被顺序的加入到执行栈中。如果遇到异步的代码，会被挂起并加入到 Task（有多种 task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为
-
-```js
-console.log('script start');
-
-setTimeout(function() {
-  console.log('setTimeout');
-}, 0);
-
-console.log('script end');
-```
-
-> 不同的任务源会被分配到不同的 `Task` 队列中，任务源可以分为 微任务（`micro-task`） 和 宏任务（`macro-task`）。在 `ES6` 规范中，`micro-task` 称为 jobs，macro-task 称为 task
-
-```js
-console.log('script start');
-
-setTimeout(function() {
-  console.log('setTimeout');
-}, 0);
-
-new Promise(resolve => {
-  console.log('Promise');
-  resolve();
-})
-  .then(function() {
-    console.log('promise1');
-  })
-  .then(function() {
-    console.log('promise2');
-  });
-
-console.log('script end');
-// script start => Promise => script end => promise1 => promise2 => setTimeout
-```
-
-> 以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务
-
-**微任务**
-
-- `process.nextTick`
-- `promise`
-- `Object.observe`
-- `MutationObserver`
-
-**宏任务**
-
-- `script`
-- `setTimeout`
-- `setInterval`
-- `setImmediate`
-- `I/O`
-- `UI rendering`
-
-> 宏任务中包括了 script ，浏览器会先执行一个宏任务，接下来有异步代码的话就先执行微任务
-
-**所以正确的一次 Event loop 顺序是这样的**
-
-- 执行同步代码，这属于宏任务
-- 执行栈为空，查询是否有微任务需要执行
-- 执行所有微任务
-- 必要的话渲染 UI
-- 然后开始下一轮 `Event loop`，执行宏任务中的异步代码
-
-> 通过上述的 `Event loop` 顺序可知，如果宏任务中的异步代码有大量的计算并且需要操作 `DOM` 的话，为了更快的响应界面响应，我们可以把操作 `DOM` 放入微任务中
-
-#### Node 中的 Event loop
+### Node 中的 Event loop
 
 - `Node` 中的 `Event loop` 和浏览器中的不相同。
 - `Node` 的 `Event loop` 分为`6`个阶段，它们会按照顺序反复运行
@@ -727,11 +671,54 @@ Node 的 Event Loop
 
 [浏览器与 Node 的事件循环(Event Loop)有何区别?](https://juejin.im/post/5c337ae06fb9a049bc4cd218#heading-12)
 
-#### 你说说 event loop 吧
+### Node 与浏览器的 Event Loop 差异
 
-首先，js 是单线程的，主要的任务是处理用户的交互，而用户的交互无非就是响应 DOM 的增删改，使用事件队列的形式，一次事件循环只处理一个事件响应，使得脚本执行相对连续，所以有了事件队列，用来储存待执行的事件，那么事件队列的事件从哪里被 push 进来的呢。那就是另外一个线程叫事件触发线程做的事情了，他的作用主要是在定时触发器线程、异步 HTTP 请求线程满足特定条件下的回调函数 push 到事件队列中，等待 js 引擎空闲的时候去执行，当然 js 引擎执行过程中有优先级之分，首先 js 引擎在一次事件循环中，会先执行 js 线程的主任务，然后会去查找是否有微任务 micro-task（promise），如果有那就优先执行微任务，如果没有，在去查找宏任务 macro-task（setTimeout、setInterval）进行执行。
+> 在浏览器和 Node 中 Event Loop 其实是不相同的
 
-#### 宏任务和微任务的打印顺序
+**浏览器环境下，micro-task 的任务队列是每个 macro-task 执行完之后执行。而在 Node.js 中，micro-task 会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行 micro-task 队列的任务**。
+![](https://camo.githubusercontent.com/71b607cd363565c5d61299d31d9fd72b889de645/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343162616431636461373431663f773d3130353126683d33343426663d706e6726733d3932363835)
+
+接下我们通过一个例子来说明两者区别：
+
+```js
+setTimeout(() => {
+  console.log('timer1');
+  Promise.resolve().then(function() {
+    console.log('promise1');
+  });
+}, 0);
+setTimeout(() => {
+  console.log('timer2');
+  Promise.resolve().then(function() {
+    console.log('promise2');
+  });
+}, 0);
+```
+
+浏览器端运行结果：`timer1=>promise1=>timer2=>promise2`
+
+浏览器端的处理过程如下：
+
+![](https://camo.githubusercontent.com/b325e476f0336804b8bdbcd7e4e3674a52dfbd80/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343164363339326538663533373f773d36313126683d33343126663d67696626733d373232393739)
+
+Node 端运行结果分两种情况：
+
+- 如果是 node11 版本一旦执行一个阶段里的一个宏任务(setTimeout,setInterval 和 setImmediate)就立刻执行微任务队列，这就跟浏览器端运行一致，最后的结果为`timer1=>promise1=>timer2=>promise2`
+- 如果是 node10 及其之前版本：要看第一个定时器执行完，第二个定时器是否在完成队列中。
+
+  - 如果是第二个定时器还未在完成队列中，最后的结果为`timer1=>promise1=>timer2=>promise2`
+  - 如果是第二个定时器已经在完成队列中，则最后的结果为`timer1=>timer2=>promise1=>promise2`(下文过程解释基于这种情况下)
+
+    1.全局脚本（main()）执行，将 2 个 timer 依次放入 timer 队列，main()执行完毕，调用栈空闲，任务队列开始执行；
+
+    2.首先进入 timers 阶段，执行 timer1 的回调函数，打印 timer1，并将 promise1.then 回调放入 micro-task 队列，同样的步骤执行 timer2，打印 timer2；
+
+    3.至此，timer 阶段执行结束，event loop 进入下一个阶段之前，执行 micro-task 队列的所有任务，依次打印 promise1、promise2
+
+Node 端的处理过程如下：
+![](https://camo.githubusercontent.com/34b3491060826045c67bd57c6dcf97222620a722/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343164356638353436383034373f773d35393826683d33333326663d67696626733d343637363635)
+
+### 宏任务和微任务的打印顺序
 
 ```js
 setTimeout(_ => console.log(4));
@@ -748,143 +735,7 @@ console.log(2);
 
 setTimeout 就是作为宏任务来存在的，而 Promise.then 则是具有代表性的微任务，上述代码的执行顺序就是按照序号来输出的。
 
-#### 写一个通用的事件侦听器函数
-
-```js
-my.Event = {
-  // 页面加载完成后
-  readyEvent: function(fn) {
-    if (fn == null) {
-      fn = document;
-    }
-    var oldonload = window.onload;
-    if (typeof window.onload != 'function') {
-      window.onload = fn;
-    } else {
-      window.onload = function() {
-        oldonload();
-        fn();
-      };
-    }
-  },
-  // 视能力分别使用dom0||dom2||IE方式 来绑定事件
-  // 参数： 操作的元素,事件名称 ,事件处理程序
-  addEvent: function(element, type, handler) {
-    if (element.addEventListener) {
-      //事件类型、需要执行的函数、是否捕捉
-      element.addEventListener(type, handler, false);
-    } else if (element.attachEvent) {
-      element.attachEvent('on' + type, function() {
-        handler.call(element);
-      });
-    } else {
-      element['on' + type] = handler;
-    }
-  },
-  // 移除事件
-  removeEvent: function(element, type, handler) {
-    if (element.removeEventListener) {
-      element.removeEventListener(type, handler, false);
-    } else if (element.datachEvent) {
-      element.detachEvent('on' + type, handler);
-    } else {
-      element['on' + type] = null;
-    }
-  },
-  // 阻止事件 (主要是事件冒泡，因为IE不支持事件捕获)
-  stopPropagation: function(ev) {
-    if (ev.stopPropagation) {
-      ev.stopPropagation();
-    } else {
-      ev.cancelBubble = true;
-    }
-  },
-  // 取消事件的默认行为
-  preventDefault: function(event) {
-    if (event.preventDefault) {
-      event.preventDefault();
-    } else {
-      event.returnValue = false;
-    }
-  },
-  // 获取事件目标
-  getTarget: function(event) {
-    return event.target || event.srcElement;
-  },
-  // 获取event对象的引用，取到事件的所有信息，确保随时能使用event；
-  getEvent: function(e) {
-    var ev = e || window.event;
-    if (!ev) {
-      var c = this.getEvent.caller;
-      while (c) {
-        ev = c.arguments[0];
-        if (ev && Event == ev.constructor) {
-          break;
-        }
-        c = c.caller;
-      }
-    }
-    return ev;
-  },
-};
-```
-
-#### javascript 实现一个带并发限制的异步调度器，保证同时最多运行 2 个任务
-
-```js
-class Scheduler {
-  constructor() {
-    (this.tasks = []), (this.usingTask = []);
-  }
-  add(promiseCreator) {
-    return new Promise((resolve, reject) => {
-      promiseCreator.resolve = resolve;
-      if (this.usingTask.length < 2) {
-        this.usingRun(promiseCreator);
-      } else {
-        this.tasks.push(promiseCreator);
-      }
-    });
-  }
-
-  usingRun(promiseCreator) {
-    this.usingTask.push(promiseCreator);
-    promiseCreator().then(() => {
-      promiseCreator.resolve();
-      debugger;
-      this.usingMove(promiseCreator);
-      if (this.tasks.length > 0) {
-        this.usingRun(this.tasks.shift());
-      }
-    });
-  }
-
-  usingMove(promiseCreator) {
-    let index = this.usingTask.findIndex(promiseCreator);
-    this.usingTask.splice(index, 1);
-  }
-}
-
-const timeout = time =>
-  new Promise(resolve => {
-    setTimeout(resolve, time);
-  });
-
-const scheduler = new Scheduler();
-
-const addTask = (time, order) => {
-  scheduler.add(() => timeout(time)).then(() => console.log(order));
-};
-
-addTask(400, 4);
-addTask(200, 2);
-addTask(300, 3);
-addTask(100, 1);
-
-// 2, 4, 3, 1
-```
-
-#### setTimeout 和 promise 的区别？宏任务和微任务是什么？有什么区别？
+### setTimeout 和 promise 的区别？宏任务和微任务是什么？有什么区别？
 
 宏任务队列可以有多个，微任务队列只有一个。
 
@@ -931,3 +782,10 @@ setTimeout(function() {
 
 结果是：
 1 5 6 2 3 4 7 8 9
+
+### 总结
+
+浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
+
+- Node 端，micro-task 在事件循环的各个阶段之间执行
+- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行

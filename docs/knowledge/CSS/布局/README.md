@@ -162,7 +162,9 @@ HTML代码：
 
 ### 如何让一张图片居中，并撑开父元素
 
-### Css 文字垂直排布 https://blog.csdn.net/sangjinchao/article/details/60139706
+### Css 文字垂直排布
+
+https://blog.csdn.net/sangjinchao/article/details/60139706
 
 ### 瀑布流等常见的布局方式手写
 
@@ -179,13 +181,3 @@ HTML代码：
 ### 做一个两栏布局;左边 fixed width,右边 responsive,用纸笔手写
 
 ### Css 现三列市局 Css 实现保持长宽比 1:1 Css 实现两个自适应等宽元素中间空 10 个像素。
-
-### 对栅格的理解
-
-### inline 的几个属性
-
-- inline
-- inline-block
-  -  定宽高度会撑开，好像会多出一部分
-- inline-grid
-  - 定宽高度会撑开，不会多出中间一部分
