@@ -6,9 +6,7 @@ aside: false
 draft: true
 ---
 
-# Hash Code
-
-### Hash
+## Hash
 
 ```js
 export default function Hash(key: string, mapLength: number = 50): number {
@@ -30,7 +28,7 @@ function hashCode(string: string): number {
 }
 ```
 
-### HashSet
+## HashSet
 
 ```js
 /**
@@ -88,7 +86,7 @@ HashSet.prototype = {
 export default HashSet;
 ```
 
-### HashMap
+## HashMap
 
 ```js
 /**
