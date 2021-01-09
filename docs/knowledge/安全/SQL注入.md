@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: SQL 注入
 date: 2020-11-21
-aside: false
 draft: true
 ---
 

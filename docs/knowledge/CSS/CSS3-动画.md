@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: 动画
 date: 2020-11-21
-aside: false
 draft: true
 ---
 
@@ -390,8 +388,6 @@ animation-iteration-count
 animation-direction
 规定是否应该轮流反向播放动画。
 
-
-
 ### linear-gradient
 
 做活动页面的时候我们经常会遇到这样的需求：
@@ -418,25 +414,25 @@ div {
 
 ```css
 div.chrome {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    box-shadow: 0 0 4px #999, 0 0 2px #ddd inset;
-    background: radial-gradient(circle, #4FACF5 0, #2196F3 28%, transparent 28%),
-                radial-gradient(circle, #fff 33%, transparent 33%),
-                linear-gradient(-50deg, #FFEB3B 34%, transparent 34%),
-                linear-gradient(60deg, #4CAF50 33%, transparent 33%),
-                linear-gradient(180deg, #FF756B 0, #F44336 30%, transparent 30%),
-                linear-gradient(-120deg, #FFEB3B 40%, transparent 40%),
-                linear-gradient(-60deg, #FFEB3B 30%, transparent 30%),
-                linear-gradient(0deg, #4CAF50 45%, transparent 45%),
-                linear-gradient(60deg, #4CAF50 30%, transparent 30%),
-                linear-gradient(120deg, #F44336 50%, transparent 50%),
-                linear-gradient(180deg, #F44336 30%, transparent 30%);
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px #999, 0 0 2px #ddd inset;
+  background: radial-gradient(circle, #4facf5 0, #2196f3 28%, transparent 28%), radial-gradient(
+      circle,
+      #fff 33%,
+      transparent 33%
+    ), linear-gradient(-50deg, #ffeb3b 34%, transparent 34%), linear-gradient(60deg, #4caf50 33%, transparent 33%),
+    linear-gradient(180deg, #ff756b 0, #f44336 30%, transparent 30%), linear-gradient(
+      -120deg,
+      #ffeb3b 40%,
+      transparent 40%
+    ), linear-gradient(-60deg, #ffeb3b 30%, transparent 30%), linear-gradient(0deg, #4caf50 45%, transparent 45%),
+    linear-gradient(60deg, #4caf50 30%, transparent 30%), linear-gradient(120deg, #f44336 50%, transparent 50%),
+    linear-gradient(180deg, #f44336 30%, transparent 30%);
 }
 ```
 
 实现原理就是使用了多个渐变色放在 div 上，友协被遮住，视觉上就产生了想要的效果，是不是很强大！看了下图你就知道其实就是在 div 上加了很多个渐变。
 
 ![img](https://lc-api-gold-cdn.xitu.io/3ce54ea0817bf4ff8084.gif?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
-

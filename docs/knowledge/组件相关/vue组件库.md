@@ -85,6 +85,14 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 
 ## 移动端组件库
 
+### 要点
+
+1. 内嵌一个 h5，开发环境下，组件的编辑实时可见。
+2. css 文件单独提取出来。
+3. 文档自动编译生成。
+
+### 组件库按需加载原理
+
 ### TODO
 
 1. 按需加载
@@ -100,11 +108,3 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 11. ts
 12. 分预览版和正式版，dev 分支 push 触发预览版的发布，提供一个组件库页面； 正式版类似
 13. 组件库 t1-cli 用于校验一些信息之类的。
-
-### 要点
-
-1. 内嵌一个 h5，开发环境下，组件的编辑实时可见。
-2. css 文件单独提取出来。
-3. 文档自动编译生成。
-
-### 组件库按需加载原理

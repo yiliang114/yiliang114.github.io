@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: 手写 Promise、async、await
 date: 2020-11-16
-aside: false
 draft: true
 ---
 

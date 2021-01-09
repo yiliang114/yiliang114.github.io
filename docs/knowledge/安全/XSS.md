@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: XSS 跨站脚本攻击
 date: 2020-11-21
-aside: false
 draft: true
 ---
 

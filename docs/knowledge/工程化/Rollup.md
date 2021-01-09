@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: engineering
 date: 2020-11-21
-aside: false
 draft: true
 ---
 
@@ -20,10 +18,6 @@ rollup -c rollup.dev.config.js
 // w 表示 watch m 表示生成 sourcemap
 rollup -wm
 ```
-
-#### rollup ts
-
-https://chenshenhai.github.io/rollupjs-note/note/chapter06/01.html
 
 ### 打包
 
@@ -53,5 +47,3 @@ $ rollup main.js --file bundle.js --format umd --name "myBundle"
 - 浏览器执行的包一般都会打包成 iife 立即执行函数
 - node 默认的模块化是 cjs
 - 如果包需要同时支持 node 以及浏览器的话，需要打包成 umd
-
-https://chenshenhai.github.io/rollupjs-note/note/chapter02/02-05.html

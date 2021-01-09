@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: 虚拟 DOM
 date: 2020-12-30
-aside: false
 draft: true
 ---
 

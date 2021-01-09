@@ -1,38 +1,8 @@
 ---
-layout: CustomPages
 title: SkeletonScreen
 date: 2020-11-21
-aside: false
 draft: true
 ---
-
-一直以来，无论是 web 还是 iOS、android 的应用中，为了提升应用的加载等待这段时间的用户感知体验，各种奇门遁甲之术层出不穷。其中，菊花图以及由它衍生各种加载动画是一个非常大的流派，如下图所示：
-
-![img](https://blog-10039692.file.myqcloud.com/1508382587648_934_1508382611328.gif)
-
-由它衍生而出的各种加载动画也是遍地开花：
-
-![img](https://blog-10039692.file.myqcloud.com/1508382595843_8516_1508382619365.jpg)
-
-在很多的应用的交互中，这种菊花的加载的设计已然要一统江湖了。
-
-不过，现在对于加载的设计体验有了比菊花加载体验更棒的方法，即本文要讲的**Skeleton Screen Loading**，中文一般叫做骨架屏。骨架屏听起来总觉得怪怪的，本文还是沿用英文的叫法**Skeleton Screen Loading**。
-
-所谓 Skeleton Screen Loading 即表示在页面完全渲染完成之前，用户会看到一个样式简单，描绘了当前页面的大致框架，感知到页面正在逐步加载，加载完成后，最终骨架屏中各个占位部分将被真实的数据替换。
-
-一图胜千言，来看看微信阅读的客户端，它就使用了 Skeleton Screen Loading 来提升它的加载体验，可以下载它的客户端实际感受下：
-
-![img](https://blog-10039692.file.myqcloud.com/1508382617834_4936_1508382642834.gif)
-
-现在好多 web 和客户端都已经放弃了以前的那种菊花的加载体验，转而使用 Skeleton Screen Loading，比如 Facebook、medium 以及 slack 等。国内的饿了么、掘金等也都使用 Skeleton Screen Loading 来提升它们的加载体验。
-
-![img](https://blog-10039692.file.myqcloud.com/1508382762452_1341_1508382786287.jpg)
-
-下面这段话，是 iOS 中关于加载体验的交互设计标准的一个说明：
-
-> Don’t make people wait for content to load before seeing the screen they’re expecting. Show the screen immediately, and use placeholder text, graphics, or animations to identify where content isn’t available yet. Replace these placeholder elements as the content loads. — Apple iOS Human Interface Guidelines
-
-使用 Skeleton Screen Loading 也充分遵循了 iOS 人机交互设计指南。本文就来讲讲如何使用 vue 来实现 Skeleton Screen Loading。
 
 ## VUE 实现思路
 
@@ -145,8 +115,4 @@ var app = new Vue({
 
 通过上面简单的实例，可以明显感受到当使用 Skeleton Screen Loading 来代替传统的菊花图在体验上更加好一些。
 
-使用 Skeleton Screen Loading，可以利用一些视觉元素来将内容的轮廓更快显示在屏幕上，让用户在等待加载的过程中对将要加载的内容有一个更加清晰的预期，特别是在弱网络的场景下，Skeleton Screen Loading 的体验无疑是更好的，用起来吧。
-
-对于 Skeleton Screen Loading，你有什么样的看法呢？欢迎在评论区留言一起分享你的看法。
-
-https://codepen.io/janily/pen/rGqQgJ
+使用 Skeleton Screen Loading，可以利用一些视觉元素来将内容的轮廓更快显示在屏幕上，让用户在等待加载的过程中对将要加载的内容有一个更加清晰的预期，特别是在弱网络的场景下，Skeleton Screen Loading 的体验无疑是更好的.

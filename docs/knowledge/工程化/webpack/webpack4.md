@@ -1,9 +1,8 @@
 ---
-layout: CustomPages
+
 title: Webpack4 配置教程
 date: 2020-12-23
 aside: false
----
 
 # Webpack4 配置教程
 

@@ -1,12 +1,8 @@
 ---
-layout: CustomPages
 title: webpack
 date: 2020-11-21
 aside: false
-draft: true
----
-
-# Loader
+---# Loader
 
 当打包到非 JS 文件的时候，webpack 会在`module`中配置里查找，然后根据`rules`中的`test`选择一个 loader 来处理。
 
@@ -48,11 +44,11 @@ rules: [
       // option 为配置参数
       options: {
         // 图片打包出来的名字和后缀原来的一样
-        name: '[name]_[hash].[ext]'
-      }
-    }
-  }
-]
+        name: '[name]_[hash].[ext]',
+      },
+    },
+  },
+];
 ```
 
 #### url-loader
@@ -69,11 +65,11 @@ rules: [
       loader: 'url-loader',
       // option 为配置参数
       options: {
-        limit: 2048
-      }
-    }
-  }
-]
+        limit: 2048,
+      },
+    },
+  },
+];
 ```
 
 ### 打包样式
@@ -99,8 +95,8 @@ loader 是**有顺序**的，顺序是：从数组的最后一个依次向前处
 use: [
   'style-loader', // creates style nodes from JS strings
   'css-loader', // translates CSS into CommonJS
-  'sass-loader' // compiles Sass to CSS, using Node Sass by default
-]
+  'sass-loader', // compiles Sass to CSS, using Node Sass by default
+];
 ```
 
 #### [厂商前缀 postcss-loader](https://webpack.js.org/loaders/postcss-loader/)
@@ -109,16 +105,16 @@ use: [
 use: [
   'style-loader', // creates style nodes from JS strings
   'css-loader', // translates CSS into CommonJS
-  'postcss-loader' // compiles Sass to CSS, using Node Sass by default
-]
+  'postcss-loader', // compiles Sass to CSS, using Node Sass by default
+];
 ```
 
 它可以进行配置，要创建一个`postcss.config.js`文件
 
 ```js
 module.exports = {
-  plugins: [require('autoprefixer')]
-}
+  plugins: [require('autoprefixer')],
+};
 ```
 
 `autoprefixer`这个插件可以帮我们添加厂商前缀
@@ -135,12 +131,12 @@ use: [
   {
     loader: 'css-loader',
     options: {
-      importLoaders: 2
-    }
+      importLoaders: 2,
+    },
   },
   'sass-loader',
-  'postcss-loader'
-]
+  'postcss-loader',
+];
 ```
 
 #### CSS modules

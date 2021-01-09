@@ -1,12 +1,8 @@
 ---
-layout: CustomPages
 title: webpack
 date: 2020-11-21
 aside: false
-draft: true
----
-
-## webpack 配置文件
+---## webpack 配置文件
 
 ### webpack.config.js
 
@@ -16,7 +12,7 @@ webpack.config.js 是 webpack 的默认打包配置文件。也可以`npx webpac
 /**
  * Wepack配置接口
  */
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   // 打包模式
@@ -27,9 +23,9 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     // path 后必须是一个绝对位置
-    path: path.resolve(__dirname, 'bundle')
-  }
-}
+    path: path.resolve(__dirname, 'bundle'),
+  },
+};
 ```
 
 其中`entry: "./index.js"`是一个简写，

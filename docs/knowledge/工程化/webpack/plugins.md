@@ -1,12 +1,8 @@
 ---
-layout: CustomPages
 title: webpack
 date: 2020-11-21
 aside: false
-draft: true
----
-
-# plugins
+---# plugins
 
 使用`plugins`让打包变的便捷，可以在 webpack 打包的某时刻帮做一些事情，他很像一个生命周期函数
 

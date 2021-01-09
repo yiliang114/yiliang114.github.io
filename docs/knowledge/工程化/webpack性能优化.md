@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: engineering
 date: 2020-11-21
-aside: false
 draft: true
 ---
 
@@ -166,11 +164,11 @@ import { a } from './test.js';
 ```js
 [
   /* 0 */
-  function (module, exports, require) {
+  function(module, exports, require) {
     //...
   },
   /* 1 */
-  function (module, exports, require) {
+  function(module, exports, require) {
     //...
   },
 ];
@@ -181,7 +179,7 @@ import { a } from './test.js';
 ```js
 [
   /* 0 */
-  function (module, exports, require) {
+  function(module, exports, require) {
     //...
   },
 ];

@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: 浏览器
 date: 2020-11-21
-aside: false
 draft: true
 ---
 

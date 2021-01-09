@@ -1,8 +1,6 @@
 ---
-layout: CustomPages
 title: css3
 date: 2020-11-21
-aside: false
 draft: true
 ---
 
@@ -12,7 +10,7 @@ draft: true
 
 应该算是 css3 使用最多的属性了，通常是让一些交互效果变得不那么生硬。css3 过渡是元素从一种样式逐渐改变为另一种效果，要实现这一点，必须规定两项定容: 指定要添加效果的 css 属性和效果的持续时间。
 
-transition: CSS属性，花费时间，效果曲线(默认ease)，延迟时间(默认0)
+transition: CSS 属性，花费时间，效果曲线(默认 ease)，延迟时间(默认 0)
 
 例子:
 
@@ -27,19 +25,19 @@ translate:移动，是 transform 的一个方法
 transform:变形，改变
 transition: 允许 css 属性值在一定的时间区间内平滑的过渡。（过渡动画）
 
-
 ```css
 transition-property: width;
 transition-duration: 1s;
 transition-timing-function: linear;
 transition-delay: 2s;
 ```
+
 #### 2. 动画 animation
 
 动画这个效果也使用非常多，主要是做一个预设动画和一些页面交互的动画效果，主要的结果和过渡应该一样，也不会让页面显得那么生硬。
 
 ```css
-animation:动画名称，一个周期花费时间，运动曲线（默认ease），动画延迟（默认0），播放次数（默认1），是否反向播放动画（默认normal），是否暂停动画（默认running）
+animation: 动画名称，一个周期花费时间，运动曲线（默认ease），动画延迟（默认0），播放次数（默认1），是否反向播放动画（默认normal），是否暂停动画（默认running）;
 ```
 
 demo
@@ -90,13 +88,12 @@ animation: logo2-line 2s linear alternate infinite;
 还有一个重要属性
 
 ```css
-animation-fill-mode : none | forwards | backwards | both;
+animation-fill-mode: none | forwards | backwards | both;
 /*none：不改变默认行为。
 forwards ：当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）。
 backwards：在 animation-delay 所指定的一段时间内，在动画显示之前，应用开始属性值（在第一个关键帧中定义）。
 both：向前和向后填充模式都被应用。  */
 ```
-
 
 #### 3. 形状转换
 
@@ -196,8 +193,6 @@ background-clip
 制定背景绘制（显示）区域
 
 默认情况（从边框开始绘制）
-
-
 
 ##### background-clip
 
@@ -479,7 +474,6 @@ body {
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40c47144d22?imageslim)
 
-
 ### CSS3 有哪些新特性？
 
 - 新增各种 CSS 选择器 （: not(.input):所有 class 不是“input”的节点）
@@ -533,4 +527,3 @@ body {
 - ::selection 选择被用户选取的元素部分
 - :first-line 选择元素中的第一行
 - :first-letter 选择元素中的第一个字符
-

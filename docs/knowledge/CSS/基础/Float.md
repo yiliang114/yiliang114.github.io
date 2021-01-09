@@ -1,9 +1,7 @@
 ---
-layout: CustomPages
 title: 基础
 date: 2020-11-21
 aside: false
-draft: true
 ---
 
 ### float
