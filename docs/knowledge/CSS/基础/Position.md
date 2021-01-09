@@ -4,15 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-### position 的值
-
-- static 默认值。没有定位，元素出现在正常的流中
-- absolute：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位
-- relative：生成相对定位的元素，相对于其正常位置进行定位
-- fixed：生成绝对定位的元素，相对于浏览器窗口进行定位
-- sticky 生成粘性定位的元素，容器的位置根据正常文档流计算得出
-- inherit 规定从父元素继承 position 属性的值
-
 ### 说说你对页面中使用定位(position)的理解？
 
 使用 css 布局 position 非常重要，语法如下：
@@ -21,7 +12,7 @@ position：static | relative | absolute | fixed | center | page | sticky
 默认值：static，center、page、sticky 是 CSS3 中新增加的值。
 
 1. static
-   可以认为静态的，默认元素都是静态的定位，对象遵循常规流。此时 4 个定位偏移属性不会被应用，也就是使用 left，right，bottom，top 将不会生效。
+   可以认为静态的，默认元素都是静态的定位，对象遵循常规流。
 2. relative
    相对定位，对象遵循常规流，并且参照自身在常规流中的位置通过 top，right，bottom，left 这 4 个定位偏移属性进行偏移时不会影响常规流中的任何元素。
 3. absolute
@@ -35,30 +26,7 @@ position：static | relative | absolute | fixed | center | page | sticky
    与 absolute 一致。元素在分页媒体或者区域块内，元素的包含块始终是初始包含块，否则取决于每个 absolute 模式。（CSS3）
 7. sticky
    对象在常态时遵循常规流。它就像是 relative 和 fixed 的合体，当在屏幕中时按常规流排版，当卷动到屏幕外时则表现如 fixed。该属性的表现是现实中你见到的吸附效果。（CSS3）
-
-### 绝对定位、相对定位
-
-#### position 的值 relative 和 absolute 定位原点是？
-
-- absolute：生成绝对定位的元素，相对于 static 定位以外的第一个祖先元素进行定位
-- fixed：生成绝对定位的元素，相对于浏览器窗口进行定位。 （IE6 不支持）
-- relative：生成相对定位的元素，相对于其在普通流中的位置进行定位
-- static：默认值。没有定位，元素出现在正常的流中
-- sticky
-
-#### css 的绝对定位
-
-参照物的问题，这里是因为 position: absolute 忽略根元素的 padding。https://my.oschina.net/hcliu/blog/1186752 写篇总结吧。父元素的 padding 可以承装绝对定位的子元素。原因见： https://gist.github.com/wengeezhang/6666442 测试代码见 jsbin： https://jsbin.com/movevay/edit?html,css,output
-
-### `relative`、`fixed`、`absolute`和`static`四种定位有什么区别？
-
-经过定位的元素，其`position`属性值必然是`relative`、`absolute`、`fixed`或`sticky`。
-
-- `static`：默认定位属性值。该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。
-- `relative`：该关键字下，元素先放置在未添加定位时的位置，再在不改变页面布局的前提下调整元素位置（因此会在此元素未添加定位时所在位置留下空白）。
-- `absolute`：不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。
-- `fixed`：不为元素预留空间，而是通过指定元素相对于屏幕视口（viewport）的位置来指定元素位置。元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform 属性非 none 时，容器由视口改为该祖先。
-- `sticky`：盒位置根据正常流计算(这称为正常流动中的位置)，然后相对于该元素在流中的 flow root（BFC）和 containing block（最近的块级祖先元素）定位。在所有情况下（即便被定位元素为 `table` 时），该元素定位均不对后续元素造成影响。当元素 B 被粘性定位时，后续元素的位置仍按照 B 未定位时的位置来确定。`position: sticky` 对 `table` 元素的效果与 `position: relative` 相同。
+   盒位置根据正常流计算(这称为正常流动中的位置)，然后相对于该元素在流中的 flow root（BFC）和 containing block（最近的块级祖先元素）定位。在所有情况下（即便被定位元素为 `table` 时），该元素定位均不对后续元素造成影响。当元素 B 被粘性定位时，后续元素的位置仍按照 B 未定位时的位置来确定。`position: sticky` 对 `table` 元素的效果与 `position: relative` 相同。
 
 ### absolute 的 containing block(容器块)计算方式跟正常流有什么不同？
 
@@ -115,9 +83,7 @@ absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固�
 
 当使用`translate()`时，元素仍然占据其原始空间（有点像`position：relative`），这与改变绝对定位不同。
 
-### position: fixed 在安卓下无效是怎么处理的。
-
-#### position 的值， relative 和 absolute 分别是相对于谁进行定位的？
+### position 的值， relative 和 absolute 分别是相对于谁进行定位的？
 
 - `absolute` :生成绝对定位的元素， 相对于最近一级的 定位不是 static 的父元素来进行定位。
 - `fixed` （老 IE 不支持）生成绝对定位的元素，通常相对于浏览器窗口或 frame 进行定位。
@@ -130,4 +96,4 @@ absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固�
 绝对定位是相对于最近的已经定位的祖先元素，没有则相对于 body，绝对定位脱离文档流，而相对定位是相对于元素在文档中的初始位置，并且
 相对定位的元素仍然占据原有的空间。
 
-绝对定位和相对定位相对的基准是 第一个非 static 的父元素 ？
+绝对定位和相对定位相对的基准是 第一个非 static 的父元素。

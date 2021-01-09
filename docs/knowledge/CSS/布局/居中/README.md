@@ -273,12 +273,6 @@ justify-content：定义在主轴（横轴）方向上的对齐方式
 
 ### 移动端布局方案
 
-### 实现三栏布局（圣杯布局，双飞翼布局，flex 布局）
-
-### 圣杯布局和双飞翼布局的理解和区别，并用代码实现
-
-https://github.com/haizhilin2013/interview/issues/2
-
 ### css 实现水平垂直居中
 
 ```css
@@ -414,7 +408,7 @@ div{
 
 ### CSS 垂直居中、水平垂直居中
 
-### 52.怎么让一个 div 水平垂直居中
+### 怎么让一个 div 水平垂直居中
 
 ```js
 <div class="parent">

@@ -7,6 +7,7 @@ draft: true
 ### 上下 margin 重合的问题
 
 在重合元素外包裹一层容器，并触发该容器生成一个 BFC。
+
 例子：
 
 ```html
@@ -34,6 +35,38 @@ draft: true
   overflow: hidden;
 }
 ```
+
+### margin 叠加几种情况
+
+margin 叠加的意思是：当两个或者更多的垂直外边距 相遇时，它们将形成一个外边距，这个外边距的高度等于两个发生叠加的外边距中高度较大者。
+
+1. 当一个元素出现在另一个元素上面时，第一个元素的底边外边距与第二个元素的顶边外边距发生叠加。如图：
+   ![叠加](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition1.png)
+
+2. 当一个元素在另一个元素中时，它们的顶边距和低边距也会发生叠加
+   ![叠加2](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition2.png)
+
+3. 如果一个元素是空元素（即一个元素没有内容，内边距和边框），这种情况外边距的顶边距和低边距碰在一起也会发生叠加
+   ![叠加3](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition3.png)
+
+4. 在上面那种空元素的情况，如果该空元素与另一个元素的外边距碰在一起，也会发生叠加。
+   ![叠加4](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition4.png)
+
+以上 4 种外边距叠加情况**只会发生在普通文档流的垂直方向**。行内框、浮动框、绝对定位框之间的外边距不会发生叠加，同样水平方向也不会发生叠加。
+
+### 如何解决多个元素重叠问题？
+
+使用 z-index 属性可以设置元素的层叠顺序
+z-index 属性
+语法：z-index: auto | <integer>
+默认值：auto
+适用于：定位元素。即定义了 position 为非 static 的元素
+取值：
+auto： 元素在当前层叠上下文中的层叠级别是 0。元素不会创建新的局部层叠上下文，除非它是根元素。
+整数： 用整数值来定义堆叠级别。可以为负值。 说明：
+检索或设置对象的层叠顺序。
+z-index 用于确定元素在当前层叠上下文中的层叠级别，并确定该元素是否创建新的局部层叠上下文。
+当多个元素层叠在一起时，数字大者将显示在上面。
 
 ### 外边距折叠(collapsing margins)
 
@@ -136,24 +169,6 @@ draft: true
 
 > 所以，如果要表达父子之间的距离，我们一定要善于使用父亲的 padding，而不是儿子的`margin。
 
-### margin 叠加几种情况
-
-margin 叠加的意思是：当两个或者更多的垂直外边距 相遇时，它们将形成一个外边距，这个外边距的高度等于两个发生叠加的外边距中高度较大者。
-
-1. 当一个元素出现在另一个元素上面时，第一个元素的底边外边距与第二个元素的顶边外边距发生叠加。如图：
-   ![叠加](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition1.png)
-
-2. 当一个元素在另一个元素中时，它们的顶边距和低边距也会发生叠加
-   ![叠加2](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition2.png)
-
-3. 如果一个元素是空元素（即一个元素没有内容，内边距和边框），这种情况外边距的顶边距和低边距碰在一起也会发生叠加
-   ![叠加3](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition3.png)
-
-4. 在上面那种空元素的情况，如果该空元素与另一个元素的外边距碰在一起，也会发生叠加。
-   ![叠加4](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/marginSuperposition4.png)
-
-以上 4 种外边距叠加情况**只会发生在普通文档流的垂直方向**。行内框、浮动框、绝对定位框之间的外边距不会发生叠加，同样水平方向也不会发生叠加。
-
 ### 行内(inline)元素 设置`margin-top`和`margin-bottom` 是否起作用？
 
 不起作用。(答案是起作用，个人觉得不对。)
@@ -168,6 +183,10 @@ html 里的元素分为替换元素（replaced element）和非替换元素（no
 首先我们应该明确外边距可以应用到行内元素，规范中是允许的，不过由于在向一个行内非替换元素应用外边距，对行高(line-height)没有任何影响。由于外边距实际上是透明的。所以对声明`margin-top`和`margin-bottom`没有任何视觉效果。其原因就在于行内非替换元素的外边距不会改变一个元素的行高。而对于行内非替换元素的左右边距则不是这样，是有影响的。
 
 而为替换元素设置的外边距会影响行高，可能会使行高增加或减少，这取决于上下外边距的值。行内替换元素的左右边距与非替换元素的左右边距的作用一样。
+
+### css:两个块状元素上下的 margin-top 和 margin-bottom 会重叠。啥原因？怎么解决？（应该给父类元素添加 BFC）
+
+原因在于 div1 的 margin-bottom 的参照元素是 div2-1，而 div2-1 的 margin-top 的参照元素恰好是 div1，这就导致了它俩之间的间距就会以两值中最大的那个为实际效果。
 
 ### margin 和 padding 分别适合什么场景使用？
 
@@ -413,24 +432,6 @@ p {
 效果：
 
 ![img](https://pic002.cnblogs.com/images/2012/389001/2012082813072672.png)
-
-### 如何解决多个元素重叠问题？
-
-使用 z-index 属性可以设置元素的层叠顺序
-z-index 属性
-语法：z-index: auto | <integer>
-默认值：auto
-适用于：定位元素。即定义了 position 为非 static 的元素
-取值：
-auto： 元素在当前层叠上下文中的层叠级别是 0。元素不会创建新的局部层叠上下文，除非它是根元素。
-整数： 用整数值来定义堆叠级别。可以为负值。 说明：
-检索或设置对象的层叠顺序。
-z-index 用于确定元素在当前层叠上下文中的层叠级别，并确定该元素是否创建新的局部层叠上下文。
-当多个元素层叠在一起时，数字大者将显示在上面。
-
-### css:两个块状元素上下的 margin-top 和 margin-bottom 会重叠。啥原因？怎么解决？（应该给父类元素添加 BFC）
-
-原因在于 div1 的 margin-bottom 的参照元素是 div2-1，而 div2-1 的 margin-top 的参照元素恰好是 div1，这就导致了它俩之间的间距就会以两值中最大的那个为实际效果。
 
 ### 负 margin 和 padding 分别适合什么样的场景
 
