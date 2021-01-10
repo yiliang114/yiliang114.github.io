@@ -25,44 +25,6 @@ draft: true
 
 ## 例题
 
-#### 爬楼梯问题 [LeetCode 70](https://leetcode.com/problems/climbing-stairs/)
-
-经典的动态规划问题之一，容易找到其状态转移方程为 `dp[i] = dp[i-1] + dp[i-2]`，从基础的 1 和 2 个台阶两个状态开始，自底向上求解：
-
-```cpp
-int climbStairs(int n) {
-    if (n == 1) {
-        return 1;
-    }
-
-    int* dp = new int[n+1]();
-    dp[1] = 1;
-    dp[2] = 2;
-
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
-    }
-
-    return dp[n];
-}
-```
-
-从上面的代码中看到，`dp[i]` 只依赖 `dp[i-1]` 和 `dp[i-2]`，因此可以将代码简化：
-
-```cpp
-int climbStairs(int n) {
-    int f0 = 1, f1 = 1, i, f2;
-    for (i=2; i<=n; i++) {
-        f2 = f0 + f1;
-        f0 = f1;
-        f1 = f2;
-    }
-    return f1;
-}
-```
-
-容易看出其实结果就是 fibonacci 数列的第 n 项。
-
 #### 连续子数组的最大和 [LeetCode 53](https://leetcode.com/problems/maximum-subarray/)
 
 用 `dp[n`] 表示元素 n 作为末尾的连续序列的最大和，容易想到状态转移方程为`dp[n] = max(dp[n-1] + num[n], num[n])`，从第 1 个元素开始，自顶向上求解：
