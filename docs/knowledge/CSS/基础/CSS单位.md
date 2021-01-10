@@ -59,13 +59,15 @@ em 相对于父元素，rem 相对于根元素。
 
 代码：
 
+```html
 <div style="line-height:150%;font-size:16px;">
-    父元素内容
-    <div style="font-size:30px;">
-          Web前端开发<br />
-          line-height行高问题
-    </div>
+  父元素内容
+  <div style="font-size:30px;">
+    Web前端开发<br />
+    line-height行高问题
+  </div>
 </div>
+```
 
 ![img](https://pic3.zhimg.com/50/cd8d76c78e80e3183a1c241dfb39f2c5_hd.jpg)![img](https://pic3.zhimg.com/80/cd8d76c78e80e3183a1c241dfb39f2c5_hd.jpg)
 

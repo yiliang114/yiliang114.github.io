@@ -4,162 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-### 30.两个数组合并成一个数组
-
-请把两个数组 ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'] 和 ['A', 'B', 'C', 'D']，合并为 ['A1', 'A2', 'A', 'B1', 'B2', 'B', 'C1', 'C2', 'C', 'D1', 'D2', 'D']。
-
-```js
-function concatArr(arr1, arr2) {
-  const arr = [...arr1];
-  let currIndex = 0;
-  for (let i = 0; i < arr2.length; i++) {
-    const RE = new RegExp(arr2[i]);
-    while (currIndex < arr.length) {
-      ++currIndex;
-      if (!RE.test(arr[currIndex])) {
-        arr.splice(currIndex, 0, a2[i]);
-        break;
-      }
-    }
-  }
-  return arr;
-}
-var a1 = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'];
-var a2 = ['A', 'B', 'C', 'D'];
-const arr = concatArr(a1, a2);
-console.log(a1); // ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2']
-console.log(a2); // ['A', 'B', 'C', 'D']
-console.log(arr); // ['A1', 'A2', 'A', B1', 'B2', 'B', C1', 'C2', 'C', D1', 'D2', 'D']
-```
-
-### 31.改造下面的代码，使之输出 0 - 9，写出你能想到的所有解法。
-
-```js
-for (var i = 0; i < 10; i++) {
-  setTimeout(() => {
-    console.log(i);
-  }, 1000);
-}
-```
-
-```js
-for (var i = 0; i < 10; i++) {
-  setTimeout(
-    i => {
-      console.log(i);
-    },
-    1000,
-    i,
-  );
-}
-```
-
-### 34.简单改造下面的代码，使之分别打印 10 和 20。
-
-```js
-var b = 10;
-(function b() {
-  b = 20;
-  console.log(b);
-})();
-```
-
-```js
-var b = 10;
-(function b() {
-  b = 20;
-  console.log(b);
-})();
-```
-
-我的解法：
-1）打印 10
-
-```js
-var b = 10;
-(function b(b) {
-  window.b = 20;
-  console.log(b);
-})(b);
-```
-
-或者
-
-```js
-var b = 10;
-(function b(b) {
-  b.b = 20;
-  console.log(b);
-})(b);
-```
-
-2）打印 20
-
-```js
-var b = 10;
-(function b(b) {
-  b = 20;
-  console.log(b);
-})(b);
-```
-
-或
-
-```js
-var b = 10;
-(function b() {
-  var b = 20;
-  console.log(b);
-})();
-```
-
-### 38.下面代码中 a 在什么情况下会打印 1？
-
-```js
-var a = ?;
-if(a == 1 && a == 2 && a == 3){
- 	console.log(1);
-}
-```
-
-题目如下
-
-```js
-var a = ?;
-if(a == 1 && a == 2 && a == 3){
- 	console.log(1);
-}
-```
-
-答案解析 因为==会进行隐式类型转换 所以我们重写 toString 方法就可以了
-
-```js
-var a = {
-  i: 1,
-  toString() {
-    return a.i++;
-  },
-};
-
-if (a == 1 && a == 2 && a == 3) {
-  console.log(1);
-}
-```
-
-### 42.实现一个 sleep 函数
-
-比如 sleep(1000) 意味着等待 1000 毫秒，可从 Promise、Generator、Async/Await 等角度实现
-
-```js
-const sleep = time => {
-  return new Promise(resolve => setTimeout(resolve, time));
-};
-
-sleep(1000).then(() => {
-  // 这里写你的骚操作
-});
-```
-
 ### 43.使用 sort() 对数组 [3, 15, 8, 29, 102, 22] 进行排序，输出结果
 
 原题目：
@@ -186,67 +30,6 @@ Number.prototype.minus = function(n) {
   return this.valueOf() - n;
 };
 ```
-
-[![image](https://user-images.githubusercontent.com/13726966/55743276-79e83000-5a64-11e9-9227-39b7fe4b98de.png)](https://user-images.githubusercontent.com/13726966/55743276-79e83000-5a64-11e9-9227-39b7fe4b98de.png)
-
-### 57.分析比较 opacity: 0、visibility: hidden、display: none 优劣和适用场景。
-
-display: none (不占空间，不能点击)（场景，显示出原来这里不存在的结构）
-visibility: hidden（占据空间，不能点击）（场景：显示不会导致页面结构发生变动，不会撑开）
-opacity: 0（占据空间，可以点击）（场景：可以跟 transition 搭配）
-
-### 58.箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？
-
-箭头函数是普通函数的简写，可以更优雅的定义一个函数，和普通函数相比，有以下几点差异：
-
-1、函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象。
-
-2、不可以使用 arguments 对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
-
-3、不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数。
-
-4、不可以使用 new 命令，因为：
-
-- 没有自己的 this，无法调用 call，apply。
-- 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的 **proto**
-
-new 过程大致是这样的：
-
-```js
-function newFunc(father, ...rest) {
-  var result = {};
-  result.__proto__ = father.prototype;
-  var result2 = father.apply(result, rest);
-  if ((typeof result2 === 'object' || typeof result2 === 'function') && result2 !== null) {
-    return result2;
-  }
-  return result;
-}
-```
-
-### 59.给定两个数组，写一个方法来计算它们的交集。
-
-例如：给定 nums1 = [1, 2, 2, 1]，nums2 = [2, 2]，返回 [2, 2]。
-
-```js
-function union(arr1, arr2) {
-  return arr1.filter(item => {
-    return arr2.indexOf(item) > -1;
-  });
-}
-const a = [1, 2, 2, 1];
-const b = [2, 3, 2];
-console.log(union(a, b)); // [2, 2]
-```
-
-### 61.介绍下如何实现 token 加密
-
-jwt 举例
-
-1. 需要一个 secret（随机数）
-1. 后端利用 secret 和加密算法(如：HMAC-SHA256)对 payload(如账号密码)生成一个字符串(token)，返回前端
-1. 前端每次 request 在 header 中带上 token
-1. 后端用同样的算法解密
 
 ### 63.如何设计实现无缝轮播
 
@@ -299,19 +82,6 @@ useEffect(() => {
 3 background-image
 4 box-shadow
 
-### 69. 如何把一个字符串的大小写取反（大写变小写小写变大写），例如 ’AbC' 变成 'aBc' 。
-
-```js
-function processString(s) {
-  var arr = s.split('');
-  var new_arr = arr.map(item => {
-    return item === item.toUpperCase() ? item.toLowerCase() : item.toUpperCase();
-  });
-  return new_arr.join('');
-}
-console.log(processString('AbC'));
-```
-
 ### 70. 介绍下 webpack 热更新原理，是如何做到在不刷新浏览器的前提下更新页面的
 
 1.当修改了一个或多个文件； 2.文件系统接收更改并通知 webpack；
@@ -332,8 +102,6 @@ const find = (S, T) => {
 ```
 
 ### 72. 为什么普通 `for` 循环的性能远远高于 `forEach` 的性能，请解释其中的原因。
-
-![image-20190512225510941](https://ws2.sinaimg.cn/large/006tNc79gy1g2yxbg4ta8j31gh0u048h.jpg)
 
 - for 循环没有任何额外的函数调用栈和上下文；
 - forEach 函数签名实际上是
@@ -399,44 +167,6 @@ array.forEach(function(currentValue, index, arr), thisValue)
       )
   );
 });
-```
-
-[![image](https://user-images.githubusercontent.com/16409424/58295339-52290d80-7e01-11e9-81db-4716426e039d.png)](https://user-images.githubusercontent.com/16409424/58295339-52290d80-7e01-11e9-81db-4716426e039d.png)
-
-### 101.修改以下 print 函数，使之输出 0 到 99，或者 99 到 0
-
-要求：
-
-> 1、只能修改 `setTimeout` 到 `Math.floor(Math.random() * 1000` 的代码
->
-> 2、不能修改 `Math.floor(Math.random() * 1000`
->
-> 3、不能使用全局变量
-
-```js
-function print(n) {
-  setTimeout(() => {
-    console.log(n);
-  }, Math.floor(Math.random() * 1000));
-}
-for (var i = 0; i < 100; i++) {
-  print(i);
-}
-```
-
-```js
-function print(n) {
-  setTimeout(
-    (() => {
-      console.log(n);
-      return () => {};
-    }).call(n, []),
-    Math.floor(Math.random() * 1000),
-  );
-}
-for (var i = 0; i < 100; i++) {
-  print(i);
-}
 ```
 
 ### 102.不用加减乘除运算符，求整数的 7 倍
@@ -509,35 +239,11 @@ function getUrlValue(url) {
 }
 ```
 
-### 106.分别写出如下代码的返回值
-
-```js
-String('11') == new String('11');
-String('11') === new String('11');
-```
-
-true
-false
-
-new String() 返回的是对象
-
-== 的时候，实际运行的是
-String('11') == new String('11').toString();
-
-=== 不再赘述。
-
 ### 107.考虑到性能问题，如何快速从一个巨大的数组中随机获取部分元素。
 
 比如有个数组有 100K 个元素，从中不重复随机选取 10K 个元素。
 
 由于随机从 100K 个数据中随机选取 10k 个数据，可采用统计学中随机采样点的选取进行随机选取，如在 0-50 之间生成五个随机数，然后依次将每个随机数进行加 50 进行取值，性能应该是最好的。
-
-### 110.编程题，请写一个函数，完成以下功能
-
-输入
-`'1, 2, 3, 5, 7, 8, 10'`
-输出
-`'1~3, 5, 7~8, 10'`
 
 ### 124.永久性重定向（301）和临时性重定向（302）对 SEO 有什么影响
 
@@ -586,26 +292,6 @@ function reverse(arr) {
 reverse([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
 // [1, 12, 2, 8, 3, 11, 4, 9, 5, 13, 6, 10, 7]
 ```
-
-### 127.如何用 css 或 js 实现多行文本溢出省略效果，考虑兼容性
-
-单行：
-overflow: hidden;
-text-overflow:ellipsis;
-white-space: nowrap;
-多行：
-display: -webkit-box;
--webkit-box-orient: vertical;
--webkit-line-clamp: 3; //行数
-overflow: hidden;
-兼容：
-p{position: relative; line-height: 20px; max-height: 40px;overflow: hidden;}
-p::after{content: "..."; position: absolute; bottom: 0; right: 0; padding-left: 40px;
-background: -webkit-linear-gradient(left, transparent, #fff 55%);
-background: -o-linear-gradient(right, transparent, #fff 55%);
-background: -moz-linear-gradient(right, transparent, #fff 55%);
-background: linear-gradient(to right, transparent, #fff 55%);
-}
 
 ### 131.接口如何防刷
 
