@@ -39,7 +39,8 @@ module.exports = {
     }
   },
 
-  theme: path.resolve(__dirname, '../../lib'),
+  // theme: path.resolve(__dirname, '../../lib'),
+  theme: 'wire',
 
   themeConfig: {
     lang: 'zh-CN',
