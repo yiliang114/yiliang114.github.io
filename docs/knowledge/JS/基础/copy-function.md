@@ -32,6 +32,63 @@ const a3 = a1.slice();
 
 ### 深拷贝
 
+```js
+function clone(Obj) {
+  var buf;
+  if (Obj instanceof Array) {
+    buf = []; // 创建一个空的数组
+    var i = Obj.length;
+    while (i--) {
+      buf[i] = clone(Obj[i]);
+    }
+    return buf;
+  } else if (Obj instanceof Object) {
+    buf = {}; // 创建一个空对象
+    for (var k in Obj) {
+      // 为这个对象添加新的属性
+      buf[k] = clone(Obj[k]);
+    }
+    return buf;
+  } else {
+    return Obj;
+  }
+}
+```
+
+```js
+// js对象的深度克隆
+
+function clone(Obj) {
+  var buf;
+
+  if (Obj instanceof Array) {
+    buf = []; //创建一个空的数组
+
+    var i = Obj.length;
+
+    while (i--) {
+      buf[i] = clone(Obj[i]);
+    }
+
+    return buf;
+  } else if (Obj instanceof Object) {
+    buf = {}; //创建一个空对象
+
+    for (var k in Obj) {
+      //为这个对象添加新的属性
+
+      buf[k] = clone(Obj[k]);
+    }
+
+    return buf;
+  } else {
+    return Obj;
+  }
+}
+```
+
+### 深拷贝
+
 #### JSON.parse JSON.stringify
 
 简单的做法：`JSON.parse(JSON.stringify(obj))`， 但是该方法也是有局限性的：
@@ -455,63 +512,6 @@ function deepCopyDFS(origin) {
   circle.child = circle;
   console.log(deepCopy(circle));
 });
-```
-
-### 深浅拷贝
-
-```js
-function clone(Obj) {
-  var buf;
-  if (Obj instanceof Array) {
-    buf = []; // 创建一个空的数组
-    var i = Obj.length;
-    while (i--) {
-      buf[i] = clone(Obj[i]);
-    }
-    return buf;
-  } else if (Obj instanceof Object) {
-    buf = {}; // 创建一个空对象
-    for (var k in Obj) {
-      // 为这个对象添加新的属性
-      buf[k] = clone(Obj[k]);
-    }
-    return buf;
-  } else {
-    return Obj;
-  }
-}
-```
-
-```js
-// js对象的深度克隆
-
-function clone(Obj) {
-  var buf;
-
-  if (Obj instanceof Array) {
-    buf = []; //创建一个空的数组
-
-    var i = Obj.length;
-
-    while (i--) {
-      buf[i] = clone(Obj[i]);
-    }
-
-    return buf;
-  } else if (Obj instanceof Object) {
-    buf = {}; //创建一个空对象
-
-    for (var k in Obj) {
-      //为这个对象添加新的属性
-
-      buf[k] = clone(Obj[k]);
-    }
-
-    return buf;
-  } else {
-    return Obj;
-  }
-}
 ```
 
 ### 实现一个函数 clone
