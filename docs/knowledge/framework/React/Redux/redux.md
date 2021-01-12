@@ -17,19 +17,6 @@ redux 是一个应用数据流框架，主要是解决了组件间状态共享�
 - store 接收并更新 state
 - 使用 store.subscribe 订阅更新,重新 render 组件
 
-### reducer 为什么是纯函数？
-
-从本质上讲，纯函数的定义如下：不修改函数的输入值，依赖于外部状态（比如数据库，DOM 和全局变量），同时对于任何相同的输入有着相同的输出结果。
-![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/pureRedux.png)
-
-阅读源码可以看到，Redux 接收一个给定的 state（对象），然后通过循环将 state 的每一部分传递给每个对应的 reducer。如果有发生任何改变，reducer 将返回一个新的对象。如果不发生任何变化，reducer 将返回旧的 state。
-
-Redux 只通过比较新旧两个对象的存储位置来比较新旧两个对象是否相同（也就是 Javascript 对象浅比较）。如果你在 reducer 内部直接修改旧的 state 对象的属性值，那么新的 state 和旧的 state 将都指向同一个对象。因此 Redux 认为没有任何改变，返回的 state 将为旧的 state。
-
-深比较在真实的应用当中代价昂贵，因为通常 js 的对象都很大，同时需要比较的次数很多。
-
-因此一个有效的解决方法是作出一个规定：无论何时发生变化时，开发者都要创建一个新的对象，然后将新对象传递出去。同时，当没有任何变化发生时，开发者发送回旧的对象。也就是说，新的对象代表新的 state。 使用了新的策略之后，你能够比较两个对象通过使用!==比较两个对象的存储位置而不是比较两个对象的所有属性。
-
 ### 理解 Redux
 
 Redux 本身是一个很轻的库，解决 component -> action -> reducer -> state 的单向数据流转问题。
@@ -43,56 +30,6 @@ Redux 本身是一个很轻的库，解决 component -> action -> reducer -> sta
 
 可扩展性则让我们可通过 middleware 定制 action 的处理，通过 reducer enhancer 扩展 reducer 等等。从而有了丰富的社区扩展和支持，比如异步处理，Form，router 同步， redu/ubdo ，性能问题（selecter）， 工具支持等。
 
-### Library 选择
-
-那么多的社区扩展，该如何选择才能组成我们的最佳实践？ 以异步处理为例。（也是最重要的一个问题）
-
-用的比较多的通用解决方案有这些：
-
-- [redux-thunk](https://github.com/gaearon/redux-thunk)
-- [redux-promise](https://github.com/acdlite/redux-promise)
-- [redux-saga](https://github.com/yelouafi/redux-saga)
-
-redux-thunk 是支持函数形式的 action
-
-### state 根对象的结构
-
-在 React 中，尽量会把状态放在顶层的组件，在顶层的人组件使用 Redux 或者 Router。
-
-这就把组件分为了两种： 容器组件和展示组件。
-
-- 容器组件： 和 Redux 和 Router 交互，维护一套状态 和触发 Action
-- 展示组件： 展示组件是在容器组件的内部，不维护状态。所有数据都通过 props 传给它们，所有的操作也都是通过回调完成。
-
-### Part
-
-Redux 分为三大部分，store， action ， reducer。
-
-#### Store
-
-整个应用的 state 被存储在一棵 Object Tree 中，并且这个 Object Tree 只存在于唯一一个 store 中。容器组件可以从 store 中获取所需要的状态，容器组件同时也可以发送给 store 一个 action，告诉他改变某一个状态的值。
-
-#### Action
-
-action 可以理解为一种指令，action 是一个对象，需要至少有一个元素 type， type 是 action 的唯一标识。
-
-```js
-{
-  type: ACTION_TYPE,
-  text: "content",
-}
-```
-
-指令由组件触发，然后传到 reducer。
-
-#### Reducer
-
-action 只解释了要去做什么，以及做这件事情需要的参数值。具体去改变 store 中的 state 是由 reducer 来做的。
-
-reducer 是一个包含 switch 的函数，根据传入的 action.type 对旧 state 进行不同的操作，最后返回一个新的 state 到 store 并储存的过程。
-
-#### 数据流
-
 ### Redux 和 React 联系
 
 Redux 和 React 之间没有关系，通过`react-redux`这个库绑定起来。
@@ -105,7 +42,7 @@ npm i --save react-redux
 
 #### Provider
 
-## redux
+### redux
 
 action creator 动作创建器
 
@@ -147,12 +84,71 @@ const getDataAction = someData => (dispatch, getState) => {
 };
 ```
 
-#### 迷糊之处 1
-
-##### return action 和 dispatch 之间是什么关系？
-
-- redux connnect state -> props
+- redux connect state -> props
 - mapDispatchToProps action-> props
+
+### Part
+
+Redux 分为三大部分，store， action ， reducer。
+
+#### Store
+
+整个应用的 state 被存储在一棵 Object Tree 中，并且这个 Object Tree 只存在于唯一一个 store 中。容器组件可以从 store 中获取所需要的状态，容器组件同时也可以发送给 store 一个 action，告诉他改变某一个状态的值。
+
+#### Action
+
+action 可以理解为一种指令，action 是一个对象，需要至少有一个元素 type， type 是 action 的唯一标识。
+
+```js
+{
+  type: ACTION_TYPE,
+  text: "content",
+}
+```
+
+指令由组件触发，然后传到 reducer。
+
+#### Reducer
+
+action 只解释了要去做什么，以及做这件事情需要的参数值。具体去改变 store 中的 state 是由 reducer 来做的。
+
+reducer 是一个包含 switch 的函数，根据传入的 action.type 对旧 state 进行不同的操作，最后返回一个新的 state 到 store 并储存的过程。
+
+#### 数据流
+
+### state 根对象的结构
+
+在 React 中，尽量会把状态放在顶层的组件，在顶层的人组件使用 Redux 或者 Router。
+
+这就把组件分为了两种： 容器组件和展示组件。
+
+- 容器组件： 和 Redux 和 Router 交互，维护一套状态 和触发 Action
+- 展示组件： 展示组件是在容器组件的内部，不维护状态。所有数据都通过 props 传给它们，所有的操作也都是通过回调完成。
+
+### reducer 为什么是纯函数？
+
+从本质上讲，纯函数的定义如下：不修改函数的输入值，依赖于外部状态（比如数据库，DOM 和全局变量），同时对于任何相同的输入有着相同的输出结果。
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/pureRedux.png)
+
+阅读源码可以看到，Redux 接收一个给定的 state（对象），然后通过循环将 state 的每一部分传递给每个对应的 reducer。如果有发生任何改变，reducer 将返回一个新的对象。如果不发生任何变化，reducer 将返回旧的 state。
+
+Redux 只通过比较新旧两个对象的存储位置来比较新旧两个对象是否相同（也就是 Javascript 对象浅比较）。如果你在 reducer 内部直接修改旧的 state 对象的属性值，那么新的 state 和旧的 state 将都指向同一个对象。因此 Redux 认为没有任何改变，返回的 state 将为旧的 state。
+
+深比较在真实的应用当中代价昂贵，因为通常 js 的对象都很大，同时需要比较的次数很多。
+
+因此一个有效的解决方法是作出一个规定：无论何时发生变化时，开发者都要创建一个新的对象，然后将新对象传递出去。同时，当没有任何变化发生时，开发者发送回旧的对象。也就是说，新的对象代表新的 state。 使用了新的策略之后，你能够比较两个对象通过使用!==比较两个对象的存储位置而不是比较两个对象的所有属性。
+
+### Library 选择
+
+那么多的社区扩展，该如何选择才能组成我们的最佳实践？ 以异步处理为例。（也是最重要的一个问题）
+
+用的比较多的通用解决方案有这些：
+
+- [redux-thunk](https://github.com/gaearon/redux-thunk)
+- [redux-promise](https://github.com/acdlite/redux-promise)
+- [redux-saga](https://github.com/yelouafi/redux-saga)
+
+redux-thunk 是支持函数形式的 action
 
 ### redux thunk
 

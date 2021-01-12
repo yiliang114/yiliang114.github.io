@@ -26,8 +26,6 @@ draft: true
 
 也就是实现 PWA。
 
-### react 核心架构是什么？react 的原理是什么？
-
 ### 核心架构
 
 - O(n) 复杂度的的 diff 算法。
@@ -90,16 +88,18 @@ react 引用了虚拟 DOM 的机制，在浏览器端用 Javascript 实现了一
       return this.props.children;
     }
   }
-
-  // 上述的ErrorBoundary就是一个“错误边界”，然后我们可以这样来使用它：
-
-  <ErrorBoundary>
-    <MyWidget />
-  </ErrorBoundary>;
   ```
 
-  > Erro Boundaries 本质上也是一个组件，通过增加了新的生命周期函数 componentDidCatch 使其变成了一个新的组件，这个特殊组件可以捕获其子组件树中的 js 错误信息，输出错误信息或者在报错条件下，显示默认错误页。
-  > **注意一个 Error Boundaries 只能捕获其子组件中的 js 错误，而不能捕获其组件本身的错误和非子组件中的 js 错误。**
+  // 上述的 ErrorBoundary 就是一个“错误边界”，然后我们可以这样来使用它：
+
+```jsx
+<ErrorBoundary>
+  <MyWidget />{' '}
+</ErrorBoundary>
+```
+
+> Erro Boundaries 本质上也是一个组件，通过增加了新的生命周期函数 componentDidCatch 使其变成了一个新的组件，这个特殊组件可以捕获其子组件树中的 js 错误信息，输出错误信息或者在报错条件下，显示默认错误页。
+> **注意一个 Error Boundaries 只能捕获其子组件中的 js 错误，而不能捕获其组件本身的错误和非子组件中的 js 错误。**
 
 ### 说一下 react 的生命周期;shouldUpdate 生命周期中有什么比较数据的好的方法吗？
 
@@ -118,7 +118,7 @@ react 在发展的不同阶段提供两套官方方案：
 - PureRenderMin
 - PureComponent
 
-### PureRenderMin
+#### PureRenderMin
 
 一种是基于 ES5 的 React.createClass 创建的组件，配合该形式下的 mixins 方式来组合 PureRenderMixin 提供的 shouldComponentUpdate 方法。当然用 ES6 创建的组件也能使用该方案。
 
@@ -131,7 +131,7 @@ class Example extends React.Component {
 }
 ```
 
-### PureComponent
+#### PureComponent
 
 在 React 15.3.0 版本发布的针对 ES6 而增加的一个组件基类：React.PureComponent。这明显对 ES6 方式创建的组件更加友好。
 
@@ -158,33 +158,6 @@ state = {
 **虽然可以通过深比较方式来判断，但是深比较类似于深拷贝，递归操作，性能开销比较大。**
 为此，可以对组件尽可能的拆分，使组件的 props 和 state 对象数据达到扁平化，结合着使用 PureRenderMin 或者 PureComponent 来判断组件是否更新，可以更好地提升 react 的性能，不需要开发人员过多关心。
 
-### 说一下 redux
-
-- 使用 `react-redux` 中的`<Provider>`来绑定全局的一个 store;
-- 使用 `react-redux` 中的`connect`来创建容器组件。
-
-### redux 是在哪儿监听数据的？怎么监听的？
-
-- 使用`redux-saga/effects`中的`takeLates`来监听最新的 action 以及`redux-saga`中的`createSagaMiddleware`来创建监听
-
-### 数据是怎么存储的？
-
-采用的 0-8 的 9 个数字来存储的
-
 ### UI 库中的 theme 主题是怎么实现的？
 
 添加默认主题只需要在项目的根目录所在文件`App.js`中使用`createTheme()`方法创建主题,然后将创建的主题通过`ThemeProvider`装饰器传递给整个 APP 的子元素，我们通过改变`ThemeProvider`的`theme`属性的值来改变主题
-
-### 是怎么传到 createAPP 中的？
-
-### 查看文件功能是怎么实现的？
-
-在安卓和 iOS 上各自实现了一个有文件路径、文件标题、文件类型的打开文件的功能。
-
-### react, flux 和 redux 的关系？
-
-简单来说：
-
-Flux 本身是一套单向数据流的设计框架。
-Redux 是其中的一种具体实现。
-React 和 redux 总是一起出现，是因为如果单单使用 react，它仅仅是一个 view 的框架，不足以提供足够的前端管理和使用功能。而 redux 的引用就好像 react+MC 一样，赋予了 react 完整的生态系统。当然 redux 不是基于 mvc 的。简单说，redux+react 换了个更直接的法子实现了 MVC 能提供的数据管理功能。

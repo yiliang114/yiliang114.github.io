@@ -455,8 +455,6 @@ let newState = state.updateIn(['list',0,'roomInfo','rateList',0, 'score'], 90);
 
 store 大了，你不用 immutable 还能怎么办呢？
 
-## 状态管理
-
 ### Redux
 
 1.  redux 一般需要配合什么中间件使用？mobx 与 redux 的区别？
@@ -1234,3 +1232,20 @@ export { createStore, combineReducers, bindActionCreators, applyMiddleware, comp
 - reducer switch case 指定 action type 与事件对应关系
 - saga 异步操作
 - selector 配置选择性更新 state 计算
+
+### 说一下 redux
+
+- 使用 `react-redux` 中的`<Provider>`来绑定全局的一个 store;
+- 使用 `react-redux` 中的`connect`来创建容器组件。
+
+### redux 是在哪儿监听数据的？怎么监听的？
+
+- 使用`redux-saga/effects`中的`takeLates`来监听最新的 action 以及`redux-saga`中的`createSagaMiddleware`来创建监听
+
+### react, flux 和 redux 的关系？
+
+简单来说：
+
+Flux 本身是一套单向数据流的设计框架。
+Redux 是其中的一种具体实现。
+React 和 redux 总是一起出现，是因为如果单单使用 react，它仅仅是一个 view 的框架，不足以提供足够的前端管理和使用功能。而 redux 的引用就好像 react+MC 一样，赋予了 react 完整的生态系统。当然 redux 不是基于 mvc 的。简单说，redux+react 换了个更直接的法子实现了 MVC 能提供的数据管理功能。
