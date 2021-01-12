@@ -246,6 +246,10 @@ Vue.filter('capitalize', function(value) {
 
 过滤器接收表达式的值 (msg) 作为第一个参数。capitalize 过滤器将会收到 msg 的值作为第一个参数。
 
+### 为什么 filter 里的 this 绑定的不是 Vue 实例，而是 Window 对象
+
+Vue https://juejin.im/post/5cbd2623f265da03ba0e2aab
+
 ## Data
 
 ### Vue 组件 data 为什么必须是函数

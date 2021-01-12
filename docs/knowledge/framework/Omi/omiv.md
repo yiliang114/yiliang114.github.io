@@ -4,7 +4,9 @@ date: 2020-11-21
 draft: true
 ---
 
-最后介绍一下 omiv ， 这是一个 Vue 中的一个状态管理工具，目前主要是由我在开发。目前来看，与 Vuex 最大的差别是在可以直接修改 store 中的值，其实我并不是很喜欢 mutation ，尽管配合 mutation 可以使用 devtools ，state 的时间旅行等。
+### omiv
+
+介绍一下 omiv ， 这是一个 Vue 中的一个状态管理工具，目前主要是由我在开发。目前来看，与 Vuex 最大的差别是在可以直接修改 store 中的值，其实我并不是很喜欢 mutation ，尽管配合 mutation 可以使用 devtools ，state 的时间旅行等。
 
 与 Vuex 类似的 api , 会有依赖收集的过程。监听数据的改变，主动去渲染组件。 之所以会叫 omiv 是因为依赖收集的思想是借鉴的 omi ， 依赖收集，需要手动声明 use 或者 useSelf 去注入。
 
