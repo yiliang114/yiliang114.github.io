@@ -33,56 +33,24 @@ const a3 = a1.slice();
 ### 深拷贝
 
 ```js
-function clone(Obj) {
+function clone(obj) {
   var buf;
-  if (Obj instanceof Array) {
+  if (obj instanceof Array) {
     buf = []; // 创建一个空的数组
-    var i = Obj.length;
+    var i = obj.length;
     while (i--) {
-      buf[i] = clone(Obj[i]);
+      buf[i] = clone(obj[i]);
     }
     return buf;
-  } else if (Obj instanceof Object) {
+  } else if (obj instanceof Object) {
     buf = {}; // 创建一个空对象
-    for (var k in Obj) {
+    for (var k in obj) {
       // 为这个对象添加新的属性
-      buf[k] = clone(Obj[k]);
+      buf[k] = clone(obj[k]);
     }
     return buf;
   } else {
-    return Obj;
-  }
-}
-```
-
-```js
-// js对象的深度克隆
-
-function clone(Obj) {
-  var buf;
-
-  if (Obj instanceof Array) {
-    buf = []; //创建一个空的数组
-
-    var i = Obj.length;
-
-    while (i--) {
-      buf[i] = clone(Obj[i]);
-    }
-
-    return buf;
-  } else if (Obj instanceof Object) {
-    buf = {}; //创建一个空对象
-
-    for (var k in Obj) {
-      //为这个对象添加新的属性
-
-      buf[k] = clone(Obj[k]);
-    }
-
-    return buf;
-  } else {
-    return Obj;
+    return obj;
   }
 }
 ```
@@ -146,15 +114,8 @@ test();
 5. 引用类型判断是对象还是数组，**创建对应的空对象或空数组**，递归调用函数，将值赋值进去
 
 ```js
-/**
- * 深度克隆
- * @param   origin 被拷贝的原对象
- * @param   target 拷贝出来的对象
- * @return         拷贝出来的对象
- */
 function deepClone(origin, target) {
   target = target || {};
-
   for (let prop in origin) {
     //使用 for-in
     if (origin.hasOwnProperty(prop)) {
@@ -194,135 +155,6 @@ function deepClone(obj) {
   });
 
   return newObj;
-}
-
-let obj = {
-  a: [1, 2, 3],
-  b: {
-    c: 2,
-    d: 3,
-  },
-};
-let newObj = deepClone(obj);
-newObj.b.c = 1;
-console.log(obj.b.c); // 2
-```
-
-```js
-function deepClone(obj) {
-  var _toString = Object.prototype.toString;
-
-  // null, undefined, non-object, function
-  if (!obj || typeof obj !== 'object') {
-    return obj;
-  }
-
-  // DOM Node
-  if (obj.nodeType && 'cloneNode' in obj) {
-    return obj.cloneNode(true);
-  }
-
-  // Date
-  if (_toString.call(obj) === '[object Date]') {
-    return new Date(obj.getTime());
-  }
-
-  // RegExp
-  if (_toString.call(obj) === '[object RegExp]') {
-    var flags = [];
-    if (obj.global) {
-      flags.push('g');
-    }
-    if (obj.multiline) {
-      flags.push('m');
-    }
-    if (obj.ignoreCase) {
-      flags.push('i');
-    }
-
-    return new RegExp(obj.source, flags.join(''));
-  }
-
-  var result = Array.isArray(obj) ? [] : obj.constructor ? new obj.constructor() : {};
-
-  for (var key in obj) {
-    result[key] = deepClone(obj[key]);
-  }
-
-  return result;
-}
-
-function A() {
-  this.a = a;
-}
-
-var a = {
-  name: 'qiu',
-  birth: new Date(),
-  pattern: /qiu/gim,
-  container: document.body,
-  hobbys: ['book', new Date(), /aaa/gim, 111],
-};
-
-var c = new A();
-var b = deepClone(c);
-console.log(c.a === b.a);
-console.log(c, b);
-```
-
-```js
-Object.prototype.clone = function() {
-  var o = this.constructor === Array ? [] : {};
-  for (var e in this) {
-    o[e] = typeof this[e] === 'object' ? this[e].clone() : this[e];
-  }
-  return o;
-};
-```
-
-```js
-function clone(Obj) {
-  var buf;
-
-  if (Obj instanceof Array) {
-    buf = []; //创建一个空的数组
-
-    var i = Obj.length;
-
-    while (i--) {
-      buf[i] = clone(Obj[i]);
-    }
-
-    return buf;
-  } else if (Obj instanceof Object) {
-    buf = {}; //创建一个空对象
-
-    for (var k in Obj) {
-      //为这个对象添加新的属性
-
-      buf[k] = clone(Obj[k]);
-    }
-
-    return buf;
-  } else {
-    return Obj;
-  }
-}
-```
-
-```js
-// 不考虑原型
-function deepClone(obj) {
-  // null, undefined, function, non-object
-  if (!obj || typeof obj !== 'object') {
-    return obj;
-  }
-
-  var result = Array.isArray(obj) ? [] : obj.constructor ? new obj.constructor() : {};
-  Object.keys(obj).forEach(function(key) {
-    result[key] = deepClone(obj[key]);
-  });
-  return result;
 }
 ```
 
@@ -532,8 +364,6 @@ Object.prototype.clone = function() {
 
 ### 介绍下深度优先遍历和广度优先遍历，如何实现？
 
-我是从 dom 节点的遍历来理解这个问题的
-
 #### html 代码
 
 [![image](https://user-images.githubusercontent.com/27856388/52606290-118a3180-2ead-11e9-86b7-d0feae6f8030.png)](https://user-images.githubusercontent.com/27856388/52606290-118a3180-2ead-11e9-86b7-d0feae6f8030.png)
@@ -633,109 +463,6 @@ let widthTraversal2 = node => {
 
 [![image](https://user-images.githubusercontent.com/27856388/52607770-63818600-2eb2-11e9-9f5e-fc3e87950cd2.png)](https://user-images.githubusercontent.com/27856388/52607770-63818600-2eb2-11e9-9f5e-fc3e87950cd2.png)
 
-### 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
-
-#### 更改(0226)
-
-```js
-// 工具函数
-let _toString = Object.prototype.toString;
-let map = {
-  array: 'Array',
-  object: 'Object',
-  function: 'Function',
-  string: 'String',
-  null: 'Null',
-  undefined: 'Undefined',
-  boolean: 'Boolean',
-  number: 'Number',
-};
-let getType = item => {
-  return _toString.call(item).slice(8, -1);
-};
-let isTypeOf = (item, type) => {
-  return map[type] && map[type] === getType(item);
-};
-```
-
-#### 深复制 深度优先遍历
-
-```js
-let DFSdeepClone = (obj, visitedArr = []) => {
-  let _obj = {};
-  if (isTypeOf(obj, 'array') || isTypeOf(obj, 'object')) {
-    let index = visitedArr.indexOf(obj);
-    _obj = isTypeOf(obj, 'array') ? [] : {};
-    if (~index) {
-      // 判断环状数据
-      _obj = visitedArr[index];
-    } else {
-      visitedArr.push(obj);
-      for (let item in obj) {
-        _obj[item] = DFSdeepClone(obj[item], visitedArr);
-      }
-    }
-  } else if (isTypeOf(obj, 'function')) {
-    _obj = eval('(' + obj.toString() + ')');
-  } else {
-    _obj = obj;
-  }
-  return _obj;
-};
-```
-
-#### 广度优先遍历
-
-```js
-let BFSdeepClone = obj => {
-  let origin = [obj],
-    copyObj = {},
-    copy = [copyObj];
-  // 去除环状数据
-  let visitedQueue = [],
-    visitedCopyQueue = [];
-  while (origin.length > 0) {
-    let items = origin.shift(),
-      _obj = copy.shift();
-    visitedQueue.push(items);
-    if (isTypeOf(items, 'object') || isTypeOf(items, 'array')) {
-      for (let item in items) {
-        let val = items[item];
-        if (isTypeOf(val, 'object')) {
-          let index = visitedQueue.indexOf(val);
-          if (!~index) {
-            _obj[item] = {};
-            //下次while循环使用给空对象提供数据
-            origin.push(val);
-            // 推入引用对象
-            copy.push(_obj[item]);
-          } else {
-            _obj[item] = visitedCopyQueue[index];
-            visitedQueue.push(_obj);
-          }
-        } else if (isTypeOf(val, 'array')) {
-          // 数组类型在这里创建了一个空数组
-          _obj[item] = [];
-          origin.push(val);
-          copy.push(_obj[item]);
-        } else if (isTypeOf(val, 'function')) {
-          _obj[item] = eval('(' + val.toString() + ')');
-        } else {
-          _obj[item] = val;
-        }
-      }
-      // 将已经处理过的对象数据推入数组 给环状数据使用
-      visitedCopyQueue.push(_obj);
-    } else if (isTypeOf(items, 'function')) {
-      copyObj = eval('(' + items.toString() + ')');
-    } else {
-      copyObj = obj;
-    }
-  }
-  return copyObj;
-};
-```
-
 ### 深拷贝的实现
 
 ```js
@@ -782,77 +509,6 @@ function cloneDeep(x) {
 
   return root;
 }
-```
-
-扩展：深拷贝和浅拷贝的区别
-浅拷贝只是新开一个别名来引用这个内存区。即拷贝原对象的引用
-
-深拷贝会重新开辟一个内存区，并把之前内存区的值复制进来，这样两个内存区初始值是一样的，但接下去的操作互不影响
-[深拷贝终极探索](https://segmentfault.com/a/1190000016672263)
-
-### 实现一个类型判断函数，需要鉴别出基本类型、function、null、NaN、数组、对象？
-
-只需要鉴别这些类型那么使用 typeof 即可，要鉴别 null 先判断双等判断是否为 null，之后使用 typeof 判断，如果是 obejct 的话，再用 Array.isArray 判断
-是否为数组，如果是数字再使用 isNaN 判断是否为 NaN,（需要注意的是 NaN 并不是 JavaScript 数据类型，而是一种特殊值）如下：
-
-```js
-function type(ele) {
-  if (ele === null) {
-    return null;
-  } else if (typeof ele === 'object') {
-    if (Array.isArray(ele)) {
-      return 'array';
-    } else {
-      return typeof ele;
-    }
-  } else if (typeof ele === 'number') {
-    if (isNaN(ele)) {
-      return NaN;
-    } else {
-      return typeof ele;
-    }
-  } else {
-    return typeof ele;
-  }
-}
-
-console.log(type(1));
-console.log(type(''));
-console.log(type([]));
-console.log(type({}));
-console.log(type(() => {}));
-console.log(type(null));
-console.log(type(undefined));
-console.log(type(NaN));
-```
-
-```js
-function getType(ele) {
-  return Object.prototype.toString
-    .call(ele)
-    .slice(8, -1)
-    .toLowerCase();
-}
-function type1(ele) {
-  const eleType = getType(ele);
-  switch (eleType) {
-    case 'number':
-      return isNaN(ele) ? 'NaN' : 'number';
-    default:
-      return eleType;
-  }
-}
-
-console.log(type1(1));
-console.log(type1(''));
-console.log(type1([]));
-console.log(type1({}));
-console.log(type1(() => {}));
-console.log(type1(null));
-console.log(type1(undefined));
-console.log(type1(NaN));
-
-// 有一定问题，把 undefined  null NaN 这些都转成了 string
 ```
 
 ### 请分别用深度优先思想和广度优先思想实现一个拷贝函数？
