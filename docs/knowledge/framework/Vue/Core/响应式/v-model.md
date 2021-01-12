@@ -22,8 +22,6 @@ draft: true
 
 ### 在自定义组件中使用 v-model
 
-https://blog.csdn.net/u010320804/article/details/79486034
-
 要点在于， `v-model` 编译之后会被转化为 `v-bind` 和 `v-on` 事件， `v-bind` 将 `value` 指定到 `input` 中， 而`v-on` 会监听 `input` 事件，自动来改变 `value` 的值。
 
 ### v-model.lazy

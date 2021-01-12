@@ -59,3 +59,47 @@ if (process.env.NODE_ENV !== 'production') {
 代码在 component.js 中，如果 keep-alive 特性存在，那么组件在重复被创建的时候，会通过缓存机制，快速创建组件，以提升视图更新的性能。
 
 `if(this.keep-alive){var cached = this.cache[id]}`
+
+### keep-alive 组件有什么作用
+
+如果你需要在组件切换的时候，保存一些组件的状态防止多次渲染，就可以使用 `keep-alive` 组件包裹需要保存的组件。
+
+对于 `keep-alive` 组件来说，它拥有两个独有的生命周期钩子函数，分别为 `activated` 和 `deactivated` 。用 `keep-alive` 包裹的组件在切换时不会进行销毁，而是缓存到内存中并执行 `deactivated` 钩子函数，命中缓存渲染后会执行 `actived` 钩子函数。
+
+### keep-alive 有什么作用
+
+在 Vue 中，每次切换组件时，都会重新渲染。如果有多个组件切换，又想让它们保持原来的状态，避免重新渲染，这个时候就可以使用 keep-alive。 keep-alive 可以使被包含的组件保留状态，或避免重新渲染。
+
+### 对 keep-alive 的了解？
+
+keep-alive 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染。
+在 vue 2.1.0 版本之后，keep-alive 新加入了两个属性: include(包含的组件缓存) 与 exclude(排除的组件不缓存，优先级大于 include) 。
+
+使用方法
+
+<keep-alive include='include_components' exclude='exclude_components'>
+  <component>
+    <!-- 该组件是否缓存取决于include和exclude属性 -->
+  </component>
+</keep-alive>
+参数解释
+include - 字符串或正则表达式，只有名称匹配的组件会被缓存
+exclude - 字符串或正则表达式，任何名称匹配的组件都不会被缓存
+include 和 exclude 的属性允许组件有条件地缓存。二者都可以用“，”分隔字符串、正则表达式、数组。当使用正则或者是数组时，要记得使用v-bind 。
+
+使用示例
+
+<!-- 逗号分隔字符串，只有组件a与b被缓存。 -->
+<keep-alive include="a,b">
+  <component></component>
+</keep-alive>
+
+<!-- 正则表达式 (需要使用 v-bind，符合匹配规则的都会被缓存) -->
+<keep-alive :include="/a|b/">
+  <component></component>
+</keep-alive>
+
+<!-- Array (需要使用 v-bind，被包含的都会被缓存) -->
+<keep-alive :include="['a', 'b']">
+  <component></component>
+</keep-alive>
