@@ -121,14 +121,10 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 
 1. 使用空标签清除浮动。
    这种方法是在所有浮动标签后面添加一个空标签 定义 css clear:both. 弊端就是增加了无意义标签。
-2. 使用 overflow。
+2. 使用 overflow。给父元素设置 overflow：auto 或者 hidden。
    给包含浮动元素的父标签添加 css 属性 overflow:auto; zoom:1; zoom:1 用于兼容 IE6。
 3. 使用 after 伪对象清除浮动。
    该方法只适用于非 IE 浏览器。具体写法可参照以下示例。使用中需注意以下几点。一、该方法中必须为需要清除浮动元素的伪对象中设置 height:0，否则该元素会比实际高出若干像素；
-
-可以给父元素设置 overflow：auto 或者 hidden
-
-> 解决方法：
 
 使用`CSS`中的`clear:both`;属性来清除元素的浮动可解决 2、3 问题，对于问题 1，添加如下样式，给父元素添加`clearfix`样式：
 
@@ -144,60 +140,6 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 .clearfix {
   display: inline-block;
 } /* for IE/Mac */
-```
-
-**清除浮动的几种方法：**
-
-清除浮动最快的方式，子元素浮动，父元素加 `overflow: hidden;`就可以将浮动的子元素算近父元素的体积重去。
-
-1. 额外标签法，<div style="clear:both;"></div>（缺点：不过这个办法会增加额外的标签使 HTML 结构看起来不够简洁。）
-2. 使用 after 伪类
-   ```css
-   #parent:after {
-     content: '.';
-     height: 0;
-     visibility: hidden;
-     display: block;
-     clear: both;
-   }
-   ```
-3. 浮动外部元素
-4. 设置 overflow 为 hidden 或者 auto
-
-### 清除浮动
-
-1. 结尾处加空 div 标签 clear:both
-   原理：添加一个空 div，利用 css 提高的 clear:both 清除浮动，让父级 div 能自动获取到高度
-   优点：简单、代码少、浏览器支持好、不容易出现怪问题
-   缺点：不少初学者不理解原理；如果页面浮动布局多，就要增加很多空 div，让人感觉很不好
-   建议：不推荐使用，但此方法是以前主要使用的一种清除浮动方法
-2. 父级 div 定义 伪类:after 和 zoom
-   原理：IE8 以上和非 IE 浏览器才支持:after，原理和方法 2 有点类似，zoom(IE 转有属性)可解决 ie6,ie7 浮动问题
-   优点：浏览器支持好、不容易出现怪问题（目前：大型网站都有使用，如：腾迅，网易，新浪等等）
-   缺点：代码多、不少初学者不理解原理，要两句代码结合使用才能让主流浏览器都支持。
-   建议：推荐使用，建议定义公共类，以减少 CSS 代码。
-3. 父级 div 定义 overflow:hidden
-   原理：必须定义 width 或 zoom:1，同时不能定义 height，使用 overflow:hidden 时，浏览器会自动检查浮动区域的高度
-   优点：简单、代码少、浏览器支持好
-   缺点：不能和 position 配合使用，因为超出的尺寸的会被隐藏。
-   建议：只推荐没有使用 position 或对 overflow:hidden 理解比较深的朋友使用。
-
-浮动的元素布局时不会占据父元素的布局空间，即父元素布局时不会管浮动元素，浮动元素有可能超出父元素，从而对其他元素造成影响。
-
-方法一：让父元素变为一个 BFC。
-父元素 overflow: auto/hidden。 让父元素去关注里面的高度。
-必须定义 width 或 zoom:1，同时不能定义 height，使用 overflow:auto 时，浏览器会自动检查浮动区域的高度
-
-方法二： 使用伪元素清楚浮动
-
-```css
-.container::after {
-  content: ' ';
-  clear: both;
-  display: block;
-  visibility: hidden;
-  height: 0;
-}
 ```
 
 ### 请解释一下为什么需要清除浮动？清除浮动的方式
@@ -221,81 +163,6 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 }
 ```
 
-### 谈谈浮动和清除浮动
-
-浮动的框可以向左或向右移动，直到他的外边缘碰到包含框或另一个浮动框的边框为止。由于浮动框不在文档的普通流中，所以文档的普通流的块框表现得就像浮动框不存在一样。浮动的块框会漂浮在文档普通流的块框上.
-元素设置浮动后 display 值自动变成了 block。
-清除浮动是为了清除使用浮动元素产生的影响。浮动的元素，高度会塌陷，而高度的塌陷使我们页面后面的布局不能正常显示。
-清除浮动方法：
-
-1. 父级 div 定义 height；
-2. 父级 div 也一起浮动；
-3. 常规的使用一个 class；
-
-```js
-  	.clearfix::before, .clearfix::after {
-  	    content: " ";
-  	    display: table;
-  	}
-  	.clearfix::after {
-  	    clear: both;
-  	}
-  	.clearfix {
-  	    *zoom: 1;
-  	}
-```
-
-1. SASS 编译的时候，浮动元素的父级 div 定义伪类:after
-
-```js
-  	&::after,&::before{
-  	    content: " ";
-          visibility: hidden;
-          display: block;
-          height: 0;
-          clear: both;
-  	}
-```
-
-1. 结尾处加空 div 标签 clear:both 6.父级 div 定义 overflow:hidden
-2. 父级 div 也浮动，需要定义宽度
-3. 结尾处加 br 标签 clear:both
-   解析原理：
-
-4. display:block 使生成的元素以块级元素显示,占满剩余空间;
-5. height:0 避免生成内容破坏原有布局的高度。
-6. visibility:hidden 使生成的内容不可见，并允许可能被生成内容盖住的内容可以进行点击和交互;
-   4）通过 content:"."生成内容作为最后一个元素，至于 content 里面是点还是其他都是可以的，例如 oocss 里面就有经典的 content:".",有些版本可能 content 里面内容为空,一丝冰凉是不推荐这样做的,firefox 直到 7.0 content:”" 仍然会产生额外的空隙；
-   5）zoom：1 触发 IE hasLayout。
-
-### 请列举几种清除浮动的方法(至少两种)?
-
-    (1)、父级div定义 height
-    原理：父级div手动定义height，就解决了父级div无法自动获取到高度的问题。
-    优点：简单、代码少、容易掌握
-    缺点：只适合高度固定的布局，要给出精确的高度，如果高度和父级div不一样时，会产生问题
-    建议：不推荐使用，只建议高度固定的布局时使用
-    (2)、结尾处加空div标签 clear:both
-    原理：添加一个空div，利用css提高的clear:both清除浮动，让父级div能自动获取到高度
-    优点：简单、代码少、浏览器支持好、不容易出现怪问题
-    缺点：不少初学者不理解原理；如果页面浮动布局多，就要增加很多空div，让人感觉很不好
-    建议：不推荐使用，但此方法是以前主要使用的一种清除浮动方法
-    (3)、父级div定义 伪类:after 和 zoom
-    原理：IE8以上和非IE浏览器才支持:after，原理和方法2有点类似，zoom(IE转有属性)可解决ie6,ie7浮动问题
-    优点：浏览器支持好、不容易出现怪问题（目前：大型网站都有使用，如：腾迅，网易，新浪等等）
-    缺点：代码多、不少初学者不理解原理，要两句代码结合使用才能让主流浏览器都支持。
-    建议：推荐使用，建议定义公共类，以减少CSS代码。
-    (4)、父级div定义 overflow:hidden
-    原理：必须定义width或zoom:1，同时不能定义height，使用overflow:hidden时，浏览器会自动检查浮动区域的高度
-    优点：简单、代码少、浏览器支持好
-    缺点：不能和position配合使用，因为超出的尺寸的会被隐藏。
-    建议：只推荐没有使用position或对overflow:hidden理解比较深的朋友使用。
-    (5)、父级div定义 overflow:auto
-    原理：必须定义width或zoom:1，同时不能定义height，使用overflow:auto时，浏览器会自动检查浮动区域的高度
-    优点：简单、代码少、浏览器支持好
-    缺点：内部宽高超过父级div时，会出现滚动条。
-    建议：不推荐使用，如果你需要出现滚动条或者确保你的代码不会出现滚动条就使用吧。
-
 ### 清除浮动最佳实践（after 伪元素闭合浮动）：
 
 ```css
@@ -313,10 +180,10 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 ### 有哪些清除浮动的技术，都适用哪些情况？
 
 - 空`div`方法：`<div style="clear:both;"></div>`。
-- Clearfix 方法：上文使用`.clearfix`类已经提到。
+- clearfix 方法：上文使用`.clearfix`类已经提到。
 - `overflow: auto`或`overflow: hidden`方法：上文已经提到。
 
-在大型项目中，我会使用 Clearfix 方法，在需要的地方使用`.clearfix`。设置`overflow: hidden`的方法可能使其子元素显示不完整，当子元素的高度大于父元素时。
+在大型项目中，我会使用 clearfix 方法，在需要的地方使用`.clearfix`。设置`overflow: hidden`的方法可能使其子元素显示不完整，当子元素的高度大于父元素时。
 
 ### 行内元素 float:left 后是否变为块级元素？
 
@@ -383,11 +250,3 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 - 清除浮动，触发 hasLayout；
 - Zoom 属性是 IE 浏览器的专有属性，它可以设置或检索对象的缩放比例。解决 ie 下比较奇葩的 bug
 - 譬如外边距（margin）的重叠，浮动清除，触发 ie 的 haslayout 属性等
-
-### 为什么需要清除浮动，清除浮动的方式
-
-### zoom： 1 的定出浮动原理
-
-### 浮动相关问题；
-
-- 使得父元素包含子元素，常见的方式是为父元素设置 overflow：hidden 或者浮动父元素。根本原因在于创建 BFC 的元素，子浮动元素也会参与其高度计算，即不会产生高度塌陷问题。

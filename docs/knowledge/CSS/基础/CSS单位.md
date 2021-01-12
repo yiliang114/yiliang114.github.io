@@ -4,7 +4,7 @@ date: 2020-11-21
 draft: true
 ---
 
-### CSS 单位
+## CSS 单位
 
 1. px 绝对单位。传统上一个像素对应于计算机屏幕上的一个点
 
@@ -40,6 +40,8 @@ em 相对于父元素，rem 相对于根元素。
   display: inline-block;
 }
 ```
+
+## line-height
 
 ### 你对 line-height 是如何理解的？
 
