@@ -4,6 +4,137 @@ date: '2020-10-26'
 draft: true
 ---
 
+## JS 异步解决方案的发展历程以及优缺点。
+
+#### 1. 回调函数（callback）
+
+```
+setTimeout(() => {
+    // callback 函数体
+}, 1000)
+```
+
+**缺点：回调地狱，不能用 try catch 捕获错误，不能 return**
+
+回调地狱的根本问题在于：
+
+- 缺乏顺序性： 回调地狱导致的调试困难，和大脑的思维方式不符
+- 嵌套函数存在耦合性，一旦有所改动，就会牵一发而动全身，即（**控制反转**）
+- 嵌套函数过多的多话，很难处理错误
+
+```js
+ajax('XXX1', () => {
+  // callback 函数体
+  ajax('XXX2', () => {
+    // callback 函数体
+    ajax('XXX3', () => {
+      // callback 函数体
+    });
+  });
+});
+```
+
+**优点：解决了同步的问题**（只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。）
+
+#### 2. Promise
+
+Promise 就是为了解决 callback 的问题而产生的。
+
+Promise 实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.resolve() 包装
+
+**优点：解决了回调地狱的问题**
+
+```js
+ajax('XXX1')
+  .then(res => {
+    // 操作逻辑
+    return ajax('XXX2');
+  })
+  .then(res => {
+    // 操作逻辑
+    return ajax('XXX3');
+  })
+  .then(res => {
+    // 操作逻辑
+  });
+```
+
+**缺点：无法取消 Promise ，错误需要通过回调函数来捕获**
+
+#### 3. Generator
+
+**特点：可以控制函数的执行**，可以配合 co 函数库使用
+
+```js
+function* fetch() {
+  yield ajax('XXX1', () => {});
+  yield ajax('XXX2', () => {});
+  yield ajax('XXX3', () => {});
+}
+let it = fetch();
+let result1 = it.next();
+let result2 = it.next();
+let result3 = it.next();
+```
+
+#### 4. Async/await
+
+async、await 是异步的终极解决方案
+
+**优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
+
+**缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
+
+```js
+async function test() {
+  // 以下代码没有依赖性的话，完全可以使用 Promise.all 的方式
+  // 如果有依赖性的话，其实就是解决回调地狱的例子了
+  await fetch('XXX1');
+  await fetch('XXX2');
+  await fetch('XXX3');
+}
+```
+
+下面来看一个使用 `await` 的例子：
+
+```js
+let a = 0;
+let b = async () => {
+  a = a + (await 10);
+  console.log('2', a); // -> '2' 10
+};
+b();
+a++;
+console.log('1', a); // -> '1' 1
+```
+
+对于以上代码你可能会有疑惑，让我来解释下原因
+
+- 首先函数 `b` 先执行，在执行到 `await 10` 之前变量 `a` 还是 0，因为 `await` 内部实现了 `generator` ，**`generator` 会保留堆栈中东西，所以这时候 `a = 0` 被保存了下来**
+- 因为 `await` 是异步操作，后来的表达式不返回 `Promise` 的话，就会包装成 `Promise.reslove(返回值)`，然后会去执行函数外的同步代码
+- 同步代码执行完毕后开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 0 + 10`
+
+上述解释中提到了 `await` 内部实现了 `generator`，其实 `await` 就是 `generator` 加上 `Promise`的语法糖，且内部实现了自动执行 `generator`。如果你熟悉 co 的话，其实自己就可以实现这样的语法糖。
+
+## Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  resolve();
+  console.log(2);
+});
+
+promise.then(() => {
+  console.log(3);
+});
+
+console.log(4);
+```
+
+执行结果是：1243
+promise 构造函数是同步执行的，then 方法是异步执行的
+
 ## Promise 概念
 
 Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。比传统的解决方案--回调函数和事件更合理和更强大。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。
@@ -216,36 +347,9 @@ someAsyncThing()
 // carry on [ReferenceError: y is not defined]
 ```
 
-## 异步
+## promise 场景题
 
 - 什么时候 promise 不会被销毁
 - promise 如果没有 resolve 会怎么样？
 - promise 什么情况会发生内存泄漏
 - Promise 中 .then 的第二参数与 .catch 有什么区别?
-- Eventemitter 的 emit 是同步还是异步?
-- 如何判断接口是否异步? 是否只要有回调函数就是异步?
-- nextTick, setTimeout 以及 setImmediate 三者有什么区别?
-- 如何实现一个 sleep 函数?
-- 如何实现一个异步的 reduce? (注:不是异步完了之后同步 reduce)
-
-### 用 promise 和 setTimeout 实现一个 delay 函数
-
-```js
-function delay(delayTime) {
-  return new Promise(function(resolve, reject) {
-    setTimeout(resolve, delayTime);
-  });
-}
-delay(1000).then(function() {
-  console.log('0：执行成功！');
-});
-
-delay(2000)
-  .then(function() {
-    console.log('1：执行成功！');
-    return delay(1000);
-  })
-  .then(function() {
-    console.log('2：执行失败！');
-  });
-```

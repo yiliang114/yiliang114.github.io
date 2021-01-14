@@ -143,6 +143,68 @@ if (XHR) {
 }
 ```
 
+### 使用 Promise 封装一个 AJAX
+
+```js
+const ajax = obj => {
+  return new Promise((resolve, reject) => {
+    let method = obj.method || 'GET';
+
+    // 创建 xhr
+    let xhr;
+    if (window.XMLHTTPRequest) {
+      xhr = new XMLHTTPRequest();
+    } else {
+      xhr = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    // 超时
+    xhr.ontimeout = function() {
+      reject({
+        errorType: 'timeout_error',
+        xhr: xhr,
+      });
+    };
+    // 报错
+    xhr.onerror = function() {
+      reject({
+        errorType: 'onerror',
+        xhr: xhr,
+      });
+    };
+    // 监听 statuschange
+    xhr.onreadystatechange = function() {
+      if (xhr.readState === 4) {
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          resolve(xhr.responseText);
+        } else {
+          reject({
+            errorType: 'onerror',
+            xhr: xhr,
+          });
+        }
+      }
+    };
+
+    // 发送请求
+    if (method === 'POST') {
+      xhr.open('POST', obj.url, true);
+      xhr.responseType = 'json';
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.send(JSON.parse(obj.data));
+    } else {
+      let query = '';
+      for (let key in obj.data) {
+        query += `&${encodeURIComponent(key)}=${encodeURIComponent(obj.data[key])}`;
+      }
+      // The substring() method returns the part of the string between the start and end indexes, or to the end of the string.
+      query.substring(1);
+      xhr.open('GET', obj.url, +'?' + query, true);
+      xhr.send();
+    }
+  });
+};
+```
+
 ### form data, x-www-form-urlencoded 以及 raw 格式
 
 1. form-data 形式因为有 boundary 进行隔离，所以既可以上传文件也可以上传键值对，采用了键值对的方式，所以也可以上传多个文件。最后会被转化为一条信息。
