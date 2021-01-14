@@ -1,4 +1,5 @@
 ---
+
 title: webpack
 date: 2020-11-21
 aside: false
@@ -179,3 +180,10 @@ img.classList.add(style.girl)
     }
 }
 ```
+
+### 介绍下 webpack 热更新原理，是如何做到在不刷新浏览器的前提下更新页面的
+
+1. 当修改了一个或多个文件； 2.文件系统接收更改并通知 webpack；
+2. webpack 重新编译构建一个或多个模块，并通知 HMR 服务器进行更新；
+3. HMR Server 使用 webSocket 通知 HMR runtime 需要更新，HMR 运行时通过 HTTP 请求更新 jsonp；
+4. HMR 运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新。

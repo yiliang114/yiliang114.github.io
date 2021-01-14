@@ -65,3 +65,7 @@ babel-register 字面意思能看出来，这是 babel 的一个注册器，它�
 ### babel 不支持 proxy
 
 ### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
+
+### ES6 代码转成 ES5 代码的实现思路是什么
+
+将 ES6 的代码转换为 AST 语法树，然后再将 ES6 AST 转为 ES5 AST，再将 AST 转为代码
