@@ -99,12 +99,3 @@ Read Committed 读取数据的事务允许其他事务继续访问该行数据�
 Repeatable Read 读取数据的事务将会禁止写事务（但允许读事务），写事务则禁止任何其他事务。可以通过“共享读锁”和“排他写锁”实现。
 
 Serializable 读加共享锁，写加排他锁，读写互斥。
-
-### 参考资料
-
-- [百度百科：数据库事务](http://baike.baidu.com/view/1298364.htm)
-- [数据库事务隔离级别与锁](http://www.cnblogs.com/tqsummer/archive/2010/07/11/1775209.html)
-- [SQL SERVER 的锁机制（四）——概述（各种事务隔离级别发生的影响）](http://www.cnblogs.com/chillsrc/archive/2013/04/27/3047547.html)
-- [数据库锁](http://www.cnblogs.com/zhouqianhua/archive/2011/04/15/2017049.html)
-- [关于数据库事务、隔离级别、锁的理解与整理](http://news.e800.com.cn/articles/2011/0803/492650.shtml)
-- [Innodb 中的事务隔离级别和锁的关系](http://tech.meituan.com/innodb-lock.html)

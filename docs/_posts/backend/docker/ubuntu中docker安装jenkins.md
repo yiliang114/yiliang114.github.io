@@ -65,28 +65,28 @@ sudo docker run -d -u 0 --privileged  --name jenkins_node2 -p 49004:8080 -v /roo
 
 一开始我想的比较简单，想直接通过 `http://xxx.yyy.cn/jenkins` 这样的形式来访问，所有带有 `jenkins` 前缀的请求我都统统转发到 49004 端口上去。 于是我的 nginx 配置是这样的：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190410004238549.png)
+![](https://img-blog.csdnimg.cn/20190410004238549.png)
 
 但是当我访问 `域名/jenkins` 时， 一直显示
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190410004306596.png)
+![](https://img-blog.csdnimg.cn/20190410004306596.png)
 
 首先是 jenkins 的内容显示不正常，其次查看 `network` 发现有大量的静态资源都是 404。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190410004326636.png)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190410004348541.png)
+![](https://img-blog.csdnimg.cn/20190410004326636.png)
+![](https://img-blog.csdnimg.cn/20190410004348541.png)
 
 仔细查看之后发现，原来 jenkins 的初始化页面上的静态资源加载的路径都是绝对路径，都是从根目录开始寻找静态资源的，难怪这里会显示不正常。
 
 于是乎，我们需要想办法解决这个问题，最简单的方式就是 nginx 代理的直接通过转发到根路径。 要么开其他端口的防火墙可以对外访问，要么就是通过一个三级域名来转发请求（如果你的服务器套了域名的话）。因为开其他端口需要涉及到的更大的权限和隐患，而且阿里云服务器要对外开一个端口真的是贼麻烦，于是我给我的域名再解析了一个三级域名：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190410004404439.png)
+![](https://img-blog.csdnimg.cn/20190410004404439.png)
 
 忽略最后代理到的是 49003 端口，因为演示的原因，我是重新 run 了一个镜像来写博客的，所以实际情况根据实际的运行端口配置即可。
 
 通过这样操作以后，再访问 `http://jenkins.xxx.cn` 的时候你就会看到熟悉的登录界面啦~
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190410004445924.png)
+![](https://img-blog.csdnimg.cn/20190410004445924.png)
 
 #### 写在最后
 

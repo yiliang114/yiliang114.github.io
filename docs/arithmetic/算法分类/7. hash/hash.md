@@ -132,8 +132,3 @@ index=Hi(key) , i=1，2，…，n
 例 2 设有 8 个元素 { a,b,c,d,e,f,g,h } ，采用某种哈希函数得到的地址分别为： {0 ， 2 ， 4 ， 1 ， 0 ， 8 ， 7 ， 2} ，当哈希表长度为 10 时，采用链地址法解决冲突的哈希表如下图所示：
 
 ![hash](https://github.com/HIT-Alibaba/interview/blob/master/img/hash-table.jpg?raw=true)
-
-### 参考资料
-
-- [哈希表的 C 实现](http://www.cnblogs.com/xiekeli/archive/2012/01/13/2321207.html)
-- [解决哈希表的冲突-开放地址法和链地址法](http://blog.csdn.net/w_fenghui/article/details/2010387)

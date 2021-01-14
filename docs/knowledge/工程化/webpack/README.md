@@ -8,15 +8,15 @@ draft: true
 
 `webpack`是一个前端模块化打包工具，最开始它只能打包 JS 文件，但是随着 webpack 的发展，他还能打包如 CSS、图片等文件。主要由入口，出口，loader，plugins 四个部分。
 
-### [模块化](模块化.md)
+### 模块化
 
-### [安装](安装.md)
+### 安装
 
-### [webpack 基本配置文件](webpack配置文件.md)
+### webpack 基本配置文件
 
-### [Loader](loader.md)
+### Loader
 
-### [package-lock.json](./package-lock.json.md)
+### package-lock.json
 
 **介绍 WebPack 是什么？ 有什么优势？**
 

@@ -703,7 +703,3 @@ GRANT 和 REVOKE 可在几个层次上控制访问权限：
 ```sql
 SET PASSWROD FOR myuser = Password('newpassword');
 ```
-
-# 参考资料
-
-- BenForta. SQL 必知必会 [M]. 人民邮电出版社, 2013.

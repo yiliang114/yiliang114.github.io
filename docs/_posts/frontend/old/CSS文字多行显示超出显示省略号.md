@@ -32,7 +32,7 @@ overflow: hidden;
 text-overflow: ellipsis;
 display: -webkit-box;
 -webkit-line-clamp: 2;
--webkit-box-orient: vertical; // 参考 https://github.com/postcss/autoprefixer/issues/776
+-webkit-box-orient: vertical;
 ```
 
 (适用于 webpack 配合预编译工具的情况，会自动将`-webkit-box-orient` 清除)
@@ -45,7 +45,7 @@ text-overflow: ellipsis;
 display: -webkit-box;
 -webkit-line-clamp: 2;
 /* autoprefixer: off */
--webkit-box-orient: vertical; // 参考 https://github.com/postcss/autoprefixer/issues/776
+-webkit-box-orient: vertical;
 /* autoprefixer: on */
 ```
 
@@ -92,9 +92,8 @@ new OptimizeCSSPlugin({
     <div class="container">
       <td>
         <p>
-          你在组件中使用你在组件中使用你在组件中使用 this.$store.dispatch('xxx')
-          分发 action，或者使用 mapActions 辅助函数将组件的 methods 映射为
-          store.dispatch 调用（需要先在根节点注入 store）：
+          你在组件中使用你在组件中使用你在组件中使用 this.$store.dispatch('xxx') 分发 action，或者使用 mapActions
+          辅助函数将组件的 methods 映射为 store.dispatch 调用（需要先在根节点注入 store）：
         </p>
       </td>
     </div>

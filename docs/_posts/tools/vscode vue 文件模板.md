@@ -9,7 +9,7 @@ tags:
 
 #### 1. 安装 VueHelper 插件
 
-![在这里插入图片描述](https://chatflow-files-cdn-1252847684.file.myqcloud.com/2018101121500868.png)
+![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/2018101121500868.png)
 
 #### 2. 寻找 `vue.json`
 

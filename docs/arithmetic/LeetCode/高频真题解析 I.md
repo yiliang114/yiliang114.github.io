@@ -820,7 +820,7 @@ LeetCode 第 435 题：给定一个区间的集合，找到需要移除区间的
 
 **解释**: 你不需要移除任何区间，因为它们已经是无重叠的了。
 
-## 解题思路一： 暴力法
+### 解题思路一： 暴力法
 
 这道题是上一道题的一种变形，暴力法就是将各个区间按照起始时间的先后顺序排序，然后找出所有的组合，最后对每种组合分别判断各个区间有没有互相重叠。
 
@@ -987,7 +987,7 @@ int eraseOverlapIntervals(int\[\]\[\] intervals) {
 
 关于区间的问题，LeetCode 上还有很多类似的题目，大家一定要去做做。
 
-# 例题分析三
+### 例题分析三
 
 LeetCode   第 269 题，火星字典：现有一种使用字母的全新语言，这门语言的字母顺序与英语顺序不同。假设，您并不知道其中字母之间的先后顺序。但是，会收到词典中获得一个不为空的单词列表。因为是从词典中获得的，所以该单词列表内的单词已经按这门新语言的字母顺序进行了排序。您需要根据这个输入的列表，还原出此语言中已知的字母顺序。
 
@@ -1017,7 +1017,7 @@ LeetCode   第 269 题，火星字典：现有一种使用字母的全新语言
 
 解释: 此顺序是非法的，因此返回 ""。
 
-## 解题思路
+### 解题思路
 
 首先，确定字符串排序方法。
 
@@ -1158,6 +1158,82 @@ stack.push(u);
 
 return true;
 }
+
+```js
+var alienOrder = function(words) {
+  if (words.length === 0) {
+    return '';
+  }
+
+  const len = words.length;
+  let map = {}; // value is the prerequisite of key
+  let charPreReqCount = {};
+  let i;
+  let queue = [];
+  let result = [];
+  let hasCycle = false;
+
+  for (i = 0; i < len; i++) {
+    const chars = words[i].split('');
+
+    let j = 0;
+
+    for (j = 0; j < chars.length; j++) {
+      if (!map[chars[j]]) {
+        map[chars[j]] = [];
+        charPreReqCount[chars[j]] = 0;
+      }
+    }
+
+    if (i === 0 || words[i] === words[i - 1]) {
+      continue;
+    }
+
+    const cur = words[i];
+    const prev = words[i - 1];
+    j = 0;
+
+    while (j < cur.length && j < prev.length && cur.charAt(j) === prev.charAt(j)) {
+      j++;
+    }
+
+    if (j < prev.length && map[prev.charAt(j)].indexOf(cur.charAt(j)) === -1) {
+      map[prev.charAt(j)].push(cur.charAt(j));
+
+      charPreReqCount[cur.charAt(j)]++;
+    }
+  }
+
+  Object.keys(charPreReqCount).forEach(char => {
+    if (charPreReqCount[char] === 0) {
+      queue.push(char);
+    }
+  });
+
+  while (queue.length > 0) {
+    const char = queue.shift();
+
+    result.push(char);
+
+    for (i = 0; i < map[char].length; i++) {
+      charPreReqCount[map[char][i]]--;
+
+      if (charPreReqCount[map[char][i]] === 0) {
+        queue.push(map[char][i]);
+      }
+    }
+  }
+
+  // detect cycle
+  Object.keys(charPreReqCount).forEach(function(char) {
+    if (charPreReqCount[char] !== 0) {
+      hasCycle = true;
+    }
+  });
+
+  return hasCycle ? '' : result.join('');
+};
+```
 
 用深度优先的方法进行拓扑排序，一定要借用下面三者。
 
@@ -1444,22 +1520,10 @@ int sum = 0;
 
 ## 高频真题解析-3
 
----
-
-layout: CustomPages
-title: 前端与数据结构
-date: 2020-11-16
-aside: false
-draft: true
-
----
-
 这节课将分析三道比较难的题目，希望能帮助大家拓宽解题的思路。主要内容包括：
 
 - 正则表达式匹配
-
 - 柱状图中的最大矩形
-
 - 实现 strStr() 函数
 
 ###### 例题分析一
