@@ -4,46 +4,9 @@ date: 2020-12-29
 draft: true
 ---
 
-### 简要介绍 ES6
-
-`ES2015`特指在`2015`年发布的新一代`JS`语言标准，`ES6`泛指下一代 JS 语言标准，包含`ES2015`、`ES2016`、`ES2017`、`ES2018`等。现阶段在绝大部分场景下，`ES2015`默认等同`ES6`。`ES5`泛指上一代语言标准。`ES2015`可以理解为`ES5`和`ES6`的时间分界线
-
-ES6 在变量的声明和定义方面增加了 let、const 声明变量，有局部变量的概念，赋值中有比较吸引人的结构赋值，同时 ES6 对字符串、数组、正则、对象、函数等拓展了一些方法，如字符串方面的模板字符串、函数方面的默认参数、对象方面属性的简洁表达方式，ES6 也引入了新的数据类型 symbol，新的数据结构 set 和 map,symbol 可以通过 typeof 检测出来，为解决异步回调问题，引入了 promise 和 generator，还有最为吸引人了实现 Class 和模块，通过 Class 可以更好的面向对象编程，使用模块加载方便模块化编程，当然考虑到浏览器兼容性，我们在实际开发中需要使用 babel 进行编译。
-
 ### ES6 的新特性
 
-- 块级作用区域 `let a = 1;`
-- 可定义常量 `const PI = 3.141592654;`
-- 箭头函数
-- 变量解构赋值 `var [a, b, c] = [1, 2, 3];`
-- 字符串的扩展(模板字符串) `var sum =`\${a + b}`;`
-- 数组的扩展(转换数组类型) `Array.from($('li'));`
-- 函数的扩展(扩展运算符) `[1, 2].push(...[3, 4, 5]);`
-- 对象的扩展(同值相等算法) `Object.is(NaN, NaN);`
-- 新增数据类型(Symbol) `let uid = Symbol('uid');`
-- 新增数据结构(Map) `let set = new Set([1, 2, 2, 3]);`
-- for...of 循环 `for(let val of arr){};`
-- Promise 对象 `var promise = new Promise(func);`
-- Generator 函数 `function* foo(x){yield x; return x*x;}`
-- 引入 Class(类) `class Foo {}`
-- 引入模块体系 `export default func;`
-- 引入 async await 函数[ES7]
-- Map Set 与 WeakMap WeakSet
-- 参数默认值，不定参数，扩展参数
-- 增强的字面量对象
-
 类的支持，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, for-of 遍历, generator, Map/Set, Promise
-
-ES6 就是 ES2015。目前并不是所有浏览器都能兼容 ES6 全部特性。
-
-#### 最常用的 ES6 特性
-
-`let, const, class, extends, super, arrow functions, template string, destructuring, default, rest arguments`
-
-- **表达式**：声明、解构赋值
-- **内置对象**：字符串扩展、数值扩展、对象扩展、数组扩展、函数扩展、正则扩展、Symbol、Set、Map、Proxy、Reflect
-- **语句与运算**：Class、Module、Iterator
-- **异步编程**：Promise、Generator、Async
 
 ### class, extends, super
 
