@@ -6,7 +6,7 @@ draft: true
 
 keepalive_timeout 参数是一个请求完成之后还要保持连接多久，不是请求时间多久，目的是保持长连接，减少创建连接过程给系统带来的性能损耗，类似于线程池，数据库连接池。
 
-```nignx
+```nginx
 keepalive_timeout  65;
 ```
 

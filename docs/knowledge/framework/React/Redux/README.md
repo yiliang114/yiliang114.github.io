@@ -1034,7 +1034,7 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 这个包在 NPM 上有发布:
 
-```console
+```
 $ npm install --save redux-saga
 ```
 
