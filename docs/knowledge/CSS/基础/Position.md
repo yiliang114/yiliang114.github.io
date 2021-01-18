@@ -97,3 +97,28 @@ absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固�
 相对定位的元素仍然占据原有的空间。
 
 绝对定位和相对定位相对的基准是 第一个非 static 的父元素。
+
+### 请解释 relative、fixed、absolute 和 static 元素的区别
+
+1. static（静态定位）：默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
+
+2. relative（相对定位）：生成相对定位的元素，通过 top,bottom,left,right 的设置相对于其正常（原先本身）位置进行定位。可通过 z-index 进行层次分级。
+
+3. absolute（绝对定位）：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。可通过 z-index 进行层次分级。
+
+4. fixed（固定定位）：生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。可通过 z-index 进行层次分级。
+
+### absolute 的 containing block 计算方式跟正常流有什么不同？
+
+无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
+
+1. 若此元素为 inline 元素，则 containing block 为能够包含这个元素生成的第一个和最后一个 inline box 的 padding box (除 margin, border 外的区域) 的最小矩形；
+2. 否则,则由这个祖先元素的 padding box 构成。
+
+如果都找不到，则为 initial containing block。
+
+补充：
+
+1. static(默认的)/relative：简单说就是它的父元素的内容框（即去掉 padding 的部分）
+2. absolute: 向上找最近的定位为 absolute/relative 的元素
+3. fixed: 它的 containing block 一律为根元素(html/body)

@@ -12,14 +12,6 @@ draft: true
 
 ### 匹配成功后进行的 patchVnode 是做了什么？为什么的有的紧接着要进行 dom 操作，有的没有？
 
-### 虚拟 dom 如何更新到真实 dom 上去
-
-### vue 的 虚拟 dom 是如何进行实现的？ diff 算法与 react 有什么不同？
-
-### React vue 区别 virsualDOM 实现
-
-### diff 算法
-
 ### key 的作用
 
 1. 让 vue 精准的追踪到每一个元素，高效的更新虚拟 DOM。

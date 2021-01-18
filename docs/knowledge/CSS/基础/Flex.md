@@ -4,8 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-## Flex
-
 ### flex 弹性布局
 
 采用 flex 布局的容器称为 flex 容器（flex container），当一个元素采用 flex 布局后，它的子元素将自动成为容器成员（flex item）。flex 容器默认存在 2 根轴线，主轴（main axis，默认为横轴）和交叉轴（cross axis，默认为纵轴），flex 布局所有的属性都围绕这 2 条轴线上的元素如何布排进行设定。
@@ -118,6 +116,15 @@ draft: true
 }
 ```
 
+### 请解释一下 CSS3 的 flex box（弹性盒布局模型）,以及适用场景？
+
+- 一个用于页面布局的全新 CSS3 功能，flex box 可以把列表放在同一个方向（从上到下排列，从左到右），并让列表能延伸到占用可用的空间
+- 较为复杂的布局还可以通过嵌套一个伸缩容器（flex container）来实现
+- 采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。
+- 它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"
+- 常规布局是基于块和内联流方向，而 Flex 布局是基于 flex-flow 流可以很方便的用来做局中，能对不同屏幕大小自适应
+- 在布局上有了比以前更加灵活的空间
+
 ### 说一说 flex 布局 不兼容哪些东西
 
 ### 请解释一下 CSS3 的 flex box（弹性盒布局模型）以及适用场景？
@@ -146,50 +153,9 @@ CSS 网格布局用于将页面分割成数个主要区域，或者用来定义�
 
 像表格一样，网格布局让我们能够按行或列来对齐元素。 但是，使用 CSS 网格可能还是比 CSS 表格更容易布局。 例如，网格容器的子元素可以自己定位，以便它们像 CSS 定位的元素一样，真正的有重叠和层次。
 
-### 请解释一下 CSS3 的 flex box（弹性盒布局模型）,以及适用场景？
-
-- 一个用于页面布局的全新 CSS3 功能，flex box 可以把列表放在同一个方向（从上到下排列，从左到右），并让列表能延伸到占用可用的空间
-- 较为复杂的布局还可以通过嵌套一个伸缩容器（flex container）来实现
-- 采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。
-- 它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"
-- 常规布局是基于块和内联流方向，而 Flex 布局是基于 flex-flow 流可以很方便的用来做局中，能对不同屏幕大小自适应
-- 在布局上有了比以前更加灵活的空间
-
-### 你了解 CSS flex box 和 Grid 吗？
-
-了解。flex box 主要用于一维布局，而 Grid 则用于二维布局。
-
 flex box 解决了 CSS 中的许多常见问题，例如容器中元素的垂直居中，粘性定位（sticky）的页脚等。Bootstrap 和 Bulma 基于 flex box，这是创建布局的推荐方式。我之前曾使用过 flex box，但在使用`flex-grow`时遇到了一些浏览器不兼容问题（Safari），我必须使用`inline-blocks`和手动计算百分比宽度，来重写我的代码，这种体验不是很好。
 
 Grid 创建基于栅格的布局，是迄今为止最直观的方法（最好是！），但目前浏览器支持并不广泛。
-
-### 设置 width 的 flex 元素,flex 属性值是多少?
-
-### flex:1 表示什么
-
-![image](https://user-images.githubusercontent.com/21194931/56741835-2edd5500-67a6-11e9-885c-7047f8ca4b9c.png)
-
-### 你了解 CSS Flex 和 Grid 吗？
-
-Flex 主要用于一维布局，而 Grid 则用于二维布局。
-
-Flex
-
-flex 容器中存在两条轴， 横轴和纵轴， 容器中的每个单元称为 flex item。
-
-在容器上可以设置 6 个属性： flex-direction flex-wrap flex-flow justify-content align-items align-content
-
-注意：当设置 flex 布局之后，子元素的 float、clear、vertical-align 的属性将会失效。
-
-Flex 项目属性
-
-有六种属性可运用在 item 项目上: 1. order 2. flex-basis 3. flex-grow 4. flex-shrink 5. flex 6. align-self
-
-Grid
-
-CSS 网格布局用于将页面分割成数个主要区域，或者用来定义组件内部元素间大小、位置和图层之间的关系。
-
-像表格一样，网格布局让我们能够按行或列来对齐元素。但是，使用 CSS 网格可能还是比 CSS 表格更容易布局。例如，网格容器的子元素可以自己定位，以便它们像 CSS 定位的元素一样，真正的有重叠和层次。
 
 ### flex 布局设置 width 无效
 
@@ -375,3 +341,5 @@ content：指根据该子元素的内容自动布局。有的用户代理没有�
   当 item-1 基准值取 0% 的时候，是把该项目视为零尺寸的，故即便声明其尺寸为 140px，也并没有什么用，形同虚设
 
 而 item-2 基准值取 auto 的时候，根据规则基准值使用值是主尺寸值即 100px，故这 100px 不会纳入剩余空间
+
+![image](https://user-images.githubusercontent.com/21194931/56741835-2edd5500-67a6-11e9-885c-7047f8ca4b9c.png)

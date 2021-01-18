@@ -4,146 +4,26 @@ date: 2020-12-30
 draft: true
 ---
 
-## 虚拟 DOM
+<!-- ## 虚拟 DOM -->
 
 传统的 DOM 操作是直接在 DOM 上操作的，当需要修改一系列元素中的值时，就会直接对 DOM 进行操作。而采用 Virtual DOM 则会对需要修改的 DOM 进行比较（DIFF），从而只选择需要修改的部分。也因此对于不需要大量修改 DOM 的应用来说，采用 Virtual DOM 并不会有优势。
 
 操作 DOM 是很耗费性能的一件事情，通过 JS 对象来模拟 DOM 对象，毕竟操作 JS 对象比操作 DOM 省时的多。
 
-### 虚拟 DOM 和 真实 DOM 的对比
+UI 的展示形式被保存在内存中并与真实的 DOM 同步。这是在调用的渲染函数和在屏幕上显示元素之间发生的一个步骤。整个过程被称为 _reconciliation_。
 
-DOM 完全不属于 javascript (也不在 Javascript 引擎中存在). Javascript 其实是一个非常独立的引擎，DOM 其实是浏览器引出的一组让 Javascript 操作 HTML 文档的 API 而已。在即时编译的时代，调用 DOM 的开销是很大的。而 Virtual DOM 的执行完全都在 Javascript 引擎中，完全不会有这个开销。
+Real DOM vs Virtual DOM
 
-### 理解虚拟 DOM
-
-虚拟 DOM 的实现也就是以下三步:
-
-1. 通过 JS 来模拟创建 DOM 对象
-2. 判断两个对象的差异
-3. 渲染差异
-
-虚拟的 DOM 的核心思想是：对复杂的文档 DOM 结构，提供一种方便的工具，进行最小化地 DOM 操作。这句话，也许过于抽象，却基本概况了虚拟 DOM 的设计思想
-
-![image](https://user-images.githubusercontent.com/21194931/57016337-2d9ba480-6c4c-11e9-92e5-8350b26abf8f.png)
-
-DOM 很慢，而 javascript 很快，用 javascript 对象可以很容易地表示 DOM 节点。DOM 节点包括标签、属性和子节点，通过 vElement 表示如下。
-
-```js
-//虚拟dom，参数分别为标签名、属性对象、子DOM列表
-var vElement = function(tagName, props, children) {
-  //保证只能通过如下方式调用：new vElement
-  if (!(this instanceof vElement)) {
-    return new vElement(tagName, props, children);
-  }
-  //可以通过只传递tagName和children参数
-  if (util.isArray(props)) {
-    children = props;
-    props = {};
-  }
-  //设置虚拟dom的相关属性
-  this.tagName = tagName;
-  this.props = props || {};
-  this.children = children || [];
-  this.key = props ? props.key : void 666;
-  var count = 0;
-  util.each(this.children, function(child, i) {
-    if (child instanceof vElement) {
-      count += child.count;
-    } else {
-      children[i] = '' + child;
-    }
-    count++;
-  });
-  this.count = count;
-};
-```
-
-通过 vElement，我们可以很简单地用 javascript 表示 DOM 结构。比如
-
-```js
-var vdom = vElement('div', { id: 'container' }, [
-  vElement('h1', { style: 'color:red' }, ['simple virtual dom']),
-  vElement('p', ['hello world']),
-  vElement('ul', [vElement('li', ['item #1']), vElement('li', ['item #2'])]),
-]);
-```
-
-上面的 javascript 代码可以表示如下 DOM 结构：
-
-```html
-<div id="container">
-  <h1 style="color:red">simple virtual dom</h1>
-  <p>hello world</p>
-  <ul>
-    <li>item #1</li>
-    <li>item #2</li>
-  </ul>
-</div>
-```
-
-既然我们可以用 JS 对象表示 DOM 结构，那么当数据状态发生变化而需要改变 DOM 结构时，我们先通过 JS 对象表示的虚拟 DOM 计算出实际 DOM 需要做的最小变动，然后再操作实际 DOM，从而避免了粗放式的 DOM 操作带来的性能问题。
-如下图所示，两个虚拟 DOM 之间的差异已经标红：
-![image](https://user-images.githubusercontent.com/21194931/57016318-165cb700-6c4c-11e9-9f62-70a6ca6fc9e1.png)
-
-### 虚拟 DOM 的原理
-
-![image](https://user-images.githubusercontent.com/21194931/57016318-165cb700-6c4c-11e9-9f62-70a6ca6fc9e1.png)
-
-虚拟 DOM 则是在 DOM 的基础上建立了一个抽象层，我们对数据和状态所做的任何改动，都会被自动且高效的同步到虚拟 DOM，最后再批量同步到 DOM 中。
-
-> 虚拟 DOM 会使得 App 只关心数据和组件的执行结果，中间产生的 DOM 操作不需要 App 干预，而且通过虚拟 DOM 来生成 DOM，会有一项非常可观收益——性能
-
-props（properties 特性）是在调用时候被调用者设置的，只设置一次，一般没有额外变化
-可以把任意类型的数据传递给组件，尽可能的把 props 当做数据源，不要在组件内部设置 props ，0.15.x 已经废弃了 setProps 的方法
-
-> 1、this.props.children
-> 2、this.props.xxx
-
-state 用来确定组件的状态，不同状态可以展示不同的视图（控制下拉菜单的隐藏显示）
-可以通过 setState 方法来设置 state //this.setState(obj|function(state){})
-
-一旦 props 或者 state 发生改变，组件都会重新渲染
-所有人都知道 DOM 慢，渲染一个空的 DIV，浏览器需要为这个 DIV 生成几百个属性，而虚拟 DOM 只有 6 个。
-所以说减少不必要的重排重绘以及 DOM 读写能够对页面渲染性能有大幅提升
-那么我们来看看虚拟 DOM 是怎么做的。React 会在内存中维护一个虚拟 DOM 树，当我们对这个树进行读或写的时候，实际上是对虚拟 DOM 进行的。当数据变化时，然后 React 会自动更新虚拟 DOM，然后拿新的虚拟 DOM 和旧的虚拟 DOM 进行对比，找到有变更的部分，得出一个 Patch，然后将这个 Patch 放到一个队列里，最终批量更新这些 Patch 到 DOM 中。
-这样的机制可以保证即便是根节点数据的变化，最终表现在 DOM 上的修改也只是受这个数据影响的部分，这样可以保证非常高效的渲染。
-但也是有一定的缺陷的——首次渲染大量 DOM 时因为多了一层虚拟 DOM 的计算，会比 innerHTML 插入方式慢。
-![image](https://user-images.githubusercontent.com/21194931/57016316-0ba22200-6c4c-11e9-9d2f-a4589c554107.png)
-
-这是一个简单单完整的 React 组件【类】，细节大家先不用太在意细节，了解机制就可以。
-props 主要作用是提供数据来源，可以简单的理解为 props 就是构造函数的参数。
-state 唯一的作用是控制组件的表现，用来存放会随着交互变化状态，比如开关状态等。
-JSX 做的事情就是根据 state 和 props 中的值，结合一些视图层面的逻辑，输出对应的 DOM 结构
-
-我们知道前端的 DOM 是一棵树，对于一个 element 来说，我们需要关注的是这个 element 的
-tagName、属性、以及子元素，而这完全可以用一个 js 对象来表示，比如，使用 tagName 属性
-来说明标签名，将所有的属性和值作为一个对象表示为 props，children 属性来表示这个 element 的
-子元素，同样有了这个 js 对象，我们就可以构建一棵真实的 DOM 树，我们可以在每一次元素也就是 js 对象
-有任何变动的时候来重新构造一棵树，将这棵新的树与旧的 DOM 数进行比对，找出真正差异的地方，然后
-将这些差异应用在真实的 DOM 中，也就实现了一个简单的 Virtual DOM 算法。
-
-##### VDOM：三个 part
-
-- 虚拟节点类，将真实 `DOM`节点用 `js` 对象的形式进行展示，并提供 `render` 方法，将虚拟节点渲染成真实 `DOM`
-- 节点 `diff` 比较：对虚拟节点进行 `js` 层面的计算，并将不同的操作都记录到 `patch` 对象
-- `re-render`：解析 `patch` 对象，进行 `re-render`
-
-##### 补充 1：VDOM 的必要性？
+|           Real DOM           |       Virtual DOM        |
+| :--------------------------: | :----------------------: |
+|           更新较慢           |         更新较快         |
+|      可以直接更新 HTML       |    无法直接更新 HTML     |
+| 如果元素更新，则创建新的 DOM | 如果元素更新，则更新 JSX |
+|       DOM 操作非常昂贵       |     DOM 操作非常简单     |
+|        较多的内存浪费        |       没有内存浪费       |
 
 - **创建真实 DOM 的代价高**：真实的 `DOM` 节点 `node` 实现的属性很多，而 `vnode` 仅仅实现一些必要的属性，相比起来，创建一个 `vnode` 的成本比较低。
 - **触发多次浏览器重绘及回流**：使用 `vnode` ，相当于加了一个缓冲，让一次数据变动所带来的所有 `node` 变化，先在 `vnode` 中进行修改，然后 `diff` 之后对所有产生差异的节点集中一次对 `DOM tree` 进行修改，以减少浏览器的重绘及回流。
-
-##### 补充 2：vue 为什么采用 vdom？
-
-> 引入 `Virtual DOM` 在性能方面的考量仅仅是一方面。
-
-- 性能受场景的影响是非常大的，不同的场景可能造成不同实现方案之间成倍的性能差距，所以依赖细粒度绑定及 `Virtual DOM` 哪个的性能更好还真不是一个容易下定论的问题。
-- `Vue` 之所以引入了 `Virtual DOM`，更重要的原因是为了解耦 `HTML`依赖，这带来两个非常重要的好处是：
-
-> - 不再依赖 `HTML` 解析器进行模版解析，可以进行更多的 `AOT` 工作提高运行时效率：通过模版 `AOT` 编译，`Vue` 的运行时体积可以进一步压缩，运行时效率可以进一步提升；
-> - 可以渲染到 `DOM` 以外的平台，实现 `SSR`、同构渲染这些高级特性，`Weex`等框架应用的就是这一特性。
-
-> 综上，`Virtual DOM` 在性能上的收益并不是最主要的，更重要的是它使得 `Vue` 具备了现代框架应有的高级特性。
 
 ### Virtual DOM
 
@@ -180,6 +60,24 @@ tagName、属性、以及子元素，而这完全可以用一个 js 对象来表
 1. 将 Virtual DOM 作为一个兼容层，让我们还能对接非 Web 端的系统，实现跨端开发。
 2. 同样的，通过 Virtual DOM 我们可以渲染到其他的平台，比如实现 SSR、同构渲染等等。
 3. 实现组件的高度抽象化
+
+### 三个 part
+
+- 虚拟节点类，将真实 `DOM`节点用 `js` 对象的形式进行展示，并提供 `render` 方法，将虚拟节点渲染成真实 `DOM`
+- 节点 `diff` 比较：对虚拟节点进行 `js` 层面的计算，并将不同的操作都记录到 `patch` 对象
+- `re-render`：解析 `patch` 对象，进行 `re-render`
+
+### vue 为什么采用 vdom？
+
+> 引入 `Virtual DOM` 在性能方面的考量仅仅是一方面。
+
+- 性能受场景的影响是非常大的，不同的场景可能造成不同实现方案之间成倍的性能差距，所以依赖细粒度绑定及 `Virtual DOM` 哪个的性能更好还真不是一个容易下定论的问题。
+- `Vue` 之所以引入了 `Virtual DOM`，更重要的原因是为了解耦 `HTML`依赖，这带来两个非常重要的好处是：
+
+> - 不再依赖 `HTML` 解析器进行模版解析，可以进行更多的 `AOT` 工作提高运行时效率：通过模版 `AOT` 编译，`Vue` 的运行时体积可以进一步压缩，运行时效率可以进一步提升；
+> - 可以渲染到 `DOM` 以外的平台，实现 `SSR`、同构渲染这些高级特性，`Weex`等框架应用的就是这一特性。
+
+综上，`Virtual DOM` 在性能上的收益并不是最主要的，更重要的是它使得 `Vue` 具备了现代框架应有的高级特性。
 
 ### Virtual DOM 真的比操作原生 DOM 快吗？谈谈你的想法。
 
@@ -542,20 +440,6 @@ function changeDom(node, changes, noChild) {
 }
 ```
 
-### vdom 是什么？为什么会存在 vdom？
-
-在 MVVM 开发方式中，页面的变化都是用数据去驱动的，而数据更新后，到底要去改那一块的 DOM 哪？
-虽然可以先删除那个部分再按照当前新的数据去重新生成一个新的页面或生成那一个部分（jQuery 做法），但是这样肯定非常耗费性能的。
-而且 JS 操作 DOM 是非常复杂，JS 操作 DOM 越多，控制与页面的耦合度就越高，代码越难以维护。
-
-虚拟 DOM，即用 JS 对象来描述 DOM 树结构，Diff 算法则是找旧 VDOM 与新的 VDOM 的最小差异，然后再把差异渲染出来
-
-描述一个 DOM 节点
-
-- tag 标签名
-- attrs DOM 属性键值对
-- children DOM 字节点数组 或 文本内容
-
 ### vdom 如何应用，核心 API 是什么
 
 - 创建虚拟节点
@@ -571,38 +455,6 @@ function changeDom(node, changes, noChild) {
 - createElement(): 用 js 对象（虚拟树）描述真实的 dom 对象（真实树）
 - diff(oldnode,newNode) 对比新旧两个树的区别
 - patch(): 将差异应用到真实树上
-
-### 数据更新的 diff 机制
-
-视图更新效率主要在大列表和深层数据更新这两方面。大多数研究都是对于大列表数据的更新，代码在 directive/repeat.js 中。首先，diff(data,oldvalue)，先比较新旧两个列表的 view model 的数据状态，然后差量更新 dom。第一步，遍历一遍新列表里的每一项，如果该项的 vm 之前就存在，则打一个\_rensed 的标，如果不存在对应的 vm 就创建一个新的。第二部：遍历一遍就得列表的每一项，如果\_rensed 的标没有被打上（其实就是指\_rensed=false）则说明新列表中已经没有它了，就销毁这个 vm。`this.uncacheVm(vm),vm.$destory()`。第三步：整理新的 vm 在试图上的顺序，同时还原之前打上的\_rensed 标，全部赋值为 false。就渲染完成了。
-
-### Real DOM 和 Virtual DOM 有什么区别?
-
-以下是 Real DOM 和 Virtual DOM 之间的主要区别：
-
-| Real DOM                          | Virtual DOM                   |
-| --------------------------------- | ----------------------------- |
-| 更新速度慢                        | 更新速度快                    |
-| DOM 操作非常昂贵                  | DOM 操作非常简单              |
-| 可以直接更新 HTML                 | 你不能直接更新 HTML           |
-| 造成太多内存浪费                  | 更少的内存消耗                |
-| 如果元素更新了，创建新的 DOM 节点 | 如果元素更新，则更新 JSX 元素 |
-
-### 为什么虚拟 dom 会提高性能
-
-> 虚拟 dom 相当于在 js 和真实 dom 中间加了一个缓存，利用 dom diff 算法避免了没有必要的 dom 操作，从而提高性能
-
-**具体实现步骤如下**
-
-- 用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文档当中
-- 当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较，记录两棵树差异
-- 把 2 所记录的差异应用到步骤 1 所构建的真正的 DOM 树上，视图就更新
-
-### virtual dom 原理实现
-
-用 JavaScript 模拟 DOM 树，并渲染这个 DOM 树
-比较新老 DOM 树，得到比较的差异对象
-把差异对象应用到渲染的 DOM 树。
 
 ### Virtual DOM 真的比操作原生 DOM 快吗？谈谈你的想法。
 
@@ -648,40 +500,3 @@ Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示”
 #### 5. 总结
 
 以上这些比较，更多的是对于框架开发研究者提供一些参考。主流的框架 + 合理的优化，足以应对绝大部分应用的性能需求。如果是对性能有极致需求的特殊情况，其实应该牺牲一些可维护性采取手动优化：比如 Atom 编辑器在文件渲染的实现上放弃了 React 而采用了自己实现的 tile-based rendering；又比如在移动端需要 DOM-pooling 的虚拟滚动，不需要考虑顺序变化，可以绕过框架的内置实现自己搞一个。
-
-### 什么是 Virtual DOM?
-
-`Virtual DOM` (VDOM) 是 _Real DOM_ 的内存表示形式。UI 的展示形式被保存在内存中并与真实的 DOM 同步。这是在调用的渲染函数和在屏幕上显示元素之间发生的一个步骤。整个过程被称为 _reconciliation_。
-
-Real DOM vs Virtual DOM
-
-|           Real DOM           |       Virtual DOM        |
-| :--------------------------: | :----------------------: |
-|           更新较慢           |         更新较快         |
-|      可以直接更新 HTML       |    无法直接更新 HTML     |
-| 如果元素更新，则创建新的 DOM | 如果元素更新，则更新 JSX |
-|       DOM 操作非常昂贵       |     DOM 操作非常简单     |
-|        较多的内存浪费        |       没有内存浪费       |
-
-### Virtual DOM 如何工作?
-
-`Virtual DOM` 分为三个简单的步骤。
-
-每当任何底层数据发生更改时，整个 UI 都将以 Virtual DOM 的形式重新渲染。
-![vdom](images/vdom1.png)
-
-然后计算先前 Virtual DOM 对象和新的 Virtual DOM 对象之间的差异。
-![vdom2](images/vdom2.png)
-
-一旦计算完成，真实的 DOM 将只更新实际更改的内容。
-![vdom3](images/vdom3.png)
-
-### Shadow DOM 和 Virtual DOM 之间有什么区别?
-
-[Shadow DOM](https://developers.google.com/web/fundamentals/web-components/shadowdom?hl=zh-cn) 是一种浏览器技术，它解决了构建网络应用的脆弱性问题。Shadow DOM 修复了 CSS 和 DOM。它在网络平台中引入作用域样式。 无需工具或命名约定，你即可使用原生 JavaScript 捆绑 CSS 和标记、隐藏实现详情以及编写独立的组件。`Virtual DOM` 是一个由 JavaScript 库在浏览器 API 之上实现的概念。
-
-### 为什么使用 Virtual DOM，直接操作 DOM 的弊端是什么？
-
-操作 DOM 是非常昂贵的，因为一个普通的 DOM 上有非常多的属性和方法，页面的性能问题很多都是由 DOM 操作引起的。
-
-VDOM 的意义在于实现了对 DOM 的抽象，从而配合 Diff 算法来比对新旧状态切换时页面需要更新的最小 DOM 范围。
