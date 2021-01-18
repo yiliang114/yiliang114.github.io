@@ -4,9 +4,9 @@ date: 2020-11-21
 draft: true
 ---
 
-## HTTP 报文
+### HTTP 报文
 
-### 请求报文
+#### 请求报文
 
 HTTP 协议是以 ASCII 码传输，建立在 TCP/IP 协议之上的应用层规范。规范把 HTTP 请求分为三个部分：状态行、请求头、消息主体。类似于下面这样：
 
@@ -49,7 +49,7 @@ HTTP 定义了与服务器交互的不同方法，最基本的方法有 4 种，
     - 理论上讲，POST 是没有大小限制的，HTTP 协议规范也没有进行大小限制，出于安全考虑，服务器软件在实现时会做一定限制
     - 参考上面的报文示例，可以发现 GET 和 POST 数据内容是一模一样的，只是位置不同，一个在 URL 里，一个在 HTTP 包的包体里
 
-### POST 提交数据的方式
+#### POST 提交数据的方式
 
 HTTP 协议中规定 POST 提交的数据必须在 body 部分中，但是协议中没有规定数据使用哪种编码方式或者数据格式。实际上，开发者完全可以自己决定消息主体的格式，只要最后发送的 HTTP 请求满足上面的格式就可以。
 
@@ -85,7 +85,7 @@ HTTP 协议中规定 POST 提交的数据必须在 body 部分中，但是协议
 
 随着越来越多的 Web 站点，尤其是 WebApp，全部使用 Ajax 进行数据交互之后，我们完全可以定义新的数据提交方式，例如 `application/json`，`text/xml`，乃至 `application/x-protobuf` 这种二进制格式，只要服务器可以根据 `Content-Type` 和 `Content-Encoding` 正确地解析出请求，都是没有问题的。
 
-### 响应报文
+#### 响应报文
 
 HTTP 响应与 HTTP 请求相似，HTTP 响应也由 3 个部分构成，分别是：
 
@@ -105,7 +105,7 @@ HTTP 响应与 HTTP 请求相似，HTTP 响应也由 3 个部分构成，分别�
 
     <html>...
 
-### 条件 GET
+#### 条件 GET
 
 HTTP 条件 GET 是 HTTP 协议为了减少不必要的带宽浪费，提出的一种方案。详见 [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) 。
 
@@ -140,7 +140,7 @@ HTTP 条件 GET 是 HTTP 协议为了减少不必要的带宽浪费，提出的�
 
     如果服务器端资源已经更新的话，就返回正常的响应。
 
-## 持久连接
+### 持久连接
 
 我们知道 HTTP 协议采用“请求-应答”模式，当使用普通模式，即非 Keep-Alive 模式时，每个请求/应答客户和服务器都要新建一个连接，完成之后立即断开连接（HTTP 协议为无连接的协议）；当使用 Keep-Alive 模式（又称持久连接、连接重用）时，Keep-Alive 功能使客户端到服务器端的连接持续有效，当出现对服务器的后继请求时，Keep-Alive 功能避免了建立或者重新建立连接。
 
@@ -160,7 +160,7 @@ HTTP 条件 GET 是 HTTP 协议为了减少不必要的带宽浪费，提出的�
 
 - 使用长连接之后，客户端、服务端怎么知道本次传输结束呢？两部分：1. 判断传输数据是否达到了 Content-Length 指示的大小；2. 动态生成的文件没有 Content-Length ，它是分块传输（chunked），这时候就要根据 chunked 编码来判断，chunked 编码的数据在最后有一个空 chunked 块，表明本次传输数据结束，详见[这里](http://www.cnblogs.com/skynet/archive/2010/12/11/1903347.html)。什么是 chunked 分块传输呢？下面我们就来介绍一下。
 
-### Transfer-Encoding
+#### Transfer-Encoding
 
 Transfer-Encoding 是一个用来标示 HTTP 报文传输格式的头部值。尽管这个取值理论上可以有很多，但是当前的 HTTP 规范里实际上只定义了一种传输取值——chunked。
 
@@ -189,7 +189,7 @@ Transfer-Encoding 是一个用来标示 HTTP 报文传输格式的头部值。�
 - chunked 传输不能事先知道内容的长度，只能靠最后的空 chunk 块来判断，因此对于下载请求来说，是没有办法实现进度的。在浏览器和下载工具中，偶尔我们也会看到有些文件是看不到下载进度的，即采用 chunked 方式进行下载。
 - chunked 的优势在于，服务器端可以边生成内容边发送，无需事先生成全部的内容。HTTP/2 不支持 Transfer-Encoding: chunked，因为 HTTP/2 有自己的 streaming 传输方式（Source：[MDN - Transfer-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding)）。
 
-### HTTP Pipelining（HTTP 管线化）
+#### HTTP Pipelining（HTTP 管线化）
 
 默认情况下 HTTP 协议中每个传输层连接只能承载一个 HTTP 请求和响应，浏览器会在收到上一个请求的响应之后，再发送下一个请求。在使用持久连接的情况下，某个连接上消息的传递类似于`请求1 -> 响应1 -> 请求2 -> 响应2 -> 请求3 -> 响应3`。
 
@@ -206,7 +206,7 @@ HTTP Pipelining（管线化）是将多个 HTTP 请求整批提交的技术，�
 
 更多关于 HTTP Pipelining 的知识可以参考[这里](https://developer.mozilla.org/en-US/docs/Web/HTTP/Pipelining_FAQ)。
 
-## 会话跟踪
+### 会话跟踪
 
 1. 什么是会话？
 

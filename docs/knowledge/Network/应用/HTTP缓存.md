@@ -6,9 +6,6 @@ draft: true
 
 # 浏览器缓存
 
-https://segmentfault.com/a/1190000017962411?utm_source=tag-newest
-http://louiszhai.github.io/2017/04/07/http-cache/
-
 ### 缓存分类
 
 - 强缓存
@@ -912,7 +909,6 @@ Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
 ```html
 If-Modified-Since: Wed, 21 Oct 2015 07:28:00 GMT
 ```
-
 
 ### 和缓存有关的请求头有哪些？优先级是怎样的？
 

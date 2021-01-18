@@ -133,59 +133,6 @@ if(a == 1 && a == 2 && a == 3) {
 }
 ```
 
-### 实现一个 sleep 函数如 sleep(1000)意味着等待 1000 毫秒，从 Promise、Generator、Async/Await 等角度实现
-
-while 实现
-
-```js
-function sleep(ms) {
-  var start = Date.now(),
-    expire = start + ms;
-  while (Date.now() < expire);
-  console.log('1111');
-  return;
-}
-```
-
-promise 实现
-
-```js
-const sleep = timer => {
-  return new Promise(resolve => setTimeout(resolve, timer));
-};
-sleeo(1000).then();
-```
-
-generate 实现
-
-```js
-function* sleep(ms) {
-  yield new Promise(function(resolve, reject) {
-    console.log(111);
-    setTimeout(resolve, ms);
-  });
-}
-sleep(500)
-  .next()
-  .value.then(function() {
-    console.log(2222);
-  });
-```
-
-async 实现
-
-```js
-const sleep = time => {
-  return new Promise(resolve => setTimeout(resolve, time));
-};
-
-async function sleepAsync() {
-  await sleep(1000);
-}
-
-sleepAsync();
-```
-
 ### Object.assign()的模拟实现
 
 实现一个 Object.assign 大致思路如下：
@@ -887,26 +834,6 @@ function transform(number){
 
 }
 
-```
-
-### 手写 indexOf
-
-```js
-function indexOf(str, val) {
-  var strLen = str.length,
-    valLen = val.length;
-  for (var i = 0; i < strLen; i++) {
-    var matchLen = i + valLen;
-    var matchStr = str.slice(i, matchLen);
-    if (matchLen > strLen) {
-      return -1;
-    }
-    if (matchStr === val) {
-      return i;
-    }
-  }
-  return -1;
-}
 ```
 
 ### 实现鼠标滑过头像显示简介

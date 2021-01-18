@@ -1,9 +1,10 @@
 ---
-
 title: webpack
 date: 2020-11-21
 aside: false
----# Loader
+---
+
+# Loader
 
 当打包到非 JS 文件的时候，webpack 会在`module`中配置里查找，然后根据`rules`中的`test`选择一个 loader 来处理。
 

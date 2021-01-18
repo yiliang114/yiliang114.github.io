@@ -225,3 +225,18 @@ https://blog.csdn.net/wangjun5159/article/details/47781443
 1. 用户点击之后按钮 disabled;
 2. 函数节流
 3. abort 掉上一个请求。
+
+### http 普通请求和 ajax 请求
+
+ajax 的请求，在请求头中多了一个“**X-Requested-With**”属性。
+
+而通过浏览器的 url 请求，则没有这个“**X-Requested-With**”属性。
+
+我一直以为通过浏览器的 url 请求就是 ajax 的 GET 请求，两者原理上是一样的？？？
+
+两者本质区别是：
+
+- Ajax （Asynchronous JavaScript and XML） 通过 XMLHttpRequest 对象请求服务器，服务器接收请求后返回数据，页面接收到数据之后实现局部刷新。
+- 普通 http 请求通过 httpRequest 对象请求服务器，服务器接收请求之后返回数据，需要页面刷新？？？
+
+跨域的时候，ajax 请求 “**X-Requested-With**”属性会丢失。

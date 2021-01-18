@@ -4,60 +4,12 @@ date: '2020-10-26'
 draft: true
 ---
 
-### keys 是否需要全局唯一?
-
-数组中使用的键在其同级中应该是唯一的，但它们不需要是全局唯一的。也就是说，你可以在两个不同的数组中使用相同的键。例如，下面的 book 组件在不同的组件中使用相同的数组：
-
-```js
-function Book(props) {
-  const index = (
-    <ul>
-      {props.pages.map(page => (
-        <li key={page.id}>{page.title}</li>
-      ))}
-    </ul>
-  );
-  const content = props.pages.map(page => (
-    <div key={page.id}>
-      <h3>{page.title}</h3>
-      <p>{page.content}</p>
-      <p>{page.pageNumber}</p>
-    </div>
-  ));
-  return (
-    <div>
-      {index}
-      <hr />
-      {content}
-    </div>
-  );
-}
-```
-
-### 索引作为键的影响是什么?
-
-Keys 应该是稳定的，可预测的和唯一的，这样 React 就能够跟踪元素。
-
-在下面的代码片段中，每个元素的键将基于列表项的顺序，而不是绑定到即将展示的数据上。这将限制 React 能够实现的优化。
-
-```jsx
-{
-  todos.map((todo, index) => <Todo {...todo} key={index} />);
-}
-```
-
-假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
-
-```jsx
-{
-  todos.map(todo => <Todo {...todo} key={todo.id} />);
-}
-```
-
 ### 写 React / Vue 项目时为什么要在组件中写 key，其作用是什么
 
 vue 和 react 都是采用 diff 算法来对比新旧虚拟节点，从而更新节点。在 vue 的 diff 函数中。可以先了解一下 diff 算法。
 在交叉对比的时候，当新节点跟旧节点头尾交叉对比没有结果的时候，会根据新节点的 key 去对比旧节点数组中的 key，从而找到相应旧节点（这里对应的是一个 key => index 的 map 映射）。如果没找到就认为是一个新增节点。而如果没有 key，那么就会采用一种遍历查找的方式去找到对应的旧节点。一种一个 map 映射，另一种是遍历查找。相比而言。map 映射的速度更快。
+
+使用 key 可以使得 DOM diff 更加高效，避免不必要的列表项更新。假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
 
 vue 部分源码如下：
 
@@ -96,9 +48,3 @@ function findIdxInOld(node, oldCh, start, end) {
   }
 }
 ```
-
-### 简要介绍一下 key 以及它的作用
-
-在 react 中我们渲染一个列表的时候，我们需要为每一个列表项指定一个唯一的 key，当没有指定 key 时，会收到一个 warning，
-如果指定的 key 不唯一，只会渲染第一个指定唯一的 key 的那个元素，使用 key 可以使得 DOM diff 更加高效，避免不必要的
-列表项更新

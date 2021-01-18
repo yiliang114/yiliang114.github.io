@@ -2,7 +2,9 @@
 title: webpack
 date: 2020-11-21
 aside: false
----# mooc webpack4 note
+---
+
+# mooc webpack4 note
 
 webpack 是一个模块打包工具。能够将符合要求的 `es module` 的模块打包到一起。
 

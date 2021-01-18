@@ -116,26 +116,16 @@ console.log('1', a); // -> '1' 1
 
 上述解释中提到了 `await` 内部实现了 `generator`，其实 `await` 就是 `generator` 加上 `Promise`的语法糖，且内部实现了自动执行 `generator`。如果你熟悉 co 的话，其实自己就可以实现这样的语法糖。
 
-## Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+## Promise 概念
 
 ```js
-const promise = new Promise((resolve, reject) => {
-  console.log(1);
-  resolve();
-  console.log(2);
+new Promise((resolve, reject) => {
+  console.log('promise 1');
+  resolve(1);
 });
-
-promise.then(() => {
-  console.log(3);
-});
-
-console.log(4);
+// promise 1
+// 说明 promise 构造函数是立即执行的。
 ```
-
-执行结果是：1243
-promise 构造函数是同步执行的，then 方法是异步执行的
-
-## Promise 概念
 
 Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。比传统的解决方案--回调函数和事件更合理和更强大。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。
 
@@ -346,6 +336,25 @@ someAsyncThing()
 // oh no [ReferenceError: x is not defined]
 // carry on [ReferenceError: y is not defined]
 ```
+
+## Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  resolve();
+  console.log(2);
+});
+
+promise.then(() => {
+  console.log(3);
+});
+
+console.log(4);
+```
+
+执行结果是：1243
+promise 构造函数是同步执行的，then 方法是异步执行的
 
 ## promise 场景题
 

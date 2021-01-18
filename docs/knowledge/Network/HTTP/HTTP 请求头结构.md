@@ -1,7 +1,9 @@
 ---
 title: HTTP 请求头结构
 date: 2020-12-21
----## HTTP 请求头结构
+---
+
+## HTTP 请求头结构
 
 ### HTTP request 报文结构是怎样的
 
@@ -78,3 +80,107 @@ Content-Type: text/html; charset=iso-8859-1
 - 空行
 - 响应正文 服务器响应的数据
   - 返回给客户端的文本信息
+
+### HTTP 首部
+
+有 4 种类型的首部字段：通用首部字段、请求首部字段、响应首部字段和实体首部字段。
+
+各种首部字段及其含义如下（不需要全记，仅供查阅）：
+
+#### 1. 通用首部字段
+
+|    首部字段名     |                    说明                    |
+| :---------------: | :----------------------------------------: |
+|   Cache-Control   |               控制缓存的行为               |
+|    Connection     | 控制不再转发给代理的首部字段、管理持久连接 |
+|       Date        |             创建报文的日期时间             |
+|      Pragma       |                  报文指令                  |
+|      Trailer      |             报文末端的首部一览             |
+| Transfer-Encoding |         指定报文主体的传输编码方式         |
+|      Upgrade      |               升级为其他协议               |
+|        Via        |            代理服务器的相关信息            |
+|      Warning      |                  错误通知                  |
+
+#### 2. 请求首部字段
+
+|     首部字段名      |                      说明                       |
+| :-----------------: | :---------------------------------------------: |
+|       Accept        |            用户代理可处理的媒体类型             |
+|   Accept-Charset    |                  优先的字符集                   |
+|   Accept-Encoding   |                 优先的内容编码                  |
+|   Accept-Language   |             优先的语言（自然语言）              |
+|    Authorization    |                  Web 认证信息                   |
+|       Expect        |              期待服务器的特定行为               |
+|        From         |               用户的电子邮箱地址                |
+|        Host         |               请求资源所在服务器                |
+|      If-Match       |              比较实体标记（ETag）               |
+|  If-Modified-Since  |               比较资源的更新时间                |
+|    If-None-Match    |        比较实体标记（与 If-Match 相反）         |
+|      If-Range       |      资源未更新时发送实体 Byte 的范围请求       |
+| If-Unmodified-Since | 比较资源的更新时间（与 If-Modified-Since 相反） |
+|    Max-Forwards     |                 最大传输逐跳数                  |
+| Proxy-Authorization |         代理服务器要求客户端的认证信息          |
+|        Range        |               实体的字节范围请求                |
+|       Referer       |            对请求中 URI 的原始获取方            |
+|         TE          |                传输编码的优先级                 |
+|     User-Agent      |              HTTP 客户端程序的信息              |
+
+#### 3. 响应首部字段
+
+|     首部字段名     |             说明             |
+| :----------------: | :--------------------------: |
+|   Accept-Ranges    |     是否接受字节范围请求     |
+|        Age         |     推算资源创建经过时间     |
+|        ETag        |        资源的匹配信息        |
+|      Location      |   令客户端重定向至指定 URI   |
+| Proxy-Authenticate | 代理服务器对客户端的认证信息 |
+|    Retry-After     |   对再次发起请求的时机要求   |
+|       Server       |    HTTP 服务器的安装信息     |
+|        Vary        |   代理服务器缓存的管理信息   |
+|  WWW-Authenticate  |   服务器对客户端的认证信息   |
+
+#### 4. 实体首部字段
+
+|    首部字段名    |          说明          |
+| :--------------: | :--------------------: |
+|      Allow       | 资源可支持的 HTTP 方法 |
+| Content-Encoding | 实体主体适用的编码方式 |
+| Content-Language |   实体主体的自然语言   |
+|  Content-Length  |     实体主体的大小     |
+| Content-Location |   替代对应资源的 URI   |
+|   Content-MD5    |   实体主体的报文摘要   |
+|  Content-Range   |   实体主体的位置范围   |
+|   Content-Type   |   实体主体的媒体类型   |
+|     Expires      | 实体主体过期的日期时间 |
+|  Last-Modified   | 资源的最后修改日期时间 |
+
+### http 头部信息
+
+每一个 http 请求和响应都会带有响应的头部信息，XHR 对象提供了操作请求头部和响应头部信息的方法。
+
+默认情况下，发送 ajax 请求时，还会发送下列头部信息：
+
+- Accept: 浏览器能够显示的字符集
+- Accept-Charset: 浏览器能够显示的字符集
+- Accpet-Encoding: 浏览器能够处理的压缩编码
+- Accept-Language: 浏览器当前设置的语言
+- Connection: 浏览器与服务器之间的连接类型（keep-alive）
+- Cookie: 当前页面设置的任何 cookie
+- Host: 发出请求的页面所在域
+- Referer: 发出请求的页面的 URL
+- User-Agent: 浏览器的用户代理字段（跟 window.navigator.userAgent 值是一样的）
+- :method: http 请求方法类型 GET/POST...
+
+不同的浏览器实际发送的头部内容会有所不同，但是上面列出的信息基本上所有的浏览器都是会发送的。
+
+原生操作 http 请求头部的方法：
+
+- .setRequestHeader("name","value")
+- .getResponseHeader('name')
+- .getAllResponseHeaders()
+
+特殊的一些头部字段：
+
+- x-requested-with: 用来判断一个请求时传统的 http 请求还是 ajax 请求。XMLHttpRequest 表示 ajax 请求，例如 axios 中将全局的请求都声明为 ajax 请求。
+
+事实上在服务端判断 request 来自 ajax 请求（异步）还是传统请求（同步）是通过判断请求中是否带有`x-requested-with` 属性，并且其值是否是`XMLHttpRequest`。 如果 request.getHeader("X-Requested-With") 的值为 XMLHttpRequest，则为 Ajax 异步请求。为 null，则为传统同步请求。
