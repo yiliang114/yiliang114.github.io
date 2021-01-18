@@ -104,3 +104,60 @@ function getUrlValue(url) {
 比如有个数组有 100K 个元素，从中不重复随机选取 10K 个元素。
 
 由于随机从 100K 个数据中随机选取 10k 个数据，可采用统计学中随机采样点的选取进行随机选取，如在 0-50 之间生成五个随机数，然后依次将每个随机数进行加 50 进行取值，性能应该是最好的。
+
+### 请评价以下事件监听器代码并给出改进意见
+
+```js
+if (window.addEventListener) {
+  var addListener = function(el, type, listener, useCapture) {
+    el.addEventListener(type, listener, useCapture);
+  };
+} else if (document.all) {
+  addListener = function(el, type, listener) {
+    el.attachEvent('on' + type, function() {
+      listener.apply(el);
+    });
+  };
+}
+```
+
+作用：浏览器功能检测实现跨浏览器 DOM 事件绑定
+
+优点：
+
+1. 测试代码只运行一次，根据浏览器确定绑定方法
+2. 通过`listener.apply(el)`解决 IE 下监听器 this 与标准不一致的地方
+3. 在浏览器不支持的情况下提供简单的功能，在标准浏览器中提供捕获功能
+
+缺点：
+
+1. document.all 作为 IE 检测不可靠，应该使用 if(el.attachEvent)
+2. addListener 在不同浏览器下 API 不一样
+3. `listener.apply`使 this 与标准一致但监听器无法移除
+4. 未解决 IE 下 listener 参数 event。 target 问题
+
+改进:
+
+```js
+var addListener;
+
+if (window.addEventListener) {
+  addListener = function(el, type, listener, useCapture) {
+    el.addEventListener(type, listener, useCapture);
+    return listener;
+  };
+} else if (window.attachEvent) {
+  addListener = function(el, type, listener) {
+    // 标准化this，event，target
+    var wrapper = function() {
+      var event = window.event;
+      event.target = event.srcElement;
+      listener.call(el, event);
+    };
+
+    el.attachEvent('on' + type, wrapper);
+    return wrapper;
+    // 返回wrapper。调用者可以保存，以后remove
+  };
+}
+```

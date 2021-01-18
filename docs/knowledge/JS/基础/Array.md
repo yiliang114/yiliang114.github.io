@@ -180,6 +180,18 @@ console.log(tree);
 
 ### Array 对象自带的排序函数底层是怎么实现的？
 
+### ['1', '2', '3'].map(parseInt)
+
+map 会给函数传递 3 个参数： (elem, index, array) 而 parseInt 接收两个参数(sting, radix)，其中 radix 代表进制。省略 radix 或 radix = 0，则数字将以十进制解析。 因此，map 遍历 ["1", "2", "3"]，相应 parseInt 接收参数如下
+
+```js
+parseInt('1', 0); // 1
+parseInt('2', 1); // NaN
+parseInt('3', 2); // NaN
+```
+
+因为二进制里面，没有数字 3,导致出现超范围的 radix 赋值和不合法的进制解析，才会返回 NaN 所以["1", "2", "3"].map(parseInt) 答案也就是：[1, NaN, NaN]
+
 ### Map、FlatMap 和 Reduce
 
 `Map` 作用是生成一个新数组，遍历原数组，将每个元素拿出来做一些变换然后 `append` 到新的数组中。
