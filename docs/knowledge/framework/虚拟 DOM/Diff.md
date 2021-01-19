@@ -4,7 +4,58 @@ date: '2020-10-26'
 draft: true
 ---
 
-## diff 算法?
+## Vue-Diff
+
+### 在 diff 的过程中，指针的具体如何移动？及哪些部分发生了变化？
+
+### insertedVnodeQueue 又是何用？为何一直带着？
+
+### 在移动这部分直接操作的 oldChildren，然而 oldChildren 会发生移动么？那么到底是谁发生了移动呢？
+
+### 匹配成功后进行的 patchVnode 是做了什么？为什么的有的紧接着要进行 dom 操作，有的没有？
+
+### key 的作用
+
+1. 让 vue 精准的追踪到每一个元素，高效的更新虚拟 DOM。
+2. 触发过渡
+
+```html
+<transition>
+  <span :key="text">{{ text }}</span>
+</transition>
+```
+
+当 text 改变时，这个元素的 key 属性就发生了改变，在渲染更新时，Vue 会认为这里新产生了一个元素，而老的元素由于 key 不存在了，所以会被删除，从而触发了过渡。
+
+### vnode 的转换过程 和 dom-diff 的过程
+
+https://juejin.im/post/5c8e5e4951882545c109ae9c#heading-5
+
+### index 不能作为 key 的原因
+
+循环比较虚拟 dom， 会一层一层进行遍历。
+
+通俗描述原因： 本来不一样的东西，现在变成一样了。。。。 因为 key 变成一样了，就判断是同个东西
+
+场景：
+
+1. 中间插入节点
+2. 中间删除节点
+
+会徒增很多的比较。
+
+### Diff 算法
+
+- 同个节点，会用 patch 进行打补丁操作
+- 不同节点，会进行 insert 和 delete 操作
+- 判断为一样的类型
+  - key
+  - tag
+  - 如果是 input 标签的话，需要 type 也一样。
+
+## React-Diff
+
+### diff 算法?
 
 - 把树形结构按照层级分解，只比较同级元素。
 - 给列表结构的每个单元添加唯一的 key 属性，方便比较。
@@ -16,7 +67,7 @@ draft: true
 
 ### 虚拟 DOM 的优缺点有哪些？
 
-## React 中 keys 的作用是什么？
+### React 中 keys 的作用是什么？
 
 > Keys 是 React 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
 
@@ -88,7 +139,7 @@ React 支持 key 属性。当子节点有 key 时，React 使用 key 将原始�
 </ul>
 ```
 
-## diff 实现方式
+### diff 实现方式
 
 ### 虚拟 DOM 算法
 
@@ -557,3 +608,51 @@ Diff 算法中 React 会借助元素的 Key 值来判断该元素是新近创建
 当数据发生改变时，set 方法会让调用`Dep.notify`通知所有订阅者 Watcher，订阅者就会调用`patch`给真实的 DOM 打补丁，更新相应的视图。
 
 ![](https://images2018.cnblogs.com/blog/998023/201805/998023-20180519212357826-1474719173.png)
+
+## Key
+
+### 写 React / Vue 项目时为什么要在组件中写 key，其作用是什么
+
+vue 和 react 都是采用 diff 算法来对比新旧虚拟节点，从而更新节点。
+
+在 vue 的 diff 函数中。在交叉对比的时候，当新节点跟旧节点头尾交叉对比没有结果的时候，会根据新节点的 key 去对比旧节点数组中的 key，从而找到相应旧节点（这里对应的是一个 key => index 的 map 映射）。如果没找到就认为是一个新增节点。而如果没有 key，那么就会采用一种遍历查找的方式去找到对应的旧节点。一种一个 map 映射，另一种是遍历查找。相比而言。map 映射的速度更快。
+
+使用 key 可以使得 DOM diff 更加高效，避免不必要的列表项更新。假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
+
+vue 部分源码如下：
+
+```js
+// vue项目  src/core/vdom/patch.js  -488行
+// oldCh 是一个旧虚拟节点数组，
+if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+idxInOld = isDef(newStartVnode.key)
+  ? oldKeyToIdx[newStartVnode.key]
+  : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx);
+```
+
+创建 map 函数
+
+```js
+function createKeyToOldIdx(children, beginIdx, endIdx) {
+  let i, key;
+  const map = {};
+  for (i = beginIdx; i <= endIdx; ++i) {
+    key = children[i].key;
+    if (isDef(key)) map[key] = i;
+  }
+  return map;
+}
+```
+
+遍历寻找
+
+```js
+// sameVnode 是对比新旧节点是否相同的函数
+function findIdxInOld(node, oldCh, start, end) {
+  for (let i = start; i < end; i++) {
+    const c = oldCh[i];
+
+    if (isDef(c) && sameVnode(node, c)) return i;
+  }
+}
+```
