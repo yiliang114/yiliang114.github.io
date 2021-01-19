@@ -330,103 +330,64 @@ foo.bind(a)(); // => 'yiliang114'
 
 ### 以下代码执行结果是什么？
 
-- 1
+```js
+var foo = 1,
+  bar = 2,
+  j,
+  test;
+test = function(j) {
+  j = 5;
+  var bar = 5;
+  console.log(bar); // 5
+  foo = 5;
+};
+test(10);
+console.log(foo); // 5 改变的全局变量
+console.log(bar); // 2 由于函数作用域对全局作用域的隐藏，所以只有在test函数内部，bar=5,并不能影响到全局中的bar
+console.log(j); // undefined  test(10)函数调用的时候，是函数内部的参数j接收到了10，但是它也是函数作用域内的变量，并不会改变全局作用域中的j。
+```
 
-  ```js
-  var foo = 1,
-    bar = 2,
-    j,
-    test;
-  test = function(j) {
-    j = 5;
-    var bar = 5;
-    console.log(bar); // 5
-    foo = 5;
-  };
-  test(10);
-  console.log(foo); // 5 改变的全局变量
-  console.log(bar); // 2 由于函数作用域对全局作用域的隐藏，所以只有在test函数内部，bar=5,并不能影响到全局中的bar
-  console.log(j); // undefined  test(10)函数调用的时候，是函数内部的参数j接收到了10，但是它也是函数作用域内的变量，并不会改变全局作用域中的j。
-  ```
+> 这个题目还有一个类似的题目：这个考察的是，数组和对象都是引用复制
 
-  > 这个题目还有一个类似的题目：这个考察的是，数组和对象都是引用复制
+```js
+var j = [1, 2, 3];
+test = function(j) {
+  j.push(4);
+};
+test(j);
+console.log(j); // [1,2,3,4],因为test(j)中的j是对[1,2,3]的引用复制给function(j)中的j,而在test函数内部，通过引用改变的是[1,2,3]这是数组本身，所以console.log(j); 为 [1,2,3,4]
+```
 
-  ```js
-  var j = [1, 2, 3];
-  test = function(j) {
-    j.push(4);
-  };
-  test(j);
-  console.log(j); // [1,2,3,4],因为test(j)中的j是对[1,2,3]的引用复制给function(j)中的j,而在test函数内部，通过引用改变的是[1,2,3]这是数组本身，所以console.log(j); 为 [1,2,3,4]
-  ```
+```js
+for (var i = 0; i < 5; i++) {
+  window.setTimeout(function() {
+    console.log(i); // 
+  }, 1000);
+}
+console.log('i=' + i); // 先输出“i=5”,然后再隔1s后输出一个5个5
+```
 
-- 2
+```js
+for (var i = 0; i < 5; i++) {
+  window.setTimeout(function() {
+    console.log(i);
+  }, i * 1000); // 只有i*1000才会每隔1S输出一个
+}
+```
 
-  ```js
-  for (var i = 0; i < 5; i++) {
-    window.setTimeout(function() {
-      console.log(i); // 
-    }, 1000);
-  }
-  console.log('i=' + i); // 先输出“i=5”,然后再隔1s后输出一个5个5
-  ```
-
-  只有
-
-  ```js
-  for (var i = 0; i < 5; i++) {
-    window.setTimeout(function() {
-      console.log(i);
-    }, i * 1000); // 只有i*1000才会每隔1S输出一个
-  }
-  ```
-
-  > "i=5" </br>
-  > 5</br>
-  > 5</br>
-  > 5</br>
-  > 5</br>
-  > 5</br>
-
-  > setTimeout </br>
-  > 语法: `var timeoutID = scope.setTimeout(function[, delay, param1, param2,...]);` `var timeoutID = scope.setTimeout(code[, delay]);`
-  >
-  > - function 是你想要在 delay 毫秒之后执行的函数。
-  > - delay (可选) 延迟的毫秒数 (一秒等于 1000 毫秒)，函数的调用会在该延迟之后发生。如果省略该参数，delay 取默认值 0。实际的延迟时间可能会比 delay 值长，原因请查看 Reasons for delays longer than specified。
-  > - param1, ..., paramN (可选) 附加参数，一旦定时器到期，它们会作为参数传递给 function 或 执行字符串（setTimeout 参数中的 code）
-  >
-  > ```js
-  > for (var i = 0; i < 5; i++) {
-  >   window.setTimeout(
-  >     function(j) {
-  >       console.log(i + j); // 每隔100ms输出一个13
-  >     },
-  >     100,
-  >     8,
-  >   );
-  > }
-  > console.log('i=' + i); // 5
-  > ```
-
-* 3
-
-  ```js
-  var length = 10;
-  function fn() {
-    alert(this.length);
-  }
-  var obj = {
-    length: 5,
-    method: function() {
-      fn();
-    },
-  };
-  obj.method(); // 10 , 对fn间接引用，调用这个函数会应用默认的绑定规则
-  ```
-
-> 这个考察的是`this`的指向问题。
-
-还有一个类似的问题：
+```js
+var length = 10;
+function fn() {
+  alert(this.length);
+}
+var obj = {
+  length: 5,
+  method: function() {
+    fn();
+  },
+};
+obj.method(); // 10 , 对fn间接引用，调用这个函数会应用默认的绑定规则
+```
 
 ```js
 var num = 100;
@@ -480,7 +441,7 @@ function () {
 // 100
 ```
 
-3.  第二个
+1.  第二个
 
 赋值操作，fun 完全就是一个函数引用，这个引用丢失了函数原本所在的上下文信息，所以最终是在全局上下文中运行
 
@@ -1432,4 +1393,19 @@ Function.prototype.bind = function(oThis) {
 
   return fBound;
 };
+```
+
+```js
+const shape = {
+  radius: 10,
+  diameter() {
+    return this.radius * 2;
+  },
+  perimeter: () => 2 * Math.PI * this.radius,
+};
+
+shape.diameter();
+shape.perimeter();
+
+// 20 and NaN
 ```

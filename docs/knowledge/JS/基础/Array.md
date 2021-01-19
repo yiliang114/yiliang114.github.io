@@ -310,6 +310,8 @@ Array.isArray 优于 instanceof ，因为 Array.isArray 可以检测出 iframes�
 
 #### 1. Object.prototype.toString.call()
 
+100% 准确.
+
 每一个继承 Object 的对象都有 `toString` 方法，如果 `toString` 方法没有重写的话，会返回 `[Object type]`，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 `toString` 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或者 apply 方法来改变 toString 方法的执行上下文。
 
 ```js
