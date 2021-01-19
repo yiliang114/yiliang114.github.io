@@ -3,6 +3,7 @@
   "GitCommitPlugin.ShowEmoji": false,
   "files.exclude": {
     "lib": true,
-    "arithmetic": true
+    "arithmetic": true,
+    "docs/arithmetic": true
   }
 }

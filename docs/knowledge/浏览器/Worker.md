@@ -6,8 +6,6 @@ draft: true
 
 ### ServiceWorker
 
-https://www.cnblogs.com/cangqinglang/p/10776146.html
-
 PWA 之所以能离线，是 Service Worker 的功劳。这并不是 W3C 第一次尝试让 Web 站点离线，在 Service Worker 之前，有个东西叫 Application Cache，<html manifest="cache.appcache">，是不是很熟悉?但是，由于 Application Cache 存 在很多无法容忍和无法解决的问题(可以查看这篇博客 Application Cache is a Douchebag)，它在 HTML5.1 版本中被移出了。
 
 现在，我们终于有一个没有那么多问题的离线方案了，那就是 Service Worker。
@@ -20,7 +18,7 @@ Service Worker 从在浏览器注册到进入工作状态和最终销毁会经�
 
 ```js
 // service-worker.js
-self.addEventListenr('fetch', e => {
+self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request).then(response => {
       return response || fetch(e.request);
@@ -68,32 +66,6 @@ self.addEventListener('notificationclose', event => {
 
 为了降低 PWA 的开发门槛，业界也推出了相应的工具。
 例如，百度推出的 Lavas 就是一个开源的命令行工具，可以通过它来快速创建 PWA 项目。它提供了多种常用的 APP Shell 给用户选择，降低了开发成本，也简化了 工作流程，让 PWA 项目变得易于管理。
-
-#### 各大站点纷纷实践，用 PWA 已成趋势?
-
-PWA 刚推出时，就获得了很多大型站点的支持，比如印度最大的电商网站 Flipcart，它是第一个大规模应用 PWA 的站点，也取得了非常好的收益，用户停留 时长增长了 3 倍。除 Flipcart 之外，还有很多不错的案例。下面我们来看看国内外 的两个站点的实践案例。
-案例 1:Twitter Lite PWA
-首先，国外的 Twitter 在 2017 年上线了 Twitter Lite PWA，Google 开发者网站 上有 Twitter PWA 的案例分析。Twitter Lite PWA 同样收益惊人:
-• 平均用户停留时长增长 65%;
-• Web 站点发推的数量增长 75%(Amazing);
-• 跳出率降低 20%。
-Twitter Lite 能取得这样的成绩，归功于 PWA 的新技术和用户体验至上的设计
-原则:它通过 Service Worker 缓存文件，让页面可以离线，同时降低网络消耗; 通过 Web Push 接受服务器推送的消息;采用 App Shell 的设计模型，配合 Service Worker 能让页面瞬间展现。
-案例 2:ele.me PWA
-Google 开发者网站上也对 ele.me 的案例进行了分析。从这个案例分析中，我 们可以看到 ele.me PWA 改造的收益如下:
-• 预缓存的页面平均加载时间减少 11.6%;
-• 所有页面的平均加载时间减少 6.35%;
-• 在 3G 网络并且是第一次加载时，从页面加载到用户可操作的时间下降到
-4.93s。
-可见，ele.me 同样取得了很不错的收益。不同于 Twitter Lite，ele.me 是 MPA
-站点，这会让站点变的更复杂，并且体验不如 SPA 那么顺畅，但是 ele.me 充分利用 了 PWA 的各种新技术和设计模式，将 MPA 的影响降到最小，比如使用了 PRPL 模式，最 大程度的降低页面的首屏时间，还采用了 App Skeleton 的设计方式让用户对正在加
-48 2018，进击的大前端
-
-载的页面内容有心里预期。 Twitter 和 ele.me 只是 PWA 站点中两个效果比较显著的案例，同样还有很多其
-他的案例，可以访问 Google 的案例分析页面合集:https://developers.google. cn/web/showcase/
-实际收益明显，再加上 Google 的强力支持，使得 PWA 的增长非常迅速，越来越 多的互联网大站跟进。下面这张图列出了一些站点，从最开始的 Flipcart，到目前 的 Instangram、Uber、Twitter、Starbucks 等，不仅数量在增加，站点等级和质量 也在不断地提升。放眼国内，百度、饿了么、阿里都已经有部分站点支持 PWA 了， 滴滴也表示有兴趣，可见，PWA 不仅在国外非常受重视，在国内同样受到各大互联 网企业的重视。
-
-按照当前的发展趋势，PWA 将会带来 Web App 的大量需求，新一轮大前端技术 洗牌很可能近在眼前了。
 
 ### Service Worker
 
