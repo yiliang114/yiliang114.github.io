@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# 二分查找
+## 二分查找
 
 **正常实现**
 
@@ -94,7 +94,7 @@ l   m   h
 
 当循环体退出时，不表示没有查找到 key，因此最后返回的结果不应该为 -1。为了验证有没有查找到，需要在调用端判断一下返回位置上的值和 key 是否相等。
 
-# 1. 求开方
+## 1. 求开方
 
 [69. Sqrt(x) (Easy)](https://leetcode.com/problems/sqrtx/description/)
 
@@ -128,7 +128,7 @@ public int mySqrt(int x) {
 }
 ```
 
-### my-sqrt
+#### my-sqrt
 
 - 题目链接：无
   > leetcode 上有一个相似的[题目](https://leetcode.com/problems/sqrtx/)
@@ -138,7 +138,7 @@ public int mySqrt(int x) {
 要求不用数学库，求 sqrt(2)精确到小数点后 10 位
 ```
 
-#### 参考答案
+##### 参考答案
 
 1. 二分法
 
@@ -201,7 +201,7 @@ function sqrtNewton(n) {
 }
 ```
 
-# 2. 大于给定元素的最小元素
+## 2. 大于给定元素的最小元素
 
 [744. Find Smallest Letter Greater Than Target (Easy)](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
 
@@ -227,7 +227,7 @@ public char nextGreatestLetter(char[] letters, char target) {
 }
 ```
 
-# 3. 有序数组的 Single Element
+## 3. 有序数组的 Single Element
 
 [540. Single Element in a Sorted Array (Medium)](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
 
@@ -263,7 +263,7 @@ public int singleNonDuplicate(int[] nums) {
 }
 ```
 
-# 4. 第一个错误的版本
+## 4. 第一个错误的版本
 
 [278. First Bad Version (Easy)](https://leetcode.com/problems/first-bad-version/description/)
 
@@ -288,7 +288,7 @@ public int firstBadVersion(int n) {
 }
 ```
 
-# 5. 旋转数组的最小数字
+## 5. 旋转数组的最小数字
 
 [153. Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
 
@@ -311,7 +311,7 @@ public int findMin(int[] nums) {
 }
 ```
 
-# 6. 查找区间
+## 6. 查找区间
 
 [34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 

@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# 1. 字符串循环移位包含
+## 1. 字符串循环移位包含
 
 [编程之美 3.1](#)
 
@@ -18,7 +18,7 @@ s1 = AABCD, s2 = CDAA Return : true
 
 s1 进行循环移位的结果是 s1s1 的子字符串，因此只要判断 s2 是否是 s1s1 的子字符串即可。
 
-# 2. 字符串循环移位
+## 2. 字符串循环移位
 
 [编程之美 2.17](#)
 
@@ -30,7 +30,7 @@ s = "abcd123" k = 3 Return "123abcd"
 
 将 abcd123 中的 abcd 和 123 单独翻转，得到 dcba321，然后对整个字符串进行翻转，得到 123abcd。
 
-# 3. 字符串中单词的翻转
+## 3. 字符串中单词的翻转
 
 [程序员代码面试指南](#)
 
@@ -40,7 +40,7 @@ s = "I am a student" Return "student a am I"
 
 将每个单词翻转，然后将整个字符串翻转。
 
-# 4. 两个字符串包含的字符是否完全相同
+## 4. 两个字符串包含的字符是否完全相同
 
 [242. Valid Anagram (Easy)](https://leetcode.com/problems/valid-anagram/description/)
 
@@ -70,7 +70,7 @@ public boolean isAnagram(String s, String t) {
 }
 ```
 
-# 5. 计算一组字符集合可以组成的回文字符串的最大长度
+## 5. 计算一组字符集合可以组成的回文字符串的最大长度
 
 [409. Longest Palindrome (Easy)](https://leetcode.com/problems/longest-palindrome/description/)
 
@@ -99,7 +99,7 @@ public int longestPalindrome(String s) {
 }
 ```
 
-# 6. 字符串同构
+## 6. 字符串同构
 
 [205. Isomorphic Strings (Easy)](https://leetcode.com/problems/isomorphic-strings/description/)
 
@@ -125,7 +125,7 @@ public boolean isIsomorphic(String s, String t) {
 }
 ```
 
-# 9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数
+## 9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数
 
 [696. Count Binary Substrings (Easy)](https://leetcode.com/problems/count-binary-substrings/description/)
 
@@ -153,7 +153,7 @@ public int countBinarySubstrings(String s) {
 }
 ```
 
-# 实现 atoi
+## 实现 atoi
 
 请你来实现一个 atoi 函数，使其能将字符串转换成整数。
 
@@ -171,7 +171,7 @@ public int countBinarySubstrings(String s) {
 
 假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−2^31, 2^31 − 1]。如果数值超过这个范围，qing 返回 INT_MAX (2^31 − 1) 或 INT_MIN (−2^31) 。
 
-### 思路
+#### 思路
 
 这种题目主要就是考察细心，要主动处理所有情况。所以一步步来即可：
 

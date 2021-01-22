@@ -209,7 +209,7 @@ function addRouteRecord(
   nameMap: Dictionary<RouteRecord>,
   route: RouteConfig,
   parent?: RouteRecord,
-  matchAs?: string,
+  matchAs,
 ) {
   // 获得路由配置下的属性
   const { path, name } = route;

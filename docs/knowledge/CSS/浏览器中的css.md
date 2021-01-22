@@ -118,11 +118,6 @@ input[type='search']::-webkit-search-cancel-button {
 }
 ```
 
-### 网站图片文件，如何点击下载？而非点击预览？
-
-`<a href="logo.jpg" download>下载</a>`
-`<a href="logo.jpg" download="网站LOGO" >下载</a>`
-
 ### 解释浏览器如何确定哪些元素与 CSS 选择器匹配。
 
 这部分与上面关于编写高效的 CSS 有关。浏览器从最右边的选择器（关键选择器）根据关键选择器，浏览器从 DOM 中筛选出元素，然后向上遍历被选元素的父元素，判断是否匹配。选择器匹配语句链越短，浏览器的匹配速度越快。
@@ -169,13 +164,6 @@ css 模块化就是所有的类名都只有局部作用域的 css 文件。
 > 目前解决方案有两种:
 > 第一，彻底抛弃 css,使用 js 或 json 来写样式，例如：[Radium](https://github.com/FormidableLabs/radium)，[jsxstyle](https://github.com/smyte/jsxstyle)，[react-style](https://github.com/js-next/react-style) 属于这一类。
 > 第二, 依旧使用旧的 css,使用 js 来管理样式依赖，代表是[css-modules](https://github.com/css-modules/css-modules)
-
-### 抽离样式模块怎么写，说出思路？
-
-CSS 可以拆分成 2 部分：公共 CSS 和 业务 CSS：
-
-- 网站的配色，字体，交互提取出为公共 CSS。这部分 CSS 命名不应涉及具体的业务
-- 对于业务 CSS，需要有统一的命名，使用公用的前缀。可以参考面向对象的 CSS
 
 ### 通过 html img 标签设置图片和通过 div 背景图设置图片，两种设置图片的方式有什么优劣？
 
@@ -226,12 +214,6 @@ CSS 可以拆分成 2 部分：公共 CSS 和 业务 CSS：
 
 only 用来定某种特定的媒体类型，可以用来排除不支持媒体查询的浏览器。其实 only 很多时候是用来对那些不支持 Media Query 但却支持 Media Type 的设备隐藏样式表的。其主要有：支持媒体特性（Media Queries）的设备，正常调用样式，此时就当 only 不存在；对于不支持媒体特性(Media Queries)但又支持媒体类型(Media Type)的设备，这样就会不读了样式，因为其先读 only 而不是 screen；另外不支持 Media Qqueries 的浏览器，不论是否支持 only，样式都不会被采用。
 
-### 网站图片文件，如何点击下载？而非点击预览？
-
-```html
-<a href="logo.jpg" download>下载</a> <a href="logo.jpg" download="网站LOGO">下载</a>
-```
-
 ### 如何优化网页的打印样式
 
 ```html
@@ -280,21 +262,6 @@ https://segmentfault.com/a/1190000010301977
 cursor 规则是设定网页浏览时用户鼠标指针的样式，也就是鼠标的图形形状
 cursor：pointer 设定鼠标的形状为一只伸出食指的手，这也是绝大多数浏览器里面鼠标停留在网页链接上方时候的样式
 另外可以选择其他鼠标指针样式，常用的有 default 箭头，crosshair 十字，progress 箭头和沙漏等等
-
-### css sprite 是什么,有什么优缺点
-
-概念：将多个小图片拼接到一个图片中。通过 background-position 和元素尺寸调节需要显示的背景图案。
-
-优点：
-
-1. 减少 HTTP 请求数，极大地提高页面加载速度
-2. 增加图片信息重复度，提高压缩比，减少图片大小
-3. 更换风格方便，只需在一张或几张图片上修改颜色或样式即可实现
-
-缺点：
-
-1. 图片合并麻烦
-2. 维护麻烦，修改一个图片可能需要从新布局整个图片，样式
 
 ### 超链接访问过后 hover 样式就不出现的问题是什么？如何解决？
 

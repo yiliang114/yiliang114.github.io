@@ -48,8 +48,6 @@ P.S. 这里我使用的静态文件服务器是一个 npm 模块，叫作 [serve
 
 所以，我们就可以使用 BrowserSync 工具替换 serve 工具，启动 HTTP 服务，这里还需要同时监听 dist 目录下文件的变化，具体命令如下：
 
-复制
-
 ```
 # 可以先通过 npm 全局安装 browser-sync 模块，然后再使用这个模块
 $ npm install browser-sync --global
@@ -79,8 +77,6 @@ Webpack 官方推出 webpack\-dev\-server 这款工具的初衷，就是为了�
 
 webpack\-dev\-server 同样也是一个独立的 npm 模块，所以我们需要通过 npm 将 webpack\-dev\-server 作为项目的开发依赖安装。安装完成过后，这个模块为我们提供了一个叫作 webpack\-dev\-server 的 CLI 程序，我们同样可以直接通过 npx 直接去运行这个 CLI，或者把它定义到 npm scripts 中，具体操作如下：
 
-复制
-
 ```
 # 安装 webpack-dev-server
 $ npm install webpack-dev-server --save-dev
@@ -102,8 +98,6 @@ $ npx webpack-dev-server
 #### 配置选项
 
 Webpack 配置对象中可以有一个叫作 devServer 的属性，专门用来为 webpack\-dev\-server 提供配置，具体如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -131,8 +125,6 @@ module.exports = {
 webpack\-dev\-server 默认会将构建结果和输出文件全部作为开发服务器的资源文件，也就是说，只要通过 Webpack 打包能够输出的文件都可以直接被访问到。但是如果你还有一些没有参与打包的静态文件也需要作为开发服务器的资源被访问，那你就需要额外通过配置“告诉” webpack\-dev\-server。
 
 具体的方法就是在 webpack\-dev\-server 的配置对象中添加一个对应的配置。我们回到配置文件中，找到 devServer 属性，它的类型是一个对象，我们可以通过这个 devServer 对象的 contentBase 属性指定额外的静态资源路径。这个 contentBase 属性可以是一个字符串或者数组，也就是说你可以配置一个或者多个路径。具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -181,8 +173,6 @@ GitHub API 的 Endpoint 都是在根目录下，也就是说不同的 Endpoint �
 
 属性的名称是需要被代理的请求路径前缀，一般为了辨别，我都会设置为 /api。值是所对应的代理规则配置，我们将代理目标地址设置为 https://api.github.com，具体代码如下：
 
-复制
-
 ```
 // ./webpack.config.js
 module.exports = {
@@ -203,8 +193,6 @@ module.exports = {
 ![2.png](https://s0.lgstatic.com/i/image/M00/03/61/CgqCHl6ykvCAKWlNAAAktiTnWHU229.png)
 
 而我们真正希望请求的地址是 https://api.github.com/users，所以对于代理路径开头的 /api 我们要重写掉。我们可以添加一个 pathRewrite 属性来实现代理路径重写，重写规则就是把路径中开头的 /api 替换为空，pathRewrite 最终会以正则的方式来替换请求路径。
-
-复制
 
 ```
 // ./webpack.config.js
@@ -231,8 +219,6 @@ module.exports = {
 除此之外，我们还需设置一个 changeOrigin 属性为 true。这是因为默认代理服务器会以我们实际在浏览器中请求的主机名，也就是 localhost:8080 作为代理请求中的主机名。而一般服务器需要根据请求的主机名判断是哪个网站的请求，那 localhost:8080 这个主机名，对于 GitHub 的服务器来说，肯定无法正常请求，所以需要修改。
 
 将代理规则配置的 changeOrigin 属性设置为 true，就会以实际代理请求地址中的主机名去请求，也就是我们正常请求这个地址的主机名是什么，实际请求 GitHub 时就会设置成什么。
-
-复制
 
 ```
 // ./webpack.config.js

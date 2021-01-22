@@ -156,11 +156,6 @@ function getStyle(obj, attr) {
 }
 ```
 
-### focus/blur 与 focusin/focusout 的区别与联系
-
-1. focus/blur 不冒泡，focusin/focusout 冒泡
-2. focus/blur 兼容性好，focusin/focusout 在除 FireFox 外的浏览器下都保持良好兼容性，如需使用事件托管，可考虑在 FireFox 下使用事件捕获 elem.addEventListener('focus', handler, true)
-
 ### mouseover/mouseout 与 mouseenter/mouseleave 的区别与联系
 
 1. mouseover/mouseout 是标准事件，**所有浏览器都支持**；mouseenter/mouseleave 是 IE5.5 引入的特有事件后来被 DOM3 标准采纳，现代标准浏览器也支持

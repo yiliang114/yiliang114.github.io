@@ -48,8 +48,6 @@ Webpack 配置多入口打包的方式非常简单，这里我准备了一个[�
 > - GitHub：[https://github.com/zce/webpack\-multi\-entry](https://github.com/zce/webpack-multi-entry)
 > - CodeSandbox：[https://codesandbox.io/s/github/zce/webpack\-multi\-entry](https://codesandbox.io/s/github/zce/webpack-multi-entry)
 
-复制
-
 ```
 .
 ├── dist
@@ -76,8 +74,6 @@ Webpack 配置多入口打包的方式非常简单，这里我准备了一个[�
 - fetch.js 是一个公用的模块，负责请求 API。
 
 我们回到配置文件中，这里我们尝试为这个案例配置多入口打包，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -131,8 +127,6 @@ module.exports = {
 
 > TIPS：每个打包入口都会形成一个独立的 chunk（块）。
 
-复制
-
 ```
 // ./webpack.config.js
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -178,8 +172,6 @@ module.exports = {
 例如我们上述案例中，index 入口和 album 入口中就共同使用了 global.css 和 fetch.js 这两个公共的模块。这里是因为我们的示例比较简单，所以重复的影响没有那么大，但是如果我们公共使用的是 jQuery 或者 Vue.js 这些体积较大的模块，那影响就会比较大，不利于公共模块的缓存。
 
 所以我们还需要把这些公共的模块提取到一个单独的 bundle 中。Webpack 中实现公共模块提取非常简单，我们只需要在优化配置中开启 splitChunks 功能就可以了，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -230,8 +222,6 @@ Webpack 中支持使用动态导入的方式实现模块的按需加载，而且
 
 回到代码中，我们来看目前的实现方式，具体结构如下：
 
-复制
-
 ```
 .
 ├── src
@@ -252,8 +242,6 @@ Webpack 中支持使用动态导入的方式实现模块的按需加载，而且
 ```
 
 文章列表对应的是这里的 posts 组件，而相册列表对应的是 album 组件。我在打包入口（index.js）中同时导入了这两个模块，然后根据页面锚点的变化决定显示哪个组件，核心代码如下：
-
-复制
 
 ```
 // ./src/index.js
@@ -277,8 +265,6 @@ update()
 在这种情况下，就可能产生资源浪费。试想一下：如果用户只需要访问其中一个页面，那么加载另外一个页面对应的组件就是浪费。
 
 如果我们采用动态导入的方式，就不会产生浪费的问题了，因为所有的组件都是惰性加载，只有用到的时候才会去加载。具体实现代码如下：
-
-复制
 
 ```
 // ./src/index.js
@@ -326,8 +312,6 @@ update()
 默认通过动态导入产生的 bundle 文件，它的 name 就是一个序号，这并没有什么不好，因为大多数时候，在生产环境中我们根本不用关心资源文件的名称。
 
 但是如果你还是需要给这些 bundle 命名的话，就可以使用 Webpack 所特有的魔法注释去实现。具体方式如下：
-
-复制
 
 ```
 // 魔法注释

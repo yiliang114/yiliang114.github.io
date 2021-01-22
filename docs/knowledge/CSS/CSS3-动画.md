@@ -134,48 +134,7 @@ bezier 曲线在线效果网址 [cubic-bezier.com](http://cubic-bezier.com)
 - JS 可以做到更精细
 - 含高危属性，会让性能变差 (如 box-shadow)
 
-### [transform 变形](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)
-
-与 transition、translate 名字有点像，transition 是做过渡动画的，而 translate 是用来做平移的。
-
-- none
-  - 定义不进行转换。
-- matrix(n,n,n,n,n,n)
-  - 定义 2D 转换，使用六个值的矩阵。
-- translate(x,y)
-  - 从其当前位置移动，根据给定的 left（x 坐标）和 top（y 坐标）
-- translate3d(x,y,z)
-  - 定义 3D 转换。
-- translateX(x)
-- translateY(y)
-- translateZ(z)
-- scale(x[,y]?)
-  - 定义 2D 缩放转换。
-- scale3d(x,y,z)
-  - 定义 3D 缩放转换。
-- scaleX(x)
-- scaleY(y)
-- scaleZ(z)
-- rotate(angle)
-  - 定义 2D 旋转，在参数中规定角度。
-- rotate3d(x,y,z,angle)
-  - 定义 3D 旋转。
-- rotateX(angle)
-- rotateY(angle)
-- rotateZ(angle)
-- skew(x-angle,y-angle)
-  - 定义沿着 X 和 Y 轴的 2D 倾斜转换。
-- skewX(angle)
-- skewY(angle)
-- perspective(n)
-  - 为 3D 转换元素定义透视视图。
-
 ### 与 css 动画性能比较问题
-
-### 其他
-
-- css 动画和 js 动画的区别
-- 动画： show(),hide() 、fadeIn(),fadeOut() 、slideUp(),slideDown() 、自定义动画 animate() 、动画回调函数 、停止动画
 
 ### 关于 js 动画和 css3 动画的差异性
 
@@ -296,17 +255,9 @@ css3 transition 使用底层渲染，比所有 js 动画都要高效。可以让
 
 animation
 
-### CSS 3 如何实现旋转图片（transform: rotate）
-
 ### transition 和 animation 的区别, 是否可以暂停
 
-### 手动写动画最小时间间隔是多少，为什么？
-
-https://github.com/haizlin/fe-interview/issues/276
-
 ### 动画方面,加速度,重力的模拟实现
-
-### Animation 还有哪些其他属性。
 
 ### 如何消除 transition 闪屏？
 
@@ -315,12 +266,6 @@ https://github.com/haizlin/fe-interview/issues/408
 ### `translate()`方法能移动一个元素在 z 轴上的位置？
 
 不能。`translate()`方法只能改变 x 轴，y 轴上的位移。
-
-##@ css 3 动画
-
-<https://blog.csdn.net/mogoweb/article/details/80182338>
-
-### 手写一个动画，最小的时间间隔是多少，为什么
 
 ### css3 动画局限性
 
@@ -345,8 +290,6 @@ https://blog.csdn.net/FE_dev/article/details/82586698
 动画性能看，js 动画多了一个 js 解析的过程，性能不如 css 动画好
 
 ### transition 和 animation 的区别，是否可暂停
-
-### Animation 还有哪些其他属性。
 
 ### 过渡与动画的区别是什么
 
@@ -436,3 +379,8 @@ div.chrome {
 实现原理就是使用了多个渐变色放在 div 上，友协被遮住，视觉上就产生了想要的效果，是不是很强大！看了下图你就知道其实就是在 div 上加了很多个渐变。
 
 ![img](https://lc-api-gold-cdn.xitu.io/3ce54ea0817bf4ff8084.gif?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+### 其他
+
+- css 动画和 js 动画的区别
+- 动画： show(),hide() 、fadeIn(),fadeOut() 、slideUp(),slideDown() 、自定义动画 animate() 、动画回调函数 、停止动画

@@ -8,7 +8,7 @@ draft: true
 
 保证每次操作都是局部最优的，并且最后得到的结果是全局最优的。
 
-# 1. 分配饼干
+## 1. 分配饼干
 
 [455. Assign Cookies (Easy)](https://leetcode.com/problems/assign-cookies/description/)
 
@@ -38,7 +38,7 @@ public int findContentChildren(int[] g, int[] s) {
 }
 ```
 
-# 2. 不重叠的区间个数
+## 2. 不重叠的区间个数
 
 [435. Non-overlapping Intervals (Medium)](https://leetcode.com/problems/non-overlapping-intervals/description/)
 
@@ -90,7 +90,7 @@ Arrays.sort(intervals, new Comparator<int[]>() {
 });
 ```
 
-# 3. 投飞镖刺破气球
+## 3. 投飞镖刺破气球
 
 [452. Minimum Number of Arrows to Burst Balloons (Medium)](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/)
 
@@ -124,7 +124,7 @@ public int findMinArrowShots(int[][] points) {
 }
 ```
 
-# 4. 根据身高和序号重组队列
+## 4. 根据身高和序号重组队列
 
 [406. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
 
@@ -152,7 +152,7 @@ public int[][] reconstructQueue(int[][] people) {
 }
 ```
 
-# 5. 买卖股票最大的收益
+## 5. 买卖股票最大的收益
 
 [121. Best Time to Buy and Sell Stock (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
 
@@ -174,7 +174,7 @@ public int maxProfit(int[] prices) {
 }
 ```
 
-# 6. 买卖股票的最大收益 II
+## 6. 买卖股票的最大收益 II
 
 [122. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
 
@@ -194,7 +194,7 @@ public int maxProfit(int[] prices) {
 }
 ```
 
-# 7. 种植花朵
+## 7. 种植花朵
 
 [605. Can Place Flowers (Easy)](https://leetcode.com/problems/can-place-flowers/description/)
 
@@ -223,7 +223,7 @@ public boolean canPlaceFlowers(int[] flowerbed, int n) {
 }
 ```
 
-# 8. 判断是否为子序列
+## 8. 判断是否为子序列
 
 [392. Is Subsequence (Medium)](https://leetcode.com/problems/is-subsequence/description/)
 
@@ -244,7 +244,7 @@ public boolean isSubsequence(String s, String t) {
 }
 ```
 
-# 9. 修改一个数成为非递减数组
+## 9. 修改一个数成为非递减数组
 
 [665. Non-decreasing Array (Easy)](https://leetcode.com/problems/non-decreasing-array/description/)
 
@@ -274,7 +274,7 @@ public boolean checkPossibility(int[] nums) {
 }
 ```
 
-# 10. 子数组最大的和
+## 10. 子数组最大的和
 
 [53. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
 
@@ -297,7 +297,7 @@ public int maxSubArray(int[] nums) {
 }
 ```
 
-# 11. 分隔字符串使同种字符出现在一起
+## 11. 分隔字符串使同种字符出现在一起
 
 [763. Partition Labels (Medium)](https://leetcode.com/problems/partition-labels/description/)
 

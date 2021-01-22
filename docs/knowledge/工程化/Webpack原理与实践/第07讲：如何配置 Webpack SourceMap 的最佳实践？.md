@@ -49,8 +49,6 @@ Source Map（源代码地图）就是解决此类问题最好的办法，从它�
 
 我们回到配置文件中，这里我们要使用的配置属性叫作 devtool。这个属性就是用来配置开发过程中的辅助工具，也就是与 Source Map 相关的一些功能。我们可以先将这个属性设置为 source\-map，具体代码如下：
 
-复制
-
 ```
 // ./webpack.config.js
 module.exports = {
@@ -89,8 +87,6 @@ Webpack 中的 devtool 配置，除了可以使用 source\-map 这个值，它�
 
 eval 其实指的是 JavaScript 中的一个函数，可以用来运行字符串中的 JavaScript 代码。例如下面这段代码，字符串中的 console.log("foo~") 就会作为一段 JavaScript 代码被执行：
 
-复制
-
 ```
 const code = 'console.log("foo~")'
 eval(code) // 将 code 中的字符串作为 JS 代码执行
@@ -110,8 +106,6 @@ eval(code) // 将 code 中的字符串作为 JS 代码执行
 在了解了 eval 函数可以通过 sourceURL 指定代码所属文件路径这个特点过后，我们再来尝试使用这个叫作 eval 模式的 Source Map。
 
 我们回到 Webpack 的配置文件中，将 devtool 属性设置为 eval，具体如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -143,8 +137,6 @@ module.exports = {
 
 在这个案例中，项目中只有两个 JS 模块，在 main.js 中，我故意加入了一个运行时错误，具体项目结构和部分代码如下：
 
-复制
-
 ```
 └─ 07-devtool-diff
    ├── src
@@ -154,8 +146,6 @@ module.exports = {
    └── webpack.config.js
 
 ```
-
-复制
 
 ```
 // ./src/main.js
@@ -169,8 +159,6 @@ console.log111('main.js running')
 ```
 
 然后我们打开 Webpack 的配置文件，在这个文件中定义一个数组，数组中每一个成员都是 devtool 配置取值的一种，具体代码如下：
-
-复制
 
 ```
 const allDevtoolModes = [
@@ -193,8 +181,6 @@ const allDevtoolModes = [
 在上一课时中我们也提到过，Webpack 的配置文件除了可以导出一个配置对象，还可以导出一个数组，数组中每一个元素就是一个单独的打包配置，那这样就可以在一次打包过程中同时执行多个打包任务。
 
 例如，我们这里导出一个数组，然后在这个数组中添加两个打包配置，它们的 entry 都是 src 中的 main.js，不过它们输出的文件名不同，具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -222,8 +208,6 @@ module.exports = [
 了解了 Webpack 这种配置用法过后，我们再次回到配置文件中，遍历刚刚定义的数组，为每一个模式单独创建一个打包配置，这样就可以一次性生成所有模式下的不同结果，这比我们一个一个去试验的效率更高，而且对比起来也更明显。
 
 具体配置代码如下：
-
-复制
 
 ```
 // ./webpack.config.js

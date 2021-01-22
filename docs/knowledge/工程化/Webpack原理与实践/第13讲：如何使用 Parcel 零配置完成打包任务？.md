@@ -14,8 +14,6 @@ Parcel 是一款完全零配置的前端打包器，它提供了 “傻瓜式”
 
 完成以后我们就可以安装 Parcel 模块了，具体命令如下：
 
-复制
-
 ```
 $ npm install parcel-bundler --save-dev
 
@@ -26,8 +24,6 @@ $ npm install parcel-bundler --save-dev
 安装完成过后，parcel\-bundler 模块就在 node_modules/.bin 目录中提供了一个叫作 parcel 的 CLI 程序，后续我们就是使用这个 CLI 程序执行应用打包。
 
 既然是打包应用代码，那我们这里就得先有代码。我们回到项目中创建一些必需的文件，结构如下：
-
-复制
 
 ```
 .
@@ -47,8 +43,6 @@ $ npm install parcel-bundler --save-dev
 
 我们这里先尝试在 index.html 中引入 main.js 脚本文件，具体代码如下：
 
-复制
-
 ```
 <!-- ./src/index.html -->
 <!DOCTYPE html>
@@ -66,8 +60,6 @@ $ npm install parcel-bundler --save-dev
 
 紧接着，在 main.js 中按照 ES Modules 的方式导入 logger.js 中的成员，具体代码如下：
 
-复制
-
 ```
 // ./src/main.js
 import { log } from './logger'
@@ -83,8 +75,6 @@ export const log = msg => {
 Parcel 同样支持对 ES Modules 模块的打包。
 
 完成以后，我们打开命令行终端，然后使用 npx 去运行 node_modules 目录下的 parcel 命令。具体命令如下：
-
-复制
 
 ```
 $ npx parcel src/index.html
@@ -106,8 +96,6 @@ parcel 命令需要我们传入打包入口文件路径，那我们这里就应�
 #### 模块热替换
 
 如果你需要的是模块热替换的体验，Parcel 中也可以支持。我们回到 main.js 文件中，这里同样需要使用 HMR 的 API。具体代码如下：
-
-复制
 
 ```
 // ./src/main.js
@@ -146,8 +134,6 @@ if (module.hot) {
 
 例如我们这里再来添加一个 style.css 的样式文件，并且在这个文件中添加一些简单的样式，具体如下：
 
-复制
-
 ```
  .
  ├── src
@@ -160,8 +146,6 @@ if (module.hot) {
 ```
 
 然后回到 main.js 中通过 import 导入这个样式文件，具体如下：
-
-复制
 
 ```
 // ./src/main.js
@@ -185,8 +169,6 @@ log('hello parcel')
 
 这里我们先将静态导入的 jQuery 注释掉。然后使用动态导入的方式导入 jQuery 模块。具体代码如下：
 
-复制
-
 ```
 // ./src/main.js
 // import $ from 'jquery'
@@ -209,8 +191,6 @@ import 函数返回的就是一个 Promise 对象，在这个 Promise 对象 the
 #### 生产模式打包
 
 接下来我们来看，Parcel 如何以生产模式打包。生产模式打包，具体命令如下：
-
-复制
 
 ```
 $ npx parcel build src/index.html

@@ -48,8 +48,6 @@ Vue.js 3.0 核⼼优势：
 
 项目结构设计如下：
 
-复制
-
 ```
 └─ vue-next-sample ····························· project root
    ├─ public ··································· static dir
@@ -59,7 +57,6 @@ Vue.js 3.0 核⼼优势：
    │  └─ main.js ······························· app entry
    ├─ package.json ····························· package file
    └─ webpack.config.js ························ webpack config
-
 ```
 
 其中 Webpack 的核心配置如下：

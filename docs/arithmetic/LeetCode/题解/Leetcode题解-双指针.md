@@ -8,7 +8,7 @@ draft: true
 
 双指针主要用于遍历数组，两个指针指向不同的元素，从而协同完成任务。
 
-# 1. 有序数组的 Two Sum
+## 1. 有序数组的 Two Sum
 
 [LeetCode ：167. Two Sum II - Input array is sorted (Easy)](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/)
 
@@ -41,7 +41,7 @@ public int[] twoSum(int[] numbers, int target) {
 }
 ```
 
-# 2. 两数平方和
+## 2. 两数平方和
 
 [633. Sum of Square Numbers (Easy)](https://leetcode.com/problems/sum-of-square-numbers/description/)
 
@@ -68,7 +68,7 @@ public boolean judgeSquareSum(int c) {
 }
 ```
 
-# 3. 反转字符串中的元音字符
+## 3. 反转字符串中的元音字符
 
 [345. Reverse Vowels of a String (Easy)](https://leetcode.com/problems/reverse-vowels-of-a-string/description/)
 
@@ -101,7 +101,7 @@ public String reverseVowels(String s) {
 }
 ```
 
-# 4. 回文字符串
+## 4. 回文字符串
 
 [680. Valid Palindrome II (Easy)](https://leetcode.com/problems/valid-palindrome-ii/description/)
 
@@ -131,7 +131,7 @@ private boolean isPalindrome(String s, int i, int j) {
 }
 ```
 
-# 5. 归并两个有序数组
+## 5. 归并两个有序数组
 
 [88. Merge Sorted Array (Easy)](https://leetcode.com/problems/merge-sorted-array/description/)
 
@@ -161,7 +161,7 @@ public void merge(int[] nums1, int m, int[] nums2, int n) {
 }
 ```
 
-# 6. 判断链表是否存在环
+## 6. 判断链表是否存在环
 
 [141. Linked List Cycle (Easy)](https://leetcode.com/problems/linked-list-cycle/description/)
 
@@ -184,7 +184,7 @@ public boolean hasCycle(ListNode head) {
 }
 ```
 
-# 7. 最长子序列
+## 7. 最长子序列
 
 [524. Longest Word in Dictionary through Deleting (Medium)](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/)
 

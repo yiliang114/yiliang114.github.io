@@ -16,7 +16,7 @@ function readFileList(dir, filesList = [], domain) {
       readFileList(path.join(dir, item), filesList, domain) //递归读取文件
     } else {
       if (filePath.endsWith('.html')) {
-        // 过滤非md文件
+        // 过滤非 md 文件
         filesList.push(domain + cutPath(filePath, root))
       }
     }

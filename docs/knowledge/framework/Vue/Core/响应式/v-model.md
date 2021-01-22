@@ -26,6 +26,8 @@ draft: true
 
 ### v-model.lazy
 
+input 输入框 enter 键或失去焦点传数据
+
 能够将 `input` 组件的 `input` 事件（实际上是 HTML5 的 `oninput` 事件），修改为 `change` 事件（实际上是 `HTML5` 的 `onchange` 事件）。
 
 说一下 `oninput` 事件 和 `onchange` 事件的区别： `oninput` 事件在元素值发生变化是立即触发， `onchange` 在元素失去焦点时触发。另外一点不同是 `onchange` 事件也可以作用于 `keygen` 和 `select` 元素。

@@ -4,12 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-### 展示组件(Presentational component)和容器组件(Container component)之间有何不同
-
-展示组件关心组件看起来是什么。展示专门通过 props 接受数据和回调，并且几乎不会有自身的状态，但当展示组件拥有自身的状态时，通常也只关心 UI 状态而不是数据的状态。
-
-容器组件则更关心组件是如何运作的。容器组件会为展示组件或者其它容器组件提供数据和行为(behavior)，它们会调用 `Flux actions`，并将其作为回调提供给展示组件。容器组件经常是有状态的，因为它们是(其它组件的)数据源。
-
 ### (组件的)状态(state)和属性(props)之间有何不同
 
 `State` 是一种数据结构，用于组件挂载时所需数据的默认值。`State` 可能会随着时间的推移而发生突变，但多数时候是作为用户事件行为的结果。
@@ -540,10 +534,6 @@ Page.propTypes = {
   page: PropTypes.oneOf(Object.keys(PAGES)).isRequired,
 };
 ```
-
-### 怎么阻止组件的渲染
-
-在组件的 render 方法中返回 null 并不会影响触发组件的生命周期方法
 
 ### 受控组件(controlled component)
 

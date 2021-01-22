@@ -18,8 +18,6 @@ Tree\-shaking 最早是 [Rollup](https://rollupjs.org) 中推出的一个特性�
 
 我们可以先来体验一下这个功能的效果，这里我的源代码非常简单，只有两个文件。
 
-复制
-
 ```
 └─ 09-tree-shaking
    ├── src
@@ -31,8 +29,6 @@ Tree\-shaking 最早是 [Rollup](https://rollupjs.org) 中推出的一个特性�
 ```
 
 其中 components.js 中导出了一些函数，这些函数各自模拟了一个组件，具体代码如下：
-
-复制
 
 ```
 // ./src/components.js
@@ -55,8 +51,6 @@ export const Heading = level => {
 
 在 main.js 文件中只是导入了 compnents.js，具体代码如下：
 
-复制
-
 ```
 // ./src/main.js
 import { Button } from './components'
@@ -65,8 +59,6 @@ document.body.appendChild(Button())
 ```
 
 但是注意这里导入 components 模块时，我们只提取了模块中的 Button 成员，那这就导致 components 模块中很多地方都不会被用到，那这些地方就是冗余的，具体冗余部分如下：
-
-复制
 
 ```
 // ./src/components.js
@@ -90,8 +82,6 @@ export const Heading = level => {
 
 我们打开命令行终端，这里我们尝试以 production 模式运行打包，具体命令如下：
 
-复制
-
 ```
 $ npx webpack --mode=production
 
@@ -112,8 +102,6 @@ Webpack 的 Tree\-shaking 特性在生产模式下会自动开启。打包完成
 由于目前官方文档中对于 Tree\-shaking 的介绍有点混乱，所以我们这里再来介绍一下在其他模式下，如何一步一步手动开启 Tree\-shaking。通过这个过程，还可以顺便了解 Tree\-shaking 的工作过程和 Webpack 其他的一些优化功能。
 
 这里还是上述的案例结构，我们再次运行 Webpack 打包，不过这一次我们不再使用 production 模式，而是使用 none，也就是不开启任何内置功能和插件，具体命令如下：
-
-复制
 
 ```
 $ npx webpack --mode=none
@@ -136,8 +124,6 @@ $ npx webpack --mode=none
 
 在 optimization 对象中我们可以先开启一个 usedExports 选项，表示在输出结果中只导出外部使用了的成员，具体配置代码如下：
 
-复制
-
 ```
 // ./webpack.config.js
 module.exports = {
@@ -159,8 +145,6 @@ module.exports = {
 对于这种未引用代码，如果我们开启压缩代码功能，就可以自动压缩掉这些没有用到的代码。
 
 我们可以回到配置文件中，尝试在 optimization 配置中开启 minimize，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -201,8 +185,6 @@ module.exports = {
 concatenateModules 配置的作用就是尽可能将所有模块合并到一起输出到一个函数中，这样既提升了运行效率，又减少了代码的体积。
 
 我们回到配置文件中，这里我们在 optimization 属性中开启 concatenateModules。同时，为了更好地看到效果，我们先关闭 minimize，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -249,8 +231,6 @@ module.exports = {
 很多时候，我们为 Babel 配置的都是一个 preset（预设插件集合），而不是某些具体的插件。例如，目前市面上使用最多的 [@babel/preset\-env](https://babeljs.io/docs/en/babel-preset-env)，这个预设里面就有[转换 ES Modules 的插件](https://babeljs.io/docs/en/babel-plugin-transform-modules-commonjs)。所以当我们使用这个预设时，代码中的 ES Modules 部分就会被转换成 CommonJS 方式。那 Webpack 再去打包时，拿到的就是以 CommonJS 方式组织的代码了，所以 Tree\-shaking 不能生效。
 
 那我们这里具体来尝试一下。为了可以更容易分辨结果，我们只开启 usedExports，完整配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -303,8 +283,6 @@ module.exports = {
 在这个模块中，根据环境标识自动禁用了对 ES Modules 的转换插件，所以**经过 babel\-loader 处理后的代码默认仍然是 ES Modules，那 Webpack 最终打包得到的还是 ES Modules 代码，Tree\-shaking 自然也就可以正常工作了**。
 
 我们也可以在 babel\-loader 的配置中强制开启 ES Modules 转换插件来试一下，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -362,8 +340,6 @@ Webpack 4 中新增了一个 sideEffects 特性，它允许我们通过配置标
 
 这里我先设计一个 sideEffects 能够发挥效果的场景，案例具体结构如下：
 
-复制
-
 ```
 .
 ├── src
@@ -380,8 +356,6 @@ Webpack 4 中新增了一个 sideEffects 特性，它允许我们通过配置标
 
 基于上一个案例的基础上，我们把 components 模块拆分出多个组件文件，然后在 components/index.js 中集中导出，以便于外界集中导入，具体 index.js 代码如下：
 
-复制
-
 ```
 // ./src/components/index.js
 export { default as Button } from './button'
@@ -391,8 +365,6 @@ export { default as Heading } from './heading'
 ```
 
 这也是我们经常见到一种同类文件的组织方式。另外，在每个组件中，我们都添加了一个 console 操作（副作用代码），具体代码如下：
-
-复制
 
 ```
 // ./src/components/button.js
@@ -433,8 +405,6 @@ document.body.appendChild(Button())
 
 我们打开 Webpack 的配置文件，在 optimization 中开启 sideEffects 特性，具体配置如下：
 
-复制
-
 ```
 // ./webpack.config.js
 module.exports = {
@@ -455,8 +425,6 @@ module.exports = {
 那此时 Webpack 在打包某个模块之前，会先检查这个模块所属的 package.json 中的 sideEffects 标识，以此来判断这个模块是否有副作用，如果没有副作用的话，这些没用到的模块就不再被打包。换句话说，即便这些没有用到的模块中存在一些副作用代码，我们也可以通过 package.json 中的 sideEffects 去强制声明没有副作用。
 
 那我们打开项目 package.json 添加一个 sideEffects 字段，把它设置为 false，具体代码如下：
-
-复制
 
 ```
 {
@@ -497,8 +465,6 @@ module.exports = {
 
 例如，我这里准备的 extend.js 模块：
 
-复制
-
 ```
 // ./src/extend.js
 // 为 Number 的原型添加一个扩展方法
@@ -512,8 +478,6 @@ Number.prototype.pad = function (size) {
 在这个模块中并没有导出任何成员，仅仅是在 Number 的原型上挂载了一个 pad 方法，用来为数字添加前面的导零，这是一种很早以前常见的基于原型的扩展方法。
 
 我们回到 main.js 中去导入 extend 模块，具体代码如下：
-
-复制
 
 ```
 // ./src/main.js
@@ -542,8 +506,6 @@ console.log((8).pad(3)) // => '0008'
 所以说不是所有的副作用都应该被移除，有一些必要的副作用需要保留下来。
 
 最好的办法就是在 package.json 中的 sideEffects 字段中标识需要保留副作用的模块路径（可以使用通配符），具体配置如下：
-
-复制
 
 ```
 {

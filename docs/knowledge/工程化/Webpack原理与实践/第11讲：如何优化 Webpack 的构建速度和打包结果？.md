@@ -27,8 +27,6 @@ draft: true
 
 首先我们来看在配置文件中添加判断的方式。我们回到配置文件中，Webpack 配置文件还支持导出一个函数，然后在函数中返回所需要的配置对象。这个函数可以接收两个参数，第一个是 env，是我们通过 CLI 传递的环境名参数，第二个是 argv，是运行 CLI 过程中的所有参数。具体代码如下：
 
-复制
-
 ```
 // ./webpack.config.js
 module.exports = (env, argv) => {
@@ -40,8 +38,6 @@ module.exports = (env, argv) => {
 ```
 
 那我们就可以借助这个特点，为开发环境和生产环境创建不同配置。我先将不同模式下公共的配置定义为一个 config 对象，具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -55,8 +51,6 @@ module.exports = (env, argv) => {
 ```
 
 然后通过判断，再为 config 对象添加不同环境下的特殊配置。具体如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -96,8 +90,6 @@ module.exports = (env, argv) => {
 
 一般在这种方式下，项目中最少会有三个 webpack 的配置文件。其中两个用来分别适配开发环境和生产环境，另外一个则是公共配置。因为开发环境和生产环境的配置并不是完全不同的，所以需要一个公共文件来抽象两者相同的配置。具体配置文件结构如下：
 
-复制
-
 ```
 .
 ├── webpack.common.js ···························· 公共配置
@@ -109,8 +101,6 @@ module.exports = (env, argv) => {
 首先我们在项目根目录下新建一个 webpack.common.js，在这个文件中导出不同模式下的公共配置；然后再来创建一个 webpack.dev.js 和一个 webpack.prod.js 分别定义开发和生产环境特殊的配置。
 
 在不同环境的具体配置中我们先导入公共配置对象，然后这里可以使用 Object.assign 方法把公共配置对象复制到具体环境的配置对象中，并且同时去覆盖其中的一些配置。具体如下：
-
-复制
 
 ```
 // ./webpack.common.js
@@ -136,8 +126,6 @@ module.exports = Object.assign(common, {
 
 我们可以先通过 npm 安装一下 webpack\-merge 模块。具体命令如下：
 
-复制
-
 ```
 $ npm i webpack-merge --save-dev
 # or yarn add webpack-merge --dev
@@ -145,8 +133,6 @@ $ npm i webpack-merge --save-dev
 ```
 
 安装完成过后我们回到配置文件中，这里先载入这个模块。那这个模块导出的就是一个 merge 函数，我们使用这个函数来合并我们这里的配置与公共的配置。具体代码如下：
-
-复制
 
 ```
 // ./webpack.common.js
@@ -172,8 +158,6 @@ module.exports = merge(common, {
 
 分别配置完成过后，我们再次回到命令行终端，然后尝试运行 webpack 打包。不过因为这里已经没有默认的配置文件了，所以我们需要通过 \-\-config 参数来指定我们所使用的配置文件路径。例如：
 
-复制
-
 ```
 $ webpack --config webpack.prod.js
 
@@ -193,8 +177,6 @@ $ webpack --config webpack.prod.js
 
 这里我们来单独使用一下这个插件。我们回到配置文件中，DefinePlugin 是一个内置的插件，所以我们先导入 webpack 模块，然后再到 plugins 中添加这个插件。这个插件的构造函数接收一个对象参数，对象中的成员都可以被注入到代码中。具体代码如下：
 
-复制
-
 ```
 // ./webpack.config.js
 const webpack = require('webpack')
@@ -213,8 +195,6 @@ module.exports = {
 
 然后我们回到代码中打印这个 API_BASE_URL。具体代码如下：
 
-复制
-
 ```
 // ./src/main.js
 console.log(API_BASE_URL)
@@ -228,8 +208,6 @@ console.log(API_BASE_URL)
 这里我们发现 DefinePlugin 其实就是把我们配置的字符串内容直接替换到了代码中，而目前这个字符串的内容为 https://api.example.com，字符串中并没有包含引号，所以替换进来语法自然有问题。
 
 正确的做法是传入一个字符串字面量语句。具体实现如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -251,8 +229,6 @@ module.exports = {
 ![image (4).png](https://s0.lgstatic.com/i/image/M00/10/F5/CgqCHl7LaH-AMPKrAADQsK6wHzM717.png)
 
 另外，这里有一个非常常用的小技巧，如果我们需要注入的是一个值，就可以通过 JSON.stringify 的方式来得到表示这个值的字面量。这样就不容易出错了。具体实现如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -279,16 +255,12 @@ mini\-css\-extract\-plugin 是一个可以将 CSS 代码从打包结果中提取
 
 它的使用也非常简单，同样也需要先通过 npm 安装一下这个插件。具体命令如下：
 
-复制
-
 ```
 $ npm i mini-css-extract-plugin --save-dev
 
 ```
 
 安装完成过后，我们回到 Webpack 的配置文件。具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -348,16 +320,12 @@ Webpack 官方推荐了一个 [Optimize CSS Assets Webpack Plugin](https://www.n
 
 我们回到命令行，先来安装这个插件，具体命令如下：
 
-复制
-
 ```
 $ npm i optimize-css-assets-webpack-plugin --save-dev
 
 ```
 
 安装完成过后，我们回到配置文件中，添加对应的配置。具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -399,8 +367,6 @@ module.exports = {
 ![image (7).png](https://s0.lgstatic.com/i/image/M00/10/E9/Ciqc1F7LaJqAAsfEAAJeBFjqfT8020.png)
 
 不过这里还有个额外的小点，可能你会在这个插件的官方文档中发现，文档中的这个插件并不是配置在 plugins 数组中的，而是添加到了 optimization 对象中的 minimizer 属性中。具体如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -451,16 +417,12 @@ module.exports = {
 
 内置的 JS 压缩插件叫作 terser\-webpack\-plugin，我们回到命令行手动安装一下这个模块。
 
-复制
-
 ```
 $ npm i terser-webpack-plugin --save-dev
 
 ```
 
 安装完成过后，这里我们再手动添加这个模块到 minimizer 配置当中。具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js

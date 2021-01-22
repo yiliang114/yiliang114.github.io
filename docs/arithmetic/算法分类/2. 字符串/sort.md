@@ -311,7 +311,7 @@ console.log(arr);
 给定一个字符串，写一个函数来检查它是否是 a 的排列回文
 
 ```js
-export default function palindromePermutation(str: string) {
+export default function palindromePermutation(str) {
   // create new string that ignores whitespace
   // for each character, use it as a key and icrment the value in a hash table
   // have a flag that allows only one character to appear once

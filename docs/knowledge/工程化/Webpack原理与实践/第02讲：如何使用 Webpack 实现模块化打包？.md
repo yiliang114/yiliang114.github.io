@@ -32,8 +32,6 @@ Webpack 作为目前最主流的前端模块打包器，提供了一整套前端
 
 接下来我将通过一个案例，带你快速了解 Webpack 的基本使用，具体操作如下所示：
 
-复制
-
 ```
 └─ 02-configuation
    ├── src
@@ -42,8 +40,6 @@ Webpack 作为目前最主流的前端模块打包器，提供了一整套前端
    └── index.html
 
 ```
-
-复制
 
 ```
 // ./src/heading.js
@@ -56,8 +52,6 @@ export default () => {
 
 ```
 
-复制
-
 ```
 // ./src/index.js
 import createHeading from './heading.js'
@@ -65,8 +59,6 @@ const heading = createHeading()
 document.body.append(heading)
 
 ```
-
-复制
 
 ```
 <!DOCTYPE html>
@@ -90,8 +82,6 @@ document.body.append(heading)
 
 接下来我们就尝试引入 Webpack 去处理上述案例中的 JS 模块打包。由于 Webpack 是一个 npm 工具模块，所以我们先初始化一个 package.json 文件，用来管理 npm 依赖版本，完成之后，再来安装 Webpack 的核心模块以及它的 CLI 模块，具体操作如下：
 
-复制
-
 ```
 $ npm init --yes
 $ npm i webpack webpack-cli --save-dev
@@ -102,8 +92,6 @@ $ npm i webpack webpack-cli --save-dev
 
 安装完成之后，webpack\-cli 所提供的 CLI 程序就会出现在 node_modules/.bin 目录当中，我们可以通过 npx 快速找到 CLI 并运行它，具体操作如下：
 
-复制
-
 ```
 $ npx webpack --version
 v4.42.1
@@ -113,8 +101,6 @@ v4.42.1
 > P.S. npx 是 npm 5.2 以后新增的一个命令，可以用来更方便的执行远程模块或者项目 node_modules 中的 CLI 程序。
 
 这里我们使用的 Webpack 版本是 v4.42.1，有了 Webpack 后，就可以直接运行 webpack 命令来打包 JS 模块代码，具体操作如下：
-
-复制
 
 ```
 $ npx webpack
@@ -128,8 +114,6 @@ $ npx webpack
 ![2.png](https://s0.lgstatic.com/i/image3/M01/11/FC/Ciqah16dFAaAMNccAADOAanBuOA265.png)
 
 这里我们回到 index.html 中修改引入文件的路径，由于打包后的代码就不会再有 import 和 export 了，所以我们可以删除 type="module"。再次回到浏览器中，查看这个页面，这时我们的代码仍然可以正常工作，index.html 的代码如下所示：
-
-复制
 
 ```
 <!DOCTYPE html>
@@ -146,8 +130,6 @@ $ npx webpack
 ```
 
 我们也可以将 Webpack 命令定义到 npm scripts 中，这样每次使用起来会更加方便，具体如下：
-
-复制
 
 ```
 {
@@ -175,8 +157,6 @@ Webpack 4 以后的版本支持零配置的方式直接启动打包，整个过�
 
 但很多时候我们需要自定义这些路径约定，例如，在下面这个案例中，我需要它的打包入口是 src/main.js，那此时我们通过配置文件的方式修改 Webpack 的默认配置，在项目的根目录下添加一个 webpack.config.js，具体结构如下：
 
-复制
-
 ```
  └─ 02-configuation
     ├── src
@@ -192,8 +172,6 @@ webpack.config.js 是一个运行在 Node.js 环境中的 JS 文件，也就是�
 
 这里先尝试添加一个 entry 属性，这个属性的作用就是指定 Webpack 打包的入口文件路径。我们将其设置为 src/main.js，具体代码如下所示：
 
-复制
-
 ```
 // ./webpack.config.js
 module.exports = {
@@ -205,8 +183,6 @@ module.exports = {
 配置完成之后，回到命令行终端重新运行打包命令，此时 Webpack 就会从 src/main.js 文件开始打包。
 
 除了 entry 的配置以外，我们还可以通过 output 属性设置输出文件的位置。output 属性的值必须是一个对象，通过这个对象的 filename 指定输出文件的文件名称，path 指定输出的目录，具体代码如下所示：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -234,8 +210,6 @@ TIPS：webpack.config.js 是运行在 Node.js 环境中的代码，所以直接�
 
 默认 VSCode 并不知道 Webpack 配置对象的类型，我们通过 import 的方式导入 Webpack 模块中的 Configuration 类型，然后根据类型注释的方式将变量标注为这个类型，这样我们在编写这个对象的内部结构时就可以有正确的智能提示了，具体代码如下所示：
 
-复制
-
 ```
 // ./webpack.config.js
 import { Configuration } from 'webpack'
@@ -255,8 +229,6 @@ module.exports = config
 ```
 
 需要注意的是：我们添加的 import 语句只是为了导入 Webpack 配置对象的类型，这样做的目的是为了标注 config 对象的类型，从而实现智能提示。在配置完成后一定要记得注释掉这段辅助代码，因为在 Node.js 环境中默认还不支持 import 语句，如果执行这段代码会出现错误。
-
-复制
 
 ```
 // ./webpack.config.js
@@ -287,8 +259,6 @@ module.exports = config
 使用  import  语句导入  Configuration  类型的方式固然好理解，但是在不同的环境中还是会有各种各样的问题，例如我们这里在 Node.js 环境中，就必须要额外注释掉这个导入类型的语句，才能正常工作。
 
 所以我一般的做法是直接在类型注释中使用  import  动态导入类型，具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js

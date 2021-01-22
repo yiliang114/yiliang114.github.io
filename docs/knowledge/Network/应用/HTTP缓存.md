@@ -4,7 +4,7 @@ date: '2020-10-26'
 draft: true
 ---
 
-# 浏览器缓存
+## 浏览器缓存
 
 ### 缓存分类
 
@@ -53,7 +53,7 @@ draft: true
 
 当浏览器向服务器发起请求时，服务器会将缓存规则放入 HTTP 响应报文的 HTTP 头中和请求结果一起返回给浏览器，控制强制缓存的字段分别是 Expires 和 Cache-Control，其中 Cache-Control 优先级比 Expires 高。
 
-### Expires
+#### Expires
 
 Expires 是 HTTP/1.0 控制网页缓存的字段，其值为服务器返回该请求结果缓存的到期时间，即再次发起该请求时，如果客户端的时间小于 Expires 的值时，直接使用缓存结果。
 
@@ -61,7 +61,7 @@ Expires 是 HTTP/1.0 控制网页缓存的字段，其值为服务器返回该�
 
 到了 HTTP/1.1，Expire 已经被 Cache-Control 替代，原因在于 Expires 控制缓存的原理是使用客户端的时间与服务端返回的时间做对比，那么如果客户端与服务端的时间因为某些原因（例如时区不同；客户端和服务端有一方的时间不准确）发生误差，那么强制缓存则会直接失效，这样的话强制缓存的存在则毫无意义，那么 Cache-Control 又是如何控制的呢？
 
-### Cache-Control
+#### Cache-Control
 
 在 HTTP/1.1 中，Cache-Control 是最重要的规则，主要用于控制网页缓存，主要取值为：
 
@@ -145,7 +145,7 @@ from memory cache 代表使用内存中的缓存，from disk cache 则代表使�
 
 同样，协商缓存的标识也是在响应报文的 HTTP 头中和请求结果一起返回给浏览器的，控制协商缓存的字段分别有：Last-Modified / If-Modified-Since 和 Etag / If-None-Match，其中 Etag / If-None-Match 的优先级比 Last-Modified / If-Modified-Since 高。
 
-### Last-Modified / If-Modified-Since
+#### Last-Modified / If-Modified-Since
 
 Last-Modified 是服务器响应请求时，返回该资源文件在服务器最后被修改的时间，如下。
 
@@ -155,7 +155,7 @@ If-Modified-Since 则是客户端再次发起该请求时，携带上次请求�
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/if-modified-since.png)
 
-### Etag / If-None-Match
+#### Etag / If-None-Match
 
 Etag 是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，如下。
 
@@ -256,11 +256,9 @@ Push Cache（推送缓存）是 HTTP/2 中的内容，当以上三种缓存都�
 
 ### 讲讲 304 缓存的原理
 
-服务器首先产生`ETag`，服务器可在稍后使用它来判断页面是否已经被修改。本质上，客户端通过将该记号传回服务器要求服务器验证其（客户端）缓存。
-
-304 是 HTTP 状态码，服务器用来标识这个文件没修改，不返回内容，浏览器在接收到个状态码后，会使用浏览器已缓存的文件
-
-客户端请求一个页面（A）。 服务器返回页面 A，并在给`A`加上一个`ETag`。 客户端展现该页面，并将页面连同`ETag`一起缓存。 客户再次请求页面`A`，并将上次请求时服务器返回的`ETag`一起传递给服务器。 服务器检查该`ETag`，并判断出该页面自上次客户端请求之后还未被修改，直接返回响应`304`（未修改——`Not Modified`）和一个空的响应体。
+- 服务器首先产生 ETag，服务器可在稍后使用它来判断页面是否已经被修改。本质上，客户端通过将该记号传回服务器要求服务器验证其（客户端）缓存
+- 304 是 HTTP 状态码，服务器用来标识这个文件没修改，不返回内容，浏览器在接收到个状态码后，会使用浏览器已缓存的文件
+- 客户端请求一个页面（A）。 服务器返回页面 A，并在给 A 加上一个 ETag。 客户端展现该页面，并将页面连同 ETag 一起缓存。 客户再次请求页面 A，并将上次请求时服务器返回的 ETag 一起传递给服务器。 服务器检查该 ETag，并判断出该页面自上次客户端请求之后还未被修改，直接返回响应 304（未修改——Not Modified）和一个空的响应体
 
 ### 什么是 Etag？
 
@@ -641,9 +639,7 @@ Last-Modified: $now // RFC1123 format
 
 Etag 主要为了解决 `Last-Modified` 无法解决的一些问题。
 
-# xiaoce-浏览器缓存机制
-
-> 注意：该知识点属于性能优化领域，并且整一章节都是一个面试题。
+## 浏览器缓存机制
 
 缓存可以说是性能优化中**简单高效**的一种优化方式了，它可以**显著减少网络传输所带来的损耗**。
 
@@ -818,8 +814,6 @@ Cache-Control 头在 HTTP/1.1 规范中定义，取代了之前用来定义响�
 ### Cookie Samesite 简析
 
 https://zhuanlan.zhihu.com/p/266282015
-
-# 其他
 
 ## 缓存
 

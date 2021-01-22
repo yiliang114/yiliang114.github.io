@@ -20,8 +20,6 @@ Rollup 诞生的目的并不是要与 Webpack 这样的工具全面竞争。它�
 
 这里我准备了一个简单的示例，具体结构如下：
 
-复制
-
 ```
 .
 ├── src
@@ -33,8 +31,6 @@ Rollup 诞生的目的并不是要与 Webpack 这样的工具全面竞争。它�
 ```
 
 在这个示例的源代码中我准备了三个文件，并且使用 ES Modules 组织的代码模块化。部分代码如下：
-
-复制
 
 ```
 // ./src/messages.js
@@ -67,16 +63,12 @@ log(messages.hi)
 
 接下来，我们尝试使用 Rollup 完成这个示例应用的打包。这里需要先通过 npm 安装 rollup 这个模块。具体命令如下：
 
-复制
-
 ```
 $ npm i rollup --save-dev
 
 ```
 
 安装完成过后，rollup 这个模块同样会在 node_modules/.bin 目录中为我们提供一个 CLI 程序，我们就可以通过这个 CLI 去使用 Rollup 打包。具体命令如下：
-
-复制
 
 ```
 $ npx rollup
@@ -91,8 +83,6 @@ $ npx rollup
 
 在这个帮助信息的一开始，就已经告诉我们 rollup 命令的正确用法了：我们应该通过参数指定一个打包入口文件。正确命令如下：
 
-复制
-
 ```
 $ npx rollup ./src/index.js
 
@@ -105,8 +95,6 @@ $ npx rollup ./src/index.js
 根据控制台的输出结果，我们发现 Rollup 直接将打包结果打印到控制台中了。
 
 当然，正常情况下我们还是需要将打包结果输出到一个文件中。具体就是通过 CLI 的 \-\-file 参数指定输出文件路径，具体命令如下：
-
-复制
 
 ```
 $ npx rollup ./src/index.js --file ./dist/bundle.js
@@ -127,8 +115,6 @@ $ npx rollup ./src/index.js --file ./dist/bundle.js
 
 Rollup 同样支持以配置文件的方式去配置打包过程中的各项参数，我们可以在项目的根目录下新建一个 rollup.config.js 的配置文件。具体结构如下：
 
-复制
-
 ```
  .
  ├── src
@@ -141,8 +127,6 @@ Rollup 同样支持以配置文件的方式去配置打包过程中的各项参�
 ```
 
 这个文件虽然同样是运行在 Node.js 环境中，但是 Rollup 会额外处理配置文件，所以在 rollup.config.js 中我们可以直接使用 ES Modules 标准。具体代码如下：
-
-复制
 
 ```
 // ./rollup.config.js
@@ -160,8 +144,6 @@ export default {
 
 完成以后，我们回到命令行，再次执行 rollup 命令，不过需要注意的是，这里需要通过 \-\-config 参数来表明使用项目中的配置文件。你也可以通过这个参数来指定不同的配置文件名称。具体命令如下：
 
-复制
-
 ```
 $ npx rollup --config # 使用默认配置文件
 $ npx rollup --config rollup.prod.js # 指定配置文件路径
@@ -171,8 +153,6 @@ $ npx rollup --config rollup.prod.js # 指定配置文件路径
 #### 输出格式
 
 Rollup 打包支持多种输出格式，这里我们回到配置文件中，配置同时输出所有格式下的文件，具体配置如下：
-
-复制
 
 ```
 // ./rollup.config.js
@@ -206,16 +186,12 @@ Webpack 中划分了 Loader、Plugin 和 Minimizer 三种扩展方式，而插�
 
 首先我们需要将 @rollup/plugin\-json 作为项目的开发依赖安装进来。具体安装命令：
 
-复制
-
 ```
 $ npm i @rollup/plugin-json --save-dev
 
 ```
 
 安装完成过后，我们打开配置文件。由于 rollup 的配置文件中可以直接使用 ES Modules，所以我们这里使用 import 导入这个插件模块。具体代码如下：
-
-复制
 
 ```
 // ./rollup.config.js
@@ -236,8 +212,6 @@ export default {
 @rollup/plugin\-json 模块的默认导出就是一个插件函数。我们可以将这个函数的调用结果添加到配置对象的 plugins 数组中，注意这里是将调用结果放到数组中，而不是将这个函数直接放进去。
 
 配置好这个插件过后，我们就可以在代码中通过 import 导入 json 文件了。我们回到 index.js 文件中，这里我们尝试通过 import 导入 package.json，具体代码如下：
-
-复制
 
 ```
 // ./src/index.js
@@ -264,16 +238,12 @@ Rollup 默认只能够按照文件路径的方式加载本地的模块文件，�
 
 同样，我们需要先安装这个插件，具体命令如下：
 
-复制
-
 ```
 $ npm i @rollup/plugin-node-resolve --save-dev
 
 ```
 
 安装完成过后，打开配置文件，这里同样导入插件函数，然后把它配置到 plugins 数组中。具体配置如下：
-
-复制
 
 ```
 // ./rollup.config.js
@@ -294,8 +264,6 @@ export default {
 ```
 
 完成以后我们就可以回到代码中直接导入 node_modules 中的第三方模块了。例如：
-
-复制
 
 ```
 // ./src/index.js
@@ -318,8 +286,6 @@ console.log(camelCase('hello rollup'))
 
 这个插件在用法上跟前面两个插件是一样的，我就不单独演示了。我们直接看一下这个插件的效果。这里我添加了一个 cjs\-module.js 文件，具体代码如下：
 
-复制
-
 ```
 // ./src/cjs-module.js
 module.exports = {
@@ -329,8 +295,6 @@ module.exports = {
 ```
 
 这个文件中使用 CommonJS 的方式导出了一个对象。然后回到入口文件中通过 ES Modules 的方式导入，具体代码如下：
-
-复制
 
 ```
 // ./src/index.js
@@ -347,8 +311,6 @@ console.log(cjs) // cjs => { foo: 'bar' }
 
 Rollup 的最新版本中已经开始支持代码拆分了。我们同样可以使用符合 ES Modules 标准的动态导入方式实现模块的按需加载。例如：
 
-复制
-
 ```
 // ./src/index.js
 // 动态导入的模块会自动分包
@@ -363,8 +325,6 @@ Rollup 内部也会处理代码拆分。不过按照之前的配置方式，这�
 ![image (16).png](https://s0.lgstatic.com/i/image/M00/12/F6/Ciqc1F7OSduAVJ9yAAJP3ntcGOo011.png)
 
 出现这个错误的原因是：在 Rollup 在分包过后会输出多个 JS 文件，需要我们在配置中指定输出的目录，而不是一个具体的文件名，具体配置如下：
-
-复制
 
 ```
 // ./rollup.config.js
@@ -399,8 +359,6 @@ export default {
 
 所以在这种情况下，我们可以选择以 amd 或者 system 格式输出。这里我们以 amd 为例，这里我们先将 Rollup 配置中的 format 设置为 amd。具体配置如下：
 
-复制
-
 ```
 // ./rollup.config.js
 export default {
@@ -418,8 +376,6 @@ export default {
 ![image (19).png](https://s0.lgstatic.com/i/image/M00/12/F6/Ciqc1F7OSfGAMQ5VAAIowWpAVAg558.png)
 
 需要注意一点，这种 AMD 标准在浏览器中也不是直接支持的，也就是说我们还是需要使用一个支持这个标准的库来加载这些输出的模块，例如 [Require.js](https://requirejs.org)，具体使用方式参考：
-
-复制
 
 ```
 <!DOCTYPE html>

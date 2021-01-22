@@ -55,6 +55,94 @@ aside: false
 
 前缀树用来处理这种问题是最符合直觉的，但是它也有缺点，比如公共前缀很少的情况下，比较费内存。
 
+### 字符串无题
+
+```js
+// export default (str) => {
+//   // 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
+//   let arr = str.split(' ')
+//   // 对数组进行遍历，然后每个元素进行反转
+//   let result = arr.map(item => {
+//     return item.split('').reverse().join('')
+//   })
+//   return result.join(' ')
+// }
+
+// export default (str) => {
+//   // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
+//   // 2. 对数组进行遍历，然后每个元素进行反转
+//   return str.split(' ').map(item => {
+//     return item.split('').reverse().join('')
+//   }).join(' ')
+// }
+
+// export default (str) => {
+//   // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
+//   // 2. 对数组进行遍历，然后每个元素进行反转
+//   return str.split(/\s/g).map(item => {
+//     return item.split('').reverse().join('')
+//   }).join(' ')
+// }
+
+export default str => {
+  // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
+  // 2. 对数组进行遍历，然后每个元素进行反转
+  return str
+    .match(/[\w']+/g)
+    .map(item => {
+      return item
+        .split('')
+        .reverse()
+        .join('');
+    })
+    .join(' ');
+};
+```
+
+```js
+export default str => {
+  // 建立数据结构，堆栈，保存数据
+  let r = [];
+  // 给定任意子输入都返回第一个符合条件的子串
+  let match = str => {
+    let j = str.match(/^(0+|1+)/)[0];
+    let o = (j[0] ^ 1).toString().repeat(j.length);
+    let reg = new RegExp(`^(${j}${o})`);
+    if (reg.test(str)) {
+      return RegExp.$1;
+    } else {
+      return '';
+    }
+  };
+  // 通过for循环控制程序运行的流程
+  for (let i = 0, len = str.length - 1; i < len; i++) {
+    let sub = match(str.slice(i));
+    if (sub) {
+      r.push(sub);
+    }
+  }
+  return r;
+};
+```
+
+### 返回整数逆序后的字符串
+
+输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
+
+```js
+function fun(num) {
+  let num1 = num / 10;
+  let num2 = num % 10;
+  if (num1 < 1) {
+    return num;
+  } else {
+    num1 = Math.floor(num1);
+    return `${num2}${fun(num1)}`;
+  }
+}
+var a = fun(12345);
+```
+
 ## 随机生成指定长度的字符串
 
 ## 字符串截取
@@ -74,16 +162,7 @@ export default function SubString(string, start = 0, end = string.length) {
 ## ReverseString 翻转字符串
 
 ```js
-/**
- * A short example showing how to reverse a string
- * @flow
- */
-
-/**
- * Create a new string and append
- * @complexity O(n)
- */
-export default function ReverseStringIterative(string: string): string {
+export default function ReverseStringIterative(string) {
   let reversedString = '';
   let index;
 
@@ -101,7 +180,7 @@ export default function ReverseStringIterative(string: string): string {
  *
  * 'some' -> 'eoms' -> 'emos'
  */
-export function ReverseStringIterativeInplace(string: string): string {
+export function ReverseStringIterativeInplace(string) {
   const _string = string.split('');
 
   for (let i = 0; i < Math.floor(_string.length / 2); i++) {
@@ -112,78 +191,6 @@ export function ReverseStringIterativeInplace(string: string): string {
   }
 
   return _string.join('');
-}
-```
-
-## HasDupeChars
-
-```js
-/**
- * Implement an algorithm to determine if a string has only unique characters.
- * In other words, it cannot have duplicates. What if you can not use additional
- * data structures?
- *
- * Solution: Essentially, we have to check if a character is not repeated.
- *           We can use a hash map so that we can have constant time access when
- *           checking to see if a solution exists.
- *
- *           It's less optimal to use String.prototype.includes ('foo'.includes()).
- *           `includes()` iterates over each element, each means O(n). Using a
- *           hash map can get us to O(1) for lookup
- *
- * Complexity: O(n^2): In the worst-case senario, each element in the array
- *                     needs to be iterated over and every character in each
- *                     string will need to be iterated over. Each of those
- *                     operations is O(n)
- * @flow
- */
-export default function HasDupeChars(string: string): boolean {
-  const set = new Set(string);
-  return set.size !== string.length;
-}
-```
-
-## Permutations
-
-```js
-/**
- * Find all the permutations of a string
- *
- * What is a permutation?
- *
- * [a, b, c]
- * [b, c, a] <- this is a valid permutation
- * [b, b, a] <- this is a permutation
- * [b, b, a] <- this is also a permutation. 'duplicates' are counted
- *
- * @flow
- */
-import Factorial from '../Math/Factorial';
-
-let permutations = 0;
-
-/**
- * @complexity: O(n!), where n is the length of the string
- */
-export default function StringPermutationsRecursive(string: string): number {
-  if (string.length === 1) {
-    permutations++;
-  }
-
-  const _string = string.split('');
-
-  for (let i = 0; i < _string.length; i++) {
-    StringPermutationsRecursive(_string.filter((e: any, _i: number): boolean => _i !== i).join(''));
-  }
-
-  return permutations;
-}
-
-/**
- * @complexity: O(n), where n is the length of the string
- */
-export function StringPermutationsRecursiveFactorial(string: string): number {
-  return Factorial(string.length);
 }
 ```
 
@@ -199,7 +206,7 @@ import randomNumber from '../Math/RandomNumber';
 /**
  * Generate a random string
  */
-export default function RandomString(stringLength: number): string {
+export default function RandomString(stringLength: number) {
   const dictionary = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   let generatedRandomString = '';
@@ -213,6 +220,20 @@ export default function RandomString(stringLength: number): string {
   return generatedRandomString;
 }
 ```
+
+## 字符串问题
+
+字符串问题有很多，从简单的实现 substr，识别回文，到复杂一点的公共子串/子序列。其实字符串本质上也是字符数组，因此
+很多数据的思想和方法也可以用在字符串问题上，并且在有些时候能够发挥很好的作用。
+
+专门处理字符串的算法也很多，比如 trie，马拉车算法，游程编码，huffman 树等等。
+
+## 实现字符串的一些原生方法
+
+这类题目应该是最直接的题目了，题目歧义比较小, 难度也是相对较小，因此用于电面等形式也是不错的。
+
+- [28.implement-str-str](https://leetcode.com/problems/implement-strstr/)
+- [344.reverse-string](../backlog/344.reverse-string)
 
 ## 其他
 
@@ -341,7 +362,7 @@ export default function CheckHashAllUniqueChars(string) {
  * O(NlgN) time
  * O(N) space
  */
-export function checkPermutationSlow(str1: string, str2: string) {
+export function checkPermutationSlow(str1, str2) {
   const arr1 = str1.split('').sort();
   const arr2 = str2.split('').sort();
 
@@ -357,7 +378,7 @@ export function checkPermutationSlow(str1: string, str2: string) {
  * O(N) time
  * O(N) space
  */
-export default function checkPermutationFast(str1: string, str2: string) {
+export default function checkPermutationFast(str1, str2) {
   const charCount1 = new Map();
   const charCount2 = new Map();
   for (let i = 0; i < str1.length; i++) {
@@ -395,7 +416,7 @@ export default function checkPermutationFast(str1: string, str2: string) {
 /**
  * Complexity: O(n)
  */
-export default function PermutationString(first: string, second: string): boolean {
+export default function PermutationString(first, second): boolean {
   if (first.length !== second.length) return false;
 
   const _first: Map<string, number> = new Map();
@@ -428,7 +449,7 @@ export default function PermutationString(first: string, second: string): boolea
 /**
  * Complexity: O(nlogn)
  */
-export function PermutationStringInPlace(first: string, second: string): boolean {
+export function PermutationStringInPlace(first, second): boolean {
   if (first.length !== second.length) return false;
 
   const _first = first.split('').sort();
@@ -445,7 +466,7 @@ export function PermutationStringInPlace(first: string, second: string): boolean
 ### 判断两个字符串是否？？
 
 ```js
-export default function OneAway(str1: string, str2: string): boolean {
+export default function OneAway(str1, str2): boolean {
   // new Set 传入一个字符串得到一个不重复的集合。
   const set1 = new Set(str1);
   const set2 = new Set(str2);
@@ -478,7 +499,7 @@ const endingMappings = {
   ']': '[',
 };
 
-export default function isBalanced(string: string): boolean {
+export default function isBalanced(string): boolean {
   const stack = new Stack();
 
   for (const char of Array.from(string)) {
@@ -517,13 +538,6 @@ function reverse(string) {
   }
   return result;
 }
-
-/// tests
-
-import { test } from 'ava';
-
-test(t => t.is(reverse(''), ''));
-test(t => t.is(reverse('abcdef'), 'fedcba'));
 ```
 
 ### 字符串平衡（栈）
@@ -577,14 +591,6 @@ class Stack {
     return this.items.length;
   }
 }
-
-/// tests
-
-import { test } from 'ava';
-
-test(t => t.is(isBalanced2('(foo { bar (baz) [boo] })'), true));
-test(t => t.is(isBalanced2('foo { bar { baz }'), false));
-test(t => t.is(isBalanced2('foo { (bar [baz] } )'), false));
 ```
 
 ### 字符串排列组合
@@ -614,13 +620,6 @@ function without(array, a) {
   bs.splice(array.indexOf(a), 1);
   return bs;
 }
-
-/// tests
-
-import { test } from 'ava';
-
-test(t => t.deepEqual(permute(''), []));
-test(t => t.deepEqual(permute('abc'), ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']));
 ```
 
 ### 统计一个字符串出现最多的字母
@@ -696,121 +695,4 @@ function isBalanced(string) {
   }
   return count === 0;
 }
-
-/// tests
-
-import { test } from 'ava';
-
-test(t => t.is(isBalanced('}{'), false));
-test(t => t.is(isBalanced('{{}'), false));
-test(t => t.is(isBalanced('{}{}'), true));
-test(t => t.is(isBalanced('foo { bar { baz } boo }'), true));
-test(t => t.is(isBalanced('foo { bar { baz }'), false));
-test(t => t.is(isBalanced('foo { bar } }'), false));
-```
-
-## 字符串问题
-
-字符串问题有很多，从简单的实现 substr，识别回文，到复杂一点的公共子串/子序列。其实字符串本质上也是字符数组，因此
-很多数据的思想和方法也可以用在字符串问题上，并且在有些时候能够发挥很好的作用。
-
-专门处理字符串的算法也很多，比如 trie，马拉车算法，游程编码，huffman 树等等。
-
-## 实现字符串的一些原生方法
-
-这类题目应该是最直接的题目了，题目歧义比较小, 难度也是相对较小，因此用于电面等形式也是不错的。
-
-- [28.implement-str-str](https://leetcode.com/problems/implement-strstr/)
-- [344.reverse-string](../backlog/344.reverse-string)
-
-## 前缀问题
-
-前缀树用来处理这种问题是最符合直觉的，但是它也有缺点，比如公共前缀很少的情况下，比较费内存。
-
-### 字符串无题
-
-```js
-// export default (str) => {
-//   // 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-//   let arr = str.split(' ')
-//   // 对数组进行遍历，然后每个元素进行反转
-//   let result = arr.map(item => {
-//     return item.split('').reverse().join('')
-//   })
-//   return result.join(' ')
-// }
-
-// export default (str) => {
-//   // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-//   // 2. 对数组进行遍历，然后每个元素进行反转
-//   return str.split(' ').map(item => {
-//     return item.split('').reverse().join('')
-//   }).join(' ')
-// }
-
-// export default (str) => {
-//   // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-//   // 2. 对数组进行遍历，然后每个元素进行反转
-//   return str.split(/\s/g).map(item => {
-//     return item.split('').reverse().join('')
-//   }).join(' ')
-// }
-
-export default str => {
-  // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-  // 2. 对数组进行遍历，然后每个元素进行反转
-  return str
-    .match(/[\w']+/g)
-    .map(item => {
-      return item
-        .split('')
-        .reverse()
-        .join('');
-    })
-    .join(' ');
-};
-```
-
-```js
-export default str => {
-  // 建立数据结构，堆栈，保存数据
-  let r = [];
-  // 给定任意子输入都返回第一个符合条件的子串
-  let match = str => {
-    let j = str.match(/^(0+|1+)/)[0];
-    let o = (j[0] ^ 1).toString().repeat(j.length);
-    let reg = new RegExp(`^(${j}${o})`);
-    if (reg.test(str)) {
-      return RegExp.$1;
-    } else {
-      return '';
-    }
-  };
-  // 通过for循环控制程序运行的流程
-  for (let i = 0, len = str.length - 1; i < len; i++) {
-    let sub = match(str.slice(i));
-    if (sub) {
-      r.push(sub);
-    }
-  }
-  return r;
-};
-```
-
-### 返回整数逆序后的字符串
-
-输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
-
-```js
-function fun(num) {
-  let num1 = num / 10;
-  let num2 = num % 10;
-  if (num1 < 1) {
-    return num;
-  } else {
-    num1 = Math.floor(num1);
-    return `${num2}${fun(num1)}`;
-  }
-}
-var a = fun(12345);
 ```

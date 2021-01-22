@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# 1. 给表达式加括号
+## 1. 给表达式加括号
 
 [241. Different Ways to Add Parentheses (Medium)](https://leetcode.com/problems/different-ways-to-add-parentheses/description/)
 
@@ -46,7 +46,7 @@ public List<Integer> diffWaysToCompute(String input) {
 }
 ```
 
-# 2. 不同的二叉搜索树
+## 2. 不同的二叉搜索树
 
 [95. Unique Binary Search Trees II (Medium)](https://leetcode.com/problems/unique-binary-search-trees-ii/description/)
 

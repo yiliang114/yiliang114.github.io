@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-# 1. 用栈实现队列
+## 1. 用栈实现队列
 
 [232. Implement Queue using Stacks (Easy)](https://leetcode.com/problems/implement-queue-using-stacks/description/)
 
@@ -46,7 +46,7 @@ class MyQueue {
 }
 ```
 
-# 2. 用队列实现栈
+## 2. 用队列实现栈
 
 [225. Implement Stack using Queues (Easy)](https://leetcode.com/problems/implement-stack-using-queues/description/)
 
@@ -83,7 +83,7 @@ class MyStack {
 }
 ```
 
-# 3. 最小值栈
+## 3. 最小值栈
 
 [155. Min Stack (Easy)](https://leetcode.com/problems/min-stack/description/)
 
@@ -124,7 +124,7 @@ class MinStack {
 
 对于实现最小值队列问题，可以先将队列使用栈来实现，然后就将问题转换为最小值栈，这个问题出现在 编程之美：3.7。
 
-# 4. 用栈实现括号匹配
+## 4. 用栈实现括号匹配
 
 [20. Valid Parentheses (Easy)](https://leetcode.com/problems/valid-parentheses/description/)
 
@@ -155,7 +155,7 @@ public boolean isValid(String s) {
 }
 ```
 
-# 5. 数组中元素与下一个比它大的元素之间的距离
+## 5. 数组中元素与下一个比它大的元素之间的距离
 
 [739. Daily Temperatures (Medium)](https://leetcode.com/problems/daily-temperatures/description/)
 
@@ -181,7 +181,7 @@ public int[] dailyTemperatures(int[] temperatures) {
 }
 ```
 
-# 6. 循环数组中比当前元素大的下一个元素
+## 6. 循环数组中比当前元素大的下一个元素
 
 [503. Next Greater Element II (Medium)](https://leetcode.com/problems/next-greater-element-ii/description/)
 

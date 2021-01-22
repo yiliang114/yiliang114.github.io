@@ -6,15 +6,15 @@ aside: false
 draft: true
 ---
 
-# 排序
+## 排序
 
-## 快速选择
+### 快速选择
 
 用于求解 **Kth Element** 问题，也就是第 K 个元素的问题。
 
 可以使用快速排序的 partition() 进行实现。需要先打乱数组，否则最坏情况下时间复杂度为 O(N^2)。
 
-## 堆
+### 堆
 
 用于求解 **TopK Elements** 问题，也就是 K 个最小元素的问题。可以维护一个大小为 K 的最小堆，最小堆中的元素就是最小元素。最小堆需要使用大顶堆来实现，大顶堆表示堆顶元素是堆中最大元素。这是因为我们要得到 k 个最小的元素，因此当遍历到一个新的元素时，需要知道这个新元素是否比堆中最大的元素更小，更小的话就把堆中最大元素去除，并将新元素添加到堆中。所以我们需要很容易得到最大元素并移除最大元素，大顶堆就能很好满足这个要求。
 
@@ -24,7 +24,7 @@ draft: true
 
 可以看到，快速选择和堆排序都可以求解 Kth Element 和 TopK Elements 问题。
 
-### 1. Kth Element
+#### 1. Kth Element
 
 [215. Kth Largest Element in an Array (Medium)](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
 
@@ -98,9 +98,9 @@ private void swap(int[] a, int i, int j) {
 }
 ```
 
-## 桶排序
+### 桶排序
 
-### 1. 出现频率最多的 k 个元素
+#### 1. 出现频率最多的 k 个元素
 
 [347. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
 
@@ -217,7 +217,7 @@ var topKFrequent = function(nums, k) {
 };
 ```
 
-### 2. 按照字符出现次数对字符串排序
+#### 2. 按照字符出现次数对字符串排序
 
 [451. Sort Characters By Frequency (Medium)](https://leetcode.com/problems/sort-characters-by-frequency/description/)
 
@@ -255,7 +255,7 @@ public String frequencySort(String s) {
 }
 ```
 
-## 荷兰国旗问题
+### 荷兰国旗问题
 
 荷兰国旗包含三种颜色：红、白、蓝。
 
@@ -263,7 +263,7 @@ public String frequencySort(String s) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a3215ec-6fb7-4935-8b0d-cb408208f7cb.png"/> </div><br>
 
-### 1. 按颜色进行排序
+#### 1. 按颜色进行排序
 
 [75. Sort Colors (Medium)](https://leetcode.com/problems/sort-colors/description/)
 

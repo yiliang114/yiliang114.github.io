@@ -29,16 +29,12 @@ Webpack 插件机制的目的是为了增强 Webpack 在项目自动化构建方
 
 clean\-webpack\-plugin 这个插件就很好的实现了这一需求。它是一个第三方的 npm 包，我们需要先通过 npm 安装一下，具体操作如下：
 
-复制
-
 ```
 $ npm install clean-webpack-plugin --save-dev
 
 ```
 
 安装过后，我们回到 Webpack 的配置文件中，然后导入 clean\-webpack\-plugin 插件，这个插件模块导出了一个叫作 CleanWebpackPlugin 的成员，我们先把它解构出来，具体代码如下。
-
-复制
 
 ```
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -48,8 +44,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 回到配置对象中，添加一个 plugins 属性，这个属性就是专门用来配置插件的地方，它是一个数组，添加一个插件就是在这个数组中添加一个元素。
 
 绝大多数插件模块导出的都是一个类型，我们这里的 CleanWebpackPlugin 也不例外，使用它，就是通过这个类型创建一个实例，放入 plugins 数组中，具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -89,8 +83,6 @@ module.exports = {
 
 具体的实现方式就需要借助于 html\-webpack\-plugin 插件来实现，这个插件也是一个第三方的 npm 模块，我们这里同样需要单独安装这个模块，具体操作如下：
 
-复制
-
 ```
 $ npm install html-webpack-plugin --save-dev
 
@@ -98,16 +90,12 @@ $ npm install html-webpack-plugin --save-dev
 
 安装完成过后，回到配置文件，载入这个模块，不同于 clean\-webpack\-plugin，html\-webpack\-plugin 插件默认导出的就是插件类型，不需要再解构内部成员，具体如下：
 
-复制
-
 ```
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 ```
 
 有了这个类型过后，回到配置对象的 plugins 属性中，同样需要添加一下这个类型的实例对象，完成这个插件的使用，具体配置代码如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -141,8 +129,6 @@ module.exports = {
 
 我们回到 Webpack 的配置文件中，这里我们给 HtmlWebpackPlugin 构造函数传入一个对象参数，用于指定配置选项。其中，title 属性设置的是 HTML 的标题，我们把它设置为 Webpack Plugin Simple。meta 属性需要以对象的形式设置页面中的元数据标签，这里我们尝试为页面添加一个 viewport 设置，具体代码如下：
 
-复制
-
 ```
 // ./webpack.config.js
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -174,8 +160,6 @@ module.exports = {
 
 我们这里在 src 目录下新建一个 index.html 文件作为 HTML 文件的模板，然后根据我们的需要在这个文件中添加相应的元素。对于模板中动态的内容，可以使用 Lodash 模板语法输出，模板中可以通过 htmlWebpackPlugin.options 访问这个插件的配置数据，例如我们这里输出配置中的 title 属性，具体代码如下：
 
-复制
-
 ```
 <!-- ./src/index.html -->
 <!DOCTYPE html>
@@ -197,8 +181,6 @@ module.exports = {
 ```
 
 有了模板文件过后，回到配置文件中，我们通过 HtmlWebpackPlugin 的 template 属性指定所使用的模板，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -232,8 +214,6 @@ module.exports = {
 如果需要同时输出多个 HTML 文件，其实也非常简单，我们回到配置文件中，这里通过 HtmlWebpackPlugin 创建的对象就是用于生成 index.html 的，那我们完全可以再创建一个新的实例对象，用于创建额外的 HTML 文件。
 
 例如，这里我们再来添加一个 HtmlWebpackPlugin 实例用于创建一个 about.html 的页面文件，我们需要通过 filename 指定输出文件名，这个属性的默认值是 index.html，我们把它设置为 about.html，具体配置如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -276,8 +256,6 @@ module.exports = {
 对于这种需求，我们可以使用 copy\-webpack\-plugin 插件来帮我们实现。
 
 同理，我们需要先安装一下 copy\-webpack\-plugin 插件，安装完成过后，回到配置文件中，导入这个插件类型。然后同样在 plugins 属性中添加一个这个类型的实例，具体代码如下：
-
-复制
 
 ```
 // ./webpack.config.js
@@ -336,8 +314,6 @@ module.exports = {
 
 那这里我们同样在项目根目录下添加一个单独的 JS 文件。
 
-复制
-
 ```
 └─ 04-webpack-plugins ······················· sample root dir
     ├── public ······························· static dir
@@ -353,8 +329,6 @@ module.exports = {
 Webpack 要求我们的插件必须是一个函数或者是一个包含 apply 方法的对象，一般我们都会定义一个类型，在这个类型中定义 apply 方法。然后在使用时，再通过这个类型来创建一个实例对象去使用这个插件。
 
 所以我们这里定义一个 RemoveCommentsPlugin 类型，然后在这个类型中定义一个 apply 方法，这个方法会在 Webpack 启动时被调用，它接收一个 compiler 对象参数，这个对象是 Webpack 工作过程中最核心的对象，里面包含了我们此次构建的所有配置信息，我们就是通过这个对象去注册钩子函数，具体代码如下：
-
-复制
 
 ```
 // ./remove-comments-plugin.js
@@ -384,8 +358,6 @@ class RemoveCommentsPlugin {
 
 我们可以使用这个对象中的 assets 属性获取即将写入输出目录的资源文件信息，它是一个对象，我们这里通过 for in 去遍历这个对象，其中键就是每个文件的名称，我们尝试把它打印出来，具体代码如下：
 
-复制
-
 ```
 // ./remove-comments-plugin.js
 class RemoveCommentsPlugin {
@@ -406,8 +378,6 @@ class RemoveCommentsPlugin {
 ![7.png](https://s0.lgstatic.com/i/image3/M01/16/A6/Ciqah16mVA2AXtYNAAIJVZqL4l0487.png)
 
 我们再回到代码中，来打印一下每个资源文件的内容，文件内容需要通过遍历的值对象中的 source 方法获取，具体代码如下：
-
-复制
 
 ```
 // ./remove-comments-plugin.js
@@ -430,8 +400,6 @@ class RemoveCommentsPlugin {
 能够拿到文件名和文件内容后，我们回到代码中。这里需要先判断文件名是不是以 .js 结尾，因为 Webpack 打包还有可能输出别的文件，而我们的需求只需要处理 JS 文件。
 
 那如果是 JS 文件，我们将文件内容得到，再通过正则替换的方式移除掉代码中的注释，最后覆盖掉 compilation.assets 中对应的对象，在覆盖的对象中，我们同样暴露一个 source 方法用来返回新的内容。另外还需要再暴露一个 size 方法，用来返回内容大小，这是 Webpack 内部要求的格式，具体代码如下：
-
-复制
 
 ```
 // ./remove-comments-plugin.js

@@ -49,7 +49,7 @@ static int Integer.bitCount(); // 统计 1 的数量 static int Integer.highestO
 toBinaryString(int i); // 转换为二进制表示的字符串
 ```
 
-# 1. 统计两个数的二进制表示有多少位不同
+## 1. 统计两个数的二进制表示有多少位不同
 
 [461. Hamming Distance (Easy)](https://leetcode.com/problems/hamming-distance/)
 
@@ -94,7 +94,7 @@ public int hammingDistance(int x, int y) {
 }
 ```
 
-# 2. 数组中唯一一个不重复的元素
+## 2. 数组中唯一一个不重复的元素
 
 [136. Single Number (Easy)](https://leetcode.com/problems/single-number/description/)
 
@@ -112,7 +112,7 @@ public int singleNumber(int[] nums) {
 }
 ```
 
-# 3. 找出数组中缺失的那个数
+## 3. 找出数组中缺失的那个数
 
 [268. Missing Number (Easy)](https://leetcode.com/problems/missing-number/description/)
 
@@ -169,19 +169,9 @@ function missing(array) {
     return undefined;
   }
 }
-
-/// tests
-
-import { test } from 'ava';
-
-test(t => t.is(missing([]), undefined));
-test(t => t.is(missing([1, 4, 3]), 2));
-test(t => t.is(missing([2, 3, 4]), 1));
-test(t => t.is(missing([5, 1, 4, 2]), 3));
-test(t => t.is(missing([1, 2, 3, 4]), undefined));
 ```
 
-# 4. 数组中不重复的两个元素
+## 4. 数组中不重复的两个元素
 
 [260. Single Number III (Medium)](https://leetcode.com/problems/single-number-iii/description/)
 
@@ -205,7 +195,7 @@ public int[] singleNumber(int[] nums) {
 }
 ```
 
-# 5. 翻转一个数的比特位
+## 5. 翻转一个数的比特位
 
 [190. Reverse Bits (Easy)](https://leetcode.com/problems/reverse-bits/description/)
 
@@ -250,7 +240,7 @@ private int reverseByte(byte b) {
 }
 ```
 
-# 6. 不用额外变量交换两个整数
+## 6. 不用额外变量交换两个整数
 
 [程序员代码面试指南 ：P317](#)
 
@@ -260,7 +250,7 @@ b = a ^ b;
 a = a ^ b;
 ```
 
-# 7. 判断一个数是不是 2 的 n 次方
+## 7. 判断一个数是不是 2 的 n 次方
 
 [231. Power of Two (Easy)](https://leetcode.com/problems/power-of-two/description/)
 
@@ -280,7 +270,7 @@ public boolean isPowerOfTwo(int n) {
 }
 ```
 
-# 8. 判断一个数是不是 4 的 n 次方
+## 8. 判断一个数是不是 4 的 n 次方
 
 [342. Power of Four (Easy)](https://leetcode.com/problems/power-of-four/)
 
@@ -300,7 +290,7 @@ public boolean isPowerOfFour(int num) {
 }
 ```
 
-# 9. 判断一个数的位级表示是否不会出现连续的 0 和 1
+## 9. 判断一个数的位级表示是否不会出现连续的 0 和 1
 
 [693. Binary Number with Alternating Bits (Easy)](https://leetcode.com/problems/binary-number-with-alternating-bits/description/)
 
@@ -318,7 +308,7 @@ public boolean hasAlternatingBits(int n) {
 }
 ```
 
-# 10. 求一个数的补码
+## 10. 求一个数的补码
 
 [476. Number Complement (Easy)](https://leetcode.com/problems/number-complement/description/)
 
@@ -370,7 +360,7 @@ public int findComplement(int num) {
 }
 ```
 
-# 11. 实现整数的加法
+## 11. 实现整数的加法
 
 [371. Sum of Two Integers (Easy)](https://leetcode.com/problems/sum-of-two-integers/description/)
 
@@ -384,7 +374,7 @@ public int getSum(int a, int b) {
 }
 ```
 
-# 12. 字符串数组最大乘积
+## 12. 字符串数组最大乘积
 
 [318. Maximum Product of Word Lengths (Medium)](https://leetcode.com/problems/maximum-product-of-word-lengths/description/)
 
@@ -417,7 +407,7 @@ public int maxProduct(String[] words) {
 }
 ```
 
-# 13. 统计从 0 \~ n 每个数的二进制表示中 1 的个数
+## 13. 统计从 0 \~ n 每个数的二进制表示中 1 的个数
 
 [338. Counting Bits (Medium)](https://leetcode.com/problems/counting-bits/description/)
 
