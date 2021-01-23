@@ -18,14 +18,9 @@ draft: true
 - 使用 `for (let j = 0; i != j && j < points.length; j++)` 来遍历并剔除 i 是及其错误的，这样会中断 for 循环。
 - Number 的 toString 方法可以返回 2-36 进制的数字
 
-### 递归搜索和动态规划 的理解的 blog
-
-1. https://www.jianshu.com/p/5eb4da919efe
-2. https://www.jianshu.com/p/6b3a2304f63f
-
 ## 例题
 
-#### 连续子数组的最大和 [LeetCode 53](https://leetcode.com/problems/maximum-subarray/)
+#### 连续子数组的最大和
 
 用 `dp[n`] 表示元素 n 作为末尾的连续序列的最大和，容易想到状态转移方程为`dp[n] = max(dp[n-1] + num[n], num[n])`，从第 1 个元素开始，自顶向上求解：
 

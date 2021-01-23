@@ -6,9 +6,7 @@ aside: false
 draft: true
 ---
 
-# 链表
-
-## Reversed Linked List Traversal
+### Reversed Linked List Traversal
 
 The task is to traverse the given linked list in reversed order.
 
@@ -39,7 +37,7 @@ export default function reverseTraversal(linkedList, callback) {
 }
 ```
 
-## Linked List Traversal
+### Linked List Traversal
 
 The task is to traverse the given linked list in straight order.
 
@@ -68,6 +66,6 @@ export default function traversal(linkedList, callback) {
 }
 ```
 
-## 怎么判断一个链表成环？
+### 怎么判断一个链表成环？
 
 > 后项指针的哈希表（把所有的指针放到一个 map 中，如果其中一个指针已经出现在 map 中，那么就可以确定已经成环了。）
