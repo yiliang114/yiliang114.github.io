@@ -115,8 +115,6 @@ Expires 字段也可以用于告知缓存服务器该资源什么时候会过期
 
 当浏览器访问一个包含多张图片的 HTML 页面时，除了请求访问 HTML 页面资源，还会请求图片资源，如果每进行一次 HTTP 通信就要断开一次 TCP 连接，连接建立和断开的开销会很大。持久连接只需要建立一次 TCP 连接就能进行多次 HTTP 通信。
 
-<div align="center"> <img src="../pics//450px-HTTP_persistent_connection.svg.png" width=""/> </div><br>
-
 持久连接需要使用 Connection 首部字段进行管理。HTTP/1.1 开始 HTTP 默认是持久化连接的，如果要断开 TCP 连接，需要由客户端或者服务器端提出断开，使用 Connection : close；而在 HTTP/1.1 之前默认是非持久化连接的，如果要维持持续连接，需要使用 Connection : Keep-Alive。
 
 #### 管线化处理
@@ -178,10 +176,6 @@ HTTP/1.1 使用虚拟主机技术，使得一台服务器拥有多个域名，�
 使用代理的主要目的是：缓存、网络访问控制以及访问日志记录。
 
 代理服务器分为正向代理和反向代理两种，用户察觉得到正向代理的存在，而反向代理一般位于内部网络中，用户察觉不到。
-
-<div align="center"> <img src="../pics//a314bb79-5b18-4e63-a976-3448bffa6f1b.png" width=""/> </div><br>
-
-<div align="center"> <img src="../pics//2d09a847-b854-439c-9198-b29c65810944.png" width=""/> </div><br>
 
 ##### 2. 网关
 

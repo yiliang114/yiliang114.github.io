@@ -1131,7 +1131,7 @@ Reflect.has(obj, 'name'); // true
 
 老写法：
 
-```cpp
+```js
 delete obj.name;
 ```
 

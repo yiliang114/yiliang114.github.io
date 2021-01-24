@@ -6,13 +6,9 @@ aside: false
 draft: true
 ---
 
-## KMP
+## KMP(Knuth–Morris–Pratt)
 
-Knuth–Morris–Pratt 算法 KMP 算法 - 子串搜索 (模式匹配)
-
-KMP 的特点在于之前检查过的字符串不在重复检查
-更加上一次匹配的结果来决定是否从头匹配
-减少搜索次数
+子串搜索 (模式匹配). KMP 的特点在于之前检查过的字符串不在重复检查, 更加上一次匹配的结果来决定是否从头匹配, 减少搜索次数
 
 ```js
 let pat = 'search';

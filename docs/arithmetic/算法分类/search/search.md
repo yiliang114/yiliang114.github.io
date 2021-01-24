@@ -6,12 +6,10 @@ aside: false
 draft: true
 ---
 
-### BinarySearch_1
+### BinarySearch
 
 ```js
-type num = number;
-
-export default function BinarySearchRecursive(items: num[], element: num): num {
+export default function BinarySearchRecursive(items, element) {
   const middleIndex = Math.floor(items.length / 2);
 
   // Base Case
@@ -24,7 +22,7 @@ export default function BinarySearchRecursive(items: num[], element: num): num {
   return BinarySearchRecursive(items.splice(0, middleIndex), element);
 }
 
-export function BinarySearchIterative(items: num[], element: num): num {
+export function BinarySearchIterative(items, element) {
   let low = 0;
   let high = items.length - 1;
 
@@ -48,7 +46,7 @@ export function BinarySearchIterative(items: num[], element: num): num {
 }
 ```
 
-### BreadthFirstSearch_1
+### BreadthFirstSearch
 
 ```js
 export default function BFS(tree) {
@@ -66,21 +64,7 @@ export default function BFS(tree) {
 }
 ```
 
-### CandyCrush_1
-
-```js
-// Given a 1-d array candy crush, return the shortest array after removing all the continuous
-// same numbers (the repeating number >= 3)
-//
-// input: 1-d array [1, 3, 3, 3, 2, 2, 2, 3, 1]
-// return: [1, 1]
-//
-// Time complexity should be better than O(n^2)
-// Mod edit: To slow down the posting of O(n^2) and O(n) "correct" solutions, here is another testcase:
-// [3,1,2,2,2,1,1,1,2,2,3,1,1,2,2,2,1,1,1,2,3] should return [3,1,3,2,3]
-```
-
-### OnesInBinary_2
+### OnesInBinary
 
 ```js
 function OnesInBinary(number) {
@@ -95,10 +79,6 @@ function OnesInBinary(number) {
 
   return binary.reduce((p, c) => (c === 1 ? p + 1 : p));
 }
-
-// 二分查找
-// 注意点：
-// 1. 在计算 mid 时不能使用 mid = (i + j) / 2 这种方式，因为 i + j 可能会导致加法溢出，应该使用 mid = i + (i - j) / 2
 
 const binarySearch = (arr, target) => {
   let i = 0,
@@ -116,7 +96,7 @@ const binarySearch = (arr, target) => {
 };
 ```
 
-### QuickSelect_1
+### QuickSelect
 
 ```js
 /**
@@ -133,11 +113,11 @@ const binarySearch = (arr, target) => {
  */
 type num = number;
 
-export default function QuickSelect(items: num[], kth: num): num {
+export default function QuickSelect(items, kth) {
   return RandomizedSelect(items, 0, items.length - 1, kth);
 }
 
-export function RandomizedSelect(items: num[], left: num, right: num, i: num): any {
+export function RandomizedSelect(items, left, right, i): any {
   if (left === right) return items[left];
 
   const pivotIndex = RandomizedPartition(items, left, right);
@@ -149,13 +129,13 @@ export function RandomizedSelect(items: num[], left: num, right: num, i: num): a
   return RandomizedSelect(items, pivotIndex + 1, right, i - k);
 }
 
-export function RandomizedPartition(items: num[], left: num, right: num): num {
+export function RandomizedPartition(items, left, right) {
   const rand = getRandomInt(left, right);
   Swap(items, rand, right);
   return Partition(items, left, right);
 }
 
-function Partition(items: num[], left: num, right: num): num {
+function Partition(items, left, right) {
   const x = items[right];
   let pivotIndex = left - 1;
 
@@ -171,7 +151,7 @@ function Partition(items: num[], left: num, right: num): num {
   return pivotIndex + 1;
 }
 
-function getRandomInt(min: num, max: num): num {
+function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -182,56 +162,7 @@ function Swap(arr: any[], x: any, y: any) {
 }
 ```
 
-### binarySearch
-
-```js
-import Comparator from '../../../utils/comparator/Comparator';
-
-/**
- * Binary search implementation.
- *
- * @param {*[]} sortedArray
- * @param {*} seekElement
- * @param {function(a, b)} [comparatorCallback]
- * @return {number}
- */
-
-export default function binarySearch(sortedArray, seekElement, comparatorCallback) {
-  // Let's create comparator from the comparatorCallback function.
-  // Comparator object will give us common comparison methods like equal() and lessThen().
-  const comparator = new Comparator(comparatorCallback);
-
-  // These two indices will contain current array (sub-array) boundaries.
-  let startIndex = 0;
-  let endIndex = sortedArray.length - 1;
-
-  // Let's continue to split array until boundaries are collapsed
-  // and there is nothing to split anymore.
-  while (startIndex <= endIndex) {
-    // Let's calculate the index of the middle element.
-    const middleIndex = startIndex + Math.floor((endIndex - startIndex) / 2);
-
-    // If we've found the element just return its position.
-    if (comparator.equal(sortedArray[middleIndex], seekElement)) {
-      return middleIndex;
-    }
-
-    // Decide which half to choose for seeking next: left or right one.
-    if (comparator.lessThan(sortedArray[middleIndex], seekElement)) {
-      // Go to the right half of the array.
-      startIndex = middleIndex + 1;
-    } else {
-      // Go to the left half of the array.
-      endIndex = middleIndex - 1;
-    }
-  }
-
-  // Return -1 if we have not found anything.
-  return -1;
-}
-```
-
-### binary_search_1
+### binary_search
 
 ```js
 // 二分法查找，也称折半查找，是一种在有序数组中查找特定元素的搜索算法。查找过程可以分为以下步骤：
@@ -649,8 +580,6 @@ console.log(get(arr, 'C'));
  */
 ```
 
-## 字符串查找相关
-
 ### search_bm
 
 ```js
@@ -760,7 +689,7 @@ console.log(search(pat, txt));
  */
 ```
 
-### 暴力搜索 search_violence_2
+<!-- 第二种 -->
 
 ```js
 function search(par, txt) {

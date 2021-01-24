@@ -1505,7 +1505,3 @@ print().next("hello");
 ### Async
 
 - **顶层 Await**：允许在模块的顶层独立使用`await命令`(借用`await`解决模块异步加载的问题)
-
-### 结语
-
-![ES6](https://user-gold-cdn.xitu.io/2019/12/12/16ef8c1427cebcde?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)

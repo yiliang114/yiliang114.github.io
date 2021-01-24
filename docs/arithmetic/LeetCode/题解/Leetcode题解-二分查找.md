@@ -8,43 +8,22 @@ draft: true
 
 ## 二分查找
 
-**正常实现**
-
-```
-Input : [1,2,3,4,5]
-key : 3
-return the index : 2
-```
-
-```java
-public int binarySearch(int[] nums, int key) {
-    int l = 0, h = nums.length - 1;
-    while (l <= h) {
-        int m = l + (h - l) / 2;
-        if (nums[m] == key) {
-            return m;
-        } else if (nums[m] > key) {
-            h = m - 1;
-        } else {
-            l = m + 1;
-        }
+```js
+const binarySearch = (arr, target) => {
+  let i = 0,
+    j = arr.length - 1;
+  while (i <= j) {
+    let mid = i + ((j - i) >> 1);
+    if (target === arr[mid]) return mid;
+    if (target < arr[mid]) {
+      j = mid - 1;
+    } else {
+      i = mid + 1;
     }
-    return -1;
-}
+  }
+  return -1;
+};
 ```
-
-**时间复杂度**
-
-二分查找也称为折半查找，每次都能将查找区间减半，这种折半特性的算法时间复杂度为 O(logN)。
-
-**m 计算**
-
-有两种计算中值 m 的方式：
-
-- m = (l + h) / 2
-- m = l + (h - l) / 2
-
-l + h 可能出现加法溢出，也就是说加法的结果大于整型能够表示的范围。但是 l 和 h 都为正数，因此 h - l 不会出现加法溢出问题。所以，最好使用第二种计算法方法。
 
 **未成功查找的返回值**
 
@@ -98,54 +77,12 @@ l   m   h
 
 [69. Sqrt(x) (Easy)](https://leetcode.com/problems/sqrtx/description/)
 
-```html
-Input: 4 Output: 2 Input: 8 Output: 2 Explanation: The square root of 8 is 2.82842..., and since we want to return an
-integer, the decimal part will be truncated.
-```
-
-一个数 x 的开方 sqrt 一定在 0 \~ x 之间，并且满足 sqrt == x / sqrt。可以利用二分查找在 0 \~ x 之间查找 sqrt。
-
-对于 x = 8，它的开方是 2.82842...，最后应该返回 2 而不是 3。在循环条件为 l <= h 并且循环退出时，h 总是比 l 小 1，也就是说 h = 2，l = 3，因此最后的返回值应该为 h 而不是 l。
-
-```java
-public int mySqrt(int x) {
-    if (x <= 1) {
-        return x;
-    }
-    int l = 1, h = x;
-    while (l <= h) {
-        int mid = l + (h - l) / 2;
-        int sqrt = x / mid;
-        if (sqrt == mid) {
-            return mid;
-        } else if (mid > sqrt) {
-            h = mid - 1;
-        } else {
-            l = mid + 1;
-        }
-    }
-    return h;
-}
-```
-
-#### my-sqrt
-
-- 题目链接：无
-  > leetcode 上有一个相似的[题目](https://leetcode.com/problems/sqrtx/)
-- tag：`binary search` `math`
-
-```
-要求不用数学库，求 sqrt(2)精确到小数点后 10 位
-```
-
-##### 参考答案
+### mySqrt
 
 1. 二分法
 
 这个解法比较直接，就是普通的二分。
 通过每次取中间值进行比较，我们可以舍去一半的结果。时间复杂度 logn
-
-参考代码：
 
 ```js
 function sqrt(num) {
@@ -165,39 +102,6 @@ function sqrt(num) {
   }
 
   return mid;
-}
-```
-
-2. 牛顿迭代法
-
-这种方法是牛顿发明的，比较巧妙。
-其实上述问题可以转化为 x^2-a = 0，求 x 的值。其实也就是曲线和 y 轴交点的横坐标。
-我们可以不断用 f(x)的切线来逼近方程 x^2-a = 0 的根。
-根号 a 实际上就是 x^2-a=0 的一个正实根，由于这个函数的导数是 2x。
-也就是说，函数上任一点(x,f(x))处的切线斜率是 2x。
-那么，x-f(x)/(2x)就是一个比 x 更接近的近似值。代入 f(x)=x^2-a 得到 x-(x^2-a)/(2x)，也就是(x+a/x)/2。
-
-(图片来自 Wikipedia)
-
-参考代码：
-
-```js
-function sqrtNewton(n) {
-  if (n <= 0) return n;
-
-  let res;
-  let last;
-  const DIGIT_COUNT = 10;
-  const PRECISION = Math.pow(0.1, DIGIT_COUNT);
-
-  res = n;
-
-  while (Math.abs(last - res) > PRECISION) {
-    last = res;
-    res = (res + n / res) / 2;
-  }
-
-  return res;
 }
 ```
 
@@ -285,29 +189,6 @@ public int firstBadVersion(int n) {
         }
     }
     return l;
-}
-```
-
-## 5. 旋转数组的最小数字
-
-[153. Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
-
-```html
-Input: [3,4,5,1,2], Output: 1
-```
-
-```java
-public int findMin(int[] nums) {
-    int l = 0, h = nums.length - 1;
-    while (l < h) {
-        int m = l + (h - l) / 2;
-        if (nums[m] <= nums[h]) {
-            h = m;
-        } else {
-            l = m + 1;
-        }
-    }
-    return nums[l];
 }
 ```
 

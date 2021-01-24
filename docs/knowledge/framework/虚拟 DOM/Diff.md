@@ -545,8 +545,7 @@ function applyPatches(node, currentPatches) {
 }
 ```
 
-5. 结语
-   　　 virtual DOM 算法主要实现上面步骤的三个函数： element、diff、patch，然后就可以实际的进行使用了。
+5. 结语: virtual DOM 算法主要实现上面步骤的三个函数： element、diff、patch，然后就可以实际的进行使用了。
 
 ```js
 // 1. 构建虚拟DOM
