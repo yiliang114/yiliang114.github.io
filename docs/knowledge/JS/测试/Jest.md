@@ -1,10 +1,11 @@
 ---
-title: 'Jest 支持 ES6 语法'
+title: 'Jest'
 date: 2021-01-24
 tags:
-  - babel
   - jest
 ---
+
+# Jest
 
 ## Jest 支持 ES6 语法
 
@@ -30,4 +31,11 @@ yarn add  @babel/core @babel/preset-env  --dev
   ]
 }
 
+```
+
+## Watch Mode
+
+```cmd
+jest --watch #runs jest -o by default
+jest --watchAll #runs all tests
 ```
