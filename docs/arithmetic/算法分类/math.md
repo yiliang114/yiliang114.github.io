@@ -54,10 +54,6 @@ function factorial(n) {
 
 例如：121、1331 等
 
-81.打印出 1 - 10000 之间的所有对称数
-
-例如：121、1331 等
-
 ```js
 [...Array(10000).keys()].filter(x => {
   return (

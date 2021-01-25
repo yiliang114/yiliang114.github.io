@@ -6,7 +6,62 @@ aside: false
 draft: true
 ---
 
-### BinarySearch
+### 数组快排+二分搜索
+
+```js
+function swap(a, i, j) {
+  let temp = a[i];
+  a[i] = a[j];
+  a[j] = temp;
+}
+
+function quickSort(arr, start = 0, end = arr.length - 1) {
+  if (arr && arr.length < 2) return arr;
+  if (start >= end) return;
+
+  let target = arr[start],
+    i = start,
+    j = end;
+
+  while (i < j) {
+    while (target <= a[j] && i < j) j--;
+    while (target >= a[i] && i < j) i++;
+
+    if (i < j) swap(arr, i, j);
+  }
+
+  // i === j
+  swap(arr, start, i);
+  quickSort(arr, start, i - 1);
+  quickSort(arr, i + 1, end);
+
+  return arr;
+}
+
+// 递归形式
+function binary_search(arr, target, start, end) {
+  if ((arr && arr.length < 1) || start > end) return -1;
+  let midIndex = parseInt((start + end) / 2);
+  return arr[midIndex] === target
+    ? midIndex
+    : arr[midIndex] > target
+    ? binary_search(arr, target, start, midIndex - 1)
+    : binary_search(arr, target, midIndex + 1, end);
+}
+
+let a = [3, 4, 6, 1, 3, 6, 32, 45, 21, 12];
+a = quickSort(a);
+
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 23, 44, 86];
+console.time('binary_search');
+console.log('binary_search result: ', binary_search(a, 2, 0, a.length - 1));
+console.log('binary_search result: ', binary_search(a, 3, 0, a.length - 1));
+console.log('binary_search result: ', binary_search(arr, 10, 0, arr.length - 1));
+console.log('binary_search result: ', binary_search(arr, 44, 0, arr.length - 1));
+console.timeEnd('binary_search');
+```
+
+### BinarySearchRecursive
 
 ```js
 export default function BinarySearchRecursive(items, element) {
@@ -64,55 +119,9 @@ export default function BFS(tree) {
 }
 ```
 
-### OnesInBinary
-
-```js
-function OnesInBinary(number) {
-  const binary = new Array(32);
-  let _placeholder = number;
-
-  while (_placeholder > 0) {
-    const pwr = Math.floor(Math.log2(_placeholder));
-    _placeholder -= 2 ** pwr;
-    binary[binary.length - 1 - pwr] = 1;
-  }
-
-  return binary.reduce((p, c) => (c === 1 ? p + 1 : p));
-}
-
-const binarySearch = (arr, target) => {
-  let i = 0,
-    j = arr.length - 1;
-  while (i <= j) {
-    let mid = i + parseInt((j - i) / 2);
-    if (target === arr[mid]) return mid;
-    if (target < arr[mid]) {
-      j = mid - 1;
-    } else {
-      i = mid + 1;
-    }
-  }
-  return -1;
-};
-```
-
 ### QuickSelect
 
 ```js
-/**
- * QuickSelect is an algorithm to find the kth smallest number
- *
- * Notes:
- * -QuickSelect is related to QuickSort, thus has optimal best and average
- *  case (O(n)) but unlikely poor worst case (O(n^2))
- * -This implementation uses randomly selected pivots for better performance
- *
- * @complexity: O(n) (on average )
- * @complexity: O(n^2) (worst case)
- * @flow
- */
-type num = number;
-
 export default function QuickSelect(items, kth) {
   return RandomizedSelect(items, 0, items.length - 1, kth);
 }
@@ -160,244 +169,6 @@ function Swap(arr: any[], x: any, y: any) {
   arr[x] = arr[y];
   arr[y] = temp;
 }
-```
-
-### binary_search
-
-```js
-// 二分法查找，也称折半查找，是一种在有序数组中查找特定元素的搜索算法。查找过程可以分为以下步骤：
-// (1)首先，从有序数组的中间的元素开始搜索，如果该元素正好是目标元素(即要查找的元素)，则搜索过程结束，否则进行下一步。
-// (2)如果目标元素大于或者小于中间元素，则在数组大于或小于中间元素的那一半区域查找，然后重复第一步的操作。
-// (3)如果某一步数组为空，则表示找不到目标元素。
-
-function swap(a, i, j) {
-  let temp = a[i];
-  a[i] = a[j];
-  a[j] = temp;
-}
-
-function quickSort(arr, start = 0, end = arr.length - 1) {
-  if (arr && arr.length < 2) return arr;
-  if (start >= end) return;
-
-  let target = arr[start],
-    i = start,
-    j = end;
-
-  while (i < j) {
-    while (target <= a[j] && i < j) j--;
-    while (target >= a[i] && i < j) i++;
-
-    if (i < j) swap(arr, i, j);
-  }
-
-  // i === j
-  swap(arr, start, i);
-  quickSort(arr, start, i - 1);
-  quickSort(arr, i + 1, end);
-
-  return arr;
-}
-
-// 递归形式
-function binary_search(arr, target, start, end) {
-  if ((arr && arr.length < 1) || start > end) return -1;
-  let midIndex = parseInt((start + end) / 2);
-  return arr[midIndex] === target
-    ? midIndex
-    : arr[midIndex] > target
-    ? binary_search(arr, target, start, midIndex - 1)
-    : binary_search(arr, target, midIndex + 1, end);
-}
-
-let a = [3, 4, 6, 1, 3, 6, 32, 45, 21, 12];
-a = quickSort(a);
-
-var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 23, 44, 86];
-console.time('binary_search');
-console.log('binary_search result: ', binary_search(a, 2, 0, a.length - 1));
-console.log('binary_search result: ', binary_search(a, 3, 0, a.length - 1));
-console.log('binary_search result: ', binary_search(arr, 10, 0, arr.length - 1));
-console.log('binary_search result: ', binary_search(arr, 44, 0, arr.length - 1));
-console.timeEnd('binary_search');
-```
-
-### interpolationSearch
-
-```js
-/**
- * Interpolation search implementation.
- *
- * @param {*[]} sortedArray - sorted array with uniformly distributed values
- * @param {*} seekElement
- * @return {number}
- */
-export default function interpolationSearch(sortedArray, seekElement) {
-  let leftIndex = 0;
-  let rightIndex = sortedArray.length - 1;
-
-  while (leftIndex <= rightIndex) {
-    const rangeDelta = sortedArray[rightIndex] - sortedArray[leftIndex];
-    const indexDelta = rightIndex - leftIndex;
-    const valueDelta = seekElement - sortedArray[leftIndex];
-
-    // If valueDelta is less then zero it means that there is no seek element
-    // exists in array since the lowest element from the range is already higher
-    // then seek element.
-    if (valueDelta < 0) {
-      return -1;
-    }
-
-    // If range delta is zero then subarray contains all the same numbers
-    // and thus there is nothing to search for unless this range is all
-    // consists of seek number.
-    if (!rangeDelta) {
-      // By doing this we're also avoiding division by zero while
-      // calculating the middleIndex later.
-      return sortedArray[leftIndex] === seekElement ? leftIndex : -1;
-    }
-
-    // Do interpolation of the middle index.
-    const middleIndex = leftIndex + Math.floor((valueDelta * indexDelta) / rangeDelta);
-
-    // If we've found the element just return its position.
-    if (sortedArray[middleIndex] === seekElement) {
-      return middleIndex;
-    }
-
-    // Decide which half to choose for seeking next: left or right one.
-    if (sortedArray[middleIndex] < seekElement) {
-      // Go to the right half of the array.
-      leftIndex = middleIndex + 1;
-    } else {
-      // Go to the left half of the array.
-      rightIndex = middleIndex - 1;
-    }
-  }
-
-  return -1;
-}
-```
-
-### jumpSearch
-
-```js
-import Comparator from '../../../utils/comparator/Comparator';
-
-/**
- * Jump (block) search implementation.
- *
- * @param {*[]} sortedArray
- * @param {*} seekElement
- * @param {function(a, b)} [comparatorCallback]
- * @return {number}
- */
-export default function jumpSearch(sortedArray, seekElement, comparatorCallback) {
-  const comparator = new Comparator(comparatorCallback);
-  const arraySize = sortedArray.length;
-
-  if (!arraySize) {
-    // We can't find anything in empty array.
-    return -1;
-  }
-
-  // Calculate optimal jump size.
-  // Total number of comparisons in the worst case will be ((arraySize/jumpSize) + jumpSize - 1).
-  // The value of the function ((arraySize/jumpSize) + jumpSize - 1) will be minimum
-  // when jumpSize = √array.length.
-  const jumpSize = Math.floor(Math.sqrt(arraySize));
-
-  // Find the block where the seekElement belong to.
-  let blockStart = 0;
-  let blockEnd = jumpSize;
-  while (comparator.greaterThan(seekElement, sortedArray[Math.min(blockEnd, arraySize) - 1])) {
-    // Jump to the next block.
-    blockStart = blockEnd;
-    blockEnd += jumpSize;
-
-    // If our next block is out of array then we couldn't found the element.
-    if (blockStart > arraySize) {
-      return -1;
-    }
-  }
-
-  // Do linear search for seekElement in subarray starting from blockStart.
-  let currentIndex = blockStart;
-  while (currentIndex < Math.min(blockEnd, arraySize)) {
-    if (comparator.equal(sortedArray[currentIndex], seekElement)) {
-      return currentIndex;
-    }
-
-    currentIndex += 1;
-  }
-
-  return -1;
-}
-```
-
-### linearSearch
-
-```js
-import Comparator from '../../../utils/comparator/Comparator';
-
-/**
- * Linear search implementation.
- *
- * @param {*[]} array
- * @param {*} seekElement
- * @param {function(a, b)} [comparatorCallback]
- * @return {number[]}
- */
-export default function linearSearch(array, seekElement, comparatorCallback) {
-  const comparator = new Comparator(comparatorCallback);
-  const foundIndices = [];
-
-  array.forEach((element, index) => {
-    if (comparator.equal(element, seekElement)) {
-      foundIndices.push(index);
-    }
-  });
-
-  return foundIndices;
-}
-```
-
-### search_binary
-
-```js
-function binarySearch(arr, val, lo, hi) {
-  if (hi < lo) return null;
-  let mid = lo + parseInt((hi - lo) / 2);
-  console.log('范围', lo + '-' + hi);
-  console.log('中间值', mid + ':' + arr[mid]);
-  if (val < arr[mid]) {
-    return binarySearch(arr, val, lo, mid - 1);
-  } else if (val > arr[mid]) {
-    return binarySearch(arr, val, mid + 1, hi);
-  } else {
-    return mid;
-  }
-}
-
-const arr = [1, 3, 4, 5, 6, 7, 8, 9, 11, 13, 13, 13, 15, 16, 18, 20, 23, 24, 26, 27, 29, 30];
-
-const index = binarySearch(arr, 8, 0, arr.length - 1);
-
-function put(arr, val) {
-  const i = binarySearch(arr, val, 0, arr.length - 1);
-  arr.splice(i, 0, val);
-}
-
-/*
-范围 0-21
-中间值 10:13
-范围 0-9
-中间值 4:6
-范围 5-9
-中间值 7:9
-范围 5-6
-中间值 5:7
-*/
 ```
 
 ### search_bst
