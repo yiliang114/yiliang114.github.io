@@ -81,37 +81,6 @@ l   m   h
 
 [744. Find Smallest Letter Greater Than Target (Easy)](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
 
-```html
-Input: letters = ["c", "f", "j"] target = "d" Output: "f" Input: letters = ["c", "f", "j"] target = "k" Output: "c"
-```
-
-题目描述：给定一个有序的字符数组 letters 和一个字符 target，要求找出 letters 中大于 target 的最小字符，如果找不到就返回第 1 个字符。
-
-有序数组，一般就会考虑二分搜索。
-
-```js
-var nextGreatestLetter = function(letters, target) {
-  const len = letters.length - 1;
-  // 边界条件
-  if (letters[0] > target || letters[len] < target) return letters[0];
-
-  let left = 0,
-    right = len,
-    mid;
-
-  while (left <= right) {
-    mid = left + ((right - left) >> 1);
-    if (letters[mid] > target) {
-      right = mid - 1;
-    } else {
-      left = mid + 1;
-    }
-  }
-  // left <= len 表示是有值的， left 如果最终大于 len 说明游标移动到了数组最右
-  return left <= len ? letters[left] : letters[0];
-};
-```
-
 ## 3. 有序数组的 Single Element
 
 [540. Single Element in a Sorted Array (Medium)](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
