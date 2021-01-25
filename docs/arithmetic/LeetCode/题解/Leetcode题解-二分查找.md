@@ -77,34 +77,6 @@ l   m   h
 
 [69. Sqrt(x) (Easy)](https://leetcode.com/problems/sqrtx/description/)
 
-### mySqrt
-
-1. 二分法
-
-这个解法比较直接，就是普通的二分。
-通过每次取中间值进行比较，我们可以舍去一半的结果。时间复杂度 logn
-
-```js
-function sqrt(num) {
-  if (num < 0) return num;
-  let start = 0;
-  let end = num;
-  let mid = num >> 1;
-  const DIGIT_COUNT = 10;
-  const PRECISION = Math.pow(0.1, DIGIT_COUNT);
-  while (Math.abs(+(num - mid * mid).toFixed(DIGIT_COUNT)) > PRECISION) {
-    mid = start + (end - start) / 2.0;
-    if (mid * mid < num) {
-      start = mid;
-    } else {
-      end = mid;
-    }
-  }
-
-  return mid;
-}
-```
-
 ## 2. 大于给定元素的最小元素
 
 [744. Find Smallest Letter Greater Than Target (Easy)](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
@@ -115,20 +87,29 @@ Input: letters = ["c", "f", "j"] target = "d" Output: "f" Input: letters = ["c",
 
 题目描述：给定一个有序的字符数组 letters 和一个字符 target，要求找出 letters 中大于 target 的最小字符，如果找不到就返回第 1 个字符。
 
-```java
-public char nextGreatestLetter(char[] letters, char target) {
-    int n = letters.length;
-    int l = 0, h = n - 1;
-    while (l <= h) {
-        int m = l + (h - l) / 2;
-        if (letters[m] <= target) {
-            l = m + 1;
-        } else {
-            h = m - 1;
-        }
+有序数组，一般就会考虑二分搜索。
+
+```js
+var nextGreatestLetter = function(letters, target) {
+  const len = letters.length - 1;
+  // 边界条件
+  if (letters[0] > target || letters[len] < target) return letters[0];
+
+  let left = 0,
+    right = len,
+    mid;
+
+  while (left <= right) {
+    mid = left + ((right - left) >> 1);
+    if (letters[mid] > target) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
     }
-    return l < n ? letters[l] : letters[0];
-}
+  }
+  // left <= len 表示是有值的， left 如果最终大于 len 说明游标移动到了数组最右
+  return left <= len ? letters[left] : letters[0];
+};
 ```
 
 ## 3. 有序数组的 Single Element
@@ -141,7 +122,7 @@ Input: [1, 1, 2, 3, 3, 4, 4, 8, 8] Output: 2
 
 题目描述：一个有序数组只有一个数不出现两次，找出这个数。
 
-要求以 O(logN) 时间复杂度进行求解，因此不能遍历数组并进行异或操作来求解，这么做的时间复杂度为 O(N)。
+要求以 O(logN) 时间复杂度进行求解，因此不能遍历数组并进行异或操作来求解，这么做的时间复杂度为 O(N)。既然提到了 O(logN) 那一般也是二分搜索了。
 
 令 index 为 Single Element 在数组中的位置。在 index 之后，数组中原来存在的成对状态被改变。如果 m 为偶数，并且 m + 1 < index，那么 nums[m] == nums[m + 1]；m + 1 >= index，那么 nums[m] != nums[m + 1]。
 
