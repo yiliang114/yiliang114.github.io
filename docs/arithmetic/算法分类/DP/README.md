@@ -50,6 +50,8 @@ int maxSubArray(int A[], int n) {
 
 ### Coins 硬币问题
 
+问题：我们有无数个面值为 1、3、5 的硬币，试问给定目标值 n，如何用最少的 1、3、5 硬币组合出 n 值。
+
 ```js
 /**
  * You have n dollars. How many distinguishable ways can you represent that value with

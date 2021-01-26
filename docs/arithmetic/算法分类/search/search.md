@@ -61,9 +61,10 @@ console.log('binary_search result: ', binary_search(arr, 44, 0, arr.length - 1))
 console.timeEnd('binary_search');
 ```
 
-### BinarySearchRecursive
+### 迭代和递归的二分搜索
 
 ```js
+// 递归
 export default function BinarySearchRecursive(items, element) {
   const middleIndex = Math.floor(items.length / 2);
 
@@ -77,6 +78,7 @@ export default function BinarySearchRecursive(items, element) {
   return BinarySearchRecursive(items.splice(0, middleIndex), element);
 }
 
+// 迭代 ？
 export function BinarySearchIterative(items, element) {
   let low = 0;
   let high = items.length - 1;
@@ -103,10 +105,13 @@ export function BinarySearchIterative(items, element) {
 
 ### BreadthFirstSearch
 
+广度优先 ？ TODO: 这个算法怪怪的。。。
+
 ```js
 export default function BFS(tree) {
   const queue = [];
   const items = [];
+  // 树的根节点数据
   if (tree && tree.value) queue.push(tree);
   while (queue.length) {
     const first = queue.shift();
@@ -121,12 +126,14 @@ export default function BFS(tree) {
 
 ### QuickSelect
 
+TODO:
+
 ```js
 export default function QuickSelect(items, kth) {
   return RandomizedSelect(items, 0, items.length - 1, kth);
 }
 
-export function RandomizedSelect(items, left, right, i): any {
+export function RandomizedSelect(items, left, right, i) {
   if (left === right) return items[left];
 
   const pivotIndex = RandomizedPartition(items, left, right);
@@ -138,6 +145,7 @@ export function RandomizedSelect(items, left, right, i): any {
   return RandomizedSelect(items, pivotIndex + 1, right, i - k);
 }
 
+// 随机分区
 export function RandomizedPartition(items, left, right) {
   const rand = getRandomInt(left, right);
   Swap(items, rand, right);
@@ -181,85 +189,24 @@ function Swap(arr: any[], x: any, y: any) {
 function Node(val) {
   this.val = val;
   this.left = null;
-  this.rignt = null;
+  this.right = null;
 }
 
 function get(node, val) {
   if (node == null) return null;
+  // 比目标值大的数据只会在右下侧？
   if (val < node.val) return get(x.left, val);
-  if (val > node.val) return get(x.rignt, val);
+  if (val > node.val) return get(x.right, val);
   else return x.val;
 }
 
 function put(node, val) {
   if (node == null) node = new Node(val);
   if (val < node.val) return put(x.left, val);
-  if (val > node.val) return put(x.rignt, val);
+  if (val > node.val) return put(x.right, val);
   else node.val = val;
   return node;
 }
-```
-
-### search_linear
-
-```js
-let M = 4; // 线性探测表的大小
-let N = 3; // 符号表中键值对的总数
-
-function hash(key) {
-  return key.charCodeAt() % M;
-}
-
-function put(key, val, keys, vals) {
-  if (N >= parseInt(M / 2)) resize(2 * M);
-  let i;
-  for (i = hash(key); keys[i] != null; i = (i + 1) % M) {
-    if (keys[i] == key) {
-      vals[i] = val;
-      return;
-    }
-  }
-  keys[i] = key;
-  vals[i] = val;
-  N++;
-}
-
-function resize(len) {}
-
-function get(key, keys, vals) {
-  for (i = hash(key); keys[i] != null; i = (i + 1) % M) {
-    if (keys[i] == key) {
-      return vals[i];
-    }
-  }
-  return null;
-}
-
-let keys = new Array(M);
-let vals = new Array(M);
-
-put('A', 'jack', keys, vals);
-put('B', 'rose', keys, vals);
-put('C', 'james', keys, vals);
-put('D', 'over', keys, vals);
-// put("E", "nash", keys, vals)
-// put("F", "curry", keys, vals)
-// put("G", "bb", keys, vals)
-// put("H", "pet", keys, vals)
-// put("I", "boss", keys, vals)
-// put("J", "steven", keys, vals)
-// put("K", "green", keys, vals)
-// put("L", "klar", keys, vals)
-console.log(keys);
-console.log(vals);
-
-/**
- * 散列表的线性探测法
- * 如果有两个相同散列值、不同键的相遇，后面的散列值往后移动。写不下就往后移动，就算有原主人来了也只好往后移动。
- * 如果有两个相同散列值、相同键的相遇，取后面的 value。
- *
- * TODO 在 JS 中和在 Java 中稍有不同，并没与实现成功。
- */
 ```
 
 ### search_linklist
@@ -313,44 +260,6 @@ put(3, 'BB', first);
 console.log(get(3, first));
 ```
 
-### search_zipper
-
-```js
-function hash(key) {
-  return key.charCodeAt() % 4;
-}
-
-function get(arr, key) {
-  return arr[hash(key)][key];
-}
-
-function put(arr, key, val) {
-  let hashCode = hash(key);
-  if (!arr[hashCode]) {
-    arr[hashCode] = {};
-  }
-  arr[hashCode][key] = val;
-}
-
-let arr = {};
-
-put(arr, 'A', 'jack');
-put(arr, 'B', 'rose');
-put(arr, 'C', 'wade');
-put(arr, 'D', 'green');
-put(arr, 'E', 'cook');
-put(arr, 'F', 'curry');
-put(arr, 'G', 'james');
-console.log(arr);
-console.log(get(arr, 'C'));
-
-/**
- * 不知道这算不算是拉链法，通过求余将大量数据通过拉链法存储。
- * 获取的时候直接通过索引即可找到。而且还节省了存储空间。
- * 可以通过控制 arr 的长度来节省空间，也可以增加 arr 的长度来加快检索速度。
- */
-```
-
 ### search_bm
 
 ```js
@@ -400,33 +309,6 @@ console.log(search(txt));
 
 /**
  * 输出：6
- */
-```
-
-### search_rk
-
-```js
-/**
- * RK 指纹字符串查找算法
- * 使用散列值的方法，将每个字符的值进行某种方式的计算，计算的值相同再去检查字符串
- */
-function search(pat, txt) {
-  let N = txt.length;
-  let patHash = hash(pat, pat.length);
-  let txtHash = hash(txt, N);
-  if (patHash == txtHash) return 0;
-  for (let i = M; i < N; i++) {
-    txtHash = (txtHash + Q - ((RM * txt.charCodeAt(i - M)) % Q)) % Q;
-    txtHash = (txtHash * R + txt.charCodeAt(i)) % Q;
-    if (patHash == txtHash) {
-      return i - M + 1;
-    }
-  }
-  return -1;
-}
-
-/**
- * TODO 这个方法并没有真正的实现，只是进行了了解。
  */
 ```
 

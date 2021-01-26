@@ -53,76 +53,6 @@ aside: false
 
 前缀树用来处理这种问题是最符合直觉的，但是它也有缺点，比如公共前缀很少的情况下，比较费内存。
 
-### 字符串无题
-
-```js
-// export default (str) => {
-//   // 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-//   let arr = str.split(' ')
-//   // 对数组进行遍历，然后每个元素进行反转
-//   let result = arr.map(item => {
-//     return item.split('').reverse().join('')
-//   })
-//   return result.join(' ')
-// }
-
-// export default (str) => {
-//   // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-//   // 2. 对数组进行遍历，然后每个元素进行反转
-//   return str.split(' ').map(item => {
-//     return item.split('').reverse().join('')
-//   }).join(' ')
-// }
-
-// export default (str) => {
-//   // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-//   // 2. 对数组进行遍历，然后每个元素进行反转
-//   return str.split(/\s/g).map(item => {
-//     return item.split('').reverse().join('')
-//   }).join(' ')
-// }
-
-export default str => {
-  // 1. 字符串按空格进行分隔，保存数组，数组的元素的先后顺序就是单词的顺序
-  // 2. 对数组进行遍历，然后每个元素进行反转
-  return str
-    .match(/[\w']+/g)
-    .map(item => {
-      return item
-        .split('')
-        .reverse()
-        .join('');
-    })
-    .join(' ');
-};
-```
-
-```js
-export default str => {
-  // 建立数据结构，堆栈，保存数据
-  let r = [];
-  // 给定任意子输入都返回第一个符合条件的子串
-  let match = str => {
-    let j = str.match(/^(0+|1+)/)[0];
-    let o = (j[0] ^ 1).toString().repeat(j.length);
-    let reg = new RegExp(`^(${j}${o})`);
-    if (reg.test(str)) {
-      return RegExp.$1;
-    } else {
-      return '';
-    }
-  };
-  // 通过for循环控制程序运行的流程
-  for (let i = 0, len = str.length - 1; i < len; i++) {
-    let sub = match(str.slice(i));
-    if (sub) {
-      r.push(sub);
-    }
-  }
-  return r;
-};
-```
-
 ### 返回整数逆序后的字符串
 
 输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
@@ -142,96 +72,6 @@ var a = fun(12345);
 ```
 
 ## 随机生成指定长度的字符串
-
-## 字符串截取
-
-```js
-export default function SubString(string, start = 0, end = string.length) {
-  let substring = '';
-
-  for (let i = start; i < end + 1; i++) {
-    substring += string[i];
-  }
-
-  return substring;
-}
-```
-
-## ReverseString 翻转字符串
-
-```js
-export default function ReverseStringIterative(string) {
-  let reversedString = '';
-  let index;
-
-  for (index = string.length - 1; index >= 0; index--) {
-    reversedString += string[index];
-  }
-
-  return reversedString;
-}
-
-/**
- * JS disallows string mutation so we're actually a bit slower.
- *
- * @complexity: O(n)
- *
- * 'some' -> 'eoms' -> 'emos'
- */
-export function ReverseStringIterativeInplace(string) {
-  const _string = string.split('');
-
-  for (let i = 0; i < Math.floor(_string.length / 2); i++) {
-    const first = _string[i];
-    const second = _string[_string.length - 1 - i];
-    _string[i] = second;
-    _string[_string.length - 1 - i] = first;
-  }
-
-  return _string.join('');
-}
-```
-
-## RandomString
-
-```js
-/**
- * A smal example that genrates a random string of letters and numbers
- * @flow
- */
-import randomNumber from '../Math/RandomNumber';
-
-/**
- * Generate a random string
- */
-export default function RandomString(stringLength: number) {
-  const dictionary = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  let generatedRandomString = '';
-  let index;
-
-  for (index = 0; index < stringLength; index++) {
-    const randomDictionaryIndex = Math.floor(randomNumber(0, dictionary.length));
-    generatedRandomString += dictionary[randomDictionaryIndex];
-  }
-
-  return generatedRandomString;
-}
-```
-
-## 字符串问题
-
-字符串问题有很多，从简单的实现 substr，识别回文，到复杂一点的公共子串/子序列。其实字符串本质上也是字符数组，因此
-很多数据的思想和方法也可以用在字符串问题上，并且在有些时候能够发挥很好的作用。
-
-专门处理字符串的算法也很多，比如 trie，马拉车算法，游程编码，huffman 树等等。
-
-## 实现字符串的一些原生方法
-
-这类题目应该是最直接的题目了，题目歧义比较小, 难度也是相对较小，因此用于电面等形式也是不错的。
-
-- [28.implement-str-str](https://leetcode.com/problems/implement-strstr/)
-- [344.reverse-string](../backlog/344.reverse-string)
 
 ## 其他
 
@@ -270,69 +110,7 @@ const violentMatch = (s, p) => {
 console.log(violentMatch('BBC ABCDAB ABCDABCDABDE', 'ABCDABD'));
 ```
 
-### 给出一个字符串，找到里面重复最多的字符？
-
-> 个人答案, 如果有重复数相同的，那么不会记录后面的字符
-
-```js
-function findMax(str) {
-  var map = {},
-    max = { num: 0 };
-
-  for (var index in str) {
-    if (map[str[index]]) {
-      map[str[index]]++;
-    } else {
-      map[str[index]] = 1;
-    }
-    if (map[str[index]] > max.num) {
-      max.num = map[str[index]];
-      max.key = str[index];
-    }
-  }
-  console.log(`max num is ${max.num}, the key is ${max.key}`);
-}
-```
-
 ### 题目
-
-#### 翻转字符串
-
-![](http://s0.lgstatic.com/i/image2/M01/90/CA/CgoB5l2IRiCATj5LAGJa69BtQRA357.gif)
-
-**解法：**用两个指针，一个指向字符串的第一个字符 a，一个指向它的最后一个字符 m，然后互相交换。交换之后，两个指针向中央一步步地靠拢并相互交换字符，直到两个指针相遇。这是一种比较快速和直观的方法。
-
-**注意：**由于无法直接修改字符串里的字符，所以必须先把字符串变换为数组，然后再运用这个算法。
-
-#### 给定两个字符串 s 和 t，编写一个函数来判断 t 是否是 s 的字母异位词
-
-LeetCode 第 242 题
-
-说明：你可以假设字符串只包含小写字母。
-
-**示例 1**
-
-输入: s = "anagram", t = "nagaram"
-
-输出: true
-
-**示例 2**
-
-输入: s = "rat", t = "car"
-
-输出: false
-
-字母异位词，也就是两个字符串中的相同字符的数量要对应相等。例如，s 等于 “anagram”，t 等于 “nagaram”，s 和 t 就互为字母异位词。因为它们都包含有三个字符 a，一个字符 g，一个字符 m，一个字符 n，以及一个字符 r。而当 s 为 “rat”，t 为 “car”的时候，s 和 t 不互为字母异位词。
-
-**解题思路**
-
-一个重要的前提“假设两个字符串只包含小写字母”，小写字母一共也就 26 个，因此：
-
-1.  可以利用两个长度都为 26 的字符数组来统计每个字符串中小写字母出现的次数，然后再对比是否相等；
-
-2.  可以只利用一个长度为 26 的字符数组，将出现在字符串 s 里的字符个数加 1，而出现在字符串 t 里的字符个数减 1，最后判断每个小写字母的个数是否都为 0。
-
-按上述操作，可得出结论：s 和 t 互为字母异位词。
 
 ### 字符串数组查重
 
@@ -515,16 +293,15 @@ export default function isBalanced(string): boolean {
 }
 ```
 
-### 字符串相关
-
-在字符串相关算法中，Trie 树可以解决解决很多问题，同时具备良好的空间和时间复杂度，比如以下问题
-
-- 词频统计
-- 前缀匹配
-
-如果你对于 Trie 树还不怎么了解，可以前往 [这里](../DataStruct/dataStruct-zh.md#trie) 阅读
-
 ### 翻转字符串
+
+![](http://s0.lgstatic.com/i/image2/M01/90/CA/CgoB5l2IRiCATj5LAGJa69BtQRA357.gif)
+
+**解法：**用两个指针，一个指向字符串的第一个字符 a，一个指向它的最后一个字符 m，然后互相交换。交换之后，两个指针向中央一步步地靠拢并相互交换字符，直到两个指针相遇。这是一种比较快速和直观的方法。
+
+**注意：**由于无法直接修改字符串里的字符，所以必须先把字符串变换为数组，然后再运用这个算法。
+
+TODO: 双指针形式待实现。
 
 ```js
 function reverse(string) {

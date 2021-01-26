@@ -46,12 +46,6 @@ function search(txt) {
 KMP();
 const txt = 'hello search baby';
 console.log(search(txt));
-
-/**
- * TODO 由于 Java 和 JS 的数据结构不同，所以运行失败
- *
- * 大体思想需要学习，之后进行实现。
- */
 ```
 
 ```js
