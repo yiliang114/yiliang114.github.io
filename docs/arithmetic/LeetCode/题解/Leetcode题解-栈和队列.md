@@ -128,33 +128,6 @@ class MinStack {
 
 [20. Valid Parentheses (Easy)](https://leetcode.com/problems/valid-parentheses/description/)
 
-```html
-"()[]{}" Output : true
-```
-
-```java
-public boolean isValid(String s) {
-    Stack<Character> stack = new Stack<>();
-    for (char c : s.toCharArray()) {
-        if (c == '(' || c == '{' || c == '[') {
-            stack.push(c);
-        } else {
-            if (stack.isEmpty()) {
-                return false;
-            }
-            char cStack = stack.pop();
-            boolean b1 = c == ')' && cStack != '(';
-            boolean b2 = c == ']' && cStack != '[';
-            boolean b3 = c == '}' && cStack != '{';
-            if (b1 || b2 || b3) {
-                return false;
-            }
-        }
-    }
-    return stack.isEmpty();
-}
-```
-
 ## 5. 数组中元素与下一个比它大的元素之间的距离
 
 [739. Daily Temperatures (Medium)](https://leetcode.com/problems/daily-temperatures/description/)

@@ -14,39 +14,11 @@ draft: true
 
 [104. Maximum Depth of Binary Tree (Easy)](https://leetcode.com/problems/maximum-depth-of-binary-tree/description/)
 
-```java
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-}
-```
-
 ### 2. 平衡树
 
 [110. Balanced Binary Tree (Easy)](https://leetcode.com/problems/balanced-binary-tree/description/)
 
-```html
-3 / \ 9 20 / \ 15 7
-```
-
 平衡树左右子树高度差都小于等于 1
-
-```java
-private boolean result = true;
-
-public boolean isBalanced(TreeNode root) {
-    maxDepth(root);
-    return result;
-}
-
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    int l = maxDepth(root.left);
-    int r = maxDepth(root.right);
-    if (Math.abs(l - r) > 1) result = false;
-    return 1 + Math.max(l, r);
-}
-```
 
 ### 3. 两节点的最长路径
 
@@ -77,16 +49,6 @@ private int depth(TreeNode root) {
 
 [226. Invert Binary Tree (Easy)](https://leetcode.com/problems/invert-binary-tree/description/)
 
-```java
-public TreeNode invertTree(TreeNode root) {
-    if (root == null) return null;
-    TreeNode left = root.left;  // 后面的操作会改变 left 指针，因此先保存下来
-    root.left = invertTree(root.right);
-    root.right = invertTree(left);
-    return root;
-}
-```
-
 ### 5. 归并两棵树
 
 [617. Merge Two Binary Trees (Easy)](https://leetcode.com/problems/merge-two-binary-trees/description/)
@@ -108,7 +70,7 @@ public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
 ```
 
 ```js
-var mergeTrees = function(t1, t2) {
+var mergeTrees = function (t1, t2) {
   // 递归，由于树是一种递归的数据结构，因此递归是符合直觉且比较简单的
   if (t1 === null) return t2;
   if (t2 === null) return t1;
@@ -243,7 +205,7 @@ private boolean isSymmetric(TreeNode t1, TreeNode t2) {
  * @param {TreeNode} root
  * @return {boolean}
  */
-var isSymmetric = function(root) {
+var isSymmetric = function (root) {
   if (!root) return true;
   return helper(root.left, root.right);
 };
@@ -312,7 +274,7 @@ function reversedTraversal(root) {
  * @return {boolean}
  */
 // 是否是对称的
-var isSymmetric = function(root) {
+var isSymmetric = function (root) {
   if (root === null) return true;
 
   const left = traversal(root.left);
@@ -796,7 +758,7 @@ private TreeNode toBST(int[] nums, int sIdx, int eIdx){
  * @param {number[]} nums
  * @return {TreeNode}
  */
-var sortedArrayToBST = function(nums) {
+var sortedArrayToBST = function (nums) {
   // 由于数组是排序好的，因此一个思路就是将数组分成两半，一半是左子树，另一半是右子树
   // 然后运用“树的递归性质”递归完成操作即可。
   if (nums.length === 0) return null;
