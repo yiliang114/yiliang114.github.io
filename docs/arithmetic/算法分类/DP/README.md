@@ -50,19 +50,14 @@ int maxSubArray(int A[], int n) {
 
 ### Coins 硬币问题
 
-问题：我们有无数个面值为 1、3、5 的硬币，试问给定目标值 n，如何用最少的 1、3、5 硬币组合出 n 值。
+问题：我们有无数个面值为 1, 5, 10, 25 的硬币，试问给定目标值 n，如何用最少的 1, 5, 10, 25 硬币组合出 n 值。
+
+For example, when n is 6, [[1, 5], [5, 1]] are possible solutions
 
 ```js
-/**
- * You have n dollars. How many distinguishable ways can you represent that value with
- * 1, 5, 10, and 25 dollar bills?
- *
- * For example, when n is 6, [[1, 5], [5, 1]] are possible solutions
- */
-
 const map = new Map();
 
-export default function Coins(n: number) {
+function Coins(n: number) {
   if (n < 0) return 0;
   if (n === 0) return 1;
   if (map.has(n)) return map.get(n);

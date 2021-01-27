@@ -43,37 +43,11 @@ aside: false
 | 高位优先字符串排序 |   N - Nw   |    N+WR    |
 | 三向字符串快速排序 |   N - Nw   |   W+logN   |
 
-## 实现字符串的一些原生方法
-
-这类题目应该是最直接的题目了，题目歧义比较小, 难度也是相对较小，因此用于电面等形式也是不错的。
-
-- [28.implement-str-str](https://leetcode.com/problems/implement-strstr/)
-
 ## 前缀问题
 
 前缀树用来处理这种问题是最符合直觉的，但是它也有缺点，比如公共前缀很少的情况下，比较费内存。
 
-### 返回整数逆序后的字符串
-
-输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
-
-```js
-function fun(num) {
-  let num1 = num / 10;
-  let num2 = num % 10;
-  if (num1 < 1) {
-    return num;
-  } else {
-    num1 = Math.floor(num1);
-    return `${num2}${fun(num1)}`;
-  }
-}
-var a = fun(12345);
-```
-
-## 随机生成指定长度的字符串
-
-## 其他
+### 字符串搜索
 
 有一个文本串 S，和一个模式串 P，现在要查找 P 在 S 中的位置，怎么查找呢？
 
@@ -110,7 +84,23 @@ const violentMatch = (s, p) => {
 console.log(violentMatch('BBC ABCDAB ABCDABCDABDE', 'ABCDABD'));
 ```
 
-### 题目
+### 返回整数逆序后的字符串
+
+输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
+
+```js
+function fun(num) {
+  let num1 = num / 10;
+  let num2 = num % 10;
+  if (num1 < 1) {
+    return num;
+  } else {
+    num1 = Math.floor(num1);
+    return `${num2}${fun(num1)}`;
+  }
+}
+var a = fun(12345);
+```
 
 ### 字符串数组查重
 
@@ -261,38 +251,6 @@ export default function OneAway(str1, str2): boolean {
 }
 ```
 
-### 括号匹配
-
-```js
-import Stack from '../DataStructures/Stack';
-
-const start = ['{', '(', '['];
-const endings = ['}', ')', ']'];
-
-const endingMappings = {
-  '}': '{',
-  ')': '(',
-  ']': '[',
-};
-
-export default function isBalanced(string): boolean {
-  const stack = new Stack();
-
-  for (const char of Array.from(string)) {
-    if (start.includes(char)) {
-      stack.push(char);
-      continue;
-    }
-    if (endings.includes(char)) {
-      if (stack.empty()) return false;
-      if (stack.pop() !== endingMappings[char]) return false;
-    }
-  }
-
-  return stack.empty();
-}
-```
-
 ### 翻转字符串
 
 ![](http://s0.lgstatic.com/i/image2/M01/90/CA/CgoB5l2IRiCATj5LAGJa69BtQRA357.gif)
@@ -317,8 +275,10 @@ function reverse(string) {
 
 ### 字符串平衡（栈）
 
+字符串是否对称
+
 ```js
-function isBalanced2(string) {
+function isBalanced(string) {
   let stack = new Stack();
   for (let letter of string) {
     switch (letter) {
@@ -401,11 +361,6 @@ function without(array, a) {
 
 给出一段英文连续的英文字符窜，找出重复出现次数最多的字母
 
-输入: `afjghdfraaaasdenas`
-输出: `a`
-
-前面出现过去重的算法，这里需要是统计重复次数。
-
 ```js
 function findMaxDuplicateChar(str) {
   // 单个字符串
@@ -433,9 +388,7 @@ function findMaxDuplicateChar(str) {
 
 ### 随机生成指定长度的字符串
 
-实现一个算法，随机生成指制定长度的字符窜。
-
-比如给定 长度 8 输出 `4ldkfg9j`
+实现一个算法，随机生成指制定长度的字符串
 
 ```js
 function randomString(n) {
@@ -446,28 +399,5 @@ function randomString(n) {
     tmp += str[Math.floor(Math.random() * len)];
   }
   return tmp;
-}
-```
-
-### 字符串是否对称
-
-```js
-function isBalanced(string) {
-  let count = 0;
-  for (let letter of string) {
-    if (letter === '{') {
-      count++;
-    }
-    if (letter === '}') {
-      count--;
-
-      // if a closing bracket doesn't have a matching
-      // opening bracket, we should return early.
-      if (count < 0) {
-        return false;
-      }
-    }
-  }
-  return count === 0;
 }
 ```

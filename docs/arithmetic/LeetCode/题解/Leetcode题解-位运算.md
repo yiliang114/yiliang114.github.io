@@ -42,13 +42,6 @@ x ^ x = 0       x & x = x       x | x = x
 
 要得到 1 到 i 位为 0 的 mask，只需将 1 到 i 位为 1 的 mask 取反，即 \~(1&lt;&lt;(i+1)-1)。
 
-**Java 中的位操作**
-
-```html
-static int Integer.bitCount(); // 统计 1 的数量 static int Integer.highestOneBit(); // 获得最高位 static String
-toBinaryString(int i); // 转换为二进制表示的字符串
-```
-
 ## 1. 统计两个数的二进制表示有多少位不同
 
 [461. Hamming Distance (Easy)](https://leetcode.com/problems/hamming-distance/)
@@ -407,7 +400,7 @@ public int maxProduct(String[] words) {
 }
 ```
 
-## 13. 统计从 0 \~ n 每个数的二进制表示中 1 的个数
+## 13. 统计从 0 ~ n 每个数的二进制表示中 1 的个数
 
 [338. Counting Bits (Medium)](https://leetcode.com/problems/counting-bits/description/)
 

@@ -124,10 +124,6 @@ class MinStack {
 
 对于实现最小值队列问题，可以先将队列使用栈来实现，然后就将问题转换为最小值栈，这个问题出现在 编程之美：3.7。
 
-## 4. 用栈实现括号匹配
-
-[20. Valid Parentheses (Easy)](https://leetcode.com/problems/valid-parentheses/description/)
-
 ## 5. 数组中元素与下一个比它大的元素之间的距离
 
 [739. Daily Temperatures (Medium)](https://leetcode.com/problems/daily-temperatures/description/)
