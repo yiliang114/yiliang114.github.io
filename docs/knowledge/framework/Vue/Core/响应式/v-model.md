@@ -24,6 +24,13 @@ draft: true
 
 要点在于， `v-model` 编译之后会被转化为 `v-bind` 和 `v-on` 事件， `v-bind` 将 `value` 指定到 `input` 中， 而`v-on` 会监听 `input` 事件，自动来改变 `value` 的值。
 
+```json
+{
+  "prop": "checked",
+  "event": "change"
+}
+```
+
 ### v-model.lazy
 
 input 输入框 enter 键或失去焦点传数据
