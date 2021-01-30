@@ -153,19 +153,15 @@ export default function PrefixTrie(words: Array<string>) {
 
 ### 前缀树问题
 
-截止目前(2020-02-04) [前缀树(字典树)](https://leetcode-cn.com/tag/trie/) 在 LeetCode 一共有 17 道题目。其中 2 道简单，8 个中等，7 个困难。
-
-这里总结了四道题，弄懂这几道， 那么前缀树对你应该不是大问题， 希望这个专题可以帮到正在学习前缀树 的你。
-
 前缀树的 api 主要有以下几个：
 
 - `insert(word)`: 插入一个单词
 - `search(word)`：查找一个单词是否存在
 - `startWith(word)`： 查找是否存在以 word 为前缀的单词
 
-其中 startWith 是前缀树最核心的用法，其名称前缀树就从这里而来。大家可以先拿 208 题开始，熟悉一下前缀树，然后再尝试别的题目。
+其中 startWith 是前缀树最核心的用法，其名称前缀树就从这里而来。
 
-一个前缀树大概是这个样子：
+208 题: 一个前缀树大概是这个样子：
 
 ![](https://github.com/azl397985856/leetcode/raw/b8e8fa5f0554926efa9039495b25ed7fc158372a/assets/problems/208.implement-trie-prefix-tree-1.png)
 
@@ -184,99 +180,6 @@ export default function PrefixTrie(words: Array<string>) {
 ![Trie](https://upload.wikimedia.org/wikipedia/commons/b/be/Trie_example.svg)
 
 #### Code
-
-```js
-import hash table from '../hash-table/hash table';
-
-export default class TrieNode {
-  /**
-   * @param {string} character
-   * @param {boolean} isCompleteWord
-   */
-  constructor(character, isCompleteWord = false) {
-    this.character = character;
-    this.isCompleteWord = isCompleteWord;
-    this.children = new hash table();
-  }
-
-  /**
-   * @param {string} character
-   * @return {TrieNode}
-   */
-  getChild(character) {
-    return this.children.get(character);
-  }
-
-  /**
-   * @param {string} character
-   * @param {boolean} isCompleteWord
-   * @return {TrieNode}
-   */
-  addChild(character, isCompleteWord = false) {
-    if (!this.children.has(character)) {
-      this.children.set(character, new TrieNode(character, isCompleteWord));
-    }
-
-    const childNode = this.children.get(character);
-
-    // In cases similar to adding "car" after "carpet" we need to mark "r" character as complete.
-    childNode.isCompleteWord = childNode.isCompleteWord || isCompleteWord;
-
-    return childNode;
-  }
-
-  /**
-   * @param {string} character
-   * @return {TrieNode}
-   */
-  removeChild(character) {
-    const childNode = this.getChild(character);
-
-    // Delete childNode only if:
-    // - childNode has NO children,
-    // - childNode.isCompleteWord === false.
-    if (childNode && !childNode.isCompleteWord && !childNode.hasChildren()) {
-      this.children.delete(character);
-    }
-
-    return this;
-  }
-
-  /**
-   * @param {string} character
-   * @return {boolean}
-   */
-  hasChild(character) {
-    return this.children.has(character);
-  }
-
-  /**
-   * Check whether current TrieNode has children or not.
-   * @return {boolean}
-   */
-  hasChildren() {
-    return this.children.getKeys().length !== 0;
-  }
-
-  /**
-   * @return {string[]}
-   */
-  suggestChildren() {
-    return [...this.children.getKeys()];
-  }
-
-  /**
-   * @return {string}
-   */
-  toString() {
-    let childrenAsString = this.suggestChildren().toString();
-    childrenAsString = childrenAsString ? `:${childrenAsString}` : '';
-    const isCompleteString = this.isCompleteWord ? '*' : '';
-
-    return `${this.character}${isCompleteString}${childrenAsString}`;
-  }
-}
-```
 
 ```js
 import TrieNode from './TrieNode';

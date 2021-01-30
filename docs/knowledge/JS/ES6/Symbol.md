@@ -119,3 +119,53 @@ for (let char of 'Lili') {
   console.log(char);
 }
 ```
+
+### Symbol
+
+- 定义：独一无二的值
+- 声明：`const set = Symbol(str)`
+- 入参：字符串(可选)
+- 方法
+  - **Symbol()**：创建以参数作为描述的`Symbol值`(不登记在全局环境)
+  - **Symbol.for()**：创建以参数作为描述的`Symbol值`，如存在此参数则返回原有的`Symbol值`(先搜索后创建，登记在全局环境)
+  - **Symbol.keyFor()**：返回已登记的`Symbol值`的描述(只能返回`Symbol.for()`的`key`)
+  - **Object.getOwnPropertySymbols()**：返回对象中所有用作属性名的`Symbol值`的数组
+- 内置
+  - **Symbol.hasInstance**：指向一个内部方法，当其他对象使用`instanceof运算符`判断是否为此对象的实例时会调用此方法
+  - **Symbol.isConcatSpreadable**：指向一个布尔值，定义对象用于`Array.prototype.concat()`时是否可展开
+  - **Symbol.species**：指向一个构造函数，当实例对象使用自身构造函数时会调用指定的构造函数
+  - **Symbol.match**：指向一个函数，当实例对象被`String.prototype.match()`调用时会重新定义`match()`的行为
+  - **Symbol.replace**：指向一个函数，当实例对象被`String.prototype.replace()`调用时会重新定义`replace()`的行为
+  - **Symbol.search**：指向一个函数，当实例对象被`String.prototype.search()`调用时会重新定义`search()`的行为
+  - **Symbol.split**：指向一个函数，当实例对象被`String.prototype.split()`调用时会重新定义`split()`的行为
+  - **Symbol.iterator**：指向一个默认遍历器方法，当实例对象执行`for-of`时会调用指定的默认遍历器
+  - **Symbol.toPrimitive**：指向一个函数，当实例对象被转为原始类型的值时会返回此对象对应的原始类型值
+  - **Symbol.toStringTag**：指向一个函数，当实例对象被`Object.prototype.toString()`调用时其返回值会出现在`toString()`返回的字符串之中表示对象的类型
+  - **Symbol.unscopables**：指向一个对象，指定使用`with`时哪些属性会被`with环境`排除
+
+> 数据类型
+
+- **Undefined**
+- **Null**
+- **String**
+- **Number**
+- **Boolean**
+- **Object**(包含`Array`、`Function`、`Date`、`RegExp`、`Error`)
+- **Symbol**
+
+> 应用场景
+
+- 唯一化对象属性名：属性名属于 Symbol 类型，就都是独一无二的，可保证不会与其他属性名产生冲突
+- 消除魔术字符串：在代码中多次出现且与代码形成强耦合的某一个具体的字符串或数值
+- 遍历属性名：无法通过`for-in`、`for-of`、`Object.keys()`、`Object.getOwnPropertyNames()`、`JSON.stringify()`返回，只能通过`Object.getOwnPropertySymbols`返回
+- 启用模块的 Singleton 模式：调用一个类在任何时候返回同一个实例(`window`和`global`)，使用`Symbol.for()`来模拟全局的`Singleton模式`
+
+> 重点难点
+
+- `Symbol()`生成一个原始类型的值不是对象，因此`Symbol()`前不能使用`new命令`
+- `Symbol()`参数表示对当前`Symbol值`的描述，相同参数的`Symbol()`返回值不相等
+- `Symbol值`不能与其他类型的值进行运算
+- `Symbol值`可通过`String()`或`toString()`显式转为字符串
+- `Symbol值`作为对象属性名时，此属性是公开属性，但不是私有属性
+- `Symbol值`作为对象属性名时，只能用方括号运算符(`[]`)读取，不能用点运算符(`.`)读取
+- `Symbol值`作为对象属性名时，不会被常规方法遍历得到，可利用此特性为对象定义`非私有但又只用于内部的方法`

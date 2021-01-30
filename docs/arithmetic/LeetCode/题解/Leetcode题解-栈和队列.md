@@ -128,28 +128,6 @@ class MinStack {
 
 [739. Daily Temperatures (Medium)](https://leetcode.com/problems/daily-temperatures/description/)
 
-```html
-Input: [73, 74, 75, 71, 69, 72, 76, 73] Output: [1, 1, 4, 2, 1, 1, 0, 0]
-```
-
-在遍历数组时用栈把数组中的数存起来，如果当前遍历的数比栈顶元素来的大，说明栈顶元素的下一个比它大的数就是当前元素。
-
-```java
-public int[] dailyTemperatures(int[] temperatures) {
-    int n = temperatures.length;
-    int[] dist = new int[n];
-    Stack<Integer> indexs = new Stack<>();
-    for (int curIndex = 0; curIndex < n; curIndex++) {
-        while (!indexs.isEmpty() && temperatures[curIndex] > temperatures[indexs.peek()]) {
-            int preIndex = indexs.pop();
-            dist[preIndex] = curIndex - preIndex;
-        }
-        indexs.add(curIndex);
-    }
-    return dist;
-}
-```
-
 ## 6. 循环数组中比当前元素大的下一个元素
 
 [503. Next Greater Element II (Medium)](https://leetcode.com/problems/next-greater-element-ii/description/)

@@ -1247,3 +1247,99 @@ p.name; // "chen"
 
 **（14）Reflect.ownKeys (target)**
 用于返回对象的所有属性
+
+### Proxy
+
+- 定义：修改某些操作的默认行为
+- 声明：`const proxy = new Proxy(target, handler)`
+- 入参
+  - **target**：拦截的目标对象
+  - **handler**：定制拦截行为
+- 方法
+  - **Proxy.revocable()**：返回可取消的 Proxy 实例(返回`{ proxy, revoke }`，通过 revoke()取消代理)
+- 拦截方式
+  - **get()**：拦截对象属性读取
+  - **set()**：拦截对象属性设置，返回布尔值
+  - **has()**：拦截对象属性检查`k in obj`，返回布尔值
+  - **deleteProperty()**：拦截对象属性删除`delete obj[k]`，返回布尔值
+  - **defineProperty()**：拦截对象属性定义`Object.defineProperty()`、`Object.defineProperties()`，返回布尔值
+  - **ownKeys()**：拦截对象属性遍历`for-in`、`Object.keys()`、`Object.getOwnPropertyNames()`、`Object.getOwnPropertySymbols()`，返回数组
+  - **getOwnPropertyDescriptor()**：拦截对象属性描述读取`Object.getOwnPropertyDescriptor()`，返回对象
+  - **getPrototypeOf()**：拦截对象读取`instanceof`、`Object.getPrototypeOf()`、`Object.prototype.__proto__`、`Object.prototype.isPrototypeOf()`、`Reflect.getPrototypeOf()`，返回对象
+  - **setPrototypeOf()**：拦截对象设置`Object.setPrototypeOf()`，返回布尔值
+  - **isExtensible()**：拦截对象是否可扩展读取`Object.isExtensible()`，返回布尔值
+  - **preventExtensions()**：拦截对象不可扩展设置`Object.preventExtensions()`，返回布尔值
+  - **apply()**：拦截 Proxy 实例作为函数调用`proxy()`、`proxy.apply()`、`proxy.call()`
+  - **construct()**：拦截 Proxy 实例作为构造函数调用`new proxy()`
+
+> 应用场景
+
+- `Proxy.revocable()`：不允许直接访问对象，必须通过代理访问，一旦访问结束就收回代理权不允许再次访问
+- `get()`：读取未知属性报错、读取数组负数索引的值、封装链式操作、生成 DOM 嵌套节点
+- `set()`：数据绑定(Vue 数据绑定实现原理)、确保属性值设置符合要求、防止内部属性被外部读写
+- `has()`：隐藏内部属性不被发现、排除不符合属性条件的对象
+- `deleteProperty()`：保护内部属性不被删除
+- `defineProperty()`：阻止属性被外部定义
+- `ownKeys()`：保护内部属性不被遍历
+
+> 重点难点
+
+- 要使`Proxy`起作用，必须针对`实例`进行操作，而不是针对`目标对象`进行操作
+- 没有设置任何拦截时，等同于`直接通向原对象`
+- 属性被定义为`不可读写/扩展/配置/枚举`时，使用拦截方法会报错
+- 代理下的目标对象，内部`this`指向`Proxy代理`
+
+### Reflect
+
+- 定义：保持`Object方法`的默认行为
+- 方法
+  - **get()**：返回对象属性
+  - **set()**：设置对象属性，返回布尔值
+  - **has()**：检查对象属性，返回布尔值
+  - **deleteProperty()**：删除对象属性，返回布尔值
+  - **defineProperty()**：定义对象属性，返回布尔值
+  - **ownKeys()**：遍历对象属性，返回数组(`Object.getOwnPropertyNames()`+`Object.getOwnPropertySymbols()`)
+  - **getOwnPropertyDescriptor()**：返回对象属性描述，返回对象
+  - **getPrototypeOf()**：返回对象，返回对象
+  - **setPrototypeOf()**：设置对象，返回布尔值
+  - **isExtensible()**：返回对象是否可扩展，返回布尔值
+  - **preventExtensions()**：设置对象不可扩展，返回布尔值
+  - **apply()**：绑定 this 后执行指定函数
+  - **construct()**：调用构造函数创建实例
+
+> 设计目的
+
+- 将`Object`属于`语言内部的方法`放到`Reflect`上
+- 将某些 Object 方法报错情况改成返回`false`
+- 让`Object操作`变成`函数行为`
+- `Proxy`与`Reflect`相辅相成
+
+> 废弃方法
+
+- `Object.defineProperty()` => `Reflect.defineProperty()`
+- `Object.getOwnPropertyDescriptor()` => `Reflect.getOwnPropertyDescriptor()`
+
+> 重点难点
+
+- `Proxy方法`和`Reflect方法`一一对应
+- `Proxy`和`Reflect`联合使用，前者负责`拦截赋值操作`，后者负责`完成赋值操作`
+
+> 数据绑定：观察者模式
+
+```
+const observerQueue = new Set();
+const observe = fn => observerQueue.add(fn);
+const observable = obj => new Proxy(obj, {
+    set(tgt, key, val, receiver) {
+        const result = Reflect.set(tgt, key, val, receiver);
+        observerQueue.forEach(v => v());
+        return result;
+    }
+});
+
+const person = observable({ age: 25, name: "Yajun" });
+const print = () => console.log(`${person.name} is ${person.age} years old`);
+observe(print);
+person.name = "Joway";
+
+```

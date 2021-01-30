@@ -142,7 +142,7 @@ var a = fun(12345);
 ### 字符串数组查重
 
 ```js
-export default function CheckHashAllUniqueChars(string) {
+function checkHashAllUniqueChars(string) {
   const set = new Set();
 
   for (const char of string) {
@@ -310,9 +310,7 @@ function reverse(string) {
 }
 ```
 
-### 字符串平衡（栈）
-
-字符串是否对称
+### 字符串平衡
 
 ```js
 function isBalanced(string) {

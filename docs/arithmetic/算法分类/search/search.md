@@ -65,7 +65,7 @@ console.timeEnd('binary_search');
 
 ```js
 // 递归
-export default function BinarySearchRecursive(items, element) {
+function BinarySearchRecursive(items, element) {
   const middleIndex = Math.floor(items.length / 2);
 
   // Base Case
@@ -79,7 +79,7 @@ export default function BinarySearchRecursive(items, element) {
 }
 
 // 迭代 ？
-export function BinarySearchIterative(items, element) {
+function BinarySearchIterative(items, element) {
   let low = 0;
   let high = items.length - 1;
 
