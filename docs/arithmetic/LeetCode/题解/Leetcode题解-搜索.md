@@ -75,7 +75,7 @@ public int minPathLength(int[][] grids, int tr, int tc) {
 
 ### 2. 组成整数的最小平方数数量
 
-[279. Perfect Squares (Medium)](https://leetcode.com/problems/perfect-squares/description/)
+[279. Perfect Squares (Medium)](https://leetcode-cn.com/problems/perfect-squares/description/)
 
 ```html
 For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
@@ -138,7 +138,7 @@ private List<Integer> generateSquares(int n) {
 
 ### 3. 最短单词路径
 
-[127. Word Ladder (Medium)](https://leetcode.com/problems/word-ladder/description/)
+[127. Word Ladder (Medium)](https://leetcode-cn.com/problems/word-ladder/description/)
 
 ```html
 Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"] Output: 5 Explanation: As
@@ -234,7 +234,7 @@ private int getShortestPath(List<Integer>[] graphic, int start, int end) {
 
 ### 1. 查找最大的连通面积
 
-[695. Max Area of Island (Medium)](https://leetcode.com/problems/max-area-of-island/description/)
+[695. Max Area of Island (Medium)](https://leetcode-cn.com/problems/max-area-of-island/description/)
 
 ```html
 [[0,0,1,0,0,0,0,1,0,0,0,0,0], [0,0,0,0,0,0,0,1,1,1,0,0,0], [0,1,1,0,1,0,0,0,0,0,0,0,0], [0,1,0,0,1,1,0,0,1,0,1,0,0],
@@ -275,7 +275,7 @@ private int dfs(int[][] grid, int r, int c) {
 
 ### 2. 矩阵中的连通分量数目
 
-[200. Number of Islands (Medium)](https://leetcode.com/problems/number-of-islands/description/)
+[200. Number of Islands (Medium)](https://leetcode-cn.com/problems/number-of-islands/description/)
 
 ```html
 Input: 11000 11000 00100 00011 Output: 3
@@ -318,7 +318,7 @@ private void dfs(char[][] grid, int i, int j) {
 
 ### 3. 好友关系的连通分量数目
 
-[547. Friend Circles (Medium)](https://leetcode.com/problems/friend-circles/description/)
+[547. Friend Circles (Medium)](https://leetcode-cn.com/problems/friend-circles/description/)
 
 ```html
 Input: [[1,1,0], [1,1,0], [0,0,1]] Output: 2 Explanation:The 0th and 1st students are direct friends, so they are in a
@@ -355,7 +355,7 @@ private void dfs(int[][] M, int i, boolean[] hasVisited) {
 
 ### 4. 填充封闭区域
 
-[130. Surrounded Regions (Medium)](https://leetcode.com/problems/surrounded-regions/description/)
+[130. Surrounded Regions (Medium)](https://leetcode-cn.com/problems/surrounded-regions/description/)
 
 ```html
 For example, X X X X X O O X X X O X X O X X After running your function, the board should be: X X X X X X X X X X X X X
@@ -411,7 +411,7 @@ private void dfs(char[][] board, int r, int c) {
 
 ### 5. 能到达的太平洋和大西洋的区域
 
-[417. Pacific Atlantic Water Flow (Medium)](https://leetcode.com/problems/pacific-atlantic-water-flow/description/)
+[417. Pacific Atlantic Water Flow (Medium)](https://leetcode-cn.com/problems/pacific-atlantic-water-flow/description/)
 
 ```html
 Given the following 5x5 matrix: Pacific ~ ~ ~ ~ ~ ~ 1 2 2 3 (5) * ~ 3 2 3 (4) (4) * ~ 2 4 (5) 3 1 * ~ (6) (7) 1 4 5 * ~
@@ -493,7 +493,7 @@ Backtracking(回溯)属于 DFS。
 
 ### 2. IP 地址划分
 
-[93. Restore IP Addresses(Medium)](https://leetcode.com/problems/restore-ip-addresses/description/)
+[93. Restore IP Addresses(Medium)](https://leetcode-cn.com/problems/restore-ip-addresses/description/)
 
 ```html
 Given "25525511135", return ["255.255.11.135", "255.255.111.35"].
@@ -533,7 +533,7 @@ private void doRestore(int k, StringBuilder tempAddress, List<String> addresses,
 
 ### 3. 在矩阵中寻找字符串
 
-[79. Word Search (Medium)](https://leetcode.com/problems/word-search/description/)
+[79. Word Search (Medium)](https://leetcode-cn.com/problems/word-search/description/)
 
 ```html
 For example, Given board = [ ['A','B','C','E'], ['S','F','C','S'], ['A','D','E','E'] ] word = "ABCCED", -> returns true,
@@ -594,7 +594,7 @@ private boolean backtracking(int curLen, int r, int c, boolean[][] visited, fina
 
 ### 4. 输出二叉树中所有从根到叶子的路径
 
-[257. Binary Tree Paths (Easy)](https://leetcode.com/problems/binary-tree-paths/description/)
+[257. Binary Tree Paths (Easy)](https://leetcode-cn.com/problems/binary-tree-paths/description/)
 
 ```html
 1 / \ 2 3 \ 5
@@ -648,7 +648,7 @@ private String buildPath(List<Integer> values) {
 
 ### 5. 排列
 
-[46. Permutations (Medium)](https://leetcode.com/problems/permutations/description/)
+[46. Permutations (Medium)](https://leetcode-cn.com/problems/permutations/description/)
 
 ```html
 [1,2,3] have the following permutations: [ [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1] ]
@@ -683,7 +683,7 @@ private void backtracking(List<Integer> permuteList, List<List<Integer>> permute
 
 ### 6. 含有相同元素求排列
 
-[47. Permutations II (Medium)](https://leetcode.com/problems/permutations-ii/description/)
+[47. Permutations II (Medium)](https://leetcode-cn.com/problems/permutations-ii/description/)
 
 ```html
 [1,1,2] have the following unique permutations: [[1,1,2], [1,2,1], [2,1,1]]
@@ -727,7 +727,7 @@ private void backtracking(List<Integer> permuteList, List<List<Integer>> permute
 
 ### 7. 组合
 
-[77. Combinations (Medium)](https://leetcode.com/problems/combinations/description/)
+[77. Combinations (Medium)](https://leetcode-cn.com/problems/combinations/description/)
 
 ```html
 If n = 4 and k = 2, a solution is: [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
@@ -756,7 +756,7 @@ private void backtracking(List<Integer> combineList, List<List<Integer>> combina
 
 ### 8. 组合求和
 
-[39. Combination Sum (Medium)](https://leetcode.com/problems/combination-sum/description/)
+[39. Combination Sum (Medium)](https://leetcode-cn.com/problems/combination-sum/description/)
 
 ```html
 given candidate set [2, 3, 6, 7] and target 7, A solution set is: [[7],[2, 2, 3]]
@@ -788,7 +788,7 @@ private void backtracking(List<Integer> tempCombination, List<List<Integer>> com
 
 ### 9. 含有相同元素的组合求和
 
-[40. Combination Sum II (Medium)](https://leetcode.com/problems/combination-sum-ii/description/)
+[40. Combination Sum II (Medium)](https://leetcode-cn.com/problems/combination-sum-ii/description/)
 
 ```html
 For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8, A solution set is: [ [1, 7], [1, 2, 5], [2, 6],
@@ -827,7 +827,7 @@ private void backtracking(List<Integer> tempCombination, List<List<Integer>> com
 
 ### 10. 1-9 数字的组合求和
 
-[216. Combination Sum III (Medium)](https://leetcode.com/problems/combination-sum-iii/description/)
+[216. Combination Sum III (Medium)](https://leetcode-cn.com/problems/combination-sum-iii/description/)
 
 ```html
 Input: k = 3, n = 9 Output: [[1,2,6], [1,3,5], [2,3,4]]
@@ -863,7 +863,7 @@ private void backtracking(int k, int n, int start,
 
 ### 11. 子集
 
-[78. Subsets (Medium)](https://leetcode.com/problems/subsets/description/)
+[78. Subsets (Medium)](https://leetcode-cn.com/problems/subsets/description/)
 
 找出集合的所有子集，子集不能重复，[1, 2] 和 [2, 1] 这种子集算重复
 
@@ -894,7 +894,7 @@ private void backtracking(int start, List<Integer> tempSubset, List<List<Integer
 
 ### 12. 含有相同元素求子集
 
-[90. Subsets II (Medium)](https://leetcode.com/problems/subsets-ii/description/)
+[90. Subsets II (Medium)](https://leetcode-cn.com/problems/subsets-ii/description/)
 
 ```html
 For example, If nums = [1,2,2], a solution is: [ [2], [1], [1,2,2], [2,2], [1,2], [] ]
@@ -934,7 +934,7 @@ private void backtracking(int start, List<Integer> tempSubset, List<List<Integer
 
 ### 13. 分割字符串使得每个部分都是回文数
 
-[131. Palindrome Partitioning (Medium)](https://leetcode.com/problems/palindrome-partitioning/description/)
+[131. Palindrome Partitioning (Medium)](https://leetcode-cn.com/problems/palindrome-partitioning/description/)
 
 ```html
 For example, given s = "aab", Return [ ["aa","b"], ["a","a","b"] ]
@@ -974,7 +974,7 @@ private boolean isPalindrome(String s, int begin, int end) {
 
 ### 14. 数独
 
-[37. Sudoku Solver (Hard)](https://leetcode.com/problems/sudoku-solver/description/)
+[37. Sudoku Solver (Hard)](https://leetcode-cn.com/problems/sudoku-solver/description/)
 
 ```java
 private boolean[][] rowsUsed = new boolean[9][10];
@@ -1029,7 +1029,7 @@ private int cubeNum(int i, int j) {
 
 ### 15. N 皇后
 
-[51. N-Queens (Hard)](https://leetcode.com/problems/n-queens/description/)
+[51. N-Queens (Hard)](https://leetcode-cn.com/problems/n-queens/description/)
 
 在 n\*n 的矩阵中摆放 n 个皇后，并且每个皇后不能在同一行，同一列，同一对角线上，求所有的 n 皇后的解。
 

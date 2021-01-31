@@ -36,7 +36,7 @@ s = "I am a student" Return "student a am I"
 
 ## 4. 两个字符串包含的字符是否完全相同
 
-[242. Valid Anagram (Easy)](https://leetcode.com/problems/valid-anagram/description/)
+[242. Valid Anagram (Easy)](https://leetcode-cn.com/problems/valid-anagram/description/)
 
 ```html
 s = "anagram", t = "nagaram", return true. s = "rat", t = "car", return false.
@@ -76,7 +76,7 @@ public boolean isAnagram(String s, String t) {
 
 ## 5. 计算一组字符集合可以组成的回文字符串的最大长度
 
-[409. Longest Palindrome (Easy)](https://leetcode.com/problems/longest-palindrome/description/)
+[409. Longest Palindrome (Easy)](https://leetcode-cn.com/problems/longest-palindrome/description/)
 
 ```html
 Input : "abccccdd" Output : 7 Explanation : One longest palindrome that can be built is "dccaccd", whose length is 7.
@@ -105,7 +105,7 @@ public int longestPalindrome(String s) {
 
 ## 6. 字符串同构
 
-[205. Isomorphic Strings (Easy)](https://leetcode.com/problems/isomorphic-strings/description/)
+[205. Isomorphic Strings (Easy)](https://leetcode-cn.com/problems/isomorphic-strings/description/)
 
 ```html
 Given "egg", "add", return true. Given "foo", "bar", return false. Given "paper", "title", return true.
@@ -131,7 +131,7 @@ public boolean isIsomorphic(String s, String t) {
 
 ## 9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数
 
-[696. Count Binary Substrings (Easy)](https://leetcode.com/problems/count-binary-substrings/description/)
+[696. Count Binary Substrings (Easy)](https://leetcode-cn.com/problems/count-binary-substrings/description/)
 
 ```html
 Input: "00110011" Output: 6 Explanation: There are 6 substrings that have equal number of consecutive 1's and 0's:

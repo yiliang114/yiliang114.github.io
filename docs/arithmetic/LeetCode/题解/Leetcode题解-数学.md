@@ -8,7 +8,7 @@ draft: true
 
 ### 1. 生成素数序列
 
-[204. Count Primes (Easy)](https://leetcode.com/problems/count-primes/description/)
+[204. Count Primes (Easy)](https://leetcode-cn.com/problems/count-primes/description/)
 
 埃拉托斯特尼筛法在每次找到一个素数时，将能被素数整除的数排除掉。
 
@@ -84,7 +84,7 @@ public int gcd(int a, int b) {
 
 ### 1. 7 进制
 
-[504. Base 7 (Easy)](https://leetcode.com/problems/base-7/description/)
+[504. Base 7 (Easy)](https://leetcode-cn.com/problems/base-7/description/)
 
 ```java
 public String convertToBase7(int num) {
@@ -115,7 +115,7 @@ public String convertToBase7(int num) {
 
 ### 2. 16 进制
 
-[405. Convert a Number to Hexadecimal (Easy)](https://leetcode.com/problems/convert-a-number-to-hexadecimal/description/)
+[405. Convert a Number to Hexadecimal (Easy)](https://leetcode-cn.com/problems/convert-a-number-to-hexadecimal/description/)
 
 ```html
 Input: 26 Output: "1a" Input: -1 Output: "ffffffff"
@@ -138,7 +138,7 @@ public String toHex(int num) {
 
 ### 3. 26 进制
 
-[168. Excel Sheet Column Title (Easy)](https://leetcode.com/problems/excel-sheet-column-title/description/)
+[168. Excel Sheet Column Title (Easy)](https://leetcode-cn.com/problems/excel-sheet-column-title/description/)
 
 ```html
 1 -> A 2 -> B 3 -> C ... 26 -> Z 27 -> AA 28 -> AB
@@ -179,7 +179,7 @@ var convertToTitle = function(n) {
 
 ### 1. 统计阶乘尾部有多少个 0
 
-[172. Factorial Trailing Zeroes (Easy)](https://leetcode.com/problems/factorial-trailing-zeroes/description/)
+[172. Factorial Trailing Zeroes (Easy)](https://leetcode-cn.com/problems/factorial-trailing-zeroes/description/)
 
 尾部的 0 由 2 \* 5 得来，2 的数量明显多于 5 的数量，因此只要统计有多少个 5 即可。
 
@@ -209,7 +209,7 @@ var trailingZeroes = function(n) {
 
 ### 1. 二进制加法
 
-[67. Add Binary (Easy)](https://leetcode.com/problems/add-binary/description/)
+[67. Add Binary (Easy)](https://leetcode-cn.com/problems/add-binary/description/)
 
 ```html
 a = "11" b = "1" Return "100".
@@ -235,7 +235,7 @@ public String addBinary(String a, String b) {
 
 ### 2. 字符串加法
 
-[415. Add Strings (Easy)](https://leetcode.com/problems/add-strings/description/)
+[415. Add Strings (Easy)](https://leetcode-cn.com/problems/add-strings/description/)
 
 字符串的值为非负整数。
 
@@ -257,7 +257,7 @@ public String addStrings(String num1, String num2) {
 
 ### 1. 改变数组元素使所有的数组元素都相等
 
-[462. Minimum Moves to Equal Array Elements II (Medium)](https://leetcode.com/problems/minimum-moves-to-equal-array-elements-ii/description/)
+[462. Minimum Moves to Equal Array Elements II (Medium)](https://leetcode-cn.com/problems/minimum-moves-to-equal-array-elements-ii/description/)
 
 ```html
 Input: [1,2,3] Output: 2 Explanation: Only two moves are needed (remember each move increments or decrements one
@@ -345,7 +345,7 @@ private void swap(int[] nums, int i, int j) {
 
 ### 1. 数组中出现次数多于 n / 2 的元素
 
-[169. Majority Element (Easy)](https://leetcode.com/problems/majority-element/description/)
+[169. Majority Element (Easy)](https://leetcode-cn.com/problems/majority-element/description/)
 
 先对数组排序，最中间那个数出现次数一定多于 n / 2。
 
@@ -373,7 +373,7 @@ public int majorityElement(int[] nums) {
 
 ### 1. 平方数
 
-[367. Valid Perfect Square (Easy)](https://leetcode.com/problems/valid-perfect-square/description/)
+[367. Valid Perfect Square (Easy)](https://leetcode-cn.com/problems/valid-perfect-square/description/)
 
 ```html
 Input: 16 Returns: True
@@ -398,7 +398,7 @@ public boolean isPerfectSquare(int num) {
 
 ### 2. 3 的 n 次方
 
-[326. Power of Three (Easy)](https://leetcode.com/problems/power-of-three/description/)
+[326. Power of Three (Easy)](https://leetcode-cn.com/problems/power-of-three/description/)
 
 ```java
 public boolean isPowerOfThree(int n) {
@@ -408,7 +408,7 @@ public boolean isPowerOfThree(int n) {
 
 ### 3. 乘积数组
 
-[238. Product of Array Except Self (Medium)](https://leetcode.com/problems/product-of-array-except-self/description/)
+[238. Product of Array Except Self (Medium)](https://leetcode-cn.com/problems/product-of-array-except-self/description/)
 
 ```html
 For example, given [1,2,3,4], return [24,12,8,6].
@@ -439,7 +439,7 @@ public int[] productExceptSelf(int[] nums) {
 
 ### 4. 找出数组中的乘积最大的三个数
 
-[628. Maximum Product of Three Numbers (Easy)](https://leetcode.com/problems/maximum-product-of-three-numbers/description/)
+[628. Maximum Product of Three Numbers (Easy)](https://leetcode-cn.com/problems/maximum-product-of-three-numbers/description/)
 
 ```html
 Input: [1,2,3,4] Output: 24

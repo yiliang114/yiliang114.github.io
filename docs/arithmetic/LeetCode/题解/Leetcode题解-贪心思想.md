@@ -10,7 +10,7 @@ draft: true
 
 ## 1. 分配饼干
 
-[455. Assign Cookies (Easy)](https://leetcode.com/problems/assign-cookies/description/)
+[455. Assign Cookies (Easy)](https://leetcode-cn.com/problems/assign-cookies/description/)
 
 ```html
 Input: [1,2], [1,2,3] Output: 2 Explanation: You have 2 children and 3 cookies. The greed factors of 2 children are 1,
@@ -40,7 +40,7 @@ public int findContentChildren(int[] g, int[] s) {
 
 ## 2. 不重叠的区间个数
 
-[435. Non-overlapping Intervals (Medium)](https://leetcode.com/problems/non-overlapping-intervals/description/)
+[435. Non-overlapping Intervals (Medium)](https://leetcode-cn.com/problems/non-overlapping-intervals/description/)
 
 ```html
 Input: [ [1,2], [1,2], [1,2] ] Output: 2 Explanation: You need to remove two [1,2] to make the rest of intervals
@@ -92,7 +92,7 @@ Arrays.sort(intervals, new Comparator<int[]>() {
 
 ## 3. 投飞镖刺破气球
 
-[452. Minimum Number of Arrows to Burst Balloons (Medium)](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/)
+[452. Minimum Number of Arrows to Burst Balloons (Medium)](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/description/)
 
 ```
 Input:
@@ -126,7 +126,7 @@ public int findMinArrowShots(int[][] points) {
 
 ## 4. 根据身高和序号重组队列
 
-[406. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
+[406. Queue Reconstruction by Height(Medium)](https://leetcode-cn.com/problems/queue-reconstruction-by-height/description/)
 
 ```html
 Input: [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]] Output: [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
@@ -154,7 +154,7 @@ public int[][] reconstructQueue(int[][] people) {
 
 ## 5. 买卖股票最大的收益
 
-[121. Best Time to Buy and Sell Stock (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
+[121. Best Time to Buy and Sell Stock (Easy)](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/)
 
 题目描述：一次股票交易包含买入和卖出，只进行一次交易，求最大收益。
 
@@ -176,7 +176,7 @@ public int maxProfit(int[] prices) {
 
 ## 6. 买卖股票的最大收益 II
 
-[122. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
+[122. Best Time to Buy and Sell Stock II (Easy)](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
 
 题目描述：可以进行多次交易，多次交易之间不能交叉进行，可以进行多次交易。
 
@@ -196,7 +196,7 @@ public int maxProfit(int[] prices) {
 
 ## 7. 种植花朵
 
-[605. Can Place Flowers (Easy)](https://leetcode.com/problems/can-place-flowers/description/)
+[605. Can Place Flowers (Easy)](https://leetcode-cn.com/problems/can-place-flowers/description/)
 
 ```html
 Input: flowerbed = [1,0,0,0,1], n = 1 Output: True
@@ -225,7 +225,7 @@ public boolean canPlaceFlowers(int[] flowerbed, int n) {
 
 ## 8. 判断是否为子序列
 
-[392. Is Subsequence (Medium)](https://leetcode.com/problems/is-subsequence/description/)
+[392. Is Subsequence (Medium)](https://leetcode-cn.com/problems/is-subsequence/description/)
 
 ```html
 s = "abc", t = "ahbgdc" Return true.
@@ -246,7 +246,7 @@ public boolean isSubsequence(String s, String t) {
 
 ## 9. 修改一个数成为非递减数组
 
-[665. Non-decreasing Array (Easy)](https://leetcode.com/problems/non-decreasing-array/description/)
+[665. Non-decreasing Array (Easy)](https://leetcode-cn.com/problems/non-decreasing-array/description/)
 
 ```html
 Input: [4,2,3] Output: True Explanation: You could modify the first 4 to 1 to get a non-decreasing array.
@@ -276,7 +276,7 @@ public boolean checkPossibility(int[] nums) {
 
 ## 10. 子数组最大的和
 
-[53. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
+[53. Maximum Subarray (Easy)](https://leetcode-cn.com/problems/maximum-subarray/description/)
 
 ```html
 For example, given the array [-2,1,-3,4,-1,2,1,-5,4], the contiguous subarray [4,-1,2,1] has the largest sum = 6.
@@ -299,7 +299,7 @@ public int maxSubArray(int[] nums) {
 
 ## 11. 分隔字符串使同种字符出现在一起
 
-[763. Partition Labels (Medium)](https://leetcode.com/problems/partition-labels/description/)
+[763. Partition Labels (Medium)](https://leetcode-cn.com/problems/partition-labels/description/)
 
 ```html
 Input: S = "ababcbacadefegdehijhklij" Output: [9,7,8] Explanation: The partition is "ababcbaca", "defegde", "hijhklij".

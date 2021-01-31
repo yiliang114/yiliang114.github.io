@@ -391,8 +391,6 @@ export default {
 
 ```
 
-> P.S. 本课时中所有的案例源代码：[https://github.com/zce/rollup\-demo](https://github.com/zce/rollup-demo)
-
 ### 写在最后
 
 通过以上的探索，我们发现 Rollup 确实有它的优势：

@@ -12,7 +12,7 @@ draft: true
 
 ### 1. 判断是否为二分图
 
-[785. Is Graph Bipartite? (Medium)](https://leetcode.com/problems/is-graph-bipartite/description/)
+[785. Is Graph Bipartite? (Medium)](https://leetcode-cn.com/problems/is-graph-bipartite/description/)
 
 ```html
 Input: [[1,3], [0,2], [1,3], [0,2]] Output: true Explanation: The graph looks like this: 0----1 | | | | 3----2 We can
@@ -56,7 +56,7 @@ private boolean isBipartite(int curNode, int curColor, int[] colors, int[][] gra
 
 ### 1. 课程安排的合法性
 
-[207. Course Schedule (Medium)](https://leetcode.com/problems/course-schedule/description/)
+[207. Course Schedule (Medium)](https://leetcode-cn.com/problems/course-schedule/description/)
 
 ```html
 2, [[1,0]] return true
@@ -112,7 +112,7 @@ private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked,
 
 ### 2. 课程安排的顺序
 
-[210. Course Schedule II (Medium)](https://leetcode.com/problems/course-schedule-ii/description/)
+[210. Course Schedule II (Medium)](https://leetcode-cn.com/problems/course-schedule-ii/description/)
 
 ```html
 4, [[1,0],[2,0],[3,1],[3,2]] There are a total of 4 courses to take. To take course 3 you should have finished both
@@ -176,7 +176,7 @@ private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked, List<Int
 
 ### 1. 冗余连接
 
-[684. Redundant Connection (Medium)](https://leetcode.com/problems/redundant-connection/description/)
+[684. Redundant Connection (Medium)](https://leetcode-cn.com/problems/redundant-connection/description/)
 
 ```html
 Input: [[1,2], [1,3], [2,3]] Output: [2,3] Explanation: The given undirected graph will be like this: 1 / \ 2 - 3

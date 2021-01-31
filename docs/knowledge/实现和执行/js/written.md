@@ -126,23 +126,18 @@ if (a == 1 && a == 2 && a == 3) {
 }
 ```
 
-```
-let a = {[Symbol.toPrimitive]: ((i) => () => ++i) (0)};
-if(a == 1 && a == 2 && a == 3) {
+```js
+let a = { [Symbol.toPrimitive]: (i => () => ++i)(0) };
+if (a == 1 && a == 2 && a == 3) {
   console.log('1');
 }
 ```
 
-### Object.assign()的模拟实现
-
-实现一个 Object.assign 大致思路如下：
+### Object.assign() 的模拟实现
 
 1. 判断原生 Object 是否支持该函数，如果不存在的话创建一个函数 assign，并使用 Object.defineProperty 将该函数绑定到 Object 上。
-
 2. 判断参数是否正确（目标对象不能为空，我们可以直接设置{}传递进去,但必须设置值）。
-
 3. 使用 Object() 转成对象，并保存为 to，最后返回这个对象 to。
-
 4. 使用 for..in 循环遍历出所有可枚举的自有属性。并复制给新的目标对象（使用 hasOwnProperty 获取自有属性，即非原型链上的属性）。
 
 实现代码如下，这里为了验证方便，使用 assign2 代替 assign。注意此模拟实现不支持 symbol 属性，因为 ES5 中根本没有 symbol 。

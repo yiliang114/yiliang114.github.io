@@ -117,32 +117,11 @@ setAttribute();
 removeAttribute();
 ```
 
-### 浏览器原生的方法
-
-1. getElementById
-2. getElementByTagName
-3. querySelectorAll
-4. p.style.width
-5. p.getAttribute
-6. p.setAttribute
-7. hasOwnProperty
-
 ### 获得一个 DOM 元素的绝对位置
 
 - offsetTop：返回当前元素相对于其 offsetParent 元素的顶部的距离
 - offsetLeft：返回当前元素相对于其 offsetParent 元素的左边的距离
 - getBoundingClientRect()：返回值是一个 DOMRect 对象，它包含了一组用于描述边框的只读属性——left、top、right 和 bottom，属性单位为像素
-
-### DOM 元素的 dom.getAttribute(propName)和 dom.propName 有什么区别和联系
-
-- dom.getAttribute()，是标准 DOM 操作文档元素属性的方法，具有通用性可在任意文档上使用，返回元素在源文件中设置的属性
-- dom.propName 通常是在 HTML 文档中访问特定元素的特性，浏览器解析元素后生成对应对象（如 a 标签生成 HTMLAnchorElement），这些对象的特性会根据特定规则结合属性设置得到，对于没有对应特性的属性，只能使用 getAttribute 进行访问
-- dom.getAttribute()返回值是源文件中设置的值，类型是字符串或者 null（有的实现返回""）
-- dom.propName 返回值可能是字符串、布尔值、对象、undefined 等
-- 大部分 attribute 与 property 是一一对应关系，修改其中一个会影响另一个，如 id，title 等属性
-- 一些布尔属性`<input hidden/>`的检测设置需要 hasAttribute 和 removeAttribute 来完成，或者设置对应 property
-- 像`<a href="../index.html">link</a>`中 href 属性，转换成 property 的时候需要通过转换得到完整 URL
-- 一些 attribute 和 property 不是一一对应如：form 控件中`<input value="hello"/>`对应的是 defaultValue，修改或设置 value property 修改的是控件当前值，setAttribute 修改 value 属性不会改变 value property
 
 ### JS 获取 dom 的 CSS 样式
 
@@ -155,12 +134,6 @@ function getStyle(obj, attr) {
   }
 }
 ```
-
-### mouseover/mouseout 与 mouseenter/mouseleave 的区别与联系
-
-1. mouseover/mouseout 是标准事件，**所有浏览器都支持**；mouseenter/mouseleave 是 IE5.5 引入的特有事件后来被 DOM3 标准采纳，现代标准浏览器也支持
-2. mouseover/mouseout 是**冒泡**事件；mouseenter/mouseleave**不冒泡**。需要为**多个元素监听鼠标移入/出事件时，推荐 mouseover/mouseout 托管，提高性能**
-3. 标准事件模型中 event.target 表示发生移入/出的元素,**vent.relatedTarget**对应移出/如元素；在老 IE 中 event.srcElement 表示发生移入/出的元素，**event.toElement**表示移出的目标元素，**event.fromElement**表示移入时的来源元素
 
 ### innerText 和 innerHTML 的区别
 
@@ -260,58 +233,6 @@ Location 对象包含有关当前 URL 的信息。
 | reload(‘force’) | 重新加载当前文档。参数可选，不填或填 false 则取浏览器缓存的文档 |
 | replace()       | 用新的文档替换当前文档。                                        |
 
-#### Window 对象
-
-Window 对象表示一个浏览器窗口或一个框架。 在客户端 JavaScript 中， Window 对象
-是全局对象，所有的表达式都在当前的环境中计算。 例如，可以只写 document， 而
-不必写 window.document。
-
-| 属性                                                   | 描述                                                                                                                                                                            |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| closed                                                 | 返回窗口是否已被关闭。                                                                                                                                                          |
-| defaultStatus                                          | 设置或返回窗口状态栏中的默认文本。 （仅 Opera 支持）                                                                                                                            |
-| document                                               | 对 Document 对象的只读引用。 请参阅 Document 对象。                                                                                                                             |
-| history                                                | 对 History 对象的只读引用。 请参数 History 对象。                                                                                                                               |
-| innerheight                                            | 返回窗口的文档显示区的高度。                                                                                                                                                    |
-| innerwidth                                             | 返回窗口的文档显示区的宽度。                                                                                                                                                    |
-| length                                                 | 设置或返回窗口中的框架数量。                                                                                                                                                    |
-| location                                               | 用于窗口或框架的 Location 对象。 请参阅 Location 对象。                                                                                                                         |
-| name                                                   | 设置或返回窗口的名称。                                                                                                                                                          |
-| Navigator                                              | 对 Navigator 对象的只读引用。 请参数 Navigator 对象。                                                                                                                           |
-| opener                                                 | 返回对创建此窗口的窗口的引用。                                                                                                                                                  |
-| outerheight                                            | 返回窗口的外部高度。                                                                                                                                                            |
-| outerwidth                                             | 返回窗口的外部宽度。                                                                                                                                                            |
-| pageXOffset                                            | 设置或返回当前页面相对于窗口显示区左上角的 X 位置。                                                                                                                             |
-| pageYOffset                                            | 设置或返回当前页面相对于窗口显示区左上角的 Y 位置。                                                                                                                             |
-| parent                                                 | 返回父窗口。                                                                                                                                                                    |
-| Screen                                                 | 对 Screen 对象的只读引用。 请参数 Screen 对象。                                                                                                                                 |
-| self                                                   | 返回对当前窗口的引用。 等价于 Window 属性。                                                                                                                                     |
-| status                                                 | 设置窗口状态栏的文本。 (默认只支持 Opera)                                                                                                                                       |
-| top                                                    | 返回最顶层的先辈窗口。                                                                                                                                                          |
-| window                                                 | window 属性等价于 self 属性， 它包含了对窗口自身的引用。                                                                                                                        |
-| screenLeft <br/> screenTop <br/> screenX <br/> screenY | 只读整数。声明了窗口的左上角在屏幕上的的 x 坐标和 y 坐标。 IE、 Safari、 Chrome 和 Opera 支持 screenLeft 和 screenTop， 而 Chrome、 Firefox 和 Safari 支持 screenX 和 screenY。 |
-
-| 方法            | 描述                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------- |
-| alert()         | 显示带有一段消息和一个确认按钮的警告框。                                              |
-| blur()          | 把键盘焦点从顶层窗口移开。                                                            |
-| confirm()       | 显示带有一段消息以及确认按钮和取消按钮的对话框。                                      |
-| createPopup()   | 创建一个弹出窗口。 只有 ie 支持（不包括 ie11）                                        |
-| focus()         | 把键盘焦点给予一个窗口。                                                              |
-| moveBy()        | 可相对窗口的当前坐标把它移动指定的像素。                                              |
-| moveTo()        | 把窗口的左上角移动到一个指定的坐标。                                                  |
-| open()          | 打开一个新的浏览器窗口或查找一个已命名的窗口。 window.open(URL,name,features,replace) |
-| print()         | 打印当前窗口的内容。                                                                  |
-| prompt()        | 显示可提示用户输入的对话框。                                                          |
-| resizeBy()      | 按照指定的像素调整窗口的大小。                                                        |
-| resizeTo()      | 把窗口的大小调整到指定的宽度和高度。                                                  |
-| scrollBy()      | 按照指定的像素值来滚动内容。                                                          |
-| scrollTo()      | 把内容滚动到指定的坐标。                                                              |
-| setInterval()   | 按照指定的周期（以毫秒计） 来调用函数或计算表达式。                                   |
-| setTimeout()    | 在指定的毫秒数后调用函数或计算表达式。                                                |
-| clearInterval() | 取消由 setInterval() 设置的 timeout。                                                 |
-| clearTimeout()  | 取消由 setTimeout() 方法设置的 timeout。close() 关闭浏览器窗口                        |
-
 #### Navigator 对象
 
 Navigator 对象包含的属性描述了正在使用的浏览器。 可以使用这些属性进行平台专用的配置。 虽然这个对象的名称显而易见的是 Netscape 的 Navigator 浏览器， 但其他实现了 JavaScript 的浏览器也支持这个对象。
@@ -335,25 +256,6 @@ Navigator 对象包含的属性描述了正在使用的浏览器。 可以使用
 | -------------- | -------------------------------------------- |
 | javaEnabled()  | 规定浏览器是否支持并启用了 Java。            |
 | taintEnabled() | 规定浏览器是否启用数据污点 (data tainting)。 |
-
-#### Screen 对象
-
-Screen 对象包含有关客户端显示屏幕的信息。 每个 Window 对象的 screen 属性都引用一个 Screen 对象。 Screen 对象中存放着有关显示浏览器屏幕的信息。 JavaScript 程序将利用这些信息来优化它们的输出， 以达到用户的显示要求。 例如，一个程序可以根据显示器的尺寸选择使用大图像还是使用小图像，它还可以根据显示器的颜色深度选择使用 16 位色还是使用 8 位色的图形。 另外，JavaScript 程序还能根有关屏幕尺寸的信息将新的浏览器窗口定位在屏幕中间。
-
-| 属性                 | 描述                                                                                             |
-| -------------------- | ------------------------------------------------------------------------------------------------ |
-| availHeight          | 返回显示屏幕的高度 (除 Windows 任务栏之外)。                                                     |
-| availWidth           | 返回显示屏幕的宽度 (除 Windows 任务栏之外)。                                                     |
-| bufferDepth          | 设置或返回调色板的比特深度。 （仅 IE 支持）colorDepth 返回目标设备或缓冲器上的调色板的比特深度。 |
-| deviceXDPI           | 返回显示屏幕的每英寸水平点数。 （仅 IE 支持）                                                    |
-| deviceYDPI           | 返回显示屏幕的每英寸垂直点数。 （仅 IE 支持）                                                    |
-| fontSmoothingEnabled | 返回用户是否在显示控制面板中启用了字体平滑。 （仅 IE 支持）                                      |
-| height               | 返回显示屏幕的高度。                                                                             |
-| logicalXDPI          | 返回显示屏幕每英寸的水平方向的常规点数。 （仅 IE 支持）                                          |
-| logicalYDPI          | 返回显示屏幕每英寸的垂直方向的常规点数。 （仅 IE 支持）                                          |
-| pixelDepth           | 返回显示屏幕的颜色分辨率（比特每像素） 。                                                        |
-| updateInterval       | 设置或返回屏幕的刷新率。 （仅 IE11 以下支持）                                                    |
-| width                | 返回显示器屏幕的宽度。                                                                           |
 
 ### offsetWidth/offsetHeight,clientWidth/clientHeight 与 scrollWidth/scrollHeight 的区别
 
