@@ -48,7 +48,8 @@ function start() {
   const map = {};
   const duplicateArr = [];
   readFileList('docs', map, duplicateArr).then(([, duplicateArr]) => {
-    console.log('readFileList', [...new Set(duplicateArr.map(val => val.replace(/#+ /, '')))].reverse());
+    const result = [...new Set(duplicateArr.map(val => val.replace(/#+ /, '')))].reverse()
+    console.log(JSON.stringify(result));
   });
 }
 

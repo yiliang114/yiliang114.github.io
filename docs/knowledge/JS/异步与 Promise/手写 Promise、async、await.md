@@ -997,6 +997,18 @@ result.value
   });
 ```
 
+原理：
+
+```js
+async function test() {
+  // 以下代码没有依赖性的话，完全可以使用 Promise.all 的方式
+  // 如果有依赖性的话，其实就是解决回调地狱的例子了
+  await fetch('XXX1');
+  await fetch('XXX2');
+  await fetch('XXX3');
+}
+```
+
 #### async、await
 
 `Generator` 函数的语法糖。有更好的语义、更好的适用性、返回值是 `Promise`。
@@ -1176,7 +1188,7 @@ console.log('script end'); // 5
 
 #### setTimeout、Promise、Async/Await 的区别
 
-我觉得这题主要是考察这三者在事件循环中的区别，事件循环中分为宏任务队列和微任务队列。
+主要是考察这三者在事件循环中的区别，事件循环中分为宏任务队列和微任务队列。
 其中 setTimeout 的回调函数放到宏任务队列里，等到执行栈清空以后执行；
 promise.then 里的回调函数会放到相应宏任务的微任务队列里，等宏任务里面的同步代码执行完再执行；async 函数表示函数里面可能会有异步方法，await 后面跟一个表达式，async 方法执行时，遇到 await 会立即执行表达式，然后把表达式后面的代码放到微任务队列里，让出执行栈让同步代码先执行。
 
@@ -1259,8 +1271,6 @@ func1().then(res => {
 ```
 
 await 的含义为等待，也就是 async 函数需要等待 await 后的函数执行完成并且有了返回结果（Promise 对象）之后，才能继续执行下面的代码。await 通过返回一个 Promise 对象来实现同步的效果。
-
-#### setTimeout、Promise、Async/Await 的区别
 
 - setTimeout 方法用于在指定的毫秒数后调用函数或计算表达式。setTimeout() 只是将事件插入了“任务队列”，必须等当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码消耗时间很长，也有可能要等很久，所以并没办法保证回调函数一定会在 setTimeout() 指定的时间执行。所以， setTimeout() 的第二个参数表示的是最少时间，并非是确切时间,setTimeout() 的第二个参数的最小值不得小于 4 毫秒，如果低于这个值，则默认是 4 毫秒
 - 1.setTimeout 它会开启一个定时器线程，并不会影响后续的代码执行，这个定时器线程会在事件队列后面添加一个任务，
@@ -1397,20 +1407,6 @@ function spawn(genF) {
       return gen.next(undefined);
     });
   });
-}
-```
-
-#### Async/Await 如何通过同步的方式实现异步
-
-原理：
-
-```
-async function test() {
- // 以下代码没有依赖性的话，完全可以使用 Promise.all 的方式
- // 如果有依赖性的话，其实就是解决回调地狱的例子了
- await fetch('XXX1')
- await fetch('XXX2')
- await fetch('XXX3')
 }
 ```
 

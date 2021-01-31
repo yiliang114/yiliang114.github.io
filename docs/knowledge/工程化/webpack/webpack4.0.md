@@ -305,15 +305,11 @@ module.exports = {
 
 字体 icon 文件一般在下载之后会有这些文件。
 
-![image.png](https://img.hacpai.com/file/2019/05/image-1da85c9f.png)
-
 并且需要在样式文件中先声明这些类名，以及引入上面的字体文件。
-
-![image.png](https://img.hacpai.com/file/2019/05/image-8d085785.png)
 
 当 webpack 在打包 当前这个 css 文件时，会去加载指定路径下的 eot svg ttf 文件，但是此时 css 文件已经被打包到 dist 目录中去了，而对于这三种类型的文件，webpack 并不知道如何进行处理。 其实只需要将这 4 个文件简单移动到 dist 目录下去即可。所以这里只需要用到 webpack 的 file-loader 就好：
 
-```
+```js
      // 处理字体、icon 文件
     {
       test: /\.(woff|eot|svg|ttf)$/,
@@ -325,19 +321,13 @@ module.exports = {
 
 当然此时打包出来的文件默认地址是在 dist 的目录下的。
 
-![image.png](https://img.hacpai.com/file/2019/05/image-ebf0eb92.png)
-
 ##### 使用 plugins 让打包更快捷
 
 webpack 插件可以在 webpack 运行到某一时刻的时候，帮助开发者做一些事情。比如下面的 `html-webpack-plugin` 插件是在打包完成之后，创建一个 html 文件。
 
 1. 移动 index.html 文件。 `html-webpack-plugin` 会在打包结束后，自动生成一个 html 文件，并把打包生成的 js 文件自动引入到 html 文件中。 不过如果没有指定模板，自动生成的 html 文件中啥也没有，可以指定自定义的 template 传入，那么插件的作用就是在模板文件最后引入打包生成的 js 文件，并在 dist 目录下创建。
 
-   ![image.png](https://img.hacpai.com/file/2019/05/image-db395fe9.png)
-
 2. 重新打包的时候，希望 webpack 先将 dist 目录先清空之后，再打包，这样能保证 dist 目录每次都是干净的，不会有上次打包的内容。
-
-   ![image.png](https://img.hacpai.com/file/2019/05/image-e64fb03c.png)
 
 #### sourcemap (3.7 - 3.9 开始部分)
 

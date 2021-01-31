@@ -1077,22 +1077,6 @@ function RandomNum(Min, Max) {
 }
 ```
 
-### 打印出 1 - 10000 之间的所有对称数
-
-```js
-var isPalindrome = function(x) {
-  let str = x.toString().split('');
-  return str.join() === str.reverse().join();
-};
-let arr = [];
-for (let i = 1; i < 100000; i++) {
-  if (isPalindrome(i)) {
-    arr.push(i);
-  }
-}
-console.log(arr);
-```
-
 ### 请实现一个 add 函数，满足以下功能
 
 > add(1); // 1
@@ -1359,31 +1343,6 @@ const findSum = (arr, val) => {
 const findSum = (arr, sum) => arr.some((set => n => set.has(n) || !set.add(sum - n))(new Set()));
 ```
 
-### Async/Await 如何通过同步的方式实现异步
-
-Async/Await 就是一个自执行的 generate 函数。利用 generate 函数的特性把异步的代码写成“同步”的形式。
-
-```js
-var fetch = require('node-fetch');
-
-function* gen() {
-  // 这里的*可以看成 async
-  var url = 'https://api.github.com/users/github';
-  var result = yield fetch(url); // 这里的yield可以看成 await
-  console.log(result.bio);
-}
-var g = gen();
-var result = g.next();
-
-result.value
-  .then(function(data) {
-    return data.json();
-  })
-  .then(function(data) {
-    g.next(data);
-  });
-```
-
 ### 修改以下 print 函数，使之输出 0 到 99，或者 99 到 0
 
 要求：
@@ -1416,52 +1375,6 @@ function print(n) {
 for (var i = 0; i < 100; i++) {
   print(i);
 }
-```
-
-### 不用加减乘除运算符，求整数的 7 倍
-
-可以使用三类方式：位运算加法、JS hack、进制转换。实现方式分别如下：
-
-```js
-/* -- 位运算 -- */
-
-// 先定义位运算加法
-function bitAdd(m, n) {
-  while (m) {
-    [m, n] = [(m & n) << 1, m ^ n];
-  }
-  return n;
-}
-
-// 位运算实现方式 1 - 循环累加7次
-let multiply7_bo_1 = num => {
-  let sum = 0,
-    counter = new Array(7); // 得到 [empty × 7]
-  while (counter.length) {
-    sum = bitAdd(sum, num);
-    counter.shift();
-  }
-  return sum;
-};
-
-// 位运算实现方式 2 - 二进制进3位(乘以8)后，加自己的补码(乘以-1)
-let multiply7_bo_2 = num => bitAdd(num << 3, -num);
-
-/* -- JS hack -- */
-
-// hack 方式 1 - 利用 Function 的构造器 & 乘号的字节码
-let multiply7_hack_1 = num => new Function(['return ', num, String.fromCharCode(42), '7'].join(''))();
-
-// hack 方式 2 - 利用 eval 执行器 & 乘号的字节码
-let multiply7_hack_2 = num => eval([num, String.fromCharCode(42), '7'].join(''));
-
-// hack 方式 3 - 利用 SetTimeout 的参数 & 乘号的字节码
-setTimeout(['window.multiply7_hack_3=(num)=>(7', String.fromCharCode(42), 'num)'].join(''));
-
-/* -- 进制转换 -- */
-
-// 进制转换方式 - 利用 toString 转为七进制整数；然后末尾补0(左移一位)后通过 parseInt 转回十进制
-let multiply7_base7 = num => parseInt([num.toString(7), '0'].join(''), 7);
 ```
 
 ### 如何对数组进行排序？如：[2, [1,2], 3, "2", "a", "b", "a", [1, 2]]，重排序后[2, [1, 2], 3, "2", "a", "b"]

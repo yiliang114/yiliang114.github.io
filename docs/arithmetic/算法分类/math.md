@@ -70,6 +70,20 @@ function factorial(n) {
 });
 ```
 
+```js
+var isPalindrome = function(x) {
+  let str = x.toString().split('');
+  return str.join() === str.reverse().join();
+};
+let arr = [];
+for (let i = 1; i < 100000; i++) {
+  if (isPalindrome(i)) {
+    arr.push(i);
+  }
+}
+console.log(arr);
+```
+
 ### 不用加减乘除运算符，求整数的 7 倍
 
 ```js

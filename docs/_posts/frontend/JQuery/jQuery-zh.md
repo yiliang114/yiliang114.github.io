@@ -184,6 +184,13 @@ $('#btn').on({
 - 使用时间委托 on 绑定事件
 - 采用 jQuery 的内部函数 data()来存储数据
 - 使用最新版本的 jQuery
+- 基于 Class 的选择性的性能相对于 Id 选择器开销很大，因为需遍历所有 DOM 元素。
+- 频繁操作的 DOM，先缓存起来再操作。用 Jquery 的链式调用更好
+  - 比如：var str=\$("a").attr("href");
+- for (var i = size; i < arr.length; i++) {}
+
+  - for 循环每一次循环都查找了数组 (arr) 的.length 属性，在开始循环的时候设置一个变量来存储这个数字，可以让循环跑得更快：
+  - for (var i = size, length = arr.length; i < length; i++) {}
 
 ### jQuery 的 slideUp 动画，当鼠标快速连续触发, 动画会滞后反复执行，该如何处理呢?
 
@@ -237,16 +244,6 @@ $.fn.parseArray = function(array) {
 然后调用：
 $("").stringifyArray(array)
 ```
-
-### 针对 jQuery 的优化方法？
-
-- 基于 Class 的选择性的性能相对于 Id 选择器开销很大，因为需遍历所有 DOM 元素。
-- 频繁操作的 DOM，先缓存起来再操作。用 Jquery 的链式调用更好
-  - 比如：var str=\$("a").attr("href");
-- for (var i = size; i < arr.length; i++) {}
-
-  - for 循环每一次循环都查找了数组 (arr) 的.length 属性，在开始循环的时候设置一个变量来存储这个数字，可以让循环跑得更快：
-  - for (var i = size, length = arr.length; i < length; i++) {}
 
 ### jQuery 的 slideUp 动画 ，如果目标元素是被外部事件驱动, 当鼠标快速地连续触发外部元素事件, 动画会滞后的反复执行，该如何处理呢?
 

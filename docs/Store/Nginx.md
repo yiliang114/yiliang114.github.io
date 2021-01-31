@@ -7,6 +7,7 @@ draft: true
 ---
 
 ### 反向代理与正向代理的区别
+
 ### CentOS 安装 nginx
 
 ```
@@ -18,66 +19,6 @@ nginx -v
 
 ```
 yum -y install lrzsz
-```
-
-### nginx 基本代理
-
-```
-server {
-  listen        80;
-  # 访问的域名
-  server_name   test.com;
-  # 代理请求
-  location / {
-    proxy_pass http://127.0.0.1:8888;
-    # 设置HTTP头中修改host为test.com
-    proxy_set_header Host $host;
-  }
-}
-```
-
-### nginx 配置缓存
-
-```shell
-# 写在server外
-proxy_cache_path  cache levels=1:2 keys_zoom=my_cache:10m
-```
-
-- cache
-  - 文件夹名
-- levels=1:2
-  - 设置二级文件夹来存缓存，因为随着文件的越来越多查找速度会越来越慢
-- keys_zoom=my_cache:10m
-  - 申请 10 兆内存来缓存内容
-
-```shell
-server {
-  listen        80;
-  server_name   test.com;
-  location / {
-    proxy_cache   my_cache; #在这里写缓存
-    proxy_pass http://127.0.0.1:8888;
-    proxy_set_header Host $host;
-  }
-}
-```
-
-```shell
-server {
-    listen       80;
-    server_name  _;
-
-    location ^~/document {
-      alias /usr/local/tbp-fe/wiki;
-      try_files $uri $uri/ /404.html =404;
-      add_header Cache-Control max-age=300;
-    }
-
-    location / {
-            root /data/home/yiliang114/tbp-test/;
-            index  index.html;
-    }
-}
 ```
 
 ### nginx 基本代理
@@ -300,33 +241,7 @@ http {
         #include /etc/nginx/sites-enabled/*;
 }
 
-
-
 ```
-
-### 前端项目线上如何做跨域
-
-前端页面被跨域限制了，说明不同源。 这个时候可以找一台跟后台接口同源的服务器用 nginx 来做接口转发。
-
-以一个 vue 项目为例，在开发过程中，开发者可以主动去配合 dev 的 proxyTable， 本质上是本地起了一个 node 服务（express）来做转发到 `localhost`， 因为跨域是会存在于浏览器。 而发布到线上去之后，很可能由于 dev 环境下对每一个接口请求都携带了 `/api` 前缀，这对我们很友好。
-
-nginx 配置：
-
-```
-...
-location /api {
-	# 配置一
-	proxy_pass http://abc.hahah.com/;
-	# 配置二
-	proxy_pass http://abc.hahah.com;
-	# 配置三
-	proxy_pass http://100.200.30.20;
-}
-...
-
-```
-
-其中配置二和配置三，本质上是一样的（使用 ip 和域名）ip 后面有没有 `/` 是由区别的，有 `/` 表示转发请求之后，`/api` 后面的内容才会被转发，相当于 url 是被截断的，正好我们需要这种形式，因为 `/api` 是我们添加的虚拟的 url 部分。
 
 ### 存在的问题
 
@@ -633,30 +548,6 @@ https://segmentfault.com/a/1190000015428921
 ### nginx 配置
 
 https://www.cnblogs.com/xiaoliangup/p/9175932.html
-
-### 前端项目线上如何做跨域
-
-前端页面被跨域限制了，说明不同源。 这个时候可以找一台跟后台接口同源的服务器用 nginx 来做接口转发。
-
-以一个 vue 项目为例，在开发过程中，开发者可以主动去配合 dev 的 proxyTable， 本质上是本地起了一个 node 服务（express）来做转发到 `localhost`， 因为跨域是会存在于浏览器。 而发布到线上去之后，很可能由于 dev 环境下对每一个接口请求都携带了 `/api` 前缀，这对我们很友好。
-
-nginx 配置：
-
-```
-...
-location /api {
-	# 配置一
-	proxy_pass http://abc.hahah.com/;
-	# 配置二
-	proxy_pass http://abc.hahah.com;
-	# 配置三
-	proxy_pass http://100.200.30.20;
-}
-...
-
-```
-
-其中配置二和配置三，本质上是一样的（使用 ip 和域名）ip 后面有没有 `/` 是由区别的，有 `/` 表示转发请求之后，`/api` 后面的内容才会被转发，相当于 url 是被截断的，正好我们需要这种形式，因为 `/api` 是我们添加的虚拟的 url 部分。
 
 ### 反向代理和正向代理
 
