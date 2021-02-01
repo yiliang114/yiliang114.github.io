@@ -721,3 +721,229 @@ setTimeout(function() {
 
 - Node 端，micro-task 在事件循环的各个阶段之间执行
 - 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
+
+#### promise 与 setTimeout 判断执行顺序
+
+promise 和 setTimeout 都会将事件放入异步队列，但 setTimeout 即便是写 0，也会有 4ms 的延迟
+
+```js
+console.log('begin');
+
+setTimeout(() => {
+  console.log('setTimeout 1');
+
+  Promise.resolve()
+    .then(() => {
+      console.log('promise 1');
+      setTimeout(() => {
+        console.log('setTimeout2');
+      });
+    })
+    .then(() => {
+      console.log('promise 2');
+    });
+
+  new Promise(resolve => {
+    console.log('a');
+    resolve();
+  }).then(() => {
+    console.log('b');
+  });
+}, 0);
+console.log('end');
+
+// begin
+// end
+// setTimeout 1
+// a
+// promise 1
+// b
+// promise 2
+// setTimeout2
+```
+
+### setTimeout、Promise、Async/Await 的区别
+
+主要是考察这三者在事件循环中的区别，事件循环中分为宏任务队列和微任务队列。
+其中 setTimeout 的回调函数放到宏任务队列里，等到执行栈清空以后执行；
+promise.then 里的回调函数会放到相应宏任务的微任务队列里，等宏任务里面的同步代码执行完再执行；async 函数表示函数里面可能会有异步方法，await 后面跟一个表达式，async 方法执行时，遇到 await 会立即执行表达式，然后把表达式后面的代码放到微任务队列里，让出执行栈让同步代码先执行。
+
+##### 1. setTimeout
+
+```js
+console.log('script start'); //1. 打印 script start
+setTimeout(function() {
+  console.log('setTimeout'); // 4. 打印 setTimeout
+}); // 2. 调用 setTimeout 函数，并定义其完成后执行的回调函数
+console.log('script end'); //3. 打印 script start
+// 输出顺序：script start->script end->setTimeout
+```
+
+##### 2. Promise
+
+Promise 本身是**同步的立即执行函数**， 当在 executor 中执行 resolve 或者 reject 的时候, 此时是异步操作， 会先执行 then/catch 等，当主栈完成后，才会去调用 resolve/reject 中存放的方法执行，打印 p 的时候，是打印的返回结果，一个 Promise 实例。
+
+```js
+console.log('script start');
+let promise1 = new Promise(function(resolve) {
+  console.log('promise1');
+  resolve();
+  console.log('promise1 end');
+}).then(function() {
+  console.log('promise2');
+});
+setTimeout(function() {
+  console.log('setTimeout');
+});
+console.log('script end');
+// 输出顺序: script start->promise1->promise1 end->script end->promise2->setTimeout
+```
+
+当 JS 主线程执行到 Promise 对象时，
+
+- promise1.then() 的回调就是一个 task
+- promise1 是 resolved 或 rejected: 那这个 task 就会放入当前事件循环回合的 micro-task queue
+- promise1 是 pending: 这个 task 就会放入 事件循环的未来的某个(可能下一个)回合的 micro-task queue 中
+- setTimeout 的回调也是个 task ，它会被放入 macro-task queue 即使是 0ms 的情况
+
+##### 3. async/await
+
+```js
+async function async1() {
+  console.log('async1 start');
+  await async2();
+  console.log('async1 end');
+}
+async function async2() {
+  console.log('async2');
+}
+
+console.log('script start');
+async1();
+console.log('script end');
+
+// 输出顺序：script start->async1 start->async2->script end->async1 end
+```
+
+async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
+
+举个例子：
+
+```js
+async function func1() {
+  return 1;
+}
+
+console.log(func1());
+```
+
+[![](https://camo.githubusercontent.com/127fb6994c3e219bae33573cc46aab7f97b7367b/68747470733a2f2f696d672d626c6f672e6373646e696d672e636e2f32303139303133313137343431333536322e706e67)](https://camo.githubusercontent.com/127fb6994c3e219bae33573cc46aab7f97b7367b/68747470733a2f2f696d672d626c6f672e6373646e696d672e636e2f32303139303133313137343431333536322e706e67)
+很显然，func1 的运行结果其实就是一个 Promise 对象。因此我们也可以使用 then 来处理后续逻辑。
+
+```js
+func1().then(res => {
+  console.log(res); // 30
+});
+```
+
+await 的含义为等待，也就是 async 函数需要等待 await 后的函数执行完成并且有了返回结果（Promise 对象）之后，才能继续执行下面的代码。await 通过返回一个 Promise 对象来实现同步的效果。
+
+- setTimeout 方法用于在指定的毫秒数后调用函数或计算表达式。setTimeout() 只是将事件插入了“任务队列”，必须等当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码消耗时间很长，也有可能要等很久，所以并没办法保证回调函数一定会在 setTimeout() 指定的时间执行。所以， setTimeout() 的第二个参数表示的是最少时间，并非是确切时间,setTimeout() 的第二个参数的最小值不得小于 4 毫秒，如果低于这个值，则默认是 4 毫秒
+- 1.setTimeout 它会开启一个定时器线程，并不会影响后续的代码执行，这个定时器线程会在事件队列后面添加一个任务，
+  当 js 线程在主线程执行其他线程代码完毕后，就会取出事件队列中的事件进行执行，
+- 2.定时器中的 this 存在隐式丢失的情况
+
+```js
+var a = 0;
+function foo() {
+  console.log(this.a);
+}
+var obj = {
+  a: 2,
+  foo: foo,
+};
+setTimeout(obj.foo, 100); //0
+```
+
+若想获得 obj 对象中的 a 属性值，可以将 obj.foo 函数放置在定时器中的匿名函数中进行隐式绑定
+
+```js
+var a = 0;
+function foo() {
+  console.log(this.a);
+}
+var obj = {
+  a: 2,
+  foo: foo,
+};
+setTimeout(function() {
+  obj.foo();
+}, 100); //2
+```
+
+或者使用 bind 方法将 foo()方法的 this 绑定到 obj 上,call,apply 方法均可
+
+```js
+var a = 0;
+function foo() {
+  console.log(this.a);
+}
+var obj = {
+  a: 2,
+  foo: foo,
+};
+setTimeout(obj.foo.bind(obj), 100); //2
+```
+
+- promise 就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果,将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数
+  Promise 新建后立即执行,promise 提供 Promise.all,promise.race,promise.resolve,promise.rejecr 等方法
+- async/await
+- async/await 是写异步代码的新方式，以前的方法有回调函数和 Promise。
+- async/await 是基于 Promise 实现的，它不能用于普通的回调函数。
+- async/await 与 Promise 一样，是非阻塞的。
+- async/await 使得异步代码看起来像同步代码，这正是它的魔力所在
+
+##### 不同点：
+
+then 和 setTimeout 执行顺序，即 setTimeout(fn, 0)在下一轮“事件循环”开始时执行，Promise.then()在本轮“事件循环”结束时执行。因此 then 函数先输出，setTimeout 后输出。
+例子：
+
+```js
+var p1 = new Promise(function(resolve, reject){
+    resolve(1);
+})
+setTimeout(function(){
+  console.log("will be executed at the top of the next Event Loop");
+},0)
+p1.then(function(value){
+  console.log("p1 fulfilled");
+})
+setTimeout(function(){
+  console.log("will be executed at the bottom of the next Event Loop");
+},0)
+p1 fulfilled
+will be executed at the top of the next Event Loop
+will be executed at the bottom of the next Event Loop
+```
+
+原因：
+
+> JavaScript 将异步任务分为 macro-task 和 micro-task，
+
+- macro-task 包含 macro-task Queue（宏任务队列）主要包括 setTimeout,setInterval, setImmediate, requestAnimationFrame, NodeJS 中的 I/O 等。
+- micro-task 包含独立回调 micro-task：如 Promise，其成功／失败回调函数相互独立；复合回调 micro-task：如 Object.observe, MutationObserver 和 NodeJs 中的 process.nextTick ，不同状态回调在同一函数体；
+
+- js 执行顺序
+- 依次执行同步代码直至执行完毕；
+- 检查 macro-task 队列，若有触发的异步任务，则取第一个并调用其事件处理函数，然后跳至第三步，若没有需处理的异步任务，则直接跳至第三步；
+- 检查 micro-task 队列，然后执行所有已触发的异步任务，依次执行事件处理函数，直至执行完毕，然后跳至第二步，若没有需处理的异步任务中，则直接返回第二步，依次>执行后续步骤；
+- 最后返回第二步，继续检查 macro-task 队列，依次执行后续步骤；
+- 如此往复，若所有异步任务处理完成，则结束；
+
+promise 与 asyns/await 的不同：
+asyns 函数前面多了一个 aync 关键字。await 关键字只能用在 aync 定义的函数内。async 函数会隐式地返回一个 promise，该 promise 的 reosolve 值就是函数 return 的值。
+任何一个 await 语句后面的 Promise 对象变为 reject 状态，那么整个 async 函数都会中断执行
+相同点：
+async 函数的返回值是 Promise 对象，可以使用 then 方法添加回调函数，这一点与 promise 类似
+希望多个请求并发执行，可以使用 Promise.all 方法
+promise 和 setTimeout 都会被放入任务队列

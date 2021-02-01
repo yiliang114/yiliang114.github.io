@@ -6,62 +6,20 @@ draft: true
 
 ## JS 异步解决方案的发展历程以及优缺点。
 
-#### 1. 回调函数（callback）
-
-```
-setTimeout(() => {
-    // callback 函数体
-}, 1000)
-```
+### 1. 回调函数
 
 **缺点：回调地狱，不能用 try catch 捕获错误，不能 return**
 
-回调地狱的根本问题在于：
-
-- 缺乏顺序性： 回调地狱导致的调试困难，和大脑的思维方式不符
-- 嵌套函数存在耦合性，一旦有所改动，就会牵一发而动全身，即（**控制反转**）
-- 嵌套函数过多的多话，很难处理错误
-
-```js
-ajax('XXX1', () => {
-  // callback 函数体
-  ajax('XXX2', () => {
-    // callback 函数体
-    ajax('XXX3', () => {
-      // callback 函数体
-    });
-  });
-});
-```
-
-**优点：解决了同步的问题**（只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。）
-
-#### 2. Promise
+### 2. Promise
 
 Promise 就是为了解决 callback 的问题而产生的。
 
 Promise 实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.resolve() 包装
 
 **优点：解决了回调地狱的问题**
-
-```js
-ajax('XXX1')
-  .then(res => {
-    // 操作逻辑
-    return ajax('XXX2');
-  })
-  .then(res => {
-    // 操作逻辑
-    return ajax('XXX3');
-  })
-  .then(res => {
-    // 操作逻辑
-  });
-```
-
 **缺点：无法取消 Promise ，错误需要通过回调函数来捕获**
 
-#### 3. Generator
+### 3. Generator
 
 **特点：可以控制函数的执行**，可以配合 co 函数库使用
 
@@ -77,25 +35,13 @@ let result2 = it.next();
 let result3 = it.next();
 ```
 
-#### 4. Async/await
+### 4. Async/await
 
 async、await 是异步的终极解决方案
 
 **优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
 
 **缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
-
-```js
-async function test() {
-  // 以下代码没有依赖性的话，完全可以使用 Promise.all 的方式
-  // 如果有依赖性的话，其实就是解决回调地狱的例子了
-  await fetch('XXX1');
-  await fetch('XXX2');
-  await fetch('XXX3');
-}
-```
-
-下面来看一个使用 `await` 的例子：
 
 ```js
 let a = 0;
@@ -106,28 +52,13 @@ let b = async () => {
 b();
 a++;
 console.log('1', a); // -> '1' 1
+// '1' 1
+// '2' 10
 ```
-
-对于以上代码你可能会有疑惑，让我来解释下原因
-
-- 首先函数 `b` 先执行，在执行到 `await 10` 之前变量 `a` 还是 0，因为 `await` 内部实现了 `generator` ，**`generator` 会保留堆栈中东西，所以这时候 `a = 0` 被保存了下来**
-- 因为 `await` 是异步操作，后来的表达式不返回 `Promise` 的话，就会包装成 `Promise.reslove(返回值)`，然后会去执行函数外的同步代码
-- 同步代码执行完毕后开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 0 + 10`
-
-上述解释中提到了 `await` 内部实现了 `generator`，其实 `await` 就是 `generator` 加上 `Promise`的语法糖，且内部实现了自动执行 `generator`。如果你熟悉 co 的话，其实自己就可以实现这样的语法糖。
 
 ## Promise 概念
 
-```js
-new Promise((resolve, reject) => {
-  console.log('promise 1');
-  resolve(1);
-});
-// promise 1
-// 说明 promise 构造函数是立即执行的。
-```
-
-Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。比传统的解决方案--回调函数和事件更合理和更强大。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。
+Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。
 
 Promise 对象有以下两个特点。
 
@@ -143,41 +74,14 @@ Promise 对象有以下两个特点。
 
 执行 new 的时候状态就开始变化。promise 对象身上有两个方法：then()，和 catch()。
 
-### 基本用法
-
-Promise 对象是一个构造函数，用来生成 Promise 实例。下面代码创造了一个 Promise 实例。
-
 ```js
-var promise = new Promise(function(resolve, reject) {
-  // ... some code
-  if (/* 异步操作成功 */){
-    resolve(value);
-  } else {
-    reject(error);
-  }
+new Promise((resolve, reject) => {
+  console.log('promise 1');
+  resolve(1);
 });
+// promise 1
+// 说明 promise 构造函数是立即执行的。
 ```
-
-Promise 构造函数接受一个函数作为参数，该函数的两个参数分别是 resolve 和 reject。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。
-
-resolve 函数的作用是，将 Promise 对象的状态从“未完成”变为“成功”（即从 Pending 变为 Resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；reject 函数的作用是，将 Promise 对象的状态从“未完成”变为“失败”（即从 Pending 变为 Rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
-
-Promise 实例生成以后，可以用 then 方法分别指定 Resolved 状态和 Rejected 状态的回调函数。
-
-```js
-promise.then(
-  function(value) {
-    // success
-  },
-  function(error) {
-    // failure
-  },
-);
-```
-
-then 函数返回的也是一个 Promise 对象。所以可以一直 then 下去。
-
-then 方法可以接受两个回调函数作为参数。第一个回调函数是 Promise 对象的状态变为 Resolved 时调用，第二个回调函数是 Promise 对象的状态变为 Rejected 时调用。其中，第二个函数是可选的，不一定要提供。这两个函数都接受 Promise 对象传出的值作为参数。
 
 Promise 新建后就会立即执行。
 
@@ -199,8 +103,6 @@ console.log('Hi!');
 ```
 
 Promise 构造函数是同步执行，then 方法是异步执行。
-
-上面代码中，Promise 新建后立即执行，所以首先输出的是 Promise。然后，then 方法指定的回调函数，将在当前脚本所有同步任务执行完才会执行，所以 Resolved 最后输出。
 
 ### Promise 优缺点
 
@@ -291,13 +193,11 @@ finally 方法用于指定不管 Promise 对象最后状态如何，都会执行
 
 ### 错误冒泡
 
-> `Promise` 对象的错误具有“冒泡”性质，**会一直向后传递，直到被捕获为止**。也就是说，错误总是会被下一个`catch`语句捕获
+`Promise` 对象的错误具有“冒泡”性质，**会一直向后传递，直到被捕获为止**。也就是说，错误总是会被下一个`catch`语句捕获
 
 ### "吃掉错误"机制
 
 > `Promise`会吃掉内部的错误，并不影响外部代码的运行。所以需要`catch`，以防丢掉错误信息。
-
-阮一峰大大给出的 demo：
 
 ```js
 'use strict';
@@ -318,8 +218,6 @@ setTimeout(() => {
 }, 2000);
 ```
 
-还有如下 demo
-
 ```js
 someAsyncThing()
   .then(function() {
@@ -337,25 +235,6 @@ someAsyncThing()
 // carry on [ReferenceError: y is not defined]
 ```
 
-## Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
-
-```js
-const promise = new Promise((resolve, reject) => {
-  console.log(1);
-  resolve();
-  console.log(2);
-});
-
-promise.then(() => {
-  console.log(3);
-});
-
-console.log(4);
-```
-
-执行结果是：1243
-promise 构造函数是同步执行的，then 方法是异步执行的
-
 ## promise 场景题
 
 - 什么时候 promise 不会被销毁
@@ -365,192 +244,258 @@ promise 构造函数是同步执行的，then 方法是异步执行的
 
 ## Promise
 
-- 定义：包含异步操作结果的对象
+### async/await
 
-- 状态
+async 是 ES2017 标准推出的用于处理异步操作的关键字，从本质上来说，它就是 Generator 函数的语法糖。
 
-  - **进行中**：`pending`
-  - **已成功**：`resolved`
-  - **已失败**：`rejected`
+async 函数内阻塞，函数外不阻塞。
 
-- 特点
+#### async 函数是什么，有什么作用？
 
-  - 对象的状态不受外界影响
-  - 一旦状态改变就不会再变，任何时候都可得到这个结果
+`async`函数可以理解为内置自动执行器的`Generator`函数语法糖，它配合`ES6`的`Promise`近乎完美的实现了异步编程解决方案。
 
-- 声明：`new Promise((resolve, reject) => {})`
+Async/Await 就是一个自执行的 generate 函数。利用 generate 函数的特性把异步的代码写成“同步”的形式。
 
-- 出参
+async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
 
-  - **resolve**：将状态从`未完成`变为`成功`，在异步操作成功时调用，并将异步操作的结果作为参数传递出去
-  - **reject**：将状态从`未完成`变为`失败`，在异步操作失败时调用，并将异步操作的错误作为参数传递出去
+```js
+var a = 0;
+var b = async () => {
+  a = a + (await 10);
+  console.log('2', a); // -> '2' 10
+  a = (await 10) + a;
+  console.log('3', a); // -> '3' 20
+};
+b();
+a++;
+console.log('1', a); // -> '1' 1
+```
 
-- 方法
+对于以上代码你可能会有疑惑，这里说明下原理
 
-  - then()
+- 首先函数 `b` 先执行，在执行到 `await 10` 之前变量 `a` 还是 0，因为在 `await` 内部实现了 `generators` ，`generators` 会保留堆栈中东西，所以这时候 `a = 0` 被保存了下来
+- 因为 `await` 是异步操作，遇到`await`就会立即返回一个`pending`状态的`Promise`对象，暂时返回执行代码的控制权，使得函数外的代码得以继续执行，所以会先执行 `console.log('1', a)`
+- 这时候同步代码执行完毕，开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 10`
+- 然后后面就是常规执行代码了
 
-    ：分别指定
+**async 函数可以保留运行堆栈。**
 
-    ```
-    resolved状态
-    ```
+### Generator
 
-    和
+#### Generator 实现
 
-    ```
-    rejected状态
-    ```
+Generator 是 ES6 中新增的语法，和 Promise 一样，都可以用来异步编程
 
-    的回调函数
+```js
+// 使用 * 表示这是一个 Generator 函数
+// 内部可以通过 yield 暂停代码
+// 通过调用 next 恢复执行
+function* test() {
+  let a = 1 + 2;
+  yield 2;
+  yield 3;
+}
+let b = test();
+console.log(b.next()); // >  { value: 2, done: false }
+console.log(b.next()); // >  { value: 3, done: false }
+console.log(b.next()); // >  { value: undefined, done: true }
+```
 
-    - **第一参数**：状态变为`resolved`时调用
-    - **第二参数**：状态变为`rejected`时调用(可选)
+从以上代码可以发现，加上 `*` 的函数执行后拥有了 `next` 函数，也就是说函数执行后返回了一个对象。每次调用 `next` 函数可以继续执行被暂停的代码。以下是 Generator 函数的简单实现
 
-  - **catch()**：指定发生错误时的回调函数
+```js
+// cb 也就是编译过的 test 函数
+function generator(cb) {
+  return (function() {
+    var object = {
+      next: 0,
+      stop: function() {},
+    };
 
-  - Promise.all()
+    return {
+      next: function() {
+        var ret = cb(object);
+        if (ret === undefined) return { value: undefined, done: true };
+        return {
+          value: ret,
+          done: false,
+        };
+      },
+    };
+  })();
+}
+// 如果你使用 babel 编译后可以发现 test 函数变成了这样
+function test() {
+  var a;
+  return generator(function(_context) {
+    while (1) {
+      switch ((_context.prev = _context.next)) {
+        // 可以发现通过 yield 将代码分割成几块
+        // 每次执行 next 函数就执行一块代码
+        // 并且表明下次需要执行哪块代码
+        case 0:
+          a = 1 + 2;
+          _context.next = 4;
+          return 2;
+        case 4:
+          _context.next = 6;
+          return 3;
+        // 执行完毕
+        case 6:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  });
+}
+```
 
-    ：将多个实例包装成一个新实例，返回全部实例状态变更后的结果数组(
+#### Generator 生成器
 
-    齐变更再返回
+```js
+function* foo(x) {
+  let y = 2 * (yield x + 1);
+  let z = yield y / 3;
+  return x + y + z;
+}
+let it = foo(5);
+console.log(it.next()); // => {value: 6, done: false}
+console.log(it.next(12)); // => {value: 8, done: false}
+console.log(it.next(13)); // => {value: 42, done: true}
+```
 
-    )
+- 首先 Generator 函数调用和普通函数不同，它会返回一个迭代器
 
-    - 入参：具有`Iterator接口`的数据结构
-    - 成功：只有全部实例状态变成`resolved`，最终状态才会变成`resolved`
-    - 失败：其中一个实例状态变成`rejected`，最终状态就会变成`rejected`
+- 当执行第一次 next 时，传参会被忽略，并且函数暂停在 yield (x + 1) 处，所以返回 5 + 1 = 6
 
-  - **Promise.race()**：将多个实例包装成一个新实例，返回全部实例状态优先变更后的结果(先变更先返回)
+- 当执行第二次 next 时，传入的参数等于上一个 yield 的返回值，如果你不传参，yield 永远返回 undefined。此时 let y = 2 _ 12，所以第二个 yield 等于 2 _ 12 / 3 = 8
 
-  - Promise.resolve()
+- 当执行第三次 next 时，传入的参数会传递给 z，所以 z = 13, x = 5, y = 24，相加等于 42
 
-    ：将对象转为 Promise 对象(等价于
+#### 可迭代对象有什么特点
 
-    ```
-    new Promise(resolve => resolve())
-    ```
+![](https://user-images.githubusercontent.com/21194931/59647925-b7c5ab00-91af-11e9-833a-6c0bfc53b09f.png)
 
-    )
+```js
+function makeIterator(array) {
+  var nextIndex = 0;
+  return {
+    next: function() {
+      return nextIndex < array.length ? { value: array[nextIndex++], done: false } : { done: true };
+    },
+  };
+}
+// 使用 next 方法依次访问对象中的键值
+var it = makeIterator(['step', 'by', 'step']);
+console.log(it.next().value); // 'step'
+console.log(it.next().value); // 'by'
+console.log(it.next().value); // 'step'
+console.log(it.next().value); // undefined
+console.log(it.next().done); // true
+```
 
-    - **Promise 实例**：原封不动地返回入参
-    - **Thenable 对象**：将此对象转为 Promise 对象并返回(Thenable 为包含`then()`的对象，执行`then()`相当于执行此对象的`then()`)
-    - **不具有 then()的对象**：将此对象转为 Promise 对象并返回，状态为`resolved`
-    - **不带参数**：返回 Promise 对象，状态为`resolved`
+#### JavaScript 中的迭代器（iterators）和迭代（iterables）是什么？ 你知道什么是内置迭代器吗？
 
-  - **Promise.reject()**：将对象转为状态为`rejected`的 Promise 对象(等价于`new Promise((resolve, reject) => reject())`)
+迭代（Iteration ）是什么，它分为两个部分
+Iterable：可迭代性是一种数据结构，它希望使其元素可以访问公共部分。它通过内置系统的一个方法，键为 Symbol.iterator。这个方法就是迭代器的工厂。Iterator：用于遍历数据结构的元素的指针
 
-> 应用场景
+内置可迭代对象
 
-- 加载图片
-- AJAX 转 Promise 对象
+1. 数组 Arrays
 
-> 重点难点
+```js
+console.log([][Symbol.iterator]);
 
-- 只有异步操作的结果可决定当前状态是哪一种，其他操作都无法改变这个状态
-- 状态改变只有两种可能：从`pending`变为`resolved`、从`pending`变为`rejected`
-- 一旦新建`Promise对象`就会立即执行，无法中途取消
-- 不设置回调函数，内部抛错不会反应到外部
-- 当处于`pending`时，无法得知目前进展到哪一个阶段
-- 实例状态变为`resolved`或`rejected`时，会触发`then()`绑定的回调函数
-- `resolve()`和`reject()`的执行总是晚于本轮循环的同步任务
-- `then()`返回新实例，其后可再调用另一个`then()`
-- `then()`运行中抛出错误会被`catch()`捕获
-- `reject()`的作用等同于抛出错误
-- 实例状态已变成`resolved`时，再抛出错误是无效的，不会被捕获，等于没有抛出
-- 实例状态的错误具有`冒泡`性质，会一直向后传递直到被捕获为止，错误总是会被下一个`catch()`捕获
-- 不要在`then()`里定义`rejected`状态的回调函数(不使用其第二参数)
-- 建议使用`catch()`捕获错误，不要使用`then()`第二个参数捕获
-- 没有使用`catch()`捕获错误，实例抛错不会传递到外层代码，即`不会有任何反应`
-- 作为参数的实例定义了`catch()`，一旦被`rejected`并不会触发`Promise.all()`的`catch()`
-- `Promise.reject()`的参数会原封不动地作为`rejected`的理由，变成后续方法的参数
+for (let x of ['a', 'b']) console.log(x);
+```
+
+2. 字符串 Strings
+
+```js
+console.log(''[Symbol.iterator]);
+for (let x of 'abc') console.log(x);
+```
+
+3. Map
+
+```js
+let map = new Map().set('a', 1).set('b', 2);
+console.log(map[Symbol.iterator]);
+for (let pair of map) {
+  console.log(pair);
+}
+```
+
+4. Set
+
+```js
+let set = new Set().add('a').add('b');
+for (let x of set) {
+  console.log(x);
+}
+```
+
+5. arguments
+
+```js
+function printArgs() {
+  for (let x of arguments) {
+    console.log(x);
+  }
+}
+printArgs('a', 'b');
+```
+
+6. Typed Arrays
+
+7. Generators，后面讲这个的时候在介绍
+
+然后我们在看看哪些操作符以及表达式中可以操作迭代器
+
+1. 数组解构操作符
+
+```js
+let set = new Set()
+  .add('a')
+  .add('b')
+  .add('c'); //Chrome浏览器不支持这段代码
+let [x, y] = set;
+let [first, ...rest] = set;
+```
+
+2. for-of 循环
+3. Array.from，新添加的数组静态方法
+
+```js
+Array.from(new Map().set(false, 'no').set(true, 'yes'));
+```
+
+4. spread 操作符
+
+```js
+let arr = ['b', 'c'];
+['a', ...arr, 'd'];
+```
+
+5. Map，Set 构造函数
+
+```js
+let map = new Map([
+  ['uno', 'one'],
+  ['dos', 'two'],
+]);
+let set = new Set(['red', 'green', 'blue']);
+```
+
+6. Promise.all，Promise.race 参数
+7. yield\*
+
+#### async/await 原理
+
+虽然说 Generator 函数号称是解决异步回调问题，但却带来了一些麻烦，比如函数外部无法捕获异常，比如多个 yield 会导致调试困难。所以相较之下 Promise 是更优秀的异步解决方案。
+
+async/await 做的事情就是将 Generator 函数转换成 Promise。
 
 ## Generator
 
-- 定义：封装多个内部状态的异步编程解决方案
-
-- 形式：调用`Generator函数`(该函数不执行)返回指向内部状态的指针对象(不是运行结果)
-
-- 声明：`function* Func() {}`
-
-- 方法
-
-  - **next()**：使指针移向下一个状态，返回`{ done, value }`(入参会被当作上一个`yield命令表达式`的返回值)
-  - **return()**：返回指定值且终结遍历`Generator函数`，返回`{ done: true, value: 入参 }`
-  - **throw()**：在`Generator函数`体外抛出错误，在`Generator函数`体内捕获错误，返回自定义的`new Errow()`
-
-- yield 命令：声明内部状态的值(
-
-  ```
-  return
-  ```
-
-  声明结束返回的值)
-
-  - 遇到`yield命令`就暂停执行后面的操作，并将其后表达式的值作为返回对象的`value`
-  - 下次调用`next()`时，再继续往下执行直到遇到下一个`yield命令`
-  - 没有再遇到`yield命令`就一直运行到`Generator函数`结束，直到遇到`return语句`为止并将其后表达式的值作为返回对象的`value`
-  - `Generator函数`没有`return语句`则返回对象的`value`为`undefined`
-
-- yield\*命令：在一个`Generator函数`里执行另一个`Generator函数`(后随具有`Iterator接口`的数据结构)
-
-- 遍历：通过`for-of`自动调用`next()`
-
-- 作为对象属性
-
-  - 全写：`const obj = { method: function*() {} }`
-  - 简写：`const obj = { * method() {} }`
-
-- 上下文：执行产生的`上下文环境`一旦遇到`yield命令`就会暂时退出堆栈(但并不消失)，所有变量和对象会冻结在`当前状态`，等到对它执行`next()`时，这个`上下文环境`又会重新加入调用栈，冻结的变量和对象恢复执行
-
-> 方法异同
-
-- 相同点：`next()`、`throw()`、`return()`本质上是同一件事，作用都是让函数恢复执行且使用不同的语句替换`yield命令`
-- 不同点
-  - **next()**：将`yield命令`替换成一个`值`
-  - **return()**：将`yield命令`替换成一个`return语句`
-  - **throw()**：将`yield命令`替换成一个`throw语句`
-
-> 应用场景
-
-- 异步操作同步化表达
-- 控制流管理
-- 为对象部署 Iterator 接口：把`Generator函数`赋值给对象的`Symbol.iterator`，从而使该对象具有`Iterator接口`
-- 作为具有 Iterator 接口的数据结构
-
-> 重点难点
-
-- 每次调用`next()`，指针就从`函数头部`或`上次停下的位置`开始执行，直到遇到下一个`yield命令`或`return语句`为止
-- 函数内部可不用`yield命令`，但会变成单纯的`暂缓执行函数`(还是需要`next()`触发)
-- `yield命令`是暂停执行的标记，`next()`是恢复执行的操作
-- `yield命令`用在另一个表达式中必须放在`圆括号`里
-- `yield命令`用作函数参数或放在赋值表达式的右边，可不加`圆括号`
-- `yield命令`本身没有返回值，可认为是返回`undefined`
-- `yield命令表达式`为惰性求值，等`next()`执行到此才求值
-- 函数调用后生成遍历器对象，此对象的`Symbol.iterator`是此对象本身
-- 在函数运行的不同阶段，通过`next()`从外部向内部注入不同的值，从而调整函数行为
-- 首个`next()`用来启动遍历器对象，后续才可传递参数
-- 想首次调用`next()`时就能输入值，可在函数外面再包一层
-- 一旦`next()`返回对象的`done`为`true`，`for-of`遍历会中止且不包含该返回对象
-- 函数内部部署`try-finally`且正在执行`try`，那么`return()`会导致立刻进入`finally`，执行完`finally`以后整个函数才会结束
-- 函数内部没有部署`try-catch`，`throw()`抛错将被外部`try-catch`捕获
-- `throw()`抛错要被内部捕获，前提是必须`至少执行过一次next()`
-- `throw()`被捕获以后，会附带执行下一条`yield命令`
-- 函数还未开始执行，这时`throw()`抛错只可能抛出在函数外部
-
-> 首次 next()可传值
-
-```
-function Wrapper(func) {
-    return function(...args) {
-        const generator = func(...args);
-        generator.next();
-        return generator;
-    }
-}
-const print = Wrapper(function*() {
-    console.log(`First Input: ${yield}`);
-    return "done";
-});
-print().next("hello");
-
-```
+Generator 函数是 ES6 提出的除 Promise 之外的另一种**异步解决方案**，不同于常见的异步回调，它的用法有些“奇怪”。这里我们只简单介绍一下它的主要用法。
