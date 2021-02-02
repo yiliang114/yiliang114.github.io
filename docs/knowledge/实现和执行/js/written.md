@@ -1303,25 +1303,6 @@ a = a[1];
 [a, b] = [b, a];
 ```
 
-### 格式化金钱，每千分位加逗号
-
-```js
-function format(str) {
-  let s = '';
-  let count = 0;
-  for (let i = str.length - 1; i >= 0; i--) {
-    s = str[i] + s;
-    count++;
-    if (count % 3 == 0 && i != 0) {
-      s = ',' + s;
-    }
-  }
-  return s;
-}
-function format(str) {
-  return str.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-}
-```
 
 ### 给定一个整数无序数组和变量 sum,是否存在数组中任意两项和使等于 sum 的值，是则返回 true
 
