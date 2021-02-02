@@ -263,7 +263,7 @@ module.exports = allModes.map(item => ({
 2.  将 mode 设置为 none，确保 Webpack 内部不做额外处理；
 3.  设置打包入口和输出文件名称，打包入口都是 src/main.js，输出文件名称我们就放在 js 目录中，以模式名称命名，至于为什么放在单独目录中，你可以在接下来的内容中找到答案；
 4.  为 js 文件配置一个 babel\-loader，配置 babel\-loader 的目的是稍后能够辨别其中一类模式的差异。
-5.  配置一个 html\-webpack\-plugin，也就是为每个打包任务生成一个 HTML 文件，通过前面的内容，我们知道 html\-webpack\-plugin 可以生成使用打包结果的 HTML，接下来我们就是通过这些 HTML 在浏览器中进行尝试。
+5.  配置一个 `html-webpack-plugin`，也就是为每个打包任务生成一个 HTML 文件，通过前面的内容，我们知道 `html-webpack-plugin` 可以生成使用打包结果的 HTML，接下来我们就是通过这些 HTML 在浏览器中进行尝试。
 
 配置完成以后，我们再次回到命令行终端运行打包，那此时这个打包过程就自动生成了不同模式下的打包结果，具体结果如下图所示：
 

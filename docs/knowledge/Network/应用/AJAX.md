@@ -94,15 +94,6 @@ fetch 和 XMLHttpRequest 相比，主要有以下优点:
 - 基于标准 Promise 实现，支持 async/await
 - 同构方便，使用 isomorphic-fetch
 
-Ajax 和 Fetch 区别:
-
-- ajax 是使用 XMLHttpRequest 对象发起的，但是用起来很麻烦，所以 ES6 新规范就有了 fetch，fetch 发一个请求不用像 ajax 那样写一大堆代码。
-- 使用 fetch 无法取消一个请求，这是因为 fetch 基于 Promise，而 Promise 无法做到这一点。
-- 在默认情况下，fetch 不会接受或者发送 cookies
-- fetch 没有办法原生监测请求的进度，而 XMLHttpRequest 可以
-- fetch 只对网络请求报错，对 400，500 都当做成功的请求，需要封装去处理
-- fetch 由于是 ES6 规范，兼容性上比不上 XMLHttpRequest
-
 ### 手写 ajax
 
 ```js

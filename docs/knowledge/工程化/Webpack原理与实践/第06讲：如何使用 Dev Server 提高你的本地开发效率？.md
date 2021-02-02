@@ -2,8 +2,6 @@
 draft: true
 ---
 
-你好，我是汪磊，通过前面几个课时的学习，相信你已经了解了 Webpack 的相关概念、基本用法，以及核心工作原理，看似好像已经掌握了 Webpack，但是如果以目前的认知状态去应对日常的开发工作，其实还远远不够。
-
 因为“编写源代码 → Webpack 打包 → 运行应用 → 浏览器查看”这种周而复始的开发方式过于原始，在实际开发过程中，如果你还是按照这种方式来工作，开发效率必然会十分低下。
 
 那究竟该如何提高我们的开发效率呢？
@@ -71,11 +69,11 @@ $ npx browser-sync dist --watch
 
 ### Webpack Dev Server
 
-[webpack\-dev\-server](https://github.com/webpack/webpack-dev-server) 是 Webpack 官方推出的一款开发工具，根据它的名字我们就应该知道，它提供了一个开发服务器，并且将自动编译和自动刷新浏览器等一系列对开发友好的功能全部集成在了一起。
+[`webpack-dev-server`](https://github.com/webpack/webpack-dev-server) 是 Webpack 官方推出的一款开发工具，根据它的名字我们就应该知道，它提供了一个开发服务器，并且将自动编译和自动刷新浏览器等一系列对开发友好的功能全部集成在了一起。
 
-Webpack 官方推出 webpack\-dev\-server 这款工具的初衷，就是为了提高开发者日常的开发效率，使用这个工具就可以解决我在开头所提出的问题。而且它是一个高度集成的工具，使用起来十分的方便。
+Webpack 官方推出 `webpack-dev-server` 这款工具的初衷，就是为了提高开发者日常的开发效率，使用这个工具就可以解决我在开头所提出的问题。而且它是一个高度集成的工具，使用起来十分的方便。
 
-webpack\-dev\-server 同样也是一个独立的 npm 模块，所以我们需要通过 npm 将 webpack\-dev\-server 作为项目的开发依赖安装。安装完成过后，这个模块为我们提供了一个叫作 webpack\-dev\-server 的 CLI 程序，我们同样可以直接通过 npx 直接去运行这个 CLI，或者把它定义到 npm scripts 中，具体操作如下：
+`webpack-dev-server` 同样也是一个独立的 npm 模块，所以我们需要通过 npm 将 `webpack-dev-server` 作为项目的开发依赖安装。安装完成过后，这个模块为我们提供了一个叫作 `webpack-dev-server` 的 CLI 程序，我们同样可以直接通过 npx 直接去运行这个 CLI，或者把它定义到 npm scripts 中，具体操作如下：
 
 ```
 # 安装 webpack-dev-server
@@ -85,65 +83,63 @@ $ npx webpack-dev-server
 
 ```
 
-运行 webpack\-dev\-server 这个命令时，它内部会启动一个 HTTP Server，为打包的结果提供静态文件服务，并且自动使用 Webpack 打包我们的应用，然后监听源代码的变化，一旦文件发生变化，它会立即重新打包，大致流程如下：
+运行 `webpack-dev-server` 这个命令时，它内部会启动一个 HTTP Server，为打包的结果提供静态文件服务，并且自动使用 Webpack 打包我们的应用，然后监听源代码的变化，一旦文件发生变化，它会立即重新打包，大致流程如下：
 
 ![4.png](https://s0.lgstatic.com/i/image/M00/03/61/CgqCHl6ykrKAKqeOAABe6Avstu0065.png)
 
-不过这里需要注意的是，webpack\-dev\-server 为了提高工作速率，它并没有将打包结果写入到磁盘中，而是暂时存放在内存中，内部的 HTTP Server 也是从内存中读取这些文件的。这样一来，就会减少很多不必要的磁盘读写操作，大大提高了整体的构建效率。
+不过这里需要注意的是，`webpack-dev-server` 为了提高工作速率，它并没有将打包结果写入到磁盘中，而是暂时存放在内存中，内部的 HTTP Server 也是从内存中读取这些文件的。这样一来，就会减少很多不必要的磁盘读写操作，大大提高了整体的构建效率。
 
 ![3.png](https://s0.lgstatic.com/i/image/M00/03/61/CgqCHl6ykr2ATByyAAA43IcwZBo618.png)
 
-我们还可以为 webpack\-dev\-server 命令传入一个 \-\-open 的参数，用于自动唤起浏览器打开我们的应用。打开浏览器过后，此时如果你有两块屏幕，就可以把浏览器放到另外一块屏幕上，然后体验一边编码，一边即时预览的开发环境了。
+我们还可以为 `webpack-dev-server` 命令传入一个 \-\-open 的参数，用于自动唤起浏览器打开我们的应用。打开浏览器过后，此时如果你有两块屏幕，就可以把浏览器放到另外一块屏幕上，然后体验一边编码，一边即时预览的开发环境了。
 
 #### 配置选项
 
-Webpack 配置对象中可以有一个叫作 devServer 的属性，专门用来为 webpack\-dev\-server 提供配置，具体如下：
+Webpack 配置对象中可以有一个叫作 devServer 的属性，专门用来为 `webpack-dev-server` 提供配置，具体如下：
 
-```
+```js
 // ./webpack.config.js
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   // ...
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 9000
+    port: 9000,
     // ...
     // 详细配置文档：https://webpack.js.org/configuration/dev-server/
-  }
-}
-
+  },
+};
 ```
 
 具体有哪些配置我们就不在这里一一介绍了，你可以在它的[官网](https://webpack.js.org/configuration/dev-server/)中找到相对应的说明文档。
 
-接下来我们来看几个 webpack\-dev\-server 的常用功能。
+接下来我们来看几个 `webpack-dev-server` 的常用功能。
 
 #### 静态资源访问
 
-webpack\-dev\-server 默认会将构建结果和输出文件全部作为开发服务器的资源文件，也就是说，只要通过 Webpack 打包能够输出的文件都可以直接被访问到。但是如果你还有一些没有参与打包的静态文件也需要作为开发服务器的资源被访问，那你就需要额外通过配置“告诉” webpack\-dev\-server。
+`webpack-dev-server` 默认会将构建结果和输出文件全部作为开发服务器的资源文件，也就是说，只要通过 Webpack 打包能够输出的文件都可以直接被访问到。但是如果你还有一些没有参与打包的静态文件也需要作为开发服务器的资源被访问，那你就需要额外通过配置“告诉” `webpack-dev-server`。
 
-具体的方法就是在 webpack\-dev\-server 的配置对象中添加一个对应的配置。我们回到配置文件中，找到 devServer 属性，它的类型是一个对象，我们可以通过这个 devServer 对象的 contentBase 属性指定额外的静态资源路径。这个 contentBase 属性可以是一个字符串或者数组，也就是说你可以配置一个或者多个路径。具体配置如下：
+具体的方法就是在 `webpack-dev-server` 的配置对象中添加一个对应的配置。我们回到配置文件中，找到 devServer 属性，它的类型是一个对象，我们可以通过这个 devServer 对象的 contentBase 属性指定额外的静态资源路径。这个 contentBase 属性可以是一个字符串或者数组，也就是说你可以配置一个或者多个路径。具体配置如下：
 
-```
+```js
 // ./webpack.config.js
 module.exports = {
   // ...
   devServer: {
-    contentBase: 'public'
-  }
-}
-
+    contentBase: 'public',
+  },
+};
 ```
 
-我们这里将这个路径设置为项目中的 public 目录。可能有人会有疑问，之前我们在使用插件的时候已经将这个目录通过 copy\-webpack\-plugin 输出到了输出目录，按照刚刚的说法，所有输出的文件都可以直接被 serve，也就是能直接访问到，按道理应该不需要再作为开发服务器的静态资源路径了。
+我们这里将这个路径设置为项目中的 public 目录。可能有人会有疑问，之前我们在使用插件的时候已经将这个目录通过 `copy-webpack-plugin` 输出到了输出目录，按照刚刚的说法，所有输出的文件都可以直接被 serve，也就是能直接访问到，按道理应该不需要再作为开发服务器的静态资源路径了。
 
-确实是这样的，而且如果你能想到这一点，也就证明你真正理解了 webpack\-dev\-server 的文件加载规则。
+确实是这样的，而且如果你能想到这一点，也就证明你真正理解了 `webpack-dev-server` 的文件加载规则。
 
-但是在实际使用 Webpack 时，我们一般都会把 copy\-webpack\-plugin 这种插件留在上线前的那一次打包中使用，而开发过程中一般不会用它。因为在开发过程中，我们会频繁重复执行打包任务，假设这个目录下需要拷贝的文件比较多，如果每次都需要执行这个插件，那打包过程开销就会比较大，每次构建的速度也就自然会降低。
+但是在实际使用 Webpack 时，我们一般都会把 `copy-webpack-plugin` 这种插件留在上线前的那一次打包中使用，而开发过程中一般不会用它。因为在开发过程中，我们会频繁重复执行打包任务，假设这个目录下需要拷贝的文件比较多，如果每次都需要执行这个插件，那打包过程开销就会比较大，每次构建的速度也就自然会降低。
 
-至于如何实现某些插件只在生产模式打包时使用，是额外的话题，所以具体的操作方式会在 10 课时中详细介绍。这里我们先移除 CopyWebpackPlugin，确保这里的打包不会输出 public 目录中的静态资源文件，然后回到命令行再次执行 webpack\-dev\-server。
+至于如何实现某些插件只在生产模式打包时使用，是额外的话题，所以具体的操作方式会在 10 课时中详细介绍。这里我们先移除 CopyWebpackPlugin，确保这里的打包不会输出 public 目录中的静态资源文件，然后回到命令行再次执行 `webpack-dev-server`。
 
 启动过后，我们打开浏览器，这里我们访问的页面文件和 bundle.js 文件均来自于打包结果。我们再尝试访问 favicon.ico，因为这个文件已经没有参与打包了，所以这个文件必然来源于 contentBase 中配置的目录了。
 
@@ -151,7 +147,7 @@ module.exports = {
 
 #### Proxy 代理
 
-由于 webpack\-dev\-server 是一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 localhost 的一个端口上，而后端服务又是运行在另外一个地址上。但是最终上线过后，我们的应用一般又会和后端服务部署到同源地址下。
+由于 `webpack-dev-server` 是一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 localhost 的一个端口上，而后端服务又是运行在另外一个地址上。但是最终上线过后，我们的应用一般又会和后端服务部署到同源地址下。
 
 那这样就会出现一个非常常见的问题：在实际生产环境中能够直接访问的 API，回到我们的开发环境后，再次访问这些 API 就会产生跨域请求问题。
 
@@ -159,7 +155,7 @@ module.exports = {
 
 那解决这种开发阶段跨域请求问题最好的办法，就是在开发服务器中配置一个后端 API 的代理服务，也就是把后端接口服务代理到本地的开发服务地址。
 
-webpack\-dev\-server 就支持直接通过配置的方式，添加代理服务。接下来，我们来看一下它的具体用法。
+`webpack-dev-server` 就支持直接通过配置的方式，添加代理服务。接下来，我们来看一下它的具体用法。
 
 这里我们假定 GitHub 的 API 就是我们应用的后端服务，那我们的目标就是将 GitHub API 代理到本地开发服务器中。
 
@@ -173,19 +169,18 @@ GitHub API 的 Endpoint 都是在根目录下，也就是说不同的 Endpoint �
 
 属性的名称是需要被代理的请求路径前缀，一般为了辨别，我都会设置为 /api。值是所对应的代理规则配置，我们将代理目标地址设置为 https://api.github.com，具体代码如下：
 
-```
+```js
 // ./webpack.config.js
 module.exports = {
   // ...
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://api.github.com'
-      }
-    }
-  }
-}
-
+        target: 'https://api.github.com',
+      },
+    },
+  },
+};
 ```
 
 那此时我们请求 http://localhost:8080/api/users ，就相当于请求了 https://api.github.com/api/users。
@@ -194,7 +189,7 @@ module.exports = {
 
 而我们真正希望请求的地址是 https://api.github.com/users，所以对于代理路径开头的 /api 我们要重写掉。我们可以添加一个 pathRewrite 属性来实现代理路径重写，重写规则就是把路径中开头的 /api 替换为空，pathRewrite 最终会以正则的方式来替换请求路径。
 
-```
+```js
 // ./webpack.config.js
 module.exports = {
   // ...
@@ -203,13 +198,12 @@ module.exports = {
       '/api': {
         target: 'https://api.github.com',
         pathRewrite: {
-          '^/api': '' // 替换掉代理地址中的 /api
-        }
-      }
-    }
-  }
-}
-
+          '^/api': '', // 替换掉代理地址中的 /api
+        },
+      },
+    },
+  },
+};
 ```
 
 这样我们代理的地址就正常了。
@@ -220,7 +214,7 @@ module.exports = {
 
 将代理规则配置的 changeOrigin 属性设置为 true，就会以实际代理请求地址中的主机名去请求，也就是我们正常请求这个地址的主机名是什么，实际请求 GitHub 时就会设置成什么。
 
-```
+```js
 // ./webpack.config.js
 module.exports = {
   // ...
@@ -229,17 +223,16 @@ module.exports = {
       '/api': {
         target: 'https://api.github.com',
         pathRewrite: {
-          '^/api': '' // 替换掉代理地址中的 /api
+          '^/api': '', // 替换掉代理地址中的 /api
         },
-        changeOrigin: true // 确保请求 GitHub 的主机名就是：api.github.com
-      }
-    }
-  }
-}
-
+        changeOrigin: true, // 确保请求 GitHub 的主机名就是：api.github.com
+      },
+    },
+  },
+};
 ```
 
-完成以后，打开命令行终端，运行 webpack\-dev\-server。然后打开浏览器，这里我们直接尝试请求 http://localhost:8080/api/users，得到的就是 GitHub 的用户数据。 因为这个地址已经被代理到了 GitHub 的用户数据接口。
+完成以后，打开命令行终端，运行 `webpack-dev-server`。然后打开浏览器，这里我们直接尝试请求 http://localhost:8080/api/users，得到的就是 GitHub 的用户数据。 因为这个地址已经被代理到了 GitHub 的用户数据接口。
 
 ![image (7).png](https://s0.lgstatic.com/i/image/M00/03/19/Ciqc1F6yYeGAJ8GbAAcUqWinpoA554.png)
 

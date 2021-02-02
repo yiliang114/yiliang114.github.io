@@ -2,7 +2,7 @@
 draft: true
 ---
 
-在前面的课时中我们已经对 Webpack 两个最重要的特性：Loader 和插件机制有了深入的了解，今天我们再来解读一下 Webpack 的运行机制和核心工作原理。
+## Webpack 的运行机制和核心工作原理
 
 ### 工作过程简介
 
@@ -58,15 +58,15 @@ draft: true
 
 #### 一、Webpack CLI
 
-从 Webpack 4 开始 Webpack 的 CLI 部分就被单独抽到了 [webpack\-cli](https://github.com/webpack/webpack-cli) 模块中，目的是为了增强 Webpack 本身的灵活性。所以这一部分的内容我们需要找到 webpack\-cli 所对应的源码。
+从 Webpack 4 开始 Webpack 的 CLI 部分就被单独抽到了 [`webpack-cli`](https://github.com/webpack/webpack-cli) 模块中，目的是为了增强 Webpack 本身的灵活性。所以这一部分的内容我们需要找到 `webpack-cli` 所对应的源码。
 
-我们这里分析的是 v3.3.11 版本的 webpack\-cli，你可以参考该版本的[源码固定链接](https://github.com/webpack/webpack-cli/tree/v3.3.11)。
+我们这里分析的是 v3.3.11 版本的 `webpack-cli`，你可以参考该版本的[源码固定链接](https://github.com/webpack/webpack-cli/tree/v3.3.11)。
 
-> P.S. 目前 webpack\-cli 官方仓库默认分支下的代码不是 3.x 版本的。
+> P.S. 目前 `webpack-cli` 官方仓库默认分支下的代码不是 3.x 版本的。
 
 Webpack CLI 的作用就是将 CLI 参数和 Webpack 配置文件中的配置整合，得到一个完整的配置对象。
 
-这部分操作在 webpack\-cli 的入口文件 bin/cli.js 中，这个文件中内容比较多，我们这里只截取部分核心代码，你可以对照截图中的行号找到源代码中对应的位置。
+这部分操作在 `webpack-cli` 的入口文件 bin/cli.js 中，这个文件中内容比较多，我们这里只截取部分核心代码，你可以对照截图中的行号找到源代码中对应的位置。
 
 首先，Webpack CLI 会通过 yargs 模块解析 CLI 参数，所谓 CLI 参数指的就是我们在运行 webpack 命令时通过命令行传入的参数，例如 \-\-mode=production，具体位置如下：
 

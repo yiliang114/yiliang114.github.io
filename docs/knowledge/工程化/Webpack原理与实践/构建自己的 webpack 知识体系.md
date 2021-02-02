@@ -19,7 +19,7 @@ draft: true
 
 1.  入口 Entry
 
-```
+```js
 entry: {
   a: "./app/entry-a",
   b: ["./app/entry-b1", "./app/entry-b2"]
@@ -28,14 +28,14 @@ entry: {
 
 多入口可以通过 `HtmlWebpackPlugin` 分开注入
 
-```
+```js
 plugins: [
   new HtmlWebpackPlugin({
     chunks: ['a'],
     filename: 'test.html',
-    template: 'src/assets/test.html'
-  })
-]
+    template: 'src/assets/test.html',
+  }),
+];
 ```
 
 1.  出口 Output
@@ -128,12 +128,12 @@ Babel 是一个工具链，主要用于将 ECMAScript 2015+ 版本的代码转�
 
 譬如:
 
-```
+```js
 // log-loader.js
-module.exports = function (source) {
-  console.log('test...', source)
-  return source
-}
+module.exports = function(source) {
+  console.log('test...', source);
+  return source;
+};
 ```
 
 在 use 时，如果 `log-loader` 并没有在 `node_modules` 中，那么可以使用路径导入。
@@ -144,16 +144,15 @@ plugin： 是一个含有 `apply` 方法的 `类`。
 
 譬如：
 
-```
+```js
 class DemoWebpackPlugin {
-    constructor () {
-        console.log('初始化 插件')
-    }
-    apply (compiler) {
-    }
+  constructor() {
+    console.log('初始化 插件');
+  }
+  apply(compiler) {}
 }
 
-module.exports = DemoWebpackPlugin
+module.exports = DemoWebpackPlugin;
 ```
 
 apply 方法中接收一个 `compiler` 参数，也就是 webpack 实例。由于该参数的存在 plugin 可以很好的运用 webpack 的生命周期钩子，在不同的时间节点做一些操作。
@@ -188,22 +187,22 @@ Webpack 加快代码运行速度方法
 
 动态导入
 
-```
-  import(/* webpackChunkName: "lodash" */ 'lodash')
+```js
+import(/* webpackChunkName: "lodash" */ 'lodash');
 
-  // 注释中的使用webpackChunkName。
-  // 这将导致我们单独的包被命名，lodash.bundle.js
-  // 而不是just [id].bundle.js。
+// 注释中的使用webpackChunkName。
+// 这将导致我们单独的包被命名，lodash.bundle.js
+// 而不是just [id].bundle.js。
 ```
 
 预取(`prefetch`)：将来可能需要一些导航资源
 
 - 只要父`chunk`加载完成，`webpack`就会添加 `prefetch`
 
-```
-  import(/* webpackPrefetch: true */ 'LoginModal');
+```js
+import(/* webpackPrefetch: true */ 'LoginModal');
 
-  // 将<link rel="prefetch" href="login-modal-chunk.js">其附加在页面的开头
+// 将<link rel="prefetch" href="login-modal-chunk.js">其附加在页面的开头
 ```
 
 预加载(`preload`)：当前导航期间可能需要资源
@@ -211,11 +210,11 @@ Webpack 加快代码运行速度方法
 - `preload` chunk 会在父 chunk 加载时，以并行方式开始加载
 - 不正确地使用 `webpackPreload` 会有损性能，
 
-```
-  import(/* webpackPreload: true */ 'ChartingLibrary');
+```js
+import(/* webpackPreload: true */ 'ChartingLibrary');
 
-  // 在加载父 chunk 的同时
-  // 还会通过 <link rel="preload"> 请求 charting-library-chunk
+// 在加载父 chunk 的同时
+// 还会通过 <link rel="preload"> 请求 charting-library-chunk
 ```
 
 ##### DllPlugin + DllReferencePlugin
@@ -228,24 +227,24 @@ DllReferencePlugin 和 DLL 插件 DllPlugin 都是在\_另外\_的 webpack 设�
 
 webpack.vendor.config.js
 
-```
-  new webpack.DllPlugin({
-    context: __dirname,
-    name: "[name]_[hash]",
-    path: path.join(__dirname, "manifest.json"),
-  })
+```js
+new webpack.DllPlugin({
+  context: __dirname,
+  name: '[name]_[hash]',
+  path: path.join(__dirname, 'manifest.json'),
+});
 ```
 
 webpack.app.config.js
 
-```
-  new webpack.DllReferencePlugin({
-    context: __dirname,
-    manifest: require("./manifest.json"),
-    name: "./my-dll.js",
-    scope: "xyz",
-    sourceType: "commonjs2"
-  })
+```js
+new webpack.DllReferencePlugin({
+  context: __dirname,
+  manifest: require('./manifest.json'),
+  name: './my-dll.js',
+  scope: 'xyz',
+  sourceType: 'commonjs2',
+});
 ```
 
 ##### CommonsChunkPlugin
@@ -254,7 +253,7 @@ webpack.app.config.js
 
 如果把公共文件提取出一个文件，那么当用户访问了一个网页，加载了这个公共文件，再访问其他依赖公共文件的网页时，就直接使用文件在浏览器的缓存，这样公共文件就只用被传输一次。
 
-```
+```js
   entry: {
     vendor: ["jquery", "other-lib"], // 明确第三方库
     app: "./entry"
@@ -280,30 +279,30 @@ webpack.app.config.js
 
 基本上脚手架都包含了该插件,该插件会分析 JS 代码语法树，理解代码的含义，从而做到去掉无效代码、去掉日志输入代码、缩短变量名等优化。
 
-```
-  const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-  //...
-  plugins: [
-      new UglifyJSPlugin({
-          compress: {
-              warnings: false,  //删除无用代码时不输出警告
-              drop_console: true,  //删除所有console语句，可以兼容IE
-              collapse_vars: true,  //内嵌已定义但只使用一次的变量
-              reduce_vars: true,  //提取使用多次但没定义的静态值到变量
-          },
-          output: {
-              beautify: false, //最紧凑的输出，不保留空格和制表符
-              comments: false, //删除所有注释
-          }
-      })
-  ]
+```js
+const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+//...
+plugins: [
+  new UglifyJSPlugin({
+    compress: {
+      warnings: false, //删除无用代码时不输出警告
+      drop_console: true, //删除所有console语句，可以兼容IE
+      collapse_vars: true, //内嵌已定义但只使用一次的变量
+      reduce_vars: true, //提取使用多次但没定义的静态值到变量
+    },
+    output: {
+      beautify: false, //最紧凑的输出，不保留空格和制表符
+      comments: false, //删除所有注释
+    },
+  }),
+];
 ```
 
 ##### ExtractTextPlugin + PurifyCSSPlugin
 
 ExtractTextPlugin 从 bundle 中提取文本（CSS）到单独的文件，PurifyCSSPlugin 纯化 CSS（其实用处没多大）
 
-```
+```js
   module.exports = {
     module: {
       rules: [
@@ -345,7 +344,7 @@ ExtractTextPlugin 从 bundle 中提取文本（CSS）到单独的文件，Purify
 
 注意，因为这个插件直接执行文本替换，给定的值必须包含字符串本身内的实际引号。通常，有两种方式来达到这个效果，使用 `' "production" '`, 或者使用 `JSON.stringify('production')`。
 
-```
+```js
     new webpack.DefinePlugin({
 
         // 当然，在运行node服务器的时候就应该按环境来配置文件
@@ -358,40 +357,40 @@ ExtractTextPlugin 从 bundle 中提取文本（CSS）到单独的文件，Purify
 
 测试`DefinePlugin`：编写
 
-```
-    if (WP_CONF === 'dev') {
-        console.log('This is dev');
-    } else {
-        console.log('This is prod');
-    }
+```js
+if (WP_CONF === 'dev') {
+  console.log('This is dev');
+} else {
+  console.log('This is prod');
+}
 ```
 
 打包后`WP_CONF === 'dev'`会编译为`false`
 
-```
-    if (false) {
-        console.log('This is dev');
-    } else {
-        console.log('This is prod');
-    }
+```js
+if (false) {
+  console.log('This is dev');
+} else {
+  console.log('This is prod');
+}
 ```
 
 ##### 清除不可达代码
 
 当使用了`DefinePlugin`插件后，打包后的代码会有很多冗余。可以通过`UglifyJsPlugin`**清除不可达代码**。
 
-```
-    [
-        new UglifyJsPlugin({
-            uglifyOptions: {
-            compress: {
-                warnings: false, // 去除warning警告
-                dead_code: true, // 去除不可达代码
-            },
-            warnings: false
-            }
-        })
-    ]
+```js
+[
+  new UglifyJsPlugin({
+    uglifyOptions: {
+      compress: {
+        warnings: false, // 去除warning警告
+        dead_code: true, // 去除不可达代码
+      },
+      warnings: false,
+    },
+  }),
+];
 ```
 
 最后的打包打包代码会变成`console.log('This is prod')`
@@ -406,71 +405,67 @@ ExtractTextPlugin 从 bundle 中提取文本（CSS）到单独的文件，Purify
 
 使用
 
-```
-  exports.plugins = [
-    new HappyPack({
-      id: 'jsx',
-      threads: 4,
-      loaders: [ 'babel-loader' ]
-    }),
+```js
+exports.plugins = [
+  new HappyPack({
+    id: 'jsx',
+    threads: 4,
+    loaders: ['babel-loader'],
+  }),
 
-    new HappyPack({
-      id: 'styles',
-      threads: 2,
-      loaders: [ 'style-loader', 'css-loader', 'less-loader' ]
-    })
-  ];
+  new HappyPack({
+    id: 'styles',
+    threads: 2,
+    loaders: ['style-loader', 'css-loader', 'less-loader'],
+  }),
+];
 
-  exports.module.rules = [
-    {
-      test: /\.js$/,
-      use: 'happypack/loader?id=jsx'
-    },
+exports.module.rules = [
+  {
+    test: /\.js$/,
+    use: 'happypack/loader?id=jsx',
+  },
 
-    {
-      test: /\.less$/,
-      use: 'happypack/loader?id=styles'
-    },
-  ]
+  {
+    test: /\.less$/,
+    use: 'happypack/loader?id=styles',
+  },
+];
 ```
 
 ##### ParallelUglifyPlugin
 
 [ParallelUglifyPlugin](https://github.com/gdborton/webpack-parallel-uglify-plugin)可以**开启多进程压缩 JS 文件**
 
-```
-  import ParallelUglifyPlugin from 'webpack-parallel-uglify-plugin';
+```js
+import ParallelUglifyPlugin from 'webpack-parallel-uglify-plugin';
 
-  module.exports = {
-    plugins: [
-      new ParallelUglifyPlugin({
-        test,
-        include,
-        exclude,
-        cacheDir,
-        workerCount,
-        sourceMap,
-        uglifyJS: {
-        },
-        uglifyES: {
-        }
-      }),
-    ],
-  };
+module.exports = {
+  plugins: [
+    new ParallelUglifyPlugin({
+      test,
+      include,
+      exclude,
+      cacheDir,
+      workerCount,
+      sourceMap,
+      uglifyJS: {},
+      uglifyES: {},
+    }),
+  ],
+};
 ```
 
 ##### BundleAnalyzerPlugin
 
 webpack 打包结果分析插件
 
-```
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+```js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-  module.exports = {
-    plugins: [
-      new BundleAnalyzerPlugin()
-    ]
-  }
+module.exports = {
+  plugins: [new BundleAnalyzerPlugin()],
+};
 ```
 
 ##### test & include & exclude
@@ -479,7 +474,7 @@ webpack 打包结果分析插件
 
 示例
 
-```
+```js
   {
     test: /\.css$/,
     include: [
@@ -491,11 +486,11 @@ webpack 打包结果分析插件
 
 ##### 外部扩展(externals)
 
-这玩意不是插件，是 wenpack 的配置选项
+这玩意不是插件，是 webpack 的配置选项
 
 externals 配置选项提供了「从输出的 bundle 中排除依赖」的方法。相反，所创建的 bundle 依赖于那些存在于用户环境(consumer's environment)中的依赖。此功能通常对 library 开发人员来说是最有用的，然而也会有各种各样的应用程序用到它。
 
-```
+```js
   entry: {
     entry: './src/main.js',
     vendor: ['vue', 'vue-router', 'vuex']
@@ -527,23 +522,22 @@ webpack 将 bundle.js 文件打包到了内存中，不生成文件的原因就�
 
 webpack\-dev\-middleware 中该部分源码如下:
 
-```
-  // compiler
-  // webpack-dev-middleware/lib/Shared.js
-  var isMemoryFs = !compiler.compilers &&
-                  compiler.outputFileSystem instanceof MemoryFileSystem;
-  if(isMemoryFs) {
-      fs = compiler.outputFileSystem;
-  } else {
-      fs = compiler.outputFileSystem = new MemoryFileSystem();
-  }
+```js
+// compiler
+// webpack-dev-middleware/lib/Shared.js
+var isMemoryFs = !compiler.compilers && compiler.outputFileSystem instanceof MemoryFileSystem;
+if (isMemoryFs) {
+  fs = compiler.outputFileSystem;
+} else {
+  fs = compiler.outputFileSystem = new MemoryFileSystem();
+}
 ```
 
 ##### 第二步：devServer 通知浏览器端文件发生改变
 
-在启动 devServer 的时候，[sockjs](#)) 在服务端和浏览器端建立了一个 webSocket 长连接，以便将 webpack 编译和打包的各个阶段状态告知浏览器，最关键的步骤还是 webpack\-dev\-server 调用 webpack api 监听 compile 的 done 事件，当 compile 完成后，webpack\-dev\-server 通过 \_sendStatus 方法将编译打包后的新模块 hash 值发送到浏览器端。
+在启动 devServer 的时候，[sockjs](#)) 在服务端和浏览器端建立了一个 webSocket 长连接，以便将 webpack 编译和打包的各个阶段状态告知浏览器，最关键的步骤还是 `webpack-dev-server` 调用 webpack api 监听 compile 的 done 事件，当 compile 完成后，`webpack-dev-server` 通过 \_sendStatus 方法将编译打包后的新模块 hash 值发送到浏览器端。
 
-```
+```js
   // webpack-dev-server/lib/Server.js
   compiler.plugin('done', (stats) => {
     // stats.hash 是最新打包文件的 hash 值
@@ -563,15 +557,15 @@ webpack\-dev\-middleware 中该部分源码如下:
   };
 ```
 
-##### 第三步：webpack\-dev\-server/client 接收到服务端消息做出响应
+##### 第三步：`webpack-dev-server`/client 接收到服务端消息做出响应
 
-webpack\-dev\-server 修改了 webpack 配置中的 entry 属性，在里面添加了 webpack\-dev\-client 的代码，这样在最后的 bundle.js 文件中就会接收 websocket 消息的代码了。
+`webpack-dev-server` 修改了 webpack 配置中的 entry 属性，在里面添加了 webpack\-dev\-client 的代码，这样在最后的 bundle.js 文件中就会接收 websocket 消息的代码了。
 
-webpack\-dev\-server/client 当接收到 type 为 hash 消息后会将 hash 值暂存起来，当接收到 type 为 ok 的消息后对应用执行 reload 操作。
+`webpack-dev-server`/client 当接收到 type 为 hash 消息后会将 hash 值暂存起来，当接收到 type 为 ok 的消息后对应用执行 reload 操作。
 
-在 reload 操作中，webpack\-dev\-server/client 会根据 hot 配置决定是刷新浏览器还是对代码进行热更新（HMR）。代码如下：
+在 reload 操作中，`webpack-dev-server`/client 会根据 hot 配置决定是刷新浏览器还是对代码进行热更新（HMR）。代码如下：
 
-```
+```js
   // webpack-dev-server/client/index.js
   hash: function msgHash(hash) {
       currentHash = hash;
@@ -597,7 +591,7 @@ webpack\-dev\-server/client 当接收到 type 为 hash 消息后会将 hash 值�
 
 ##### 第四步：webpack 接收到最新 hash 值验证并请求模块代码
 
-首先 webpack/hot/dev\-server（以下简称 dev\-server） 监听第三步 webpack\-dev\-server/client 发送的 `webpackHotUpdate` 消息，调用 webpack/lib/HotModuleReplacement.runtime（简称 HMR runtime）中的 check 方法，检测是否有新的更新。
+首先 webpack/hot/dev\-server（以下简称 dev\-server） 监听第三步 `webpack-dev-server`/client 发送的 `webpackHotUpdate` 消息，调用 webpack/lib/HotModuleReplacement.runtime（简称 HMR runtime）中的 check 方法，检测是否有新的更新。
 
 在 check 过程中会利用 webpack/lib/JsonpMainTemplate.runtime（简称 jsonp runtime）中的两个方法 hotDownloadManifest 和 hotDownloadUpdateChunk。
 
@@ -609,60 +603,63 @@ hotDownloadUpdateChunk 是通过 jsonp 请求最新的模块代码，然后将�
 
 附：为什么更新模块的代码不直接在第三步通过 websocket 发送到浏览器端，而是通过 jsonp 来获取呢？
 
-我的理解是，功能块的解耦，各个模块各司其职，dev\-server/client 只负责消息的传递而不负责新模块的获取，而这些工作应该有 HMR runtime 来完成，HMR runtime 才应该是获取新代码的地方。再就是因为不使用 webpack\-dev\-server 的前提，使用 webpack\-hot\-middleware 和 webpack 配合也可以完成模块热更新流程，在使用 webpack\-hot\-middleware 中有件有意思的事，它没有使用 websocket，而是使用的 EventSource。综上所述，HMR 的工作流中，不应该把新模块代码放在 websocket 消息中。
+我的理解是，功能块的解耦，各个模块各司其职，dev\-server/client 只负责消息的传递而不负责新模块的获取，而这些工作应该有 HMR runtime 来完成，HMR runtime 才应该是获取新代码的地方。再就是因为不使用 `webpack-dev-server` 的前提，使用 webpack\-hot\-middleware 和 webpack 配合也可以完成模块热更新流程，在使用 webpack\-hot\-middleware 中有件有意思的事，它没有使用 websocket，而是使用的 EventSource。综上所述，HMR 的工作流中，不应该把新模块代码放在 websocket 消息中。
 
 ##### 第五步：HotModuleReplacement.runtime 对模块进行热更新
 
 这一步是整个模块热更新（HMR）的关键步骤，而且模块热更新都是发生在 HMR runtime 中的 hotApply 方法中
 
-```
-  // webpack/lib/HotModuleReplacement.runtime
-  function hotApply() {
-      // ...
-      var idx;
-      var queue = outdatedModules.slice();
-      while(queue.length > 0) {
-          moduleId = queue.pop();
-          module = installedModules[moduleId];
-          // ...
-          // remove module from cache
-          delete installedModules[moduleId];
-          // when disposing there is no need to call dispose handler
-          delete outdatedDependencies[moduleId];
-          // remove "parents" references from all children
-          for(j = 0; j < module.children.length; j++) {
-              var child = installedModules[module.children[j]];
-              if(!child) continue;
-              idx = child.parents.indexOf(moduleId);
-              if(idx >= 0) {
-                  child.parents.splice(idx, 1);
-              }
-          }
+```js
+// webpack/lib/HotModuleReplacement.runtime
+function hotApply() {
+  // ...
+  var idx;
+  var queue = outdatedModules.slice();
+  while (queue.length > 0) {
+    moduleId = queue.pop();
+    module = installedModules[moduleId];
+    // ...
+    // remove module from cache
+    delete installedModules[moduleId];
+    // when disposing there is no need to call dispose handler
+    delete outdatedDependencies[moduleId];
+    // remove "parents" references from all children
+    for (j = 0; j < module.children.length; j++) {
+      var child = installedModules[module.children[j]];
+      if (!child) continue;
+      idx = child.parents.indexOf(moduleId);
+      if (idx >= 0) {
+        child.parents.splice(idx, 1);
       }
-      // ...
-      // insert new code
-      for(moduleId in appliedUpdate) {
-          if(Object.prototype.hasOwnProperty.call(appliedUpdate, moduleId)) {
-              modules[moduleId] = appliedUpdate[moduleId];
-          }
-      }
-      // ...
+    }
   }
+  // ...
+  // insert new code
+  for (moduleId in appliedUpdate) {
+    if (Object.prototype.hasOwnProperty.call(appliedUpdate, moduleId)) {
+      modules[moduleId] = appliedUpdate[moduleId];
+    }
+  }
+  // ...
+}
 ```
 
 模块热更新的错误处理，如果在热更新过程中出现错误，热更新将回退到刷新浏览器，这部分代码在 dev\-server 代码中，简要代码如下：
 
-```
-  module.hot.check(true).then(function(updatedModules) {
-    if(!updatedModules) {
-        return window.location.reload();
+```js
+module.hot
+  .check(true)
+  .then(function(updatedModules) {
+    if (!updatedModules) {
+      return window.location.reload();
     }
     // ...
-  }).catch(function(err) {
-      var status = module.hot.status();
-      if(["abort", "fail"].indexOf(status) >= 0) {
-          window.location.reload();
-      }
+  })
+  .catch(function(err) {
+    var status = module.hot.status();
+    if (['abort', 'fail'].indexOf(status) >= 0) {
+      window.location.reload();
+    }
   });
 ```
 
@@ -670,11 +667,11 @@ hotDownloadUpdateChunk 是通过 jsonp 请求最新的模块代码，然后将�
 
 当用新的模块代码替换老的模块后，但是我们的业务代码并不能知道代码已经发生变化，也就是说，当 hello.js 文件修改后，我们需要在 index.js 文件中调用 HMR 的 accept 方法，添加模块更新后的处理函数，及时将 hello 方法的返回值插入到页面中。代码如下
 
-```
-  // index.js
-  if(module.hot) {
-      module.hot.accept('./hello.js', function() {
-          div.innerHTML = hello()
-      })
-  }
+```js
+// index.js
+if (module.hot) {
+  module.hot.accept('./hello.js', function() {
+    div.innerHTML = hello();
+  });
+}
 ```
