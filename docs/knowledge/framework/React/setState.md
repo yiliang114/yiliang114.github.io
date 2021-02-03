@@ -6,63 +6,24 @@ draft: true
 
 ### setState
 
-`setState` 在 React 中是经常使用的一个 API，但是它存在一些的问题经常会导致初学者出错，核心原因就是因为这个 API 是异步的。
+`setState` 的调用并不会马上引起 `state` 的改变。
 
-首先 `setState` 的调用并不会马上引起 `state` 的改变，并且如果你一次调用了多个 `setState` ，那么结果可能并不如你期待的一样。
+因为 `setState` 是个异步 API，只有同步代码运行完毕才会执行。异步的原因可能，`setState` 可能会导致 DOM 的重绘，如果调用一次就马上去进行重绘，那么调用多次就会造成不必要的性能损失。设计成异步的话，就可以将多次调用放入一个队列中，在恰当的时候统一进行更新过程。
 
-```js
-handle() {
-  // 初始化 `count` 为 0
-  console.log(this.state.count) // -> 0
-  this.setState({ count: this.state.count + 1 })
-  this.setState({ count: this.state.count + 1 })
-  this.setState({ count: this.state.count + 1 })
-  console.log(this.state.count) // -> 0
-}
-```
+#### 立即获取更新
 
-第一，两次的打印都为 0，因为 `setState` 是个异步 API，只有同步代码运行完毕才会执行。`setState` 异步的原因我认为在于，`setState` 可能会导致 DOM 的重绘，如果调用一次就马上去进行重绘，那么调用多次就会造成不必要的性能损失。设计成异步的话，就可以将多次调用放入一个队列中，在恰当的时候统一进行更新过程。
+因为 setState 是一个异步的过程，所以说执行完 setState 之后不能立刻更改 state 里面的值。如果需要对 state 数据更改监听，setState 提供第二个参数，就是用来监听 state 里面数据的更改，当数据更改完成，调用回调函数。
 
-第二，虽然调用了三次 `setState` ，但是 `count` 的值还是为 1。因为多次调用会合并为一次，只有当更新结束后 `state` 才会改变，三次调用等同于如下代码
+### setState 循环调用风险
 
-```js
-Object.assign(
-  {},
-  { count: this.state.count + 1 },
-  { count: this.state.count + 1 },
-  { count: this.state.count + 1 },
-)w
-```
-
-当然你也可以通过以下方式来实现调用三次 `setState` 使得 `count` 为 3
-
-```js
-handle() {
-  this.setState((prevState) => ({ count: prevState.count + 1 }))
-  this.setState((prevState) => ({ count: prevState.count + 1 }))
-  this.setState((prevState) => ({ count: prevState.count + 1 }))
-}
-```
-
-如果你想在每次调用 `setState` 后获得正确的 `state` ，可以通过如下代码实现
-
-```js
-handle() {
-this.setState((prevState) => ({ count: prevState.count + 1 }), () => {
-   console.log(this.state)
-})
-}
-```
+如果在`shouldComponentUpdate`或`componentWillUpdate` 方法里调用 this.setState 方法，就会造成崩溃。
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/setStateCercle.png)
 
 ### 当你调用 setState 的时候，发生了什么事？
 
 - 将传递给 setState 的对象合并到组件的当前状态，触发所谓的调和过程（Reconciliation）
 - 然后生成新的 DOM 树并和旧的 DOM 树使用 Diff 算法对比
 - 根据对比差异对界面进行最小化重渲染
-
-### setState 第二个参数的作用
-
-因为 setState 是一个异步的过程，所以说执行完 setState 之后不能立刻更改 state 里面的值。如果需要对 state 数据更改监听，setState 提供第二个参数，就是用来监听 state 里面数据的更改，当数据更改完成，调用回调函数。
 
 ### 为什么建议传递给 setState 的参数是一个 callback 而不是一个对象
 
@@ -102,10 +63,6 @@ this.setState((prevState, props) => ({
 }));
 // this.state.count === 3 as expected
 ```
-
-### 如果在构造函数中使用 `setState()` 会发生什么?
-
-当你使用 `setState()` 时，除了设置状态对象之外，React 还会重新渲染组件及其所有的子组件。你会得到这样的错误：_Can only update a mounted or mounting component._。因此我们需要在构造函数中使用 `this.state` 初始化状态。
 
 ### `setState()` 和 `replaceState()` 方法之间有什么区别?
 
@@ -159,40 +116,6 @@ getUserProfile = user => {
   });
 };
 ```
-
-### 你认为状态更新是如何合并的?
-
-当你在组件中调用 setState() 方法时，React 会将提供的对象合并到当前状态。例如，让我们以一个使用帖子和评论详细信息的作为状态变量的 Facebook 用户为例：
-
-```js
-  constructor(props) {
-super(props);
-this.state = {
-  posts: [],
-  comments: []
-};
-  }
-```
-
-现在，你可以独立调用 setState() 方法，单独更新状态变量：
-
-```js
- componentDidMount() {
-fetchPosts().then(response => {
-  this.setState({
-posts: response.posts
-  });
-});
-
-fetchComments().then(response => {
-  this.setState({
-comments: response.comments
-  });
-});
-  }
-```
-
-如上面的代码段所示，`this.setState({comments})` 只会更新 comments 变量，而不会修改或替换 posts 变量。
 
 ### 更新状态中的对象有哪些可能的方法?
 
@@ -307,8 +230,3 @@ this.setState((prevState, props) => ({
   count: prevState.count + props.increment,
 }));
 ```
-
-### setState 循环调用风险
-
-如果在`shouldComponentUpdate`或`componentWillUpdate` 方法里调用 this.setState 方法，就会造成崩溃。
-![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/setStateCercle.png)
