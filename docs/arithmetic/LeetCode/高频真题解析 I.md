@@ -667,6 +667,7 @@ rftt
 
 包括两大步骤，第一步是根据输入构建一个有向图；第二步是对这个有向图进行拓扑排序。
 
+```java
 //  基本情况处理，比如输入为空，或者输入的字符串只有一个
 String alienOrder(String\[\] words) {
     if (words == null || words.length == 0)
@@ -752,6 +753,7 @@ stack.push(u);
 
 return true;
 }
+```
 
 ```js
 var alienOrder = function(words) {
@@ -918,6 +920,7 @@ return sum;
 
 如上，在返回 sum 之前，我们还进行了一次额外的操作：sum += num，就是为了要处理结束时的特殊情况。若在表达式的最后添加上一个”+”，也能实现同样的效果，代码实现如下。
 
+```java
 int calculate(String s) {
     Queue<Character> queue = new LinkedList<>();
     for (char c : s.toCharArray()) {
@@ -932,19 +935,23 @@ while (!queue.isEmpty()) {
 return sum;
 }
 
+```
+
 如上，在优先队列的最后添加一个加号。
 
 ### 代码扩展二
 
 若输入的时候允许空格，如何处理？代码实现如下。
 
+```java
 int calculate(String s) {
-    ...
+//     ...
     for (char c : s.toCharArray()) {
         if (c != ' ') queue.offer(c);
     }
-    ...
+//     ...
 }
+```
 
 如上，在添加到优先队列的时候，过滤到那些空格就好了。
 
@@ -960,6 +967,7 @@ int calculate(String s) {
 
 ### 代码实现
 
+```java
 int calculate(String s) {
     Queue<Character> queue = new LinkedList<>();
     for (char c : s.toCharArray()) {
@@ -991,6 +999,7 @@ num = 0;
 
 return sum;
 }
+```
 
 ###### 解题思路三：引入乘除
 
@@ -1000,6 +1009,7 @@ return sum;
 
 ### 代码实现
 
+```java
 int calculate(String s) {
     Queue<Character> queue = new LinkedList<>();
     for (char c : s.toCharArray()) {
@@ -1043,6 +1053,7 @@ int sum = 0;
     return sum;
 
 }
+```
 
 ###### 解题思路四：引入小括号
 
@@ -1056,6 +1067,7 @@ int sum = 0;
 
 ### 代码实现
 
+```java
 //  在主函数里调用一个递归函数
 int calculate(String s) {
     Queue<Character> queue = new LinkedList<>();
@@ -1111,6 +1123,8 @@ int sum = 0;
     return sum;
 
 }
+
+```
 
 ## 高频真题解析-3
 
@@ -1328,6 +1342,7 @@ i 指向的字符和 j 指向的字符不匹配，又进行回溯，但是不用
 
 根据上面的思路，一起来写递归的实现。主体函数如下。
 
+```java
 boolean isMatch(String s, String p) {
     if (s == null || p == null) {
         return false;
@@ -1372,6 +1387,7 @@ boolean isMatch(String s, int i, String p, int j) {
 //  接着继续下去
     return isMatch(s, i, p, j + 2);
 }
+```
 
 1.  函数接受四个输入参数，s 字符串，p 字符串，i 指针，j 指针。
 
@@ -1426,6 +1442,7 @@ p = "a\*b.d"
 
 主函数代码如下。
 
+```java
 boolean isMatch(String s, String p) {
     if (s == null || p == null) return false;
 
@@ -1454,6 +1471,7 @@ return  isMatch(s, i, p, j - 2) || isMatch(s, i - 1, p, j) &&
 boolean isMatch(char a, char b) {
     return a == b || b == '.';
 }
+```
 
 1.  递归函数的输入参数有四个，分别是字符串 s，当前字符串 s 的下标，字符串 p，以及字符串 p 的当前下标。由主函数可以看到，两个字符串的下标都是从最后一位开始。
 
@@ -1475,6 +1493,7 @@ boolean isMatch(char a, char b) {
 
 ### 代码实现
 
+```java
 //  分别用  m  和  n  表示  s  字符串和  p  字符串的长度
 boolean isMatch(String s, String p) {
     int m = s.length(), n = p.length();
@@ -1509,6 +1528,7 @@ boolean isMatch(char a, char b) {
     return a == b || b == '.';
 
 }
+```
 
 注意：
 
