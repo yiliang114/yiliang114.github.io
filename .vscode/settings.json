@@ -1,7 +1,5 @@
 {
   "GitCommitPlugin.MaxSubjectWords": 30,
   "GitCommitPlugin.ShowEmoji": false,
-  "files.exclude": {
-    "lib": true
-  }
+  "files.exclude": {}
 }
