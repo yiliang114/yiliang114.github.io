@@ -36,7 +36,7 @@ func();
 // Cannot access 'b' before initialization
 ```
 
-````js
+```js
 var a = 100;
 if (1) {
   a = 10;
@@ -60,7 +60,7 @@ var employeeId = '19000';
   };
 })();
 // undefined
-````
+```
 
 内外作用域有同名的变量，就近原则。
 

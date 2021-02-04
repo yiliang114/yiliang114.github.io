@@ -14,7 +14,17 @@ draft: true
 
 功能方面：
 
-`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是最准确的。
+`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是最准确的。100% 准确.
+
+```js
+Object.prototype.toString.call('An'); // "[object String]"
+Object.prototype.toString.call(1); // "[object Number]"
+Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
+Object.prototype.toString.call(null); // "[object Null]"
+Object.prototype.toString.call(undefined); // "[object Undefined]"
+Object.prototype.toString.call(function() {}); // "[object Function]"
+Object.prototype.toString.call({ name: 'An' }); // "[object Object]"
+```
 
 instanceof 只能判断对象原型，原始类型不可以。
 
@@ -36,34 +46,6 @@ function(value){
 	}
 }
 ```
-
-#### 1. Object.prototype.toString.call()
-
-100% 准确.
-
-每一个继承 Object 的对象都有 `toString` 方法，如果 `toString` 方法没有重写的话，会返回 `[Object type]`，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 `toString` 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或者 apply 方法来改变 toString 方法的执行上下文。
-
-```js
-const an = ['Hello', 'An'];
-an.toString(); // "Hello,An"
-Object.prototype.toString.call(an); // "[object Array]"
-```
-
-这种方法对于所有基本的数据类型都能进行判断，即使是 null 和 undefined 。
-
-```js
-Object.prototype.toString.call('An'); // "[object String]"
-Object.prototype.toString.call(1); // "[object Number]"
-Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
-Object.prototype.toString.call(null); // "[object Null]"
-Object.prototype.toString.call(undefined); // "[object Undefined]"
-Object.prototype.toString.call(function() {}); // "[object Function]"
-Object.prototype.toString.call({ name: 'An' }); // "[object Object]"
-```
-
-`Object.prototype.toString.call()` 常用于判断浏览器内置对象时。
-
-更多实现可见 [谈谈 Object.prototype.toString](https://juejin.im/post/591647550ce4630069df1c4a)
 
 #### 2. instanceof
 
@@ -130,9 +112,9 @@ parseInt('3', 2); // NaN
 
 已知如下数组：
 
-> `var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
->
-> 编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+`var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
+
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
 
 ```js
 Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {

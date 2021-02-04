@@ -37,12 +37,6 @@ user-scalable：用户是否可以手动缩放。
 - 只要选择器的子树一直在工作，样式系统就会持续左移，直到和规则匹配，或者是因为不匹配而放弃该规则
 - 浏览器解析 CSS 选择器的方式是从右到左
 
-### 超链接访问过后 hover 样式就不出现了。
-
-被点击访问过的超链接样式不在具有 hover 和 active 了解决方法是改变 CSS 属性的排列顺序:
-
-- `L-V-H-A : a:link {} a:visited {} a:hover {} a:active {}`
-
 ### 全屏滚动的原理是什么？ 用到了 CSS 的那些属性？
 
 原理：有点类似于轮播，整体的元素一直排列下去，假设有 5 个需要展示的全屏页面，那么高度是 500%，只是展示 100%，剩下的可以通过 transform 进行 y 轴定位，也可以通过 margin-top 实现
@@ -71,12 +65,6 @@ user-scalable：用户是否可以手动缩放。
 
 - 元素竖向的百分比设定是相对于容器的宽度，而不是高度
 
-### 解释浏览器如何确定哪些元素与 CSS 选择器匹配。
-
-这部分与上面关于编写高效的 CSS 有关。浏览器从最右边的选择器（关键选择器）根据关键选择器，浏览器从 DOM 中筛选出元素，然后向上遍历被选元素的父元素，判断是否匹配。选择器匹配语句链越短，浏览器的匹配速度越快。
-
-例如，对于形如 p span 的选择器，浏览器首先找到所有<span>元素，并遍历它的父元素直到根元素以找到<p>元素。对于特定的<span>，只要找到一个<p>，就知道'`已经匹配并停止继续匹配。
-
 ### CSS 有哪些继承属性
 
 关于文字排版的属性如：
@@ -96,23 +84,7 @@ user-scalable：用户是否可以手动缩放。
 - visibility
 - cursor
 
-### overflow: scroll 时不能平滑滚动的问题怎么处理？
-
-- 监听滚轮事件，然后滚动到一定距离时用 jquery 的 animate 实现平滑效果。
-
 ### 有个场景：国家发生灾难后，需要将该页面做成灰白色，如何实现？
-
-### css 模块化是什么？
-
-css 模块化就是所有的类名都只有局部作用域的 css 文件。
-
-好处
-css 模块化将作用域限制于组件中，从而避免了全局作用域的问题，编译过程还能帮你完成命名。
-css 模块化的解决方案
-目前解决方案有两种:
-
-第一，彻底抛弃 css,使用 js 或 json 来写样式，例如：[Radium](https://github.com/FormidableLabs/radium)，[jsxstyle](https://github.com/smyte/jsxstyle)，[react-style](https://github.com/js-next/react-style) 属于这一类。
-第二, 依旧使用旧的 css,使用 js 来管理样式依赖，代表是[css-modules](https://github.com/css-modules/css-modules)
 
 ### 通过 html img 标签设置图片和通过 div 背景图设置图片，两种设置图片的方式有什么优劣？
 
@@ -148,8 +120,7 @@ cursor：pointer 设定鼠标的形状为一只伸出食指的手，这也是绝
 - 权重相同时，与元素距离近的选择器生
 
 一句话总结：
-!important > 行内样式 > ID 选择器 > (类选择器 | 属性选择器 | 伪类选择器 ) > 元素选择器 > \*
-![大鱼吃小鱼](http://image.zhangxinxu.com/image/blog/201208/specifishity1-1.png)
+`!important` > 行内样式 > ID 选择器 > (类选择器 | 属性选择器 | 伪类选择器 ) > 元素选择器 > `*`
 
 ### 文本超出部分显示省略号
 
@@ -174,16 +145,10 @@ overflow: hidden;
 
 最终两个 div 中的字都是蓝色的，这跟 css 解析的顺序有关系。
 
-```
+```html
 <div class="red blue">123</div>
 <div class="blue red">123</div>
-.red {
-    color: red
-}
-
-.blue {
-    color: blue
-}
+.red { color: red } .blue { color: blue }
 ```
 
 ### css 中可以让文字在垂直和水平方向上重叠的两个属性是什么？
