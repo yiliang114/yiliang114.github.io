@@ -8,8 +8,6 @@ draft: true
 
 ## 递归
 
-一棵树要么是空树，要么有两个指针，每个指针指向一棵树。树是一种递归结构，很多树的问题可以使用递归来处理。
-
 ### 1. 树的高度
 
 [104. Maximum Depth of Binary Tree (Easy)](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
@@ -24,27 +22,6 @@ draft: true
 
 [543. Diameter of Binary Tree (Easy)](https://leetcode-cn.com/problems/diameter-of-binary-tree/description/)
 
-```html
-Input: 1 / \ 2 3 / \ 4 5 Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
-```
-
-```java
-private int max = 0;
-
-public int diameterOfBinaryTree(TreeNode root) {
-    depth(root);
-    return max;
-}
-
-private int depth(TreeNode root) {
-    if (root == null) return 0;
-    int leftDepth = depth(root.left);
-    int rightDepth = depth(root.right);
-    max = Math.max(max, leftDepth + rightDepth);
-    return Math.max(leftDepth, rightDepth) + 1;
-}
-```
-
 ### 4. 翻转树
 
 [226. Invert Binary Tree (Easy)](https://leetcode-cn.com/problems/invert-binary-tree/description/)
@@ -53,37 +30,9 @@ private int depth(TreeNode root) {
 
 [617. Merge Two Binary Trees (Easy)](https://leetcode-cn.com/problems/merge-two-binary-trees/description/)
 
-```html
-Input: Tree 1 Tree 2 1 2 / \ / \ 3 2 1 3 / \ \ 5 4 7 Output: 3 / \ 4 5 / \ \ 5 4 7
-```
-
-```java
-public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-    if (t1 == null && t2 == null) return null;
-    if (t1 == null) return t2;
-    if (t2 == null) return t1;
-    TreeNode root = new TreeNode(t1.val + t2.val);
-    root.left = mergeTrees(t1.left, t2.left);
-    root.right = mergeTrees(t1.right, t2.right);
-    return root;
-}
-```
-
-```js
-var mergeTrees = function(t1, t2) {
-  // 递归，由于树是一种递归的数据结构，因此递归是符合直觉且比较简单的
-  if (t1 === null) return t2;
-  if (t2 === null) return t1;
-  t1.val += t2.val;
-  t1.left = mergeTrees(t1.left, t2.left);
-  t1.right = mergeTrees(t1.right, t2.right);
-  return t1;
-};
-```
-
 ### 6. 判断路径和是否等于一个数
 
-[Leetcdoe : 112. Path Sum (Easy)](https://leetcode-cn.com/problems/path-sum/description/)
+[112. Path Sum (Easy)](https://leetcode-cn.com/problems/path-sum/description/)
 
 ```html
 Given the below binary tree and sum = 22, 5 / \ 4 8 / / \ 11 13 4 / \ \ 7 2 1 return true, as there exist a root-to-leaf
@@ -153,24 +102,6 @@ private boolean isSubtreeWithRoot(TreeNode s, TreeNode t) {
 ### 9. 树的对称
 
 [101. Symmetric Tree (Easy)](https://leetcode-cn.com/problems/symmetric-tree/description/)
-
-```html
-1 / \ 2 2 / \ / \ 3 4 4 3
-```
-
-```java
-public boolean isSymmetric(TreeNode root) {
-    if (root == null) return true;
-    return isSymmetric(root.left, root.right);
-}
-
-private boolean isSymmetric(TreeNode t1, TreeNode t2) {
-    if (t1 == null && t2 == null) return true;
-    if (t1 == null || t2 == null) return false;
-    if (t1.val != t2.val) return false;
-    return isSymmetric(t1.left, t2.right) && isSymmetric(t1.right, t2.left);
-}
-```
 
 ### 10. 最小路径
 
@@ -541,12 +472,6 @@ private void traver(TreeNode node) {
 
 [235. Lowest Common Ancestor of a Binary Search Tree (Easy)](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
 
-```html
-_______6______ / \ ___2__ ___8__ / \ / \ 0 4 7 9 / \ 3 5 For example, the lowest common ancestor (LCA) of nodes 2 and 8
-is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA
-definition.
-```
-
 ```java
 public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
     if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
@@ -558,12 +483,6 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 ### 5. 二叉树的最近公共祖先
 
 [236. Lowest Common Ancestor of a Binary Tree (Medium) ](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
-
-```html
-_______3______ / \ ___5__ ___1__ / \ / \ 6 2 0 8 / \ 7 4 For example, the lowest common ancestor (LCA) of nodes 5 and 1
-is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA
-definition.
-```
 
 ```java
 public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
@@ -598,37 +517,6 @@ private TreeNode toBST(int[] nums, int sIdx, int eIdx){
  * @lc app=leetcode id=108 lang=javascript
  *
  * [108] Convert Sorted Array to Binary Search Tree
- *
- * https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/description/
- *
- * algorithms
- * Easy (49.37%)
- * Total Accepted:    255.2K
- * Total Submissions: 507.2K
- * Testcase Example:  '[-10,-3,0,5,9]'
- *
- * Given an array where elements are sorted in ascending order, convert it to a
- * height balanced BST.
- *
- * For this problem, a height-balanced binary tree is defined as a binary tree
- * in which the depth of the two subtrees of every node never differ by more
- * than 1.
- *
- * Example:
- *
- *
- * Given the sorted array: [-10,-3,0,5,9],
- *
- * One possible answer is: [0,-3,9,-10,null,5], which represents the following
- * height balanced BST:
- *
- * ⁠     0
- * ⁠    / \
- * ⁠  -3   9
- * ⁠  /   /
- * ⁠-10  5
- *
- *
  */
 /**
  * Definition for a binary tree node.
