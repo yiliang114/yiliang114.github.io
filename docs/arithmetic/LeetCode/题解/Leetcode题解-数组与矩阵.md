@@ -180,8 +180,6 @@ private void swap(int[] nums, int i, int j) {
 
 [287. Find the Duplicate Number (Medium)](https://leetcode-cn.com/problems/find-the-duplicate-number/description/)
 
-要求不能修改数组，也不能使用额外的空间。
-
 二分查找解法：
 
 ```java

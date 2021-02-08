@@ -472,26 +472,11 @@ private void traver(TreeNode node) {
 
 [235. Lowest Common Ancestor of a Binary Search Tree (Easy)](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
 
-```java
-public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-    if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
-    if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
-    return root;
-}
-```
 
 ### 5. 二叉树的最近公共祖先
 
 [236. Lowest Common Ancestor of a Binary Tree (Medium) ](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
 
-```java
-public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-    if (root == null || root == p || root == q) return root;
-    TreeNode left = lowestCommonAncestor(root.left, p, q);
-    TreeNode right = lowestCommonAncestor(root.right, p, q);
-    return left == null ? right : right == null ? left : root;
-}
-```
 
 ### 6. 从有序数组中构造二叉查找树
 
@@ -681,134 +666,5 @@ private void inOrder(TreeNode node, List<Integer> nums) {
     }
     preNode = node;
     inOrder(node.right, nums);
-}
-```
-
-## Trie
-
-Trie，又称前缀树或字典树，用于判断字符串是否存在或者是否具有某种字符串前缀。
-
-### 1. 实现一个 Trie
-
-[208. Implement Trie (Prefix Tree) (Medium)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/description/)
-
-```java
-class Trie {
-
-    private class Node {
-        Node[] childs = new Node[26];
-        boolean isLeaf;
-    }
-
-    private Node root = new Node();
-
-    public Trie() {
-    }
-
-    public void insert(String word) {
-        insert(word, root);
-    }
-
-    private void insert(String word, Node node) {
-        if (node == null) return;
-        if (word.length() == 0) {
-            node.isLeaf = true;
-            return;
-        }
-        int index = indexForChar(word.charAt(0));
-        if (node.childs[index] == null) {
-            node.childs[index] = new Node();
-        }
-        insert(word.substring(1), node.childs[index]);
-    }
-
-    public boolean search(String word) {
-        return search(word, root);
-    }
-
-    private boolean search(String word, Node node) {
-        if (node == null) return false;
-        if (word.length() == 0) return node.isLeaf;
-        int index = indexForChar(word.charAt(0));
-        return search(word.substring(1), node.childs[index]);
-    }
-
-    public boolean startsWith(String prefix) {
-        return startWith(prefix, root);
-    }
-
-    private boolean startWith(String prefix, Node node) {
-        if (node == null) return false;
-        if (prefix.length() == 0) return true;
-        int index = indexForChar(prefix.charAt(0));
-        return startWith(prefix.substring(1), node.childs[index]);
-    }
-
-    private int indexForChar(char c) {
-        return c - 'a';
-    }
-}
-```
-
-### 2. 实现一个 Trie，用来求前缀和
-
-[677. Map Sum Pairs (Medium)](https://leetcode-cn.com/problems/map-sum-pairs/description/)
-
-```html
-Input: insert("apple", 3), Output: Null Input: sum("ap"), Output: 3 Input: insert("app", 2), Output: Null Input:
-sum("ap"), Output: 5
-```
-
-```java
-class MapSum {
-
-    private class Node {
-        Node[] child = new Node[26];
-        int value;
-    }
-
-    private Node root = new Node();
-
-    public MapSum() {
-
-    }
-
-    public void insert(String key, int val) {
-        insert(key, root, val);
-    }
-
-    private void insert(String key, Node node, int val) {
-        if (node == null) return;
-        if (key.length() == 0) {
-            node.value = val;
-            return;
-        }
-        int index = indexForChar(key.charAt(0));
-        if (node.child[index] == null) {
-            node.child[index] = new Node();
-        }
-        insert(key.substring(1), node.child[index], val);
-    }
-
-    public int sum(String prefix) {
-        return sum(prefix, root);
-    }
-
-    private int sum(String prefix, Node node) {
-        if (node == null) return 0;
-        if (prefix.length() != 0) {
-            int index = indexForChar(prefix.charAt(0));
-            return sum(prefix.substring(1), node.child[index]);
-        }
-        int sum = node.value;
-        for (Node child : node.child) {
-            sum += sum(prefix, child);
-        }
-        return sum;
-    }
-
-    private int indexForChar(char c) {
-        return c - 'a';
-    }
 }
 ```
