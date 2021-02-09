@@ -20,10 +20,6 @@ draft: true
 
 值对于字典树中关联的节点来说,不是必需的,相反,值往往和相关的叶子相关,以及与一些键相关的内部节点相关。
 
-有关字典树的空间优化示意,请参阅紧凑前缀树
-
-![Trie](https://upload.wikimedia.org/wikipedia/commons/b/be/Trie_example.svg)
-
 在字符串相关算法中，Trie 树可以解决解决很多问题，同时具备良好的空间和时间复杂度，比如以下问题
 
 - 词频统计

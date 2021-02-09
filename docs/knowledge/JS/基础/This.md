@@ -46,19 +46,6 @@ console.log(a()()());
 
 箭头函数其实是没有 `this` 的，这个函数中的 `this` 只取决于他外面的第一个不是箭头函数的函数的 `this`。在这个例子中，因为调用 `a` 符合前面代码中的第一个情况，所以 `this` 是 `window`。并且 `this` 一旦绑定了上下文，就不会被任何代码改变。
 
-### this 的指向有哪几种情况？
-
-this 代表函数调用相关联的对象，通常也称之为执行上下文。
-
-1. 作为函数直接调用，非严格模式下，this 指向 window，严格模式下，this 指向 undefined；
-2. 在事件中，this 指向触发这个事件的对象
-3. 作为某对象的方法调用，this 通常指向调用的对象。如果有 new 关键字，this 指向 new 出来的实例对象。
-4. 使用 apply、call、bind 可以绑定 this 的指向。
-5. 在构造函数中，this 指向新创建的对象
-6. 箭头函数没有单独的 this 值，this 在箭头函数创建时确定，它与声明所在的上下文相同。
-
-this 永远指向函数运行时所在的对象，而不是函数被创建时所在的对象。匿名函数或不处于任何对象中的函数指向 window
-
 ### this 的用法以及优先级
 
 this 的四种用法：
@@ -132,220 +119,7 @@ Foo.apply(this, [name]);
 Foo.bind(this)(name);
 ```
 
-### 自封装 bind
-
-- 因为 bind 的使用方法是 某函数.bind(某对象，...剩余参数),所以需要在 Function.prototype 上进行编程
-- 将传递的参数中的某对象和剩余参数使用 apply 的方式在一个回调函数中执行即可
-- 要在第一层获取到被绑定函数的 this，因为要拿到那个函数用 apply
-
-```js
-/**
- * 简单版本
- */
-Function.prototype.myBind = (that, ...args) => {
-  const funcThis = this;
-  return function(..._args) {
-    return funcThis.apply(that, args.concat(_args));
-  };
-};
-
-Function.prototype.mybind = function(ctx) {
-  var that = this;
-  var args = Array.prototype.slice.call(arguments, 1);
-  return function() {
-    return that.apply(ctx, args.concat(args, Array.prototype.slice.call(arguments)));
-  };
-};
-```
-
-```js
-/**
- * 自封装bind方法
- * @param  {对象} target [被绑定的this对象， 之后的arguments就是被绑定传入参数]
- * @return {[function]}  [返回一个新函数，这个函数就是被绑定了this的新函数]
- */
-Function.prototype.myBind = function(target) {
-  target = target || window;
-  var self = this;
-  var args = [].slice.call(arguments, 1);
-  var temp = function() {};
-  var F = function() {
-    var _args = [].slice.call(arguments, 0);
-    return self.apply(this instanceof temp ? this : target, args.concat(_args));
-  };
-  temp.prototype = this.prototype; //维护原型关系
-  F.prototype = new temp();
-  return F;
-};
-```
-
-### 简单实现 Function.bind 函数？
-
-```js
-if (!Function.prototype.bind) {
-  Function.prototype.bind = function(that) {
-    var func = this,
-      args = arguments;
-    return function() {
-      return func.apply(that, Array.prototype.slice.call(args, 1));
-    };
-  };
-}
-// 只支持 bind 阶段的默认参数：
-func.bind(that, arg1, arg2)();
-
-// 不支持以下调用阶段传入的参数：
-func.bind(that)(arg1, arg2);
-```
-
-### 自封装 apply
-
-- 首先要先原型上即 Function.prototype 上编程
-- 需要拿到函数的引用， 在这里是 this
-- 让 传入对象.fn = this
-- 执行 传入对象.fn(传入参数)
-- 返回执行结果
-
-```js
-Function.prototype.myApply = function(context) {
-  if (typeof this !== 'function') {
-    throw new TypeError('Error');
-  }
-  context = context || window;
-  context.fn = this;
-  let result;
-  // 处理参数和 call 有区别
-  if (arguments[1]) {
-    result = context.fn(...arguments[1]);
-  } else {
-    result = context.fn();
-  }
-  delete context.fn;
-  return result;
-};
-```
-
-### bind 函数实现
-
-```js
-// 第一版，实现改变this
-Function.prototype.bind2 = function(context) {
-  var self = this; // 需要改变this的函数
-  var partArgs = Array.prototype.slice.call(arguments, 1);
-  return function() {
-    var args = partArgs.concat(Array.prototype.slice.call(arguments, 0));
-    return self.apply(context, args);
-  };
-};
-// 第二版，当返回的函数被当作构造函数调用时，this指向构造对象
-Function.prototype.bind2 = function(context) {
-  var self = this; // 需要改变this的函数
-  var partArgs = Array.prototype.slice.call(arguments, 1);
-  var bound = function() {
-    var args = partArgs.concat(Array.prototype.slice.call(arguments, 0));
-    return self.apply(this instanceof bound ? this : context, args);
-  };
-  var fNop = function() {};
-  fNop.prototype = self.prototype;
-  bound.prototype = new fNop();
-  return bound;
-};
-```
-
-### 手动实现 call,apply, bind 方法
-
-call 实现
-
-```js
-Function.prototype.call2 = function(context) {
-  context = context || window;
-  context.fn = this;
-  var args = [];
-  for (var i = 1, len = arguments.length; i < len; i++) {
-    args.push('arguments[' + i + ']');
-  }
-  var result = eval('context.fn(' + args + ')');
-  delete context.fn;
-  return result;
-};
-```
-
-apply 实现
-
-```js
-Function.prototype.apply = function(context, arr) {
-  context = Object(context) || window;
-  context.fn = this;
-
-  var result;
-  if (!arr) {
-    result = context.fn();
-  } else {
-    var args = [];
-    for (var i = 0, len = arr.length; i < len; i++) {
-      args.push('arr[' + i + ']');
-    }
-    result = eval('context.fn(' + args + ')');
-  }
-
-  delete context.fn;
-  return result;
-};
-```
-
-bind 实现
-
-```js
-Function.prototype.bind = function(oThis) {
-  if (typeof this !== 'function') {
-    throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
-  }
-
-  var aArgs = Array.prototype.slice.call(arguments, 1),
-    fToBind = this,
-    fNOP = function() {},
-    fBound = function() {
-      // 当作为构造函数时，this 指向实例，此时结果为 true，将绑定函数的 this 指向该实例，可以让实例获得来自绑定函数的值
-      // 以上面的是 demo 为例，如果改成 `this instanceof fBound ? null : context`，实例只是一个空对象，将 null 改成 this ，实例会具有 habit 属性
-      // 当作为普通函数时，this 指向 window，此时结果为 false，将绑定函数的 this 指向 context
-      return fToBind.apply(
-        this instanceof fNOP && oThis ? this : oThis || window,
-        aArgs.concat(Array.prototype.slice.call(arguments)),
-      );
-    };
-
-  fNOP.prototype = this.prototype;
-  fBound.prototype = new fNOP();
-
-  return fBound;
-};
-```
-
-```js
-const shape = {
-  radius: 10,
-  diameter() {
-    return this.radius * 2;
-  },
-  perimeter: () => 2 * Math.PI * this.radius,
-};
-
-shape.diameter();
-shape.perimeter();
-
-// 20 and NaN
-```
-
 ### 手写 call、apply 及 bind 函数
-
-call、apply 及 bind 函数内部实现是怎么样的？
-
-首先从以下几点来考虑如何实现这几个函数
-
-- 不传入第一个参数，那么上下文默认为 `window`
-- 改变了 `this` 指向，让新的对象可以执行该函数，并能接受参数
-
-那么我们先来实现 `call`
 
 ```js
 Function.prototype.myCall = function(context) {
@@ -353,6 +127,7 @@ Function.prototype.myCall = function(context) {
     throw new TypeError('Error');
   }
   context = context || window;
+  // 通过将函数挂载到 context 对象上来使得 this 改变
   context.fn = this;
   const args = [...arguments].slice(1);
   const result = context.fn(...args);
@@ -361,15 +136,6 @@ Function.prototype.myCall = function(context) {
 };
 ```
 
-以下是对实现的分析：
-
-- 首先 `context` 为可选参数，如果不传的话默认上下文为 `window`
-- 接下来给 `context` 创建一个 `fn` 属性，并将值设置为需要调用的函数
-- 因为 `call` 可以传入多个参数作为调用函数的参数，所以需要将参数剥离出来
-- 然后调用函数并将对象上的函数删除
-
-以上就是实现 `call` 的思路，`apply` 的实现也类似，区别在于对参数的处理，所以就不一一分析思路了
-
 ```js
 Function.prototype.myApply = function(context) {
   if (typeof this !== 'function') {
@@ -388,6 +154,8 @@ Function.prototype.myApply = function(context) {
   return result;
 };
 ```
+
+bind 实现
 
 `bind` 的实现对比其他两个函数略微地复杂了一点，因为 `bind` 需要返回一个函数，需要判断一些边界问题，以下是 `bind` 的实现
 
@@ -415,3 +183,29 @@ Function.prototype.myBind = function(context) {
 - `bind` 返回了一个函数，对于函数来说有两种方式调用，一种是直接调用，一种是通过 `new` 的方式，我们先来说直接调用的方式
 - 对于直接调用来说，这里选择了 `apply` 的方式实现，但是对于参数需要注意以下情况：因为 `bind` 可以实现类似这样的代码 `f.bind(obj, 1)(2)`，所以我们需要将两边的参数拼接起来，于是就有了这样的实现 `args.concat(...arguments)`
 - 最后来说通过 `new` 的方式，在之前的章节中我们学习过如何判断 `this`，对于 `new` 的情况来说，不会被任何方式改变 `this`，所以对于这种情况我们需要忽略传入的 `this`
+
+```js
+Function.prototype.bind = function(oThis) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+  }
+
+  var aArgs = Array.prototype.slice.call(arguments, 1),
+    fToBind = this,
+    fNOP = function() {},
+    fBound = function() {
+      // 当作为构造函数时，this 指向实例，此时结果为 true，将绑定函数的 this 指向该实例，可以让实例获得来自绑定函数的值
+      // 以上面的是 demo 为例，如果改成 `this instanceof fBound ? null : context`，实例只是一个空对象，将 null 改成 this ，实例会具有 habit 属性
+      // 当作为普通函数时，this 指向 window，此时结果为 false，将绑定函数的 this 指向 context
+      return fToBind.apply(
+        this instanceof fNOP && oThis ? this : oThis || window,
+        aArgs.concat(Array.prototype.slice.call(arguments)),
+      );
+    };
+
+  fNOP.prototype = this.prototype;
+  fBound.prototype = new fNOP();
+
+  return fBound;
+};
+```

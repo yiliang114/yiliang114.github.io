@@ -234,123 +234,6 @@ setTimeout(sinaNews.test, 500); // "this.name:  //"
 ### This 下面代码中分别输出什么？
 
 ```js
-// code 1
-var length = 10;
-function fn() {
-  alert(this.length);
-}
-var obj = {
-  length: 5,
-  method: function() {
-    fn();
-  },
-};
-obj.method(); // ？
-
-// code 2
-var num = 100;
-var obj = {
-  num: 200,
-  inner: {
-    num: 300,
-    print: function() {
-      console.log(this.num);
-    },
-  },
-};
-
-obj.inner.print(); //？
-
-var func = obj.inner.print;
-func(); //？
-
-obj.inner.print(); //？
-(obj.inner.print = obj.inner.print)(); //？
-
-// code 3
-function foo() {
-  console.log(this.a);
-}
-var obj2 = { a: 42, foo: foo };
-var obj1 = { a: 2, obj2: obj2 };
-obj1.obj2.foo(); // ？
-
-var obj3 = { a: 2 };
-foo.call(obj3); // ？
-
-var bar = function() {
-  foo.call(obj3);
-};
-bar(); // ？
-setTimeout(bar, 100); // ？
-bar.call(window); // ？
-
-var obj4 = { a: 3, foo: foo };
-obj2.foo(); // ？
-obj4.foo(); // ？
-obj2.foo.call(obj4); //？
-obj4.foo.call(obj2); // ？
-
-// code 4
-function foo() {
-  console.log(this.a);
-}
-var obj = {
-  a: 2,
-  foo: foo,
-};
-var a = 'oops, global';
-setTimeout(obj.foo, 100); // ？
-obj.foo(); // ？
-
-// code 5 (new绑定)
-function foo(a) {
-  this.a = a;
-}
-var bar = new foo(2);
-console.log(bar.a); // ？
-
-var obj1 = { foo: foo };
-var obj2 = {};
-
-obj1.foo(2);
-console.log(obj1.a); // ？
-
-obj1.foo.call(obj2, 3);
-console.log(obj2.a); // ？
-
-var bar = new obj1.foo(4);
-console.log(obj1.a); // ？
-console.log(bar.a); // ？
-
-// code 6
-
-function foo() {
-  console.log(this.a);
-}
-
-var a = 2;
-
-foo.call(null); // ？
-var bar = foo.bind(null);
-bar(); // ？
-foo.apply(undefined); // ？
-
-// code 7 箭头函数
-
-function foo() {
-  return a => console.log(this.a);
-}
-
-var obj1 = { a: 2 };
-var obj2 = { a: 3 };
-var bar = foo.call(obj1);
-bar.call(obj2); // ？
-```
-
-<!-- 经典前端笔试题 -->
-
-```js
 function Foo() {
   getName = function() {
     console.log(1);
@@ -618,3 +501,65 @@ test().fn(); // ?
 
 - 如果在绑定 fn 的时候使用了 function，那么答案会是 'jack'
 - 如果第一行的 var 改为了 let，那么答案会是 undefined， 因为 let 不会挂到 window 上
+
+```js
+var length = 10;
+function fn() {
+  alert(this.length);
+}
+var obj = {
+  length: 5,
+  method: function() {
+    fn();
+  },
+};
+obj.method(); // 10 没有人调用 fn 所以就是 window
+```
+
+```js
+function Foo() {
+  this.value = 42;
+}
+Foo.prototype = {
+  method: function() {
+    return true;
+  },
+};
+function Bar() {
+  var value = 1;
+  return {
+    method: function() {
+      return value;
+    },
+  };
+}
+Foo.prototype = new Bar();
+console.log(Foo.prototype.constructor); //
+console.log(Foo.prototype instanceof Bar); //
+var test = new Foo();
+console.log(test instanceof Foo); //
+console.log(test instanceof Bar); //
+console.log(test.method()); //
+```
+
+```js
+a = 1;
+b = 1;
+a == b; // ?
+name1 = { a: 1 };
+name2 = { a: 1 };
+name1 == name2; //?
+```
+
+```js
+let obj = {
+  fun1: () => {
+    console.log('111');
+  },
+  fun2: () => {
+    this.fun1();
+  },
+};
+
+obj.fun2();
+```

@@ -141,22 +141,3 @@ The second 1's next greater number needs to search circularly, which is also 2.
 ```
 
 与 739. Daily Temperatures (Medium) 不同的是，数组是循环数组，并且最后要求的不是距离而是下一个元素。
-
-```java
-public int[] nextGreaterElements(int[] nums) {
-    int n = nums.length;
-    int[] next = new int[n];
-    Arrays.fill(next, -1);
-    Stack<Integer> pre = new Stack<>();
-    for (int i = 0; i < n * 2; i++) {
-        int num = nums[i % n];
-        while (!pre.isEmpty() && nums[pre.peek()] < num) {
-            next[pre.pop()] = num;
-        }
-        if (i < n){
-            pre.push(i);
-        }
-    }
-    return next;
-}
-```

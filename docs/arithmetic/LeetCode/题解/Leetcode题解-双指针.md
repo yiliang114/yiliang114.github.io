@@ -10,7 +10,7 @@ draft: true
 
 ## 1. 有序数组的 Two Sum
 
-[LeetCode ：167. Two Sum II - Input array is sorted (Easy)](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
+[167. Two Sum II - Input array is sorted (Easy)](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
 
 ```html
 Input: numbers={2, 7, 11, 15}, target=9 Output: index1=1, index2=2
