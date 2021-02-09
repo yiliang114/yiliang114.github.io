@@ -29,50 +29,11 @@ document
 - Document 对象使我们可以通过脚本对 HTML 页面中的所有元素进行访问
 - Document 对象是 Window 对象的一部分，即 window.document
 
-### DOM 操作——怎样添加、移除、移动、复制、创建和查找节点。
-
-```js
-// 创建新节点
-createDocumentFragment(); // 创建一个DOM片段
-createElement(); // 创建一个具体的元素
-createTextNode(); // 创建一个文本节点
-
-// 添加、移除、替换、插入
-appendChild();
-removeChild();
-replaceChild();
-insertBefore(); // 在已有的子节点前插入一个新的子节点
-
-// 查找
-getElementsByTagName(); // 通过标签名称
-getElementsByName(); // 通过元素的 Name 属性的值(IE 容错能力较强，会得到一个数组，其中包括 id 等于 name 值的)
-getElementById(); // 通过元素 Id，唯一性
-querySelector();
-querySelectorAll();
-
-// 对属性进行操作
-getAttribute();
-setAttribute();
-removeAttribute();
-```
-
 ### 获得一个 DOM 元素的绝对位置
 
 - offsetTop：返回当前元素相对于其 offsetParent 元素的顶部的距离
 - offsetLeft：返回当前元素相对于其 offsetParent 元素的左边的距离
 - getBoundingClientRect()：返回值是一个 DOMRect 对象，它包含了一组用于描述边框的只读属性——left、top、right 和 bottom，属性单位为像素
-
-### JS 获取 dom 的 CSS 样式
-
-```js
-function getStyle(obj, attr) {
-  if (obj.currentStyle) {
-    return obj.currentStyle[attr];
-  } else {
-    return window.getComputedStyle(obj, false)[attr];
-  }
-}
-```
 
 ### innerText 和 innerHTML 的区别
 
@@ -103,42 +64,6 @@ BOM 是 browser object model 的缩写， 简称浏览器对象模型。 主要�
 - History 包含了浏览器窗口访问过的 URL。
 - Location 包含了当前 URL 的信息。
 - Screen 包含客户端显示屏的信息。
-
-### js 的路由是如何实现的？
-
-location 是 javascript 里边管理地址栏的内置对象，比如 location.href 就管理页面的 url，用 location.href=url 就可以直接将页面重定向 url。而 location.hash 则可以用来获取或设置页面的标签值。
-
-- #后的字符
-  在第一个#后面出现的任何字符，都会被浏览器解读为位置标识符。这意味着，这些字符都不会被发送到服务器端。
-
-- window.hash
-  hash 属性是一个可读可写的字符串，该字符串是 URL 的锚部分（从 # 号开始的部分）。
-
-### 几个很实用的 BOM 属性对象方法?
-
-什么是 Bom? Bom 是浏览器对象。有哪些常用的 Bom 属性呢？
-
-1. location 对象
-   location.href-- 返回或设置当前文档的 URL
-   location.search -- 返回 URL 中的查询字符串部分。例如 http://www.dreamdu.com/dreamd... 返回包括(?)后面的内容?id=5&name=dreamdu
-   location.hash -- 返回 URL#后面的内容，如果没有#，返回空
-   location.host -- 返回 URL 中的域名部分，例如 www.dreamdu.com
-   location.hostname -- 返回 URL 中的主域名部分，例如 dreamdu.com
-   location.pathname -- 返回 URL 的域名后的部分。例如 http://www.dreamdu.com/xhtml/ 返回/xhtml/
-   location.port -- 返回 URL 中的端口部分。例如 http://www.dreamdu.com:8080/xhtml/ 返回 8080
-   location.protocol -- 返回 URL 中的协议部分。例如 http://www.dreamdu.com:8080/xhtml/ 返回(//)前面的内容 http:
-   location.assign -- 设置当前文档的 URL
-   location.replace() -- 设置当前文档的 URL，并且在 history 对象的地址列表中移除这个 URL location.replace(url);
-   location.reload() -- 重载当前页面
-
-2. history 对象
-   history.go() -- 前进或后退指定的页面数 history.go(num);
-   history.back() -- 后退一页
-   history.forward() -- 前进一页
-
-3. Navigator 对象
-   navigator.userAgent -- 返回用户代理头的字符串表示(就是包括浏览器版本信息等的字符串)
-   navigator.cookieEnabled -- 返回浏览器是否支持(启用)cookie
 
 #### History 对象
 

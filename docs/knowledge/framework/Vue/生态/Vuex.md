@@ -470,3 +470,7 @@ store 实例上有数据，有方法，方法改变的都是 store 实例上的�
 ```js
 computed: { message: { get () { return this.$store.state.obj.message }, set (value) { this.$store.commit('updateMessage', value) } } }
 ```
+
+### vuex 动态加载 namespace， 整个 store 树一起加载会很慢
+
+- 首先，vuex 里面并不推荐使用 redux 的状态机，success error 等状态，都能够触发不同的自定义异步事件，至于 loading 的状态，应该是根据 vuex getter 中获取的数据，是否符合预期，符合预期就显示，如果不符合预期，比如报错了，如果不使用全局通知的话怎么全局显示 是一个问题？这就是状态机的必要之处吧？ 想一想这里如何进行处理。 如果能用全局通知的话，状态机似乎就真的没啥用了。

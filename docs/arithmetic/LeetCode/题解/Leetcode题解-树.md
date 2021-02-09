@@ -262,19 +262,6 @@ public int findBottomLeftValue(TreeNode root) {
 
 ## 前中后序遍历
 
-```html
-1 / \ 2 3 / \ \ 4 5 6
-```
-
-- 层次遍历顺序：[1 2 3 4 5 6]
-- 前序遍历顺序：[1 2 4 5 3 6]
-- 中序遍历顺序：[4 2 5 1 3 6]
-- 后序遍历顺序：[4 5 2 6 3 1]
-
-层次遍历使用 BFS 实现，利用的就是 BFS 一层一层遍历的特性；而前序、中序、后序遍历利用了 DFS 实现。
-
-前序、中序、后序遍只是在对节点访问的顺序有一点不同，其它都相同。
-
 ① 前序
 
 ```java
@@ -351,22 +338,3 @@ public List<Integer> postorderTraversal(TreeNode root) {
 ### 3. 非递归实现二叉树的中序遍历
 
 [94. Binary Tree Inorder Traversal (Medium)](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/description/)
-
-```java
-public List<Integer> inorderTraversal(TreeNode root) {
-    List<Integer> ret = new ArrayList<>();
-    if (root == null) return ret;
-    Stack<TreeNode> stack = new Stack<>();
-    TreeNode cur = root;
-    while (cur != null || !stack.isEmpty()) {
-        while (cur != null) {
-            stack.push(cur);
-            cur = cur.left;
-        }
-        TreeNode node = stack.pop();
-        ret.add(node.val);
-        cur = node.right;
-    }
-    return ret;
-}
-```
