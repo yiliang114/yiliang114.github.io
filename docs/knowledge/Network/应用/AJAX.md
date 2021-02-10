@@ -207,6 +207,40 @@ const ajax = obj => {
    multipart/form-data：既可以上传文件等二进制数据，也可以上传表单键值对，只是最后会转化为一条信息；
    ​ x-www-form-urlencoded：只能上传键值对，并且键值对都是间隔分开的。
 
+### POST 提交数据的方式
+
+服务端通常是根据请求头（headers）中的 Content-Type 字段来获知请求中的消息主体是用何种方式编码，再对主体进行解析。所以说到 POST 提交数据方案，包含了 Content-Type 和消息主体编码方式两部分。下面就正式开始介绍它们：
+
+- `application/x-www-form-urlencoded`
+
+这是最常见的 POST 数据提交方式。浏览器的原生 `<form>` 表单，如果不设置 enctype 属性，那么最终就会以 `application/x-www-form-urlencoded` 方式提交数据。上个小节当中的例子便是使用了这种提交方式。可以看到 body 当中的内容和 GET 请求是完全相同的。
+
+- `multipart/form-data`
+
+这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 `<form>` 表单的 enctype 等于 `multipart/form-data`。直接来看一个请求示例：
+
+    POST http://www.example.com HTTP/1.1
+    Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA
+
+    ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
+    Content-Disposition: form-data; name="text"
+
+    title
+    ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
+    Content-Disposition: form-data; name="file"; filename="chrome.png"
+    Content-Type: image/png
+
+    PNG ... content of chrome.png ...
+    ------WebKitFormBoundaryrGKCBY7qhFd3TrwA--
+
+这个例子稍微复杂点。首先生成了一个 boundary 用于分割不同的字段，为了避免与正文内容重复，boundary 很长很复杂。然后 `Content-Type` 里指明了数据是以 `multipart/form-data` 来编码，本次请求的 boundary 是什么内容。消息主体里按照字段个数又分为多个结构类似的部分，每部分都是以 --boundary 开始，紧接着是内容描述信息，然后是回车，最后是字段具体内容（文本或二进制）。如果传输的是文件，还要包含文件名和文件类型信息。消息主体最后以 --boundary-- 标示结束。关于 `multipart/form-data` 的详细定义，请前往 [RFC1867](http://www.ietf.org/rfc/rfc1867.txt) 查看（或者相对友好一点的 [MDN 文档](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition)）。
+
+这种方式一般用来上传文件，各大服务端语言对它也有着良好的支持。
+
+上面提到的这两种 POST 数据的方式，都是浏览器原生支持的，而且现阶段标准中原生 `<form>` 表单也只支持这两种方式（通过 `<form>` 元素的 enctype 属性指定，默认为 `application/x-www-form-urlencoded`。其实 enctype 还支持 text/plain，不过用得非常少）。
+
+随着越来越多的 Web 站点，尤其是 WebApp，全部使用 Ajax 进行数据交互之后，我们完全可以定义新的数据提交方式，例如 `application/json`，`text/xml`，乃至 `application/x-protobuf` 这种二进制格式，只要服务器可以根据 `Content-Type` 和 `Content-Encoding` 正确地解析出请求，都是没有问题的。
+
 #### postman post 的时候 raw 和 x-www-form-urlencoded 的区别
 
 https://blog.csdn.net/wangjun5159/article/details/47781443

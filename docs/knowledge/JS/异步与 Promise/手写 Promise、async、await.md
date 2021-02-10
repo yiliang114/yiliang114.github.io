@@ -858,14 +858,6 @@ if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
 resolve(x);
 ```
 
-### Promise 测试
-
-编写测试代码永远是一个好习惯，为了验证编写的 Promise 正确性，引用一个专门用来测试 Promise 规范性的模块 [promises-aplus-tests](https://github.com/promises-aplus/promises-tests)，该模块内置了数百个测试案例，支持命令行一键测试。只是在导出模块的时候需要遵循 CommonJS 规范，并且按照要求导出对应的函数。[最终代码地址请点击这里获取](https://github.com/yalishizhude/course/tree/master/plus2)。
-
-测试结果如下图所示：
-
-![image (16).png](https://s0.lgstatic.com/i/image/M00/2B/DD/CgqCHl7_DEeALZgpAAALJ4MkJtQ487.png)
-
 ### 手写例子
 
 ```js

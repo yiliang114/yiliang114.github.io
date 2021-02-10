@@ -296,44 +296,9 @@ void dfs(TreeNode root) {
 
 [144. Binary Tree Preorder Traversal (Medium)](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/)
 
-```java
-public List<Integer> preorderTraversal(TreeNode root) {
-    List<Integer> ret = new ArrayList<>();
-    Stack<TreeNode> stack = new Stack<>();
-    stack.push(root);
-    while (!stack.isEmpty()) {
-        TreeNode node = stack.pop();
-        if (node == null) continue;
-        ret.add(node.val);
-        stack.push(node.right);  // 先右后左，保证左子树先遍历
-        stack.push(node.left);
-    }
-    return ret;
-}
-```
-
 ### 2. 非递归实现二叉树的后序遍历
 
 [145. Binary Tree Postorder Traversal (Medium)](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/description/)
-
-前序遍历为 root -> left -> right，后序遍历为 left -> right -> root。可以修改前序遍历成为 root -> right -> left，那么这个顺序就和后序遍历正好相反。
-
-```java
-public List<Integer> postorderTraversal(TreeNode root) {
-    List<Integer> ret = new ArrayList<>();
-    Stack<TreeNode> stack = new Stack<>();
-    stack.push(root);
-    while (!stack.isEmpty()) {
-        TreeNode node = stack.pop();
-        if (node == null) continue;
-        ret.add(node.val);
-        stack.push(node.left);
-        stack.push(node.right);
-    }
-    Collections.reverse(ret);
-    return ret;
-}
-```
 
 ### 3. 非递归实现二叉树的中序遍历
 
