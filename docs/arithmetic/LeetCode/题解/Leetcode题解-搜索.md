@@ -1029,14 +1029,6 @@ private int cubeNum(int i, int j) {
 
 [51. N-Queens (Hard)](https://leetcode-cn.com/problems/n-queens/description/)
 
-在 n\*n 的矩阵中摆放 n 个皇后，并且每个皇后不能在同一行，同一列，同一对角线上，求所有的 n 皇后的解。
-
-一行一行地摆放，在确定一行中的那个皇后应该摆在哪一列时，需要用三个标记数组来确定某一列是否合法，这三个标记数组分别为：列标记数组、45 度对角线标记数组和 135 度对角线标记数组。
-
-45 度对角线标记数组的长度为 2 \* n - 1，通过下图可以明确 (r, c) 的位置所在的数组下标为 r + c。
-
-135 度对角线标记数组的长度也是 2 \* n - 1，(r, c) 的位置所在的数组下标为 n - 1 - (r - c)。
-
 ```java
 private List<List<String>> solutions;
 private char[][] nQueens;
