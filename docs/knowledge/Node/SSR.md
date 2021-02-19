@@ -4,21 +4,13 @@ date: '2020-10-26'
 draft: true
 ---
 
-## SSR 的具体用法
+# SSR
 
 ## SSR 和 客户端渲染有什么区别
 
-## SSR 怎么保证客户端和服务端的数据同步
+### 服务端渲染 VS 预渲染（Prerendering）
 
-## 用 SSR 遇到过什么难题
-
-## react 的 ssr 了解么？大概怎么实现
-
-[基于 React+Redux 的 SSR 实现方法](https://blog.csdn.net/li420520/article/details/84947358)
-
-有必要自己实现一下
-
-## vue ssr
+如果你调研服务器端渲染(SSR)只是用来改善少数营销页面（例如 `/`, `/about`, `/contact` 等）的 SEO，那么你可能需要**预渲染**。无需使用 web 服务器实时动态编译 HTML，而是使用预渲染方式，在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点。
 
 ### 为什么使用服务端渲染（ssr）
 
@@ -33,13 +25,11 @@ draft: true
 - 涉及构建设置和部署的更多需求，服务端渲染应用程序，需要处于 Nodejs server 运行环境。
 - 更多的服务器端负载。
 
-### 服务端渲染 VS 预渲染（Prerendering）
+## 用 SSR 遇到过什么难题
 
-如果你调研服务器端渲染(SSR)只是用来改善少数营销页面（例如 `/`, `/about`, `/contact` 等）的 SEO，那么你可能需要**预渲染**。无需使用 web 服务器实时动态编译 HTML，而是使用预渲染方式，在构建时(build time)简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点。
+### SSR 怎么保证客户端和服务端的数据同步
 
-如果你使用 webpack，你可以使用 [prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin) 轻松地添加预渲染。它已经被 Vue 应用程序广泛测试 - 事实上，[作者](https://github.com/chrisvfritz)是 Vue 核心团队的成员。
-
-### 实现 Vue SSR
+## 实现 Vue SSR
 
 ![](http://7xq6al.com1.z0.glb.clouddn.com/vue-ssr.jpg)
 
@@ -71,10 +61,6 @@ draft: true
 
 https://www.jianshu.com/p/c6a07755b08d
 https://github.com/wmui/vue-ssr-demo/blob/master/package.json
-
-## 前后端同构（微医）
-
-结合了 SSR 和 CSR ，公用一套模板引擎。
 
 ## Vue SSR 有什么特点？
 
@@ -133,3 +119,7 @@ SSR 与 CSR 环境差异怎么处理？
 1. 架构分离（npm 包，配置化，cli）
 2. 可靠性优化（单元测试，内存泄漏检测）
 3. HTTP 优化（更优的服务端通信方式）
+
+## 前后端同构（微医）
+
+结合了 SSR 和 CSR ，公用一套模板引擎。

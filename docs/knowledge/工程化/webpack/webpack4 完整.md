@@ -57,12 +57,6 @@ module.exports = {
 
 注意`output.publicPath`参数，代表：**`js`文件内部引用其他文件的路径**。
 
-### 3. 收尾
-
-打包后的`js`文件会按照我们的配置放在`dist`目录下，这时，**需要创建一个`html`文件，引用打包好的`js`文件**。
-
-然后在 Chrome 打开(**这节课只是打包`js`,不包括编译`es6`**)，就可以看到我们代码的运行结果了。
-
 ## 3. 编译 es6
 
 ### 1. 了解`babel`
@@ -2118,6 +2112,21 @@ module.exports = {
 ![](https://static.godbmw.com/images/webpack/webpack4系列教程/37.png)
 
 ## 15. 开发模式与 webpack-dev-server
+
+### webpack-dev-server
+
+`webpack`虽然提供了`webpack --watch`的命令来动态监听文件的改变并实时打包，输出新的`bundle.js`文件，但是文件多了之后打包速度会很慢，此外这样打包的方式不能做到`hot replace`，即每次编译之后，还需要手动刷新浏览器。
+
+`webpack-dev-server`能够克服上面的两个问题。`webpack-dev-server`主要是启动了一个`express` 的`http`服务器，类似于`http-server`。`webpack-dev-server`监听资源文件的改动并且实时编译，编译好的文件并不会输出到配置文件中声明的`output`目录中，而是会保存在内存中。
+
+#### Automatic Refresh
+
+`webpack-dev-server`支持 2 种自动刷新的方式：
+
+- Iframe mode
+- inline mode
+
+[webpack-dev-server](https://segmentfault.com/a/1190000006670084)
 
 ### 1. 为什么需要开发模式？
 

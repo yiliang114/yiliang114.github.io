@@ -80,26 +80,6 @@ process.nextTick(() => {
 
 - 判断 Global 对象是否为 window，如果不为 window，当前脚本没有运行在浏览器中
 
-**什么是 npm ？**
-
-- npm 是 Node.js 的模块管理和发布工具
-
-#### 升级 nodejs
-
-首先安装 n 模块：
-
-```
-npm install -g n
-```
-
-第二步：
-
-升级 node.js 到最新稳定版
-
-```
-n stable
-```
-
 #### stream 的异步
 
 request 会返回一个可读流， 可以直接使用 pipe 函数，但是因为 pipe 函数是一个异步操作，如果 pipe 操作写一个

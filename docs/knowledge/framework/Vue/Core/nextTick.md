@@ -74,11 +74,7 @@ export function nextTick(cb?: Function, ctx?: Object) {
 
 ### vue 的 nextTick
 
-1.  2.6 之前可以正常使用，查看 2.6 与 2.5 实现的差别。他这个变更有些破坏性，原本是 macro-task 的，改成了 micro-task. EventLoop 周期变了
-2.  修改这个实现，只需要将这个 api 换成 setTimeout 0 来实现即可
+1. 2.6 之前可以正常使用，查看 2.6 与 2.5 实现的差别。他这个变更有些破坏性，原本是 macro-task 的，改成了 micro-task. EventLoop 周期变了
+2. 修改这个实现，只需要将这个 api 换成 setTimeout 0 来实现即可
 
 ### vue 的 nextTick 机制，以及 2.6 之后的 vue 做的更改是啥，为啥会导致一个 bug 。。。
-
-### 批量异步更新策略及 nextTick 原理？
-
-### nextTick 函数为啥能够在 dom 改变之后又执行？

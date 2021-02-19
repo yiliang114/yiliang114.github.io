@@ -126,13 +126,5 @@ function isPrime(n) {
   }
   return true;
 }
-
-isPrime(0) === false;
-isPrime(1) === false;
-isPrime(2) === true;
-isPrime(9) === false;
-isPrime(17) === true;
-isPrime(25) === false;
-isPrime(73) === true;
-isPrime(10000000000000) === false;
+[0, 1, 2, 9, 17, 25, 73, 10000000000000].forEach(val => isPrime(val));
 ```

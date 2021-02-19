@@ -41,8 +41,6 @@ function bar() {
 bar();
 ```
 
-![爆栈](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670c128acce975f.jpg)
-
 ### Micro-Task 与 Macro-Task
 
 浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。**宏任务队列可以有多个，微任务队列只有一个**。
@@ -55,8 +53,6 @@ bar();
 ### 浏览器中的 Event Loop
 
 执行 JS 代码其实就是往执行栈中放入函数，当遇到异步的代码时，会被**挂起**并在需要执行的时候加入到 Task（有多种 Task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为。
-
-![事件循环](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/16740fa4cd9c6937.jpg)
 
 不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（micro-task） 和 **宏任务**（macro-task）。在 ES6 规范中，micro-task 称为 `jobs`，macro-task 称为 `task`。下面来看以下代码的执行顺序：
 
@@ -92,6 +88,7 @@ console.log('script end');
 ```
 
 > 注意：新的浏览器中不是如上打印的，因为 await 变快了，具体内容可以往下看
+> 以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务
 
 首先先来解释下上述代码的 `async` 和 `await` 的执行顺序。当我们调用 `async1` 函数时，会马上输出 `async2 end`，并且函数返回一个 `Promise`，接下来在遇到 `await`的时候会就让出线程开始执行 `async1` 外的代码，所以我们完全可以把 `await` 看成是**让出线程**的标志。
 
@@ -130,46 +127,6 @@ new Promise((resolve, reject) => {
 
 ### JS 中的 event loop
 
-> 众所周知 JS 是门非阻塞单线程语言，因为在最初 JS 就是为了和浏览器交互而诞生的。如果 JS 是门多线程的语言话，我们在多个线程中处理 DOM 就可能会发生问题（一个线程中新加节点，另一个线程中删除节点）
-
-- JS 在执行的过程中会产生执行环境，这些执行环境会被顺序的加入到执行栈中。如果遇到异步的代码，会被挂起并加入到 Task（有多种 task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为
-
-```js
-console.log('script start');
-
-setTimeout(function() {
-  console.log('setTimeout');
-}, 0);
-
-console.log('script end');
-```
-
-> 不同的任务源会被分配到不同的 `Task` 队列中，任务源可以分为 微任务（`micro-task`） 和 宏任务（`macro-task`）。在 `ES6` 规范中，`micro-task` 称为 jobs，macro-task 称为 task
-
-```js
-console.log('script start');
-
-setTimeout(function() {
-  console.log('setTimeout');
-}, 0);
-
-new Promise(resolve => {
-  console.log('Promise');
-  resolve();
-})
-  .then(function() {
-    console.log('promise1');
-  })
-  .then(function() {
-    console.log('promise2');
-  });
-
-console.log('script end');
-// script start => Promise => script end => promise1 => promise2 => setTimeout
-```
-
-> 以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务
-
 **微任务**
 
 - `process.nextTick`
@@ -195,8 +152,6 @@ console.log('script end');
 - 执行所有微任务
 - 必要的话渲染 UI
 - 然后开始下一轮 `Event loop`，执行宏任务中的异步代码
-
-> 通过上述的 `Event loop` 顺序可知，如果宏任务中的异步代码有大量的计算并且需要操作 `DOM` 的话，为了更快的响应界面响应，我们可以把操作 `DOM` 放入微任务中
 
 ### Node 中的 Event Loop
 
@@ -909,21 +864,21 @@ then 和 setTimeout 执行顺序，即 setTimeout(fn, 0)在下一轮“事件循
 例子：
 
 ```js
-var p1 = new Promise(function(resolve, reject){
-    resolve(1);
-})
-setTimeout(function(){
-  console.log("will be executed at the top of the next Event Loop");
-},0)
-p1.then(function(value){
-  console.log("p1 fulfilled");
-})
-setTimeout(function(){
-  console.log("will be executed at the bottom of the next Event Loop");
-},0)
-p1 fulfilled
-will be executed at the top of the next Event Loop
-will be executed at the bottom of the next Event Loop
+var p1 = new Promise(function(resolve, reject) {
+  resolve(1);
+});
+setTimeout(function() {
+  console.log('will be executed at the top of the next Event Loop');
+}, 0);
+p1.then(function(value) {
+  console.log('p1 fulfilled');
+});
+setTimeout(function() {
+  console.log('will be executed at the bottom of the next Event Loop');
+}, 0);
+// p1 fulfilled
+// will be executed at the top of the next Event Loop
+// will be executed at the bottom of the next Event Loop
 ```
 
 原因：
@@ -939,11 +894,3 @@ will be executed at the bottom of the next Event Loop
 - 检查 micro-task 队列，然后执行所有已触发的异步任务，依次执行事件处理函数，直至执行完毕，然后跳至第二步，若没有需处理的异步任务中，则直接返回第二步，依次>执行后续步骤；
 - 最后返回第二步，继续检查 macro-task 队列，依次执行后续步骤；
 - 如此往复，若所有异步任务处理完成，则结束；
-
-promise 与 asyns/await 的不同：
-asyns 函数前面多了一个 aync 关键字。await 关键字只能用在 aync 定义的函数内。async 函数会隐式地返回一个 promise，该 promise 的 reosolve 值就是函数 return 的值。
-任何一个 await 语句后面的 Promise 对象变为 reject 状态，那么整个 async 函数都会中断执行
-相同点：
-async 函数的返回值是 Promise 对象，可以使用 then 方法添加回调函数，这一点与 promise 类似
-希望多个请求并发执行，可以使用 Promise.all 方法
-promise 和 setTimeout 都会被放入任务队列

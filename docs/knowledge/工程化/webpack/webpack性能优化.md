@@ -11,6 +11,16 @@ draft: true
 - 有哪些方式可以减少 Webpack 的打包时间
 - 有哪些方式可以让 Webpack 打出来的包更小
 
+## tree sharing
+
+顾名思义，就是通过将多余的代码给“摇晃”掉，在开发中我们经常使用一些第三方库，而这些第三方库只使用了这个库的一部门功能或代码，未使用的代码也要被打包进来，这样出口文件会非常大， `tree-sharking` 帮我们解决了这个问题，它可以将各个模块中没有使用的方法过滤掉，只对有效代码进行打包。
+
+`tree-sharking` 是通过在 Webpack 中配置 `babel-plugin-import` 插件来实现的。
+
+需要注意的是，tree sharking 对于如何 import 模块是有要求的，这就是为什么 react 中经常看到 `import * as React from 'react'` 的原因。
+
+在 b.js 中通过`import a from './a.js'`，来调用，那么就无法使用 tree sharking，这时候我们可以怎么办呢？可以这么写`import * as a from './a.js'`
+
 ## 减少 Webpack 打包时间
 
 ### 优化 Loader

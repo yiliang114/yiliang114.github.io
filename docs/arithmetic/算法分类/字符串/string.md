@@ -211,15 +211,9 @@ export default function checkPermutationFast(str1, str2) {
 
 ```js
 /**
- * Given two strings, write a method to decide if one is a permutation of the
- * other.
- * @flow
- */
-
-/**
  * Complexity: O(n)
  */
-export default function PermutationString(first, second): boolean {
+export default function PermutationString(first, second) {
   if (first.length !== second.length) return false;
 
   const _first: Map<string, number> = new Map();
@@ -252,7 +246,7 @@ export default function PermutationString(first, second): boolean {
 /**
  * Complexity: O(nlogn)
  */
-export function PermutationStringInPlace(first, second): boolean {
+export function PermutationStringInPlace(first, second) {
   if (first.length !== second.length) return false;
 
   const _first = first.split('').sort();
@@ -269,7 +263,7 @@ export function PermutationStringInPlace(first, second): boolean {
 ### 判断两个字符串是否？？
 
 ```js
-export default function OneAway(str1, str2): boolean {
+export default function OneAway(str1, str2) {
   // new Set 传入一个字符串得到一个不重复的集合。
   const set1 = new Set(str1);
   const set2 = new Set(str2);
