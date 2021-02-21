@@ -6,7 +6,7 @@ aside: false
 draft: true
 ---
 
-### Trie
+### Trie 树
 
 在计算机科学，**trie**，又称**前缀树**或**字典树**，是一种有序树，用于保存关联数组，其中的键通常是字符串。
 
@@ -24,6 +24,12 @@ draft: true
 
 - 词频统计
 - 前缀匹配
+
+Trie 树，又称前缀树，字典树， 是一种有序树，用于保存关联数组，其中的键通常是字符串。与二叉查找树不同，键不是直接保存在节点中，而是由节点在树中的位置决定。一个节点的所有子孙都有相同的前缀，也就是这个节点对应的字符串，而根节点对应空字符串。一般情况下，不是所有的节点都有对应的值，只有叶子节点和部分内部节点所对应的键才有相关的值。
+
+Trie 树查询和插入时间复杂度都是 O(n)，是一种以空间换时间的方法。当节点树较多的时候，Trie 树占用的内存会很大。
+
+Trie 树常用于搜索提示。如当输入一个网址，可以自动搜索出可能的选择。当没有完全匹配的搜索结果，可以返回前缀最相似的可能。
 
 #### 实现
 
@@ -136,23 +142,6 @@ function del(node, key, d) {
 }
 ```
 
-```js
-export default function PrefixTrie(words: Array<string>) {
-  const trie = new Map();
-  for (const word of words) {
-    let tmp = trie;
-    for (const char of Array.from(word)) {
-      if (!tmp.has(char)) {
-        tmp.set(char, new Map());
-      }
-      tmp = tmp.get(char);
-    }
-    tmp.set('END', null);
-  }
-  return trie;
-}
-```
-
 ### 前缀树问题
 
 前缀树的 api 主要有以下几个：
@@ -162,12 +151,6 @@ export default function PrefixTrie(words: Array<string>) {
 - `startWith(word)`： 查找是否存在以 word 为前缀的单词
 
 其中 startWith 是前缀树最核心的用法，其名称前缀树就从这里而来。
-
-208 题: 一个前缀树大概是这个样子：
-
-![](https://github.com/azl397985856/leetcode/raw/b8e8fa5f0554926efa9039495b25ed7fc158372a/assets/problems/208.implement-trie-prefix-tree-1.png)
-
-如图每一个节点存储一个字符，然后外加一个控制信息表示是否是单词结尾，实际使用过程可能会有细微差别，不过变化不大。
 
 ### 字典树
 
@@ -286,21 +269,15 @@ export default class Trie {
 }
 ```
 
-### Trie 树
-
-Trie 树，又称前缀树，字典树， 是一种有序树，用于保存关联数组，其中的键通常是字符串。与二叉查找树不同，键不是直接保存在节点中，而是由节点在树中的位置决定。一个节点的所有子孙都有相同的前缀，也就是这个节点对应的字符串，而根节点对应空字符串。一般情况下，不是所有的节点都有对应的值，只有叶子节点和部分内部节点所对应的键才有相关的值。
-
-Trie 树查询和插入时间复杂度都是 O(n)，是一种以空间换时间的方法。当节点树较多的时候，Trie 树占用的内存会很大。
-
-Trie 树常用于搜索提示。如当输入一个网址，可以自动搜索出可能的选择。当没有完全匹配的搜索结果，可以返回前缀最相似的可能。
-
-## Trie
-
-Trie，又称前缀树或字典树，用于判断字符串是否存在或者是否具有某种字符串前缀。
-
 ### 1. 实现一个 Trie
 
 [208. Implement Trie (Prefix Tree) (Medium)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/description/)
+
+一个前缀树大概是这个样子：
+
+![](https://github.com/azl397985856/leetcode/raw/b8e8fa5f0554926efa9039495b25ed7fc158372a/assets/problems/208.implement-trie-prefix-tree-1.png)
+
+如图每一个节点存储一个字符，然后外加一个控制信息表示是否是单词结尾，实际使用过程可能会有细微差别，不过变化不大。
 
 ```java
 class Trie {

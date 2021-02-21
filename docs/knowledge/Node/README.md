@@ -369,3 +369,9 @@ console.log(DIST_DIRs); //...../React-Whole-barrels/build/dist 这是将两个�
 3. Express 和 Koa 最明显的差别就是 Handler 的处理方法，一个是普通的回调函数，一个是利用生成器函数（Generator Function）来作为响应器。往里头儿说就是 Express 是在同一线程上完成当前进程的所有 HTTP 请求，而 Koa 利用 co 作为底层运行框架，利用 Generator 的特性，实现“协程响应”（并不能将 Generator 等价于协程，在 V8 的邮件列表中对 Generator 的定义基本是 `coroutine-like`），然而 co 这个库对 Generator 的使用方法并非当初 Generator 的设计初衷。详细可以看这里：Koa, co and coroutine
 
 4. 还是要感谢 TJ 创造了 co 这个大杀器吧，让我们基本完全忘记了什么是回调函数或者 callbacks hell。虽然实现方法略微取巧，但是就大大加速了开发速度这一点而言，已经足以让我们跪舔了。
+
+### node es6
+
+https://segmentfault.com/a/1190000012709705
+
+最主要是 `babel-preset-env` 和 `babel-register` 配合使用。 前者自动检查 node 的版本，并设置指定的预设，后者进行实时转码，编译 es6 代码到 node 可以直接执行的代码。
