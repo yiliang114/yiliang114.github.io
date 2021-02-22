@@ -102,7 +102,7 @@ module.exports = {
       { text: '文章', link: '/posts/', exact: false },
       { text: '算法', link: '/arithmetic/', exact: false },
       // { text: '分类', link: '/posts/categories/', exact: true },
-      { text: '私语', link: '/whisper', exact: false },
+      // { text: '私语', link: '/whisper', exact: false },
       { text: '友链', link: '/links/', exact: false },
       // {
       //   text: '关于我',
