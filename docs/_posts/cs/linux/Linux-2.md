@@ -56,58 +56,58 @@ tar 打包：
 
 ## 管道命令
 
-12.选取：cut -d ' ' -f 1（用于分隔字符） cut -c 12-（字符范围，用于排列整齐的信息）
+12. 选取：cut -d ' ' -f 1（用于分隔字符） cut -c 12-（字符范围，用于排列整齐的信息）
 
-13.grep 'root'（查找 root）grep -v 'root'（反向选择）-n（输出行号）-i（不区分大小写）
+13. grep 'root'（查找 root）grep -v 'root'（反向选择）-n（输出行号）-i（不区分大小写）
 
-14.sort（默认） sort -t ':' -k 3
+14. sort（默认） sort -t ':' -k 3
 
-15.uniq: 仅列出一个显示
+15. uniq: 仅列出一个显示
 
-16.wc: 统计字数字符数 e.g. wc -l（仅列出行） cat /etc/man.config | wc
+16. wc: 统计字数字符数 e.g. wc -l（仅列出行） cat /etc/man.config | wc
 
-17.uniq（仅列出一个显示）
+17. uniq（仅列出一个显示）
 
-18.tee: 双向重定向 last | tee last.list | cut -d ' ' -f 1
+18. tee: 双向重定向 last | tee last.list | cut -d ' ' -f 1
 
 ### 字符转换命令
 
 tr, col, join, paste, expand
 
-19.tr: e.g. tr -d（删除指定字符）tr [a-z][a-z]小写转大写
+19. tr: e.g. tr -d（删除指定字符）tr [a-z][a-z]小写转大写
 
-20.col -x：将断行符^M（tab）转换成对等的空格
+20. col -x：将断行符^M（tab）转换成对等的空格
 
-21.join -t ':' /etc/passwd /etc/shadow（连接）
+21. join -t ':' /etc/passwd /etc/shadow（连接）
 
-22.paste（直接两行贴在一起）
+22. paste（直接两行贴在一起）
 
-23.expand -t（tab 键转空格键）
+23. expand -t（tab 键转空格键）
 
-24.切割命令 split
+24. 切割命令 split
 
 split -b 300k /etc/termcap termcap(按文件大小切割)
 split -l 10 - lsroot（按行切割）
 
-25.xargs：很多命令不支持管道命令，可以通过 xargs 来提供该命令引用 stdin 之用。
+25. xargs：很多命令不支持管道命令，可以通过 xargs 来提供该命令引用 stdin 之用。
 
 管道命令：cut、grep、sort、wc、uniq、tee、tr、col、join、paste、expand、split、xargs
 
-26.dmesg：列出内核信息
+26. dmesg：列出内核信息
 
 ## 正则表达式
 
 sed 管道命令
 
-27.sed -[nefr] 动作 (sed 用于一整行的处理)
+27. sed -[nefr] 动作 (sed 用于一整行的处理)
 
 动作：a 新增 c 替换（整行替换） d 删除 i 插入 p 打印（与-n 安静模式搭配）
 
 sed 的替换功能（字符串的替换）：sed 's/被替换的字符串/新字符串/g '
 
-28.格式化打印 printf
+28. 格式化打印 printf
 
-29.awk（倾向于将一行分成数个“字段”来处理）
+29. awk（倾向于将一行分成数个“字段”来处理）
 
 e.g. last -n 5 | awk '{print $1 "\t" $3}'
 
@@ -128,10 +128,10 @@ cat pay.txt | awk 'NR==1 {printf "%10s %10s %10s %10s %10s\n",$1,$2,$3,$4,"total
 
 文件比较：
 
-30.diff passwd.old passwd.new（按行来比较）
-31.cmp passwd.old passwd.new（按字节来比较）
+30. diff passwd.old passwd.new（按行来比较）
+31. cmp passwd.old passwd.new（按字节来比较）
 
-32.patch
+32. patch
 
 diff 制作补丁文件
 
@@ -158,8 +158,6 @@ tar -czf jpg.tar.gz *.jpg
 
 ### 解决占用端口
 
-1、netstat -ano |findstr 端口号
-
-2、tasklist|findstr 进程号
-
-3、taskkill -f -t -im 文件名
+1. netstat -ano |findstr 端口号
+2. tasklist|findstr 进程号
+3. taskkill -f -t -im 文件名
