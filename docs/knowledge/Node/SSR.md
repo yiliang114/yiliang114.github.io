@@ -123,3 +123,45 @@ SSR 与 CSR 环境差异怎么处理？
 ## 前后端同构（微医）
 
 结合了 SSR 和 CSR ，公用一套模板引擎。
+
+https://zdk.f2er.net/wx/detail/5dc344ebdad4401af3f21ba5
+
+https://www.infoq.cn/article/qlewqsit7oshkugw18e5
+
+优雅降级的配置
+
+https://zhuanlan.zhihu.com/p/266199299
+
+Nginx 相关配置
+
+```
+upstream static_env {
+  server x.x.x.x:port1; //html静态文件服务器
+}
+upstream nodejs_env {
+  server x.x.x.x:port2; //node渲染服务器
+}
+
+server {
+  listen 80;
+  server_name xxx;
+  ... // 其他配置
+  location ^~ /zyindex/ {
+    proxy_pass http://static_env; //将非ssr目录的请求转发到静态HTML文件服务器
+  }
+  location ^~ /zyindex/ssr/ {
+    proxy_pass http://nodejs_env; //将ssr目录的请求转发node渲染服务器
+    proxy_intercept_errors on; // 开启拦截响应状态码
+    error_page 403 404 408 500 501 502 503 504 = 200 @static_page; // 若响应异常,将这些异常状态码改为200响应，并指向下面的新规则@static_page
+  }
+  location @static_page {
+    rewrite_log on;
+    error_log logs/rewrite.log notice;
+    rewrite /zyindex/ssr/(.*)$ /zyindex/$1 last; // 去掉ssr目录后重新定向地址，将请求Node渲染服务器转发到静态HTML文件服务器
+  }
+}
+```
+
+## Genesis
+
+https://fmfe.github.io/genesis-docs/guide/
