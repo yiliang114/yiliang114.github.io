@@ -165,3 +165,7 @@ server {
 ## Genesis
 
 https://fmfe.github.io/genesis-docs/guide/
+
+### ssr
+
+https://www.infoq.cn/article/qlewqsit7oshkugw18e5

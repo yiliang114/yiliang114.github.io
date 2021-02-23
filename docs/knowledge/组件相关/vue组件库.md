@@ -4,54 +4,9 @@ date: '2020-10-26'
 draft: true
 ---
 
-## 如何创建一个 vue 组件库脚手架
+### 如何在开发组件库的过程中单元测试、持续集成
 
-https://www.cnblogs.com/tiedaweishao/p/7825997.html
-
-https://github.com/VV-UI/VV-UI/blob/master/packages/row/src/row.js
-
-## 如何设计构思一个 vue 组件库的 api 和功能
-
-参考 element iview 等现有的组件库
-
-https://github.com/ElemeFE/element/blob/dev/packages/button/src/button.vue
-
-## 没有专业的 UI 设计怎么办？
-
-直接去找你喜欢的图片就完事了？ 什么？
-
-http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.html# ## 在开发组件库中遇到的 css 问题
-
-- postcss 的使用和处理
-
-## 如何在开发组件库的过程中单元测试、持续集成
-
-## 发布
-
-### 如何书写标准的 Readme？
-
-总结一下现在比较成熟的开源框架的 readme 的特点
-
-最好是能够输出一个在线的提供给其他开发者的 readme 网站，提供流行的徽章的地址
-
-### issue 模板
-
-### 按需加载插件
-
-### vscode idea 代码提示插件
-
-### example 中写几个 demo
-
-- 官网
-- TodoList
-- weekly
-- 重写一个博客
-- vue-cli 脚手架模板
-
-### 适配移动端
-
-- 媒体查询
-- rem vw 等适配 ，不过这是 css 问题
+### 组件库按需加载原理
 
 ### css 问题
 
@@ -73,16 +28,6 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 - vue 命名规范
 - 更新日志
 
-### for unknown
-
-- Css 的 bem 规范
-- postcss 介绍、插件的使用 postcss-salad
-- mixins
-
-### UI 选择
-
-个人博客类型： http://www.17sucai.com/pins/30191.html
-
 ## 移动端组件库
 
 ### 要点
@@ -90,8 +35,6 @@ http://demo.cssmoban.com/cssthemes5/twts_141_PurpleAdmin/pages/charts/chartjs.ht
 1. 内嵌一个 h5，开发环境下，组件的编辑实时可见。
 2. css 文件单独提取出来。
 3. 文档自动编译生成。
-
-### 组件库按需加载原理
 
 ### TODO
 

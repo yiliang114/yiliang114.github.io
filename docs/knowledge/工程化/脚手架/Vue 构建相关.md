@@ -6,14 +6,6 @@ draft: true
 
 ### vue 统一错误处理
 
-### vue webpack style 标签中处理 background-img 路径
-
-https://blog.csdn.net/ddwddw4/article/details/82384397
-
-### 怎么快速定位哪个组件出现性能问题
-
-> 用 timeline 工具。 大意是通过 timeline 来查看每个函数的调用时常，定位出哪个函数的问题，从而能判断哪个组件出了问题
-
 #### 打开线上 vue 项目的 devtools
 
 步骤如下：
@@ -21,8 +13,6 @@ https://blog.csdn.net/ddwddw4/article/details/82384397
 1. 找到 Vue 构造函数如 window.Vue
 2. Vue.config.devtools=true
 3. **VUE_DEVTOOLS_GLOBAL_HOOK**.emit('init', Vue)
-
-### webpack 如何编译 vue 文件的 vue-loader ？ 还是 vue 编译器？
 
 ### 巨简单的 js 切分： Vue code split
 
@@ -34,8 +24,6 @@ vue 全家桶 webpack 插件
 - build 压缩 js
 - 分析 bundlejs
 - 去除 console
-
-### vue loader 的工作原理
 
 ### vue style scoped 问题， 模拟的局部作用域是如何实现的
 
@@ -86,55 +74,6 @@ export default new Router({
 - Vue-cli3 webpack 配置
   https://blog.csdn.net/weixin_36065510/article/details/83989408
 
-### vue-cli@3 中引用图片路径的问题
-
-http://www.cnblogs.com/cckui/p/10315204.html
-
-### vue-cli 如何新增自定义指令？
-
-1. 创建局部指令
-
-```js
-var app = new Vue({
-  el: '#app',
-  data: {},
-  // 创建指令(可以多个)
-  directives: {
-    // 指令名称
-    dir1: {
-      inserted(el) {
-        // 指令中第一个参数是当前使用指令的 DOM
-        console.log(el);
-        console.log(arguments);
-        // 对 DOM 进行操作
-        el.style.width = '200px';
-        el.style.height = '200px';
-        el.style.background = '#000';
-      },
-    },
-  },
-});
-```
-
-2. 全局指令
-
-```js
-Vue.directive('dir2', {
-  inserted(el) {
-    console.log(el);
-  },
-});
-```
-
-3. 指令的使用
-
-```html
-<div id="app">
-  <div v-dir1></div>
-  <div v-dir2></div>
-</div>
-```
-
 ### Vue-cli@3 中 element 按需加载：
 
 https://www.cnblogs.com/MrZouJian/p/8601416.html
@@ -144,48 +83,3 @@ https://www.cnblogs.com/MrZouJian/p/8601416.html
 - https://segmentfault.com/a/1190000010276830
 - https://blog.csdn.net/zmhawk/article/details/75209161
 - https://www.cnblogs.com/rainheader/p/6505366.html
-
-### vue-cli webpack，提取 css
-
-https://segmentfault.com/q/1010000015318571/a-1020000015323830
-
-### vue-cli 打包 js 压缩代码
-
-https://www.cnblogs.com/lafitewu/p/8309305.html
-
-### vue loader 的实现原理，如何仿造一个 loader
-
-### css less sass loader ？ style loader 的作用？
-
-### vue-cli
-
-vue-cli
-​webpack
-​vue-loader
-​babel-loader
-​css/less/scss/style-loader
-​plugin: postcss/ uglify 等
-​vue
-​vuex
-​vue-router
-​
-实现自定义保存
-​nuxt
-
-1. 路由分割、图片、数据懒加载
-2. 数据日志、error、埋点上报
-3. 日志可视化
-
-### vue-cli 中自定义指令的使用
-
-### vue-cli 开发环境使用全局常量
-
-### vue-cli 生产环境使用全局常量
-
-### vue-cli 提供的几种脚手架模板
-
-### vue-cli 工程升级 vue 版本
-
-### vue 打包后会生成哪些文件？
-
-### 如何配置 vue 打包生成文件的路径？

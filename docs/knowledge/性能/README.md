@@ -263,3 +263,15 @@ react-loadable 用来创建动态路由，能够根据路由进行 code spliting
 - table list 海量数据，虚拟列表
 - 页面加载海量数据
   - https://juejin.im/post/5ae17a386fb9a07abc299cdd
+
+### 虚拟列表的实现原理
+
+有两种形式 ？
+
+定高和不定高。
+
+### 懒加载原理
+
+1. 路由分割、图片、数据懒加载
+2. 数据日志、error、埋点上报
+3. 日志可视化
