@@ -419,6 +419,8 @@ sourcemap 是一个影射关系。 当 sourcemap 功能被关闭的时候，在�
 
 主动开启 sourcemap 只要在 webpack 配置中，将 `devtool` 设置为 `source-map` 即可。
 
+source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
+
 #### webpackDevServer
 
 #### react babel 配置 (3.10-3.13)

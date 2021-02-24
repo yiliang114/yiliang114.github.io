@@ -375,3 +375,11 @@ console.log(DIST_DIRs); //...../React-Whole-barrels/build/dist 这是将两个�
 https://segmentfault.com/a/1190000012709705
 
 最主要是 `babel-preset-env` 和 `babel-register` 配合使用。 前者自动检查 node 的版本，并设置指定的预设，后者进行实时转码，编译 es6 代码到 node 可以直接执行的代码。
+
+### node 为什么适合做高并发
+
+### node 容灾处理
+
+### node 如何捕获异常
+
+### 什么是死锁，以及死锁产生的必要条件有哪些

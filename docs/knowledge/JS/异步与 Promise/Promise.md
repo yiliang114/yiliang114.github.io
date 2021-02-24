@@ -4,6 +4,10 @@ date: '2020-10-26'
 draft: true
 ---
 
+## Promise 的执行
+
+## 实现 Promise.all
+
 ## JS 异步解决方案的发展历程以及优缺点。
 
 ### 1. 回调函数

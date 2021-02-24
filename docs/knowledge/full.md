@@ -1,6 +1,6 @@
 ---
 title: 懒加载的实现原理
-date: "2020-10-26"
+date: '2020-10-26'
 draft: true
 ---
 
@@ -13,6 +13,30 @@ JS 基本数据类型
 事件
 原型链
 继承
+JavaScript 基本数据类型
+如何判断数据类型（typeof 和 instanceof）
+JavaScript 原型
+JavaScript this
+JavaScript new 原理
+JavaScript 继承
+微任务和宏任务
+HTTP 缓存相关
+跨域解决方案
+JS this 关键字，箭头函数的 this，call、apply、bind 区别
+重绘和回流
+CommonJS 和 ES Module 区别
+事件委托和使用
+HTTP 强缓存和协商缓存
+CSS 设置高度等于宽度的 3/4
+Promise 的执行顺序
+this
+Vue Diff
+双向绑定
+MVVM 是什么
+Vue 的生命周期
+flex
+闭包
+vue 数据更新机制
 
 #### css
 
@@ -510,7 +534,7 @@ function MathHandle(x, y) {
   this.x = x;
   this.y = y;
 }
-MathHandle.prototype.add = function () {
+MathHandle.prototype.add = function() {
   return this.x + this.y;
 };
 
@@ -561,11 +585,11 @@ m.__proto__ === MathHandle.prototype; // true
 
 ```js
 function Animal() {
-  this.eat = function () {};
+  this.eat = function() {};
 }
 
 function Dog() {
-  this.bark = function () {};
+  this.bark = function() {};
 }
 // 需要继承的构造函数的显式原型赋值成为被调用继承的构造函数创建出来的实例
 // 低级构造函数的显式原型赋值成高级构造函数的实例
@@ -590,7 +614,7 @@ class Dog extends Animal {
   say() {}
 }
 
-const dog = new Dog("哈士奇");
+const dog = new Dog('哈士奇');
 ```
 
 ### Promise 的基本使用
@@ -624,28 +648,28 @@ promise 的语法：
 ```js
 function loadImg(src) {
   return new Promise((resolve, reject) => {
-    var img = document.createElement("img");
-    img.onload = function () {
+    var img = document.createElement('img');
+    img.onload = function() {
       resolve(img);
     };
-    img.onerror = function () {
+    img.onerror = function() {
       reject();
     };
     img.src = src;
   });
 }
 var src =
-  "https://ss0.bdstatic.com/6KYTfyqn1Ah3otqbppnN2DJv/zheguilogo/8b83961cd845269d7a3677ef9efa0751_originalsize.jpeg";
+  'https://ss0.bdstatic.com/6KYTfyqn1Ah3otqbppnN2DJv/zheguilogo/8b83961cd845269d7a3677ef9efa0751_originalsize.jpeg';
 loadImg(src)
   .then(
-    (img) => {
+    img => {
       console.log(img.width);
     },
     () => {
-      console.log("fail");
-    }
+      console.log('fail');
+    },
   )
-  .then((img) => {
+  .then(img => {
     // promise 的链式调用，需要前面的 then 中 return 出值或者一个新的 promise
     console.log(img);
   });
@@ -676,9 +700,9 @@ loadImg(src)
 6. 箭头函数（this 彻底解决之前 this 指向全局 window 的问题）
    ```js
    let arr = [1, 2, 3];
-   arr.map(function (item) {
+   arr.map(function(item) {
      // this 指向了 window ...
-     console.log("js", this);
+     console.log('js', this);
    });
    ```
 
@@ -1674,14 +1698,14 @@ if (window.XMLHttpRequest) {
   httpRequest = new XMLHttpRequest();
 } else if (window.ActiveXObject) {
   // IE 6 and older
-  httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+  httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
 }
 ```
 
 - 绑定 onreadystatechange 事件
 
 ```js
-httpRequest.onreadystatechange = function () {
+httpRequest.onreadystatechange = function() {
   // Process the server response here.
 };
 ```
@@ -1689,7 +1713,7 @@ httpRequest.onreadystatechange = function () {
 - 向服务器发送请求
 
 ```js
-httpRequest.open("GET", "http://www.example.org/some.file", true);
+httpRequest.open('GET', 'http://www.example.org/some.file', true);
 httpRequest.send();
 ```
 
@@ -1701,14 +1725,14 @@ function ajax(url, cb) {
   if (window.XMLHttpRequest) {
     xhr = new XMLHttpRequest();
   } else {
-    xhr = ActiveXObject("Microsoft.XMLHTTP");
+    xhr = ActiveXObject('Microsoft.XMLHTTP');
   }
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       cb(xhr.responseText);
     }
   };
-  xhr.open("GET", url, true);
+  xhr.open('GET', url, true);
   xhr.send();
 }
 ```
@@ -1747,7 +1771,7 @@ this: this 的值是在执行的时候才能确认，定义的时候不能确认
 function debounce(fn, delay) {
   delay = delay || 500;
   let timer;
-  return function () {
+  return function() {
     let args = arguments;
     if (timer) {
       clearTimeout(timer);
@@ -1764,7 +1788,7 @@ function debounce(fn, delay) {
 function throttle(fn, delay) {
   delay = delay || 500;
   let timer;
-  return function () {
+  return function() {
     let args = arguments;
     if (!timer) {
       timer = setTimeout(() => {

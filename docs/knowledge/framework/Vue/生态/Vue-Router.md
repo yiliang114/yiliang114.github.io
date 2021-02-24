@@ -6,6 +6,9 @@ draft: true
 
 ## 源码解析
 
+Vue-router 原理
+Vue computed 和 watch 区别
+
 ### 路由注册
 
 使用路由之前，需要调用 `Vue.use(VueRouter)`，这是因为让插件可以使用 Vue

@@ -403,3 +403,5 @@ class Student extends MixClass(Person, Kid) {}
 ### 对象扩展
 
 - **链判断操作符(?.)**：是否存在对象属性(不存在返回`undefined`且不再往下执行)
+
+### ES6 编译相关

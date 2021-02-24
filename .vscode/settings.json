@@ -3,8 +3,6 @@
   "GitCommitPlugin.ShowEmoji": false,
   "files.exclude": {
     "lib": true,
-    "docs/whisper": true,
-    "docs/arithmetic": true,
-    "arithmetic": true
+    "docs/whisper": true
   }
 }
