@@ -39,11 +39,21 @@ document
 
 设置值时 innerText 会把 HTML 标签当做普通的文本显示，而 innerHTML 则不会。也就是直接修改 innerHTML 会解析内容中的 HTML 标签，比如换行。
 
-### 请指出 document load 和 document ready 两个事件的区别。
+### document 中的`load`事件和`DOMContentLoaded`事件之间的区别是什么？
 
-DOMContentLoaded 与 load 的区别
+当初始的 HTML 文档被完全加载和解析完成之后，`DOMContentLoaded`事件被触发，而无需等待样式表、图像和子框架的完成加载。
 
-https://www.cnblogs.com/caizhenbo/p/6679478.html
+`window`的`load`事件仅在 DOM 和所有相关资源全部完成加载后才会触发。
+
+### 为什么要使用`load`事件？这个事件有什么缺点吗？你知道一些代替方案吗，为什么使用它们？
+
+在文档装载完成后会触发`load`事件。此时，在文档中的所有对象都在 DOM 中，所有图像、脚本、链接和子框架都完成了加载。
+
+DOM 事件`DOMContentLoaded`将在页面的 DOM 构建完成后触发，但不要等待其他资源完成加载。如果在初始化之前不需要装入整个页面，这个事件是使用首选。
+
+### 请指出 document load 和 document DOMContentLoaded 两个事件的区别
+
+他们的区别是，触发的时机不一样，先触发 DOMContentLoaded 事件（DOM 树构建完成），后触发 load 事件（页面加载完毕）
 
 ## BOM
 

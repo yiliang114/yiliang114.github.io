@@ -93,8 +93,6 @@ viewport 常常使用在响应式开发以及移动 web 开发中，viewport 顾
 <meta name="render" content="webkit" />
 ```
 
-### meta 标签禁止缓存
-
 ### meta 标签：自动刷新/跳转
 
 假设要实现一个类似 PPT 自动播放的效果，你很可能会想到使用 JavaScript 定时器控制页面跳转来实现。但其实有更加简洁的实现方法，比如通过 meta 标签来实现：
@@ -114,3 +112,9 @@ viewport 常常使用在响应式开发以及移动 web 开发中，viewport 顾
 既然这样做又方便又快捷，为什么这种用法比较少见呢？
 
 一方面是因为不少前端工程师对 meta 标签用法缺乏深入了解，另一方面也是因为在使用它的时候，刷新和跳转操作是不可取消的，所以对刷新时间间隔或者需要手动取消的，还是推荐使用 JavaScript 定时器来实现。但是，如果你只是想实现页面的定时刷新或跳转（比如某些页面缺乏访问权限，在 x 秒后跳回首页这样的场景）建议你可以实践下 meta 标签的用法。
+
+### 禁止缩放
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+```

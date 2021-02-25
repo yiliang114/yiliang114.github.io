@@ -44,17 +44,6 @@ user-scalable：用户是否可以手动缩放。
 - 原理类似图片轮播原理，超出隐藏部分，滚动时显示
 - 可能用到的 CSS 属性：overflow:hidden; transform:translate(100%, 100%); display:none;
 
-### 抽离样式模块怎么写，说出思路？
-
-- CSS 可以拆分成 2 部分：公共 CSS 和 业务 CSS：
-  - 网站的配色，字体，交互提取出为公共 CSS。这部分 CSS 命名不应涉及具体的业务
-  - 对于业务 CSS，需要有统一的命名，使用公用的前缀。可以参考面向对象的 CSS
-
-### rgba() 和 opacity 的透明效果有什么不同？
-
-- opacity 作用于元素以及元素内的所有内容（包括文字）的透明度
-- rgba() 只作用于元素自身的颜色或其背景色，子元素不会继承透明效果
-
 ### css 属性 content 有什么作用？
 
 - content 属性专门应用在 before/after 伪元素上，用于插入额外内容或样式
@@ -64,25 +53,6 @@ user-scalable：用户是否可以手动缩放。
 当按百分比设定一个元素的宽度时，它是相对于父容器的宽度计算的，但是，对于一些表示竖向距离的属性，例如 padding-top , padding-bottom , margin-top , margin-bottom 等，当按百分比设定它们时，依据的也是父容器的宽度，而不是高度。
 
 - 元素竖向的百分比设定是相对于容器的宽度，而不是高度
-
-### CSS 有哪些继承属性
-
-关于文字排版的属性如：
-
-- font
-- word-break
-- letter-spacing
-- text-align
-- text-rendering
-- word-spacing
-- white-space
-- text-indent
-- text-transform
-- text-shadow
-- line-height
-- color
-- visibility
-- cursor
 
 ### 有个场景：国家发生灾难后，需要将该页面做成灰白色，如何实现？
 
