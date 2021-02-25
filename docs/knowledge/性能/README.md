@@ -277,3 +277,9 @@ react-loadable 用来创建动态路由，能够根据路由进行 code spliting
 1. 路由分割、图片、数据懒加载
 2. 数据日志、error、埋点上报
 3. 日志可视化
+
+### webpack code split
+
+![image](https://user-images.githubusercontent.com/11473889/109128661-a9080780-778a-11eb-8e34-3d93864be75d.png)
+
+外部引入 cdn 的形式总体上还是会减小包的大小的。
