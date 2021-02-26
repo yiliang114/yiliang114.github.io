@@ -1027,3 +1027,8 @@ React 推出后，出于不同的原因先后出现三种定义 react 组件的�
 ### 组件不能访问 this 对象
 
 无状态组件由于没有实例化过程，所以无法访问组件 this 中的对象，例如：this.ref、this.state 等均不能访问。若想访问就不能使用这种形式来创建组件
+
+
+### 源码阅读
+
+https://github.com/BetaSu/just-react

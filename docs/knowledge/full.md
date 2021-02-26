@@ -7,36 +7,46 @@ draft: true
 ### 基础
 
 闭包
-JS 基本数据类型
-作用域以及作用域链，上下文执行栈和作用域链的区别
-前端性能优化
-事件
-原型链
-继承
-JavaScript 基本数据类型
+基本数据类型
 如何判断数据类型（typeof 和 instanceof）
-JavaScript 原型
-JavaScript this
-JavaScript new 原理
-JavaScript 继承
+this，箭头函数的 this，call、apply、bind 区别
+作用域以及作用域链，上下文执行栈和作用域链的区别
+原型、原型链、说一下原型链，对象，构造函数之间的一些联系。
+new 原理
+继承
+event-loop、事件委托和使用
 微任务和宏任务
-HTTP 缓存相关
-跨域解决方案
-JS this 关键字，箭头函数的 this，call、apply、bind 区别
-重绘和回流
-CommonJS 和 ES Module 区别
-事件委托和使用
-HTTP 强缓存和协商缓存
-CSS 设置高度等于宽度的 3/4
 Promise 的执行顺序
-this
+CommonJS 和 ES Module 区别
+HTTP 强缓存和协商缓存
+跨域解决方案
+重绘和回流
+前端性能优化
+
+flex
+CSS 设置高度等于宽度的 3/4
+
 Vue Diff
 双向绑定
 MVVM 是什么
 Vue 的生命周期
-flex
-闭包
 vue 数据更新机制
+
+#### js
+
+- 声明一个对象的几种方法
+- 限频、节流
+- 跨域
+  - options
+- es6 以及新的特性：
+  - proxy
+  - 块级作用域
+- amd cmd
+  - seajs 是什么，seajs 如何加载 vuejs 的项目
+- for of for in forEach map filter reduce
+- 柯里化
+- 手写从 url 中获取参数
+- 手写一个事件类 on emit off 等
 
 #### css
 
@@ -58,29 +68,29 @@ vue 数据更新机制
 - 伪类的作用
 - 纯 css 换行
 
-#### js
+#### 框架原理
 
-- 说一下原型链，对象，构造函数之间的一些联系。
-- DOM 事件的绑定的几种方式
-- 原型、原型链
-  - 通过原型链实现继承
-- 继承
-- this 的使用场景
-  - bind apply call 三次 this
-- 闭包
-- 声明一个对象的几种方法
-- 限频、节流
-- 跨域
-  - options
-- es6 以及新的特性：
-  - proxy
-  - 块级作用域
-- amd cmd
-  - seajs 是什么，seajs 如何加载 vuejs 的项目
-- for of for in forEach map filter reduce
-- 柯里化
-- 手写从 url 中获取参数
-- 手写一个事件类 on emit off 等
+1. 虚拟 DOM
+
+   1. 什么是 vdom 为什么要使用 vdom
+   2. vdom 如何使用，核心函数有什么
+   3. diff 算法
+
+2. MVVM vue
+
+   1. jquery 和现在使用 vue 和 React 框架的区别
+   2. 如何理解 MVVM
+   3. vue 如何实现响应式
+   4. vue 如何解析模板
+   5. 介绍 vue 的实现流程
+
+3. 组件化 和 React
+
+   1. 对组件化的理解
+   2. JSX 是什么
+   3. JSX 和 vdom 有什么区别
+   4. 简述 React 和 setState
+   5. 比较 React 和 Vue
 
 ### 技术栈
 
@@ -267,17 +277,6 @@ babel
 - react-router 里的 <Link> 标签和 标签有什么区别? Link 的本质也是 a 标签。只不过在 Link 中禁用了 a 标签的默认事件，改用了 history 对象提供的方法进行跳转。
 - vue 中的 ref 是什么？ref 被用来给元素或子组件注册引用信息。引用信息将会注册在父组件的 \$refs 对象上。如果在普通的 DOM 元素上使用，引用指向的就是 DOM 元素；如果用在子组件上，引用就指向组件实例。
 
-### 小程序
-
-- mpvue
-- taro
-- uni-app
-
-### 源码
-
-react:
-https://github.com/BetaSu/just-react
-
 ### 技术
 
 对 vuex 的理解
@@ -311,22 +310,12 @@ redux - 是怎么实现的， 实现过程
 
 项目开发流程
 
-### 算法
-
-js 二叉树
-算法题 - 十多个台阶，每次走一步到两步，有多少种情况
-
 ### 技术相关 - 1 面
 
 技术一面主要判断对基础知识的掌握
 
 - 描述一个你遇到过的技术问题，你是如何解决的？
   - 这个问题很常见，有没有遇到过很不常见的问题？比如在网上根本搜不到解决方法的？
-- 是否有设计过通用的组件？
-  - 请设计一个 Dialog（弹出层） / Suggestion（自动完成） / Slider（图片轮播） 等组件
-  - 你会提供什么接口？
-  - 调用过程是怎样的？可能会遇到什么细节问题？
-- 更细节的问题推荐参考 <https://github.com/darcyclarke/Front-end-Developer-Interview-Questions/>
 
 ### 技术相关 - 2 面
 
@@ -351,77 +340,8 @@ js 二叉树
 
 ### 主动性相关
 
-FEX 和很多其它团队不一样，我们没有 PM 天天跟在你后面催你做事情，所以你需要自主去发现和解决问题，主动性是我们最看重的软素质之一
-
 - 在之前做过的项目中，有没有什么功能或改进点是由你提出来的？
 - 是否有参与和改进其它开源项目
-
-# 慕课网高级 JS 面试题
-
-## 基础知识
-
-1. es6 常用语法
-   1. 模块化的使用和编译环境
-   2. class 和构造函数的区别
-   3. promise 的用法
-   4. es6 其他常用的功能
-2. 原型高级应用
-   1. 原型如何实际应用
-   2. 原型如何满足扩展
-3. 异步全面讲解
-   1. 什么是单线程，与异步有什么关系
-   2. 什么是 event-loop
-   3. 目前解决异步的方案有哪些
-   4. 如果只用 jquery 如何进行解决异步
-   5. promise 标准
-   6. async/await 的使用
-
-![image-20190824170755044](http://media.zhijianzhang.cn/image-20190824170755044.png)
-
-## 框架原理
-
-1. 虚拟 DOM
-
-   1. 什么是 vdom 为什么要使用 vdom
-   2. vdom 如何使用，核心函数有什么
-   3. diff 算法
-
-2. MVVM vue
-
-   1. jquery 和现在使用 vue 和 React 框架的区别
-   2. 如何理解 MVVM
-   3. vue 如何实现响应式
-   4. vue 如何解析模板
-   5. 介绍 vue 的实现流程
-
-3. 组件化 和 React
-
-   1. 对组件化的理解
-   2. JSX 是什么
-   3. JSX 和 vdom 有什么区别
-   4. 简述 React 和 setState
-   5. 比较 React 和 Vue
-
-![image-20190824170838520](http://media.zhijianzhang.cn/image-20190824170838520.png)
-
-## 混合开发
-
-1. hybrid
-   1. hybrid 是什么，为什么要用
-   2. hybrid 如何更新上线
-2. bybrid vs h5 区别
-3. 前端客户端通信 jsBridge
-   1. js 如何与客户端进行通信
-
-![image-20190824170928826](http://media.zhijianzhang.cn/image-20190824170928826.png)
-
-## 热爱编程
-
-1. 读书博客
-2. 开源
-3. 如何写博客，如何做开源
-
-![image-20190824170941397](http://media.zhijianzhang.cn/image-20190824170941397.png)
 
 ## ES6
 
@@ -1820,7 +1740,7 @@ AMD CMD commonjs 的不同。
 
 ### 浮动
 
-### flexbox 布局
+### flex box 布局
 
 ### position 和 display
 
@@ -1844,7 +1764,7 @@ AMD CMD commonjs 的不同。
 
 ### vue-router
 
-hashchange 事件
+hash change 事件
 另一个模式是如何处理的 ？
 
 ### Vuex
@@ -1860,10 +1780,6 @@ setState 是同步还是异步
 
 ## Webpack
 
-## Omiv
-
-### web Components
-
 ## 项目难点
 
 ### console
@@ -1871,7 +1787,7 @@ setState 是同步还是异步
 1. 意图配置的 tag 输入框，多 tag 下拉框的位置计算
 2. 页面跳转的处理，vuex 存储 next（）
 3. 轮询接口的封装
-4. requestid 捕捉器
+4. requestId 捕捉器
 5. vuex 的小封装
 
 ### h5

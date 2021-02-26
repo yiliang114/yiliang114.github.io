@@ -473,20 +473,6 @@ function add() {
 }
 ```
 
-有关性能的一些事：
-
-- 存取 arguments 对象通常要比存取命名参数要慢一些。
-- 一些老版本的浏览器在 arguments.length 的实现上相当慢。
-- 使用 fn.apply() 和 fn.call() 要比直接调用 fn() 要慢点。
-- 创建大量嵌套作用域和闭包会带来开销，无论是内容还是速度上。
-- 大多数瓶颈来自 DOM 操作
-
-扩展：
-
-- 柯里化是将一个多参数函数转换成多个单参数函数，也就是将一个 n 元函数转换成 n 个一元函数。
-- 偏函数即局部应用则是固定一个函数的一个或者多个参数，也就是将一个 n 元函数转换成一个 n - x 元函数
-  [函数柯里化](https://github.com/LuoShengMen/StudyNotes/issues/481)
-
 ### js 实现一个拖拽？
 
 首先是三个事件，分别是 mousedown，mousemove，mouseup
@@ -579,7 +565,7 @@ setInterval(() => {
 }, 1000 / 60);
 ```
 
-js APIrequestAnimationFrame 实现
+js API requestAnimationFrame 实现
 
 ```js
 //兼容性处理

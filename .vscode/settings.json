@@ -4,7 +4,7 @@
   "files.exclude": {
     "lib": true,
     "docs/whisper": true,
-    "arithmetic": true,
-    "docs/arithmetic": true
+    "docs/arithmetic": true,
+    "arithmetic": true
   }
 }

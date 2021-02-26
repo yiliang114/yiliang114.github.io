@@ -4,8 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-### new String('a') 和 'a' 是一样的么?
-
 ### new String
 
 JS 与其他面向对象语言一样有相应的构造器，比如说，可以通过以下两种方式来创建一个字符串：
@@ -48,14 +46,4 @@ typeof null == 'object'; // 很不幸，结果为 true
 
 ```js
 typeof [] == 'object'; // 很不幸，结果为 true
-```
-
-### String 和 string 有什么区别？
-
-String 是构造函数，而"string"是变量的一种类型
-
-```js
-typeof String; // "function"
-typeof string; // "undefined"
-typeof 'string'; // "string"
 ```
