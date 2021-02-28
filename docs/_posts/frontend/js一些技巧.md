@@ -46,7 +46,7 @@ if (!!a) {
 
 ```js
 a typeof Array
-a.constucter == Array
+a.constructor == Array
 a instanceof Array
 ```
 

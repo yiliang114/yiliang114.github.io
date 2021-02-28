@@ -705,7 +705,7 @@ getNamespace 主要是对为了获取正确的命名空间，正如我们在上�
 
 在 getNamespace 内部，首先拿到父级的命名空间，默认是 DOMNamespaces.HTML。需要注意的是，如果没有我们没有对 ns 变量进行覆盖或者提前 return，则说明当前 tag 的 ns 跟 父级的 ns 一样，因为函数最后的把 ns 返回去的。
 
-接下来将针对父级存在的情况下进行解析，如果父级 ns 是 MATH_ML 且 父级标签是 `annotation-xml` ，这时当前标签是 `svg`，我们认为是处于 svg 的 ns，而这时标签不是 svg 但是父级 annotation-xml 标签的 属性里面有申明下面是 html 即 `text/html` 或 `application/xhtml+xml`， 我们也认为是 HTML 的 ns。对于父级标签 不是`annotation-xml` ，且`/^m(?:[ions]|text)$/.test(parent.tag) && tag !== 'mglyph' && tag !== 'malignmark'`,我们还是认为在 HTML 的 ns。如果上面条件都不满足， MATH_ML 这个 ns 讲传递给当前 tag。
+接下来将针对父级存在的情况下进行解析，如果父级 ns 是 MATH_ML 且 父级标签是 `annotation-xml` ，这时当前标签是 `svg`，我们认为是处于 svg 的 ns，而这时标签不是 svg 但是父级 annotation-xml 标签的 属性里面有声明下面是 html 即 `text/html` 或 `application/xhtml+xml`， 我们也认为是 HTML 的 ns。对于父级标签 不是`annotation-xml` ，且`/^m(?:[ions]|text)$/.test(parent.tag) && tag !== 'mglyph' && tag !== 'malignmark'`,我们还是认为在 HTML 的 ns。如果上面条件都不满足， MATH_ML 这个 ns 讲传递给当前 tag。
 
 而对于父级是 SVG 的 ns，只有父级 tag 是 `parent.tag === 'foreignObject' || parent.tag === 'desc' || parent.tag === 'title'` 这些 tag 的时候，当前 tag 才算在 HTML 的 ns，否则继续 SVG 的 ns。
 
