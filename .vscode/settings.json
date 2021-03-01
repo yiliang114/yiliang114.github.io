@@ -2,9 +2,6 @@
   "GitCommitPlugin.MaxSubjectWords": 30,
   "GitCommitPlugin.ShowEmoji": false,
   "files.exclude": {
-    "lib": true,
-    "docs/whisper": true,
-    "docs/arithmetic": true,
-    "arithmetic": true
+    "lib": true
   }
 }
