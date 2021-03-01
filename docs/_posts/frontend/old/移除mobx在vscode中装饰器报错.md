@@ -1,6 +1,6 @@
 ---
 title: '移除mobx在vscode中装饰器报错'
-date: '2018-04-07'
+date: '2018-12-07'
 tags:
   - mobx
 ---
