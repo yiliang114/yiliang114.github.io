@@ -1,12 +1,11 @@
 ---
 layout: CustomPages
-title: 数据结构
-date: 2020-08-31
+title: 算法
+date: 2020-10-22
 aside: false
-draft: true
 ---
 
-# 数据结构
+## 算法技巧
 
 ### 链表
 

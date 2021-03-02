@@ -102,53 +102,10 @@ JS 延后加载， 怎么缩短 JS 的加载时间
 
 最顶层是 `Object.prototype.__proto__ === null`
 
-for in 是遍历对象的。for in 在高级浏览器中会屏蔽来自原型链的属性，通过 hasOwnProperty 还可以再检察一下。
-for of 一般是用来遍历数组，只遍历数组的元素值，不遍历数组对象上挂载的属性。
-
-闭包说白了就是能够读取其他函数内部变量的函数。因为 js 没有块级作用域作用域，只有函数作用域和全局作用域，所以通过一个函数包一下，返回一个函数就可以读取到函数内部的变量，给外部访问。
-
-this: this 的值是在执行的时候才能确认，定义的时候不能确认
-
 #### javascript 中 apply、call 和 bind 的区别：
 
 1. bind 返回的是一个函数，需要再次手动执行。
 2. call 第二个参数以后的参数都跟调用的函数意义对应，而使用 apply 的时候，函数的参数都是放在数组中的，作为第二个参数。
-
-#### 限频防抖函数手写
-
-```js
-// debounce
-function debounce(fn, delay) {
-  delay = delay || 500;
-  let timer;
-  return function() {
-    let args = arguments;
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-    }, delay);
-  };
-}
-```
-
-```js
-// throttle
-function throttle(fn, delay) {
-  delay = delay || 500;
-  let timer;
-  return function() {
-    let args = arguments;
-    if (!timer) {
-      timer = setTimeout(() => {
-        timer = null;
-        fn.apply(this, args);
-      }, delay);
-    }
-  };
-}
-```
 
 #### class 和普通构造函数有和区别
 
