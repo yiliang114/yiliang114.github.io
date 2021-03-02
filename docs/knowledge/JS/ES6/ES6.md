@@ -405,3 +405,22 @@ class Student extends MixClass(Person, Kid) {}
 - **链判断操作符(?.)**：是否存在对象属性(不存在返回`undefined`且不再往下执行)
 
 ### ES6 编译相关
+
+### 介绍下 Set、Map 和 WeakMap 的比较
+
+Set
+
+1. 成员不能重复
+2. 只有健值，没有键名，有点类似数组。
+3. 可以遍历，方法有 add,delete,has
+
+Map
+
+1. 本质上是健值对的集合，类似集合
+2. 可以遍历，方法很多，可以干跟各种数据格式转换
+
+weakMap
+
+1. 只接受对象作为键名（null 除外）
+2. 键名所指向的对象，不计入垃圾回收机制
+3. 不能遍历，方法同 get,set,has,delete

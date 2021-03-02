@@ -110,9 +110,7 @@ parseInt('3', 2); // NaN
 
 ### flat 拍平数组
 
-已知如下数组：
-
-`var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
+已知如下数组：`var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
 
 编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
 
@@ -123,8 +121,7 @@ Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {
 ```
 
 **竟然原生就有这个 flat 函数，用来拍平数组**
-flat 函数的参数是层级。
-Infinity 无限大。 会拍平数组中的所有数组值。
+flat 函数的参数是层级。Infinity 无限大。 会拍平数组中的所有数组值。
 
 ### Array(...)和 Array.of(...) 的区别
 
@@ -227,54 +224,6 @@ ary.splice(0, ary.length);
 console.log(ary); // 输出 []，空数组，即被清空了
 ```
 
-### Map、FlatMap 和 Reduce
-
-`Map` 作用是生成一个新数组，遍历原数组，将每个元素拿出来做一些变换然后 `append` 到新的数组中。
-
-```js
-[1, 2, 3].map(v => v + 1);
-// -> [2, 3, 4]
-```
-
-`Map` 有三个参数，分别是当前索引元素，索引，原数组
-
-```js
-['1', '2', '3'].map(parseInt);
-//  parseInt('1', 0) -> 1
-//  parseInt('2', 1) -> NaN
-//  parseInt('3', 2) -> NaN
-```
-
-`FlatMap` 和 `map` 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。可以将 `FlatMap` 看成是 `map` + `flatten` ，目前该函数在浏览器中还不支持。
-
-```js
-[1, [2], 3].flatMap(v => v + 1);
-// -> [2, 3, 4]
-```
-
-如果想将一个多维数组彻底的降维，可以这样实现
-
-```js
-const flattenDeep = arr => (Array.isArray(arr) ? arr.reduce((a, b) => [...a, ...flattenDeep(b)], []) : [arr]);
-
-flattenDeep([1, [[2], [3, [4]], 5]]);
-```
-
-`Reduce` 作用是数组中的值组合起来，最终得到一个值
-
-```js
-function a() {
-  console.log(1);
-}
-
-function b() {
-  console.log(2);
-}
-
-[a, b].reduce((a, b) => a(b()));
-// -> 2 1
-```
-
 ### 使用 sort() 对数组 [3, 15, 8, 29, 102, 22] 进行排序，输出结果
 
 [102, 15, 22, 29, 3, 8]
@@ -283,103 +232,78 @@ function b() {
 
 ### 用 Array 的 reduce 方法实现 map 方法（头条一面）
 
+```js
+const selfMap2 = function(fn, context) {
+  let arr = Array.prototype.slice.call(this);
+  // 这种实现方法和循环的实现方法有异曲同工之妙，利用reduce contact起数组中每一项
+  // 不过这种有个弊端，会跳过稀疏数组中为空的项
+  return arr.reduce((pre, cur, index) => {
+    return [...pre, fn.call(context, cur, index, this)];
+  }, []);
+};
+```
+
 ### 给出数组超过半数的数字，不存在的话输出没有（要求时间复杂度最低）
 
 ```js
-function moreThanHalf(arr) {
-  if (arr && Array.isArray(arr)) {
-    var times = (result = index = 0);
-    for (; index < arr.length; index++) {
-      if (times === 0) {
-        result = arr[index];
-        times++;
-      } else if (result !== arr[index]) {
-        times--;
-      } else {
-        times++;
-      }
-    }
-    if (times) {
-      times = index = 0;
-      for (; index < arr.length; index++) {
-        if (result === arr[index]) {
-          times++;
-        }
-      }
-      if (times > arr.length / 2) {
-        return result;
-      }
-    }
-  }
-  return '没有';
-}
-```
-
-### 为数组写一个检测是否包含值方法：contains()
-
-```js
-if (!Array.prototype.contains) {
-  Array.prototype.contains = function(value) {
-    for (var i = 0, len = this.length, item; i < len; i++) {
-      item = this[i];
-      if (item === value) {
-        return true;
-      }
-    }
-    return false;
-  };
-}
-```
-
-### 扁平化
-
-#### 实现 flatten 函数
-
-迭代实现
-
-```js
-function flatten(arr) {
-  let arrs = [...arr];
-  let newArr = [];
-  while (arrs.length) {
-    let item = arrs.shift();
-    if (Array.isArray(item)) {
-      arrs.unshift(...item);
+function moreThanHalfNum(numbers) {
+  // write code here
+  var obj = {};
+  var len = numbers.length;
+  numbers.forEach(function(s) {
+    if (obj[s]) {
+      obj[s]++;
     } else {
-      newArr.push(item);
+      obj[s] = 1;
+    }
+  });
+  for (var i in obj) {
+    if (obj[i] > Math.floor(len / 2)) {
+      return i;
     }
   }
-  return newArr;
+  return 0;
 }
 ```
+
+### 取数组的最大值（ES5、ES6)
+
+```js
+// ES5 的写法
+Math.max.apply(null, [14, 3, 77, 30]);
+
+// ES6 的写法
+Math.max(...[14, 3, 77, 30]);
+
+// reduce
+[14, 3, 77, 30].reduce((accumulator, currentValue) => {
+  return (accumulator = accumulator > currentValue ? accumulator : currentValue);
+});
+
+let arr = [12, 3, 77, 30].sort((a, b) => b - a);
+arr[0];
+```
+
+### 实现 flatten 扁平化函数
 
 递归实现
 
 ```js
 function flatten(arr) {
-  let arrs = [];
+  let temp = [];
   arr.map(item => {
     if (Array.isArray(item)) {
-      arrs.push(...flatten(item));
+      temp.push(...flatten(item));
     } else {
-      arrs.push(item);
+      temp.push(item);
     }
   });
-  return arrs;
+  return temp;
 }
-```
-
-使用 toString
-
-```js
-var c = [1, 3, 4, 5, [6, [0, 1, 5], 9], [2, 5, [1, 5]], [5]];
-var b = c.toString().split(',');
 ```
 
 使用 es6 的 reduce 函数
 
 ```js
-var arr = [1, 3, 4, 5, [6, [0, 1, 5], 9], [2, 5, [1, 5]], [5]];
 const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
-var result = flatten(arr);
 ```

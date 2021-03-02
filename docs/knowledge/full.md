@@ -46,21 +46,6 @@ margin 的合并 高度塌陷的问题，如何解决
 bfc
 纯 css 换行
 
-为什么 for 循环的 id 不能使用 index
-什么是 vdom 为什么要使用 vdom
-vdom 如何使用，核心函数有什么
-diff 算法
-如何理解 MVVM
-Vue 实现双向数据绑定的原理，以及 vue.js 和 react.js 异同点，如果让你选框架，你怎么怎么权衡这两个框架，分析一下。
-vue 如何实现响应式
-vue 如何解析模板
-介绍 vue 的实现流程
-Vue Diff
-双向绑定
-MVVM 是什么
-Vue 的生命周期
-vue 数据更新机制
-
 http2.0 https
 
 XSS
@@ -100,27 +85,11 @@ JS 延后加载， 怎么缩短 JS 的加载时间
 加载 JS 和 CSS 会阻塞浏览器的渲染吗
 下载 JS 和 CSS 会阻塞吗
 操作 DOM 树为什么比操作 VDOM 树要慢
-HTML 文件的解析过程
-为什么会生成 CSSOM 树
-CSS 没有选择器
-为什么生成了 CSSOM 树这样的结构
-加载 JS 和 CSS 会阻塞浏览器的渲染吗
-假设有一个页面的 header 有 10 个 link 包含 CSS，每个下载 10s，中间 body 中有一个 div 包含所有类，div 下面有 10 个 script，每个下载 10s，请问下载的时间是多久？
-接上题，如果刷新了以后页面加载需要多久
-Service Worker 是什么，操作 API 是怎么样的过程
-Memory Cache 是什么，怎么操作
-Disk Cache 是什么，怎么操作
-Push Cache 是什么，怎么操作
-如果假设都没有命中上述的缓存，确实发送了网络请求，请问 TCP 连接建立几次
 请求过程中 session 一般时间是多久
 请问每个 session 在服务器如果都是在有效时间内都是存在的吗，假设有 20 个 session，服务器的这些连接在这段时间都是存在的吗
 
-display，position，XMLHttpRequest，正则，Jquery 绑定事件，cookie
-BOM 浏览器信息
-
 浏览器兼容性举例
 全文单词首字母大写
-
 正向代理反向代理
 
 #### 什么是原型 什么是原型链， `__proto__` 与 prototype 之间的差别
@@ -152,7 +121,7 @@ this: this 的值是在执行的时候才能确认，定义的时候不能确认
 function debounce(fn, delay) {
   delay = delay || 500;
   let timer;
-  return function () {
+  return function() {
     let args = arguments;
     if (timer) {
       clearTimeout(timer);
@@ -169,7 +138,7 @@ function debounce(fn, delay) {
 function throttle(fn, delay) {
   delay = delay || 500;
   let timer;
-  return function () {
+  return function() {
     let args = arguments;
     if (!timer) {
       timer = setTimeout(() => {
@@ -201,7 +170,7 @@ function MathHandle(x, y) {
   this.x = x;
   this.y = y;
 }
-MathHandle.prototype.add = function () {
+MathHandle.prototype.add = function() {
   return this.x + this.y;
 };
 
@@ -252,11 +221,11 @@ m.__proto__ === MathHandle.prototype; // true
 
 ```js
 function Animal() {
-  this.eat = function () {};
+  this.eat = function() {};
 }
 
 function Dog() {
-  this.bark = function () {};
+  this.bark = function() {};
 }
 // 需要继承的构造函数的显式原型赋值成为被调用继承的构造函数创建出来的实例
 // 低级构造函数的显式原型赋值成高级构造函数的实例
@@ -283,8 +252,6 @@ class Dog extends Animal {
 
 const dog = new Dog('哈士奇');
 ```
-
-### 技术
 
 对 vuex 的理解
 vue 从 data 到渲染页面的整个过程
@@ -486,29 +453,27 @@ cors （支持跨域通信也支持跨域通信）
 
 ### vue
 
-- router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
-- JSON.stringify 和 JSON.parse() 不足之处
-- 页面预渲染（seo 优化问题） https://www.cnblogs.com/Lovebugs/p/8759741.html
-- webpack 插件、loader
-- webpack plugins 与 module 之类的区别
-- webpack 的热重载
-- .native 事件
-- 输入框中文输入法下的回车事件
-- ff 的默认事件
-- vue 为什么不支持低版本的浏览器
-- 浏览器内核举例
+router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+
 - vue @ 3 支持到什么版本
 - 引入的小图片为什么被渲染成了 base64
   - 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
-- CSSbackground 引入图片打包后,访问路径错误：因为打包后图片是在根目录下,你用相对路径肯定报错啊… 你可以魔改 webpack 的配置文件里面的 static 为./static…但是不建议。你若是把图片什么丢到 assets 目录下,然后相对路径,打包后是正常的
-- 反向代理与正向代理的区别
-- v-if 与 v-show 的区别
-- lock 文件的作用：lock 文件的作用是统一版本号， 锁版本。 不然不同的人，不同的时间安装的包可能不一样
-- package.json 里面的 dependencies 和 devDependencies 的差异
-- fonticon 的原理
-- setTimeout、Promise、Async/Await 的区别
-- react-router 里的 <Link> 标签和 标签有什么区别? Link 的本质也是 a 标签。只不过在 Link 中禁用了 a 标签的默认事件，改用了 history 对象提供的方法进行跳转。
 - vue 中的 ref 是什么？ref 被用来给元素或子组件注册引用信息。引用信息将会注册在父组件的 \$refs 对象上。如果在普通的 DOM 元素上使用，引用指向的就是 DOM 元素；如果用在子组件上，引用就指向组件实例。
+
+为什么 for 循环的 id 不能使用 index
+什么是 vdom 为什么要使用 vdom
+vdom 如何使用，核心函数有什么
+diff 算法
+如何理解 MVVM
+Vue 实现双向数据绑定的原理，以及 vue.js 和 react.js 异同点，如果让你选框架，你怎么怎么权衡这两个框架，分析一下。
+vue 如何实现响应式
+vue 如何解析模板
+介绍 vue 的实现流程
+Vue Diff
+双向绑定
+MVVM 是什么
+Vue 的生命周期
+vue 数据更新机制
 
 ### 网络
 
@@ -652,10 +617,10 @@ promise 的语法：
 function loadImg(src) {
   return new Promise((resolve, reject) => {
     var img = document.createElement('img');
-    img.onload = function () {
+    img.onload = function() {
       resolve(img);
     };
-    img.onerror = function () {
+    img.onerror = function() {
       reject();
     };
     img.src = src;
@@ -725,7 +690,6 @@ loadImg(src)
 ### webpack
 
 - 对 webpack 有了解吗？chunk、bundle 和 module 有什么区别
-- https://juejin.im/post/5bee888fe51d4557fe34e356 webpack 部分
 
 ### rollup.js
 
@@ -739,52 +703,15 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 - 首屏？
 - 骨架屏
 
-### 项目
-
-介绍做过的项目
-遇到的问题以及解决方案
-
-#### 难点
-
-##### console
-
-1. 意图配置的 tag 输入框，多 tag 下拉框的位置计算
-2. 页面跳转的处理，vuex 存储 next（）
-3. 轮询接口的封装
-4. requestId 捕捉器
-5. vuex 的小封装
-
-##### h5
-
-1. 1px 那个问题，以前是直接通过 dpi 进行缩放，现在的解决是通过媒体查询，进行缩放
-2. h5 的输入框、键盘的处理，安卓 ios 等等会有不同的表现
-
-### 开放
-
-三年内的职业规划
-跳槽原因
-同事怎么看待你
-你的优点、缺点
-你还能提高的地方
-
-### 背景
+### 面试准备
 
 社招的知识更看重深度，以及架构上的能力。业务代码抽象能力，项目把控能力。经验体现在，协调其他人快速进行开发。
-
-面试环节：
-
-1. 一面：主要去测试基础知识点（HTML/CSS/JS）
-2. 二面、三面：基础之上的延伸，深入原理。例如： 用 vue 做了什么。 先会问项目中的一些东西，接着就会落脚到 vue 上，比如 vue 的生命周期，vue 的工作原理是什么，有没有看过源码，你觉得源码有什么缺点，如果让你改进你怎么改进。 或者认为它的框架有什么优点。
-3. 三面、四面：一般情况下不会面技术。技术负责人、业务负责人。不再关注技术点。职业生涯里，在哪一个项目有没有做过哪些事情，你的角色是什么，你推动了什么，你改变了什么。
-4. 终面：沟通，性格，潜力。
-
-### 面试准备
 
 #### 自我介绍
 
 学历、工作经历（时间-公司-岗位-职责-技术栈-业绩（重要，带来哪些成就、想出哪些产出、有输出什么技术方案，解决哪些技术问题））、开源项目。
 
-##### 自我陈述
+#### 自我陈述
 
 1. 把握面试的沟通方向。 （前端负责人？ 问题： 项目有几个人，在项目中承担什么样的角色，项目管理还是技术管理，你做出了什么样的成绩。 项目是怎么进行分配的，团队怎么进行协作，技术管理上如何配合，技术难点是如何解决的）
 
@@ -795,229 +722,8 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 技术一面主要判断对基础知识的掌握
 
 - 描述一个你遇到过的技术问题，你是如何解决的？
-  - 这个问题很常见，有没有遇到过很不常见的问题？比如在网上根本搜不到解决方法的？
 
-#### 三栏布局
-
-题目：假如高度已知，请写出三栏布局，其中左栏右栏宽度各位 300px 中间自适应。
-
-1. 浮动
-
-   ```js
-     // html
-     <section class="layout">
-       <div class="left"></div>
-       <div class="right"></div>
-       <div class="center">中间内容</div>
-     </section>
-
-     // css
-       .layout div {
-         min-height: 100px;
-       }
-
-       .layout .left {
-         float: left;
-         width: 300px;
-         background-color: red;
-       }
-
-       .layout .right {
-         float: right;
-         width: 300px;
-         background-color: blue;
-       }
-
-       .layout .center {
-         background-color: yellow;
-       }
-   ```
-
-2. 绝对定位
-
-   ```js
-   // html
-     <section class="layout">
-       <div class="left"></div>
-       <div class="right"></div>
-       <div class="center">中间内容</div>
-     </section>
-   // css
-       .layout div {
-         position: absolute;
-         min-height: 100px;
-       }
-
-       .layout .left {
-         left: 0;
-         width: 300px;
-         background-color: red;
-       }
-
-       .layout .right {
-         right: 0;
-         width: 300px;
-         background-color: blue;
-       }
-
-       .layout .center {
-         left: 300px;
-         right: 300px;
-         background-color: yellow;
-       }
-   ```
-
-3. flex-box
-
-   ```js
-   // html
-     <section class="layout">
-       <div class="left"></div>
-       <div class="center">中间内容</div>
-       <div class="right"></div>
-     </section>
-   // css
-       .layout {
-         display: flex;
-       }
-
-       .layout div {
-         min-height: 100px;
-       }
-
-       .layout .left {
-         width: 300px;
-         background-color: red;
-       }
-
-       .layout .right {
-         width: 300px;
-         background-color: blue;
-       }
-
-       .layout .center {
-         flex: 1;
-         background-color: yellow;
-       }
-
-   ```
-
-4. 表格布局
-
-   ```js
-   // html
-     <section class="layout">
-       <div class="left"></div>
-       <div class="center">中间内容</div>
-       <div class="right"></div>
-     </section>
-   // css
-   /* 设置容器 */
-       .layout {
-         width: 100%;
-         display: table;
-         height: 100px;
-       }
-
-       .layout>div {
-         display: table-cell;
-       }
-
-       /* 设置元素 */
-       .layout .left {
-         width: 300px;
-         background-color: red;
-       }
-
-       .layout .right {
-         width: 300px;
-         background-color: blue;
-       }
-
-       .layout .center {
-         background-color: yellow;
-       }
-   ```
-
-5. 网格布局 grid
-
-   ```js
-   // html
-     <section class="layout">
-       <div class="left"></div>
-       <div class="center">中间内容</div>
-       <div class="right"></div>
-     </section>
-   // css
-       /* 设置容器 */
-       .layout {
-         width: 100%;
-         display: grid;
-         /* 行 */
-         grid-template-rows: 100px;
-         /* 列 */
-         grid-template-columns: 300px auto 300px;
-       }
-
-       /* 设置元素 */
-       .layout .left {
-         background-color: red;
-       }
-
-       .layout .right {
-         background-color: blue;
-       }
-
-       .layout .center {
-         background-color: yellow;
-       }
-   ```
-
-（真的有这么简单？）延伸：
-
-###### 这几种方式各自的优缺点有哪些？
-
-浮动的局限性，浮动之后会脱离文档流，需要清除浮动，但是它的兼容性比较好。
-
-绝对定位书写简单，写的很快一般也不容易出问题，但是因为容器已经脱离文档流了，意味着下面所有的子元素都必须脱离文档流，就导致了这个方案的可使用性比较差。
-
-flex 布局，css 3 中为了解决上述两个布局的缺陷出现的。属于比较完美的，尤其是在移动端基本都是 flex 布局。flex 兼容性一般，pc 上的 ie8 是不支持 flex 的。
-
-表格布局在很多场景中表现很好，比如三栏布局，表格布局很轻易就做到了。表格布局的兼容性很好，flex 布局不兼容的时候就会使用表格布局了。缺点：其中的某一个单元格高度超出的时候，两侧的高度也是自动增高的，有一些场景是不需要这样的特性的。
-
-网格布局（之前的网格布局都是模拟的），作为一个新的技术，css 代码能够写的比较少。
-
-###### 如果去掉高度已知条件（比如中间内容较多，左右也自动增高）哪个方案就不能用了？
-
-不改动的情况下 flex 布局 和 table 布局基本都是能够通用的。其他情况都需要做改动。
-
-其他几种方案为啥不能用 ？
-
-浮动布局左侧 右侧 如果没有遮挡物的时候，中间部分的文本就会往左靠。 如果想让中间部分的文本中间对齐的话，需要创建 BFC
-
-![image-20190825162009221](http://media.zhijianzhang.cn/image-20190825162009221.png)
-
-###### 这几种方案兼容性如何？
-
-浮动、绝对定位以及表格布局的兼容性最好。
-
-###### 最佳选择是哪一种？
-
-手写代码的时候，标签的语义化需要注意掌握。页面布局理解深刻。
-
-##### 页面布局的变通
-
-###### 三栏布局
-
-- 左右宽度固定，中间自适应
-- 上下高度固定，中间自适应 （常见）
-
-###### 两栏布局
-
-- 左宽度固定，右自适应
-- 右宽度固定，左自适应
-- 上宽度固定，下自适应
-- 下宽度固定，上自适应
+主要去测试基础知识点（HTML/CSS/JS）。基础之上的延伸，深入原理。例如： 用 vue 做了什么。 先会问项目中的一些东西，接着就会落脚到 vue 上，比如 vue 的生命周期，vue 的工作原理是什么，有没有看过源码，你觉得源码有什么缺点，如果让你改进你怎么改进。 或者认为它的框架有什么优点。
 
 ### 二面、三面
 
@@ -1036,41 +742,12 @@ flex 布局，css 3 中为了解决上述两个布局的缺陷出现的。属于
 
 知识体系的深度（浏览器原理，js 引擎）
 
-#### 页面性能
+一般情况下不会面技术。技术负责人、业务负责人。不再关注技术点。职业生涯里，在哪一个项目有没有做过哪些事情，你的角色是什么，你推动了什么，你改变了什么。
 
-保证页面加载的流畅，提升页面性能的方法有哪些？
+#### 项目
 
-- 资源压缩合并，减少 HTTP 请求，开启 gzip 压缩
-
-- 非核心代码的异步加载
-
-  - 异步加载方式
-    - 动态脚本加载
-    - defer
-    - async
-  - 异步加载的区别
-    - defer 是 HTML 解析完之后才会执行，如果是多个按照循序依次执行
-    - async 是在加载完之后立即执行，如果是多个，执行顺序和加载顺序无关，哪一个先加载完毕先执行
-
-- 利用浏览器缓存
-
-  - 缓存分类
-
-    - Expires
-    - Cache-control
-
-  - 缓存原理
-
-    - Last-Modified If-Modified-Since
-
-    - Etag If-None-Match
-
-* 使用 CDN
-
-* DNS 预解析(啥叫预解析？ 很多浏览器中（打开）的 a 标签的预解析开关，但是对于 https 的链接，默认是关闭的，打开的话提升性能)
-
-  - http-equiv="x-dns-prefetch-control" content="on"
-  - rel="dns-prefetch"
+介绍做过的项目
+遇到的问题以及解决方案
 
 ### 三面、四面
 
@@ -1081,6 +758,16 @@ flex 布局，css 3 中为了解决上述两个布局的缺陷出现的。属于
 项目架构，基础能力，人员安排组织， 遇到过什么问题，攻克什么难题（需要把握时间，组织好时间）
 
 想办法把准备的东西说出来，引导找时机。
+
+沟通，性格，潜力。
+
+#### 开放性问题
+
+三年内的职业规划
+跳槽原因
+同事怎么看待你
+你的优点、缺点
+你还能提高的地方
 
 ##### 考察能力
 

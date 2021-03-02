@@ -916,6 +916,14 @@ History 模式是 HTML5 新推出的功能，比之 Hash URL 更加美观
 
 ![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042514.png)
 
+说简单点，vue-router 的原理就是通过对 URL 地址变化的监听，继而对不同的组件进行渲染。
+每当 URL 地址改变时，就对相应的组件进行渲染。原理是很简单，实现方式可能有点复杂，主要有 hash 模式和 history 模式。
+如果想了解得详细点，建议百度或者阅读源码。
+
+### router 为什么可以做到修改 url 但是页面不直接进行刷新， pushState 函数的使用
+
+pushState
+
 ### router 原理
 
 #### hash
@@ -945,49 +953,6 @@ window.location.hash = route.fullPath
 - 无刷新更新 pushState
 - 兼容性考虑
 - 新增加的钩子
-
-#### vue-router 是如何从 nginx 中进行接管路由的 ？ 为啥不是 404 ？
-
-#### router：
-
-https://segmentfault.com/q/1010000011227036
-https://blog.csdn.net/oZhangBi/article/details/79939969
-
-#### Keep-alive:
-
-https://www.cnblogs.com/sysuhanyf/p/7454530.html
-
-#### 路由切换的时候，哪些生命周期函数会被执行？从文档中先获取结果，从源码中寻找论证。
-
-#### vue-router
-
-query 中的值 这样去修改是无效的
-
-```
-this.$route.query.robotId === 111
-```
-
-#### vue-router pushState
-
-#### router 为什么可以做到修改 url 但是页面不直接进行刷新， pushState 函数的使用
-
-#### vue-router 如何进行 url 改变不刷新
-
-#### vue-router 原理
-
-说简单点，vue-router 的原理就是通过对 URL 地址变化的监听，继而对不同的组件进行渲染。
-每当 URL 地址改变时，就对相应的组件进行渲染。原理是很简单，实现方式可能有点复杂，主要有 hash 模式和 history 模式。
-如果想了解得详细点，建议百度或者阅读源码。
-
-#### $route和$router 的区别
-
-\$route 是路由信息对象，包括 path，params，hash，query，fullPath，matched，name 等路由信息参数。
-
-而 \$router 是路由实例对象，包括了路由的跳转方法，钩子函数等
-
-#### vue 怎么实现页面的权限控制
-
-利用 vue-router 的 beforeEach 事件，可以在跳转页面前判断用户的权限（利用 cookie 或 token），是否能够进入此页面，如果不能则提示错误或重定向到其他页面，在后台管理系统中这种场景经常能遇到。
 
 #### keep-alive 有什么作用
 
@@ -1092,19 +1057,6 @@ history ：hashchange 只能改变 ## 后面的代码片段，history api （pus
 $route是“路由信息对象”，包括path，params，hash，query，fullPath，matched，name等路由信息参数。
 $router 是“路由实例”对象包括了路由的跳转方法，钩子函数等。
 
-### 核心知识点
-
-1. vue-router 如何响应 路由参数 的变化？
-2. 完整的 vue-router 导航解析流程
-3. vue-router 有哪几种导航钩子（ 导航守卫 ）？
-4. vue-router 的几种实例方法以及参数传递
-5. vue-router 的动态路由匹配以及使用
-6. vue-router 如何定义嵌套路由？
-7. <router-link></router-link>组件及其属性
-8. vue-router 实现路由懒加载（ 动态加载路由 ）
-9. vue-router 路由的两种模式
-10. history 路由模式与后台的配合
-
 ### 路由之间跳转？
 
 **声明式（标签跳转）**
@@ -1149,61 +1101,16 @@ location 是 javascript 里边管理地址栏的内置对象，比如 location.h
 
 ## 常见问题
 
-#### active-class 是哪个组件的属性？
+### $route 和 $router 的区别
 
-vue-router 模块的 router-link 组件。
+`$route` 是路由信息对象，包括 path，params，hash，query，fullPath，matched，name 等路由信息参数。而 `$router` 是路由实例对象，包括了路由的跳转方法，钩子函数等。
 
-#### 嵌套路由怎么定义？
-
-在实际项目中我们会碰到多层嵌套的组件组合而成，但是我们如何实现嵌套路由呢？因此我们需要在 VueRouter 的参数中使用 children 配置，这样就可以很好的实现路由嵌套。
-index.html，只有一个路由出口
-
-```html
-<div id="app">
-  <!-- router-view 路由出口, 路由匹配到的组件将渲染在这里 -->
-  <router-view></router-view>
-</div>
-```
-
-main.js，路由的重定向，就会在页面一加载的时候，就会将 home 组件显示出来，因为重定向指向了 home 组件，redirect 的指向与 path 的必须一致。children 里面是子路由，当然子路由里面还可以继续嵌套子路由。
-
-```js
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
-
-//引入两个组件
-
-import home from './home.vue';
-import game from './game.vue';
-//定义路由
-const routes = [
-  { path: '/', redirect: '/home' }, //重定向,指向了home组件
-  {
-    path: '/home',
-    component: home,
-    children: [{ path: '/home/game', component: game }],
-  },
-];
-//创建路由实例
-const router = new VueRouter({ routes });
-
-new Vue({
-  el: '#app',
-  data: {},
-  methods: {},
-  router,
-});
-```
-
-home.vue，点击显示就会将子路由显示在出来，子路由的出口必须在父路由里面，否则子路由无法显示。
-
-#### 路由之间跳转？
+### 路由之间跳转？
 
 - 声明式（标签跳转） `<router-link :to="index">`
 - 编程式（ js 跳转） `router.push('index')`
 
-#### 懒加载（按需加载路由）（常考）
+### 懒加载（按需加载路由）（常考）
 
 webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
 
@@ -1219,7 +1126,7 @@ import home from '../../common/home.vue';
 const home = r => require.ensure([], () => r(require('../../common/home.vue')));
 ```
 
-#### vue-router 有哪几种导航钩子?
+### vue-router 有哪几种导航钩子?
 
 三种
 
@@ -1234,15 +1141,6 @@ const home = r => require.ensure([], () => r(require('../../common/home.vue')));
 - 单独路由独享组件
   - beforeEnter
 
-#### Vue 的路由实现：hash 模式 和 history 模式
-
-hash 模式：在浏览器中符号“#”，#以及#后面的字符称之为 hash，用 window.location.hash 读取；
-特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用，hash 不会重加载页面。
-hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。
-
-history 模式：history 采用 HTML5 的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及 popState 事件的监听到状态变更。
-history 模式下，前端的 URL 必须和实际向后端发起请求的 URL 一致，如 http://www.xxx.com/items/id。后端如果缺少对 /items/id 的路由处理，将返回 404 错误。Vue-Router 官网里如此描述：“不过这种模式要玩好，还需要后台配置支持……所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。”
-
 #### vue 路由的钩子函数
 
 首页可以控制导航跳转，beforeEach，afterEach 等，一般用于页面 title 的修改。一些需要登录才能调整页面的重定向功能。
@@ -1252,6 +1150,15 @@ history 模式下，前端的 URL 必须和实际向后端发起请求的 URL �
 - from：route 当前导航正要离开的路由
 - next：function 一定要调用该方法 resolve 这个钩子。执行效果依赖 next 方法的调用参数。可以控制网页的跳转。
 
-### $route和 $router 的区别
+### Vue 的路由实现：hash 模式 和 history 模式
 
-`$route` 是路由信息对象，包括 path，params，hash，query，fullPath，matched，name 等路由信息参数。而 `$router` 是路由实例对象，包括了路由的跳转方法，钩子函数等。
+hash 模式：在浏览器中符号“#”，#以及#后面的字符称之为 hash，用 window.location.hash 读取；
+特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用，hash 不会重加载页面。
+hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。
+
+history 模式：history 采用 HTML5 的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及 popState 事件的监听到状态变更。
+history 模式下，前端的 URL 必须和实际向后端发起请求的 URL 一致，如 http://www.xxx.com/items/id。后端如果缺少对 /items/id 的路由处理，将返回 404 错误。Vue-Router 官网里如此描述：“不过这种模式要玩好，还需要后台配置支持……所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。”
+
+### vue 怎么实现页面的权限控制
+
+利用 vue-router 的 beforeEach 事件，可以在跳转页面前判断用户的权限（利用 cookie 或 token），是否能够进入此页面，如果不能则提示错误或重定向到其他页面，在后台管理系统中这种场景经常能遇到。

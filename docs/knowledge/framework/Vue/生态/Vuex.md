@@ -4,9 +4,22 @@ date: '2020-10-26'
 draft: true
 ---
 
-Vuex 是一个专为 vue 应用程序开发的状态管理模式，集中式存储应用的所有组件状态，并以相应的规则保证状态一种可预测的方式发生变化。
-
 ### Vuex 底层实现
+
+vuex 仅仅是作为 vue 的一个插件而存在，不像 Redux,MobX 等库可以应用于所有框架，vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统，vuex 整体思想诞生于 flux,可其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。最后一句话结束 vuex 工作原理，vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件；
+
+vuex 的原理其实非常简单，它为什么能实现所有的组件共享同一份数据？
+因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
+store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
+如果对 vuex 的实现有兴趣，可以看看我自己造的一个 vue 轮子对应的 vuex 插件。它实现了除 vuex 模块外的所有功能。
+
+### 模块
+
+state: 状态中心
+mutations: 更改状态
+actions: 异步更改状态
+getters: 获取状态
+modules: 将 state 分成多个 modules，便于管理
 
 ### 状态自管理应用
 
@@ -29,28 +42,19 @@ Vuex 是一个专为 vue 应用程序开发的状态管理模式，集中式存�
 
 每一个 Vuex 应用的核心就是**store**(仓库)。 store 基本上就是一个容器，包含应用中的大部分**状态（state）**。
 
-### 核心知识点
-
-1. 什么是 vuex？
-2. 使用 vuex 的核心概念
-3. vuex 在 vue-cli 中的应用
-4. 组件中使用 vuex 的值和修改值的地方？
-5. 在 vuex 中使用异步修改
-6. pc 端页面刷新时实现 vuex 缓存
-
 ### Store
 
 调用 Vuex.Store 函数的例子：
 
-```
+```js
 export default new Vuex.Store({
   modules: {
     cart,
-    products
+    products,
   },
   strict: debug,
-  plugins: debug ? [createLogger()] : []
-})
+  plugins: debug ? [createLogger()] : [],
+});
 ```
 
 传入参数： modules、strict、plugins
@@ -77,7 +81,7 @@ mapActions 实际上是将 actions 映射到 Store.dispatch 函数中，所以�
 
 是被分发的 action 只触发（commit）一次 mutation （也就是只执行一次 mutations 中的函数）
 
-```
+```js
 actions: {
   increment ({ commit }) {
     commit('increment')
@@ -89,7 +93,7 @@ actions: {
 
 是被分发的 action 会触发（commit）多次 mutation （也就是会执行多次 mutations 中的函数）
 
-```
+```js
 actions: {
   checkout ({ commit, state }, products) {
     // 把当前购物车的物品备份起来
@@ -108,10 +112,6 @@ actions: {
 }
 ```
 
-### new Vue
-
-全局只创建了一个 Vue 实例还是有多少个组件就有多少个 Vue 实例？
-
 ### 考虑对于 vuex 的封装
 
 #### 一般异步场景：
@@ -124,21 +124,15 @@ actions: {
 
 （不过想了想，如果不使用状态机，这是一个伪需求，就不需要在 vuex 中存储授权接口的状态了。）
 
-#### 基于页面 vuex store 的注入问题？
-
-如果页面过多，对于每一个页面都会加载所有的 vuex store 运行 vuex tool 的时候感觉有点卡，觉得也不是很有必要。
-
-参考： reducers 装载
-
 ### vuex 在使用中，初始化的部分
 
 #### 安装 vuex
 
-```
-import Vue from 'vue'
-import Vuex from 'vuex'
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 ```
 
 内部实现：
@@ -157,7 +151,7 @@ todo: 这里不确定是不是没有传参数。
 
 `applyMixin()` 函数位于 `src/mixin.js` 中：
 
-```
+```js
   if (version >= 2) {
     Vue.mixin({ beforeCreate: vuexInit })
   } else {
@@ -195,17 +189,17 @@ store.js
 
 创建 vuex 实例
 
-```
+```js
 const store = new Vuex.Store({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
-})
+    increment(state) {
+      state.count++;
+    },
+  },
+});
 ```
 
 ### 更好的双向绑定
@@ -222,27 +216,6 @@ https://github.com/maoberlehner/vuex-map-fields
 2. perform => （填写数据）并发送请求
 
 所以 generate.js 的 actions 有两个函数，分别是 xxxStart 和 xxxPerform 覆盖异步函数的处理场景
-
-### vuex 是什么？哪种功能场景使用它？
-
-vuex 是 vue 框架中状态管理。在多个组件中都会使用到，并且组件之间是非父子关系的状态，可以放到 vuex 中在多个组件中共享使用。场景有：单页应用中，组件之间的状态，比如登录状态等。
-
-```js
-// 新建 store.js
-import Vue from 'vue'
-import Vuex form 'vuex'
-
-// TODO: ?
-Vue.use(Vuex)
-
-export default new Vuex.store({
-	//...code
-})
-
-//main.js
-import store from './store'
-...
-```
 
 ### mutation 如何触发 store 改变的？ store 的值改变又是如何通知视图进行变化的
 
@@ -278,10 +251,6 @@ import store from './store'
 - 可维护性会下降，你要修改数据，你得维护多个地方
 - 可读性下降，因为一个组件里的数据，你根本就看不出来是从哪里来的
 - 增加耦合，大量的上传派发，会让耦合性大大的增加，本来 Vue 用 Component 就是为了减少耦合，现在这么用，和组件化的初衷相背
-
-### vuex 原理
-
-vuex 仅仅是作为 vue 的一个插件而存在，不像 Redux,MobX 等库可以应用于所有框架，vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统，vuex 整体思想诞生于 flux,可其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。最后一句话结束 vuex 工作原理，vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件；
 
 ### 使用 Vuex 只需执行 Vue.use(Vuex)，并在 Vue 的配置中传入一个 store 对象的示例，store 是如何实现注入的？
 
@@ -429,49 +398,11 @@ vuex 旧列表数据在页面进行切换的时候，在 vuex 中还存在旧数
 - params 如果某一个接口公用同一个 params， 每一个对象中都维护一个各自的 params 简直蛋疼
 - error
 
-### vuex
-
-state: 状态中心
-mutations: 更改状态
-actions: 异步更改状态
-getters: 获取状态
-modules: 将 state 分成多个 modules，便于管理
-
-### 双向绑定和 vuex 是否冲突
-
-在严格模式下使用会比较难处理
-https://vuex.vuejs.org/zh/guide/forms.html
-
 ### 为什么 Vuex 的 mutation 和 Redux 的 reducer 中不能做异步操作？
 
 如果在 mutation 中做了异步操作，在 dev-tools 中会立即打印一个 snapshot，而此时异步操作还没有执行完，此时的 snapshot 的信息是错误的。
 
 而在 action 中做异步操作 dev-tools 会等等异步操作执行完才去打印 mutation 的一个 snapshot,这样便于我们回查 time-travel,查看在某个 mutation 里的变化。
-
-### vuex 原理
-
-vuex 的原理其实非常简单，它为什么能实现所有的组件共享同一份数据？
-因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
-store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
-如果对 vuex 的实现有兴趣，可以看看我自己造的一个 vue 轮子对应的 vuex 插件。它实现了除 vuex 模块外的所有功能。
-
-### vuex
-
-- 模块化 ？
-
-### 47.双向绑定和 vuex 是否冲突
-
-在严格模式中使用 Vuex，当用户输入时，v-model 会试图直接修改属性值，但这个修改不是在 mutation 中修改的，所以会抛出一个错误。当需要在组件中使用 vuex 中的 state 时，有 2 种解决方案：
-1、在 input 中绑定 value(vuex 中的 state)，然后监听 input 的 change 或者 input 事件，在事件回调中调用 mutation 修改 state 的值
-2、使用带有 setter 的双向绑定计算属性。见以下例子（来自官方文档）：
-
-```html
-<input v-model="message" />
-```
-
-```js
-computed: { message: { get () { return this.$store.state.obj.message }, set (value) { this.$store.commit('updateMessage', value) } } }
-```
 
 ### vuex 动态加载 namespace， 整个 store 树一起加载会很慢
 

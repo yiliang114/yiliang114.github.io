@@ -283,3 +283,39 @@ react-loadable 用来创建动态路由，能够根据路由进行 code spliting
 ![image](https://user-images.githubusercontent.com/11473889/109128661-a9080780-778a-11eb-8e34-3d93864be75d.png)
 
 外部引入 cdn 的形式总体上还是会减小包的大小的。
+
+#### 页面性能
+
+保证页面加载的流畅，提升页面性能的方法有哪些？
+
+- 资源压缩合并，减少 HTTP 请求，开启 gzip 压缩
+
+- 非核心代码的异步加载
+
+  - 异步加载方式
+    - 动态脚本加载
+    - defer
+    - async
+  - 异步加载的区别
+    - defer 是 HTML 解析完之后才会执行，如果是多个按照循序依次执行
+    - async 是在加载完之后立即执行，如果是多个，执行顺序和加载顺序无关，哪一个先加载完毕先执行
+
+- 利用浏览器缓存
+
+  - 缓存分类
+
+    - Expires
+    - Cache-control
+
+  - 缓存原理
+
+    - Last-Modified If-Modified-Since
+
+    - Etag If-None-Match
+
+* 使用 CDN
+
+* DNS 预解析(啥叫预解析？ 很多浏览器中（打开）的 a 标签的预解析开关，但是对于 https 的链接，默认是关闭的，打开的话提升性能)
+
+  - http-equiv="x-dns-prefetch-control" content="on"
+  - rel="dns-prefetch"

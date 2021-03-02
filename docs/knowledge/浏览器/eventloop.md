@@ -14,52 +14,11 @@ draft: true
 - 同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；
 - 异步任务指的是，不进入主线程、而进入"任务队列"（task queue）的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线- 程执行。
 - 在所有同步任务执行完之前，任何的异步任务是不会执行的
-- 异步执行的运行机制如下：
-
-  1. 所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。
-  2. 主线程之外，还存在一个"任务队列"（task queue）。只要异步任务有了运行结果，就在"任务队列"之中放置一个事件。
-  3. 一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
-  4. 主线程不断重复上面的第三步。
-     主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为 Event Loop（事件循环）只要主线程空了，就会去读取"任务队列"，这就是 JavaScript 的运行机制
-
 - 一般来说，有以下四种会放入异步任务队列:
   1. setTimeout 和 setInterval
-  1. DOM 事件
-  1. ES6 中的 Promise
-  1. Ajax 异步请求
-
-### 执行栈
-
-可以把执行栈认为是一个存储函数调用的**栈结构**，遵循先进后出的原则。
-
-![执行栈可视化](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670d2d20ead32ec.jpg)
-
-当开始执行 JS 代码时，首先会执行一个 `main` 函数，然后执行我们的代码。根据先进后出的原则，后执行的函数会先弹出栈，在图中我们也可以发现，`foo` 函数后执行，当执行完毕后就从栈中弹出了。
-
-平时在开发中，大家也可以在报错中找到执行栈的痕迹
-
-```js
-function foo() {
-  throw new Error('error');
-}
-function bar() {
-  foo();
-}
-bar();
-```
-
-![函数执行顺序](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670c0e21540090c.jpg)
-
-大家可以在上图清晰的看到报错在 `foo` 函数，`foo` 函数又是在 `bar` 函数中调用的。
-
-当我们使用递归的时候，因为栈可存放的函数是有**限制**的，一旦存放了过多的函数且没有得到释放的话，就会出现爆栈的问题
-
-```js
-function bar() {
-  bar();
-}
-bar();
-```
+  2. DOM 事件
+  3. ES6 中的 Promise
+  4. Ajax 异步请求
 
 ### Micro-Task 与 Macro-Task
 
@@ -72,9 +31,7 @@ bar();
 
 ### 浏览器中的 Event Loop
 
-执行 JS 代码其实就是往执行栈中放入函数，当遇到异步的代码时，会被**挂起**并在需要执行的时候加入到 Task（有多种 Task） 队列中。一旦执行栈为空，Event Loop 就会从 Task 队列中拿出需要执行的代码并放入执行栈中执行，所以本质上来说 JS 中的异步还是同步行为。
-
-不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（micro-task） 和 **宏任务**（macro-task）。在 ES6 规范中，micro-task 称为 `jobs`，macro-task 称为 `task`。下面来看以下代码的执行顺序：
+不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（micro-task） 和 **宏任务**（macro-task）。下面来看以下代码的执行顺序：
 
 ```js
 console.log('script start');
@@ -165,21 +122,11 @@ new Promise((resolve, reject) => {
 
 > 宏任务中包括了 script ，浏览器会先执行一个宏任务，接下来有异步代码的话就先执行微任务
 
-**所以正确的一次 Event loop 顺序是这样的**
-
-- 执行同步代码，这属于宏任务
-- 执行栈为空，查询是否有微任务需要执行
-- 执行所有微任务
-- 必要的话渲染 UI
-- 然后开始下一轮 `Event loop`，执行宏任务中的异步代码
-
 ### Node 中的 Event Loop
 
 Node 中的 Event Loop 和浏览器中的是完全不相同的东西。
 
 Node 的 Event Loop 分为 6 个阶段，它们会按照**顺序**反复运行。每当进入某一个阶段的时候，都会从对应的回调队列中取出函数去执行。当队列为空或者执行的回调函数数量到达系统设定的阈值，就会进入下一阶段。
-
-![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/1670c3fe3f9a5e2b.jpg)
 
 #### timer
 
@@ -256,8 +203,6 @@ fs.readFile(__filename, () => {
 在上述代码中，`setImmediate` 永远**先执行**。因为两个代码写在 IO 回调中，IO 回调是在 poll 阶段执行，当回调执行完毕后队列为空，发现存在 `setImmediate` 回调，所以就直接跳转到 check 阶段去执行回调了。
 
 上面介绍的都是 macro-task 的执行情况，对于 micro-task 来说，它会在以上每个阶段完成前**清空** micro-task 队列，下图中的 Tick 就代表了 micro-task
-
-![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/16710fb80dd42d27.jpg)
 
 ```js
 setTimeout(() => {
@@ -553,7 +498,7 @@ process.nextTick(() => {
 // nextTick, timer1, promise1
 ```
 
-主要的区别在于浏览器的 event loop 和 nodejs 的 event loop 在处理异步事件的顺序是不同的,nodejs 中有 micro event;其中 Promise 属于 micro event 该异步事件的处理顺序就和浏览器不同.nodejs V11.0 以上 这两者之间的顺序就相同了.
+主要的区别在于浏览器的 event loop 和 nodejs 的 event loop 在处理异步事件的顺序是不同的, nodejs 中有 micro event; 其中 Promise 属于 micro event 该异步事件的处理顺序就和浏览器不同.nodejs V11.0 以上 这两者之间的顺序就相同了.
 
 浏览器下事件循环(Event Loop):
 微任务 micro-task(jobs): promise / ajax / Object.observe(该方法已废弃)
@@ -583,7 +528,6 @@ Node 的 Event Loop
 > 在浏览器和 Node 中 Event Loop 其实是不相同的
 
 **浏览器环境下，micro-task 的任务队列是每个 macro-task 执行完之后执行。而在 Node.js 中，micro-task 会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行 micro-task 队列的任务**。
-![](https://camo.githubusercontent.com/71b607cd363565c5d61299d31d9fd72b889de645/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343162616431636461373431663f773d3130353126683d33343426663d706e6726733d3932363835)
 
 接下我们通过一个例子来说明两者区别：
 
@@ -642,6 +586,53 @@ console.log(2);
 
 Promise 构造函数里面的内容都是同步执行的。setTimeout 就是作为宏任务来存在的，而 Promise.then 则是具有代表性的微任务，上述代码的执行顺序就是按照序号来输出的。
 
+### 总结
+
+浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
+
+- Node 端，micro-task 在事件循环的各个阶段之间执行
+- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
+
+### promise 与 setTimeout 判断执行顺序
+
+promise 和 setTimeout 都会将事件放入异步队列，但 setTimeout 即便是写 0，也会有 4ms 的延迟
+
+```js
+console.log('begin');
+
+setTimeout(() => {
+  console.log('setTimeout 1');
+
+  Promise.resolve()
+    .then(() => {
+      console.log('promise 1');
+      setTimeout(() => {
+        console.log('setTimeout2');
+      });
+    })
+    .then(() => {
+      console.log('promise 2');
+    });
+
+  new Promise(resolve => {
+    console.log('a');
+    resolve();
+  }).then(() => {
+    console.log('b');
+  });
+}, 0);
+console.log('end');
+
+// begin
+// end
+// setTimeout 1
+// a
+// promise 1
+// b
+// promise 2
+// setTimeout2
+```
+
 ### setTimeout 和 promise 的区别？宏任务和微任务是什么？有什么区别？
 
 宏任务队列可以有多个，微任务队列只有一个。
@@ -689,53 +680,6 @@ setTimeout(function() {
 
 结果是：
 1 5 6 2 3 4 7 8 9
-
-### 总结
-
-浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
-
-- Node 端，micro-task 在事件循环的各个阶段之间执行
-- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
-
-#### promise 与 setTimeout 判断执行顺序
-
-promise 和 setTimeout 都会将事件放入异步队列，但 setTimeout 即便是写 0，也会有 4ms 的延迟
-
-```js
-console.log('begin');
-
-setTimeout(() => {
-  console.log('setTimeout 1');
-
-  Promise.resolve()
-    .then(() => {
-      console.log('promise 1');
-      setTimeout(() => {
-        console.log('setTimeout2');
-      });
-    })
-    .then(() => {
-      console.log('promise 2');
-    });
-
-  new Promise(resolve => {
-    console.log('a');
-    resolve();
-  }).then(() => {
-    console.log('b');
-  });
-}, 0);
-console.log('end');
-
-// begin
-// end
-// setTimeout 1
-// a
-// promise 1
-// b
-// promise 2
-// setTimeout2
-```
 
 ### setTimeout、Promise、Async/Await 的区别
 
