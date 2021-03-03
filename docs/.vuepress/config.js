@@ -46,10 +46,10 @@ module.exports = {
     lang: 'zh-CN',
 
     personalInfo: {
-      nickname: 'yiliang114',
+      nickname: '易良',
       avatar: '/assets/images/avatar.jpeg',
       description: 'Happy Coding <br/>正在努力',
-      email: '1144323068@qq.com',
+      email: '1204183885@qq.com',
       location: 'ShenZhen, China',
       organization: 'Tencent',
 

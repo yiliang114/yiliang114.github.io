@@ -162,7 +162,7 @@ rm b.txt 接下来：直接 commit 或者 git checkout -- filename 撤销
 
 ### 远程仓库
 
-创建 SSHKey ssh-keygen -t rsa –C "1144323068@qq.com"
+创建 SSHKey ssh-keygen -t rsa –C "1204183885@qq.com"
 
 1.创建远程库
 

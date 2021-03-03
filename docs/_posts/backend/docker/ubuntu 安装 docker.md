@@ -173,7 +173,7 @@ nginx: /usr/sbin/nginx /etc/nginx /usr/share/nginx
 
 ```
 FROM ubuntu:14.04
-MAINTAINER yiliang 1144323068@qq.com
+MAINTAINER yiliang 1204183885@qq.com
 RUN apt-get update
 RUN apt-get install -y nginx
 COPY ./www/user/share/nginx/html
