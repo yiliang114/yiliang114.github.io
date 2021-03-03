@@ -18,22 +18,6 @@ typeof 能够得到的值, 8 种: number, boolean, string, undefined, symbol, ob
 
 ### 如何判断数据类型
 
-主要是 typeof, instanceof 和
-
-### 原始数据类型和判断方法
-
-ECMAScript 中定义了 7 种原始类型：
-
-- Boolean
-- String
-- Number
-- Null
-- Undefined
-- Symbol（新定义）
-- BigInt（新定义）
-
-**注意**：原始类型不包含 Object 和 Function
-
 在进行判断的时候有`typeof`、`instanceof`。对于数组的判断，使用`Array.isArray()`：
 
 - typeof：
@@ -58,223 +42,7 @@ ECMAScript 中定义了 7 种原始类型：
 
 - Array.isArray()：ES6 新增，用来判断是否是'Array'。`Array.isArray({})`返回`false`。
 
-### 原始类型转化
-
-当我们对一个“对象”进行数学运算操作时候，会涉及到对象 => 基础数据类型的转化问题。
-
-事实上，当一个对象执行例如加法操作的时候，如果它是原始类型，那么就不需要转换。否则，将遵循以下规则：
-
-1. 调用实例的`valueOf()`方法，如果有返回的是基础类型，停止下面的过程；否则继续
-2. 调用实例的`toString()`方法，如果有返回的是基础类型，停止下面的过程；否则继续
-3. 都没返回原始类型，就会报错
-
-请看下面的测试代码：
-
-```js
-let a = {
-  toString: function() {
-    return 'a';
-  },
-};
-
-let b = {
-  valueOf: function() {
-    return 100;
-  },
-  toString: function() {
-    return 'b';
-  },
-};
-
-let c = Object.create(null); // 创建一个空对象
-
-console.log(a + '123'); // output: a123
-console.log(b + 1); // output: 101
-console.log(c + '123'); // 报错
-```
-
-除了`valueOf`和`toString`，es6 还提供了`Symbol.toPrimitive`供对象向原始类型转化，并且**它的优先级最高**！！稍微改造下上面的代码：
-
-```js
-let b = {
-  valueOf: function() {
-    return 100;
-  },
-  toString: function() {
-    return 'b';
-  },
-  [Symbol.toPrimitive]: function() {
-    return 10000;
-  },
-};
-
-console.log(b + 1); // output: 10001
-```
-
-最后，其实关于`instanceof`判断是否是某个对象的实例，es6 也提供了`Symbol.hasInstance`接口，代码如下：
-
-```js
-class Even {
-  static [Symbol.hasInstance](num) {
-    return Number(num) % 2 === 0;
-  }
-}
-
-const Odd = {
-  [Symbol.hasInstance](num) {
-    return Number(num) % 2 !== 0;
-  },
-};
-
-console.log(1 instanceof Even); // output: false
-console.log(1 instanceof Odd); // output: true
-```
-
-### this 有几种使用场景
-
-### 普通函数和箭头函数的 this
-
-```js
-function fn() {
-  console.log(this); // 1. {a: 100}
-  var arr = [1, 2, 3];
-
-  (function() {
-    console.log(this); // 2. Window
-  })();
-
-  // 普通 JS
-  arr.map(function(item) {
-    console.log(this); // 3. Window
-    return item + 1;
-  });
-  // 箭头函数
-  let brr = arr.map(item => {
-    console.log('es6', this); // 4. {a: 100}
-    return item + 1;
-  });
-}
-fn.call({ a: 100 });
-```
-
-其实诀窍很简单，常见的基本是 3 种情况：es5 普通函数、es6 的箭头函数以及通过`bind`改变过上下文返回的新函数。
-
-① **es5 普通函数**：
-
-- 函数被直接调用，上下文一定是`window`
-- 函数作为对象属性被调用，例如：`obj.foo()`，上下文就是对象本身`obj`
-- 通过`new`调用，`this`绑定在返回的实例上
-
-② **es6 箭头函数**： 它本身没有`this`，会沿着作用域向上寻找，直到`global` / `window`。请看下面的这段代码：
-
-```js
-function run() {
-  const inner = () => {
-    return () => {
-      console.log(this.a);
-    };
-  };
-
-  inner()();
-}
-
-run.bind({ a: 1 })(); // Output: 1
-```
-
-③ **bind 绑定上下文返回的新函数**：就是被第一个 bind 绑定的上下文，而且 bind 对“箭头函数”无效。请看下面的这段代码：
-
-```js
-function run() {
-  console.log(this.a);
-}
-
-run.bind({ a: 1 })(); // output: 1
-
-// 多次bind，上下文由第一个bind的上下文决定
-run.bind({ a: 2 }).bind({ a: 1 })(); // output: 2
-```
-
-最后，再说说这几种方法的优先级：new > bind > 对象调用 > 直接调用
-
-### apply、call 和 bind 的区别：
-
-1. bind 返回的是一个函数，需要再次手动执行。
-2. call 第二个参数以后的参数都跟调用的函数意义对应，而使用 apply 的时候，函数的参数都是放在数组中的，作为第二个参数。
-
-### JS 事件流
-
-#### 事件冒泡和事件捕获
-
-事件流分为：**冒泡**和**捕获**，顺序是先捕获再冒泡。
-
-**事件冒泡**：子元素的触发事件会一直向父节点传递，一直到根结点停止。此过程中，可以在每个节点捕捉到相关事件。可以通过`stopPropagation`方法终止冒泡。
-
-**事件捕获**：和“事件冒泡”相反，从根节点开始执行，一直向子节点传递，直到目标节点。
-
-`addEventListener`给出了第三个参数同时支持冒泡与捕获：默认是`false`，事件冒泡；设置为`true`时，是事件捕获。
-
-```html
-<div id="app" style="width: 100vw; background: red;">
-  <span id="btn">点我</span>
-</div>
-<script>
-  // 事件捕获：先输出 "外层click事件触发"; 再输出 "内层click事件触发"
-  var useCapture = true;
-  var btn = document.getElementById('btn');
-  btn.addEventListener(
-    'click',
-    function() {
-      console.log('内层click事件触发');
-    },
-    useCapture,
-  );
-
-  var app = document.getElementById('app');
-  app.onclick = function() {
-    console.log('外层click事件触发');
-  };
-</script>
-```
-
-#### DOM0 级 和 DOM2 级
-
-**DOM2 级**：前面说的`addEventListener`，它定义了`DOM`事件流，捕获 + 冒泡。
-
-**DOM0 级**：
-
-- 直接在 html 标签内绑定`on`事件
-- 在 JS 中绑定`on`系列事件
-
-**注意**：现在通用`DOM2`级事件，优点如下：
-
-1. 可以绑定 / 卸载事件
-2. 支持事件流
-3. 冒泡 + 捕获：相当于每个节点同一个事件，至少 2 次处理机会
-4. 同一类事件，可以绑定多个函数
-
-### 常见的高阶函数
-
-没什么好说的，跑一下下面的代码就可以理解了：
-
-```js
-// map: 生成一个新数组，遍历原数组，
-// 将每个元素拿出来做一些变换然后放入到新的数组中
-let newArr = [1, 2, 3].map(item => item * 2);
-console.log(`New array is ${newArr}`);
-
-// filter: 数组过滤, 根据返回的boolean
-// 决定是否添加到数组中
-let newArr2 = [1, 2, 4, 6].filter(item => item !== 6);
-console.log(`New array2 is ${newArr2}`);
-
-// reduce: 结果汇总为单个返回值
-// acc: 累计值; current: 当前item
-let arr = [1, 2, 3];
-const sum = arr.reduce((acc, current) => acc + current);
-const sum2 = arr.reduce((acc, current) => acc + current, 100);
-console.log(sum); // 6
-console.log(sum2); // 106
-```
+### instanceof 原理
 
 ### ES5 继承
 
@@ -438,55 +206,6 @@ ES5 有”全局作用域“和”函数作用域“。ES6 的`let`和`const`使
 
 当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。**这种层级关系，就是作用域链**。
 
-### Event Loop
-
-#### 单线程
-
-> 题目：讲解下面代码的执行过程和结果。
-
-```js
-var a = true;
-setTimeout(function() {
-  a = false;
-}, 100);
-while (a) {
-  console.log('while执行了');
-}
-```
-
-这段代码会一直执行并且输出"while..."。**JS 是单线程的，先跑执行栈里的同步任务，然后再跑任务队列的异步任务**。
-
-#### 执行栈和任务队列
-
-> 题目：说一下 JS 的 Event Loop。
-
-简单总结如下：
-
-1. JS 是单线程的，其上面的所有任务都是在两个地方执行：**执行栈和任务队列**。前者是存放同步任务；后者是异步任务有结果后，就在其中放入一个事件。
-1. 当执行栈的任务都执行完了（栈空），js 会读取任务队列，并将可以执行的任务从任务队列丢到执行栈中执行。
-1. 这个过程是循环进行，所以称作`Loop`。
-
-### 执行上下文
-
-> 题目：解释下“全局执行上下文“和“函数执行上下文”。
-
-①**全局执行上下文**
-
-解析 JS 时候，创建一个 **全局执行上下文** 环境。把代码中即将执行的（**内部函数的不算，因为你不知道函数何时执行**）变量、函数声明都拿出来。**未赋值的变量就是`undefined`**。
-
-下面这段代码输出：`undefined`；而不是抛出`Error`。因为在解析 JS 的时候，变量 a 已经存入了全局执行上下文中了。
-
-```js
-console.log(a);
-var a = 1;
-```
-
-②**函数执行上下文**
-
-和全局执行上下文差不多，但是多了`this`和`arguments`和参数。
-
-在 JS 中，`this`是关键字，它作为内置变量，**其值是在执行的时候确定（不是定义的时候确定）**。
-
 ### 作用域以及作用域链
 
 上下文执行栈和作用域链的区别
@@ -592,138 +311,259 @@ MathHandle === MathHandle.prototype.constructor; // true
 m.__proto__ === MathHandle.prototype; // true
 ```
 
-### 深拷贝和浅拷贝
+### 原始类型转化
 
-> 题目：实现对象的深拷贝。
+当我们对一个“对象”进行数学运算操作时候，会涉及到对象 => 基础数据类型的转化问题。
 
-在 JS 中，函数和对象都是浅拷贝（地址引用）；其他的，例如布尔值、数字等基础数据类型都是深拷贝（值引用）。
+事实上，当一个对象执行例如加法操作的时候，如果它是原始类型，那么就不需要转换。否则，将遵循以下规则：
 
-值得提醒的是，ES6 的`Object.assign()`和 ES7 的`...`解构运算符都是“浅拷贝”。实现深拷贝还是需要自己手动撸“轮子”或者借助第三方库（例如`lodash`）：
+1. 调用实例的`valueOf()`方法，如果有返回的是基础类型，停止下面的过程；否则继续
+2. 调用实例的`toString()`方法，如果有返回的是基础类型，停止下面的过程；否则继续
+3. 都没返回原始类型，就会报错
 
-- 手动做一个“完美”的深拷贝函数：[https://godbmw.com/passages/2019-03-18-interview-js-code/](https://godbmw.com/passages/2019-03-18-interview-js-code/)
+请看下面的测试代码：
 
-- 借助第三方库：jq 的`extend(true, result, src1, src2[ ,src3])`、lodash 的`cloneDeep(src)`
+```js
+let a = {
+  toString: function() {
+    return 'a';
+  },
+};
 
-- `JSON.parse(JSON.stringify(src))`：这种方法有局限性，如果属性值是函数或者一个类的实例的时候，无法正确拷贝
+let b = {
+  valueOf: function() {
+    return 100;
+  },
+  toString: function() {
+    return 'b';
+  },
+};
 
-- 借助 HTML5 的`MessageChannel`：这种方法有局限性，当属性值是函数的时候，会报错
+let c = Object.create(null); // 创建一个空对象
 
-  ```html
-  <script>
-    function deepClone(obj) {
-      return new Promise(resolve => {
-        const { port1, port2 } = new MessageChannel();
-        port2.onmessage = ev => resolve(ev.data);
-        port1.postMessage(obj);
-      });
-    }
+console.log(a + '123'); // output: a123
+console.log(b + 1); // output: 101
+console.log(c + '123'); // 报错
+```
 
-    const obj = {
-      a: 1,
-      b: {
-        c: [1, 2],
-        d: '() => {}',
-      },
+除了`valueOf`和`toString`，es6 还提供了`Symbol.toPrimitive`供对象向原始类型转化，并且**它的优先级最高**！！稍微改造下上面的代码：
+
+```js
+let b = {
+  valueOf: function() {
+    return 100;
+  },
+  toString: function() {
+    return 'b';
+  },
+  [Symbol.toPrimitive]: function() {
+    return 10000;
+  },
+};
+
+console.log(b + 1); // output: 10001
+```
+
+最后，其实关于`instanceof`判断是否是某个对象的实例，es6 也提供了`Symbol.hasInstance`接口，代码如下：
+
+```js
+class Even {
+  static [Symbol.hasInstance](num) {
+    return Number(num) % 2 === 0;
+  }
+}
+
+const Odd = {
+  [Symbol.hasInstance](num) {
+    return Number(num) % 2 !== 0;
+  },
+};
+
+console.log(1 instanceof Even); // output: false
+console.log(1 instanceof Odd); // output: true
+```
+
+### 执行上下文
+
+> 题目：解释下“全局执行上下文“和“函数执行上下文”。
+
+①**全局执行上下文**
+
+解析 JS 时候，创建一个 **全局执行上下文** 环境。把代码中即将执行的（**内部函数的不算，因为你不知道函数何时执行**）变量、函数声明都拿出来。**未赋值的变量就是`undefined`**。
+
+下面这段代码输出：`undefined`；而不是抛出`Error`。因为在解析 JS 的时候，变量 a 已经存入了全局执行上下文中了。
+
+```js
+console.log(a);
+var a = 1;
+```
+
+②**函数执行上下文**
+
+和全局执行上下文差不多，但是多了`this`和`arguments`和参数。
+
+在 JS 中，`this`是关键字，它作为内置变量，**其值是在执行的时候确定（不是定义的时候确定）**。
+
+### this 有几种使用场景
+
+### 普通函数和箭头函数的 this
+
+```js
+function fn() {
+  console.log(this); // 1. {a: 100}
+  var arr = [1, 2, 3];
+
+  (function() {
+    console.log(this); // 2. Window
+  })();
+
+  // 普通 JS
+  arr.map(function(item) {
+    console.log(this); // 3. Window
+    return item + 1;
+  });
+  // 箭头函数
+  let brr = arr.map(item => {
+    console.log('es6', this); // 4. {a: 100}
+    return item + 1;
+  });
+}
+fn.call({ a: 100 });
+```
+
+其实诀窍很简单，常见的基本是 3 种情况：es5 普通函数、es6 的箭头函数以及通过`bind`改变过上下文返回的新函数。
+
+① **es5 普通函数**：
+
+- 函数被直接调用，上下文一定是`window`
+- 函数作为对象属性被调用，例如：`obj.foo()`，上下文就是对象本身`obj`
+- 通过`new`调用，`this`绑定在返回的实例上
+
+② **es6 箭头函数**： 它本身没有`this`，会沿着作用域向上寻找，直到`global` / `window`。请看下面的这段代码：
+
+```js
+function run() {
+  const inner = () => {
+    return () => {
+      console.log(this.a);
     };
+  };
 
-    deepClone(obj).then(obj2 => {
-      obj2.b.c[0] = 100;
-      console.log(obj.b.c); // output: [1, 2]
-      console.log(obj2.b.c); // output: [100, 2]
-    });
-  </script>
-  ```
+  inner()();
+}
+
+run.bind({ a: 1 })(); // Output: 1
+```
+
+③ **bind 绑定上下文返回的新函数**：就是被第一个 bind 绑定的上下文，而且 bind 对“箭头函数”无效。请看下面的这段代码：
+
+```js
+function run() {
+  console.log(this.a);
+}
+
+run.bind({ a: 1 })(); // output: 1
+
+// 多次bind，上下文由第一个bind的上下文决定
+run.bind({ a: 2 }).bind({ a: 1 })(); // output: 2
+```
+
+最后，再说说这几种方法的优先级：new > bind > 对象调用 > 直接调用
+
+### apply、call 和 bind 的区别：
+
+1. bind 返回的是一个函数，需要再次手动执行。
+2. call 第二个参数以后的参数都跟调用的函数意义对应，而使用 apply 的时候，函数的参数都是放在数组中的，作为第二个参数。
+
+### JS 事件流
+
+#### 事件冒泡和事件捕获
+
+事件流分为：**冒泡**和**捕获**，顺序是先捕获再冒泡。
+
+**事件冒泡**：子元素的触发事件会一直向父节点传递，一直到根结点停止。此过程中，可以在每个节点捕捉到相关事件。可以通过`stopPropagation`方法终止冒泡。
+
+**事件捕获**：和“事件冒泡”相反，从根节点开始执行，一直向子节点传递，直到目标节点。
+
+`addEventListener`给出了第三个参数同时支持冒泡与捕获：默认是`false`，事件冒泡；设置为`true`时，是事件捕获。
+
+```html
+<div id="app" style="width: 100vw; background: red;">
+  <span id="btn">点我</span>
+</div>
+<script>
+  // 事件捕获：先输出 "外层click事件触发"; 再输出 "内层click事件触发"
+  var useCapture = true;
+  var btn = document.getElementById('btn');
+  btn.addEventListener(
+    'click',
+    function() {
+      console.log('内层click事件触发');
+    },
+    useCapture,
+  );
+
+  var app = document.getElementById('app');
+  app.onclick = function() {
+    console.log('外层click事件触发');
+  };
+</script>
+```
+
+#### DOM0 级 和 DOM2 级
+
+**DOM2 级**：前面说的`addEventListener`，它定义了`DOM`事件流，捕获 + 冒泡。
+
+**DOM0 级**：
+
+- 直接在 html 标签内绑定`on`事件
+- 在 JS 中绑定`on`系列事件
+
+**注意**：现在通用`DOM2`级事件，优点如下：
+
+1. 可以绑定 / 卸载事件
+2. 支持事件流
+3. 冒泡 + 捕获：相当于每个节点同一个事件，至少 2 次处理机会
+4. 同一类事件，可以绑定多个函数
+
+### Event Loop
+
+#### 单线程
+
+> 题目：讲解下面代码的执行过程和结果。
+
+```js
+var a = true;
+setTimeout(function() {
+  a = false;
+}, 100);
+while (a) {
+  console.log('while执行了');
+}
+```
+
+这段代码会一直执行并且输出"while..."。**JS 是单线程的，先跑执行栈里的同步任务，然后再跑任务队列的异步任务**。
+
+#### 执行栈和任务队列
+
+> 题目：说一下 JS 的 Event Loop。
+
+简单总结如下：
+
+1. JS 是单线程的，其上面的所有任务都是在两个地方执行：**执行栈和任务队列**。前者是存放同步任务；后者是异步任务有结果后，就在其中放入一个事件。
+1. 当执行栈的任务都执行完了（栈空），js 会读取任务队列，并将可以执行的任务从任务队列丢到执行栈中执行。
+1. 这个过程是循环进行，所以称作`Loop`。
+
+### 异步 与 Promise
+
+- promise 解决的问题
+- promise 与事件循环，settimeout 以及 react 的下一次循环
 
 如果理解 js 的单线程
 什么是任务队列
 event-loop、事件委托和使用
 微任务和宏任务
 Promise 的执行顺序
-CommonJS 和 ES Module 区别，amd cmd， seajs 是什么，seajs 如何加载 vuejs 的项目
-HTTP 强缓存和协商缓存
-跨域解决方案
-重绘和回流
-前端性能优化
-跨域， 普通请求
-es6 proxy
-
-防抖、节流
-深拷贝
-手写从 url 中获取参数
-多种方式声明一个数组
-手写一个事件类 on emit off 等
-
-什么是 DOCTYPE 及作用
-浏览器的渲染过程
-DOM 事件中 target 和 currentTarget 的区别
-
-CSS 盒模型， box-sizing。
-上下左右垂直居中
-flex
-CSS 设置高度等于宽度的 3/4
-rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
-margin 的合并 高度塌陷的问题，如何解决
-bfc
-纯 css 换行
-
-http2.0 https
-
-getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
-
-说一下你项目中用到的技术栈，以及觉得得意和出色的点，以及让你头疼的点，怎么解决的。
-说一下项目中觉得可以改进的地方以及做的很优秀的地方？
-
-Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
-babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
-webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-webpack 的 loader
-有没有去研究 webpack 的一些原理和机制，怎么实现的
-简历上看见你了解 http 协议。说一下 200 和 304 的理解和区别
-
-操作 DOM 比较耗费资源，请问怎么减少消耗
-简化操作 DOM 的 API 或者库
-VDOM
-
-JS 的事件循环机制
-事件循环中队列中的事件有先后顺序吗
-setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s 后执行吗
-JS 延后加载， 怎么缩短 JS 的加载时间
-解析 HTML 的过程
-加载 JS 和 CSS 会阻塞浏览器的渲染吗
-下载 JS 和 CSS 会阻塞吗
-操作 DOM 树为什么比操作 VDOM 树要慢
-请求过程中 session 一般时间是多久
-请问每个 session 在服务器如果都是在有效时间内都是存在的吗，假设有 20 个 session，服务器的这些连接在这段时间都是存在的吗
-
-浏览器兼容性举例
-全文单词首字母大写
-正向代理反向代理
-
-准备几个项目的难点以及解决方案
-性能优化的方案
-
-webpack 的插件和 loader， 写过什么插件，怎么处理的？
-
-对 vuex 的理解
-vue 从 data 到渲染页面的整个过程
-虚拟 dom
-怎么看待组件嵌套很多层级的组件
-组件设计原则
-介绍状态机
-
-pwa 的使用
-对新技术的了解
-
-对 MVC MVP MVVM 的了解
-对 SEO 的了解
-redux - 是怎么实现的， 实现过程
-
-### 异步
-
-- promise 解决的问题
-- promise 与事件循环，settimeout 以及 react 的下一次循环
-
-### Promise 的基本使用
 
 promise 出现的目的是解决回调地狱。
 
@@ -781,54 +621,108 @@ loadImg(src)
   });
 ```
 
-### 模拟二面
+### 深拷贝和浅拷贝
 
-1. 面试技巧
-2. 渲染机制类
-3. js 运行机制
-4. 页面性能
-5. 错误监控
+在 JS 中，函数和对象都是浅拷贝（地址引用）；其他的，例如布尔值、数字等基础数据类型都是深拷贝（值引用）。
 
-### 模拟三面
+值得提醒的是，ES6 的`Object.assign()`和 ES7 的`...`解构运算符都是“浅拷贝”。实现深拷贝还是需要自己手动撸“轮子”或者借助第三方库（例如`lodash`）：
 
-1. 面试技巧
-2. 业务能力
-3. 团队协作能力
-4. 带人能力
+- `JSON.parse(JSON.stringify(src))`：这种方法有局限性，如果属性值是函数或者一个类的实例的时候，无法正确拷贝
 
-### 模拟终面（hr）
+- 借助 HTML5 的`MessageChannel`：这种方法有局限性，当属性值是函数的时候，会报错
 
-1. 面试技巧
-2. 职业竞争力
-3. 职业规划（不能说走一步看一步）
+  ```html
+  <script>
+    function deepClone(obj) {
+      return new Promise(resolve => {
+        const { port1, port2 } = new MessageChannel();
+        port2.onmessage = ev => resolve(ev.data);
+        port1.postMessage(obj);
+      });
+    }
 
-### react
+    const obj = {
+      a: 1,
+      b: {
+        c: [1, 2],
+        d: '() => {}',
+      },
+    };
 
-- 绑定 this
-- setState
-- 事件原理， 冒泡、捕获
-- hooks
-- diff 原理
-- fiber
+    deepClone(obj).then(obj2 => {
+      obj2.b.c[0] = 100;
+      console.log(obj.b.c); // output: [1, 2]
+      console.log(obj2.b.c); // output: [100, 2]
+    });
+  </script>
+  ```
 
-### vue
+### 跨域
 
-- 双向绑定原理
-- 指令原理
-- vue 如何实现代码的复用
-- router 的 hash 和 history 有什么区别
-- vuex 的使用场景
-- 几种通信原理
-- sync
-- render
-- 计算属性是如何做到属性值改变才重新计算（缓存）
-- v-if v-show
-  - 回流和重绘
+普通请求
+
+跨域解决方案
+
+### es6 proxy
+
+### 防抖、节流
+
+### 深拷贝
+
+### 手写从 url 中获取参数
+
+### 多种方式声明一个数组
+
+### 手写一个事件类 on emit off 等
+
+getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
+
+说一下你项目中用到的技术栈，以及觉得得意和出色的点，以及让你头疼的点，怎么解决的。
+说一下项目中觉得可以改进的地方以及做的很优秀的地方？
+
+操作 DOM 比较耗费资源，请问怎么减少消耗
+简化操作 DOM 的 API 或者库
+VDOM
+
+setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s 后执行吗
+JS 延后加载， 怎么缩短 JS 的加载时间
+解析 HTML 的过程
+加载 JS 和 CSS 会阻塞浏览器的渲染吗
+下载 JS 和 CSS 会阻塞吗
+操作 DOM 树为什么比操作 VDOM 树要慢
+
+浏览器兼容性举例
+全文单词首字母大写
+正向代理反向代理
+
+### 渲染机制类
+
+### js 运行机制
+
+### 页面性能
+
+### 错误监控
 
 ### 模块化
 
+CommonJS 和 ES Module 区别，amd cmd， seajs 是什么，seajs 如何加载 vuejs 的项目
+
+## CSS
+
+CSS 盒模型， box-sizing。
+上下左右垂直居中
+flex
+CSS 设置高度等于宽度的 3/4
+rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
+margin 的合并 高度塌陷的问题，如何解决
+bfc
+纯 css 换行
+
 ## 网络
 
+HTTP 强缓存和协商缓存
+http2.0 https
+简历上看见你了解 http 协议。说一下 200 和 304 的理解和区别
 三次握手、四次挥手
 常见状态码
 post 与 get
@@ -954,6 +848,23 @@ omiv 的原理
 omi 的简单原理
 router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
 
+- 双向绑定原理
+- 指令原理
+- vue 如何实现代码的复用
+- router 的 hash 和 history 有什么区别
+- vuex 的使用场景
+- 几种通信原理
+- sync
+- render
+- 计算属性是如何做到属性值改变才重新计算（缓存）
+- v-if v-show
+  - 回流和重绘
+
+对 MVC MVP MVVM 的了解
+对 vuex 的理解
+vue 从 data 到渲染页面的整个过程
+虚拟 dom
+
 - vue @ 3 支持到什么版本
 - 引入的小图片为什么被渲染成了 base64
   - 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
@@ -974,10 +885,24 @@ MVVM 是什么
 Vue 的生命周期
 vue 数据更新机制
 
+### react
+
+- 绑定 this
+- setState
+- 事件原理， 冒泡、捕获
+- hooks
+- diff 原理
+- fiber
+
 ## 前端安全
 
-XSS
-CSRF
+1. CSRF
+
+   跨站请求伪造。条件： 1. 用户在 A 网站确实登录过。 2. A 网站接口存在漏洞，会下发登录态。
+
+   防御：1. token 验证 2. Referer 验证（页面来源验证） 3. 隐藏令牌
+
+2. XSS
 
 ## 浏览器
 
@@ -990,6 +915,10 @@ CSRF
 事件冒泡，捕获，事件代理
 浏览器事件循环
 跨域的几种方式，cors 的头，需要设置哪些
+什么是 DOCTYPE 及作用
+浏览器的渲染过程
+DOM 事件中 target 和 currentTarget 的区别
+重绘和回流
 
 ### DOM 事件类
 
@@ -1151,21 +1080,19 @@ cors （支持跨域通信也支持跨域通信）
 
 5. CORS （添加 http 请求头允许跨域通信）
 
-### 安全类
-
-1. CSRF
-
-   跨站请求伪造。条件： 1. 用户在 A 网站确实登录过。 2. A 网站接口存在漏洞，会下发登录态。
-
-   防御：1. token 验证 2. Referer 验证（页面来源验证） 3. 隐藏令牌
-
-2. XSS
-
-   跨域脚本攻击
+跨域脚本攻击
 
 ## 工程化
 
+webpack 的插件和 loader， 写过什么插件，怎么处理的？
+
 ### webpack
+
+Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
+babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
+webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
+webpack 的 loader
+有没有去研究 webpack 的一些原理和机制，怎么实现的
 
 - 对 webpack 有了解吗？chunk、bundle 和 module 有什么区别
 
@@ -1175,7 +1102,7 @@ vue react 都是通过 rollup 来打包的，一般来说会被打包成比较�
 
 rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
 
-## 性能优化
+## 前端性能优化
 
 - code split
 - 首屏？
@@ -1188,8 +1115,10 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 
 ## 项目
 
+准备几个项目的难点以及解决方案
 介绍做过的项目
 遇到的问题以及解决方案
+性能优化的方案
 
 ## 开放性问题
 
@@ -1274,3 +1203,14 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 想办法把准备的东西说出来，引导找时机。
 
 沟通，性格，潜力。
+
+### 业务能力
+
+### 团队协作能力
+
+### 带人能力
+
+## 终面（hr）
+
+1. 职业竞争力
+2. 职业规划（不能说走一步看一步）
