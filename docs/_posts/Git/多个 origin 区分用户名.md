@@ -1,6 +1,6 @@
 ---
 title: '多个 origin 区分用户名'
-date: '2020-10-22'
+date: '2020-01-22'
 tags:
   - github
 ---

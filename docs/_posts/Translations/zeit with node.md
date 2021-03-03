@@ -35,9 +35,9 @@ cd req-body
 
 ```js
 module.exports = async (req, res) => {
-  const { body } = req
-  res.send(`Hello ${body.name}, you just parsed the request body!`)
-}
+  const { body } = req;
+  res.send(`Hello ${body.name}, you just parsed the request body!`);
+};
 ```
 
 这是一个通过使用带有[Helper 属性](https://vercel.com/docs/runtimes#official-runtimes/node-js/node-js-request-and-response-objects/node-js-helpers) 的 [Node.js](https://nodejs.org/dist/latest-v12.x/docs/api/) 解析请求体的示例。

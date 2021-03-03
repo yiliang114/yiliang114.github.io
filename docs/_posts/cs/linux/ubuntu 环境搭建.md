@@ -1,6 +1,6 @@
 ---
 title: 'ubuntu 环境搭建'
-date: '2020-09-15'
+date: '2019-09-15'
 tags:
   - linux
 ---

@@ -1,6 +1,6 @@
 ---
 title: 'ubuntu 安装 docker'
-date: '2020-09-16'
+date: '2019-09-16'
 tags:
   - docker
   - ubuntu
