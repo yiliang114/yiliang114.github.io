@@ -10,21 +10,10 @@ draft: true
 2. instanceof
 3. Array.isArray()
 
-性能方面：Array.isArray()性能最好，instanceof 次之，Object.prototype.toString.call() 第三
+性能方面：判断数据 Array.isArray() 性能最好，instanceof 次之，Object.prototype.toString.call() 第三
+功能方面：`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是 100% 准确。
 
-功能方面：
-
-`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是最准确的。100% 准确.
-
-```js
-Object.prototype.toString.call('An'); // "[object String]"
-Object.prototype.toString.call(1); // "[object Number]"
-Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
-Object.prototype.toString.call(null); // "[object Null]"
-Object.prototype.toString.call(undefined); // "[object Undefined]"
-Object.prototype.toString.call(function() {}); // "[object Function]"
-Object.prototype.toString.call({ name: 'An' }); // "[object Object]"
-```
+`Object.prototype.toString.call()` 能够得到的值, 8 种: number, boolean, string, undefined, symbol, object, function, bigint。
 
 instanceof 只能判断对象原型，原始类型不可以。
 
@@ -32,18 +21,18 @@ instanceof 只能判断对象原型，原始类型不可以。
 [] instanceof Object; // true
 ```
 
-Array.isArray 优于 instanceof ，因为 Array.isArray 可以检测出 iframe，Array.isArray()是 ES5 新增的方法，当使用 ie8 的时候就会出现问题。当不存在 Array.isArray() ，可以用 Object.prototype.toString.call() 实现。
+Array.isArray 优于 instanceof ，因为 Array.isArray 可以检测出 frames, Array.isArray() 是 ES5 新增的方法，当使用 ie8 的时候就会出现问题。当不存在 Array.isArray() ，可以用 Object.prototype.toString.call() 实现。
 
 如果浏览器支持 Array.isArray()可以直接判断否则需进行必要判断
 
 ```js
-function(value){
-   // ECMAScript 5 feature
-	if(typeof Array.isArray === 'function'){
-		return Array.isArray(value);
-	}else{
-	   return Object.prototype.toString.call(value) === '[object Array]';
-	}
+function isArray(value) {
+  // ECMAScript 5 feature
+  if (typeof Array.isArray === 'function') {
+    return Array.isArray(value);
+  } else {
+    return Object.prototype.toString.call(value) === '[object Array]';
+  }
 }
 ```
 
@@ -63,39 +52,6 @@ function(value){
 [] instanceof Object; // true
 ```
 
-#### 3. Array.isArray()
-
-- 功能：用来判断对象是否为数组
-
-- instanceof 与 isArray
-
-  当检测 Array 实例时，`Array.isArray` 优于 `instanceof` ，因为 `Array.isArray` 可以检测出 `iframes`
-
-  ```js
-  var iframe = document.createElement('iframe');
-  document.body.appendChild(iframe);
-  xArray = window.frames[window.frames.length - 1].Array;
-  var arr = new xArray(1, 2, 3); // [1,2,3]
-
-  // Correctly checking for Array
-  Array.isArray(arr); // true
-  Object.prototype.toString.call(arr); // true
-  // Considered harmful, because doesn't work though iframes
-  arr instanceof Array; // false
-  ```
-
-- `Array.isArray()` 与 `Object.prototype.toString.call()`
-
-  `Array.isArray()`是 ES5 新增的方法，当不存在 `Array.isArray()` ，可以用 `Object.prototype.toString.call()` 实现。
-
-  ```js
-  if (!Array.isArray) {
-    Array.isArray = function(arg) {
-      return Object.prototype.toString.call(arg) === '[object Array]';
-    };
-  }
-  ```
-
 ### ['1', '2', '3'].map(parseInt)
 
 map 会给函数传递 3 个参数： (elem, index, array) 而 parseInt 接收两个参数(sting, radix)，其中 radix 代表进制。省略 radix 或 radix = 0，则数字将以十进制解析。 因此，map 遍历 ["1", "2", "3"]，相应 parseInt 接收参数如下
@@ -107,21 +63,6 @@ parseInt('3', 2); // NaN
 ```
 
 因为二进制里面，没有数字 3,导致出现超范围的 radix 赋值和不合法的进制解析，才会返回 NaN 所以["1", "2", "3"].map(parseInt) 答案也就是：[1, NaN, NaN]
-
-### flat 拍平数组
-
-已知如下数组：`var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
-
-编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
-
-```js
-Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {
-  return a - b;
-});
-```
-
-**竟然原生就有这个 flat 函数，用来拍平数组**
-flat 函数的参数是层级。Infinity 无限大。 会拍平数组中的所有数组值。
 
 ### Array(...)和 Array.of(...) 的区别
 
@@ -285,6 +226,17 @@ arr[0];
 ```
 
 ### 实现 flatten 扁平化函数
+
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+
+```js
+Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {
+  return a - b;
+});
+```
+
+**竟然原生就有这个 flat 函数，用来拍平数组**
+flat 函数的参数是层级。Infinity 无限大。 会拍平数组中的所有数组值。
 
 递归实现
 
