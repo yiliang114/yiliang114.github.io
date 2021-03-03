@@ -117,6 +117,115 @@ setTimeout
 
 `await`就是让出线程，其后的代码放入微任务队列（不会再多一次放入的过程），就这么简单了。
 
+### 异步
+
+```js
+setTimeout(() => {
+  console.log(1);
+}, 0);
+
+new (resolve => {
+  console.log(2);
+  resolve();
+  console.log(3);
+}).then(() => {
+  console.log(4);
+});
+
+console.log(5);
+```
+
+结果是：
+2 3 5 4 1
+
+```js
+var p1 = new (function(resolve, reject) {
+  setTimeout(() =>reject(new Error('p1 中failure')) , 3000);
+})
+
+var p2 = new (function(resolve, reject){
+  setTimeout(() => resolve(p1), 1000);
+});
+var p3 = new (function(resolve, reject) {
+  resolve(2);
+});
+var p4 = new (function(resolve, reject) {
+  reject(new Error('error  in  p4'));
+});
+
+1. p3.then(re => console.log(re)); //?
+2. p4.catch(error => console.log(error));//?
+
+3. p2.then(null,re => console.log(re));//?
+4. p2.catch(re => console.log(re));//?
+```
+
+打印的顺序是：2， "error in p4 "这是立即打印出来的。
+
+而 3S 后会打印出两个'p1 中 failure'。
+
+如果 3 直接写成`p2.then(re => console.log(re));`是会报错，说没有捕捉到错误。
+
+```js
+var p1 = .resolve(1)
+var p2 = new (resolve => {
+  setTimeout(() => resolve(2), 100)
+})
+var v3 = 3
+var p4 = new ((resolve, reject) => {
+  setTimeout(() => reject('oops'), 10)
+})
+
+var p5 = new (resolve => {
+  setTimeout(() => resolve(5), 0)
+})
+var p1 = .resolve(1)
+.race([v3, p1, p2, p4, p5]).then(val => console.log(val)) //?
+.race([p1, v3, p2, p4, p5]).then(val => console.log(val)) // ?
+.race([p1, p2, p4, p5]).then(val => console.log(val)) // ?
+.race([p2, p4, p5]).then(val => console.log(val)) //?
+```
+
+打印顺序是：6 3 1 1 5
+
+```js
+function 1() {
+  return new (function(resolve, reject) {
+    for (let i = 0; i < 2; i++) {
+      console.log('111')
+    }
+    resolve(true)
+  })
+}
+function 2() {
+  return new (function(resolve, reject) {
+    for (let i = 0; i < 2; i++) {
+      console.log('222')
+    }
+    resolve(true)
+  })
+}
+
+setTimeout(function() {
+  console.log('333')
+}, 0) // 这是是会执行的。考察的是异步执行，js的任务队列
+
+.all([1(), 2()]).then(function() {
+  console.log('All Done!')
+})
+```
+
+> 结果是：
+
+```js
+'111';
+'111';
+'222';
+'222';
+'All Done!';
+'333';
+```
+
 ### 异步笔试题
 
 ```js
