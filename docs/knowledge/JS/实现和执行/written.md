@@ -53,7 +53,7 @@ mid = left + ((right - left) >> 1);
 mid = left + ~~((right - left) / 2);
 // 不建议使用mid = (left + right)>>1;，因为加号操作可能造成溢出
 
-// ~~等价于Math.floor(),|0也等价于Math.floor()
+// ~~等价于Math.floor(),|0 也等价于Math.floor()
 halfLen = ~~(a.length / 2);
 halfLen = (a.length / 2) | 0;
 

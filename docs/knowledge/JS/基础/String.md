@@ -47,3 +47,35 @@ typeof null == 'object'; // 很不幸，结果为 true
 ```js
 typeof [] == 'object'; // 很不幸，结果为 true
 ```
+
+### js 中的 boolean number 互转
+
+```js
+~~false === 0;
+~~true === 1;
+~~undefined === 0;
+~~!undefined === 1;
+~~null === 0;
+~~!null === 1;
+~~'' === 0;
+~~!'' === 1;
+```
+
+```js
+!!常常用来做类型判断;
+
+// 代码很臃肿
+var a;
+if (a != null && typeof a != undefined && a != '') {
+  //a有内容才执行的代码
+}
+
+// 可以直接使用 !!
+if (!!a) {
+  //a有内容才执行的代码...
+}
+```
+
+### js 字符串去空格
+
+chrome FF 亲测 String.trim() 即可
