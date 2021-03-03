@@ -75,8 +75,8 @@ console.log(test instanceof Bar); // false
 console.log(test.method()); // 1
 ```
 
-> 1: Foo.prototype 的.constructor 属性只是 Foo 函数在声明时的默认属性。如果你创建了一个新对象并替换了函数默认的.prototype 对象引用，**那么新对象并不会自动获得.constructor 属性**。（这也是原型继承时，需要重新赋值的原因。）
-> Foo.prototype 没有.constructor 属性，所以他会委托[[Prototype]]链上的委托连顶端的 Object.prototype。这个对象有.constructor 属性，只想内置的 Object(...)函数。
+> Foo.prototype 的 constructor 属性只是 Foo 函数在声明时的默认属性。如果你创建了一个新对象并替换了函数默认的.prototype 对象引用，**那么新对象并不会自动获得 constructor 属性**。（这也是原型继承时，需要重新赋值的原因。）
+> Foo.prototype 没有 constructor 属性，所以他会委托[[Prototype]]链上的委托连顶端的 Object.prototype。这个对象有 constructor 属性，只想内置的 Object(...)函数。
 
 #### 变量提升
 
