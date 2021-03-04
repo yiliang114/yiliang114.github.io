@@ -322,21 +322,22 @@ while (a) {
 
 #### 微任务和宏任务
 
-什么是任务队列
+异步事件会被放置到对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
 
-微任务和宏任务
+浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。**宏任务队列可以有多个，微任务队列只有一个**。
+
+- 常见的 macro-task 比如：setTimeout、setInterval、setImmediate、script（整体代码）、 I/O 操作、UI 渲染等。
+- 常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5 新特性)、process.nextTick 等。
+
+Node 中的 Event Loop：
+
+分为 6 个阶段，它们会按照**顺序**反复运行。timer, I/O, (idle, prepare), poll(循环 1, 2), check, close callbacks
 
 #### setTimeout
 
 setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s 后执行吗
 
 ### 异步 与 Promise
-
-Promise 的执行顺序
-
-promise 出现的目的是解决回调地狱。
-
-promise 与事件循环，setTimeout
 
 ### 浅拷贝
 
@@ -405,7 +406,10 @@ Content-Type 的值仅限于下列三者之一：
 
 ### 模块化
 
-CommonJS 和 ES Module 区别，amd cmd， seajs 是什么，seajs 如何加载 vuejs 的项目
+- **AMD**：`requirejs` 在推广过程中对模块定义的规范化产出，提前执行，推崇依赖前置
+- **CMD**：`seajs` 在推广过程中对模块定义的规范化产出，延迟执行，推崇依赖就近
+- **CommonJs**：主要用在服务器端 node.js，输出的是值拷贝。
+- **ES6 Module**：模块输出的是一个值的引用，编译时输出接口。
 
 ### 正向代理反向代理
 
@@ -425,7 +429,6 @@ BFC
 
 ## 网络
 
-cookie
 http2.0 新特性
 https 是什么，有点缺点
 
@@ -572,6 +575,10 @@ omi 的简单原理
 
 JS 延后加载， 怎么缩短 JS 的加载时间
 
+### Web Storage
+
+sessionStorage , localStorage , cookie , Web Storage
+
 ### 渲染机制类
 
 解析 HTML 的过程
@@ -579,10 +586,6 @@ JS 延后加载， 怎么缩短 JS 的加载时间
 下载 JS 和 CSS 会阻塞吗### DOM 事件类
 浏览器的渲染过程
 重绘和回流
-
-### Web Storage
-
-sessionStorage , localStorage , cookie , Web Storage
 
 ## 工程化
 
@@ -610,14 +613,29 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 
 ## 前端性能优化
 
-- code split
-- 首屏？
-- 骨架屏
-- 浏览器及性能
-  - 谈一下你所知道的页面性能优化方法？
-    - 这些优化方法背后的原理是什么？
-    - 除了这些常规的，你还了解什么最新的方法么？
-  - 如何分析页面性能？
+把脚本放在底部， 加快渲染页面
+文件名添加哈希， http 强缓存静态文件
+按需加载组件
+资源压缩合并，减少 HTTP 请求，开启 gzip 压缩
+清除不必要的 cookie， 设置好合适的域
+把静态资源放在不含 cookie 的域下
+非核心代码的异步加载
+DNS 预解析 ？？？
+
+### code split
+
+1. vue-router 中的通过 webpack 的 `() => import` or `require.ensure` API 能够自动进行代码分割
+2. 通过 analyzer 进行分析 js 包的大小，webpack 中的 externals 能够拆分包，通过外链 cdn 的形式引入
+
+### 首屏时间
+
+如何计算？
+
+### 页面性能
+
+如何分析页面性能？
+
+performance API 的哪些指标？
 
 ### vue-lazy 的原理
 
@@ -633,8 +651,7 @@ getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
 手写一个事件类
 全文单词首字母大写（正则）
 手写的 ajax
-
-### 手写 Promise
+手写 Promise
 
 ## 项目
 

@@ -292,8 +292,6 @@ MyPromise.prototype.then = function(onFulfilled, onRejected) {
   });
   ```
 
-以上就是简单版 `Promise` 实现，接下来一小节是实现完整版 `Promise` 的解析，相信看完完整版的你，一定会对于 `Promise` 的理解更上一层楼。
-
 ### 实现一个符合 Promise/A+ 规范的 Promise
 
 我们先来改造一下 `resolve` 和 `reject` 函数
@@ -1196,37 +1194,6 @@ Promise.all = function(iterators) {
 };
 ```
 
-```js
-Promise.all = function(promises) {
-  return new Promise((resolve, reject) => {
-    let index = 0;
-    let result = [];
-    if (promises.length === 0) {
-      resolve(result);
-    } else {
-      function processValue(i, data) {
-        result[i] = data;
-        if (++index === promises.length) {
-          resolve(result);
-        }
-      }
-      for (let i = 0; i < promises.length; i++) {
-        //promises[i] 可能是普通值
-        Promise.resolve(promises[i]).then(
-          data => {
-            processValue(i, data);
-          },
-          err => {
-            reject(err);
-            return;
-          },
-        );
-      }
-    }
-  });
-};
-```
-
 ### 实现 Promise.race
 
 在代码实现前，我们需要先了解 Promise.race 的特点：
@@ -1287,7 +1254,7 @@ Promise.myRace = function(iterators) {
 
 如果传入的实例中，有任一实例变为`fulfilled`，那么它返回的 promise 实例状态立即变为`fulfilled`；如果所有实例均变为`rejected`，那么它返回的 promise 实例状态为`rejected`。
 
-⚠️`Promise.all`与`Promise.any`的关系，类似于，`Array.prototype.every`和`Array.prototype.some`的关系。
+`Promise.all`与`Promise.any`的关系，类似于，`Array.prototype.every`和`Array.prototype.some`的关系。
 
 #### 代码实现
 
