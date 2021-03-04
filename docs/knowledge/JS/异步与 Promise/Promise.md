@@ -4,88 +4,15 @@ date: '2020-10-26'
 draft: true
 ---
 
-## Promise 的执行
-
-## 实现 Promise.all
-
-## JS 异步解决方案的发展历程以及优缺点。
-
-### 1. 回调函数
-
-**缺点：回调地狱，不能用 try catch 捕获错误，不能 return**
-
-### 2. Promise
-
-Promise 就是为了解决 callback 的问题而产生的。
-
-Promise 实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.resolve() 包装
-
-**优点：解决了回调地狱的问题**
-**缺点：无法取消 Promise ，错误需要通过回调函数来捕获**
-
-### 3. Generator
-
-**特点：可以控制函数的执行**，可以配合 co 函数库使用
-
-```js
-function* fetch() {
-  yield ajax('XXX1', () => {});
-  yield ajax('XXX2', () => {});
-  yield ajax('XXX3', () => {});
-}
-let it = fetch();
-let result1 = it.next();
-let result2 = it.next();
-let result3 = it.next();
-```
-
-### 4. Async/await
-
-async、await 是异步的终极解决方案
-
-**优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
-
-**缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
-
-```js
-let a = 0;
-let b = async () => {
-  a = a + (await 10);
-  console.log('2', a); // -> '2' 10
-};
-b();
-a++;
-console.log('1', a); // -> '1' 1
-// '1' 1
-// '2' 10
-```
-
-## Promise 概念
+## Promise
 
 Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。
 
 Promise 对象有以下两个特点。
 
-1. 对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Fulfilled（已成功）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
+1. 对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已成功）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
 
-2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Fulfilled 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
-
-依照 Promise/A+ 的定义，Promise 有三种状态：
-
-- pending: 初始状态, 进行中
-- resolved: 已完成
-- rejected: 已失败
-
-执行 new 的时候状态就开始变化。promise 对象身上有两个方法：then()，和 catch()。
-
-```js
-new Promise((resolve, reject) => {
-  console.log('promise 1');
-  resolve(1);
-});
-// promise 1
-// 说明 promise 构造函数是立即执行的。
-```
+2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
 
 Promise 新建后就会立即执行。
 
@@ -174,6 +101,45 @@ someAsyncThing()
 // carry on [ReferenceError: y is not defined]
 ```
 
+## JS 异步解决方案的发展历程以及优缺点
+
+### 1. 回调函数
+
+**缺点：回调地狱，不能用 try catch 捕获错误，不能 return**
+
+### 2. Promise
+
+Promise 就是为了解决 callback 的问题而产生的。
+
+Promise 实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.resolve() 包装
+
+**优点：解决了回调地狱的问题**
+**缺点：无法取消 Promise ，错误需要通过回调函数来捕获**
+
+### 3. Generator
+
+**特点：可以控制函数的执行**，可以配合 co 函数库使用
+
+```js
+function* fetch() {
+  yield ajax('XXX1', () => {});
+  yield ajax('XXX2', () => {});
+  yield ajax('XXX3', () => {});
+}
+let it = fetch();
+let result1 = it.next();
+let result2 = it.next();
+let result3 = it.next();
+```
+
+### 4. Async/await
+
+async、await 是异步的终极解决方案
+
+**优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
+
+**缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
+
 ## promise 场景题
 
 - 什么时候 promise 不会被销毁
@@ -181,19 +147,15 @@ someAsyncThing()
 - promise 什么情况会发生内存泄漏
 - Promise 中 .then 的第二参数与 .catch 有什么区别?
 
-## Promise
-
-### async/await
+## async/await
 
 async 是 ES2017 标准推出的用于处理异步操作的关键字，从本质上来说，它就是 Generator 函数的语法糖。
 
 async 函数内阻塞，函数外不阻塞。
 
-#### async 函数是什么，有什么作用？
+### async 函数是什么，有什么作用？
 
-`async`函数可以理解为内置自动执行器的`Generator`函数语法糖，它配合`ES6`的`Promise`近乎完美的实现了异步编程解决方案。
-
-Async/Await 就是一个自执行的 generate 函数。利用 generate 函数的特性把异步的代码写成“同步”的形式。
+Async/Await 就是一个自执行的 generate 函数。利用 Generator 函数的特性把异步的代码写成“同步”的形式。async/await 做的事情就是将 Generator 函数转换成 Promise。
 
 async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
 
@@ -218,9 +180,3 @@ console.log('1', a); // -> '1' 1
 - 然后后面就是常规执行代码了
 
 **async 函数可以保留运行堆栈。**
-
-#### async/await 原理
-
-虽然说 Generator 函数号称是解决异步回调问题，但却带来了一些麻烦，比如函数外部无法捕获异常，比如多个 yield 会导致调试困难。所以相较之下 Promise 是更优秀的异步解决方案。
-
-async/await 做的事情就是将 Generator 函数转换成 Promise。

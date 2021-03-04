@@ -1112,7 +1112,7 @@ Promise.reject = function(reason) {
 请看下面这段代码：
 
 ```js
-// 构造 Promise 时候, 内部函数立即执行
+// 构造 Promise 时候, 内部函数立即执行。
 new Promise((resolve, reject) => {
   console.log('new Promise');
   resolve('success');

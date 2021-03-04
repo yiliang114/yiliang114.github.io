@@ -208,42 +208,13 @@ this 的四种用法：
 3. 通过 apply.call.bind 方法调用，这是显示绑定，(call，apply 传参方式不同，都是立即执行，bind 不是立即执行，而是返回一个函数)
 4. 通过 new 绑定，最终指向的是 new 出来的对象
 
-优先级： new > 显示 > 隐式 > 默认
-
-### 普通函数和箭头函数的 this
-
-```js
-function fn() {
-  console.log(this); // 1. {a: 100}
-  var arr = [1, 2, 3];
-
-  (function() {
-    console.log(this); // 2. Window
-  })();
-
-  // 普通 JS
-  arr.map(function(item) {
-    console.log(this); // 3. Window
-    return item + 1;
-  });
-  // 箭头函数
-  let brr = arr.map(item => {
-    console.log('es6', this); // 4. {a: 100}
-    return item + 1;
-  });
-}
-fn.call({ a: 100 });
-```
-
-其实诀窍很简单，常见的基本是 3 种情况：es5 普通函数、es6 的箭头函数以及通过`bind`改变过上下文返回的新函数。
-
-① **es5 普通函数**：
+**es5 普通函数**：
 
 - 函数被直接调用，上下文一定是`window`
 - 函数作为对象属性被调用，例如：`obj.foo()`，上下文就是对象本身`obj`
 - 通过`new`调用，`this`绑定在返回的实例上
 
-② **es6 箭头函数**： 它本身没有`this`，会沿着作用域向上寻找，直到`global` / `window`。请看下面的这段代码：
+**es6 箭头函数**： 它本身没有`this`，会沿着作用域向上寻找，直到`global` / `window`。
 
 ```js
 function run() {
@@ -259,20 +230,9 @@ function run() {
 run.bind({ a: 1 })(); // Output: 1
 ```
 
-③ **bind 绑定上下文返回的新函数**：就是被第一个 bind 绑定的上下文，而且 bind 对“箭头函数”无效。请看下面的这段代码：
+**bind 绑定上下文返回的新函数**：就是被第一个 bind 绑定的上下文，而且 bind 对“箭头函数”无效。
 
-```js
-function run() {
-  console.log(this.a);
-}
-
-run.bind({ a: 1 })(); // output: 1
-
-// 多次bind，上下文由第一个bind的上下文决定
-run.bind({ a: 2 }).bind({ a: 1 })(); // output: 2
-```
-
-最后，再说说这几种方法的优先级：new > bind > 对象调用 > 直接调用
+优先级： new > 显示 > 隐式 > 默认
 
 ### apply、call 和 bind 的区别
 
@@ -281,20 +241,28 @@ run.bind({ a: 2 }).bind({ a: 1 })(); // output: 2
 
 ### JS 事件流
 
+#### DOM 事件流
+
+一个完整的事件流分三个阶段：捕获、目标阶段、冒泡。
+
 #### 事件冒泡和事件捕获
 
-事件流分为：**冒泡**和**捕获**，顺序是先捕获再冒泡。
+事件流分为：**冒泡**和**捕获**，顺序是先捕获再冒泡。冒泡是目标元素向上，捕获是从上往下。
 
-**事件冒泡**：子元素的触发事件会一直向父节点传递，一直到根结点停止。此过程中，可以在每个节点捕捉到相关事件。可以通过`stopPropagation`方法终止冒泡。
+**事件冒泡**：子元素的触发事件会一直向父节点传递，一直到根结点停止。此过程中，可以在每个节点捕捉到相关事件。可以通过 `stopPropagation` 方法终止冒泡。
 
 **事件捕获**：和“事件冒泡”相反，从根节点开始执行，一直向子节点传递，直到目标节点。
 
 `addEventListener`给出了第三个参数同时支持冒泡与捕获：默认是`false`，事件冒泡；设置为`true`时，是事件捕获。
 
-#### DOM0 级 和 DOM2 级
+#### 描述 DOM 事件捕获的具体流程
 
+捕获是从上到下的过程。 第一个接触到的对象是 window, 接着是 document, 再是 html 标签，接着是 body 元素，再一层一层父级元素，最后到目标元素。获取 body 标签 `document.body` ， 或者 html 标签 `document.documentElement`.
+
+#### DOM 事件的级别
+
+**DOM3 级**：增加了很多事件类型
 **DOM2 级**：前面说的`addEventListener`，它定义了`DOM`事件流，捕获 + 冒泡。
-
 **DOM0 级**：
 
 - 直接在 html 标签内绑定`on`事件
@@ -307,69 +275,24 @@ run.bind({ a: 2 }).bind({ a: 1 })(); // output: 2
 3. 冒泡 + 捕获：相当于每个节点同一个事件，至少 2 次处理机会
 4. 同一类事件，可以绑定多个函数
 
-#### DOM 事件的级别
-
-1. DOM0
-
-   ```
-   element.onclick = function(){}
-   ```
-
-2. DOM2
-
-   ```
-   element.addEventListener('click', function(){}, flase) // bool 指定冒泡还是捕获
-   ```
-
-3. DOM3
-
-   ```
-   element.addEventListener('keyup', function(){}, false) // dom3 增加了很多事件类型
-   ```
-
-#### DOM 事件模型
-
-指的就是冒泡和捕获。冒泡是目标元素向上，捕获是从上往下
-
-#### DOM 事件流
-
-事件流是一个事件发生之后如何进行传递的过程。一个完整的事件流分三个阶段：捕获、目标阶段、冒泡。
-
-#### 描述 DOM 事件捕获的具体流程
-
-捕获是从上到下的过程。 第一个接触到的对象是 window, 接着是 document, 再是 html 标签，接着是 body 元素，再一层一层父级元素，最后到目标元素。获取 body 标签 `document.body` ， 或者 html 标签 `document.documentElement`.
-
 #### Event 对象的常见应用
 
-```
-event.preventDefault() // 阻止默认事件，比如阻止 a 标签的跳转行为
+```js
+event.preventDefault(); // 阻止默认事件，比如阻止 a 标签的跳转行为
+event.stopPropagation(); // 阻止冒泡。
 
-event.stopPropagation() // 阻止冒泡。
-
-event.stopImmediatePropagation() // 如果一个对象绑定了两个函数，一般来说两个函数会被依次执行。 如果在回调函数 A 中调用 stopImmediatePropagation 之后就不会再执行回调函数 B 了。
+event.stopImmediatePropagation(); // 如果一个对象绑定了两个函数，一般来说两个函数会被依次执行。 如果在回调函数 A 中调用 stopImmediatePropagation 之后就不会再执行回调函数 B 了。
 
 // 事件委托（代理） 只做一次绑定。
-event.currentTarget // 当前绑定事件的元素
-event.target // 当前被点击的元素
+event.currentTarget; // 当前绑定事件的元素
+event.target; // 当前被点击的元素
 ```
 
-#### 自定义事件
-
-如何自定义事件， 自动触发。（ vue 里面以及普通 js 中 ？ ）
-
-```
-var evt = new Event('custom')
-// 在 dom 上注册事件
-element.addEventListener('custom', function(){
-	console.log('custom')
-})
-// 自定义触发事件
-element.dispatch('evt')
-```
-
-Event 和 CustomEvent 的用法都是一致的，不过后者可以在后面跟随一个 obj 传需要传的参数。
+#### 事件委托和使用
 
 ### Event Loop
+
+#### 浏览器事件循环模型
 
 #### 单线程
 
@@ -397,72 +320,23 @@ while (a) {
 2. 当执行栈的任务都执行完了（栈空），js 会读取任务队列，并将可以执行的任务从任务队列丢到执行栈中执行。
 3. 这个过程是循环进行，所以称作`Loop`。
 
+#### 微任务和宏任务
+
+什么是任务队列
+
+微任务和宏任务
+
+#### setTimeout
+
+setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s 后执行吗
+
 ### 异步 与 Promise
 
-- promise 解决的问题
-- promise 与事件循环，settimeout 以及 react 的下一次循环
-
-如果理解 js 的单线程
-什么是任务队列
-event-loop、事件委托和使用
-微任务和宏任务
 Promise 的执行顺序
 
 promise 出现的目的是解决回调地狱。
 
-普通的异步加载过程：
-
-```js
-function loadImg(src, callback, fail) {
-  var img = document.createElement('img')
-  img.onload = funciton() {
-    callback(img)
-  }
-  img.onerror = function() {
-    fail()
-  }
-  img.src = src
-}
-
-var src = 'https://xxx.jpg'
-loadImg(src, function(img) {
-  console.log(img.width)
-}, function() {
-  console.log('fail')
-})
-```
-
-promise 的语法：
-
-```js
-function loadImg(src) {
-  return new Promise((resolve, reject) => {
-    var img = document.createElement('img');
-    img.onload = function() {
-      resolve(img);
-    };
-    img.onerror = function() {
-      reject();
-    };
-    img.src = src;
-  });
-}
-var src =
-  'https://ss0.bdstatic.com/6KYTfyqn1Ah3otqbppnN2DJv/zheguilogo/8b83961cd845269d7a3677ef9efa0751_originalsize.jpeg';
-loadImg(src)
-  .then(
-    img => {
-      console.log(img.width);
-    },
-    () => {
-      console.log('fail');
-    },
-  )
-  .then(img => {
-    // promise 的链式调用，需要前面的 then 中 return 出值或者一个新的 promise
-    console.log(img);
-  });
-```
+promise 与事件循环，setTimeout
 
 ### 浅拷贝
 
@@ -479,44 +353,63 @@ loadImg(src)
 
 ### 跨域
 
-普通请求
+协议、端口、域名都一样才是同源
 
-跨域解决方案
+跨域限制范围
 
-#### 什么是同源策略及限制
-
-协议、端口、域名有一个不一样就是不同源
+- `Cookie`、`LocalStorage`和`IndexDB`无法获取。
+- 无法获取和操作`DOM`。
+- 不能发送`ajax`请求。我们要注意，`ajax`只适合**同源**的通信。
 
 #### 跨域通信的几种方式
 
 1. JSONP
-
-2. Hash url 中 ## 号后面的内容， hash 修改页面不刷新， search 修改会刷新页面
-
-   利用 window.onhashChange 获取修改的 hash
-
-3. postMessage （HTML5 新增）
-
+2. Hash url 中 ## 号后面的内容， hash 修改页面不刷新，利用 window.onhashChange 获取修改的 hash
+3. postMessage
 4. WebSocket
+5. 通过修改 `document.domain` 来跨子域
+6. 使用 `window.name` 来进行跨域
+7. CORS （添加 http 请求头允许跨域通信）
 
-5. CORS （添加 http 请求头允许跨域通信）
+#### CORS
 
-跨域脚本攻击
+主要的字段
+
+- Access-Control-Allow-Origin
+- Access-Control-Allow-Credentials
+- Access-Control-Allow-Methods
+- Access-Control-Allow-Headers 实际请求将携带的自定义请求首部字段
+- Access-Control-Max-Age 用来指定本次预检请求的有效期，单位为秒。
+
+#### Options 请求
+
+第一次发送了一个 Options 请求，询问服务器是否支持修改的请求头，如果服务器支持，则在第二次中发送真正的请求。
+
+#### 简单请求
+
+请求方式使用下列方法之一：
+
+- GET
+- HEAD
+- POST
+
+Content-Type 的值仅限于下列三者之一：
+
+- text/plain
+- multipart/form-data
+- application/x-www-form-urlencoded
+
+对于简单请求，浏览器会直接发送 CORS 请求，具体说来就是在 header 中加入 origin 请求头字段。同样，在响应头中，返回服务器设置的相关 CORS 头部字段，Access-Control-Allow-Origin 字段为允许跨域请求的源。
 
 ### Proxy
-
-### 错误监控
 
 ### 模块化
 
 CommonJS 和 ES Module 区别，amd cmd， seajs 是什么，seajs 如何加载 vuejs 的项目
 
-### 其他
+### 正向代理反向代理
 
-getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
-
-浏览器兼容性举例
-正向代理反向代理
+### 错误监控
 
 ## CSS
 
@@ -526,44 +419,30 @@ flex
 CSS 设置高度等于宽度的 3/4
 rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
 margin 的合并 高度塌陷的问题，如何解决
-bfc
+BFC
+清除浮动
 纯 css 换行
 
 ## 网络
 
-HTTP 强缓存和协商缓存，以及怎么设置
-三次握手、四次挥手。三次握手为什么第二次握手时需要发送多一个 SYN 包
+cookie
 http2.0 新特性
 https 是什么，有点缺点
-常见状态码 200 和 304
-post 与 get
-url 输入到显示的过程
+
 浏览器页面渲染的流程是什么
-cookie
-HTTP 请求头的组成
+
 websocket 的使用场景
 
-### 前后端如何进行通信
+### HTTP 报文的组成部分
 
-ajax （同源下的策略）
-websocket （不限制是否同源）
-cors （支持跨域通信也支持跨域通信）
-
-### HTTP 协议类
-
-#### HTTP 协议的主要特点
-
-简单快速、灵活、无连接、无状态（后面两个重要）
-
-#### HTTP 报文的组成部分
-
-http 就是建立在 tcp 连接之上的应用（层？）http 报文是由请求报文和相应报文组成的。
+http 就是建立在 tcp 连接之上的应用层, http 报文是由请求报文和相应报文组成的。
 
 请求报文：
 
-    1. 请求行。请求行包含 http 方法，页面地址，http 协议以及版本
-
-2. 请求头。 一些 key-value 值告诉服务端需要什么内容 3. 空行。分离请求头和请求体 4. 请求体
+1. 请求行。请求行包含 http 方法，页面地址，http 协议以及版本
+2. 请求头。 一些 key-value 值告诉服务端需要什么内容
+3. 空行。分离请求头和请求体
+4. 请求体
 
 响应报文：
 
@@ -572,13 +451,11 @@ http 就是建立在 tcp 连接之上的应用（层？）http 报文是由请�
 3. 空行
 4. 响应体
 
-#### HTTP 方法
+### HTTP 方法
 
-GET, POST, PUT, DELETE, HEAD
+GET, POST, PUT, DELETE, HEAD. HEAD 方法用于获取报文首部
 
-HEAD 方法用于获取报文首部
-
-#### POST 和 GET 的区别
+### POST 和 GET 的区别
 
 1. GET 在浏览器回退时是无害的，而 POST 会再次提交请求 （记）
 2. GET 产生的 URL 地址可以被收藏，而 POST 不可以
@@ -591,7 +468,7 @@ HEAD 方法用于获取报文首部
 8. GET 比 POST 更不安全，因为参数直接暴露在 URL 上，所以不能用来传入敏感信息
 9. GET 参数通过 URL 传递，POST 放在 Request Body 中 （记）
 
-#### HTTP 状态码
+### HTTP 状态码
 
 1xx: 指示信息
 2xx: 成功 200 206
@@ -599,11 +476,30 @@ HEAD 方法用于获取报文首部
 4xx: 客户端错误 400 401 未授权 403 资源禁止被访问 404 资源不存在
 5xx: 服务端错误 500 503
 
-#### 什么是持久连接
+### 输入一个 url 的过程
 
-我们知道 HTTP 协议采用“请求-应答”模式，当使用普通模式，即非 Keep-Alive 模式时，每个请求/应答客户和服务器都要新建一个连接，完成之后立即断开连接（HTTP 协议为无连接的协议）；当使用 Keep-Alive 模式（又称持久连接、连接重用）时，Keep-Alive 功能使客户端到服务器端的连接持续有效，当出现对服务器的后继请求时，Keep-Alive 功能避免了建立或者重新建立连接。
+首先是查找浏览器缓存, 浏览器会缓存 DNS 记录一段时间。系统缓存 如果在浏览器缓存里没有找到需要的记录，浏览器会做一个系统调用来查找这个网址的对应 DNS 信息。 路由器缓存 如果在系统缓存里没有找到找到对应的 IP，请求会发向路由器，它一般会有自己的 DNS 缓存。
 
-http 1.1 之后支持
+1. 浏览器查找该域名的 IP 地址
+2. 浏览器根据解析得到的 IP 地址向 web 服务器发送一个 HTTP 请求
+3. 服务器收到请求并进行处理
+4. 服务器返回一个响应
+5. 浏览器对该响应进行解码，渲染显示。
+6. 页面显示完成后，浏览器发送异步请求。
+
+从 HTTP 请求回来 ，产生流式的数据，DOM 的构建、CSS 计算、渲染、绘制，都是尽可能的流式处理前一步的产出，不需要等待上一步完全接受才开始处理，所以我们在浏览网页的时候，才会逐步出现页面
+
+浏览器的工作流程大致就是：构建 DOM 树-构建 CSSOM-构建渲染树-布局-绘制
+
+### 缓存
+
+HTTP 强缓存和协商缓存，以及怎么设置
+
+### 前后端如何进行通信
+
+ajax （同源下的策略）
+websocket （不限制是否同源）
+cors （支持跨域通信也支持跨域通信）
 
 ### TCP 三次握手
 
@@ -622,20 +518,11 @@ http 1.1 之后支持
 3. 被动关闭方发送一个 FIN 包，告诉对方不再发送数据
 4. 主动关闭方收到 FIN 包之后，发送一个 ACK 包给对方，确认序号为收到序号+1，至此完成四次挥手
 
-### 输入一个 url 的过程
+### 持久连接 Keep-Alive
 
-首先是查找浏览器缓存, 浏览器会缓存 DNS 记录一段时间。系统缓存 如果在浏览器缓存里没有找到需要的记录，浏览器会做一个系统调用来查找这个网址的对应 DNS 信息。 路由器缓存 如果在系统缓存里没有找到找到对应的 IP，请求会发向路由器，它一般会有自己的 DNS 缓存。
+我们知道 HTTP 协议采用“请求-应答”模式，当使用普通模式，即非 Keep-Alive 模式时，每个请求/应答客户和服务器都要新建一个连接，完成之后立即断开连接（HTTP 协议为无连接的协议）；当使用 Keep-Alive 模式（又称持久连接、连接重用）时，Keep-Alive 功能使客户端到服务器端的连接持续有效，当出现对服务器的后继请求时，Keep-Alive 功能避免了建立或者重新建立连接。
 
-1. 浏览器查找该域名的 IP 地址
-2. 浏览器根据解析得到的 IP 地址向 web 服务器发送一个 HTTP 请求
-3. 服务器收到请求并进行处理
-4. 服务器返回一个响应
-5. 浏览器对该响应进行解码，渲染显示。
-6. 页面显示完成后，浏览器发送异步请求。
-
-从 HTTP 请求回来 ，产生流式的数据，DOM 的构建、CSS 计算、渲染、绘制，都是尽可能的流式处理前一步的产出，不需要等待上一步完全接受才开始处理，所以我们在浏览网页的时候，才会逐步出现页面
-
-浏览器的工作流程大致就是：构建 DOM 树-构建 CSSOM-构建渲染树-布局-绘制
+http 1.1 之后支持
 
 ## 框架(Vue)
 
@@ -647,9 +534,9 @@ vue.js 和 react.js 异同点，如果让你选框架，你怎么怎么权衡这
 计算属性是如何做到属性值改变才重新计算（缓存）
 Vue 的生命周期
 vue 数据(事件)更新机制
-vue 双向绑定
 vue-router 的监听原理
 vuex 的原理 ？对 vuex 的理解
+几种通信原理
 
 为什么 for 循环的 id 不能使用 index
 diff 算法
@@ -657,7 +544,6 @@ diff 算法
 router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
 
 vue 如何实现代码的复用
-几种通信原理
 
 vue@2 与 vue@3 做了哪些升级
 vue@3 支持到什么版本
@@ -666,54 +552,37 @@ vite 的简单原理
 omiv 的原理
 omi 的简单原理
 
-### react
-
-- 绑定 this
-- setState
-- 事件原理， 冒泡、捕获
-- hooks
-- diff 原理
-- fiber
-
 ## 前端安全
 
-1. CSRF
+### CSRF
 
-   跨站请求伪造。条件： 1. 用户在 A 网站确实登录过。 2. A 网站接口存在漏洞，会下发登录态。
+跨站请求伪造。条件： 1. 用户在 A 网站确实登录过。 2. A 网站接口存在漏洞，会下发登录态。
+防御：1. token 验证 2. Referer 验证（页面来源验证） 3. 隐藏令牌
 
-   防御：1. token 验证 2. Referer 验证（页面来源验证） 3. 隐藏令牌
-
-2. XSS
+### XSS
 
 ## 浏览器
 
-操作 DOM 比较耗费资源，请问怎么减少消耗
-简化操作 DOM 的 API 或者库
-VDOM
-setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s 后执行吗
-JS 延后加载， 怎么缩短 JS 的加载时间
-
-操作 DOM 树为什么比操作 VDOM 树要慢
-
-- sessionStorage , localStorage , cookie , Web Storage
-- 首次进入的时候，
-- 缓存
-- 请指出 document load 和 document ready 的区别
-- Doctype
-
-事件冒泡，捕获，事件代理
-浏览器事件循环
-跨域的几种方式，cors 的头，需要设置哪些
 什么是 DOCTYPE 及作用
-浏览器的渲染过程
-DOM 事件中 target 和 currentTarget 的区别
-重绘和回流
+请指出 document load 和 document ready 的区别
+
+操作 DOM 比较耗费资源，请问怎么减少消耗
+操作 DOM 树为什么比操作 VDOM 树要慢
+简化操作 DOM 的 API 或者库
+
+JS 延后加载， 怎么缩短 JS 的加载时间
 
 ### 渲染机制类
 
 解析 HTML 的过程
 加载 JS 和 CSS 会阻塞浏览器的渲染吗
 下载 JS 和 CSS 会阻塞吗### DOM 事件类
+浏览器的渲染过程
+重绘和回流
+
+### Web Storage
+
+sessionStorage , localStorage , cookie , Web Storage
 
 ## 工程化
 
@@ -752,6 +621,8 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 
 ### vue-lazy 的原理
 
+getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
+
 ### 虚拟列表实现的原理
 
 ## 手写代码
@@ -763,17 +634,10 @@ rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js
 全文单词首字母大写（正则）
 手写的 ajax
 
-### 手写的 ajax TODO:
-
-手写的 ajax 是否兼容 IE ， IE 下面的 ajax 与普通浏览器的 ajax 对象不一样
-
 ### 手写 Promise
 
 ## 项目
 
-说一下你项目中用到的技术栈，以及觉得得意和出色的点，以及让你头疼的点，怎么解决的。
-说一下项目中觉得可以改进的地方以及做的很优秀的地方？
-准备几个项目的难点以及解决方案
 介绍做过的项目
-遇到的问题以及解决方案
-性能优化的方案
+说一下你项目中用到的技术栈，做的出色的点，可以改进的地方，以及让你头疼的点，怎么解决的。
+遇到的问题，或者难点以及解决方案

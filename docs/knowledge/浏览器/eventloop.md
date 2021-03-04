@@ -27,7 +27,7 @@ draft: true
 - 常见的 macro-task 比如：setTimeout、setInterval、setImmediate、script（整体代码）、 I/O 操作、UI 渲染等。
 - 常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5 新特性)、process.nextTick 等。
 
-因为 Promise 属于微任务，setTimeout 属于宏任务。所以这也就是为什么 `setTimeout` 会比 `Promise` 后执行，明明代码写在 `Promise` 之前。
+因为 Promise 属于微任务，setTimeout 属于宏任务。
 
 ### 浏览器中的 Event Loop
 
@@ -64,8 +64,7 @@ console.log('script end');
 // script start => async2 end => Promise => script end => promise1 => promise2 => async1 end => setTimeout
 ```
 
-> 注意：新的浏览器中不是如上打印的，因为 await 变快了，具体内容可以往下看
-> 以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务
+虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务
 
 首先先来解释下上述代码的 `async` 和 `await` 的执行顺序。当我们调用 `async1` 函数时，会马上输出 `async2 end`，并且函数返回一个 `Promise`，接下来在遇到 `await`的时候会就让出线程开始执行 `async1` 外的代码，所以我们完全可以把 `await` 看成是**让出线程**的标志。
 
@@ -93,8 +92,6 @@ new Promise((resolve, reject) => {
 - 执行所有微任务
 - 当执行完所有微任务后，如有必要会渲染页面
 - 然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是 `setTimeout` 中的回调函数
-
-所以以上代码虽然 `setTimeout` 写在 `Promise` 之前，但是因为 `Promise` 属于微任务而 `setTimeout` 属于宏任务，所以会有以上的打印。
 
 微任务包括 `process.nextTick` ，`promise` ，`MutationObserver`。
 
