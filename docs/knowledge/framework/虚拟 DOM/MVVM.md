@@ -102,11 +102,11 @@ function clickChange() {
   var obj = {};
 
   const newObj = new Proxy(obj, {
-    get: function(target, key, receiver) {
+    get: function (target, key, receiver) {
       console.log(`getting ${key}!`);
       return Reflect.get(target, key, receiver);
     },
-    set: function(target, key, value, receiver) {
+    set: function (target, key, value, receiver) {
       console.log('setting', target, key, value, receiver);
       if (key === 'text') {
         model.value = value;
@@ -116,7 +116,7 @@ function clickChange() {
     },
   });
 
-  model.addEventListener('keyup', function(e) {
+  model.addEventListener('keyup', function (e) {
     newObj.text = e.target.value;
   });
 </script>

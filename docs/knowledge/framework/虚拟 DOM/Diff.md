@@ -231,7 +231,7 @@ function Element(tagName, props, children) {
   this.props = props;
   this.children = children;
 }
-module.exports = function(tagName, props, children) {
+module.exports = function (tagName, props, children) {
   return new Element(tagName, props, children);
 };
 ```
@@ -255,7 +255,7 @@ var ul = el('ul', { id: 'list' }, [
 ：
 
 ```js
-Element.prototype.render = function() {
+Element.prototype.render = function () {
   // 根据tagName创建一个真实的元素
   var el = document.createElement(this.tagName);
   // 得到这个元素的属性对象，方便我们遍历。
@@ -273,7 +273,7 @@ Element.prototype.render = function() {
   var children = this.children || [];
 
   //遍历children
-  children.forEach(function(child) {
+  children.forEach(function (child) {
     var childEl = child instanceof Element ? child.render() : document.createTextNode(child);
     // 无论childEl是元素还是文字节点，都需要添加到这个元素中。
     el.appendChild(childEl);
@@ -524,7 +524,7 @@ applyPatches，根据不同类型的差异对当前节点进行 DOM 操作：
 
 ```js
 function applyPatches(node, currentPatches) {
-  currentPatches.forEach(function(currentPatch) {
+  currentPatches.forEach(function (currentPatch) {
     switch (currentPatch.type) {
       case REPLACE:
         node.parentNode.replaceChild(currentPatch.node.render(), node);

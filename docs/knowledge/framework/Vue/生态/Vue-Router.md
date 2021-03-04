@@ -15,7 +15,7 @@ Vue computed 和 watch 区别
 
 ```js
 export function initUse(Vue: GlobalAPI) {
-  Vue.use = function(plugin: Function | Object) {
+  Vue.use = function (plugin: Function | Object) {
     // 判断重复安装插件
     const installedPlugins = this._installedPlugins || (this._installedPlugins = []);
     if (installedPlugins.indexOf(plugin) > -1) {

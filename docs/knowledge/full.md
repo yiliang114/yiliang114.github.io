@@ -84,7 +84,7 @@ function instanceof(left, right) {
 function Animal(species) {
   this.species = species;
 }
-Animal.prototype.func = function() {
+Animal.prototype.func = function () {
   console.log('Animal');
 };
 
@@ -92,7 +92,7 @@ function Cat() {}
 /**
  * func 方法是无效的, 因为后面原型链被重新指向了 Animal 实例
  */
-Cat.prototype.func = function() {
+Cat.prototype.func = function () {
   console.log('Cat');
 };
 
@@ -108,7 +108,7 @@ Cat.prototype.constructor = Cat; // 修复: 将 Cat.prototype.constructor 重新
 function Animal(species) {
   this.species = species;
 }
-Animal.prototype.func = function() {
+Animal.prototype.func = function () {
   console.log('Animal');
 };
 
@@ -142,7 +142,7 @@ function inheritPrototype(Sub, Parent) {
 function Animal(species) {
   this.species = species;
 }
-Animal.prototype.func = function() {
+Animal.prototype.func = function () {
   console.log('Animal');
 };
 
@@ -300,7 +300,7 @@ event.target; // 当前被点击的元素
 
 ```js
 var a = true;
-setTimeout(function() {
+setTimeout(function () {
   a = false;
 }, 100);
 while (a) {
@@ -401,8 +401,6 @@ Content-Type 的值仅限于下列三者之一：
 - application/x-www-form-urlencoded
 
 对于简单请求，浏览器会直接发送 CORS 请求，具体说来就是在 header 中加入 origin 请求头字段。同样，在响应头中，返回服务器设置的相关 CORS 头部字段，Access-Control-Allow-Origin 字段为允许跨域请求的源。
-
-### Proxy
 
 ### 模块化
 
@@ -529,31 +527,191 @@ http 1.1 之后支持
 
 ## 框架(Vue)
 
-对 MVC MVP MVVM 的了解
-什么是 vdom 为什么要使用 vdom
+### MVVM
 
-vue.js 和 react.js 异同点，如果让你选框架，你怎么怎么权衡这两个框架，分析一下。
-响应式
-计算属性是如何做到属性值改变才重新计算（缓存）
-Vue 的生命周期
-vue 数据(事件)更新机制
-vue-router 的监听原理
-vuex 的原理 ？对 vuex 的理解
-几种通信原理
+- `View`：界面
+- `Model`：数据模型
+- `ViewModel`：作为桥梁负责沟通 `View` 和 `Model`
 
-为什么 for 循环的 id 不能使用 index
-diff 算法
+在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。
 
-router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+### vdom
 
-vue 如何实现代码的复用
+vdom 是对类似 HTML 节点的一层描述。采用 Virtual DOM 则会对需要修改的 DOM 进行比较（DIFF），从而只选择需要修改的部分。也因此对于不需要大量修改 DOM 的应用来说，采用 Virtual DOM 并不会有优势。
 
-vue@2 与 vue@3 做了哪些升级
-vue@3 支持到什么版本
+### vue 为什么采用 vdom？
 
-vite 的简单原理
-omiv 的原理
-omi 的简单原理
+引入 `Virtual DOM` 在性能方面的考量仅仅是一方面。
+
+- 性能受场景的影响是非常大的，不同的场景可能造成不同实现方案之间成倍的性能差距，所以依赖细粒度绑定及 `Virtual DOM` 哪个的性能更好还真不是一个容易下定论的问题。
+- `Vue` 之所以引入了 `Virtual DOM`，更重要的原因是为了解耦 `HTML`依赖，这带来两个非常重要的好处是：
+
+> - 不再依赖 `HTML` 解析器进行模版解析，可以进行更多的 `AOT` 工作提高运行时效率：通过模版 `AOT` 编译，`Vue` 的运行时体积可以进一步压缩，运行时效率可以进一步提升；
+> - 可以渲染到 `DOM` 以外的平台，实现 `SSR`、同构渲染这些高级特性，`Weex`等框架应用的就是这一特性。
+
+综上，`Virtual DOM` 在性能上的收益并不是最主要的，更重要的是它使得 `Vue` 具备了现代框架应有的高级特性。
+
+### Vue 和 React 之间的区别
+
+1. 数据 Vue 双向绑定， React 单向数据流。
+2. Vue 默认使用 template 模板，React 使用 JSX。
+3. 改变数据方式不同，Vue 直接修改状态，React 需要使用 `setState` 来改变状态。Vue 页面更新渲染已经是最优的了，但是 React 还是需要用户手动去优化这方面的问题。
+4. 开发模式：React 在 view 层侵入性还是要比 Vue 大很多的,React 严格上只针对 MVC 的 view 层，Vue 则是 MVVM 模式的一种实现
+
+### 几种实现双向绑定的做法
+
+- 发布者-订阅者模式（backbone.js）
+- 脏检查 (angular.js)
+- 数据劫持（vue.js） 是采用数据劫持结合发布者-订阅者模式的方式，通过`Object.defineProperty()`来劫持各个属性的`setter`，`getter`，在数据变动时发布消息给订阅者，触发相应的监听回调。
+
+#### Object.defineProperty
+
+属性描述符包括：configurable(可配置性相当于属性的总开关，只有为 true 时才能设置，而且不可逆)、Writable(是否可写，为 false 时将不能够修改属性的值)、Enumerable(是否可枚举，为 false 时 for..in 以及 Object.keys()将不能枚举出该属性)、get(一个给属性提供 getter 的方法)、set(一个给属性提供 setter 的方法)
+
+```js
+var o = { name: 'vue' };
+Object.defineProperty(o, 'age', {
+  value: 3,
+  writable: true, //可以修改属性a的值
+  enumerable: true, //能够在for..in或者Object.keys()中枚举
+  configurable: true, //可以配置
+});
+```
+
+### Vue 的响应式
+
+1. 需要 observe 的数据对象进行递归遍历，包括子属性对象的属性，都加上 setter 和 getter 这样的话，给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化。
+2. compile 解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图
+3. Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁，主要做的事情是:
+   1. 在自身实例化时往属性订阅器(dep)里面添加自己
+   2. 自身必须有一个 update()方法
+   3. 待属性变动 dep.notify()通知时，能调用自身的 update() 方法，并触发 Compile 中绑定的回调，则功成身退。
+4. MVVM 作为数据绑定的入口，整合 Observer、Compile 和 Watcher 三者，通过 Observer 来监听自己的 model 数据变化，通过 Compile 来解析编译模板指令，最终利用 Watcher 搭起 Observer 和 Compile 之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据 model 变更的双向绑定效果。
+
+### 计算属性是如何做到属性值改变才重新计算（缓存）
+
+1. 初始化 props 和 data， 使用 `Object.defineProperty` 把这些属性全部转为 `getter/setter`。
+2. 初始化 `computed`, 遍历 `computed` 里的每个属性，每个 computed 属性都是一个 watch 实例。每个属性提供的函数作为属性的 getter，使用 Object.defineProperty 转化。
+3. `Object.defineProperty getter` 依赖收集。用于依赖发生变化时，触发属性重新计算。
+4. 若出现当前 computed 计算属性嵌套其他 computed 计算属性时，先进行其他的依赖收集
+
+### diff 算法
+
+- 同个节点，会用 patch 进行打补丁操作
+- 不同节点，会进行 insert 和 delete 操作
+- 判断为一样的类型
+  - key
+  - tag
+  - 如果是 input 标签的话，需要 type 也一样。
+
+### 为什么 for 循环的 id 不能使用 index
+
+key 的作用是让 vue 精准的追踪到每一个元素，高效的更新虚拟 DOM。
+
+循环比较虚拟 dom， 会一层一层进行遍历。
+
+通俗描述原因： 本来不一样的东西，现在变成一样了。。。。 因为 key 变成一样了，就判断是同个东西
+
+场景：
+
+1. 中间插入节点
+2. 中间删除节点
+
+会徒增很多的比较。
+
+### 异步更新队列
+
+vue 更新 dom 时是异步执行的。数据变化、更新是在主线程中同步执行的；在侦听到数据变化时，watcher 将数据变更存储到异步队列中，当本次数据变化，即主线成任务执行完毕，异步队列中的任务才会被执行（已去重）。
+
+### nextTick
+
+在 Vue 2.4 之前都是使用的 micro-task(微任务)，但是 micro-task(微任务) 的优先级过高，在某些情况下可能会出现比事件冒泡更快的情况，但如果都使用 macro-task(宏任务) 又可能会出现渲染的性能问题。所以在新版本中，会默认使用 micro-task(微任务)，但在特殊情况下会使用 macro-task(宏任务)，比如 v-on。
+
+### vue-router 的监听原理
+
+前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新。目前单页面使用的路由就只有两种实现方式
+
+- hash 模式
+- history 模式
+
+#### hash
+
+`www.test.com/#/` 就是 Hash URL，当 `#` 后面的哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
+
+#### history
+
+主要是两个 api:
+
+- pushState
+- popState
+
+执行 router.push(url) 的操作的时候，会执行 pushState(url) 这样的操作，直接更新一个状态。当用户做出浏览器动作时，比如点击后退按钮时会触发 `popState` 事件
+
+#### updateRoute
+
+执行 router.push(url) 的操作的时候， 会执行 updateRoute 函数， 通过一个全局 mixins 会执行 this.\_route = route 这样一个操作。因为 `_route` 是响应式的，router-view 组件内部使用到了这个值，所以就会重新执行 render 函数。
+
+### router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+
+1. 一个是 hash, 一个看起来像真实的路径
+2. hash 值不会被带到服务器上去
+3. push 的时候实现原理不一样
+   1. hash 模式的话，主要是将 location.hash = route.fullPath
+
+### vuex 的原理 ？对 vuex 的理解
+
+vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统。其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。
+
+vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件。
+
+vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
+
+### Vue 的父组件和子组件生命周期钩子执行顺序是什么
+
+父组建： beforeCreate -> created -> beforeMount
+子组件： -> beforeCreate -> created -> beforeMount -> mounted
+父组件： -> mounted
+总结：从外到内，再从内到外
+
+### 组件 keep-alive 的时候又是什么道理？
+
+直接将组件缓存在了内存中，而没有直接走入销毁阶段。
+
+### 几种通信原理
+
+#### 父子组件通信
+
+1. emit/props
+2. `$parent.xxx`
+3. provide/injected
+4. event bus
+5. Vuex
+
+#### 任意组件
+
+这种方式可以通过 Vuex 或者 Event Bus 解决，另外如果你不怕麻烦的话，可以使用这种方式解决上述所有的通信情况
+
+### vue@3 支持到什么版本
+
+### vue@2 与 vue@3 做了哪些升级
+
+1. 开发语言切换到 ts, 包使用 lerna 来管理。
+2. diff 算法优化，编译速度更快。vue2.x 的虚拟 DOM 是进行全量比较，vue3 新增了静态标记（PatchFlag）。
+3. 静态提升：vue2.x 无论元素是否参与更新，每次都会重新创新，然后渲染；vue3 中对于不参与更新的元素会做静态提升，只会创建一次，在渲染的时候复用即可。
+4. 包拆的更细，更小。用了 Tree-shaking， 没有用到的代码基本不会被打包进去。
+5. 引入了很多 hooks
+
+### Proxy
+
+### vite 的简单原理
+
+实现原理是利用 es6 的 import 发送请求去加载文件的特性，拦截这些请求，做一些预编译，省去 webpack 冗长的打包时间。
+
+1. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `@/`
+
+### omi 的简单原理
+
+### omiv 的原理
 
 ## 前端安全
 
@@ -610,6 +768,15 @@ webpack 的 loader
 vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。
 
 rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
+
+## 设计模式
+
+1. 单例模式很常用，比如全局缓存、全局状态管理等等这些只需要一个对象。在 Vuex 源码中，你也可以看到单例模式的使用，虽然它的实现方式不大一样，通过一个外部变量来控制只安装一次 Vuex
+2. 工厂模式，一个 Class 中包含另一个实现复杂的 Class。 起到的作用就是隐藏了创建实例的复杂度，只需要提供一个接口，简单清晰。
+3. 适配器模式，用来解决两个接口不兼容的情况，不需要改变已有的接口，通过包装一层的方式实现两个接口的正常协作。例如 Vue 中的 Computed 做的事情。
+4. 代理模式，代理是为了控制对对象的访问，不让外部直接访问到对象。
+5. 发布-订阅模式， Vue 的双向绑定。
+6. 观察者模式 ， Vue 的事件。
 
 ## 前端性能优化
 
