@@ -84,7 +84,7 @@ function instanceof(left, right) {
 function Animal(species) {
   this.species = species;
 }
-Animal.prototype.func = function () {
+Animal.prototype.func = function() {
   console.log('Animal');
 };
 
@@ -92,7 +92,7 @@ function Cat() {}
 /**
  * func 方法是无效的, 因为后面原型链被重新指向了 Animal 实例
  */
-Cat.prototype.func = function () {
+Cat.prototype.func = function() {
   console.log('Cat');
 };
 
@@ -108,7 +108,7 @@ Cat.prototype.constructor = Cat; // 修复: 将 Cat.prototype.constructor 重新
 function Animal(species) {
   this.species = species;
 }
-Animal.prototype.func = function () {
+Animal.prototype.func = function() {
   console.log('Animal');
 };
 
@@ -142,7 +142,7 @@ function inheritPrototype(Sub, Parent) {
 function Animal(species) {
   this.species = species;
 }
-Animal.prototype.func = function () {
+Animal.prototype.func = function() {
   console.log('Animal');
 };
 
@@ -292,15 +292,13 @@ event.target; // 当前被点击的元素
 
 ### Event Loop
 
-#### 浏览器事件循环模型
-
 #### 单线程
 
 > 题目：讲解下面代码的执行过程和结果。
 
 ```js
 var a = true;
-setTimeout(function () {
+setTimeout(function() {
   a = false;
 }, 100);
 while (a) {
@@ -409,30 +407,52 @@ Content-Type 的值仅限于下列三者之一：
 - **CommonJs**：主要用在服务器端 node.js，输出的是值拷贝。
 - **ES6 Module**：模块输出的是一个值的引用，编译时输出接口。
 
-### 正向代理反向代理
-
 ### 错误监控
 
 ## CSS
 
-CSS 盒模型， box-sizing。
-上下左右垂直居中
-flex
-CSS 设置高度等于宽度的 3/4
-rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
-margin 的合并 高度塌陷的问题，如何解决
-BFC
-清除浮动
-纯 css 换行
+### 盒模型
+
+盒模型包含： 内容(content)、填充(padding)、边界(margin)、 边框(border)。
+
+有两种盒模型， IE 盒子模型、标准 W3C 盒子模型；
+
+区 别： IE 盒子模型的 content 部分把 border 和 padding 计算了进去;
+
+box-sizing 的默认属性是 content-box。
+
+```css
+/* 设置当前盒子为 标准盒模型（默认） */
+box-sizing: content-box;
+
+/* 设置当前盒子为 IE盒模型 */
+box-sizing: border-box;
+```
+
+### 上下左右垂直居中
+
+### flex
+
+### rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
+
+### margin 的合并 高度塌陷的问题，如何解决
+
+### BFC
+
+### 清除浮动
 
 ## 网络
 
-http2.0 新特性
-https 是什么，有点缺点
+### http2.0 新特性
 
-浏览器页面渲染的流程是什么
+1. 二进制传输
+2. 多路复用
+3. Header 压缩
+4. 主动推送
 
-websocket 的使用场景
+### https 是什么，有点缺点
+
+HTTPS = HTTP + SSL
 
 ### HTTP 报文的组成部分
 
@@ -492,9 +512,37 @@ GET, POST, PUT, DELETE, HEAD. HEAD 方法用于获取报文首部
 
 浏览器的工作流程大致就是：构建 DOM 树-构建 CSSOM-构建渲染树-布局-绘制
 
-### 缓存
+### 强缓存和协商缓存
 
-HTTP 强缓存和协商缓存，以及怎么设置
+浏览器的三级缓存原理：
+
+1. 先去内存看，如果有，直接加载
+2. 如果内存没有，择取硬盘获取，如果有直接加载
+3. 如果硬盘也没有，那么就进行网络请求
+4. 加载到的资源缓存到硬盘和内存
+
+#### 强缓存 200 from cached
+
+Expires 值是时间点
+Cache-Control 值是 max-age: xxx（优先级更高）
+
+#### 协商缓存 304 Not Modified
+
+Last-Modified
+If-Modified-Since 值是二进制时间
+
+或者
+
+Etag
+If-None-Match 值是 hash 唯一标识串
+
+#### 为什么要有 Etag
+
+`HTTP1.1` 中 `Etag` 的出现主要是为了解决几个 `Last-Modified` 比较难解决的问题：
+
+- 一些文件也许会周期性的更改，但是内容并不改变(仅仅改变的修改时间)，这个时候我们并不希望客户端认为这个文件被修改了，而重新 GET；
+- 某些文件修改非常频繁，比如在秒以下的时间内进行修改，(比方说 1s 内修改了 N 次)，`If-Modified-Since` 能检查到的粒度是秒级的，使用 `Etag` 就能够保证这种需求下客户端在 1 秒内能刷新 N 次 cache。
+- 某些服务器不能精确的得到文件的最后修改时间。
 
 ### 前后端如何进行通信
 
@@ -707,13 +755,16 @@ vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组�
 
 实现原理是利用 es6 的 import 发送请求去加载文件的特性，拦截这些请求，做一些预编译，省去 webpack 冗长的打包时间。
 
-1. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `@/`
+1. node 进程托管静态资源请求
+2. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `@/`
+3. 解析模块的路径，在 node_modules 中读取 vue 的相关包，其中最主要的是 compiler-sfc
+4. 用 compiler-sfc 解析 vue 文件，会被拆成 template script 和 style 三个部分，template 会被编译成一个 render 函数，放在一个 \_\_script 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script，script 部分基本不变，style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。
 
-### omi 的简单原理
+<!-- ### omi 的简单原理 TODO
 
-### omiv 的原理
+### omiv 的原理 TODO -->
 
-## 前端安全
+## 前端安全 TODO:
 
 ### CSRF
 
@@ -726,11 +777,6 @@ vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组�
 
 什么是 DOCTYPE 及作用
 请指出 document load 和 document ready 的区别
-
-操作 DOM 比较耗费资源，请问怎么减少消耗
-操作 DOM 树为什么比操作 VDOM 树要慢
-简化操作 DOM 的 API 或者库
-
 JS 延后加载， 怎么缩短 JS 的加载时间
 
 ### Web Storage
@@ -741,7 +787,7 @@ sessionStorage , localStorage , cookie , Web Storage
 
 解析 HTML 的过程
 加载 JS 和 CSS 会阻塞浏览器的渲染吗
-下载 JS 和 CSS 会阻塞吗### DOM 事件类
+下载 JS 和 CSS 会阻塞吗
 浏览器的渲染过程
 重绘和回流
 
@@ -759,15 +805,21 @@ webpack 的 loader
 
 - 对 webpack 有了解吗？chunk、bundle 和 module 有什么区别
 
+#### webpack 打包慢
+
+1. 配置 externals
+2. 进阶方法 DllPlugin 和 DllReferencePlugin
+3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
+4. babel-loader 开启缓存
+5. 模块按需加载
+
 #### loader
 
 引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
 
-### rollup.js
+### rollup
 
-vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。
-
-rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
+vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
 
 ## 设计模式
 

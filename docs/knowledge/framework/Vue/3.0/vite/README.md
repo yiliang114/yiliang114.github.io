@@ -144,7 +144,7 @@ module.exports = function createServer() {
 const KoaStatic = require('koa-static');
 const path = require('path');
 
-module.exports = function (context) {
+module.exports = function(context) {
   const { app, root } = context;
   app.use(KoaStatic(root));
   app.use(KoaStatic(path.resolve(root, 'public')));
@@ -323,7 +323,7 @@ const resolvePlugins = [
 // moduleResolvePlugin.js
 const fs = require('fs').promises;
 const moduleReg = /^\/@modules\//;
-module.exports = function ({ app, root }) {
+module.exports = function({ app, root }) {
   const vueResolved = resolveVue(root); // 根据vite运行路径解析出所有vue相关模块
   app.use(async (ctx, next) => {
     if (!moduleReg.test(ctx.path)) {
@@ -418,7 +418,7 @@ const resolvePlugins = [
 const { readBody } = require('./utils');
 
 // 用于处理项目获取环境变量报错问题
-module.exports = function ({ root, app }) {
+module.exports = function({ root, app }) {
   const inject = `
         <script type='text/javasript'>
             window.process = {
@@ -484,7 +484,7 @@ function getCompilerPath(root) {
   // 通过package.json的main能够拿到相关模块的路径
   return path.join(path.dirname(compilerPkgPath), compilerPkg.main);
 }
-module.exports = function ({ app, root }) {
+module.exports = function({ app, root }) {
   app.use(async (ctx, next) => {
     const filepath = path.join(root, ctx.path);
     if (!ctx.path.endsWith('.vue')) {
@@ -578,7 +578,7 @@ if (ctx.query.type === 'style') {
 const { readBody } = require('./utils');
 
 // 用于处理项目获取环境变量报错问题
-module.exports = function ({ root, app }) {
+module.exports = function({ root, app }) {
   const inject = `
         <script type='text/javasript'>
             window.process = {
