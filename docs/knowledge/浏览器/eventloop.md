@@ -29,6 +29,23 @@ draft: true
 
 因为 Promise 属于微任务，setTimeout 属于宏任务。
 
+```js
+// 两个函数都会一直执行，卡死为止。
+function a() {
+  console.log('a');
+  setTimeout(a);
+}
+
+a();
+
+function b() {
+  console.log('b');
+  Promise.resolve().then(b);
+}
+
+b();
+```
+
 ### 浏览器中的 Event Loop
 
 不同的任务源会被分配到不同的 Task 队列中，任务源可以分为 **微任务**（micro-task） 和 **宏任务**（macro-task）。下面来看以下代码的执行顺序：
