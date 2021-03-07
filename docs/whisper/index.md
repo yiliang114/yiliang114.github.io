@@ -56,3 +56,7 @@ aside: false
 ## 2021.01.30
 
 - 世界不会因为你而改变，你要改变自己。
+
+## 2021.03.08
+
+- Time changes everything, that's what people say. It's not true. Doing things changes things. Not doing things leaves things exactly as they were.
