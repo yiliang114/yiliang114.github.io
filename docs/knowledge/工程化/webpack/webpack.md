@@ -61,6 +61,22 @@ draft: true
 7. 具有强大的 Plugin 接口，大多是内部插件，使用起来比较灵活
 8. webpack 使用异步 IO 并具有多级缓存。这使得 webpack 很快且在增量编译上更加快
 
+### webpack 打包速度
+
+生产模式：
+
+- 关闭 sourcemap (选择)
+- webpack 配置给 `optimization: { minimize: true }`
+- 添加 externals 分离出一些大的包，比如 vue
+
+开发模式：
+
+- 按需打包
+- babel-loader ts(x) 处理之后上层加一层 cache-loader 用来缓存
+- dll
+- happack
+- 开发环境去除所有跟 minimize, chunk 之类的配置
+
 ### 简单介绍一下 webpack
 
 ##### webpack 概念
@@ -658,3 +674,16 @@ optimization: {
     }
 }
 ```
+
+### tree sharking
+
+https://www.codenong.com/j5f0ea1785188252e4c4cfdc1/
+
+### webpack 去掉 console 和 debugger 的插件
+
+uglifyjs-webpack-plugin
+https://www.jianshu.com/p/d95fd59bbef8
+
+terser-webpack-plugin
+
+有啥不同

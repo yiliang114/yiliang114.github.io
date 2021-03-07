@@ -1099,6 +1099,24 @@ location 是 javascript 里边管理地址栏的内置对象，比如 location.h
 - window.hash
   hash 属性是一个可读可写的字符串，该字符串是 URL 的锚部分（从 # 号开始的部分）。
 
+### vue-router 的实现原理
+
+node 中的 router 是如何实现的
+
+router:
+
+- 两种模式
+- 传参，并且如何获取参数
+- vue 中的钩子函数和全局守卫函数
+- 权限架构设计
+- pv 埋点
+
+### router 的全局守卫
+
+可以放一个全局鉴权。但是需要注意的是， App.vue 的 mounted 和 created 执行的额时机都要比守卫函数执行的早 ？ App.vue 里面的逻辑应该有一部分不能被阻塞
+
+router.beforeEach 能否 async
+
 ## 常见问题
 
 ### $route 和 $router 的区别

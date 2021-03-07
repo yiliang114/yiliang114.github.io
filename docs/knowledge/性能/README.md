@@ -276,3 +276,7 @@ es6 以上不支持 uglify 需要压缩代码的话，要使用 babel 的 minify
 
   - http-equiv="x-dns-prefetch-control" content="on"
   - rel="dns-prefetch"
+
+### 减少页面的计算
+
+减少页面的计算，抽离功能函数，放到 node 层
