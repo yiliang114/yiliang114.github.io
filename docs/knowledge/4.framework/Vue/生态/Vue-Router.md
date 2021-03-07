@@ -15,7 +15,7 @@ Vue computed 和 watch 区别
 
 ```js
 export function initUse(Vue: GlobalAPI) {
-  Vue.use = function (plugin: Function | Object) {
+  Vue.use = function(plugin: Function | Object) {
     // 判断重复安装插件
     const installedPlugins = this._installedPlugins || (this._installedPlugins = []);
     if (installedPlugins.indexOf(plugin) > -1) {
@@ -1166,3 +1166,10 @@ history 模式下，前端的 URL 必须和实际向后端发起请求的 URL �
 ### vue 怎么实现页面的权限控制
 
 利用 vue-router 的 beforeEach 事件，可以在跳转页面前判断用户的权限（利用 cookie 或 token），是否能够进入此页面，如果不能则提示错误或重定向到其他页面，在后台管理系统中这种场景经常能遇到。
+
+### router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+
+1. 一个是 hash, 一个看起来像真实的路径
+2. hash 值不会被带到服务器上去
+3. push 的时候实现原理不一样
+   1. hash 模式的话，主要是将 location.hash = route.fullPath
