@@ -101,7 +101,7 @@ alert(1);
 - 只允许加载本站资源
 
   ```http
-  Content-Security-Policy: default-src ‘self’
+  Content-Security-Policy: default-src 'self'
   ```
 
 - 只允许加载 HTTPS 协议图片
