@@ -795,17 +795,20 @@ sessionStorage , localStorage , cookie , Web Storage
 
 ## 工程化
 
-webpack 的插件和 loader， 写过什么插件，怎么处理的？
-
-### webpack
-
-Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
-babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
+webpack, rollup 与 vite 之间的区别是什么
+webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
+webpack 打包速度过慢怎么办
 webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-webpack 的 loader
+webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
+babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
+chunk、bundle 和 module 有什么区别
 有没有去研究 webpack 的一些原理和机制，怎么实现的
 
-- 对 webpack 有了解吗？chunk、bundle 和 module 有什么区别
+### babel
+
+babel 是什么，做什么工作 ？
+Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
+plugin env stage 分别是什么，有什么作用？
 
 #### webpack 打包慢
 

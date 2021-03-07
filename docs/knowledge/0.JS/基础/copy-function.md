@@ -6,8 +6,6 @@ draft: true
 
 ### 浅拷贝
 
-只复制指向某个对象的指针，而不复制对象本身，新旧对象共享一块内存
-
 - `Object.assign`
 - 展开运算符 `...`
 - for 循环方式， 手动复制属性
@@ -22,13 +20,7 @@ function shallowCopy(p, c) {
 }
 ```
 
-#### 数组的浅拷贝
-
-```js
-const a1 = [1, 2];
-const a2 = a1.concat();
-const a3 = a1.slice();
-```
+数组的浅拷贝可以采用 `concat`, `slice` 以及 `...`
 
 ### 深拷贝
 
