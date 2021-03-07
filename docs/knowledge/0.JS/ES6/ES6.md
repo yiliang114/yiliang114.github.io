@@ -6,7 +6,7 @@ draft: true
 
 ### ES6 的新特性
 
-类的支持，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, for-of 遍历, generator, Map/Set, Promise
+Class，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, Map/Set, Promise
 
 ### Class
 
@@ -38,65 +38,7 @@ cat.says('hello'); //cat says hello
 
 #### Class 本质
 
-其实在 JS 中并不存在类，`class` 只是语法糖，本质还是函数。
-
-#### es6 class 的 new 实例和 es5 的 new 实例有什么区别？
-
-在`ES6`中（和`ES5`相比），`class`的`new`实例有以下特点：
-
-- `class`的构造参数必须是`new`来调用，不可以将其作为普通函数执行
-- `es6` 的`class`不存在变量提升
-- **最重要的是：es6 内部方法不可以枚举**。es5 的`prototype`上的方法可以枚举。
-
-### 箭头函数与普通函数的区别？
-
-- 简洁
-- 普通 function 的声明在变量提升中是最高的，箭头函数没有函数提升
-- 箭头函数没有属于自己的 this，arguments。
-  - function 传统定义的函数，this 指向随着调用环境的改变而改变，而箭头 函数中的指向则是固定不变，一直指向定义环境的。箭头函数在定义之后，this 就不会发生改变了。
-- 箭头函数不能作为构造函数，不能被 new，没有 prototype
-- call 和 apply 方法只有参数，没有作用域
-
-### 私有方法和私有属性
-
-#### 现有的解决方案
-
-私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。这是常见需求，有利于代码的封装，但 ES6 不提供，只能通过变通方法模拟实现。
-
-还有一种方法是利用**Symbol 值的唯一性**，将私有方法的名字命名为一个 Symbol 值。
-
-```js
-const bar = Symbol('bar');
-const snaf = Symbol('snaf');
-
-export default class myClass {
-  // 公有方法
-  foo(baz) {
-    this[bar](baz);
-  }
-
-  // 私有方法
-  [bar](baz) {
-    return (this[snaf] = baz);
-  }
-
-  // ...
-}
-```
-
-上面代码中，bar 和 snaf 都是 Symbol 值，一般情况下无法获取到它们，因此达到了私有方法和私有属性的效果。但是也不是绝对不行，Reflect.ownKeys()依然可以拿到它们。
-
-```js
-const inst = new myClass();
-
-Reflect.ownKeys(myClass.prototype);
-// [ 'constructor', 'foo', Symbol(bar) ]
-```
-
-### 数组扩展
-
-- **flat()**：扁平化数组，返回新数组
-- **flatMap()**：映射且扁平化数组，返回新数组(只能展开一层数组)
+在 JS 中并不存在类，`class` 只是语法糖，本质还是函数。
 
 ### Class
 
@@ -254,81 +196,63 @@ class Student extends MixClass(Person, Kid) {}
 
 ```
 
-### Iterator
+#### es6 class 的 new 实例和 es5 的 new 实例有什么区别？
 
-- 定义：为各种不同的数据结构提供统一的访问机制
-- 原理：创建一个指针指向首个成员，按照次序使用`next()`指向下一个成员，直接到结束位置(数据结构只要部署`Iterator接口`就可完成遍历操作)
-- 作用
-  - 为各种数据结构提供一个统一的简便的访问接口
-  - 使得数据结构成员能够按某种次序排列
-  - ES6 创造了新的遍历命令`for-of`，`Iterator接口`主要供`for-of`消费
-- 形式：`for-of`(自动去寻找 Iterator 接口)
-- 数据结构
-  - 集合：`Array`、`Object`、`Set`、`Map`
-  - 原生具备接口的数据结构：`String`、`Array`、`Set`、`Map`、`TypedArray`、`Arguments`、`NodeList`
-- 部署：默认部署在`Symbol.iterator`(具备此属性被认为`可遍历的iterable`)
-- 遍历器对象
-  - **next()**：下一步操作，返回`{ done, value }`(必须部署)
-  - **return()**：`for-of`提前退出调用，返回`{ done: true }`
-  - **throw()**：不使用，配合`Generator函数`使用
+在`ES6`中（和`ES5`相比），`class`的`new`实例有以下特点：
 
-> ForOf 循环
+- `class`的构造参数必须是`new`来调用，不可以将其作为普通函数执行
+- `es6` 的`class`不存在变量提升
+- **最重要的是：es6 内部方法不可以枚举**。es5 的`prototype`上的方法可以枚举。
 
-- 定义：调用`Iterator接口`产生遍历器对象(`for-of`内部调用数据结构的`Symbol.iterator()`)
+### 箭头函数与普通函数的区别？
 
-- 遍历字符串：`for-in`获取`索引`，`for-of`获取`值`(可识别 32 位 UTF-16 字符)
+- 简洁
+- 普通 function 的声明在变量提升中是最高的，箭头函数没有函数提升
+- 箭头函数没有属于自己的 this，arguments。
+  - function 传统定义的函数，this 指向随着调用环境的改变而改变，而箭头 函数中的指向则是固定不变，一直指向定义环境的。箭头函数在定义之后，this 就不会发生改变了。
+- 箭头函数不能作为构造函数，不能被 new，没有 prototype
+- call 和 apply 方法只有参数，没有作用域
 
-- 遍历数组：`for-in`获取`索引`，`for-of`获取`值`
+### 私有方法和私有属性
 
-- 遍历对象：`for-in`获取`键`，`for-of`需自行部署
+#### 现有的解决方案
 
-- 遍历 Set：`for-of`获取`值` => `for (const v of set)`
+私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。这是常见需求，有利于代码的封装，但 ES6 不提供，只能通过变通方法模拟实现。
 
-- 遍历 Map：`for-of`获取`键值对` => `for (const [k, v] of map)`
+还有一种方法是利用**Symbol 值的唯一性**，将私有方法的名字命名为一个 Symbol 值。
 
-- 遍历类数组：`包含length的对象`、`Arguments对象`、`NodeList对象`(无`Iterator接口的类数组`可用`Array.from()`转换)
+```js
+const bar = Symbol('bar');
+const snaf = Symbol('snaf');
 
-- 计算生成数据结构：
+export default class myClass {
+  // 公有方法
+  foo(baz) {
+    this[bar](baz);
+  }
 
-  ```
-  Array
-  ```
+  // 私有方法
+  [bar](baz) {
+    return (this[snaf] = baz);
+  }
 
-  、
+  // ...
+}
+```
 
-  ```
-  Set
-  ```
+上面代码中，bar 和 snaf 都是 Symbol 值，一般情况下无法获取到它们，因此达到了私有方法和私有属性的效果。但是也不是绝对不行，Reflect.ownKeys()依然可以拿到它们。
 
-  、
+```js
+const inst = new myClass();
 
-  ```
-  Map
-  ```
+Reflect.ownKeys(myClass.prototype);
+// [ 'constructor', 'foo', Symbol(bar) ]
+```
 
-  - **keys()**：返回遍历器对象，遍历所有的键
-  - **values()**：返回遍历器对象，遍历所有的值
-  - **entries()**：返回遍历器对象，遍历所有的键值对
+### 数组扩展
 
-- 与
-
-  ```
-  for-in
-  ```
-
-  区别
-
-  - 有着同`for-in`一样的简洁语法，但没有`for-in`那些缺点、
-  - 不同于`forEach()`，它可与`break`、`continue`和`return`配合使用
-  - 提供遍历所有数据结构的统一操作接口
-
-> 应用场景
-
-- 改写具有`Iterator接口`的数据结构的`Symbol.iterator`
-- 解构赋值：对 Set 进行结构
-- 扩展运算符：将部署`Iterator接口`的数据结构转为数组
-- yield*：`yield*`后跟一个可遍历的数据结构，会调用其遍历器接口
-- 接受数组作为参数的函数：`for-of`、`Array.from()`、`new Set()`、`new WeakSet()`、`new Map()`、`new WeakMap()`、`Promise.all()`、`Promise.race()`
+- **flat()**：扁平化数组，返回新数组
+- **flatMap()**：映射且扁平化数组，返回新数组(只能展开一层数组)
 
 ### 对象扩展
 

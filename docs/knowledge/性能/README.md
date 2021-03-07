@@ -10,43 +10,26 @@ draft: true
   - 尽量减少 HTTP 请求数
     - 合并文件
     - 雪碧图
-    - 小图 Base64
+    - 小图 Base64，图片小于 30k 的图片直接做成 base64；
   - 减少 DNS 查找
     - 开启 DNS 预解析
-  - 使用 CND 静态资源服务器
-  - 避免重定向
-  - 杜绝 404
+  - 使用 CDN 静态资源服务器
 - 缓存
-  - 配置 ETags
-    - 实体标签（ETags），是服务器和浏览器用来决定浏览器缓存中组件与源服务器中的组件是否匹配的一种机制
-  - 添上 Expires 或者 Cache-Control HTTP 头
+  - 添上协商缓存、强缓存等形式
   - 使用外链的方式引入 JS 和 CSS（缓存）
 - 内容部分
   - 按需加载组件
   - 预加载组件
-  - 减少 DOM 元素的数量
-  - 尽量少用 iframe
-  - 压缩 JavaScript 和 CSS（代码层面）
-- CSS 部分
-  - 避免使用 CSS 表达式
-  - 选择`<link>`而不是`@import`
-  - 避免使用滤镜
-  - 把样式表放在顶部
 - JS 部分
   - 把脚本放在底部， 加快渲染页面
-  - 去除重复脚本
-  - 减少 DOM 访问
   - 将脚本成组打包，减少请求
-  - 使用非阻塞方式下载 js 脚本， 异步加载等
+  - 使用非阻塞方式下载 js 脚本， 异步加载等。通过 preload prefetch 优化加载资源的时间
     - 动态脚本加载： 使用 JS 创建一个 script 标签再插入到页面中
     - defer（IE）：整个 HTML**解析完**后才会执行，如果是多个，按照加载顺序依次执行
     - async： **加载完**之后立即执行，如果是多个，执行和加载顺序无关
   - 大的文件使用 code split 进行切割，按需加载 js 文件
 - 图片部分
   - 选用合适的图片格式
-  - 雪碧图中间少留空白
-  - 不要用 HTML 缩放图片，要小图就去加载小图
-  - 用小的可缓存的 favicon.ico
   - 图片按需加载
 - 组件的按需加载，接口按需请求，code split
 - cookie
@@ -55,28 +38,11 @@ draft: true
     - cookie 尽可能小
     - 设置好合适的域
     - 合适的有效期
-  - 把静态资源放在不含 cookie 的域下
-    - 当浏览器发送对静态图像的请求时，cookie 也会一起发送，而服务器根本不需要这些 cookie。
-- 移动端
-  - 保证所有组件都小于 25K
-  - 把组件打包到一个复合文档里
+  - 把静态资源放在不含 cookie 的域下。当浏览器发送对静态图像的请求时，cookie 也会一起发送，而服务器根本不需要这些 cookie。
 - 服务器
   - 开启 Gzip 等压缩
-  - 避免图片 src 属性为空（为空浏览器也会向服务器发送另一个请求）
-  - 对 Ajax 用 GET 请求
-  - 尽早清空缓冲区
-  - 使用 CDN（内容分发网络）
-    - 内容分发网络（CDN）是一组分散在不同地理位置的 web 服务器，用来给用户更高效地发送内容。
-- 表格(table)布局改为 DIV + CSS
-- 减少代码间的耦合， 设计可扩展的 API， 复杂的计算不放在前端
-- 实现良好的页面效果， 比如 loading 和骨架屏等
-- vue 中 code spilt ，路由懒加载。
-- css，js 放置位置， 异步加载 js
-- 域名收敛和发散 也是一种优化
-- 最小化重绘(repaint)和回流(reflow)
 - webpack 开启 tree-shaking 减少代码体积
-- 图片小于 30k 的图片直接做成 base64；
-- 通过 preload prefetch 优化加载资源的时间
+  - vue 中 code spilt ，路由懒加载。
 
 ### 如何渲染几万条数据并不卡住界面
 
@@ -210,12 +176,6 @@ function preloadImg(url) {
 https://blog.csdn.net/baidu_35407267/article/details/77141871
 es6 以上不支持 uglify 需要压缩代码的话，要使用 babel 的 minify
 
-### react-loadable
-
-react-loadable 用来创建动态路由，能够根据路由进行 code spliting。
-
-但是，所有有切换状态的组件上，都使用 react-loadable 会造成 js 文件过多的问题么？
-
 ### 移动端性能优化
 
 - 尽量使用 css3 动画，开启硬件加速。
@@ -237,11 +197,6 @@ react-loadable 用来创建动态路由，能够根据路由进行 code spliting
 ```
 
 - 预渲染虽然可以提高页面的加载速度，但是要确保该页面百分百会被用户在之后打开，否则就白白浪费资源去渲染
-
-### Webworker
-
-- 执行 JS 代码过长会卡住渲染，对于需要很多时间计算的代码可以考虑使用 `Webworker`。`Webworker` 可以让我们另开一个线程执行脚本而不影响渲染。
-- Service Worker 缓存文件处理
 
 ### 代码层面
 
@@ -289,7 +244,6 @@ react-loadable 用来创建动态路由，能够根据路由进行 code spliting
 保证页面加载的流畅，提升页面性能的方法有哪些？
 
 - 资源压缩合并，减少 HTTP 请求，开启 gzip 压缩
-
 - 非核心代码的异步加载
 
   - 异步加载方式
@@ -301,21 +255,8 @@ react-loadable 用来创建动态路由，能够根据路由进行 code spliting
     - async 是在加载完之后立即执行，如果是多个，执行顺序和加载顺序无关，哪一个先加载完毕先执行
 
 - 利用浏览器缓存
-
-  - 缓存分类
-
-    - Expires
-    - Cache-control
-
-  - 缓存原理
-
-    - Last-Modified If-Modified-Since
-
-    - Etag If-None-Match
-
-* 使用 CDN
-
-* DNS 预解析(啥叫预解析？ 很多浏览器中（打开）的 a 标签的预解析开关，但是对于 https 的链接，默认是关闭的，打开的话提升性能)
+- 使用 CDN
+- DNS 预解析(啥叫预解析？ 很多浏览器中（打开）的 a 标签的预解析开关，但是对于 https 的链接，默认是关闭的，打开的话提升性能)
 
   - http-equiv="x-dns-prefetch-control" content="on"
   - rel="dns-prefetch"
