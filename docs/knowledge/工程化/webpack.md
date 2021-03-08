@@ -9,50 +9,39 @@ draft: true
 
 ### 简单介绍一下 webpack
 
-功能：
-
-1. 打包 js
-2. 加载图片，字体等资源
-3. 将 bundle.[hash].js 插入 html 中
-4. 清理旧的 dist 目录
-
-- webpack 的入口文件怎么配置，多个入口怎么分割。
-- webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-- webpack 的 loader 和 plugins 的区别
-- 有没有去研究 webpack 的一些原理和机制，怎么实现的。
-- gulp 和 webpack 有什么区别，为什么你要用 gulp?
-- webpack 的原理, loader 和 plugin 是干什么的? 有自己手写过么 ?
-- Rollup 和 webpack 区别, treeshaking 是什么?
-- 前缀的处理方式： webpack 插件 postcss
 - 入口怎么配置
 - 多页应用怎么进行配置
-- UglifyJsPlugin 压缩很慢，如何提高速度
-  - 缓存原理，压缩只重新压缩改变的，还有就是减少冗余的代码，压缩只用于生产阶段
-- js css 的编译，html 文件的打包
-- webpack-dev-server 的使用
-- 图片资源的处理
-- 代码分割，js 代码大小控制
-- 打包速度优化
+- webpack 的入口文件怎么配置，多个入口怎么分割。
+- 有没有去研究 webpack 的一些原理和机制，怎么实现的。
+- webpack 的工作原理。打包，sourcemap 等处理。
 - 如何批量引入组件，require.context
 - webpack 的劣势在哪里
-- sourcemap
-- webpack 常见的插件有哪一些
-- webpack 打包一个 bundlejs
-  https://www.jianshu.com/p/439764e3eff2
-  理念就是将所有的资源都当成了一个模块, CSS,Image, JS 字体文件 都是资源, 都可以打包到一个 bundle.js 文件中.
-
-- webpack 源码分析：<https://github.com/lihongxun945/diving-into-webpack>
-
+- 前端怎么实现模块化
+- 模块化工具的特点
+- 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
 - webpack 相关的配置
-- 配置原理。
-- webpack 打包去掉 console https://blog.csdn.net/neuq_zxy/article/details/78994349
-- loader 执行的顺序是从右往左的。 https://blog.csdn.net/chengnuo628/article/details/52475446/
-- rollup: 将小块的 js 打包成大的 js 包： https://www.cnblogs.com/tugenhua0707/p/8179686.html
-- webpack 打包 https://www.cnblogs.com/ssh-007/p/7944491.html
 
-##### webpack 概念
+### 谈谈你对 webpack 的看法
 
-> 本质上，webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，将项目当作一个整体，通过一个给定的的主文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包成一个或多个浏览器可识别的 js 文件
+本质上，webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，将项目当作一个整体，通过一个给定的的主文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包成一个或多个浏览器可识别的 js 文件。
+
+它能够很好地管理、打包 Web 开发中所用到的`HTML、Javascript、CSS`以及各种静态文件（图片、字体等），让开发过程更加高效。对于不同类型的资源，`webpack`有对应的模块加载器。`webpack`模块打包器会分析模块间的依赖关系，最后 生成了优化且合并后的静态资源。
+
+`webpack`的两大特色：
+
+1. code splitting（可以自动完成）
+2. loader 可以处理各种类型的静态文件，并且支持串联操作
+
+特性：
+
+1. 对 CommonJS 、 AMD 、ES6 的语法做了兼容
+2. 对 js、css、图片等资源文件都支持打包
+3. 串联式模块加载器以及插件机制，让其具有更好的灵活性和扩展性，例如提供对 CoffeeScript、ES6 的支持
+4. 有独立的配置文件 webpack.config.js
+5. 可以将代码切割成不同的 chunk，实现按需加载，降低了初始化时间
+6. 支持 SourceUrls 和 SourceMaps，易于调试
+7. 具有强大的 Plugin 接口，大多是内部插件，使用起来比较灵活
+8. webpack 使用异步 IO 并具有多级缓存。这使得 webpack 很快且在增量编译上更加快
 
 组成：
 
@@ -68,29 +57,6 @@ draft: true
   通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化
 - devtool
   用于控制是否以及如何生成源代码映射，可以帮助开发快速定位错误
-
-### 谈谈你对 webpack 的看法
-
-`WebPack` 是一个模块打包工具，你可以使用`WebPack`管理你的模块依赖，并编绎输出模块们所需的静态文件。它能够很好地管理、打包 Web 开发中所用到的`HTML、Javascript、CSS`以及各种静态文件（图片、字体等），让开发过程更加高效。对于不同类型的资源，`webpack`有对应的模块加载器。`webpack`模块打包器会分析模块间的依赖关系，最后 生成了优化且合并后的静态资源。
-
-`webpack`的两大特色：
-
-    1.code splitting（可以自动完成）
-
-    2.loader 可以处理各种类型的静态文件，并且支持串联操作
-
-`webpack` 是以`commonJS`的形式来书写脚本滴，但对 `AMD/CMD` 的支持也很全面，方便旧项目进行代码迁移。
-
-`webpack`具有`requireJs`和`browserify`的功能，但仍有很多自己的新特性：
-
-1. 对 CommonJS 、 AMD 、ES6 的语法做了兼容
-2. 对 js、css、图片等资源文件都支持打包
-3. 串联式模块加载器以及插件机制，让其具有更好的灵活性和扩展性，例如提供对 CoffeeScript、ES6 的支持
-4. 有独立的配置文件 webpack.config.js
-5. 可以将代码切割成不同的 chunk，实现按需加载，降低了初始化时间
-6. 支持 SourceUrls 和 SourceMaps，易于调试
-7. 具有强大的 Plugin 接口，大多是内部插件，使用起来比较灵活
-8. webpack 使用异步 IO 并具有多级缓存。这使得 webpack 很快且在增量编译上更加快
 
 ### webpack 配置文件
 
@@ -351,6 +317,8 @@ terser-webpack-plugin
 
 ## loader plugin 的区别
 
+webpack 的原理, loader 和 plugin 是干什么的? 有自己手写过么 ?
+
 两者有什么区别，作用场景分别是咋样的。
 
 我的理解是 loader 是用来处理不同类型的文件的，比如 markdown-loader, file-loader, css-loader 等， 而插件是用来处理经过 loader 处理编译之后的内容的，比如 no-console-plugin ? uglify-plugin ? 等
@@ -372,7 +340,9 @@ plugin 是一个扩展器，它丰富了 wepack 本身，针对是 loader 结束
 
 ## Loader
 
-当打包到非 JS 文件的时候，webpack 会在`module`中配置里查找，然后根据`rules`中的`test`选择一个 loader 来处理。
+当打包到非 JS 文件的时候，webpack 会在`module`中配置里查找，然后根据`rules`中的`test`选择一个 loader 来处理。loader 执行的顺序是从右往左的。 https://blog.csdn.net/chengnuo628/article/details/52475446/
+
+vue-loader css-loader style-loader file-loader 等基本 loader 的原理
 
 ### 有哪些常见的 Loader？他们是解决什么问题的
 
@@ -622,6 +592,9 @@ module.exports = function(source) {
 
 define-plugin：定义环境变量
 commons-chunk-plugin：提取公共代码
+webpack 打包去掉 console https://blog.csdn.net/neuq_zxy/article/details/78994349
+清理旧的 dist 目录
+将 `bundle.[hash].js` 插入 html 中
 
 ### 常见 Plugin
 
@@ -850,6 +823,14 @@ HMR 称为热模块替换,在前面我们知道 webpack-dev-server 在我们每�
 - 有哪些方式可以让 Webpack 打出来的包更小
 
 ### 优化 webpack 打包速度
+
+1.  hipack 插件？
+2.  使用 dll 插件优化打包时间
+3.  将变动很少的模块划分出 webpack 的主 bundlejs
+
+UglifyJsPlugin 压缩很慢，如何提高速度? 缓存原理，压缩只重新压缩改变的，还有就是减少冗余的代码，压缩只用于生产阶段.
+
+build 环境下一般会对输出的 js 文件再进一步所压缩处理（但是会丢失 sourcemap， 线上出问题无法及时定位）， 同时会去 console 提升性能，去 console 可以使用 webpack 插件或者自行封装一个根据环境变量决定是否输出的 log 方法
 
 生产模式：
 

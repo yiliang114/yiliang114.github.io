@@ -6,7 +6,11 @@ draft: true
 
 ## Vue 代码复用
 
-### mixin/mixins
+1. 最基础的复用是 抽离一个公共组件，通过 props 传值。
+2. slot
+3. 组件继承
+
+### mixin
 
 `mixin` 用于全局混入，会影响到每个组件实例，通常插件都是这样做初始化的。
 
@@ -45,18 +49,6 @@ new SuperComponent({
 new SuperComponent().$mount('#app');
 ```
 
-### 高阶函数
-
-### 依赖注入 ？
-
-### 面向切面、过程编程
-
 ### 提取 npm 包
 
 ### 直接内嵌一个 js 文件，写入参数即可，插入一段 dom 的形式
-
-### vue 组件复用
-
-1. 最基础的复用是 抽离一个公共组件，通过 props 传值。
-2. slot
-3. 组件继承
