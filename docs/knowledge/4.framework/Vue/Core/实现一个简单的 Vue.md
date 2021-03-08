@@ -1,47 +1,8 @@
 ---
-title: 懒加载的实现原理
+title: 实现一个简单的 Vue
 date: '2020-10-26'
 draft: true
 ---
-
-### Object.defineProperty
-
-它是 es5 一个方法，可以直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象，对象里目前存在的属性描述符有两种主要形式：数据描述符和存取描述符。
-
-数据描述符是一个拥有可写或不可写值的属性。存取描述符是由一对 getter-setter 函数功能来描述的属性。描述符必须是两种形式之一；**不能同时是两者**。
-
-属性描述符包括：configurable(可配置性相当于属性的总开关，只有为 true 时才能设置，而且不可逆)、Writable(是否可写，为 false 时将不能够修改属性的值)、Enumerable(是否可枚举，为 false 时 for..in 以及 Object.keys()将不能枚举出该属性)、get(一个给属性提供 getter 的方法)、set(一个给属性提供 setter 的方法)
-
-```js
-var o = { name: 'vue' };
-Object.defineProperty(o, 'age', {
-  value: 3,
-  writable: true, //可以修改属性a的值
-  enumerable: true, //能够在for..in或者Object.keys()中枚举
-  configurable: true, //可以配置
-});
-
-Object.keys(o); //['name','age']
-o.age = 4;
-console.log(o.age); //4
-
-var bValue;
-Object.defineProperty(o, 'b', {
-  get: function() {
-    return bValue;
-  },
-  set: function(newValue) {
-    console.log('haha..');
-    bValue = newValue;
-  },
-  enumerable: true, //默认值是false 及不能被枚举
-  configurable: true, //默认也是false
-});
-o.b = 'something';
-//haha..
-```
-
-上面分别给出了对象属性描述符的数据描述符和存取描述的例子，注意一点是这两种不能同时拥有，也就是 value writable 不能和 get set 同时具备。
 
 ### 实现 observer
 
