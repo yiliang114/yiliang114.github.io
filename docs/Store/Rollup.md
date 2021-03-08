@@ -41,9 +41,3 @@ $ rollup main.js --file bundle.js --format cjs
 # UMD format requires a bundle name
 $ rollup main.js --file bundle.js --format umd --name "myBundle"
 ```
-
-总结：
-
-- 浏览器执行的包一般都会打包成 iife 立即执行函数
-- node 默认的模块化是 cjs
-- 如果包需要同时支持 node 以及浏览器的话，需要打包成 umd

@@ -25,9 +25,3 @@
 - [轻量应用服务器](./docs/tools/light-cvm.md)
 - [Mac OS 命令行下使用 SublimeText 打开文本文件](./docs/tools/mac-sublime.md)
 - [travis 部署](./docs/tools/travis-deploy.md)
-
-* vuepress
-* github pages
-* github actions
-* zeit
-* qcloud cdn

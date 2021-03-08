@@ -78,7 +78,7 @@ draft: true
 - 2017.11 - 2018.10 SNG 腾讯云小微 (2018.6 应届毕业)
   负责内容：
   1. 小微技能开放平台（https://xiaowei.tencent.com/skill.html）小微硬件开放平台（https://xiaowei.tencent.com/hardware.html）: 基于 React + Redux 全家桶的项目，用于不同场景、不同硬件交互的配置。
-  2. 小微运营平台(http://xiaowei.oa.com/#/)： 基于 vue-cli@2.x 脚手架搭建的项目，用于内部运营数据的展示、开发者权限的审核，同样也是智能对话内容标注平台等等。负责了整个平台的搭建，几乎全部的前端业务代码，以及后期的项目性能优化等工作，配合公司的 qci 持续集成工具完善了原有开发、部署流程。
+  2. 小微运营平台： 基于 vue-cli@2.x 脚手架搭建的项目，用于内部运营数据的展示、开发者权限的审核，同样也是智能对话内容标注平台等等。负责了整个平台的搭建，几乎全部的前端业务代码，以及后期的项目性能优化等工作，配合公司的 qci 持续集成工具完善了原有开发、部署流程。
   3. 小微 APP Vue Hybrid H5：基于 vue 的多页应用，涉及到 app 内的所有 Hybrid H5 页面。主要负责了小微 app 的音乐资源页、音乐会员购买页。
 - 2018.07 - 至今 CSIG 云产品部 AI 服务平台组 腾讯智能对话平台 TBP
   负责内容：
@@ -95,7 +95,7 @@ draft: true
   10. 参与前端团队的基础建设，在保证正常前端需求高质量完成的情况下，开发提高团队生产效率的工具。
   11. 完善前端的 CI/CD 流水线，做到新项目接入 10 分钟之内流水线搭建完毕。
   12. 发起前端组内的 code review，保证了 tbp 前端所有项目的核心部分代码发布之前 100% 经过 review。
-  13. tbp 对内、对外文档中心框架搭建 tbp.oa.com/document, tbp.qq.com/document 。基于 vuepress + qci 自动部署组内文档，通过不同的分支进行分开管理内外网文档的权限。 团队所有沉淀的文档和 wiki 指引都只要开发同学提供 markdown 文件，提交 git 之后即可快速生成文档。
+  13. tbp 对内、对外文档中心框架搭建。基于 vuepress + qci 自动部署组内文档，通过不同的分支进行分开管理内外网文档的权限。 团队所有沉淀的文档和 wiki 指引都只要开发同学提供 markdown 文件，提交 git 之后即可快速生成文档。
   14. tbp 通用 h5 页面。 [链接](https://tbp.cloud.tencent.com/tbp-h5-v2/?AgentId=f+kMfPU1Bm9zjnm6h7c09s4eGGW0iLMQqNuR+S86jT7hN/uvEn7WnlHc+XLpj78nBVkxhq2y6JRTBTE1YCxKNV/w3CatCyAsT0N3CBEgnHs=) h5 完成两个大版本的迭代，1.0 版本仅服务于上海开放大学；2.0 版本经过改版之后使得客户能够 0 成本极速接入，有新客户接入开发 0 改动。 目前已服务企鹅电竞、上海开放大学两个客户。
   15. 参与了腾讯前端开源框架 omi，提了一些 commit， 主要负责 omiv 。omiv 是一个用 omi 的思想触发更新渲染的状态管理工具，为 vue 组件传入一个作为 store 的属性（ store 包含 state 以及修改 state 的一些方法），store 全局会依赖收集，依赖 store 中的变量的 vue 实例。再利用 obaa 监听 js 对象和数组的能力，使得被观察的值变化的时候，从全局依赖列表中取出组件，自动执行 \$forceUpdate 函数进行更新。 与 Vuex 相比的优势是： 由于 obaa 的能力，omiv 可以监听到通过数组下标修改值和数组 size 的变化；另外减少了 vuex 很多的约束，能够更灵活修改状态。
   16. 对外开源：为腾讯前端开源框架 omi (https://github.com/Tencent/omi) 提交了 34 个 commit ， 并成为 omi in vue 中的状态解决方案 omiv (https://github.com/Tencent/omi/tree/master/packages/omiv) 的负责人， 目前 omiv 已经支持在 ssr 中使用，并且提供了内置日志插件，对前端开发和调试很友好。
@@ -112,7 +112,7 @@ draft: true
 6. tbp ⼩小程序、⼩小程序插件。维护和重构， ⼩小程序插件以及⽂文档的维护和更更新，并积极在 qq 交流群 中对接有 web h5 或者⼩小程序接⼊入的客户， 结合客户的前端需求，为 tbp 的迭代和专项提了了⼀一些 需求。
 7. tbp 组内图床⼯工具:⼀一个⽤用 node 简单封装了了 cos sdk 的图床⼯工具，蓝盾+ nodejs + docker + stke + vue 。
 8. tbp 错误⽇日志收集⼯工具⽅方案的落地和开发:在客户使⽤用控制台、h5、⼩小程序遇到问题，难以收集后 台同学排查需要的 requestid。这个⼯工具打通了了客户端以及企业微信，只要⽤用户触发暗⻔门，客户端 的 requestid ⽇日志即可⾃自动推送到 tbp 开发的企业微信中。解决难以收集⽤用户出现错误的 requestid 的痛点，⽤用户只需触发暗⻔门，requestid 将⾃自动发送到我们指定的企业微信中。
-9. tbp 对内、对外⽂文档中⼼心框架搭建 tbp.oa.com/document, tbp.qq.com/document 。基于
+9. tbp 对内、对外⽂文档中⼼心框架搭建。基于
 
 vuepress + qci ⾃自动部署组内⽂文档，通过不不同的分⽀支进⾏行行分开管理理内外⽹网⽂文档的权限。 团队所有
 沉淀的⽂文档和 wiki 指引都只要开发同学提供 markdown ⽂文件，提交 git 之后即可快速⽣生成⽂文档。
