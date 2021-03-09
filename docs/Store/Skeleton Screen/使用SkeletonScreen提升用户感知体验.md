@@ -116,3 +116,11 @@ var app = new Vue({
 通过上面简单的实例，可以明显感受到当使用 Skeleton Screen Loading 来代替传统的菊花图在体验上更加好一些。
 
 使用 Skeleton Screen Loading，可以利用一些视觉元素来将内容的轮廓更快显示在屏幕上，让用户在等待加载的过程中对将要加载的内容有一个更加清晰的预期，特别是在弱网络的场景下，Skeleton Screen Loading 的体验无疑是更好的.
+
+## 骨架屏的实现
+
+https://juejin.im/post/5d457bad5188255d8249c7f4
+
+https://github.com/lavas-project/vue-skeleton-webpack-plugin
+
+https://juejin.im/post/5d457bad5188255d8249c7f4

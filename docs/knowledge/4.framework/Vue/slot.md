@@ -15,8 +15,6 @@ draft: true
 
 1.  2.5 与 2.6 中的插槽使用方式有变化
 
-### slot 是如何实现的 ？
-
 ### 具名插槽
 
 https://segmentfault.com/a/1190000012996217?utm_source=tag-newest

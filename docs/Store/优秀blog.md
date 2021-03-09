@@ -4,6 +4,23 @@ date: 2020-11-21
 draft: true
 ---
 
+### 前端模板
+
+#### react
+
+https://github.com/react-redux-antd-es6/react
+https://github.com/react-boilerplate/react-boilerplate
+https://github.com/mhaagens/react-mobx-react-router4-boilerplate
+https://github.com/mobxjs/mobx-react-boilerplate
+
+#### vue
+
+https://github.com/chrisvfritz/vue-enterprise-boilerplate
+https://github.com/petervmeijgaard/vue-2-boilerplate
+https://github.com/Heeexy/SpringBoot-Shiro-Vue
+https://github.com/icebob/vue-express-mongo-boilerplate
+https://github.com/boylegu/SpringBoot-vue
+
 ### 搜索
 
 https://github.com/mqyqingfeng/Blog
