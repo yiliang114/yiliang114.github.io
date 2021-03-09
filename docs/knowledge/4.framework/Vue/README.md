@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+## 汇总
+
 ### Vue 问题汇总
 
 1. 响应式原理
@@ -24,3 +26,17 @@ draft: true
 ### vue style scoped 问题， 模拟的局部作用域是如何实现的
 
 ### vue 的 style 标签，webpack 构建之后打包入 js 文件中还是打包成一个 css 文件？
+
+### vue-cli 环境变量
+
+会自动引入 VUE_APP 开头的环境变量， 以及 NODE_ENV 但是需要注意的是，NODE_ENV 如果通过使用 env 之后 build 就不会自动注入设置为 production 了。。。 探究一下
+
+## Vue 性能优化
+
+### 如何提高打包的速度
+
+### vue 渲染大量数据时应该怎么优化？
+
+Object.freeze 冻结对象，不让 vue 劫持. 以及使用 虚拟列表
+
+### vue 如何优化首屏加载速度？

@@ -169,3 +169,17 @@ https://fmfe.github.io/genesis-docs/guide/
 ### ssr
 
 https://www.infoq.cn/article/qlewqsit7oshkugw18e5
+
+### vue ssr + 大型项目目录
+
+ssr 是什么？
+ssr 如何做；
+改造你 vue 项目进行 ssr；
+
+缓存架构；
+vue 一些底层 API 的运用；
+vue 插件的开发；
+
+Axios 源码分析；
+大型项目中的 API 层；
+二次封装 Axios 实例；

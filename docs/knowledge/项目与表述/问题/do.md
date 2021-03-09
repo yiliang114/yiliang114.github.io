@@ -34,10 +34,6 @@ draft: true
 
 发现每个项目组活动页有自己不同的 api，还有些活动会用相同的 api，怎么办，每个人还不一样，我擦，这样配置中心用起来太麻烦了，是不是做个服务平台，把这些 API 都包成 BaaS，然后想用的人 自己谢谢代码来组合 api ，那这个要用 Fass 了，额，一步小心，做了个粗糙版的 Serverless
 
-### mock
-
-https://jsonplaceholder.typicode.com/
-
 ### 定时任务
 
 跑 js 文件是否携带 map 文件在线上
