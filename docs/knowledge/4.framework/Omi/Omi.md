@@ -4,6 +4,15 @@ date: 2020-11-21
 draft: true
 ---
 
+## Omi
+
+- 是什么？ 解决的问题
+- 与 Vue React 有什么不同， 为什么会选用它而不是 Vue 或者 React
+- 跨端的能力是如何实现的
+- 你做了哪一部分的工作
+
+## Omiv
+
 ### omiv
 
 介绍一下 omiv ， 这是一个 Vue 中的一个状态管理工具，目前主要是由我在开发。目前来看，与 Vuex 最大的差别是在可以直接修改 store 中的值，其实我并不是很喜欢 mutation ，尽管配合 mutation 可以使用 devtools ，state 的时间旅行等。
@@ -52,6 +61,6 @@ vue-omiv-ssr
 3. 模块化。
 4. devtools
 
-### omiv 的理念
+#### omiv 的理念
 
 vue 的双向数据流 改为了 单向数据流，从组件数据修改 dom 自动更新到数据更新，依赖检测到之后主动去更新 dom 视图。
