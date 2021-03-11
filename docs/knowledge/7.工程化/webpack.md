@@ -149,6 +149,8 @@ devtool: 'cheap-module-source-map'
 
 #### webpack 优化性能
 
+生产环境的解决办法。 但是一般在开发环境不会有帮助，这些优化都是不会开启的。
+
 一：提升 webpack 打包速度
 
 - 1.跟上技术的迭代更新
