@@ -1,38 +1,31 @@
 ---
-title: 浏览器缓存
+title: HTTP 缓存
 date: '2020-10-26'
 draft: true
 ---
 
-## 浏览器缓存
-
-### 说一下浏览器的缓存机制
+## HTTP 缓存
 
 浏览器缓存机制有两种，一种为强缓存，一种为协商缓存。
 
 对于强缓存，浏览器在第一次请求的时候，会直接下载资源，然后缓存在本地，第二次请求的时候，直接使用缓存。
 对于协商缓存，第一次请求缓存且保存缓存标识与时间，重复请求向服务器发送缓存标识和最后缓存时间，服务端进行校验，如果失效则使用缓存。
 
-强缓存方案
-Exprires：服务端的响应头，第一次请求的时候，告诉客户端，该资源什么时候会过期。Exprires 的缺陷是必须保证服务端时间和客户端时间严格同步。
-Cache-control：max-age，表示该资源多少时间后过期，解决了客户端和服务端时间必须同步的问题，
-
-协商缓存方案
-If-None-Match/ETag：缓存标识，对比缓存时使用它来标识一个缓存，第一次请求的时候，服务端会返回该标识给客户端，客户端在第二次请求的时候会带上该标识与服务端进行对比并返回 If-None-Match 标识是否表示匹配。
-Last-modified/If-Modified-Since：第一次请求的时候服务端返回 Last-modified 表明请求的资源上次的修改时间，第二次请求的时候客户端带上请求头 If-Modified-Since，表示资源上次的修改时间，服务端拿到这两个字段进行对比
-
-#### 缓存分类
+### 缓存分类
 
 - 强缓存
   - 直接从浏览器缓存中读取，不去后台查询是否过期
-  - `Exprise` 过期时间
+  - `Expires` 过期时间
   - `Cache-Control:max-age=3600` 过期秒数
 - 协商缓存
   - 每次使用缓存之前先去后台确认一下
   - `Last-Modified` `If-Modified-Since` 上次修改时间
-  - `Etag` `If-None-Match`
-- 如何区别
-  - 是否设置了`no-cache`
+  - `ETag` `If-None-Match`
+
+### 强缓存
+
+Expires：服务端的响应头，第一次请求的时候，告诉客户端，该资源什么时候会过期。Expires 的缺陷是必须保证服务端时间和客户端时间严格同步。
+Cache-control：max-age，表示该资源多少时间后过期，解决了客户端和服务端时间必须同步的问题，
 
 ### 强制缓存
 
@@ -134,6 +127,11 @@ from memory cache 代表使用内存中的缓存，from disk cache 则代表使�
 
 ### 协商缓存
 
+If-None-Match/ETag：缓存标识，对比缓存时使用它来标识一个缓存，第一次请求的时候，服务端会返回该标识给客户端，客户端在第二次请求的时候会带上该标识与服务端进行对比并返回 If-None-Match 标识是否表示匹配。
+Last-modified/If-Modified-Since：第一次请求的时候服务端返回 Last-modified 表明请求的资源上次的修改时间，第二次请求的时候客户端带上请求头 If-Modified-Since，表示资源上次的修改时间，服务端拿到这两个字段进行对比
+
+### 协商缓存
+
 协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：
 
 协商缓存生效，返回 304，如下
@@ -144,7 +142,7 @@ from memory cache 代表使用内存中的缓存，from disk cache 则代表使�
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/cache-200.png)
 
-同样，协商缓存的标识也是在响应报文的 HTTP 头中和请求结果一起返回给浏览器的，控制协商缓存的字段分别有：Last-Modified / If-Modified-Since 和 Etag / If-None-Match，其中 Etag / If-None-Match 的优先级比 Last-Modified / If-Modified-Since 高。
+同样，协商缓存的标识也是在响应报文的 HTTP 头中和请求结果一起返回给浏览器的，控制协商缓存的字段分别有：Last-Modified / If-Modified-Since 和 ETag / If-None-Match，其中 ETag / If-None-Match 的优先级比 Last-Modified / If-Modified-Since 高。
 
 #### Last-Modified / If-Modified-Since
 
@@ -156,21 +154,21 @@ If-Modified-Since 则是客户端再次发起该请求时，携带上次请求�
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/if-modified-since.png)
 
-#### Etag / If-None-Match
+#### ETag / If-None-Match
 
-Etag 是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，如下。
+ETag 是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，如下。
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/etag.png)
 
-If-None-Match 是客户端再次发起该请求时，携带上次请求返回的唯一标识 Etag 值，通过此字段值告诉服务器该资源上次请求返回的唯一标识值。服务器收到该请求后，发现该请求头中含有 If-None-Match，则会根据 If-None-Match 的字段值与该资源在服务器的 Etag 值做对比，一致则返回 304，代表资源无更新，继续使用缓存文件；不一致则重新返回资源文件，状态码为 200，如下。
+If-None-Match 是客户端再次发起该请求时，携带上次请求返回的唯一标识 ETag 值，通过此字段值告诉服务器该资源上次请求返回的唯一标识值。服务器收到该请求后，发现该请求头中含有 If-None-Match，则会根据 If-None-Match 的字段值与该资源在服务器的 ETag 值做对比，一致则返回 304，代表资源无更新，继续使用缓存文件；不一致则重新返回资源文件，状态码为 200，如下。
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/etag-match.png)
 
-注：Etag / If-None-Match 优先级高于 Last-Modified / If-Modified-Since，同时存在则只有 Etag / If-None-Match 生效。
+注：Etag / If-None-Match 优先级高于 Last-Modified / If-Modified-Since，同时存在则只有 ETag / If-None-Match 生效。
 
 ### 总结
 
-强制缓存优先于协商缓存进行，若强制缓存(Expires 和 Cache-Control)生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified / If-Modified-Since 和 Etag / If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，重新获取请求结果，再存入浏览器缓存中；生效则返回 304，继续使用缓存，主要过程如下：
+强制缓存优先于协商缓存进行，若强制缓存(Expires 和 Cache-Control)生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified / If-Modified-Since 和 ETag / If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，重新获取请求结果，再存入浏览器缓存中；生效则返回 304，继续使用缓存，主要过程如下：
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/cache-all.png)
 

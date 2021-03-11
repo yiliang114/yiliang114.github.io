@@ -9,9 +9,7 @@ draft: true
 
 ### 简单介绍一下 webpack
 
-### 谈谈你对 webpack 的看法
-
-本质上，webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，将项目当作一个整体，通过一个给定的的主文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包成一个或多个浏览器可识别的 js 文件。
+webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，将项目当作一个整体，通过一个给定的的入口文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包成一个或多个浏览器可识别的 js 文件。
 
 它能够很好地管理、打包 Web 开发中所用到的`HTML、Javascript、CSS`以及各种静态文件（图片、字体等），让开发过程更加高效。对于不同类型的资源，`webpack`有对应的模块加载器。`webpack`模块打包器会分析模块间的依赖关系，最后 生成了优化且合并后的静态资源。
 
@@ -50,10 +48,6 @@ draft: true
 - 热加载
   - Webpack-hot-middleware
   - webpack-dev-server
-
-markdown 是如何进行解析并最终渲染成为 html 的？
-为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？
-webpack 热更新
 
 ### webpack 配置文件
 
@@ -1153,3 +1147,5 @@ source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
 - 如何批量引入组件，require.context
 - webpack 的劣势在哪里
 - 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
+- markdown 是如何进行解析并最终渲染成为 html 的？
+- 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？

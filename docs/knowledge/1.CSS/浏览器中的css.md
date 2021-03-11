@@ -4,31 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-### CSS 如何适配浏览器大小？
-
-1.
-
-```html
-<meta
-  name="viewport"
-  content="width=device-width,
-        height=device-height,
-        inital-scale=1.0,
-        maximum-scale=1.0,
-        user-scalable=no;"
-/>
-```
-
-2. 网页内部的元素宽度要使用百分比，在不同的屏幕大小下需使用媒体查询定义不同的 css 代码
-
-代码解析：
-width：控制 viewport 的大小，可以是指定的一个值，比如 1920，或者是特殊的值，如 device-width 为设备的宽度，单位为缩放为 100% 时的 CSS 的像素。
-height：和 width 相对应，指定高度，可以是指定的一个值，比如 1080，或者是特殊的值，如 device-height 为设备的高度。
-initial-scale：初始缩放比例，即当页面第一次载入是时缩放比例。
-maximum-scale：允许用户缩放到的最大比例。
-minimum-scale：允许用户缩放到的最小比例。
-user-scalable：用户是否可以手动缩放。
-
 ### 浏览器是怎样解析 CSS 选择器的？
 
 按照从上到下，从右到左的顺序解析 .list a {color:blue;} 先解析到 a 标签，并将页面上所有 a 标签的字体颜色都按照 color:red 进行渲染（蓝色），再解析到 .list ，将页面上所有 .list 类目下的 a 标签的字体渲染成蓝色。
@@ -105,10 +80,13 @@ white-space: nowrap;
 多行
 
 ```css
-display: -webkit-box;
--webkit-box-orient: vertical;
--webkit-line-clamp: 3; // 最多显示几行
-overflow: hidden;
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  /* 最多显示几行 */
+  overflow: hidden;
+}
 ```
 
 ### 浏览器是如何解析 css 选择器的

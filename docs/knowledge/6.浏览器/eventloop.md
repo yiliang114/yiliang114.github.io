@@ -6,7 +6,7 @@ draft: true
 
 ## Event Loop
 
-概括：异步事件会被放置到对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
+异步事件会被放置到对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
 
 ### javascript 的运行机制
 
@@ -110,14 +110,6 @@ new Promise((resolve, reject) => {
 - 当执行完所有微任务后，如有必要会渲染页面
 - 然后开始下一轮 Event Loop，执行宏任务中的异步代码，也就是 `setTimeout` 中的回调函数
 
-微任务包括 `process.nextTick` ，`promise` ，`MutationObserver`。
-
-宏任务包括 `script` ， `setTimeout` ，`setInterval` ，`setImmediate` ，`I/O` ，`UI rendering`。
-
-这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了 `script` ，浏览器会**先执行一个宏任务**，接下来有异步代码的话才会先执行微任务。
-
-### JS 中的 event loop
-
 **微任务**
 
 - `process.nextTick`
@@ -134,7 +126,7 @@ new Promise((resolve, reject) => {
 - `I/O`
 - `UI rendering`
 
-> 宏任务中包括了 script ，浏览器会先执行一个宏任务，接下来有异步代码的话就先执行微任务
+这里很多人会有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了 `script` ，浏览器会**先执行一个宏任务**，接下来有异步代码的话才会先执行微任务。
 
 ### Node 中的 Event Loop
 
@@ -516,7 +508,7 @@ process.nextTick(() => {
 
 浏览器下事件循环(Event Loop):
 微任务 micro-task(jobs): promise / ajax / Object.observe(该方法已废弃)
-宏任务 macro-task(task): setTimout / script / IO / UI Rendering
+宏任务 macro-task(task): setTimeout / script / IO / UI Rendering
 
 Node 的 Event Loop
 
@@ -583,6 +575,15 @@ Node 端运行结果分两种情况：
 Node 端的处理过程如下：
 ![](https://camo.githubusercontent.com/34b3491060826045c67bd57c6dcf97222620a722/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343164356638353436383034373f773d35393826683d33333326663d67696626733d343637363635)
 
+### 总结
+
+浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
+
+- Node 端，micro-task 在事件循环的各个阶段之间执行
+- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
+
+## 执行顺序
+
 ### 宏任务和微任务的打印顺序
 
 ```js
@@ -599,13 +600,6 @@ console.log(2);
 ```
 
 Promise 构造函数里面的内容都是同步执行的。setTimeout 就是作为宏任务来存在的，而 Promise.then 则是具有代表性的微任务，上述代码的执行顺序就是按照序号来输出的。
-
-### 总结
-
-浏览器和 Node 环境下，micro-task 任务队列的执行时机不同
-
-- Node 端，micro-task 在事件循环的各个阶段之间执行
-- 浏览器端，micro-task 在事件循环的 macro-task 执行完之后执行
 
 ### promise 与 setTimeout 判断执行顺序
 

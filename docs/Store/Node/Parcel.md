@@ -43,33 +43,31 @@ $ npm install parcel-bundler --save-dev
 
 我们这里先尝试在 index.html 中引入 main.js 脚本文件，具体代码如下：
 
-```
+```html
 <!-- ./src/index.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Parcel Tutorials</title>
-</head>
-<body>
-  <script src="main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Parcel Tutorials</title>
+  </head>
+  <body>
+    <script src="main.js"></script>
+  </body>
 </html>
-
 ```
 
 紧接着，在 main.js 中按照 ES Modules 的方式导入 logger.js 中的成员，具体代码如下：
 
-```
+```js
 // ./src/main.js
-import { log } from './logger'
-log('hello parcel')
+import { log } from './logger';
+log('hello parcel');
 // ./src/logger.js
 export const log = msg => {
-  console.log('---------- INFO ----------')
-  console.log(msg)
-}
-
+  console.log('---------- INFO ----------');
+  console.log(msg);
+};
 ```
 
 Parcel 同样支持对 ES Modules 模块的打包。
@@ -78,7 +76,6 @@ Parcel 同样支持对 ES Modules 模块的打包。
 
 ```
 $ npx parcel src/index.html
-
 ```
 
 parcel 命令需要我们传入打包入口文件路径，那我们这里就应该是 src/index.html。
@@ -97,17 +94,16 @@ parcel 命令需要我们传入打包入口文件路径，那我们这里就应�
 
 如果你需要的是模块热替换的体验，Parcel 中也可以支持。我们回到 main.js 文件中，这里同样需要使用 HMR 的 API。具体代码如下：
 
-```
+```js
 // ./src/main.js
-import { log } from './logger'
-log('hello parcel')
+import { log } from './logger';
+log('hello parcel');
 // HMR API
 if (module.hot) {
   module.hot.accept(() => {
-    console.log('HMR～')
-  })
+    console.log('HMR～');
+  });
 }
-
 ```
 
 我们需要先判断一下 module.hot 对象是否存在，如果存在则证明当前环境可以使用 HMR 的 API，那我们就可以使用 module.hot.accept 方法去处理热替换。
@@ -147,12 +143,11 @@ if (module.hot) {
 
 然后回到 main.js 中通过 import 导入这个样式文件，具体如下：
 
-```
+```js
 // ./src/main.js
-import { log } from './logger'
-import './style.css'
-log('hello parcel')
-
+import { log } from './logger';
+import './style.css';
+log('hello parcel');
 ```
 
 保存过后，样式文件可以立即生效。效果如下：
@@ -169,15 +164,14 @@ log('hello parcel')
 
 这里我们先将静态导入的 jQuery 注释掉。然后使用动态导入的方式导入 jQuery 模块。具体代码如下：
 
-```
+```js
 // ./src/main.js
 // import $ from 'jquery'
-import { log } from './logger'
-log('hello parcel')
+import { log } from './logger';
+log('hello parcel');
 import('jquery').then($ => {
-  $(document.body).append('<h1>Hello Parcel</h1>')
-})
-
+  $(document.body).append('<h1>Hello Parcel</h1>');
+});
 ```
 
 import 函数返回的就是一个 Promise 对象，在这个 Promise 对象 then 方法的回调中，我们就能够拿到导入的模块对象了，然后我们就可以把使用 jQuery 的代码移到这个回调函数中。
@@ -194,7 +188,6 @@ import 函数返回的就是一个 Promise 对象，在这个 Promise 对象 the
 
 ```
 $ npx parcel build src/index.html
-
 ```
 
 我们只需要执行 parcel build 然后跟上打包入口文件路径，就可以以生产模式运行打包了。

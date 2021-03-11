@@ -216,3 +216,5 @@ ajax 的请求，在请求头中多了一个“**X-Requested-With**”属性。
 - 普通 http 请求通过 httpRequest 对象请求服务器，服务器接收请求之后返回数据，需要页面刷新？？？
 
 跨域的时候，ajax 请求 “**X-Requested-With**”属性会丢失。
+
+### formdata 的了解
