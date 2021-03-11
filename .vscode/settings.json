@@ -3,7 +3,6 @@
   "GitCommitPlugin.ShowEmoji": false,
   "files.exclude": {
     "lib": true,
-    "docs/knowledge/arithmetic": true,
     "arithmetic": true
   }
 }
