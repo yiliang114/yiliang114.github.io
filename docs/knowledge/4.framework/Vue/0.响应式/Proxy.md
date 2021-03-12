@@ -8,47 +8,13 @@ draft: true
 
 ### Proxy 与 Object.defineProperty 的对比
 
-#### 前言
-
-> Object.defineProperty() 和 ES2015 中新增的 Proxy 对象,会经常用来做数据劫持(数据劫持:在访问或者修改对象的某个属性时，通过一段代码拦截这个行为，进行额外的操作或者修改返回结果)，数据劫持的典型应用就是我们经常在面试中遇到的双向数据绑定。
+Object.defineProperty() 和 ES2015 中新增的 Proxy 对象,会经常用来做数据劫持(数据劫持:在访问或者修改对象的某个属性时，通过一段代码拦截这个行为，进行额外的操作或者修改返回结果)，数据劫持的典型应用就是我们经常在面试中遇到的双向数据绑定。
 
 #### Object.defineProperty
 
-> Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象
-> 语法：
->
-> Object.defineProperty(obj, prop, descriptor)
-
-- obj：要在其上定义属性的对象。
-- prop：要定义或修改的属性的名称。
-- descriptor：将被定义或修改的属性描述符。
-  >
+Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。
 
 ```js
-var o = {}; // 创建一个新对象
-// 在对象中添加一个属性与数据描述符的示例
-Object.defineProperty(o, 'a', {
-  value: 37,
-  writable: true,
-  enumerable: true,
-  configurable: true,
-});
-// 对象o中有一个值为37的属性a
-```
-
-> [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)这样描述属性描述符：
-> 数据描述符和存取描述符。数据描述符是一个具有值的属性，该值可能是可写的，也可能不是可写的。存取描述符是由 getter-setter 函数对描述的属性。描述符必须是这两种形式之一；不能同时是两者。两个属性描述符的具体介绍可以查看[MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#%E5%B1%9E%E6%80%A7%E6%8F%8F%E8%BF%B0%E7%AC%A6)，这里不再缀诉。
-> 示例：
-
-```js
-// 正确
-Object.defineProperty({}, 'a', {
-  value: 37,
-  writable: true,
-  enumerable: true,
-  configurable: true,
-});
-// 正确
 var value = 37;
 Object.defineProperty({}, 'a', {
   get: function() {
@@ -59,57 +25,43 @@ Object.defineProperty({}, 'a', {
   },
   enumerable: true,
   configurable: true,
-}) >
-  // 报错
-  Object.defineProperty({}, 'a', {
-    value: 37,
-    get: function() {
-      return 1;
-    },
-  });
+});
 ```
-
->
 
 ##### Setters 和 Getters
 
-> 下面的例子展示了如何实现一个自存档对象。 当设置 temperature 属性时，archive 数组会获取日志条目
+下面的例子展示了如何实现一个自存档对象。 当设置 temperature 属性时，archive 数组会获取日志条目
 
 ```js
 function Archiver() {
-  var temperature = null
-  var archive = []
->
+  var temperature = null;
+  var archive = [];
   Object.defineProperty(this, 'temperature', {
     get: function() {
-      console.log('get!')
-      return temperature
+      console.log('get!');
+      return temperature;
     },
     set: function(value) {
-      console.log('set!')
-      temperature = value
-      archive.push({ val: temperature })
-    }
-  })
->
+      console.log('set!');
+      temperature = value;
+      archive.push({ val: temperature });
+    },
+  });
   this.getArchive = function() {
-    return archive
-  }
+    return archive;
+  };
 }
->
-var arc = new Archiver()
-arc.temperature // 'get!'
-arc.temperature = 11 // 'set!'
-arc.temperature = 13 // 'set!'
-arc.getArchive() // [{ val: 11 }, { val: 13 }]
+var arc = new Archiver();
+arc.temperature; // 'get!'
+arc.temperature = 11; // 'set!'
+arc.temperature = 13; // 'set!'
+arc.getArchive(); // [{ val: 11 }, { val: 13 }]
 ```
 
->
+#### 存在的问题
 
-#### 存在对问题
-
-> 一、不能监听数组的变化
-> 数组的以下几个方法不会触发 set,push、pop、shift、unshift、splice、sort、reverse
+1. 不能监听数组的变化
+   数组的以下几个方法不会触发 set,push、pop、shift、unshift、splice、sort、reverse
 
 ```js
 let arr = [1, 2, 3];
@@ -128,8 +80,8 @@ obj.arr.push(4); // 只会打印 get arr, 不会打印 set
 obj.arr = [1, 2, 3, 4]; // 这个能正常 set
 ```
 
-> 二、必须遍历对象的每个属性
-> 使用 Object.defineProperty() 多数要配合 Object.keys() 和遍历，于是多了一层嵌套
+2. 必须遍历对象的每个属性
+   使用 Object.defineProperty() 多数要配合 Object.keys() 和遍历，于是多了一层嵌套
 
 ```js
 Object.keys(obj).forEach(key => {
@@ -139,15 +91,15 @@ Object.keys(obj).forEach(key => {
 });
 ```
 
-> 三、必须深层遍历嵌套的对象
-> 如果嵌套对象，那就必须逐层遍历，直到把每个对象的每个属性都调用 Object.defineProperty() 为止。 Vue 的源码中就能找到这样的逻辑 (叫做 walk 方法)。
+3. 必须深层遍历嵌套的对象
+   如果嵌套对象，那就必须逐层遍历，直到把每个对象的每个属性都调用 Object.defineProperty() 为止。 Vue 的源码中就能找到这样的逻辑 (叫做 walk 方法)。
 
 #### Proxy
 
-> Proxy 对象用于定义基本操作的自定义行为（如属性查找，赋值，枚举，函数调用等），ES6 原生提供 Proxy 构造函数，用来生成 一个 Proxy 实例。
-> 语法：
->
-> let p = new Proxy(target, handler);
+Proxy 对象用于定义基本操作的自定义行为（如属性查找，赋值，枚举，函数调用等），ES6 原生提供 Proxy 构造函数，用来生成 一个 Proxy 实例。
+语法：
+
+let p = new Proxy(target, handler);
 
 - target: 用 Proxy 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。
 - handler: 一个对象，其属性是当执行一个操作时定义代理的行为的函数
@@ -174,13 +126,13 @@ console.log('c' in p, p.c); // false, 37  进行get操作
 console.log(target); // {a: 1, b: undefined}. 操作已经被正确地转发
 ```
 
-> 在例子中，通过 new Proxy(target, handler)返回了一个 Prosy 实例，在访问或者添加实例对象的某个属性时
-> ，调用了 get 或者 set 操作，在 get 操作中，在当对象不存在属性名时，会返回 37.除了进行 get 和 set 操作外，还会进行无操作转发代理，代理会将所有应用到它的操作转发到这个目标对象上。
+在例子中，通过 new Proxy(target, handler)返回了一个 Prosy 实例，在访问或者添加实例对象的某个属性时
+，调用了 get 或者 set 操作，在 get 操作中，在当对象不存在属性名时，会返回 37.除了进行 get 和 set 操作外，还会进行无操作转发代理，代理会将所有应用到它的操作转发到这个目标对象上。
 
 #### 解决问题
 
-> 一、针对对象
-> Proxy 是针对 整个对象 obj 的。因此无论 obj 内部包含多少个 key ，都可以走进 set。(并不需要通过 Object.keys() 的遍历)，解决了上述 Object.defineProperty() 的第二个问题
+1. 针对对象
+   Proxy 是针对 整个对象 obj 的。因此无论 obj 内部包含多少个 key ，都可以走进 set。(并不需要通过 Object.keys() 的遍历)，解决了上述 Object.defineProperty() 的第二个问题
 
 ```js
 let obj = {
@@ -202,10 +154,10 @@ proxy.name = 'Zoe'; // set name Zoe
 proxy.age = 18; // set age 18
 ```
 
-> Reflect.get 和 Reflect.set 可以理解为类继承里的 super，即调用原来的方法
->
-> 二、支持数组
-> Proxy 不需要对数组的方法进行重载，省去了众多 hack，减少代码量等于减少了维护成本，而且标准的就是最好的
+Reflect.get 和 Reflect.set 可以理解为类继承里的 super，即调用原来的方法
+
+2. 支持数组
+   Proxy 不需要对数组的方法进行重载，省去了众多 hack，减少代码量等于减少了维护成本，而且标准的就是最好的
 
 ```js
 let arr = [1, 2, 3];
@@ -227,8 +179,8 @@ proxy.push(4);
 // set length 4 (设置 proxy.length = 4)
 ```
 
-> 三、嵌套支持
-> Proxy 也是不支持嵌套的，这点和 Object.defineProperty() 是一样的。因此也需要通过逐层遍历来解决。Proxy 的写法是在 get 里面递归调用 Proxy 并返回
+3. 嵌套支持
+   Proxy 也是不支持嵌套的，这点和 Object.defineProperty() 是一样的。因此也需要通过逐层遍历来解决。Proxy 的写法是在 get 里面递归调用 Proxy 并返回
 
 ```js
 let obj = {
@@ -257,15 +209,11 @@ proxy.info.name = 'Zoe';
 proxy.info.blogs.push('proxy');
 ```
 
->
-
 #### 扩展
-
->
 
 ##### 实现构造函数
 
-> 方法代理可以轻松地通过一个新构造函数来扩展一个已有的构造函数,这个例子使用了 construct 和 apply。
+方法代理可以轻松地通过一个新构造函数来扩展一个已有的构造函数,这个例子使用了 construct 和 apply。
 
 ```js
 function extend(sup, base) {
@@ -304,7 +252,7 @@ console.log(Peter.age); // 13
 
 ##### 面试题
 
-> 什么样的 a 可以满足 (a === 1 && a === 2 && a === 3) === true 呢？这里我们就可以采用数据劫持来实现
+什么样的 a 可以满足 (a === 1 && a === 2 && a === 3) === true 呢？这里我们就可以采用数据劫持来实现
 
 ```js
 let current = 0;
@@ -317,11 +265,9 @@ Object.defineProperty(window, 'a', {
 console.log(a === 1 && a === 2 && a === 3); // true
 ```
 
->
-
 #### 总结
 
-> Proxy / Object.defineProperty 两者的区别：
+Proxy / Object.defineProperty 两者的区别：
 
 - 当使用 defineProperty，我们修改原来的 obj 对象就可以触发拦截，而使用 proxy，就必须修改代理对象，即 Proxy 的实例才可以触发拦截
 - defineProperty 必须深层遍历嵌套的对象。 Proxy 不需要对数组的方法进行重载，省去了众多 hack，减少代码量等于减少了维护成本，而且标准的就是最好的
@@ -340,13 +286,13 @@ Proxy 与 Object.defineProperty 最典型的应用就是用于实现双向数据
 
 #### 双向数据绑定
 
-> 简单来说双向数据绑定就是数据和 UI 建立双向的通信通道，可以通过数据来更新 UI 显示，也可以通过 UI 的操做来更新数据。下图可以很好的说明一切
-> ![image](https://user-images.githubusercontent.com/21194931/58619925-73559680-82f8-11e9-9848-c6af48e3914e.png)
+简单来说双向数据绑定就是数据和 UI 建立双向的通信通道，可以通过数据来更新 UI 显示，也可以通过 UI 的操做来更新数据。下图可以很好的说明一切
+![image](https://user-images.githubusercontent.com/21194931/58619925-73559680-82f8-11e9-9848-c6af48e3914e.png)
 
 #### 实现思路
 
-> 实现一个简单的双向数据绑定并不难，我们来看一个简单的例子
-> html:
+实现一个简单的双向数据绑定并不难，我们来看一个简单的例子
+html:
 
 ```js
 <span id="box">
@@ -358,7 +304,7 @@ Proxy 与 Object.defineProperty 最典型的应用就是用于实现双向数据
 </span>
 ```
 
-> js:
+js:
 
 ```js
     <script>
@@ -397,13 +343,13 @@ Proxy 与 Object.defineProperty 最典型的应用就是用于实现双向数据
     </script>
 ```
 
-> 但是想要实现 Vue 的双向数据绑定并没有这么简单，我们知道 Vue 的双向数据绑定是通过数据劫持结合发布者-订阅者模式的方式来实现的，那么我们起码要做以下三个步骤： 1.实现一个监听器 Observer，用来劫持并监听所有属性，如果有变动的，就通知订阅者。 2.实现一个订阅者 Watcher，可以收到属性的变化通知并执行相应的函数，从而更新视图。 3.实现一个解析器 Compile，可以扫描和解析每个节点的相关指令，并根据初始化模板数据以及初始化相应的订阅器。
-> 流程图如下：
-> ![image](https://user-images.githubusercontent.com/21194931/58623762-48237500-8301-11e9-8a69-75b342eaa7ab.png)
+但是想要实现 Vue 的双向数据绑定并没有这么简单，我们知道 Vue 的双向数据绑定是通过数据劫持结合发布者-订阅者模式的方式来实现的，那么我们起码要做以下三个步骤： 1.实现一个监听器 Observer，用来劫持并监听所有属性，如果有变动的，就通知订阅者。 2.实现一个订阅者 Watcher，可以收到属性的变化通知并执行相应的函数，从而更新视图。 3.实现一个解析器 Compile，可以扫描和解析每个节点的相关指令，并根据初始化模板数据以及初始化相应的订阅器。
+流程图如下：
+![image](https://user-images.githubusercontent.com/21194931/58623762-48237500-8301-11e9-8a69-75b342eaa7ab.png)
 
 ##### 实现 Observer
 
-> 使用 Object.defineProperty 定义一个 Observer
+使用 Object.defineProperty 定义一个 Observer
 
 ```js
 function defineProperty(obj, key, value) {
@@ -440,7 +386,7 @@ function Observer(data) {
 
 ##### 实现 Dep
 
-> 创建一个用来存储订阅者 Watcher 的订阅器，订阅器 Dep 主要负责收集订阅者，然后再属性变化的时候执行对应订阅者的更新函数。
+创建一个用来存储订阅者 Watcher 的订阅器，订阅器 Dep 主要负责收集订阅者，然后再属性变化的时候执行对应订阅者的更新函数。
 
 ```js
 function Dep() {
@@ -462,9 +408,9 @@ Dep.prototype = {
 
 ##### 实现 Watcher
 
-> 既然实现了一个订阅器，那么就需要一个订阅者，订阅者 Watcher 在初始化的时候需要将自己添加进订阅器 Dep 中，
-> 1、在自身实例化时往属性订阅器(dep)里面添加自己
-> 2、待属性变动 dep.notice()通知时，能调用自身的 update()方法，并触发回调，更新视图
+既然实现了一个订阅器，那么就需要一个订阅者，订阅者 Watcher 在初始化的时候需要将自己添加进订阅器 Dep 中，
+1、在自身实例化时往属性订阅器(dep)里面添加自己
+2、待属性变动 dep.notice()通知时，能调用自身的 update()方法，并触发回调，更新视图
 
 ```js
 function Watcher(obj, key, cb) {
@@ -495,7 +441,7 @@ Watcher.prototype = {
 };
 ```
 
-> 实现了订阅器和订阅者之后，需要将订阅器添加进入订阅者，将 Observer 改造以下植入订阅器。如果不好理解可以结合 watcher 一起看。
+实现了订阅器和订阅者之后，需要将订阅器添加进入订阅者，将 Observer 改造以下植入订阅器。如果不好理解可以结合 watcher 一起看。
 
 ```js
 function defineProperty(obj, key, value) {
@@ -523,11 +469,11 @@ function defineProperty(obj, key, value) {
 }
 ```
 
-> Observer 改造完成后，已经具备了监听数据， 添加订阅器和数据变化通知订阅者的功能。接下来就是将 watcher 添加进入订阅者，模拟实现 Compile，并进行数据初始化。
+Observer 改造完成后，已经具备了监听数据， 添加订阅器和数据变化通知订阅者的功能。接下来就是将 watcher 添加进入订阅者，模拟实现 Compile，并进行数据初始化。
 
 ##### 模拟实现 Compile
 
-> 我们这里不解析指令所以直接写出 watcher,并添加进去订阅者
+我们这里不解析指令所以直接写出 watcher,并添加进去订阅者
 
 ```js
 function inputChange(event) {
@@ -552,7 +498,7 @@ new Watcher(data, 'value', renderInput)
 new Watcher(data, 'value', renderText)
 ```
 
-> 数据初始化
+数据初始化
 
 ```js
 let data = {
@@ -561,11 +507,11 @@ let data = {
 Observer(data);
 ```
 
-> 这样一个简单的基于 Object.defineProperty 的双向数据绑定就完成了。
+这样一个简单的基于 Object.defineProperty 的双向数据绑定就完成了。
 
 #### Proxy
 
-> 由于 Object.defineProperty 在数组监控方面的不足，我们可以采用 Proxy，只需要修改 Observer 即可实现上面例子的功能
+由于 Object.defineProperty 在数组监控方面的不足，我们可以采用 Proxy，只需要修改 Observer 即可实现上面例子的功能
 
 ```js
 function Observer(target) {
@@ -1272,7 +1218,7 @@ p.name; // "chen"
   - **apply()**：拦截 Proxy 实例作为函数调用`proxy()`、`proxy.apply()`、`proxy.call()`
   - **construct()**：拦截 Proxy 实例作为构造函数调用`new proxy()`
 
-> 应用场景
+应用场景
 
 - `Proxy.revocable()`：不允许直接访问对象，必须通过代理访问，一旦访问结束就收回代理权不允许再次访问
 - `get()`：读取未知属性报错、读取数组负数索引的值、封装链式操作、生成 DOM 嵌套节点
@@ -1282,7 +1228,7 @@ p.name; // "chen"
 - `defineProperty()`：阻止属性被外部定义
 - `ownKeys()`：保护内部属性不被遍历
 
-> 重点难点
+重点难点
 
 - 要使`Proxy`起作用，必须针对`实例`进行操作，而不是针对`目标对象`进行操作
 - 没有设置任何拦截时，等同于`直接通向原对象`
@@ -1307,24 +1253,24 @@ p.name; // "chen"
   - **apply()**：绑定 this 后执行指定函数
   - **construct()**：调用构造函数创建实例
 
-> 设计目的
+设计目的
 
 - 将`Object`属于`语言内部的方法`放到`Reflect`上
 - 将某些 Object 方法报错情况改成返回`false`
 - 让`Object操作`变成`函数行为`
 - `Proxy`与`Reflect`相辅相成
 
-> 废弃方法
+废弃方法
 
 - `Object.defineProperty()` => `Reflect.defineProperty()`
 - `Object.getOwnPropertyDescriptor()` => `Reflect.getOwnPropertyDescriptor()`
 
-> 重点难点
+重点难点
 
 - `Proxy方法`和`Reflect方法`一一对应
 - `Proxy`和`Reflect`联合使用，前者负责`拦截赋值操作`，后者负责`完成赋值操作`
 
-> 数据绑定：观察者模式
+数据绑定：观察者模式
 
 ```
 const observerQueue = new Set();

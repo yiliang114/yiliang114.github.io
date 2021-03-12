@@ -1,0 +1,487 @@
+---
+title: JS 基础
+date: '2020-10-26'
+draft: true
+---
+
+## JS 严格模式
+
+### 什么是 use strict ? 使用它的好处和坏处分别是什么？
+
+'use strict' 是用于对整个脚本或单个函数启用严格模式的语句。严格模式是可选择的一个限制 JavaScript 的变体一种方式。
+严格模式 （strict mode） 使得 Javascript 在更严格的条件下运行。设立"严格模式"的目的，主要有以下几个：
+
+1. 使 JS 编码更加规范化的模式，消除 Javascript 语法的一些不合理、不严谨之处，减少一些怪异行为;
+2. 消除代码运行的一些不安全之处，保证代码运行的安全；
+3. 提高编译器效率，增加运行速度；
+4. 为未来新版本的 Javascript 做好铺垫。
+
+注：经过测试 IE6,7,8,9 均不支持严格模式。
+
+缺点：
+
+现在网站的 JS 都会进行压缩，一些文件用了严格模式，而另一些没有。这时这些本来是严格模式的文件，被 merge 后，这个串就到了文件的中间有指示严格模式，反而在压缩后浪费了字节。
+
+#### 优缺点
+
+**优点：**
+
+- 无法再意外创建全局变量。
+- 会使引起静默失败（silently fail，即：不报错也没有任何效果）的赋值操抛出异常。
+- 试图删除不可删除的属性时会抛出异常（之前这种操作不会产生任何效果）。
+- 要求函数的参数名唯一。
+- 全局作用域下，`this`的值为`undefined`。
+- 捕获了一些常见的编码错误，并抛出异常。
+- 禁用令人困惑或欠佳的功能。
+
+**缺点：**
+
+- 缺失许多开发人员已经习惯的功能。
+- 无法访问`function.caller`和`function.arguments`。
+- 以不同严格模式编写的脚本合并后可能导致问题。
+
+总的来说，我认为利大于弊，我从来不使用严格模式禁用的功能，因此我推荐使用严格模式。
+
+#### 差异
+
+- 不允许不使用 var 关键字去创建全局变量，抛出 ReferenceError
+- 不允许对变量使用 delete 操作符，抛 ReferenceError
+- 不可对对象的只读属性赋值，不可对对象的不可配置属性使用 delete 操作符，不可为不可拓展的对象添加属性，均抛 TypeError
+- 对象属性名必须唯一
+- 函数中不可有重名参数
+- 在函数内部对修改参数不会反映到 arguments 中
+- 淘汰 arguments.callee 和 arguments.caller
+- 不可在 if 内部声明函数
+- 不能使用 with 语句
+- 变量必须声明后再使用
+- 不能使用前缀 0 表示八进制数，否则报错
+- eval 不会在它的外层作用域引入变量
+- 禁止 this 指向全局对象
+- 不能使用 fn.caller 和 fn.arguments 获取函数调用的堆栈
+- 增加了保留字（比如 protected、static 和 interface）
+
+## 函数
+
+### 函数表达式和函数声明
+
+```js
+// 函数声明 这种方式是声明了个方法，foo 这个名字无法改变
+function funDeclaration(type) {
+  return type === 'Declaration';
+}
+// 函数表达式 这种方式是声明了个变量，而这个变量是个方法，变量在 js 中是可以改变的,
+var funExpression = function(type) {
+  return type === 'Expression';
+};
+```
+
+### 箭头函数与普通函数（function）的区别是什么？为什么
+
+箭头函数是普通函数的简写，可以更优雅的定义一个函数，和普通函数相比区别：
+
+1. 函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象，它会从自己的作用域链的上一层继承 this（因此无法使用 apply / call / bind 进行绑定 this 值）
+2. 箭头函数不可以使用 arguments 对象,，该对象在函数体内不存在，如果要用，可以用 rest 参数代替
+3. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+4. 不绑定 super 和 new.target
+5. 不可以使用 new 命令，因为
+
+### 构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？
+
+- 没有自己的 this，无法调用 call，apply
+- 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的 proto
+
+### 匿名函数的典型应用场景是什么？
+
+匿名函数可以在 IIFE 中使用，来封装局部作用域内的代码，以便其声明的变量不会暴露到全局作用域。
+
+```js
+(function() {
+  // 一些代码。
+})();
+```
+
+匿名函数可以作为只用一次，不需要在其他地方使用的回调函数。当处理函数在调用它们的程序内部被定义时，代码具有更好地自闭性和可读性，可以省去寻找该处理函数的函数体位置的麻烦。
+
+用途：
+匿名函数最大的用途是创建闭包（这是 JavaScript 语言的特性之一），并且还可以构建命名空间，以减少全局变量的使用
+
+### 实现 compose
+
+<!-- compose([a, b, c])('参数') => a(b(c('参数'))) -->
+
+```js
+function compose(funcs) {
+  var len = funcs.length;
+  var index = len - 1;
+
+  for (let i = 0; i < len; i++) {
+    if (typeof funcs[i] !== 'function') {
+      throw new TypeError('Expected a function');
+    }
+  }
+
+  return function(...args) {
+    let result = funcs[index](...args); // 第一次
+    while (--index >= 0) {
+      result = funcs[index](result);
+    }
+    return result;
+  };
+}
+```
+
+```js
+function mul(x) {
+  return function(y) {
+    // anonymous function
+    return function(z) {
+      // anonymous function
+      return x * y * z;
+    };
+  };
+}
+
+console.log(mul(2)(3)(4)); // output : 24
+console.log(mul(4)(3)(4)); // output : 48
+```
+
+## 定时器函数
+
+- setTimeout 表示间隔一段时间之后执行一次调用
+- setInterval 则是每间隔一段时间循环调用
+- setImmediate 立即执行函数
+- requestAnimationFrame 在浏览器重绘之前执行回调函数（类似 setTimeout 延迟执行）
+
+clearTimeout, clearInterval 函数用来结束尚未执行的 setTimeout 和 setInterval。
+
+内存方面，setTimeout 只需要进入一次队列，不会造成内存溢出；setInterval 因为不计算代码执行时间，有可能同时执行多次代码，导致内存溢出。
+
+### setTimeout、setInterval、requestAnimationFrame 各有什么特点？
+
+很多人认为 `setTimeout` 是延时多久，那就应该是多久后执行。其实这个观点是错误的，因为 JS 是单线程执行的，如果前面的代码影响了性能，就会导致 `setTimeout` 不会按期执行。
+
+`setInterval` 和 `setTimeout` 一样，不能保证在预期的时间执行任务。
+
+如果有循环定时器的需求，其实完全可以通过 `requestAnimationFrame` 来实现
+
+```js
+function setInterval(callback, interval) {
+  let timer;
+  const now = Date.now;
+  let startTime = now();
+  let endTime = startTime;
+  const loop = () => {
+    timer = window.requestAnimationFrame(loop);
+    endTime = now();
+    if (endTime - startTime >= interval) {
+      startTime = endTime = now();
+      callback(timer);
+    }
+  };
+  timer = window.requestAnimationFrame(loop);
+  return timer;
+}
+
+let a = 0;
+setInterval(timer => {
+  console.log(1);
+  a++;
+  if (a === 3) cancelAnimationFrame(timer);
+}, 1000);
+```
+
+首先 `requestAnimationFrame` 自带函数节流功能，基本可以保证在 16.6 毫秒内只执行一次（不掉帧的情况下），并且该函数的延时效果是精确的，没有其他定时器时间不准的问题。
+
+常见的定时器函数有 `setTimeout`、`setInterval`、`requestAnimationFrame`，但 setTimeout、setInterval 并不是到了哪个时间就执行，**而是到了那个时间把任务加入到异步事件队列中**。
+
+因为 JS 是单线程执行的，如果某些同步代码影响了性能，就会导致 setTimeout 不会按期执行。
+
+而 setInterval 可能经过了很多同步代码的阻塞，导致不正确了，可以使用 setTimeout 每次获取 Date 值，计算距离下一次期望执行的时间还有多久来动态的调整。
+
+[requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame) 自带函数节流功能，基本可以保证在 16.6 毫秒内只执行一次（不掉帧的情况下），并且该函数的延时效果是精确的，没有其他定时器时间不准的问题
+
+### 133.用 setTimeout 实现 setInterval，阐述实现的效果与 setInterval 的差异
+
+```js
+function mySetInterval() {
+  mySetInterval.timer = setTimeout(() => {
+    arguments[0]();
+    mySetInterval(...arguments);
+  }, arguments[1]);
+}
+
+mySetInterval.clear = function() {
+  clearTimeout(mySetInterval.timer);
+};
+
+mySetInterval(() => {
+  console.log(11111);
+}, 1000);
+
+setTimeout(() => {
+  // 5s 后清理
+  mySetInterval.clear();
+}, 5000);
+```
+
+### requestAnimationFrame 的作用及使用，替代 setTimeout 的写法
+
+### setTimeout 和 requestAnimationFrame 的区别
+
+## 数组
+
+### 判断数组的方式
+
+1. Object.prototype.toString.call()
+2. instanceof
+3. Array.isArray()
+
+性能方面：判断数据 Array.isArray() 性能最好，instanceof 次之，Object.prototype.toString.call() 第三
+功能方面：`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是 100% 准确。
+
+`Object.prototype.toString.call()` 能够得到的值, 8 种: number, boolean, string, undefined, symbol, object, function, bigint。
+
+instanceof 只能判断对象原型，原始类型不可以。
+
+```js
+[] instanceof Object; // true
+```
+
+Array.isArray 优于 instanceof ，因为 Array.isArray 可以检测出 frames, Array.isArray() 是 ES5 新增的方法，当使用 ie8 的时候就会出现问题。当不存在 Array.isArray() ，可以用 Object.prototype.toString.call() 实现。
+
+如果浏览器支持 Array.isArray()可以直接判断否则需进行必要判断
+
+```js
+function isArray(value) {
+  // ECMAScript 5 feature
+  if (typeof Array.isArray === 'function') {
+    return Array.isArray(value);
+  } else {
+    return Object.prototype.toString.call(value) === '[object Array]';
+  }
+}
+```
+
+#### 2. instanceof
+
+`instanceof` 的内部机制是通过判断对象的原型链中是不是能找到类型的 `prototype`。
+
+使用 `instanceof`判断一个对象是否为数组，`instanceof` 会判断这个对象的原型链上是否会找到对应的 `Array` 的原型，找到返回 `true`，否则返回 `false`。
+
+```js
+[] instanceof Array; // true
+```
+
+但 `instanceof` 只能用来判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true。
+
+```js
+[] instanceof Object; // true
+```
+
+### ['1', '2', '3'].map(parseInt)
+
+map 会给函数传递 3 个参数： (elem, index, array) 而 parseInt 接收两个参数(sting, radix)，其中 radix 代表进制。省略 radix 或 radix = 0，则数字将以十进制解析。 因此，map 遍历 ["1", "2", "3"]，相应 parseInt 接收参数如下
+
+```js
+parseInt('1', 0); // 1
+parseInt('2', 1); // NaN
+parseInt('3', 2); // NaN
+```
+
+因为二进制里面，没有数字 3,导致出现超范围的 radix 赋值和不合法的进制解析，才会返回 NaN 所以["1", "2", "3"].map(parseInt) 答案也就是：[1, NaN, NaN]
+
+### Array(...)和 Array.of(...) 的区别
+
+Array(...)的作用是接受参数返回一个数组，但是有一个陷阱，如果只传入一个参数，并且这个参数是数 字的话，那么不会构造一个值为这个数字的单个元素的数组，而是构造一个空数组
+
+```js
+var a = Array(3);
+a.length; // 3
+a[0]; // undefined
+```
+
+Array.of(..)解决掉了这个陷阱
+
+```js
+var b = Array.of(3);
+b.length; // 1
+b[0]; // 3
+var c = Array.of(1, 2, 3);
+c.length; // 3
+c; // 1,2,3
+```
+
+### Array 对象自带的排序函数 sort 底层是怎么实现的？
+
+长度小于多少的时候采用 ？ 大于多少的时候采用 ？
+
+### 创建数组的几种方法
+
+有什么不同？数组可以直接通过 length 来指定长度，自动扩展，自动清空。
+
+### 类数组对象转换为数组
+
+类数组对象：只包含使用从零开始，且自然递增的整数做键名，并且定义了 length 表示元素个数的对象，我们就认为他是类数组对象！类数组对象可以进行读写操作和遍历操作。
+
+```js
+var arrLike = {
+  length: 4,
+  2: 'foo',
+};
+```
+
+要将其转换为真正的数组可以使用各种 Array.prototype 方法(map(..)、indexOf(..) 等)
+
+```js
+var arr = Array.prototype.slice.call(arrLike);
+var arr2 = arr.slice();
+var arr = Array.from(arrLike);
+```
+
+常见的类数组:
+
+1. arguments
+
+```js
+console.log(Array.isArray(arguments)); //false
+console.log(arguments);
+//node打印: {}
+//chrome打印: Arguments [callee: ƒ, Symbol(Symbol.iterator): ƒ]
+//因为arguments具有Symbol.iterator属性，所以它可以用扩展运算符(...arguments) 或 其他�使用迭代器的方法
+```
+
+2. dom 中
+
+```js
+//仅限浏览器中
+const nodeList = document.querySelectorAll('*');
+console.log(Array.isArray(nodeList));
+```
+
+3. 字符串 String
+
+```js
+const array = Array.from('abc');
+console.log(array);
+//["a", "b", "c"]
+```
+
+4. TypedArray
+
+```js
+const typedArray = new Int8Array(new ArrayBuffer(3));
+console.log(Array.isArray(typedArray));
+//false
+```
+
+5. {length:0} 是类数组的特殊情况，转换时可以执行成功，返回空数组[]
+
+```js
+console.log(Array.from({ length: 0 }));
+//[]
+console.log(Array.from(''));
+//[]
+```
+
+### 清空数组
+
+```js
+var ary = [1, 2, 3, 4];
+ary.splice(0, ary.length);
+console.log(ary); // 输出 []，空数组，即被清空了
+```
+
+### 使用 sort() 对数组 [3, 15, 8, 29, 102, 22] 进行排序，输出结果
+
+[102, 15, 22, 29, 3, 8]
+
+根据 MDN 上对 Array.sort()的解释，默认的排序方法会将数组元素转换为字符串，然后比较字符串中字符的 UTF-16 编码顺序来进行排序。所以'102' 会排在 '15' 前面。
+
+### 用 Array 的 reduce 方法实现 map 方法（头条一面）
+
+```js
+const selfMap2 = function(fn, context) {
+  let arr = Array.prototype.slice.call(this);
+  // 这种实现方法和循环的实现方法有异曲同工之妙，利用reduce contact起数组中每一项
+  // 不过这种有个弊端，会跳过稀疏数组中为空的项
+  return arr.reduce((pre, cur, index) => {
+    return [...pre, fn.call(context, cur, index, this)];
+  }, []);
+};
+```
+
+### 给出数组超过半数的数字，不存在的话输出没有（要求时间复杂度最低）
+
+```js
+function moreThanHalfNum(numbers) {
+  // write code here
+  var obj = {};
+  var len = numbers.length;
+  numbers.forEach(function(s) {
+    if (obj[s]) {
+      obj[s]++;
+    } else {
+      obj[s] = 1;
+    }
+  });
+  for (var i in obj) {
+    if (obj[i] > Math.floor(len / 2)) {
+      return i;
+    }
+  }
+  return 0;
+}
+```
+
+### 取数组的最大值（ES5、ES6)
+
+```js
+// ES5 的写法
+Math.max.apply(null, [14, 3, 77, 30]);
+
+// ES6 的写法
+Math.max(...[14, 3, 77, 30]);
+
+// reduce
+[14, 3, 77, 30].reduce((accumulator, currentValue) => {
+  return (accumulator = accumulator > currentValue ? accumulator : currentValue);
+});
+
+let arr = [12, 3, 77, 30].sort((a, b) => b - a);
+arr[0];
+```
+
+### 实现 flatten 扁平化函数
+
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+
+```js
+Array.from(new Set(arr.flat(Infinity))).sort((a, b) => {
+  return a - b;
+});
+```
+
+**竟然原生就有这个 flat 函数，用来拍平数组**
+flat 函数的参数是层级。Infinity 无限大。 会拍平数组中的所有数组值。
+
+递归实现
+
+```js
+function flatten(arr) {
+  let temp = [];
+  arr.map(item => {
+    if (Array.isArray(item)) {
+      temp.push(...flatten(item));
+    } else {
+      temp.push(item);
+    }
+  });
+  return temp;
+}
+```
+
+使用 es6 的 reduce 函数
+
+```js
+const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+```
