@@ -6,16 +6,14 @@ draft: true
 
 ## Computed
 
-new Watcher(vm, expFn,)
+`new Watcher(vm, expFn,)`
 
 ```js
 // watcher
 class Watcher {
   constructor() {
-    ...
-    this.value = his.lazy
-        ? undefined
-        : this.get();
+    // ...
+    this.value = his.lazy ? undefined : this.get();
   }
   get() {
     // 压入当前 watcher 到 Dep.target 中
@@ -41,8 +39,6 @@ class Watcher {
     return value;
   }
 }
-
-
 ```
 
 pushTarget 设置的是一个 watcher 实例，携带一个 expFn ， 也就是依赖的函数或者说，值改变之后需要重新执行的函数。此时 Dep.target 就是这个实例值。
