@@ -1,237 +1,8 @@
 ---
-title: 懒加载的实现原理
+title: Vuex
 date: '2020-10-26'
 draft: true
 ---
-
-### vuex 的原理 ？对 vuex 的理解
-
-vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统。其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。
-
-vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件。
-
-vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
-
-### Vuex 底层实现
-
-vuex 仅仅是作为 vue 的一个插件而存在，不像 Redux,MobX 等库可以应用于所有框架，vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统，vuex 整体思想诞生于 flux,可其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。最后一句话结束 vuex 工作原理，vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件；
-
-vuex 的原理其实非常简单，它为什么能实现所有的组件共享同一份数据？
-因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
-store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
-如果对 vuex 的实现有兴趣，可以看看我自己造的一个 vue 轮子对应的 vuex 插件。它实现了除 vuex 模块外的所有功能。
-
-### 模块
-
-state: 状态中心
-mutations: 更改状态
-actions: 异步更改状态
-getters: 获取状态
-modules: 将 state 分成多个 modules，便于管理
-
-### 状态自管理应用
-
-包含三个部分：
-
-- **state**, 数据源
-- **view**， 以声明方式将**state**映射到视图
-- **actions**, 响应在**view**上的用户输入导致的状态变化
-
-但是如果应用遇到**多个组件共享状态**时，单向数据流的简洁性很容易被破坏：
-
-- 多个视图依赖于同一状态
-- 来自不同视图的行为需要变更同一状态
-
-对于问题一，传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。对于问题二，我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。以上的这些模式非常脆弱，通常会导致无法维护的代码。
-
-把组件的共享状态抽取出来，以一个全局单例模式管理。？在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为。
-
-## 开始
-
-每一个 Vuex 应用的核心就是**store**(仓库)。 store 基本上就是一个容器，包含应用中的大部分**状态（state）**。
-
-### Store
-
-调用 Vuex.Store 函数的例子：
-
-```js
-export default new Vuex.Store({
-  modules: {
-    cart,
-    products,
-  },
-  strict: debug,
-  plugins: debug ? [createLogger()] : [],
-});
-```
-
-传入参数： modules、strict、plugins
-
-### mutations and actions
-
-mutations 是一个函数，类比于 redux 中的 reducer， 实际会接收 被触发的 action 和 payload， 相应会对 state 改变。
-
-actions 是一个函数，接收一个 context 参数包含 commit 方法 和 state 值， commit 方法是触发 mutations 的一种方式。
-
-### commit and dispatch
-
-commit 函数是用来触发单个 action 的，
-
-dispatch 函数是用来分发单个 action 的， 但是在单个 action 中，可以触发多次某个 mutations 中的函数，也就是同步改变 state 值。
-
-### mapGetters and mapActions
-
-mapActions 实际上是将 actions 映射到 Store.dispatch 函数中，所以在 mapActions 函数输入参数之后，被 vue 组件调用的方法实际上是经过 Store.dispatch 来调用的。
-
-### 简而言之
-
-#### vuex 同步：
-
-是被分发的 action 只触发（commit）一次 mutation （也就是只执行一次 mutations 中的函数）
-
-```js
-actions: {
-  increment ({ commit }) {
-    commit('increment')
-  }
-}
-```
-
-#### vuex 异步：
-
-是被分发的 action 会触发（commit）多次 mutation （也就是会执行多次 mutations 中的函数）
-
-```js
-actions: {
-  checkout ({ commit, state }, products) {
-    // 把当前购物车的物品备份起来
-    const savedCartItems = [...state.cart.added]
-    // 发出结账请求，然后乐观地清空购物车
-    commit(types.CHECKOUT_REQUEST)
-    // 购物 API 接受一个成功回调和一个失败回调
-    shop.buyProducts(
-      products,
-      // 成功操作
-      () => commit(types.CHECKOUT_SUCCESS),
-      // 失败操作
-      () => commit(types.CHECKOUT_FAILURE, savedCartItems)
-    )
-  }
-}
-```
-
-### 考虑对于 vuex 的封装
-
-#### 一般异步场景：
-
-执行异步操作（比如拉取数据），在 getter 数据更新之后 vue 会自动对视图进行更新。到这里就结束了。
-
-#### 多步异步场景：
-
-比如：授权 action，异步接口返回结果之后，再考虑更新列表数据
-
-（不过想了想，如果不使用状态机，这是一个伪需求，就不需要在 vuex 中存储授权接口的状态了。）
-
-### vuex 在使用中，初始化的部分
-
-#### 安装 vuex
-
-```js
-import Vue from 'vue';
-import Vuex from 'vuex';
-
-Vue.use(Vuex);
-```
-
-内部实现：
-
-![](http://media.zhijianzhang.cn//file/2018/10/4bf5cd431af845a6814635362395d22f_image.png)
-
-![](http://media.zhijianzhang.cn//file/2018/10/9fccaaca083c473e9c60b33eeaacf535_image.png)
-
-`this._installedPlugins` 目前还是空的，因此不会执行到下面的 `plugin.install` 的部分。 `Vue.install(Vuex)` 调用 `use` 函数，根据判断条件， `Vuex` 这个 `plugin` 的安装是直接调用 `Vuex.install()` 函数。
-
-todo: 这里不确定是不是没有传参数。
-
-接下来就看看 `Vuex.install()` 函数。位于 `Vuex` 源码的 `src/store.js` 中。
-
-这里的 `Vue` 是一个全局变量，可以看到，这里的 `install` 函数主要是执行 `applyMixin(Vue)` 。
-
-`applyMixin()` 函数位于 `src/mixin.js` 中：
-
-```js
-  if (version >= 2) {
-    Vue.mixin({ beforeCreate: vuexInit })
-  } else {
-  ...
-  }
-```
-
-这里在 Vue 版本大于 2 的时候，就执行 `Vue.mixin(...)` ，暂时就先不看 `Vue@1.x` 的 `applyMixin` 逻辑了。
-
-![](http://media.zhijianzhang.cn//file/2018/10/8fb0094a0d0b4f67ab5ac6f1ad2453a7_image.png)
-
-黄线框出的部分比较好理解，就是为 vue 实例创建一个 `$store` 属性，值是 `Vuex` 的实例 `store`。如果你不了解 `this.$options` 的值，可以参考官网 [\$options](https://cn.vuejs.org/v2/api/#vm-options)。 事实上，`this.$options` 能够获取当前的 vue 实例，在调用 `new Vue()` 初始化函数的时候传入的所有参数。
-
-![](http://media.zhijianzhang.cn//file/2018/10/ccbfca617b0040efbcd1ea15e460f33e_image.png)
-
-![](http://media.zhijianzhang.cn//file/2018/10/77675ecd9b224ce7b4ad83ca3abf753f_image.png)
-
-也就是说，在 当前的 vue 实例中，直接通过 `this.$store` 能够获取到 `vuex` 的实例，也就是能够直接 `this.$store.commit(...)` `this.$store.dispatch(...)` 等操作。
-
-Todo: 不过红色部分，我暂时不是很能理解，为什么明明 `Vue.use(Vuex)` 只在 `main.js` （可以理解为根组件）执行，但是所有的子组件中都能够通过 `this.$store.dispatch(...)` 这样来操作。
-
-main.js
-
-![](http://media.zhijianzhang.cn//file/2018/10/4e84021d763043098a55b3315fd42bbd_image.png)
-
-store.js
-
-![](http://media.zhijianzhang.cn//file/2018/10/19054c98613c4cb8aca824946390990a_image.png)
-
-接着来看一下上文中的 `applyMixin(Vue)` 函数中出现的 `Vue.mixin(...)` 函数是如何实现的， 该函数定位位于 `src/global-api/mixin.js` 中。
-
-![](http://media.zhijianzhang.cn//file/2018/10/6bef2da22edf4954bae88b5cfbe1af38_image.png)
-
-很简单，就是将每一次 `Vue.mixin(...)` 传入的参数进行一次 merge，最后再将 merge 好之后的 vue 实例返回。
-
-创建 vuex 实例
-
-```js
-const store = new Vuex.Store({
-  state: {
-    count: 0,
-  },
-  mutations: {
-    increment(state) {
-      state.count++;
-    },
-  },
-});
-```
-
-### 更好的双向绑定
-
-https://github.com/maoberlehner/vuex-map-fields
-
-我觉得应该是 mapStateSync 更好一点
-
-### Generate.js 的理念
-
-对于 actions （一般指异步请求而言）包含以下两个步骤：
-
-1. start => 意味着开始填写数据
-2. perform => （填写数据）并发送请求
-
-所以 generate.js 的 actions 有两个函数，分别是 xxxStart 和 xxxPerform 覆盖异步函数的处理场景
-
-### mutation 如何触发 store 改变的？ store 的值改变又是如何通知视图进行变化的
-
-## vuex 相关
-
-### vuex 有哪几种属性
-
-有 5 种，分别是 state、getter、mutation、action、module
 
 ### vuex 的 store 特性是什么
 
@@ -266,7 +37,7 @@ https://github.com/maoberlehner/vuex-map-fields
 
 Vue.use(Vuex) 方法执行的是 install 方法，它实现了 Vue 实例对象的 init 方法封装和注入，使传入的 store 对象被设置到 Vue 上下文环境的$store 中。因此在 Vue Component 任意地方都能够通过 this.$store 访问到该 store。
 
-### state 内部支持模块配置和模块嵌套，如何实现的？[美团](https://tech.meituan.com/vuex_code_analysis.html)
+### state 内部支持模块配置和模块嵌套，如何实现的？
 
 在 store 构造方法中有 makeLocalContext 方法，所有 module 都会有一个 local context，根据配置时的 path 进行匹配。所以执行如 dispatch('submitOrder', payload)这类 action 时，默认的拿到都是 module 的 local state，如果要访问最外层或者是其他 module 的 state，只能从 rootState 按照 path 路径逐步进行访问。
 
@@ -347,13 +118,6 @@ b: moduleB
 })
 ```
 
-### vuex 原理
-
-vuex 的原理其实非常简单，它为什么能实现所有的组件共享同一份数据？
-因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
-store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
-如果对 vuex 的实现有兴趣，可以看看我自己造的一个 vue 轮子对应的 vuex 插件。它实现了除 vuex 模块外的所有功能。
-
 ### vuex 和 mobx 为什么不需要 immutable， redux 不使用 redux 会怎样
 
 ### vuex 订阅机制
@@ -415,3 +179,54 @@ vuex 旧列表数据在页面进行切换的时候，在 vuex 中还存在旧数
 ### vuex 动态加载 namespace， 整个 store 树一起加载会很慢
 
 - 首先，vuex 里面并不推荐使用 redux 的状态机，success error 等状态，都能够触发不同的自定义异步事件，至于 loading 的状态，应该是根据 vuex getter 中获取的数据，是否符合预期，符合预期就显示，如果不符合预期，比如报错了，如果不使用全局通知的话怎么全局显示 是一个问题？这就是状态机的必要之处吧？ 想一想这里如何进行处理。 如果能用全局通知的话，状态机似乎就真的没啥用了。
+
+### vuex 的原理 ？对 vuex 的理解
+
+vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统。其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。
+
+vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件。
+
+vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
+
+### vuex
+
+vuex 有有 5 种属性，分别是 state、getter、mutation、action、module
+
+包含三个部分：
+
+- **state**, 数据源
+- **view**， 以声明方式将**state**映射到视图
+- **actions**, 响应在**view**上的用户输入导致的状态变化
+
+但是如果应用遇到**多个组件共享状态**时，单向数据流的简洁性很容易被破坏：
+
+- 多个视图依赖于同一状态
+- 来自不同视图的行为需要变更同一状态
+
+对于问题一，传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。对于问题二，我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。以上的这些模式非常脆弱，通常会导致无法维护的代码。
+
+把组件的共享状态抽取出来，以一个全局单例模式管理。？在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为。
+
+### Vuex 底层实现
+
+vuex 仅仅是作为 vue 的一个插件而存在，不像 Redux,MobX 等库可以应用于所有框架，vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统，vuex 整体思想诞生于 flux,可其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。最后一句话结束 vuex 工作原理，vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件；
+
+vuex 的原理其实非常简单，它为什么能实现所有的组件共享同一份数据？
+因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
+store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
+如果对 vuex 的实现有兴趣，可以看看我自己造的一个 vue 轮子对应的 vuex 插件。它实现了除 vuex 模块外的所有功能。
+
+### 模块
+
+state: 状态中心
+mutations: 更改状态
+actions: 异步更改状态
+getters: 获取状态
+modules: 将 state 分成多个 modules，便于管理
+
+### vuex 原理
+
+vuex 的原理其实非常简单，它为什么能实现所有的组件共享同一份数据？
+因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
+store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
+如果对 vuex 的实现有兴趣，可以看看我自己造的一个 vue 轮子对应的 vuex 插件。它实现了除 vuex 模块外的所有功能。

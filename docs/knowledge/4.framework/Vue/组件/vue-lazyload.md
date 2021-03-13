@@ -41,8 +41,6 @@ draft: true
 
 1. data-srcset img 标签的预设 url， 自定义 html 属性可以一开始不加载 url 使用一个默认的很小的 base64 图片来显示，图片马上进入视图范围以内时，通过一个 loading 切换动画，并且监听器回调通过将预设的 url 替换到默认的 src 值上面，此时就会去发起 http 请求图片，达到一个懒加载的效果。
 
-2. [`dataset`](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/dataset)
-
 ### 源码分析
 
 ```js
