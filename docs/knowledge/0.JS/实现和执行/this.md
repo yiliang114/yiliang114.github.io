@@ -252,3 +252,470 @@ let obj = {
 // Uncaught TypeError: this.fun1 is not a function
 obj.fun2();
 ```
+
+## 变量提升
+
+```js
+function sayHi() {
+  console.log(name);
+  console.log(age);
+  var name = 'Lydia';
+  let age = 21;
+}
+sayHi();
+// undefined 和 ReferenceError
+```
+
+```js
+let name = 'ConardLi';
+{
+  console.log(name); // Uncaught ReferenceError: name is not defined
+  // Uncaught ReferenceError: Cannot access 'name' before initialization
+  let name = 'code秘密花园';
+}
+```
+
+```js
+var employeeId = 'abc123';
+
+function foo() {
+  employeeId = '123bcd';
+  return;
+
+  function employeeId() {}
+}
+foo();
+console.log(employeeId);
+// abc123
+```
+
+```js
+var employeeId = 'abc123';
+
+function foo() {
+  employeeId();
+  return;
+
+  function employeeId() {
+    console.log(typeof employeeId);
+  }
+}
+foo();
+// function
+```
+
+```js
+// TODO:
+function foo() {
+  employeeId();
+  var product = 'Car';
+  return;
+
+  function employeeId() {
+    console.log(product);
+  }
+}
+foo();
+// undefined
+```
+
+```js
+// TODO:
+(function() {
+  var objA = Object.create({
+    foo: 'foo',
+  });
+  var objB = objA;
+  objB.foo = 'bar';
+
+  delete objA.foo;
+  console.log(objA.foo);
+  console.log(objB.foo);
+})();
+// foo foo
+```
+
+```js
+(function() {
+  var objA = {
+    foo: 'foo',
+  };
+  var objB = objA;
+  objB.foo = 'bar';
+
+  delete objA.foo;
+  console.log(objA.foo);
+  console.log(objB.foo);
+})();
+// undefined undefined
+```
+
+```js
+(function() {
+  var array = new Array('100');
+  console.log(array);
+  console.log(array.length);
+})();
+// ["100"] 1
+```
+
+```js
+(function() {
+  var array1 = [];
+  var array2 = new Array(100);
+  var array3 = new Array(['1', 2, '3', 4, 5.6]);
+  console.log(array1);
+  console.log(array2);
+  console.log(array3);
+  console.log(array3.length);
+})();
+// [] [] [Array[5]] 1
+```
+
+```js
+(function() {
+  var array = new Array('a', 'b', 'c', 'd', 'e');
+  array[10] = 'f';
+  delete array[10];
+  console.log(array.length);
+})();
+// 11
+```
+
+```js
+function funcA() {
+  console.log('funcA ', this);
+  (function innerFuncA1() {
+    console.log('innerFunc1', this);
+    (function innerFunA11() {
+      console.log('innerFunA11', this);
+    })();
+  })();
+}
+
+console.log(funcA());
+// funcA  Window {...}
+// innerFunc1 Window {...}
+// innerFunA11 Window {...}
+```
+
+```js
+var obj = {
+  message: 'Hello',
+  innerMessage: !(function() {
+    console.log(this.message);
+  })(),
+};
+
+console.log(obj.innerMessage);
+// undefined
+// true
+```
+
+```js
+var obj = {
+  message: 'Hello',
+  innerMessage: function() {
+    return this.message;
+  },
+};
+
+console.log(obj.innerMessage());
+// Hello
+```
+
+```js
+var obj = {
+  message: 'Hello',
+  innerMessage: function() {
+    // 直接是 window 调用的该函数
+    (function() {
+      console.log(this.message);
+    })();
+  },
+};
+console.log(obj.innerMessage());
+// undefined
+```
+
+```js
+var obj = {
+  message: 'Hello',
+  innerMessage: function() {
+    var self = this;
+    (function() {
+      console.log(self.message);
+    })();
+  },
+};
+console.log(obj.innerMessage());
+// Hello
+```
+
+```js
+function myFunc(param1, param2) {
+  console.log(myFunc.length);
+}
+console.log(myFunc());
+console.log(myFunc('a', 'b'));
+console.log(myFunc('a', 'b', 'c', 'd'));
+// 2 2 2
+```
+
+```js
+function myFunc() {
+  console.log(arguments.length);
+}
+console.log(myFunc());
+console.log(myFunc('a', 'b'));
+console.log(myFunc('a', 'b', 'c', 'd'));
+// 0 2 4
+```
+
+```js
+function Person(name, age) {
+  this.name = name || 'John';
+  this.age = age || 24;
+  this.displayName = function() {
+    console.log(this.name);
+  };
+}
+
+Person.name = 'John';
+Person.displayName = function() {
+  // this 指向 Person 对象（函数）的函数名： Person
+  console.log(this.name);
+};
+
+var person1 = new Person('John');
+person1.displayName();
+Person.displayName();
+
+// John Person
+```
+
+### 作用域
+
+```js
+var foo = 'Hello';
+(function() {
+  var bar = ' World';
+  alert(foo + bar);
+})();
+alert(foo + bar);
+
+// "Hello World" 和 ReferenceError: bar is not defined
+```
+
+```js
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1);
+}
+
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1);
+}
+
+// 3 3 3 and 0 1 2
+```
+
+```js
+function getAge() {
+  'use strict';
+  age = 21;
+  console.log(age);
+}
+
+getAge();
+
+// ReferenceError
+```
+
+### 构造函数
+
+```js
+class Chameleon {
+  static colorChange(newColor) {
+    this.newColor = newColor;
+  }
+
+  constructor({ newColor = 'green' } = {}) {
+    this.newColor = newColor;
+  }
+}
+
+const freddie = new Chameleon({ newColor: 'purple' });
+freddie.colorChange('orange');
+
+// TypeError
+```
+
+```js
+function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+const member = new Person('Lydia', 'Hallie');
+// 非原型链
+Person.getFullName = () => this.firstName + this.lastName;
+
+// member.getFullName === undefined
+console.log(member.getFullName());
+
+// TypeError
+```
+
+```js
+function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+const lydia = new Person('Lydia', 'Hallie');
+const sarah = Person('Sarah', 'Smith');
+
+console.log(lydia);
+console.log(sarah);
+
+// Person {firstName: "Lydia", lastName: "Hallie"} and undefined
+```
+
+```js
+String.prototype.giveLydiaPizza = () => {
+  return 'Just give Lydia pizza already!';
+};
+
+const name = 'Lydia';
+
+name.giveLydiaPizza();
+('Just give Lydia pizza already!');
+```
+
+### 函数
+
+```js
+function getPersonInfo(one, two, three) {
+  console.log(one);
+  console.log(two);
+  console.log(three);
+}
+
+const person = 'Lydia';
+const age = 21;
+
+getPersonInfo`${person} is ${age} years old`;
+
+// ["", " is ", " years old"] Lydia 21
+```
+
+### 对象
+
+```js
+const a = {};
+const b = { key: 'b' };
+const c = { key: 'c' };
+
+a[b] = 123;
+a[c] = 456;
+
+console.log(a[b]);
+
+// 456
+```
+
+### 变量提升
+
+```js
+var a = 10;
+(function() {
+  console.log(a);
+  a = 5;
+  console.log(window.a);
+  var a = 20;
+  console.log(a);
+})();
+```
+
+分别为 undefined 　 10 　 20，原因是作用域问题，在内部声名 var a = 20;相当于先声明 var a;然后再执行赋值操作，这是在ＩＩＦＥ内形成的独立作用域，如果把 var a=20 注释掉，那么 a 只有在外部有声明，显示的就是外部的Ａ变量的值了。结果Ａ会是 10 　 5 　 5
+
+```js
+var b = 10;
+(function b() {
+  b = 20;
+  console.log(b);
+})();
+```
+
+```js
+var b = 10;
+(function b() {
+  b = 20;
+  console.log(b);
+})();
+```
+
+针对这题，在知乎上看到别人的回答说：
+
+1. 函数表达式与函数声明不同，函数名只在该函数内部有效，并且此绑定是常量绑定。
+2. 对于一个常量进行赋值，在 strict 模式下会报错，非 strict 模式下静默失败。
+3. IIFE 中的函数是函数表达式，而不是函数声明。
+
+实际上，有点类似于以下代码，但不完全相同，因为使用 const 不管在什么模式下，都会 TypeError 类型的错误
+
+```js
+const foo = (function() {
+  foo = 10;
+  console.log(foo);
+})(foo)(); // Uncaught TypeError: Assignment to constant variable.
+```
+
+我的理解是，b 函数是一个相当于用 const 定义的常量，内部无法进行重新赋值，如果在严格模式下，会报错"Uncaught TypeError: Assignment to constant variable."
+例如下面的：
+
+```js
+var b = 10;
+(function b() {
+  'use strict';
+  b = 20;
+  console.log(b);
+})(); // "Uncaught TypeError: Assignment to constant variable."
+```
+
+### return value
+
+```js
+function getNumber() {
+  return 2, 4, 5;
+}
+
+var numb = getNumber();
+console.log(numb);
+// 5 最后一个值就是 return 回的值
+```
+
+```js
+(function() {
+  function sayHello() {
+    var name = 'Hi John';
+    return;
+    {
+      fullName: name;
+    }
+  }
+  console.log(sayHello().fullName);
+})();
+// 需要在同一行
+// Uncaught TypeError: Cannot read property 'fullName' of undefined
+```
+
+### sort 函数
+
+```js
+(function() {
+  var arrayNumb = [2, 8, 15, 16, 23, 42];
+  arrayNumb.sort();
+  console.log(arrayNumb);
+})();
+// [ 15, 16, 2, 23, 42, 8 ]
+```

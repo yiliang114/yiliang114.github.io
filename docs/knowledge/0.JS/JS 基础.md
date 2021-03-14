@@ -105,46 +105,6 @@ var funExpression = function(type) {
 用途：
 匿名函数最大的用途是创建闭包（这是 JavaScript 语言的特性之一），并且还可以构建命名空间，以减少全局变量的使用
 
-### 实现 compose
-
-<!-- compose([a, b, c])('参数') => a(b(c('参数'))) -->
-
-```js
-function compose(funcs) {
-  var len = funcs.length;
-  var index = len - 1;
-
-  for (let i = 0; i < len; i++) {
-    if (typeof funcs[i] !== 'function') {
-      throw new TypeError('Expected a function');
-    }
-  }
-
-  return function(...args) {
-    let result = funcs[index](...args); // 第一次
-    while (--index >= 0) {
-      result = funcs[index](result);
-    }
-    return result;
-  };
-}
-```
-
-```js
-function mul(x) {
-  return function(y) {
-    // anonymous function
-    return function(z) {
-      // anonymous function
-      return x * y * z;
-    };
-  };
-}
-
-console.log(mul(2)(3)(4)); // output : 24
-console.log(mul(4)(3)(4)); // output : 48
-```
-
 ## 定时器函数
 
 - setTimeout 表示间隔一段时间之后执行一次调用
