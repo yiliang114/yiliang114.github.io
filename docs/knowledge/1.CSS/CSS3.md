@@ -251,34 +251,31 @@ div
 
 代码如下
 
-```
+```html
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title></title>
-<style>
-div
-{
-    width:400px;
-    margin:0 auto;
-    overflow : hidden;
-    border:1px solid #ccc;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-</style>
-</head>
-<body>
-
-<div>这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏</div>
-
-
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      div {
+        width: 400px;
+        margin: 0 auto;
+        overflow: hidden;
+        border: 1px solid #ccc;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏这里将会超出隐藏
+    </div>
+  </body>
 </html>
-
 ```
 
 效果图
@@ -372,37 +369,34 @@ css
 
 栗子代码如下
 
-```
+```html
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title></title>
-<style>
-body {
-    background-color: pink;
-}
-@media screen and (max-width: 960px) {
-    body {
-        background-color: darkgoldenrod;
-    }
-}
-@media screen and (max-width: 480px) {
-    body {
-        background-color: lightgreen;
-    }
-}
-</style>
-</head>
-<body>
-
-<h1>重置浏览器窗口查看效果！</h1>
-<p>如果媒体类型屏幕的可视窗口宽度小于 960 px ，背景颜色将改变。</p>
-<p>如果媒体类型屏幕的可视窗口宽度小于 480 px ，背景颜色将改变。</p>
-
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      body {
+        background-color: pink;
+      }
+      @media screen and (max-width: 960px) {
+        body {
+          background-color: darkgoldenrod;
+        }
+      }
+      @media screen and (max-width: 480px) {
+        body {
+          background-color: lightgreen;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>重置浏览器窗口查看效果！</h1>
+    <p>如果媒体类型屏幕的可视窗口宽度小于 960 px ，背景颜色将改变。</p>
+    <p>如果媒体类型屏幕的可视窗口宽度小于 480 px ，背景颜色将改变。</p>
+  </body>
 </html>
-
 ```
 
 运行效果

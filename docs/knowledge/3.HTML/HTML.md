@@ -63,7 +63,6 @@ CDN 缓存更方便
 - sessionStorage 的数据在页面会话结束时会被清除
 - 表单控件，calendar、date、time、email、url、search
 - 新的技术 webworker, websocket 等
-- XMLHTTPRequest2， 在线和离线事件等
 
 **新的 API**
 

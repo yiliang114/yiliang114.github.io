@@ -10,13 +10,6 @@ draft: true
 
 ### 什么是 window 对象? 什么是 document 对象
 
-- Window 对象表示当前浏览器的窗口，是 JavaScript 的顶级对象。
-- 我们创建的所有对象、函数、变量都是 Window 对象的成员。
-- Window 对象的方法和属性是在全局范围内有效的。
-- Document 对象是 HTML 文档的根节点与所有其他节点（元素节点，文本节点，属性节点, 注释节点）
-- Document 对象使我们可以通过脚本对 HTML 页面中的所有元素进行访问
-- Document 对象是 Window 对象的一部分，可通过 window.document 属性对其进行访问
-
 window
 
 - Window 对象表示当前浏览器的窗口，是 JavaScript 的顶级对象。
@@ -35,37 +28,30 @@ document
 - offsetLeft：返回当前元素相对于其 offsetParent 元素的左边的距离
 - getBoundingClientRect()：返回值是一个 DOMRect 对象，它包含了一组用于描述边框的只读属性——left、top、right 和 bottom，属性单位为像素
 
+### offsetWidth/offsetHeight,clientWidth/clientHeight 与 scrollWidth/scrollHeight 的区别
+
+- offsetWidth/offsetHeight 返回值包含 content + padding + border，效果与 e.getBoundingClientRect()相同
+- clientWidth/clientHeight 返回值只包含 content + padding，如果有滚动条，也不包含滚动条
+- scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺寸
+
 ### innerText 和 innerHTML 的区别
 
 设置值时 innerText 会把 HTML 标签当做普通的文本显示，而 innerHTML 则不会。也就是直接修改 innerHTML 会解析内容中的 HTML 标签，比如换行。
 
-### document 中的`load`事件和`DOMContentLoaded`事件之间的区别是什么？
+### DOM 常用 API
 
-当初始的 HTML 文档被完全加载和解析完成之后，`DOMContentLoaded`事件被触发，而无需等待样式表、图像和子框架的完成加载。
-
-`window`的`load`事件仅在 DOM 和所有相关资源全部完成加载后才会触发。
-
-### 为什么要使用`load`事件？这个事件有什么缺点吗？你知道一些代替方案吗，为什么使用它们？
-
-在文档装载完成后会触发`load`事件。此时，在文档中的所有对象都在 DOM 中，所有图像、脚本、链接和子框架都完成了加载。
-
-DOM 事件`DOMContentLoaded`将在页面的 DOM 构建完成后触发，但不要等待其他资源完成加载。如果在初始化之前不需要装入整个页面，这个事件是使用首选。
-
-### 请指出 document load 和 document DOMContentLoaded 两个事件的区别
-
-他们的区别是，触发的时机不一样，先触发 DOMContentLoaded 事件（DOM 树构建完成），后触发 load 事件（页面加载完毕）
+1. document.getElementById
+2. document.getElementsByTagName
+3. document.getElementsByClassName
+4. document.querySelectorAll
+5. document.createElement 添加新节点
+6. document.getElementById('id').parentElement 父元素
+7. document.getElementById('id').childNodes 子元素
+8. document.getElementById('div1').removeChild 删除节点
 
 ## BOM
 
 BOM 是 browser object model 的缩写， 简称浏览器对象模型。 主要处理浏览器窗口和框架，描述了与浏览器进行交互的方法和接口， 可以对浏览器窗口进行访问和操作， 譬如可以弹出新的窗口， 回退历史记录， 获取 url。
-
-### BOM 与 DOM 的关系
-
-- js 是通过访问 BOM 对象来访问、 控制、 修改浏览器
-- BOM 的 window 包含了 document， 因此通过 window 对象的 document 属性就可以访问、检索、 修改文档内容与结构。
-- document 对象又是 DOM 模型的根节点。
-
-因此， BOM 包含了 DOM， 浏览器提供出来给予访问的是 BOM 对象， 从 BOM 对象再访问到 DOM 对象， 从而 js 可以操作浏览器以及浏览器读取到的文档
 
 ### BOM 对象包含哪些内容？
 
@@ -74,6 +60,14 @@ BOM 是 browser object model 的缩写， 简称浏览器对象模型。 主要�
 - History 包含了浏览器窗口访问过的 URL。
 - Location 包含了当前 URL 的信息。
 - Screen 包含客户端显示屏的信息。
+
+### BOM 与 DOM 的关系
+
+- js 是通过访问 BOM 对象来访问、 控制、 修改浏览器
+- BOM 的 window 包含了 document， 因此通过 window 对象的 document 属性就可以访问、检索、 修改文档内容与结构。
+- document 对象又是 DOM 模型的根节点。
+
+因此， BOM 包含了 DOM， 浏览器提供出来给予访问的是 BOM 对象， 从 BOM 对象再访问到 DOM 对象， 从而 js 可以操作浏览器以及浏览器读取到的文档
 
 #### History 对象
 
@@ -86,9 +80,9 @@ History 对象包含用户（在浏览器窗口中） 访问过的 URL
 | forward() | 加载 history 列表中的下一个 URL。 |
 | go()      | 加载 history 列表中的某个具体页面 |
 
-#### Location 对象
+#### location 对象
 
-Location 对象包含有关当前 URL 的信息。
+location 对象包含有关当前 URL 的信息。
 
 | 属性     | 描述                                         |
 | -------- | -------------------------------------------- |
@@ -101,38 +95,6 @@ Location 对象包含有关当前 URL 的信息。
 | protocol | 设置或返回当前 URL 的协议。                  |
 | search   | 置或返回从问号 (?) 开始的 URL（查询部分） 。 |
 
-| 方法            | 描述                                                            |
-| --------------- | --------------------------------------------------------------- |
-| assign()        | 加载新的文档。                                                  |
-| reload(‘force’) | 重新加载当前文档。参数可选，不填或填 false 则取浏览器缓存的文档 |
-| replace()       | 用新的文档替换当前文档。                                        |
+#### navigator.userAgent
 
-#### Navigator 对象
-
-Navigator 对象包含的属性描述了正在使用的浏览器。 可以使用这些属性进行平台专用的配置。 虽然这个对象的名称显而易见的是 Netscape 的 Navigator 浏览器， 但其他实现了 JavaScript 的浏览器也支持这个对象。
-
-| 属性            | 描述                                                                                                |
-| --------------- | --------------------------------------------------------------------------------------------------- |
-| appCodeName     | 返回浏览器的代码名。 以 Netscape 代码为基础的浏览器中， 它的值是 "Mozilla"。Microsoft 也是          |
-| appMinorVersion | 返回浏览器的次级版本。 （IE4、 Opera 支持）                                                         |
-| appName         | 返回浏览器的名称。                                                                                  |
-| appVersion      | 返回浏览器的平台和版本信息。                                                                        |
-| browserLanguage | 返回当前浏览器的语言。 （IE 和 Opera 支持）cookieEnabled 返回指明浏览器中是否启用 cookie 的布尔值。 |
-| cpuClass        | 返回浏览器系统的 CPU 等级。 （IE 支持）                                                             |
-| onLine          | 返回指明系统是否处于脱机模式的布尔值。                                                              |
-| platform        | 返回运行浏览器的操作系统平台。                                                                      |
-| systemLanguage  | 返回当前操作系统的默认语言。 （IE 支持）                                                            |
-| userAgent       | 返回由客户机发送服务器的 user-agent 头部的值。                                                      |
-| userLanguage    | 返回操作系统设定的自然语言。 （IE 和 Opera 支持）                                                   |
-| plugins         | 返回包含客户端安装的所有插件的数组                                                                  |
-
-| 方法           | 描述                                         |
-| -------------- | -------------------------------------------- |
-| javaEnabled()  | 规定浏览器是否支持并启用了 Java。            |
-| taintEnabled() | 规定浏览器是否启用数据污点 (data tainting)。 |
-
-### offsetWidth/offsetHeight,clientWidth/clientHeight 与 scrollWidth/scrollHeight 的区别
-
-- offsetWidth/offsetHeight 返回值包含 content + padding + border，效果与 e.getBoundingClientRect()相同
-- clientWidth/clientHeight 返回值只包含 content + padding，如果有滚动条，也不包含滚动条
-- scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺寸
+返回由客户机发送服务器的 user-agent 头部的值。
