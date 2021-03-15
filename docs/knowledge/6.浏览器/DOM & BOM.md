@@ -34,6 +34,13 @@ document
 - clientWidth/clientHeight 返回值只包含 content + padding，如果有滚动条，也不包含滚动条
 - scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺寸
 
+- body.offsetHeight ：body 总高度。
+- body.offsetWidth ：body 总宽度。
+- body.clientHeight ：body 展示的高度；表示 body 在浏览器内显示的区域高度。
+- body.clientWidth ：body 展示的宽度；表示 body 在浏览器内显示的区域宽度。
+
+滚动条高度/宽度 ：如高度，可通过浏览器内页面可用高度 - body 展示高度得出，即 window.innerHeight - body.clientHeight。
+
 ### innerText 和 innerHTML 的区别
 
 设置值时 innerText 会把 HTML 标签当做普通的文本显示，而 innerHTML 则不会。也就是直接修改 innerHTML 会解析内容中的 HTML 标签，比如换行。

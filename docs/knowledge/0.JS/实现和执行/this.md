@@ -138,6 +138,7 @@ function getName() {
 // TODO:
 //请写出以下输出结果：
 Foo.getName(); //-> 2    Foo对象上的getName() ，这里不会是3，因为只有Foo的实例对象才会是3，Foo上面是没有3的
+// 变量声明式函数优先级更高
 getName(); //-> 4    window上的getName，console.log(5)的那个函数提升后，在console.log(4)的那里被重新赋值
 Foo().getName(); //-> 1    在Foo函数中，getName是全局的getName，覆盖后输出 1
 getName(); //-> 1    window中getName();
