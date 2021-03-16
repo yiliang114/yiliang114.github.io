@@ -152,10 +152,6 @@ class UserController extends Controller {
 - `service` - 应用所有的 [service](http://EggJS.org/zh-cn/basics/service.html)。
 - `logger` - 为当前 controller 封装的 logger 对象。
 
-### egg 后台项目模板
-
-TODO:
-
 ### Object.assign()
 
 `Object.assign()` 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。

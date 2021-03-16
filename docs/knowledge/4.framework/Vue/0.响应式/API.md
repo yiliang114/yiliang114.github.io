@@ -6,6 +6,8 @@ draft: true
 
 ## Computed
 
+有缓存的响应式数据，当其依赖的属性的值发生变化的时，计算属性会重新计算。反之则使用缓存中的属性值。
+
 `new Watcher(vm, expFn,)`
 
 ```js
@@ -99,63 +101,9 @@ depend() {
   // 也就是说， 整个过程就是 watcher.addDep(dep), dep.addSub(watcher)
 ```
 
-### 通知
-
-```js
-dep.notify();
-```
-
-```js
-// 通知订阅者 dep
-  notify() {
-    const subs = this.subs.slice();
-    if (process.env.NODE_ENV !== "production" && !config.async) {
-      // subs aren't sorted in scheduler if not running async
-      // we need to sort them now to make sure they fire in correct
-      // order
-      subs.sort((a, b) => a.id - b.id);
-    }
-    // 遍历所有的 subs, 每一个 watcher 都需要执行 update()
-    for (let i = 0, l = subs.length; i < l; i++) {
-      subs[i].update();
-    }
-  }
-```
-
-### Computed setter 解决方法
-
-```js
-computed: {
-  route: {
-    get(){
-      return this.$store.state.curTab.route
-    },
-    set(val){}
-  }
-}
-```
-
-### Vue computed 实现
-
-- 建立与其他属性（如：data、 Store）的联系；
-- 属性改变后，通知计算属性重新计算
-
-> 实现时，主要如下
-
-- 初始化 data， 使用 `Object.defineProperty` 把这些属性全部转为 `getter/setter`。
-- 初始化 `computed`, 遍历 `computed` 里的每个属性，每个 computed 属性都是一个 watch 实例。每个属性提供的函数作为属性的 getter，使用 Object.defineProperty 转化。
-- `Object.defineProperty getter` 依赖收集。用于依赖发生变化时，触发属性重新计算。
-- 若出现当前 computed 计算属性嵌套其他 computed 计算属性时，先进行其他的依赖收集
-
-### 作用
-
-有缓存的响应式数据，当其依赖的属性的值发生变化的时，计算属性会重新计算。反之则使用缓存中的属性值。
-
 ## Watch
 
-### 作用
-
-watch 主要作用是监听某个数据值的变化。和计算属性相比除了没有缓存，作用是一样的。借助 watch 还可以做一些特别的事情，例如监听页面路由，当页面跳转时，我们可以做相应的权限控制，拒绝没有权限的用户访问页面。
+watch 主要作用是监听某个数据值的变化。和计算属性相比除了没有缓存，作用是一样的。
 
 ### computed 和 watch 区别
 
@@ -164,80 +112,6 @@ watch 主要作用是监听某个数据值的变化。和计算属性相比除�
 `watch` 监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。
 
 所以一般来说需要依赖别的属性来动态获得值的时候可以使用 `computed`，对于监听到值的变化需要做一些复杂业务逻辑的情况可以使用 `watch`。
-
-另外 `computed` 和 `watch` 还都支持对象的写法，这种方式知道的人并不多。
-
-```js
-vm.$watch('obj', {
-  // 深度遍历
-  deep: true,
-  // 立即触发
-  immediate: true,
-  // 执行的函数
-  handler: function(val, oldVal) {},
-});
-
-var vm = new Vue({
-  data: { a: 1 },
-  computed: {
-    aPlus: {
-      // this.aPlus 时触发
-      get: function() {
-        return this.a + 1;
-      },
-      // this.aPlus = 1 时触发
-      set: function(v) {
-        this.a = v - 1;
-      },
-    },
-  },
-});
-```
-
-## Filter
-
-### vue 如何自定义一个过滤器？
-
-```html
-<div id="app">
-  <input type="text" v-model="msg" />
-  {{msg| capitalize }}
-</div>
-```
-
-```js
-var vm = new Vue({
-  el: '#app',
-  data: {
-    msg: '',
-  },
-  filters: {
-    capitalize: function(value) {
-      if (!value) return '';
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    },
-  },
-});
-```
-
-全局定义过滤器
-
-```js
-Vue.filter('capitalize', function(value) {
-  if (!value) return '';
-  value = value.toString();
-  return value.charAt(0).toUpperCase() + value.slice(1);
-});
-```
-
-过滤器接收表达式的值 (msg) 作为第一个参数。capitalize 过滤器将会收到 msg 的值作为第一个参数。
-
-### 为什么 filter 里的 this 绑定的不是 Vue 实例，而是 Window 对象
-
-Vue https://juejin.im/post/5cbd2623f265da03ba0e2aab
-
-过滤器就是一个纯粹的函数处理函数，与 vm 无关，所以 this 的值不是 vue 实例
 
 ## Data
 

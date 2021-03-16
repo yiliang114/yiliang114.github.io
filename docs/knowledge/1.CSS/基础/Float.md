@@ -1,10 +1,10 @@
 ---
-title: 浮动
+title: Float 浮动
 date: 2020-11-21
 draft: true
 ---
 
-## float 浮动
+## Float 浮动
 
 元素"浮动",脱离文档流。
 

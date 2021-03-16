@@ -421,10 +421,16 @@ function render() {
 
 css 实现：
 
-```js
-animation:mymove 5s infinite;
-@keyframes mymove {
-from {top:0px;}
-to {top:200px;}
+```css
+.test {
+  animation: mymove 5s infinite;
+  @keyframes mymove {
+    from {
+      top: 0px;
+    }
+    to {
+      top: 200px;
+    }
+  }
 }
 ```

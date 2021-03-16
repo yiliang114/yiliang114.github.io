@@ -1,5 +1,5 @@
 ---
-title: 谈谈promise/async/await的执行顺序与V8引擎的BUG
+title: promise 执行题
 date: 2020-12-23
 draft: true
 ---
@@ -21,6 +21,7 @@ async function async1() {
 async function async2() {
   console.log('async2 end');
 }
+// TODO: 这里应该还是异步？
 async1();
 
 setTimeout(function() {
@@ -39,26 +40,20 @@ new Promise(resolve => {
   });
 
 console.log('script end');
-```
-
-上述，在`Chrome 66`和`node v10`中，正确输出是：
-
-```bash
-script start
-async2 end
-Promise
-script end
-promise1
-promise2
-async1 end
-setTimeout
+// 在`Chrome 66`和`node v10`中，正确输出是
+// script start
+// async2 end
+// Promise
+// script end
+// promise1
+// promise2
+// async1 end
+// setTimeout
 ```
 
 > **注意**：在新版本的浏览器中，`await`输出顺序被“提前”了，请看官耐心慢慢看。
 
 #### 2. 流程解释
-
-边看输出结果，边做解释吧：
 
 1. 正常输出`script start`
 2. 执行`async1`函数，此函数中又调用了`async2`函数，输出`async2 end`。回到`async1`函数，**遇到了`await`，让出线程**。
@@ -120,49 +115,28 @@ setTimeout
 ### 异步
 
 ```js
-setTimeout(() => {
-  console.log(1);
-}, 0);
-
-new (resolve => {
-  console.log(2);
-  resolve();
-  console.log(3);
-}).then(() => {
-  console.log(4);
+var p1 = new Promise(function(resolve, reject) {
+  setTimeout(() => reject(new Error('p1 中failure')), 3000);
 });
 
-console.log(5);
-```
-
-结果是：
-2 3 5 4 1
-
-```js
-var p1 = new (function(resolve, reject) {
-  setTimeout(() =>reject(new Error('p1 中failure')) , 3000);
-})
-
-var p2 = new (function(resolve, reject){
+var p2 = new Promise(function(resolve, reject) {
   setTimeout(() => resolve(p1), 1000);
 });
-var p3 = new (function(resolve, reject) {
+var p3 = new Promise(function(resolve, reject) {
   resolve(2);
 });
-var p4 = new (function(resolve, reject) {
+var p4 = new Promise(function(resolve, reject) {
   reject(new Error('error  in  p4'));
 });
 
-1. p3.then(re => console.log(re)); //?
-2. p4.catch(error => console.log(error));//?
+p3.then(re => console.log(re)); //?
+p4.catch(error => console.log(error)); //?
 
-3. p2.then(null,re => console.log(re));//?
-4. p2.catch(re => console.log(re));//?
+p2.then(null, re => console.log(re)); //?
+p2.catch(re => console.log(re)); //?
+// 2， "error in p4 "这是立即打印出来的。
+//  3S 后会打印出两个'p1 中 failure'
 ```
-
-打印的顺序是：2， "error in p4 "这是立即打印出来的。
-
-而 3S 后会打印出两个'p1 中 failure'。
 
 如果 3 直接写成`p2.then(re => console.log(re));`是会报错，说没有捕捉到错误。
 
@@ -429,6 +403,40 @@ setTimeout
 ### 异步与 Promise 题
 
 ```js
+setTimeout(() => {
+  console.log(1);
+}, 0);
+
+new Promise(resolve => {
+  // Promise 构造函数是同步执行
+  console.log(2);
+  resolve();
+  console.log(3);
+}).then(() => {
+  console.log(4);
+});
+
+console.log(5);
+// 2 3 5 4 1
+```
+
+```js
+setTimeout(_ => console.log(4));
+
+new Promise(resolve => {
+  resolve();
+  console.log(1);
+}).then(_ => {
+  console.log(3);
+});
+
+console.log(2);
+// 1,2,3,4
+```
+
+Promise 构造函数里面的内容都是同步执行的。setTimeout 就是作为宏任务来存在的，而 Promise.then 则是具有代表性的微任务。
+
+```js
 Promise.resolve()
   .then(() => {
     console.log(0);
@@ -455,8 +463,6 @@ Promise.resolve()
 // 0, 1, 2, 3, 4, 5, 6
 ```
 
-#### 题目一
-
 ```js
 const promise = new Promise((resolve, reject) => {
   console.log(1);
@@ -467,9 +473,9 @@ promise.then(() => {
   console.log(3);
 });
 console.log(4);
+// Promise 的构造函数是同步执行的？
+// 1,2,4,3
 ```
-
-#### 题目二
 
 ```js
 const promise1 = new Promise((resolve, reject) => {
@@ -488,11 +494,14 @@ setTimeout(() => {
   console.log('promise1', promise1);
   console.log('promise2', promise2);
 }, 2000);
+// promise1 Promise {<pending>}
+// promise2 Promise {<pending>}
+// promise1 Promise {<fulfilled>: "success"}
+// promise2 Promise {<rejected>: Error: error!!!}
 ```
 
-#### 题目三
-
 ```js
+// 状态只会改变一次
 const promise = new Promise((resolve, reject) => {
   resolve('success1');
   reject('error');
@@ -506,11 +515,12 @@ promise
   .catch(err => {
     console.log('catch: ', err);
   });
+// then: success1
+// Promise {<fulfilled>: "success1"}
 ```
 
-#### 题目四
-
 ```js
+// 可以一直 then catch
 Promise.resolve(1)
   .then(res => {
     console.log(res);
@@ -522,28 +532,8 @@ Promise.resolve(1)
   .then(res => {
     console.log(res);
   });
+// 1, 2
 ```
-
-#### 题目五
-
-```js
-const promise = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    console.log('once');
-    resolve('success');
-  }, 1000);
-});
-
-const start = Date.now();
-promise.then(res => {
-  console.log(res, Date.now() - start);
-});
-promise.then(res => {
-  console.log(res, Date.now() - start);
-});
-```
-
-#### 题目六
 
 ```js
 Promise.resolve()
@@ -556,27 +546,48 @@ Promise.resolve()
   .catch(err => {
     console.log('catch: ', err);
   });
+// then:  Error: error!!!
 ```
 
-#### 题目七
+```js
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    console.log('once');
+    resolve('success');
+  }, 1000);
+});
+
+const start = Date.now();
+// TODO: ???
+promise.then(res => {
+  console.log(res, Date.now() - start);
+});
+promise.then(res => {
+  console.log(res, Date.now() - start);
+});
+// TODO:
+// once
+// success 1004
+// success 1005
+```
 
 ```js
 const promise = Promise.resolve().then(() => {
   return promise;
 });
 promise.catch(console.error);
+// 会报错
+// TypeError: Chaining cycle detected for promise
 ```
-
-#### 题目八
 
 ```js
 Promise.resolve(1)
   .then(2)
   .then(Promise.resolve(3))
   .then(console.log);
+// 1
+// TODO: 因为中间步骤没有最终改变 resolve 的值 ？
 ```
-
-#### 题目九
 
 ```js
 Promise.resolve()
@@ -591,81 +602,26 @@ Promise.resolve()
   .catch(function fail2(e) {
     console.error('fail2: ', e);
   });
+// fail2:  Error: error
 ```
 
-#### 题目十
-
 ```js
+// TODO: process.nextTick 微任务，但是貌似比 promise 慢一点？
 process.nextTick(() => {
   console.log('nextTick');
 });
 Promise.resolve().then(() => {
   console.log('then');
 });
+// 宏任务，感觉类似 setTimeout
 setImmediate(() => {
   console.log('setImmediate');
 });
 console.log('end');
-```
-
-#### 不会结束
-
-首先需要注意的是一个 function 只是 return 一个 promise 但是没有 resolve 或者 rejected 的话，await 是没有结果的，也不会进行赋值。
-
-```js
-try {
-  function test(id) {
-    return new Promise(async (resolve, reject) => {});
-  }
-  const a = await test();
-  console.log(a);
-} catch (error) {
-  console.error('error', error);
-}
-// 此处 a 不会被打印
-```
-
-#### 坑
-
-```js
-/**
- * Created by lin on 2018/8/16.
- */
-// promise.then(...).catch(...);与promise.then(..., ...);并不等价，
-// 尤其注意当promise.then(...).catch(...);中的then会抛异常的情况下。
-const fn = () => {
-  throw 2;
-};
-
-// promise.then(...).catch(...);
-Promise.resolve(1) // { [[PromiseStatus]]:"resolved", [[PromiseValue]]:1 }
-  .then(v => {
-    // 1
-    fn(); // 抛异常了，then返回一个rejected的promise
-    return 3; // 后面不执行了
-  }) // { [[PromiseStatus]]:"rejected", [[PromiseValue]]:2 }
-  .catch(v => {
-    // v是throw的值2
-    console.log(v); // 2
-    return 4; // catch返回一个resolved且值为4的promise
-  }); // { [[PromiseStatus]]:"resolved", [[PromiseValue]]:4 }
-// 程序最后正常结束
-
-// promise.then(..., ...);
-Promise.resolve(1) // { [[PromiseStatus]]:"resolved", [[PromiseValue]]:1 }
-  .then(
-    v => {
-      // 1
-      fn(); // 抛异常了，then返回一个rejected的promise
-      return 3; // 后面不执行了
-    },
-    v => {
-      // 这里只有then之前是rejected才执行
-      console.log(v); // 不执行
-      return 4; // 不执行
-    },
-  ); // { [[PromiseStatus]]:"rejected", [[PromiseValue]]:2 }
-// 程序最后抛异常：Uncaught (in promise) 2
+// end
+// then
+// nextTick
+// setImmediate
 ```
 
 ```js
@@ -702,6 +658,22 @@ console.log(5);
 /// 1,3，5，4，9，10，11，12，2，7，8
 ```
 
+#### async & await
+
+```js
+try {
+  function test(id) {
+    return new Promise(async (resolve, reject) => {});
+  }
+  // 需要注意的是一个 function 只是 return 一个 promise 但是没有 resolve 或者 rejected 的话，await 是没有结果的，也不会进行赋值。
+  const a = await test();
+  console.log(a);
+} catch (error) {
+  console.error('error', error);
+}
+// 此处 a 不会被打印
+```
+
 ```js
 function wait() {
   return new Promise(resolve => setTimeout(resolve, 10 * 100));
@@ -718,6 +690,7 @@ async function main() {
 }
 main();
 // 1s 左右
+// 因为异步已经在执行了
 ```
 
 ```js
@@ -736,23 +709,6 @@ main();
 ```
 
 ## 执行顺序
-
-### 宏任务和微任务的打印顺序
-
-```js
-setTimeout(_ => console.log(4));
-
-new Promise(resolve => {
-  resolve();
-  console.log(1);
-}).then(_ => {
-  console.log(3);
-});
-
-console.log(2);
-```
-
-Promise 构造函数里面的内容都是同步执行的。setTimeout 就是作为宏任务来存在的，而 Promise.then 则是具有代表性的微任务，上述代码的执行顺序就是按照序号来输出的。
 
 ### promise 与 setTimeout 判断执行顺序
 
@@ -789,6 +745,7 @@ console.log('end');
 // setTimeout 1
 // a
 // promise 1
+// TODO:
 // b
 // promise 2
 // setTimeout2

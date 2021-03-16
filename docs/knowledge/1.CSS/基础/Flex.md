@@ -4,6 +4,12 @@ date: 2020-11-21
 draft: true
 ---
 
+### 重要属性
+
+1. 主轴的方向 flex-direction
+2. 主轴的对齐方式 justify-content
+3. 交叉轴的对齐方式 align-items
+
 ### flex 弹性布局
 
 采用 flex 布局的容器称为 flex 容器（flex container），当一个元素采用 flex 布局后，它的子元素将自动成为容器成员（flex item）。flex 容器默认存在 2 根轴线，主轴（main axis，默认为横轴）和交叉轴（cross axis，默认为纵轴），flex 布局所有的属性都围绕这 2 条轴线上的元素如何布排进行设定。

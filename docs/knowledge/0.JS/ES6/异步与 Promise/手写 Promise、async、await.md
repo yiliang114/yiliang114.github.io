@@ -1232,7 +1232,10 @@ Promise.race = function(promises) {
 };
 ```
 
-<!-- TODO: 到底是 then 的第二个参数中处理异常还是用 catch 处理异常 -->
+promise.then(...).catch(...);与 promise.then(..., ...); 并不等价，
+尤其注意当 promise.then(...).catch(...); 中的 then 会抛异常的情况下。
+
+<!-- 到底是 then 的第二个参数中处理异常还是用 catch 处理异常 ？-->
 
 ```js
 Promise.myRace = function(iterators) {

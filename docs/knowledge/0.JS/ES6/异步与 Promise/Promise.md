@@ -14,7 +14,7 @@ Promise 对象有以下两个特点。
 
 2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
 
-Promise 新建后就会立即执行。
+Promise 构造函数是同步执行，then 方法是异步执行。
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -27,13 +27,10 @@ promise.then(function() {
 });
 
 console.log('Hi!');
-
 // Promise
 // Hi!
 // Resolved
 ```
-
-Promise 构造函数是同步执行，then 方法是异步执行。
 
 ### Promise 优缺点
 
@@ -55,22 +52,14 @@ Promise 构造函数是同步执行，then 方法是异步执行。
 - 如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。
 - 当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
 
-### API
-
 ### 错误冒泡
 
-`Promise` 对象的错误具有“冒泡”性质，**会一直向后传递，直到被捕获为止**。也就是说，错误总是会被下一个`catch`语句捕获
-
-#### "吃掉错误"机制
-
-> `Promise`会吃掉内部的错误，并不影响外部代码的运行。所以需要`catch`，以防丢掉错误信息。
+`Promise` 对象的错误具有“冒泡”性质，**会一直向后传递，直到被捕获为止**。也就是说，错误总是会被下一个`catch`语句捕获。`Promise`会吃掉内部的错误，并不影响外部代码的运行。所以需要`catch`，以防丢掉错误信息。
 
 ```js
-'use strict';
-
 const someAsyncThing = function() {
   return new Promise(function(resolve, reject) {
-    // 下面一行会报错，因为x没有声明
+    // 下面一行会报错，因为 x 没有声明
     resolve(x + 2);
   });
 };
@@ -79,42 +68,36 @@ someAsyncThing().then(function() {
   console.log('everything is great');
 });
 
-setTimeout(() => {
-  console.log(123);
-}, 2000);
-```
-
-```js
 someAsyncThing()
   .then(function() {
     return someOtherAsyncThing();
   })
   .catch(function(error) {
-    console.log('oh no', error);
+    console.error('oh no', error);
     // 下面一行会报错，因为y没有声明
     y + 2;
   })
   .catch(function(error) {
-    console.log('carry on', error);
+    console.error('carry on', error);
   });
 // oh no [ReferenceError: x is not defined]
 // carry on [ReferenceError: y is not defined]
+// TODO:
+// Uncaught (in promise) ReferenceError: x is not defined
 ```
 
 ## JS 异步解决方案的发展历程以及优缺点
 
 ### 1. 回调函数
 
-**缺点：回调地狱，不能用 try catch 捕获错误，不能 return**
+缺点：回调地狱，不能用 try catch 捕获错误，不能 return
 
 ### 2. Promise
 
-Promise 就是为了解决 callback 的问题而产生的。
+Promise 就是为了解决回调地狱的问题而产生的。实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.
 
-Promise 实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.resolve() 包装
-
-**优点：解决了回调地狱的问题**
-**缺点：无法取消 Promise ，错误需要通过回调函数来捕获**
+优点：解决了回调地狱的问题
+缺点：无法取消 Promise ，错误需要通过回调函数来捕获
 
 ### 3. Generator
 
@@ -140,11 +123,11 @@ async、await 是异步的终极解决方案
 
 **缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
 
-## promise 场景题
+## promise 场景题 TODO:
 
 - 什么时候 promise 不会被销毁
-- promise 如果没有 resolve 会怎么样？
 - promise 什么情况会发生内存泄漏
+- promise 如果没有 resolve 会怎么样？
 - Promise 中 .then 的第二参数与 .catch 有什么区别?
 
 ## async/await

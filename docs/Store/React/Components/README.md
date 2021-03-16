@@ -688,12 +688,11 @@ Mixins\* 是一种完全分离组件通用功能的方法。 Mixins 不应该被
 最常用的 mixins 是 `PureRenderMixin`。当 props 和状态与之前的 props 和状态相等时，你可能在某些组件中使用它来防止不必要的重新渲染：
 
 ```js
-const PureRenderMixin = require('react-addons-pure-render-mixin')
+const PureRenderMixin = require('react-addons-pure-render-mixin');
 const Button = React.createClass({
   mixins: [PureRenderMixin],
   // ...
-})
-<!-- TODO: mixins are deprecated -->
+});
 ```
 
 ### 为什么组件名称应该以大写字母开头?
@@ -1027,7 +1026,6 @@ React 推出后，出于不同的原因先后出现三种定义 react 组件的�
 ### 组件不能访问 this 对象
 
 无状态组件由于没有实例化过程，所以无法访问组件 this 中的对象，例如：this.ref、this.state 等均不能访问。若想访问就不能使用这种形式来创建组件
-
 
 ### 源码阅读
 

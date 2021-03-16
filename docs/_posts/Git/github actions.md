@@ -44,10 +44,3 @@ https://github.com/Sep0lkit/git-issues-blog
 是否编译结束
 
 https://github.com/marketplace/actions/work-weixin-notifier
-
-### TODO: DEMO
-
-- 自动 changelog
-- 上传 cos
-- 上传 七牛云
-- 自动发布 npm 包
