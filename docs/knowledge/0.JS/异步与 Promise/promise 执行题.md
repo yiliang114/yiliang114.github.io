@@ -581,6 +581,18 @@ promise.catch(console.error);
 ```
 
 ```js
+//  then 中 使用了 return，那么 return 的值会被 Promise.resolve() 包装
+Promise.resolve(1)
+  .then(res => {
+    console.log(res); // => 1
+    return 2; // 包装成 Promise.resolve(2)
+  })
+  .then(res => {
+    console.log(res); // => 2
+  });
+```
+
+```js
 Promise.resolve(1)
   .then(2)
   .then(Promise.resolve(3))

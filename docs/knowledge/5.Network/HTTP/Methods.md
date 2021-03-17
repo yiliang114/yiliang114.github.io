@@ -18,6 +18,23 @@ draft: true
 - `put` 和 `delete` 在实际应用中用的很少。况且，业务中，一般不删除服务器端的资源。
 - `head` 可能偶尔用的到。
 
+### Post 和 Get 的区别？
+
+GET 和 POST 本质上就是 TCP 链接，并无差别。GET 和 POST 有一个重大区别，简单的说：GET 产生一个 TCP 数据包；POST 产生两个 TCP 数据包。对于 GET 方式的请求，浏览器会把 http header 和 data 一并发送出去，服务器响应 200（返回数据）； 而对于 POST，浏览器先发送 header，服务器响应 100 continue，浏览器再发送 data，服务器响应 200 ok（返回数据）。 但是，比如你想在 GET 请求里带 body，一样可以发送 Expect: 100-continue 并等待 100 continue，这是符合标准的。
+
+- 在使用 XMLHttpRequest 的 POST 方法时，浏览器会先发送 Header 再发送 Data。但并不是所有浏览器会这么做，例如火狐就不会。
+- 而 GET 方法 Header 和 Data 会一起发送。
+- 首先先引入副作用和幂等的概念。
+- GET 在浏览器回退时是无害的，而 POST 会再次提交请求。
+- GET 产生的 URL 地址可以被书签收藏，而 POST 不可
+- GET 请求会被浏览器主动缓存，而 POST 不会，除非手动设置。
+- GET 请求只能进行 url 编码，而 POST 支持多种编码方式。
+- GET 请求参数会被完整保留在浏览器历史记录里，而 POST 中的参数不会被保留。
+- GET 请求在 URL 中传送的参数是有长度限制的(大多数浏览器限制在 2K，大多数服务器在 64K 左右)，而 POST 么有。
+- 对参数的数据类型，GET 只接受 ASCII 字符，而 POST 没有限制。
+- GET 比 POST 更不安全，因为参数直接暴露在 URL 上，所以不能用来传递敏感信息。
+- GET 参数通过 URL 传递，POST 放在 Request body 中。
+
 ### HTTP 协议的主要特点
 
 - 简单快速
@@ -65,7 +82,7 @@ draft: true
 
 > 如果能答出**管线化**，则属于加分项。
 
-##### 管线化的原理
+#### 管线化的原理
 
 > 长连接时，**默认**的请求这样的：
 
@@ -74,21 +91,3 @@ draft: true
 ```
 
 > 管线化就是，我把现在的请求打包，一次性发过去，你也给我一次响应回来。
-
-### Post 和 Get 的区别？
-
-GET 和 POST 本质上就是 TCP 链接，并无差别。GET 和 POST 有一个重大区别，简单的说：GET 产生一个 TCP 数据包；POST 产生两个 TCP 数据包。对于 GET 方式的请求，浏览器会把 http header 和 data 一并发送出去，服务器响应 200（返回数据）； 而对于 POST，浏览器先发送 header，服务器响应 100 continue，浏览器再发送 data，服务器响应 200 ok（返回数据）。 但是，比如你想在 GET 请求里带 body，一样可以发送 Expect: 100-continue 并等待 100 continue，这是符合标准的。
-
-- 在使用 XMLHttpRequest 的 POST 方法时，浏览器会先发送 Header 再发送 Data。但并不是所有浏览器会这么做，例如火狐就不会。
-- 而 GET 方法 Header 和 Data 会一起发送。
-
-* 首先先引入副作用和幂等的概念。
-* GET 在浏览器回退时是无害的，而 POST 会再次提交请求。
-* GET 产生的 URL 地址可以被书签收藏，而 POST 不可
-* GET 请求会被浏览器主动缓存，而 POST 不会，除非手动设置。
-* GET 请求只能进行 url 编码，而 POST 支持多种编码方式。
-* GET 请求参数会被完整保留在浏览器历史记录里，而 POST 中的参数不会被保留。
-* GET 请求在 URL 中传送的参数是有长度限制的(大多数浏览器限制在 2K，大多数服务器在 64K 左右)，而 POST 么有。
-* 对参数的数据类型，GET 只接受 ASCII 字符，而 POST 没有限制。
-* GET 比 POST 更不安全，因为参数直接暴露在 URL 上，所以不能用来传递敏感信息。
-* GET 参数通过 URL 传递，POST 放在 Request body 中。

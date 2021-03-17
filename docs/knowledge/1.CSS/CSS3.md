@@ -1,12 +1,12 @@
 ---
-title: css3
+title: CSS3
 date: 2020-11-21
 draft: true
 ---
 
-### css 3 重要属性
+## CSS3 重要属性
 
-#### 1. 过渡 transform
+### 1. 过渡 transform
 
 css3 过渡是元素从一种样式逐渐改变为另一种效果，要实现这一点，必须规定两项定容: 指定要添加效果的 css 属性和效果的持续时间。
 
@@ -21,7 +21,7 @@ transition-timing-function: linear;
 transition-delay: 2s;
 ```
 
-#### 2. 动画 animation
+### 2. 动画 animation
 
 动画这个效果也使用非常多，主要是做一个预设动画和一些页面交互的动画效果，主要的结果和过渡应该一样，也不会让页面显得那么生硬。
 
@@ -38,7 +38,7 @@ animation: logo2-line 2s linear 2s;
 animation: logo2-line 2s linear alternate infinite;
 ```
 
-#### 3. 形状转换
+### 3. 形状转换
 
 分 2d 转换和 3d 转换。
 
@@ -56,7 +56,7 @@ demo:
 - transform:rotateX(180deg) transform:rotateY(180deg) 2D 翻转
 - transform:rotate3d(10,10,10,90deg); 3D 翻转
 
-#### 4. css 3 选择器
+### 4. css 3 选择器
 
 新增属性选择器:
 
@@ -78,7 +78,7 @@ demo:
 - :not(selector) :not(p) 选择非 <p> 元素的每个元素。
 - ::selection ::selection 选择被用户选取的元素部分。
 
-#### 5. 阴影 box-shadow
+### 5. 阴影 box-shadow
 
 没有 css3 的时候，或者需要兼容低版本浏览器的时候，阴影只能用图片实现。
 
@@ -93,7 +93,7 @@ div {
 }
 ```
 
-#### 6. 边框 border
+### 6. 边框 border
 
 1. 边框图片 border-image: 图片 url 图像边界向内偏移 图像边界的宽度(默认为边框的宽度) 用于指定在边框外部绘制偏移的量（默认 0） 铺满方式--重复（repeat）、拉伸（stretch）或铺满（round）（默认:拉伸（stretch））;
 
@@ -122,14 +122,14 @@ div {
 }
 ```
 
-#### 7. 背景
+### 7. 背景
 
 这一块主要讲 css3 提供背景的三个属性
 
 background-clip
 制定背景绘制（显示）区域
 
-##### background-clip
+#### background-clip
 
 制定背景绘制（显示）区域
 
@@ -145,7 +145,7 @@ background-clip
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf408e0dbb625?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-##### background-origin
+#### background-origin
 
 引用菜鸟教程的说法：background-Origin 属性指定 background-position 属性应该是相对位置
 
@@ -175,7 +175,7 @@ div
 
 ![img](https://user-gold-cdn.xitu.io/2017/12/4/16021299ec4cd0f0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-##### background-size
+#### background-size
 
 这个相信很好理解，就是制定背景的大小
 下面的 div 初始的 html 和 css 代码都是一样的。如下
@@ -201,9 +201,9 @@ div
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf4094945b61e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-#### 10.文字
+### 10.文字
 
-##### 换行
+#### 换行
 
 语法：`word-break: normal|break-all|keep-all;`
 栗子和运行效果
@@ -219,7 +219,7 @@ div
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40a4c74bd9d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-##### 超出省略号
+#### 超出省略号
 
 这个其实有三行代码，禁止换行，超出隐藏，超出省略号
 html
@@ -245,7 +245,7 @@ div
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40a87535b71?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-##### 多行超出省略号
+#### 多行超出省略号
 
 超出省略号。这个对于大家来说，不难！但是以前如果是多行超出省略号，就只能用 js 模拟！现在 css3 提供了多行省略号的方法！遗憾就是这个暂时只支持 webkit 浏览器！
 
@@ -314,7 +314,7 @@ div
 
 这样写，就算在不是 webkit 内核的浏览器，也可以优雅降级（高度=行高\*行数（webkit-line-clamp））！
 
-##### 文字阴影
+#### 文字阴影
 
 语法：text-shadow:水平阴影，垂直阴影，模糊的距离，以及阴影的颜色。
 栗子：`text-shadow: 0 0 10px #f00;`
@@ -322,20 +322,20 @@ div
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40b041a1fd2?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-#### 14.弹性布局 flex
+### 14.弹性布局 flex
 
 这里说的弹性布局，就是 flex；这一块要讲的话，必须要全部讲完，不讲完没什么意思，反而会把大家搞蒙！讲完也是很长，所以，这里我也只贴教程网址。博客讲的很好，很详细！
 
 [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 [Flex 布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
 
-#### 15.栅格布局
+### 15.栅格布局
 
 栅格化布局，就是 grid；这一块和 flex 一样，要讲就必须讲完。这块的内容和 flex 差不多，也有点长，这里我也贴链接，这个链接讲得也很详细！
 
 [Grid 布局指南](http://www.jianshu.com/p/d183265a8dad)
 
-#### 16.多列布局
+### 16.多列布局
 
 这一块，我也是了解过，我觉得多列应该还是挺有用的。虽然我没在项目中用过，下面我简单说下！举个例子！这个属性，建议加私有前缀，兼容性有待提高！
 html
@@ -363,7 +363,7 @@ css
 
 ![img](https://user-gold-cdn.xitu.io/2017/11/15/15fbf40c0e0a6508?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-#### 18.媒体查询
+### 18.媒体查询
 
 媒体查询，就在监听屏幕尺寸的变化，在不同尺寸的时候显示不同的样式！在做响应式的网站里面，是必不可少的一环！不过由于我最近的项目都是使用 rem 布局。所以媒体查询就没怎么用了！但是，媒体查询，还是很值得一看的！说不定哪一天就需要用上了！
 
