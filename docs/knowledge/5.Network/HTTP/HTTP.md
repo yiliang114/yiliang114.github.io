@@ -6,9 +6,10 @@ draft: true
 
 ## HTTP
 
-HTTP 超文本传输协议， 是一个应用层协议，由请求和响应构成，是一个标准的客户端服务器模型。HTTP 是一个无状态的协议。
+特性:
 
-主要内容包括：请求方法、首部的作用以及状态码的含义。
+1. HTTP 超文本传输协议构建于 TCP/IP 协议之上，是一个应用层协议，默认端口号是 80
+2. HTTP 是**无连接无状态**的
 
 ### 基础概念
 
@@ -18,7 +19,7 @@ HTTP 请求由三部分构成，分别为：
 - 首部
 - 实体
 
-### 什么是 Http 协议无状态协议
+### 无状态
 
 无状态协议说白了，就是当客户端一次 HTTP 请求完成以后，客户端再发送一次 HTTP 请求，HTTP 并不知道当前客户端是一个"老用户"。
 
@@ -49,16 +50,6 @@ content]
 ```html
 GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco; tasty_cookie=strawberry
 ```
-
-### 基础概念
-
-- URI 统一资源标识符
-- URL 统一资源定位符
-
-HTTP 的特性:
-
-- HTTP 协议构建于 TCP/IP 协议之上，是一个应用层协议，默认端口号是 80
-- HTTP 是**无连接无状态**的
 
 ### 具体应用
 

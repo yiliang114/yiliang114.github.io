@@ -4,6 +4,43 @@ date: '2020-10-26'
 draft: true
 ---
 
+## 异步解决方案的发展历程
+
+### 1. 回调函数
+
+缺点：回调地狱，不能用 try catch 捕获错误，不能 return
+
+### 2. Promise
+
+Promise 就是为了解决回调地狱的问题而产生的。实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.
+
+优点：解决了回调地狱的问题
+缺点：无法取消 Promise ，错误需要通过回调函数来捕获
+
+### 3. Generator
+
+**特点：可以控制函数的执行**，可以配合 co 函数库使用
+
+```js
+function* fetch() {
+  yield ajax('XXX1', () => {});
+  yield ajax('XXX2', () => {});
+  yield ajax('XXX3', () => {});
+}
+let it = fetch();
+let result1 = it.next();
+let result2 = it.next();
+let result3 = it.next();
+```
+
+### 4. Async/await
+
+async、await 是异步的终极解决方案
+
+**优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
+
+**缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
+
 ## Promise
 
 Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。
@@ -86,59 +123,11 @@ someAsyncThing()
 // Uncaught (in promise) ReferenceError: x is not defined
 ```
 
-## JS 异步解决方案的发展历程以及优缺点
-
-### 1. 回调函数
-
-缺点：回调地狱，不能用 try catch 捕获错误，不能 return
-
-### 2. Promise
-
-Promise 就是为了解决回调地狱的问题而产生的。实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.
-
-优点：解决了回调地狱的问题
-缺点：无法取消 Promise ，错误需要通过回调函数来捕获
-
-### 3. Generator
-
-**特点：可以控制函数的执行**，可以配合 co 函数库使用
-
-```js
-function* fetch() {
-  yield ajax('XXX1', () => {});
-  yield ajax('XXX2', () => {});
-  yield ajax('XXX3', () => {});
-}
-let it = fetch();
-let result1 = it.next();
-let result2 = it.next();
-let result3 = it.next();
-```
-
-### 4. Async/await
-
-async、await 是异步的终极解决方案
-
-**优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
-
-**缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
-
-## promise 场景题 TODO:
-
-- 什么时候 promise 不会被销毁
-- promise 什么情况会发生内存泄漏
-- promise 如果没有 resolve 会怎么样？
-- Promise 中 .then 的第二参数与 .catch 有什么区别?
-
 ## async/await
 
-async 是 ES2017 标准推出的用于处理异步操作的关键字，从本质上来说，它就是 Generator 函数的语法糖。
+async 是 ES2017 标准推出的用于处理异步操作的关键字，从本质上来说，它就是 Generator 函数的语法糖，利用 Generator 函数的特性把异步的代码写成“同步”的形式。async/await 做的事情就是将 Generator 函数转换成 Promise。
 
 async 函数内阻塞，函数外不阻塞。
-
-### async 函数是什么，有什么作用？
-
-Async/Await 就是一个自执行的 generate 函数。利用 Generator 函数的特性把异步的代码写成“同步”的形式。async/await 做的事情就是将 Generator 函数转换成 Promise。
 
 async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
 
@@ -163,3 +152,10 @@ console.log('1', a); // -> '1' 1
 - 然后后面就是常规执行代码了
 
 **async 函数可以保留运行堆栈。**
+
+## Promise 场景题 TODO:
+
+- 什么时候 promise 不会被销毁
+- promise 什么情况会发生内存泄漏
+- promise 如果没有 resolve 会怎么样？
+- Promise 中 .then 的第二参数与 .catch 有什么区别?

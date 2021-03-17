@@ -879,3 +879,9 @@ getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
 介绍做过的项目
 说一下你项目中用到的技术栈，做的出色的点，可以改进的地方，以及让你头疼的点，怎么解决的。
 遇到的问题，或者难点以及解决方案
+
+## 补充
+
+1. node: bff, ssr
+2. ts: npm/cli
+3. react: 部分原理知识

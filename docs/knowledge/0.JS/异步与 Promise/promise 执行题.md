@@ -728,10 +728,8 @@ promise 和 setTimeout 都会将事件放入异步队列，但 setTimeout 即便
 
 ```js
 console.log('begin');
-
 setTimeout(() => {
   console.log('setTimeout 1');
-
   Promise.resolve()
     .then(() => {
       console.log('promise 1');

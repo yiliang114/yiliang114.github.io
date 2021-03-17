@@ -4,7 +4,455 @@ date: '2020-11-02'
 draft: true
 ---
 
-### 以下代码执行结果是什么？
+## this 和作用域
+
+```js
+pi = 0;
+radius = 1;
+function circum(radius) {
+  console.log(arguments[0]); // 2
+  radius = 3;
+  pi = 3.14;
+  console.log(2 * pi * radius); // 18.84
+  // 函数内部修改形参，是个引用？
+  console.log(arguments[0]); // 3
+}
+circum(2);
+console.log(pi); // 3.14
+console.log(radius); // 1
+// 函数内修改了 radius 修改的是形式参数，修改的 pi 是全局的 window or global 中的 pi
+```
+
+```js
+var pi = 0;
+var radius = 1;
+function circum(radius) {
+  radius = 3;
+  pi = 3.14;
+  console.log(2 * pi * radius); // 18.84
+  console.log(arguments[0]); // 3
+}
+circum(radius);
+console.log(pi); // 3.14
+console.log(radius); // 1
+```
+
+```js
+function foo(a, b) {
+  arguments[0] = 9;
+  arguments[1] = 99;
+  console.log(a, b); //9, 99
+}
+foo(1, 10);
+
+function foo(a, b) {
+  a = 8;
+  b = 88;
+  console.log(arguments[0], arguments[1]); //8, 88
+}
+foo(1, 10);
+
+// ES6 的默认函数不会改变 arguments 类数组对象值
+function foo(a = 1, b = 10) {
+  arguments[0] = 9;
+  arguments[1] = 99;
+  console.log(a, b); //1, 10
+}
+foo();
+
+// 实例
+function f2(a) {
+  console.log(a);
+  var a;
+  console.log(a);
+  console.log(arguments[0]);
+}
+f2(10);
+
+// 经过变量提升后：
+function f2(a) {
+  var a;
+  console.log(a);
+  console.log(a);
+  console.log(arguments[0]);
+}
+f2(10);
+
+// var a 会被归纳，由于 a 已经有值，故不会变为 undefined
+```
+
+```js
+var a = {};
+var b = { name: 'ZS' };
+var c = {};
+c[a] = 'demo1';
+c[b] = 'demo2';
+
+console.log(c[a]); // demo2
+console.log(c); // Object {[object Object]: "demo2"}
+```
+
+c[a]、c[b]隐式的将对象 a，b 使用了 toString（）方法进行了转换，然后再对属性赋值。
+即：Object.prototype.toString.call(a) ==> [object Object]
+因此，c = { [object Object]: 'demo1'} ==> c = {[object Object]: 'demo2' }
+
+```js
+var array1 = Array(3);
+array1[0] = 2;
+var result = array1.map(elem => '1');
+
+// ['1', empty * 2]
+```
+
+```js
+var setPerson = function(person) {
+  person.name = 'kevin';
+  person = { name: 'Nick' };
+  console.log(person.name); // Nick
+  person.name = 'Jay';
+  console.log(person.name); // Jay
+};
+var person = { name: 'Alan' };
+setPerson(person);
+console.log(person.name); // Kevin
+```
+
+```js
+var execFunc = () => console.log('a');
+setTimeout(execFunc, 0);
+console.log('000');
+execFunc = () => console.log('b');
+
+// '000', 'a'
+```
+
+`window.setTimeout(hello(userName),3000);`
+这将使 hello 函数立即执行，并将'返回值'作为调用句柄传递给 setTimeout 函数
+
+方法 1：
+使用'字符串形式'可以达到想要的结果:
+`window.setTimeout("hello(userName)",3000);`
+但是，此处的 username 变量必须处于全局环境下
+
+```js
+// 方法2：
+function hello(_name) {
+  alert('hello,' + _name);
+}
+// 创建一个函数，用于返回一个无参数函数
+function _hello(_name) {
+  return function() {
+    hello(_name);
+  };
+}
+window.setTimeout(_hello(userName), 3000);
+// 使用_hello(userName)来返回一个不带参数的函数句柄，从而实现了参数传递的功能
+```
+
+```js
+for (var i = { j: 0 }; i.j < 5; i.j++) {
+  (function(i) {
+    setTimeout(function() {
+      console.log(i.j);
+    }, 0);
+  })(JSON.parse(JSON.stringify(i)));
+}
+
+// 0, 1, 2, 3, 4
+
+for (var i = { j: 0 }; i.j < 5; i.j++) {
+  (function(i) {
+    setTimeout(function() {
+      console.log(i.j);
+    }, 0);
+  })(i);
+}
+
+// 5, 5, 5, 5, 5
+```
+
+```js
+var name = 'Tom';
+(function() {
+  if (typeof name == 'undefined') {
+    var name = 'Jack';
+    console.log('Goodbye ' + name);
+  } else {
+    console.log('Hello ' + name);
+  }
+})();
+// Goodbye Jack
+```
+
+```js
+var name = 'Tom';
+(function() {
+  if (typeof name == 'undefined') {
+    name = 'Jack';
+    console.log('Goodbye ' + name);
+  } else {
+    console.log('Hello ' + name);
+  }
+})();
+```
+
+```js
+// 接下来我们可以看到当调用 foo() 时，this.a 被解析成了全局变量 a。为什么?因为在本 例中，函数调用时应用了 this 的默认绑定，因此 this 指向全局对象。
+// bar() 调用使用严格模式(strict mode)，那么全局对象将无法使用默认绑定，因此 this 会绑定 到 undefined
+
+function foo() {
+  'use strict';
+  console.log(this.a);
+}
+
+function bar() {
+  console.log(this.a);
+}
+
+var a = "this is a 'a'";
+
+bar(); // "this is a 'a'"
+foo(); // "TypeError: Cannot read property 'a' of undefined
+```
+
+```js
+function passWordMngr() {
+  var password = '12345678';
+  this.userName = 'John';
+  return {
+    pwd: password,
+  };
+}
+// Block End
+var userInfo = passWordMngr();
+console.log(userInfo.pwd);
+console.log(userInfo.userName);
+// 12345678 undefined
+```
+
+```js
+var employeeId = 'aq123';
+function Employee() {
+  this.employeeId = 'bq1uy';
+}
+console.log(Employee.employeeId);
+// undefined
+```
+
+```js
+var employeeId = 'aq123';
+
+function Employee() {
+  this.employeeId = 'bq1uy';
+}
+console.log(new Employee().employeeId);
+Employee.prototype.employeeId = 'kj182';
+Employee.prototype.JobId = '1BJKSJ';
+console.log(new Employee().JobId);
+console.log(new Employee().employeeId);
+// bq1uy 1BJKSJ bq1uy
+```
+
+```js
+var employeeId = 'aq123';
+(function Employee() {
+  try {
+    throw 'foo123';
+  } catch (employeeId) {
+    console.log(employeeId);
+  }
+  console.log(employeeId);
+})();
+// foo123 aq123
+```
+
+```js
+// Call, Apply, Bind
+(function() {
+  var greet = 'Hello World';
+  var toGreet = [].filter.call(greet, function(element, index) {
+    return index > 5;
+  });
+  console.log(toGreet);
+})();
+// [ 'W', 'o', 'r', 'l', 'd' ]
+```
+
+```js
+var output = (function(x) {
+  delete x;
+  return x;
+})(0);
+
+console.log(output);
+// 0
+// delete 只能用于删除对象的属性
+```
+
+```js
+var x = 1;
+var output = (function() {
+  delete x;
+  return x;
+})();
+
+console.log(output);
+// 1
+```
+
+```js
+var x = { foo: 1 };
+var output = (function() {
+  delete x.foo;
+  return x.foo;
+})();
+
+console.log(output);
+// undefined
+```
+
+```js
+var Employee = {
+  company: 'xyz',
+};
+var emp1 = Object.create(Employee);
+delete emp1.company;
+console.log(emp1.company);
+// xyz
+// 会去拿原型链上的属性
+```
+
+```js
+var strA = 'hi there';
+var strB = strA;
+strB = 'bye there!';
+console.log(strA);
+// hi there
+```
+
+```js
+var objA = { prop1: 42 };
+var objB = objA;
+objB.prop1 = 90;
+console.log(objA);
+// {prop1: 90}
+```
+
+```js
+var objA = { prop1: 42 };
+var objB = objA;
+objB = {};
+console.log(objA);
+// {prop1: 42}
+```
+
+```js
+var arrA = [0, 1, 2, 3, 4, 5];
+var arrB = arrA;
+arrB[0] = 42;
+console.log(arrA);
+// [42,1,2,3,4,5]
+```
+
+```js
+var arrA = [0, 1, 2, 3, 4, 5];
+var arrB = arrA.slice();
+arrB[0] = 42;
+console.log(arrA);
+// [0,1,2,3,4,5]
+```
+
+```js
+var arrA = [{ prop1: 'value of array A!!' }, { someProp: 'also value of array A!' }, 3, 4, 5];
+var arrB = arrA;
+arrB[0].prop1 = 42;
+console.log(arrA);
+// [{prop1: 42}, {someProp: "also value of array A!"}, 3,4,5]
+```
+
+```js
+var arrA = [{ prop1: 'value of array A!!' }, { someProp: 'also value of array A!' }, 3, 4, 5];
+var arrB = arrA.slice();
+arrB[0].prop1 = 42;
+arrB[3] = 20;
+console.log(arrA);
+
+// [{prop1: 42}, {someProp: "also value of array A!"}, 3,4,5]
+function slice(arr) {
+  var result = [];
+  for (i = 0; i < arr.length; i++) {
+    result.push(arr[i]);
+  }
+  return result;
+}
+```
+
+```js
+var trees = ['xyz', 'xxxx', 'test', 'ryan', 'apple'];
+delete trees[3];
+console.log(trees.length);
+// 5
+```
+
+```js
+var bar = true;
+console.log(bar + 0);
+console.log(bar + 'xyz');
+console.log(bar + true);
+console.log(bar + false);
+// 1, "truexyz", 2, 1
+```
+
+```js
+var z = 1,
+  y = (z = typeof y);
+console.log(y);
+// undefined
+```
+
+```js
+// NFE (Named Function Expression)
+var foo = function bar() {
+  return 12;
+};
+typeof bar();
+// Reference Error
+```
+
+```js
+bar();
+(function abc() {
+  console.log('something');
+})();
+function bar() {
+  console.log('bar got called');
+}
+// bar got called
+// something
+```
+
+```js
+var salary = '1000$';
+
+(function() {
+  console.log('Original salary was ' + salary);
+
+  var salary = '5000$';
+
+  console.log('My New Salary ' + salary);
+})();
+// undefined, 5000$
+```
+
+```js
+function User(name) {
+  this.name = name || 'JsGeeks';
+}
+
+var person = (new User('xyz')['location'] = 'USA');
+console.log(person);
+// USA
+```
 
 ```js
 var foo = 1,
@@ -110,8 +558,6 @@ console.log(typeof SINA); // function
 ```
 
 > 重复声明被忽略掉了，所以`var SINA`并没有起到作用，而是被忽略掉了。
-
-### This 下面代码中分别输出什么？
 
 ```js
 // 直接执行 Foo() 返回的是 window
@@ -493,6 +939,104 @@ person1.displayName();
 Person.displayName();
 
 // John Person
+```
+
+### 变量与函数同名的情况
+
+```js
+var a = 10;
+(function() {
+  console.log(a);
+  a = 5;
+  console.log(window.a);
+  var a = 20;
+  console.log(a);
+})();
+// undefined 10 20
+```
+
+```js
+var b = 10;
+(function b() {
+  b = 20;
+  console.log(b);
+})(); //[Function b]
+```
+
+```js
+var b = 10;
+(function b() {
+  'use strict';
+  b = 20;
+  console.log(b);
+})(); // "Uncaught TypeError: Assignment to constant variable."
+```
+
+函数表达式与函数声明不同，函数名只在该函数内部有效，并且此绑定是常量绑定。
+在严格模式下 b 函数相当于常量，无法进行重新赋值，在非严格模式下函数声明优先变量声明
+
+#### 简单改造下面的代码，使之分别打印 10 和 20
+
+```js
+var b = 10;
+(function b() {
+  b = 20;
+  console.log(b);
+})();
+```
+
+- 打印 20
+
+```js
+var b = 10;
+(function b() {
+  var b = 20;
+  console.log(b);
+})(); // 20 在自执行函数中重新定义一个变量，
+```
+
+```js
+var b = 10;
+(function a() {
+  b = 20;
+  console.log(b);
+})();
+```
+
+```js
+var b = 10;
+(function() {
+  b = 20;
+  console.log(b);
+})();
+```
+
+- 打印 10
+
+```js
+var b = 10;
+(function b() {
+  b = 20;
+  console.log(window.b);
+})();
+```
+
+在自执行函数中访问 window，window 中的 b 值为 10 2.
+
+```js
+var b = 10;
+(function() {
+  console.log(b);
+  b = 20;
+})();
+```
+
+```js
+var b = 10;
+(function b(b) {
+  console.log(b);
+  b = 20;
+})(b);
 ```
 
 ### 作用域
