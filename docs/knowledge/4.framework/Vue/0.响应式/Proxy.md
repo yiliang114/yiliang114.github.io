@@ -8,7 +8,7 @@ draft: true
 
 ### Proxy 与 Object.defineProperty 的对比
 
-Object.defineProperty() 和 ES2015 中新增的 Proxy 对象,会经常用来做数据劫持(数据劫持:在访问或者修改对象的某个属性时，通过一段代码拦截这个行为，进行额外的操作或者修改返回结果)，数据劫持的典型应用就是我们经常在面试中遇到的双向数据绑定。
+Object.defineProperty() 和 ES6 中新增的 Proxy 对象,会经常用来做数据劫持(数据劫持:在访问或者修改对象的某个属性时，通过一段代码拦截这个行为，进行额外的操作或者修改返回结果)，数据劫持的典型应用就是我们经常在面试中遇到的双向数据绑定。
 
 #### Object.defineProperty
 
@@ -881,16 +881,52 @@ p.a = 2; // bind `value` to `2`
 p.a; // -> Get 'a' = 2
 ```
 
+### Proxy
+
+- 定义：修改某些操作的默认行为
+- 声明：`const proxy = new Proxy(target, handler)`
+- 入参
+  - **target**：拦截的目标对象
+  - **handler**：定制拦截行为
+- 方法
+  - **Proxy.revocable()**：返回可取消的 Proxy 实例(返回`{ proxy, revoke }`，通过 revoke()取消代理)
+- 拦截方式
+  - **get()**：拦截对象属性读取
+  - **set()**：拦截对象属性设置，返回布尔值
+  - **has()**：拦截对象属性检查`k in obj`，返回布尔值
+  - **deleteProperty()**：拦截对象属性删除`delete obj[k]`，返回布尔值
+  - **defineProperty()**：拦截对象属性定义`Object.defineProperty()`、`Object.defineProperties()`，返回布尔值
+  - **ownKeys()**：拦截对象属性遍历`for-in`、`Object.keys()`、`Object.getOwnPropertyNames()`、`Object.getOwnPropertySymbols()`，返回数组
+  - **getOwnPropertyDescriptor()**：拦截对象属性描述读取`Object.getOwnPropertyDescriptor()`，返回对象
+  - **getPrototypeOf()**：拦截对象读取`instanceof`、`Object.getPrototypeOf()`、`Object.prototype.__proto__`、`Object.prototype.isPrototypeOf()`、`Reflect.getPrototypeOf()`，返回对象
+  - **setPrototypeOf()**：拦截对象设置`Object.setPrototypeOf()`，返回布尔值
+  - **isExtensible()**：拦截对象是否可扩展读取`Object.isExtensible()`，返回布尔值
+  - **preventExtensions()**：拦截对象不可扩展设置`Object.preventExtensions()`，返回布尔值
+  - **apply()**：拦截 Proxy 实例作为函数调用`proxy()`、`proxy.apply()`、`proxy.call()`
+  - **construct()**：拦截 Proxy 实例作为构造函数调用`new proxy()`
+
+应用场景
+
+- `Proxy.revocable()`：不允许直接访问对象，必须通过代理访问，一旦访问结束就收回代理权不允许再次访问
+- `get()`：读取未知属性报错、读取数组负数索引的值、封装链式操作、生成 DOM 嵌套节点
+- `set()`：数据绑定(Vue 数据绑定实现原理)、确保属性值设置符合要求、防止内部属性被外部读写
+- `has()`：隐藏内部属性不被发现、排除不符合属性条件的对象
+- `deleteProperty()`：保护内部属性不被删除
+- `defineProperty()`：阻止属性被外部定义
+- `ownKeys()`：保护内部属性不被遍历
+
+重点难点
+
+- 要使`Proxy`起作用，必须针对`实例`进行操作，而不是针对`目标对象`进行操作
+- 没有设置任何拦截时，等同于`直接通向原对象`
+- 属性被定义为`不可读写/扩展/配置/枚举`时，使用拦截方法会报错
+- 代理下的目标对象，内部`this`指向`Proxy代理`
+
 ## Reflect
-
-### 补充
-
-http://es6.ruanyifeng.com/?search=Reflect&x=13&y=8#docs/
-https://www.jianshu.com/p/653bce04db0b
 
 ### 什么是 Reflect？
 
-`Reflect`是`ES6`引入的一个新的对象，他的主要作用有两点，一是将原生的一些零散分布在`Object`、`Function`或者全局函数里的方法(如`apply`、`delete`、`get`、`set`等等)，统一整合到`Reflect`上，这样可以更加方便更加统一的管理一些原生`API`。其次就是因为`Proxy`可以改写默认的原生 API，如果一旦原生`API`被改写可能就找不到了，所以`Reflect`也可以起到备份原生 API 的作用，使得即使原生`API`被改写了之后，也可以在被改写之后的`API`用上默认的`API`
+`Reflect`是`ES6`引入的一个新的对象，他的主要作用有两点，一是将原生的一些零散分布在`Object`、`Function`或者全局函数里的方法(如`apply`、`delete`、`get`、`set`等等)，统一整合到`Reflect`上，这样可以更加方便更加统一的管理一些原生`API`。其次就是因为`Proxy`可以改写默认的原生 API，如果一旦原生`API`被改写可能就找不到了，所以`Reflect`也可以起到备份原生 API 的作用，使得即使原生`API`被改写了之后，也可以在被改写之后的`API`用上默认的`API`。
 
 ### 为什么要设计 Reflect？
 
@@ -948,8 +984,6 @@ https://www.jianshu.com/p/653bce04db0b
    };
    let proxy = new Proxy(target, handler);
    ```
-
-**确保对象的属性能正确赋值，广义上讲，即确保对象的原生行为能够正常进行，这就是 Reflect 的作用**
 
 ### Reflect 的 API
 
@@ -1193,47 +1227,6 @@ p.name; // "chen"
 
 **（14）Reflect.ownKeys (target)**
 用于返回对象的所有属性
-
-### Proxy
-
-- 定义：修改某些操作的默认行为
-- 声明：`const proxy = new Proxy(target, handler)`
-- 入参
-  - **target**：拦截的目标对象
-  - **handler**：定制拦截行为
-- 方法
-  - **Proxy.revocable()**：返回可取消的 Proxy 实例(返回`{ proxy, revoke }`，通过 revoke()取消代理)
-- 拦截方式
-  - **get()**：拦截对象属性读取
-  - **set()**：拦截对象属性设置，返回布尔值
-  - **has()**：拦截对象属性检查`k in obj`，返回布尔值
-  - **deleteProperty()**：拦截对象属性删除`delete obj[k]`，返回布尔值
-  - **defineProperty()**：拦截对象属性定义`Object.defineProperty()`、`Object.defineProperties()`，返回布尔值
-  - **ownKeys()**：拦截对象属性遍历`for-in`、`Object.keys()`、`Object.getOwnPropertyNames()`、`Object.getOwnPropertySymbols()`，返回数组
-  - **getOwnPropertyDescriptor()**：拦截对象属性描述读取`Object.getOwnPropertyDescriptor()`，返回对象
-  - **getPrototypeOf()**：拦截对象读取`instanceof`、`Object.getPrototypeOf()`、`Object.prototype.__proto__`、`Object.prototype.isPrototypeOf()`、`Reflect.getPrototypeOf()`，返回对象
-  - **setPrototypeOf()**：拦截对象设置`Object.setPrototypeOf()`，返回布尔值
-  - **isExtensible()**：拦截对象是否可扩展读取`Object.isExtensible()`，返回布尔值
-  - **preventExtensions()**：拦截对象不可扩展设置`Object.preventExtensions()`，返回布尔值
-  - **apply()**：拦截 Proxy 实例作为函数调用`proxy()`、`proxy.apply()`、`proxy.call()`
-  - **construct()**：拦截 Proxy 实例作为构造函数调用`new proxy()`
-
-应用场景
-
-- `Proxy.revocable()`：不允许直接访问对象，必须通过代理访问，一旦访问结束就收回代理权不允许再次访问
-- `get()`：读取未知属性报错、读取数组负数索引的值、封装链式操作、生成 DOM 嵌套节点
-- `set()`：数据绑定(Vue 数据绑定实现原理)、确保属性值设置符合要求、防止内部属性被外部读写
-- `has()`：隐藏内部属性不被发现、排除不符合属性条件的对象
-- `deleteProperty()`：保护内部属性不被删除
-- `defineProperty()`：阻止属性被外部定义
-- `ownKeys()`：保护内部属性不被遍历
-
-重点难点
-
-- 要使`Proxy`起作用，必须针对`实例`进行操作，而不是针对`目标对象`进行操作
-- 没有设置任何拦截时，等同于`直接通向原对象`
-- 属性被定义为`不可读写/扩展/配置/枚举`时，使用拦截方法会报错
-- 代理下的目标对象，内部`this`指向`Proxy代理`
 
 ### Reflect
 

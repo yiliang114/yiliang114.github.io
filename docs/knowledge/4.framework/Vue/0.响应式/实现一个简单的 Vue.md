@@ -26,7 +26,7 @@ Compile.prototype = {
   node2Fragment: function(el) {
     var fragment = document.createDocumentFragment(),
       child;
-    // 将原生节点拷贝到fragment
+    // 将原生节点拷贝到 fragment
     while ((child = el.firstChild)) {
       fragment.appendChild(child);
     }
@@ -108,7 +108,7 @@ var updater = {
 };
 ```
 
-这里通过递归遍历保证了每个节点及子节点都会解析编译到，包括了{{}}表达式声明的文本节点。指令的声明规定是通过特定前缀的节点属性来标记，如`中`v-text`便是指令，而`other-attr`不是指令，只是普通的属性。 监听数据、绑定更新函数的处理是在`compileUtil.bind()`这个方法中，通过`new Watcher()`添加回调来接收数据变化的通知
+这里通过递归遍历保证了每个节点及子节点都会解析编译到，包括了 {{}} 表达式声明的文本节点。指令的声明规定是通过特定前缀的节点属性来标记，如`中`v-text`便是指令，而`other-attr`不是指令，只是普通的属性。 监听数据、绑定更新函数的处理是在`compileUtil.bind()`这个方法中，通过`new Watcher()`添加回调来接收数据变化的通知
 
 ### 实现 observer
 

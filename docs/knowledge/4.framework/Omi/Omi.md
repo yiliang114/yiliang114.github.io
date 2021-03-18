@@ -64,3 +64,20 @@ vue-omiv-ssr
 #### omiv 的理念
 
 vue 的双向数据流 改为了 单向数据流，从组件数据修改 dom 自动更新到数据更新，依赖检测到之后主动去更新 dom 视图。
+
+## Web Components
+
+### Shadow DOM
+
+https://aotu.io/notes/2016/06/24/Shadow-DOM/index.html
+
+### Omi + Web Components
+
+https://segmentfault.com/a/1190000017091755?utm_source=tag-newest
+
+http://www.ruanyifeng.com/blog/2019/08/web_components.html
+
+### Web Components
+
+好处： 跨端，内容封闭
+坏处： 全局的 css 不受用了

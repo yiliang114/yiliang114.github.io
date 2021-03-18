@@ -4,102 +4,22 @@ date: 2020-11-21
 draft: true
 ---
 
-### AJAX
+## AJAX
 
 `AJAX(Asynchronous Javascript And XML)`= 异步 `JavaScript` + `XML` 。
 
-创建一个 ajax 请求的步骤：
+### 发送 ajax 请求的步骤
 
-- 创建 XMLHttpRequest 对象， 也就是创建一个异步调用对象
-- 建一个新的 HTTP 请求,并指定该 HTTP 请求的方法、URL 及验证信息
-- 设置响应 HTTP 请求状态变化的函数
-- 发送 HTTP 请求
-- 获取异步调用返回的数据
-
-```js
-function ajax(url, cb) {
-  let xhr;
-  // 创建 XMLHttpRequest 对象
-  if (window.XMLHttpRequest) {
-    // `XMLHttpRequest`只有在高级浏览器中才支持
-    xhr = new XMLHttpRequest();
-  } else {
-    xhr = ActiveXObject('Microsoft.XMLHTTP');
-  }
-  // 绑定 onreadystatechange 事件
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      //  获取异步调用返回的数据
-      cb(xhr.responseText);
-    }
-  };
-  // 向服务器发送请求
-  xhr.open('GET', url, true);
-  xhr.send();
-}
-```
-
-### 如何创建 Ajax
-
-1. `XMLHttpRequest` 的工作原理
-2. 兼容性处理。 `XMLHttpRequest`只有在高级浏览器中才支持。在回答问题时，这个兼容性问题不要忽略。
-3. 事件的触发条件
-4. 事件的触发顺序。`XMLHttpRequest`有很多触发事件，每个事件是怎么触发的。
-
-### 发送 Ajax 请求的五个步骤（XMLHttpRequest 的工作原理）
-
-1. 创建`XMLHttpRequest` 对象。
+1. 创建`XMLHttpRequest` 对象。`XMLHttpRequest`只有在高级浏览器中才支持。在回答问题时，这个兼容性问题不要忽略。
 2. 使用`open`方法设置请求的参数。`open(method, url, 是否异步)`。
-3. 发送请求。
-4. 注册事件。 注册`onreadystatechange`事件，状态改变时就会调用。如果要在数据完整请求回来的时候才调用，我们需要手动写一些判断的逻辑。
-5. 获取返回的数据，更新 UI。
-
-### Ajax 与 Cookie
-
-- ajax 会自动带上同源的 cookie，不会带上不同源的 cookie
-- 可以通过前端设置 withCredentials 为 true， 后端设置 Header 的方式让 ajax 自动带上不同源的 cookie，但是这个属性对同源请求没有任何影响。会被自动忽略。
-
-```js
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'http://example.com/', true);
-xhr.withCredentials = true;
-xhr.send(null);
-```
-
-### httpRequest.readyState 的值
-
-- 0 (未初始化) or (请求还未初始化)
-- 1 (正在加载) or (已建立服务器链接)
-- 2 (加载成功) or (请求已接受)
-- 3 (交互) or (正在处理请求)
-- 4 (完成) or (请求已完成并且响应已准备好)
-
-ajax 的 readyState 共有 5 个状态，分别是 0-4，其中每个数字的含义分别是 0 代表还没调用 open 方法，1 代表的是未调用 send 方法，也就是还没发送数据给服务器
-2 代表的是还没有接收到响应，3 代表的是开始接收到了部分数据，4 代表的是接收完成，数据可以在客户端使用了。
-
-### Ajax 和 Fetch 区别
-
-ajax 是使用 XMLHttpRequest 对象发起的，但是用起来很麻烦，所以 ES6 新规范就有了 fetch，fetch 发一个请求不用像 ajax 那样写一大堆代码。
-使用 fetch 无法取消一个请求，这是因为 fetch 基于 Promise，而 Promise 无法做到这一点。
-在默认情况下，fetch 不会接受或者发送 cookies
-fetch 没有办法原生监测请求的进度，而 XMLHttpRequest 可以
-fetch 只对网络请求报错，对 400，500 都当做成功的请求，需要封装去处理
-fetch 由于是 ES6 规范，兼容性上比不上 XMLHttpRequest
-
-#### Fetch API 相对于传统的 Ajax 有哪些改进？
-
-fetch 和 XMLHttpRequest 相比，主要有以下优点:
-
-- 语法简洁，更加语义化
-- 基于标准 Promise 实现，支持 async/await
-- 同构方便，使用 isomorphic-fetch
-
-### 手写 ajax
+3. 注册事件。 注册`onreadystatechange`事件，状态改变时就会调用。如果要在数据完整请求回来的时候才调用，我们需要手动写一些判断的逻辑。
+4. 发送请求。
+5. 获取返回的数据。
 
 ```js
 var XHR = null;
 if (window.XMLHttpRequest) {
-  // 非IE内核
+  // 非 IE 内核
   XHR = new XMLHttpRequest();
 } else if (window.ActiveXObject) {
   // IE内核,这里早期IE的版本写法不同,具体可以查询下
@@ -109,94 +29,34 @@ if (window.XMLHttpRequest) {
 }
 
 if (XHR) {
+  // open(method, url, 是否异步)
   XHR.open('GET', 'ajaxServer.action');
-
   XHR.onreadystatechange = function() {
     // readyState值说明
-    // 0,初始化,XHR对象已经创建,还未执行open
-    // 1,载入,已经调用open方法,但是还没发送请求
-    // 2,载入完成,请求已经发送完成
-    // 3,交互,可以接收到部分数据
+    // 0: 初始化, XHR对象已经创建, 还未执行 open
+    // 1: 已建立服务器连接, 但是还没发送请求（send 方法）
+    // 2: 请求已接受，还没有接收到响应
+    // 3: 正在处理请求，开始接收到了部分数据
+    // 4: 请求已完成并且响应已准备好
 
     // status值说明
-    // 200:成功
-    // 404:没有发现文件、查询或URl
-    // 500:服务器产生内部错误
+    // 200: 成功
+    // 404: not find
+    // 500: 服务器产生内部错误
     if (XHR.readyState == 4 && XHR.status == 200) {
       // 这里可以对返回的内容做处理
-      // 一般会返回JSON或XML数据格式
+      // 一般会返回 JSON 或 XML 数据格式
       console.log(XHR.responseText);
-      // 主动释放,JS本身也会回收的
+      // 主动释放, JS 本身也会回收的
       XHR = null;
     }
   };
+  // 发送请求
   XHR.send();
 }
 ```
 
-### 使用 Promise 封装一个 AJAX
-
-```js
-const ajax = obj => {
-  return new Promise((resolve, reject) => {
-    let method = obj.method || 'GET';
-
-    // 创建 xhr
-    let xhr;
-    if (window.XMLHTTPRequest) {
-      xhr = new XMLHTTPRequest();
-    } else {
-      xhr = new ActiveXObject('Microsoft.XMLHTTP');
-    }
-    // 超时
-    xhr.ontimeout = function() {
-      reject({
-        errorType: 'timeout_error',
-        xhr: xhr,
-      });
-    };
-    // 报错
-    xhr.onerror = function() {
-      reject({
-        errorType: 'onerror',
-        xhr: xhr,
-      });
-    };
-    // 监听 statuschange
-    xhr.onreadystatechange = function() {
-      if (xhr.readState === 4) {
-        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-          resolve(xhr.responseText);
-        } else {
-          reject({
-            errorType: 'onerror',
-            xhr: xhr,
-          });
-        }
-      }
-    };
-
-    // 发送请求
-    if (method === 'POST') {
-      xhr.open('POST', obj.url, true);
-      xhr.responseType = 'json';
-      xhr.setRequestHeader('Accept', 'application/json');
-      xhr.send(JSON.parse(obj.data));
-    } else {
-      let query = '';
-      for (let key in obj.data) {
-        query += `&${encodeURIComponent(key)}=${encodeURIComponent(obj.data[key])}`;
-      }
-      // The substring() method returns the part of the string between the start and end indexes, or to the end of the string.
-      query.substring(1);
-      xhr.open('GET', obj.url, +'?' + query, true);
-      xhr.send();
-    }
-  });
-};
-```
-
-### 防止重复发送 Ajax 请求
+### 防止重复发送 ajax 请求
 
 1. 用户点击之后按钮 disabled;
 2. 函数节流
@@ -204,17 +64,23 @@ const ajax = obj => {
 
 ### http 普通请求和 ajax 请求
 
-ajax 的请求，在请求头中多了一个“**X-Requested-With**”属性。
+ajax 的请求，在请求头中多了一个“**X-Requested-With**”属性。跨域的时候，ajax 请求 “**X-Requested-With**”属性会丢失。
 
-而通过浏览器的 url 请求，则没有这个“**X-Requested-With**”属性。
+### ajax 与 Cookie
 
-我一直以为通过浏览器的 url 请求就是 ajax 的 GET 请求，两者原理上是一样的？？？
+- ajax 会自动带上同源的 cookie，不会带上不同源的 cookie
+- 可以通过前端设置 withCredentials 为 true， 后端设置 Header 的方式让 ajax 自动带上不同源的 cookie，但是这个属性对同源请求没有任何影响。会被自动忽略。
 
-两者本质区别是：
+### ajax 和 Fetch 区别
 
-- Ajax （Asynchronous JavaScript and XML） 通过 XMLHttpRequest 对象请求服务器，服务器接收请求后返回数据，页面接收到数据之后实现局部刷新。
-- 普通 http 请求通过 httpRequest 对象请求服务器，服务器接收请求之后返回数据，需要页面刷新？？？
+- XMLHttpRequest 使用麻烦，fetch API 简单
+- fetch 由于是 ES6 规范，兼容性上比不上 XMLHttpRequest
+- 因为 fetch 基于 Promise，所以 fetch 无法取消一个请求，Promise 无法取消一个请求。
+- fetch 没有办法原生监测请求的进度，而 XMLHttpRequest 可以
+- fetch 只对网络请求报错，对 400，500 都当做成功的请求，需要封装去处理
 
-跨域的时候，ajax 请求 “**X-Requested-With**”属性会丢失。
+Fetch 优点：
 
-### formdata 的了解
+- 语法简洁，更加语义化
+- 基于标准 Promise 实现，支持 async/await
+- 同构方便，使用 isomorphic-fetch

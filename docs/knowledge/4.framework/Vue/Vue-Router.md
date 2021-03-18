@@ -6,279 +6,6 @@ draft: true
 
 ## 源码解析
 
-Vue-router 原理
-Vue computed 和 watch 区别
-
-### 路由注册
-
-使用路由之前，需要调用 `Vue.use(VueRouter)`，这是因为让插件可以使用 Vue
-
-```js
-export function initUse(Vue: GlobalAPI) {
-  Vue.use = function(plugin: Function | Object) {
-    // 判断重复安装插件
-    const installedPlugins = this._installedPlugins || (this._installedPlugins = []);
-    if (installedPlugins.indexOf(plugin) > -1) {
-      return this;
-    }
-    const args = toArray(arguments, 1);
-    // 插入 Vue
-    args.unshift(this);
-    // 一般插件都会有一个 install 函数
-    // 通过该函数让插件可以使用 Vue
-    if (typeof plugin.install === 'function') {
-      plugin.install.apply(plugin, args);
-    } else if (typeof plugin === 'function') {
-      plugin.apply(null, args);
-    }
-    installedPlugins.push(plugin);
-    return this;
-  };
-}
-```
-
-接下来看下 `install` 函数的部分实现
-
-```js
-export function install(Vue) {
-  // 确保 install 调用一次
-  if (install.installed && _Vue === Vue) return;
-  install.installed = true;
-  // 把 Vue 赋值给全局变量
-  _Vue = Vue;
-  const registerInstance = (vm, callVal) => {
-    let i = vm.$options._parentVnode;
-    if (isDef(i) && isDef((i = i.data)) && isDef((i = i.registerRouteInstance))) {
-      i(vm, callVal);
-    }
-  };
-  // 给每个组件的钩子函数混入实现
-  // 可以发现在 `beforeCreate` 钩子执行时
-  // 会初始化路由
-  Vue.mixin({
-    beforeCreate() {
-      // 判断组件是否存在 router 对象，该对象只在根组件上有
-      if (isDef(this.$options.router)) {
-        // 根路由设置为自己
-        this._routerRoot = this;
-        this._router = this.$options.router;
-        // 初始化路由
-        this._router.init(this);
-        // 很重要，为 _route 属性实现双向绑定
-        // 触发组件渲染
-        Vue.util.defineReactive(this, '_route', this._router.history.current);
-      } else {
-        // 用于 router-view 层级判断
-        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
-      }
-      registerInstance(this, this);
-    },
-    destroyed() {
-      registerInstance(this);
-    },
-  });
-  // 全局注册组件 router-link 和 router-view
-  Vue.component('RouterView', View);
-  Vue.component('RouterLink', Link);
-}
-```
-
-对于路由注册来说，核心就是调用 `Vue.use(VueRouter)`，使得 VueRouter 可以使用 Vue。然后通过 Vue 来调用 VueRouter 的 `install` 函数。在该函数中，核心就是给组件混入钩子函数和全局注册两个路由组件。
-
-### VueRouter 实例化
-
-在安装插件后，对 VueRouter 进行实例化。
-
-```js
-const Home = { template: '<div>home</div>' };
-const Foo = { template: '<div>foo</div>' };
-const Bar = { template: '<div>bar</div>' };
-
-// 3. Create the router
-const router = new VueRouter({
-  mode: 'hash',
-  base: __dirname,
-  routes: [
-    { path: '/', component: Home }, // all paths are defined without the hash.
-    { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar },
-  ],
-});
-```
-
-来看一下 VueRouter 的构造函数
-
-```js
-constructor(options: RouterOptions = {}) {
-    // ...
-    // 路由匹配对象
-    this.matcher = createMatcher(options.routes || [], this)
-
-    // 根据 mode 采取不同的路由方式
-    let mode = options.mode || 'hash'
-    this.fallback =
-      mode === 'history' && !supportsPushState && options.fallback !== false
-    if (this.fallback) {
-      mode = 'hash'
-    }
-    if (!inBrowser) {
-      mode = 'abstract'
-    }
-    this.mode = mode
-
-    switch (mode) {
-      case 'history':
-        this.history = new HTML5History(this, options.base)
-        break
-      case 'hash':
-        this.history = new HashHistory(this, options.base, this.fallback)
-        break
-      case 'abstract':
-        this.history = new AbstractHistory(this, options.base)
-        break
-      default:
-        if (process.env.NODE_ENV !== 'production') {
-          assert(false, `invalid mode: ${mode}`)
-        }
-    }
-  }
-```
-
-在实例化 VueRouter 的过程中，核心是创建一个路由匹配对象，并且根据 mode 来采取不同的路由方式。
-
-### 创建路由匹配对象
-
-```js
-export function createMatcher(routes: Array<RouteConfig>, router: VueRouter): Matcher {
-  // 创建路由映射表
-  const { pathList, pathMap, nameMap } = createRouteMap(routes);
-
-  function addRoutes(routes) {
-    createRouteMap(routes, pathList, pathMap, nameMap);
-  }
-  // 路由匹配
-  function match(raw: RawLocation, currentRoute?: Route, redirectedFrom?: Location): Route {
-    //...
-  }
-
-  return {
-    match,
-    addRoutes,
-  };
-}
-```
-
-`createMatcher` 函数的作用就是创建路由映射表，然后通过闭包的方式让 `addRoutes` 和 `match` 函数能够使用路由映射表的几个对象，最后返回一个 `Matcher` 对象。
-
-接下来看 `createMatcher` 函数时如何创建映射表的
-
-```js
-export function createRouteMap(
-  routes: Array<RouteConfig>,
-  oldPathList?: Array<string>,
-  oldPathMap?: Dictionary<RouteRecord>,
-  oldNameMap?: Dictionary<RouteRecord>,
-): {
-  pathList: Array<string>,
-  pathMap: Dictionary<RouteRecord>,
-  nameMap: Dictionary<RouteRecord>,
-} {
-  // 创建映射表
-  const pathList: Array<string> = oldPathList || [];
-  const pathMap: Dictionary<RouteRecord> = oldPathMap || Object.create(null);
-  const nameMap: Dictionary<RouteRecord> = oldNameMap || Object.create(null);
-  // 遍历路由配置，为每个配置添加路由记录
-  routes.forEach(route => {
-    addRouteRecord(pathList, pathMap, nameMap, route);
-  });
-  // 确保通配符在最后
-  for (let i = 0, l = pathList.length; i < l; i++) {
-    if (pathList[i] === '*') {
-      pathList.push(pathList.splice(i, 1)[0]);
-      l--;
-      i--;
-    }
-  }
-  return {
-    pathList,
-    pathMap,
-    nameMap,
-  };
-}
-// 添加路由记录
-function addRouteRecord(
-  pathList: Array<string>,
-  pathMap: Dictionary<RouteRecord>,
-  nameMap: Dictionary<RouteRecord>,
-  route: RouteConfig,
-  parent?: RouteRecord,
-  matchAs,
-) {
-  // 获得路由配置下的属性
-  const { path, name } = route;
-  const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {};
-  // 格式化 url，替换 /
-  const normalizedPath = normalizePath(path, parent, pathToRegexpOptions.strict);
-  // 生成记录对象
-  const record: RouteRecord = {
-    path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
-    components: route.components || { default: route.component },
-    instances: {},
-    name,
-    parent,
-    matchAs,
-    redirect: route.redirect,
-    beforeEnter: route.beforeEnter,
-    meta: route.meta || {},
-    props: route.props == null ? {} : route.components ? route.props : { default: route.props },
-  };
-
-  if (route.children) {
-    // 递归路由配置的 children 属性，添加路由记录
-    route.children.forEach(child => {
-      const childMatchAs = matchAs ? cleanPath(`${matchAs}/${child.path}`) : undefined;
-      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
-    });
-  }
-  // 如果路由有别名的话
-  // 给别名也添加路由记录
-  if (route.alias !== undefined) {
-    const aliases = Array.isArray(route.alias) ? route.alias : [route.alias];
-
-    aliases.forEach(alias => {
-      const aliasRoute = {
-        path: alias,
-        children: route.children,
-      };
-      addRouteRecord(
-        pathList,
-        pathMap,
-        nameMap,
-        aliasRoute,
-        parent,
-        record.path || '/', // matchAs
-      );
-    });
-  }
-  // 更新映射表
-  if (!pathMap[record.path]) {
-    pathList.push(record.path);
-    pathMap[record.path] = record;
-  }
-  // 命名路由添加记录
-  if (name) {
-    if (!nameMap[name]) {
-      nameMap[name] = record;
-    } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
-      warn(false, `Duplicate named routes definition: ` + `{ name: "${name}", path: "${record.path}" }`);
-    }
-  }
-}
-```
-
-以上就是创建路由匹配对象的全过程，通过用户配置的路由规则来创建对应的路由映射表。
-
 ### 路由初始化
 
 当根组件调用 `beforeCreate` 钩子函数时，会执行以下代码
@@ -903,73 +630,31 @@ updateRoute(route: Route) {
 
 ## 路由原理
 
-前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新。目前单页面使用的路由就只有两种实现方式
+目前单页面使用的路由就只有两种实现方式
 
-- hash 模式
-- history 模式
+1. hash 模式
+2. history 模式
 
-`www.test.com/#/` 就是 Hash URL，当 `#` 后面的哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
-
-![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042512.png)
+哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
 
 History 模式是 HTML5 新推出的功能，比之 Hash URL 更加美观
 
-![](https://yck-1254263422.cos.ap-shanghai.myqcloud.com/blog/2019-06-01-042514.png)
+前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，继而对不同的组件进行渲染，显示相应的页面，并且无须刷新。
 
-说简单点，vue-router 的原理就是通过对 URL 地址变化的监听，继而对不同的组件进行渲染。
-每当 URL 地址改变时，就对相应的组件进行渲染。原理是很简单，实现方式可能有点复杂，主要有 hash 模式和 history 模式。
-如果想了解得详细点，建议百度或者阅读源码。
+### 原理
 
-### router 为什么可以做到修改 url 但是页面不直接进行刷新， pushState 函数的使用
-
-pushState
-
-### router 原理
+hash 主要依赖 location.hash 来改动 URL,达到不刷新跳转的效果.每次 hash 改变都会触发 hashchange 事件(来响应路由的变化,比如页面的更换)
+history 主要利用了 HTML5 的 historyAPI 来实现,用 pushState 和 replaceState 来操作浏览历史记录栈
 
 #### hash
+
+hash 出现在 URL 中，但不会被包含在 http 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面。
+
+特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，hash 不会重加载页面。
 
 window.location.hash = route.fullPath
 
 执行 router.push(url) 的操作的时候， 会执行 updateRoute 函数， 通过一个全局 mixins 会执行 this.\_route = route 这样一个操作。因为 `_route` 是响应式的，所以就会重新执行 render 函数 ？？ （好像这逻辑有问题）
-
-#### history
-
-主要是两个 api:
-
-- pushState
-- popState
-
-执行 router.push(url) 的操作的时候，会执行 pushState(url) 这样的操作，直接更新一个状态。
-
-#### router 的 hash 和 history 有什么区别
-
-1. 一个是 hash, 一个看起来像真实的路径
-2. hash 值不会被带到服务器上去
-3. push 的时候实现原理不一样
-   1. hash 模式的话，主要是将 location.hash = route.fullPath
-
-#### 其他
-
-- 无刷新更新 pushState
-- 兼容性考虑
-- 新增加的钩子
-
-#### keep-alive 有什么作用
-
-在 Vue 中，每次切换组件时，都会重新渲染。如果有多个组件切换，又想让它们保持原来的状态，避免重新渲染，这个时候就可以使用 keep-alive。 keep-alive 可以使被包含的组件保留状态，或避免重新渲染。
-
-#### vue 的内置 keep-alive 是如何实现的？ 为什么能够缓存，并可以直接读取组件 ？
-
-### 路由原理
-
-前端路由原理？两种实现方式有什么区别？
-
-前端路由实现起来其实很简单，本质就是**监听 URL 的变化**，然后匹配路由规则，显示相应的页面，并且无须刷新页面。目前前端使用的路由就只有两种实现方式
-
-- Hash 模式
-- History 模式
-
-#### Hash 模式
 
 `www.test.com/#/` 就是 Hash URL，当 `#` 后面的哈希值发生变化时，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面，并且无论哈希值如何变化，服务端接收到的 URL 请求永远是 `www.test.com`。
 
@@ -981,7 +666,14 @@ window.addEventListener('hashchange', () => {
 
 Hash 模式相对来说更简单，并且兼容性也更好。
 
-#### History 模式
+#### history
+
+主要是两个 api:
+
+- pushState
+- popState
+
+执行 router.push(url) 的操作的时候，会执行 pushState(url) 这样的操作，直接更新一个状态。
 
 History 模式是 HTML5 新推出的功能，主要使用 `history.pushState` 和 `history.replaceState` 改变 URL。
 
@@ -1003,51 +695,6 @@ window.addEventListener('popstate', e => {
 })
 ```
 
-#### 两种模式对比
-
-- Hash 模式只可以更改 `#` 后面的内容，History 模式可以通过 API 设置任意的同源 URL
-- History 模式可以通过 API 添加任意类型的数据到历史记录中，Hash 模式只能更改哈希值，也就是字符串
-- Hash 模式无需后端配置，并且兼容性好。History 模式在用户手动输入地址或者刷新页面的时候会发起 URL 请求，后端需要配置 `index.html` 页面用于匹配不到静态资源的时候
-
-#### router 的动态路由
-
-```js
-router.addRoutes(routes(formatterRoutes, formatterMenus)); // 动态路由
-```
-
-#### router 的权限
-
-##### 1. 方案一
-
-维护一个统一的路由，根据用户的权限，过滤得到有权限的路由，只注册有权限的路由
-
-##### 2. 方案二
-
-注册全部的路由，通过 meta 属性以及 router 的守卫，每次进入路由之前去校验是否有权限。
-
-#### 哈希路由能不能带到服务器？
-
-哈希值 nginx 不能收到。全部的操作、页面的变化都只存在于浏览器上。
-
-#### vue-router 之 keep-alive
-
-https://www.jianshu.com/p/0b0222954483
-
-#### Vue-Router 的两种模式主要依赖什么实现的
-
-hash 主要依赖 location.hash 来改动 URL,达到不刷新跳转的效果.每次 hash 改变都会触发 hashchange 事件(来响应路由的变化,比如页面的更换)
-history 主要利用了 HTML5 的 historyAPI 来实现,用 pushState 和 replaceState 来操作浏览历史记录栈
-
-### hash 模式和 history 模式区别
-
-##### hash 模式
-
-hash 出现在 URL 中，但不会被包含在 http 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面。
-
-特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，hash 不会重加载页面。
-
-##### history 模式
-
 history 利用了 html5 history interface 中新增的 pushState() 和 replaceState() 方法。这两个方法应用于浏览器记录栈，在当前已有的 back、forward、go 基础之上，它们提供了对历史记录修改的功能。只是当它们执行修改时，虽然改变了当前的 URL ，但浏览器不会立即向后端发送请求。
 
 原理：
@@ -1057,21 +704,12 @@ history ：hashchange 只能改变 ## 后面的代码片段，history api （pus
 $route是“路由信息对象”，包括path，params，hash，query，fullPath，matched，name等路由信息参数。
 $router 是“路由实例”对象包括了路由的跳转方法，钩子函数等。
 
-### 路由之间跳转？
+1. 一个是 hash, 一个看起来像真实的路径
+2. hash 值不会被带到服务器上去
+3. push 的时候实现原理不一样
+   1. hash 模式的话，主要是将 location.hash = route.fullPath
 
-**声明式（标签跳转）**
-
-```html
-<router-link :to="index"></router-link>
-```
-
-**编程式（ js 跳转）**
-
-```js
-router.push('index');
-```
-
-### 如何做到修改 url 参数页面不刷新
+#### 如何做到修改 url 参数页面不刷新
 
 HTML5 引入了 history.pushState() 和 history.replaceState() 方法，它们分别可以添加和修改历史记录条目。
 
@@ -1089,33 +727,24 @@ history.pushState(stateObj, 'page 2', 'bar.html');
 标题 — Firefox 目前忽略这个参数，但未来可能会用到。传递一个空字符串在这里是安全的，而在将来这是不安全的。二选一的话，你可以为跳转的 state 传递一个短标题。
 URL — 该参数定义了新的历史 URL 记录。注意，调用 pushState() 后浏览器并不会立即加载这个 URL，但可能会在稍后某些情况下加载这个 URL，比如在用户重新打开浏览器时。新 URL 不必须为绝对路径。如果新 URL 是相对路径，那么它将被作为相对于当前 URL 处理。新 URL 必须与当前 URL 同源，否则 pushState() 会抛出一个异常。该参数是可选的，缺省为当前 URL。
 
-### js 的路由是如何实现的？
+#### 两种模式对比
 
-location 是 javascript 里边管理地址栏的内置对象，比如 location.href 就管理页面的 url，用 location.href=url 就可以直接将页面重定向 url。而 location.hash 则可以用来获取或设置页面的标签值。
+- Hash 模式只可以更改 `#` 后面的内容，History 模式可以通过 API 设置任意的同源 URL
+- History 模式可以通过 API 添加任意类型的数据到历史记录中，Hash 模式只能更改哈希值，也就是字符串
+- Hash 模式无需后端配置，并且兼容性好。History 模式在用户手动输入地址或者刷新页面的时候会发起 URL 请求，后端需要配置 `index.html` 页面用于匹配不到静态资源的时候
 
-- #后的字符
-  在第一个#后面出现的任何字符，都会被浏览器解读为位置标识符。这意味着，这些字符都不会被发送到服务器端。
+1. 一个是 hash, 一个看起来像真实的路径
+2. hash 值不会被带到服务器上去
+3. push 的时候实现原理不一样
+   1. hash 模式的话，主要是将 location.hash = route.fullPath
 
-- window.hash
-  hash 属性是一个可读可写的字符串，该字符串是 URL 的锚部分（从 # 号开始的部分）。
+哈希路由的哈希值 nginx 不能收到。全部的操作、页面的变化都只存在于浏览器上。
 
-### vue-router 的实现原理
+#### router 的动态路由
 
-node 中的 router 是如何实现的
-
-router:
-
-- 两种模式
-- 传参，并且如何获取参数
-- vue 中的钩子函数和全局守卫函数
-- 权限架构设计
-- pv 埋点
-
-### router 的全局守卫
-
-可以放一个全局鉴权。但是需要注意的是， App.vue 的 mounted 和 created 执行的额时机都要比守卫函数执行的早 ？ App.vue 里面的逻辑应该有一部分不能被阻塞
-
-router.beforeEach 能否 async
+```js
+router.addRoutes(routes(formatterRoutes, formatterMenus)); // 动态路由
+```
 
 ## 常见问题
 
@@ -1123,28 +752,12 @@ router.beforeEach 能否 async
 
 `$route` 是路由信息对象，包括 path，params，hash，query，fullPath，matched，name 等路由信息参数。而 `$router` 是路由实例对象，包括了路由的跳转方法，钩子函数等。
 
-### 路由之间跳转？
+### 路由跳转
 
 - 声明式（标签跳转） `<router-link :to="index">`
 - 编程式（ js 跳转） `router.push('index')`
 
-### 懒加载（按需加载路由）（常考）
-
-webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
-
-- 不进行页面按需加载引入方式：
-
-```js
-import home from '../../common/home.vue';
-```
-
-- 进行页面按需加载的引入方式：
-
-```js
-const home = r => require.ensure([], () => r(require('../../common/home.vue')));
-```
-
-### vue-router 有哪几种导航钩子?
+### 导航钩子
 
 三种
 
@@ -1159,8 +772,6 @@ const home = r => require.ensure([], () => r(require('../../common/home.vue')));
 - 单独路由独享组件
   - beforeEnter
 
-#### vue 路由的钩子函数
-
 首页可以控制导航跳转，beforeEach，afterEach 等，一般用于页面 title 的修改。一些需要登录才能调整页面的重定向功能。
 
 - beforeEach 主要有 3 个参数 to，from，next：
@@ -1168,26 +779,23 @@ const home = r => require.ensure([], () => r(require('../../common/home.vue')));
 - from：route 当前导航正要离开的路由
 - next：function 一定要调用该方法 resolve 这个钩子。执行效果依赖 next 方法的调用参数。可以控制网页的跳转。
 
-### Vue 的路由实现：hash 模式 和 history 模式
-
-hash 模式：在浏览器中符号“#”，#以及#后面的字符称之为 hash，用 window.location.hash 读取；
-特点：hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用，hash 不会重加载页面。
-hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。
-
-history 模式：history 采用 HTML5 的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及 popState 事件的监听到状态变更。
-history 模式下，前端的 URL 必须和实际向后端发起请求的 URL 一致，如 http://www.xxx.com/items/id。后端如果缺少对 /items/id 的路由处理，将返回 404 错误。Vue-Router 官网里如此描述：“不过这种模式要玩好，还需要后台配置支持……所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。”
-
 ### vue 怎么实现页面的权限控制
 
 利用 vue-router 的 beforeEach 事件，可以在跳转页面前判断用户的权限（利用 cookie 或 token），是否能够进入此页面，如果不能则提示错误或重定向到其他页面，在后台管理系统中这种场景经常能遇到。
 
-### vue 怎么实现页面的权限控制
+router 的全局守卫可以放一个全局鉴权。但是需要注意的是， App.vue 的 mounted 和 created 执行的额时机都要比守卫函数执行的早 ？ App.vue 里面的逻辑应该有一部分不能被阻塞
 
-利用 vue-router 的 beforeEach 事件，可以在跳转页面前判断用户的权限（利用 cookie 或 token），是否能够进入此页面，如果不能则提示错误或重定向到其他页面，在后台管理系统中这种场景经常能遇到。
+router.beforeEach 能否 async
 
-### router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+#### router 的权限
 
-1. 一个是 hash, 一个看起来像真实的路径
-2. hash 值不会被带到服务器上去
-3. push 的时候实现原理不一样
-   1. hash 模式的话，主要是将 location.hash = route.fullPath
+1. 方案一： 维护一个统一的路由，根据用户的权限，过滤得到有权限的路由，只注册有权限的路由
+2. 方案二：注册全部的路由，通过 meta 属性以及 router 的守卫，每次进入路由之前去校验是否有权限。
+
+### 懒加载（按需加载路由）
+
+webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
+
+```js
+const home = r => require.ensure([], () => r(require('../../common/home.vue')));
+```

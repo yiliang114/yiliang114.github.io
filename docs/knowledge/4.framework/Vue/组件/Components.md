@@ -53,25 +53,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 ### vue component :is 实现多个组件之间的切换
 
-动态组件切换。https://blog.csdn.net/qq_30758077/article/details/83069715
+动态组件切换。
 
 ### vue 抽象组件
 
 不会实际渲染。例如 `router-view`
-
-### vue 全局和单个组件获取配置信息
-
-#### 获取全局注册的组件
-
-```js
-Vue.options.components;
-```
-
-#### 获取当前组件注册的组件
-
-```js
-this.$options.components;
-```
 
 ## 组件通信
 
