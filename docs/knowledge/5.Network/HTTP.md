@@ -51,6 +51,127 @@ content]
 GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco; tasty_cookie=strawberry
 ```
 
+### HTTP 协议的主要特点
+
+- 简单快速
+- 灵活
+- **无连接**
+- **无状态**
+
+### HTTP 报文的组成部分
+
+`http`报文包括：**请求报文**和**响应报文**。
+
+#### 请求报文包括：
+
+- 请求行：包括请求方法、请求的`url`、`http`协议及版本。
+- 请求头：一大堆的键值对。
+- **空行**指的是：当服务器在解析请求头的时候，如果遇到了空行，则表明，后面的内容是请求体
+- 请求体：数据部分。
+
+#### 响应报文包括：
+
+- 状态行：`http`协议及版本、状态码及状态描述。
+- 响应头
+- 空行
+- 响应体
+
+### HTTP 方法
+
+- `GET`：获取资源
+- `POST`：传输资源
+- `PUT`：更新资源
+- `DELETE`：删除资源
+- `HEAD`：获得报文首部
+
+1. `get` `和`post`比较常见。
+2. `put` 和 `delete` 在实际应用中用的很少。况且，业务中，一般不删除服务器端的资源。
+
+#### Post 和 Get 的区别？
+
+GET 和 POST 本质上就是 TCP 链接，并无差别。GET 和 POST 有一个重大区别，简单的说：GET 产生一个 TCP 数据包；POST 产生两个 TCP 数据包。对于 GET 方式的请求，浏览器会把 http header 和 data 一并发送出去，服务器响应 200（返回数据）； 而对于 POST，浏览器先发送 header，服务器响应 100 continue，浏览器再发送 data，服务器响应 200 ok（返回数据）。 但是，比如你想在 GET 请求里带 body，一样可以发送 Expect: 100-continue 并等待 100 continue，这是符合标准的。
+
+- 在使用 XMLHttpRequest 的 POST 方法时，浏览器会先发送 Header 再发送 Data。但并不是所有浏览器会这么做，例如火狐就不会。
+- 而 GET 方法 Header 和 Data 会一起发送。
+- 首先先引入副作用和幂等的概念。
+- GET 在浏览器回退时是无害的，而 POST 会再次提交请求。
+- GET 产生的 URL 地址可以被书签收藏，而 POST 不可
+- GET 请求会被浏览器主动缓存，而 POST 不会，除非手动设置。
+- GET 请求只能进行 url 编码，而 POST 支持多种编码方式。
+- GET 请求参数会被完整保留在浏览器历史记录里，而 POST 中的参数不会被保留。
+- GET 请求在 URL 中传送的参数是有长度限制的(大多数浏览器限制在 2K，大多数服务器在 64K 左右)，而 POST 么有。
+- 对参数的数据类型，GET 只接受 ASCII 字符，而 POST 没有限制。
+- GET 比 POST 更不安全，因为参数直接暴露在 URL 上，所以不能用来传递敏感信息。
+- GET 参数通过 URL 传递，POST 放在 Request body 中。
+
+### POST 提交数据的方式
+
+服务端通常是根据请求头（headers）中的 Content-Type 字段来获知请求中的消息主体是用何种方式编码，再对主体进行解析。所以说到 POST 提交数据方案，包含了 Content-Type 和消息主体编码方式两部分。下面就正式开始介绍它们：
+
+- `application/x-www-form-urlencoded`
+
+这是最常见的 POST 数据提交方式。浏览器的原生 `<form>` 表单，如果不设置 enctype 属性，那么最终就会以 `application/x-www-form-urlencoded` 方式提交数据。上个小节当中的例子便是使用了这种提交方式。可以看到 body 当中的内容和 GET 请求是完全相同的。
+
+- `multipart/form-data`
+
+这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 `<form>` 表单的 enctype 等于 `multipart/form-data`。直接来看一个请求示例：
+
+    POST http://www.example.com HTTP/1.1
+    Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA
+
+    ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
+    Content-Disposition: form-data; name="text"
+
+    title
+    ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
+    Content-Disposition: form-data; name="file"; filename="chrome.png"
+    Content-Type: image/png
+
+    PNG ... content of chrome.png ...
+    ------WebKitFormBoundaryrGKCBY7qhFd3TrwA--
+
+这个例子稍微复杂点。首先生成了一个 boundary 用于分割不同的字段，为了避免与正文内容重复，boundary 很长很复杂。然后 `Content-Type` 里指明了数据是以 `multipart/form-data` 来编码，本次请求的 boundary 是什么内容。消息主体里按照字段个数又分为多个结构类似的部分，每部分都是以 --boundary 开始，紧接着是内容描述信息，然后是回车，最后是字段具体内容（文本或二进制）。如果传输的是文件，还要包含文件名和文件类型信息。消息主体最后以 --boundary-- 标示结束。关于 `multipart/form-data` 的详细定义，请前往 [RFC1867](http://www.ietf.org/rfc/rfc1867.txt) 查看（或者相对友好一点的 [MDN 文档](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition)）。
+
+这种方式一般用来上传文件，各大服务端语言对它也有着良好的支持。
+
+上面提到的这两种 POST 数据的方式，都是浏览器原生支持的，而且现阶段标准中原生 `<form>` 表单也只支持这两种方式（通过 `<form>` 元素的 enctype 属性指定，默认为 `application/x-www-form-urlencoded`。其实 enctype 还支持 text/plain，不过用得非常少）。
+
+随着越来越多的 Web 站点，尤其是 WebApp，全部使用 Ajax 进行数据交互之后，我们完全可以定义新的数据提交方式，例如 `application/json`，`text/xml`，乃至 `application/x-protobuf` 这种二进制格式，只要服务器可以根据 `Content-Type` 和 `Content-Encoding` 正确地解析出请求，都是没有问题的。
+
+#### postman post 的时候 raw 和 x-www-form-urlencoded 的区别
+
+https://blog.csdn.net/wangjun5159/article/details/47781443
+
+#### Content-Type
+
+1. form-data 形式因为有 boundary 进行隔离，所以既可以上传文件也可以上传键值对，采用了键值对的方式，所以也可以上传多个文件。最后会被转化为一条信息。
+2. x-www-form-urlencoded 会将表单中的键值对都转化为以 & 相连的键值对字符串。
+3. raw 可以上传任意格式的文本， 如 text xml json 等。 需要注意的是，选择 raw 形式传数据时需要在请求头中携带 Content-Type， 值为 application/json 等。
+4. binary
+   相当于**Content-Type:application/octet-stream**,从字面意思得知，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，一次只能上传一个文件。
+5. multipart/form-data 与 x-www-form-urlencoded 区别：
+   multipart/form-data：既可以上传文件等二进制数据，也可以上传表单键值对，只是最后会转化为一条信息；
+   ​ x-www-form-urlencoded：只能上传键值对，并且键值对都是间隔分开的。
+
+### 持久链接/http 长连接
+
+- **轮询**：`http1.0`中，客户端每隔很短的时间，都会对服务器发出请求，这种做法是无奈之举，实际上对服务器、客户端双方都造成了大量的性能浪费。
+- **长连接**：`HTTP1.1`中，通过使用`Connection:keep-alive`进行长连接，。客户端只请求一次，但是服务器会将继续保持连接，当再次请求时，避免了重新建立连接。
+
+> 注意，`HTTP 1.1`默认进行持久连接。在一次 `TCP` 连接中可以完成多个 `HTTP` 请求，但是对**每个请求仍然要单独发 header**，`Keep-Alive`不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如`Apache`）中设定这个时间。
+
+### 长连接中的管线化
+
+> 如果能答出**管线化**，则属于加分项。
+
+长连接时，**默认**的请求这样的：
+
+```
+	请求1 --> 响应1 -->请求2 --> 响应2 --> 请求3 --> 响应3
+```
+
+管线化就是，请求打包，一次性发过去，一次响应回来。
+
 ## HTTPS
 
 - 客户端发送一个 `ClientHello` 消息到服务器端，消息中同时包含了它的 Transport Layer Security (TLS) 版本，可用的加密算法和压缩算法。

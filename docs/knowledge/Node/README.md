@@ -189,3 +189,4 @@ https://segmentfault.com/a/1190000012709705
 - 说说 nodejs 的 buffer 与 stream 的关系（流对象，只能操作 string 和 buffer）
 - nodejs 适合做什么样的业务？
 - node 的异步问题是如何解决的？
+- 中间件、子进程

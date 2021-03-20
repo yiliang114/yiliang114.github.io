@@ -153,9 +153,22 @@ console.log('1', a); // -> '1' 1
 
 **async 函数可以保留运行堆栈。**
 
-## Promise 场景题 TODO:
+## Promise 场景题
 
-- 什么时候 promise 不会被销毁
-- promise 什么情况会发生内存泄漏
+### Promise 中 .then 的第二参数与 .catch 有什么区别?
+
+Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参数传入
+
+### 什么时候 promise 不会被销毁?
+
+类似问题：
+
 - promise 如果没有 resolve 会怎么样？
-- Promise 中 .then 的第二参数与 .catch 有什么区别?
+- 什么情况会发生内存泄漏?
+
+结论：
+
+1. 当一个 Promise 没有被赋值给一个变量，同时没调用 resolve、reject，那么它就会被垃圾回收。
+2. 如果每次都生成新的 new Promise 且 resolve 没有被调用，那么就直接被回收。
+3. 如果每次都生成新的 new Promise 但是 resolve 有被调用，但是一直没被执行，这个时候 Promise 就不会被垃圾回收。
+4. 如果使用同一个 new Promise ，且没有 resolve，那么也不会被垃圾回收。多次引用

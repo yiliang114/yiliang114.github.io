@@ -78,7 +78,7 @@ console.log(a()()());
 
 三个函数的作用都是用来动态改变当前函数的 this 指针， 并且三个函数的第一个参数都是新的 this 指向值。
 
-### 区别
+**区别**:
 
 1. call 和 apply 都是立即执行，执行过程中遇到 this 就改变为指向的值，bind 不是立即执行，而是返回一个函数，需要手动执行。
 2. apply 的参数是一个数组，call 接受逗号分隔的参数作为后面的参数，而 bind 只有一个 this 参数。
@@ -101,17 +101,7 @@ let fn = function() {
 fn.bind().bind(a)(); // => ?
 ```
 
-可以把上述代码转换成另一种形式，不管我们给函数 bind 几次，fn 中的 this 永远由第一次 bind 决定，所以结果永远是 window。
-
-```js
-// fn.bind().bind(a) 等于
-let fn2 = function fn1() {
-  return function() {
-    return fn.apply();
-  }.apply(a);
-};
-fn2();
-```
+不管我们给函数 bind 几次，fn 中的 this 永远由第一次 bind 决定，所以结果永远是 window。
 
 ### 手写 call、apply 及 bind 函数
 

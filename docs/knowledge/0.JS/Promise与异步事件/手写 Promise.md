@@ -1,5 +1,5 @@
 ---
-title: 手写 Promise、async、await
+title: 手写 Promise
 date: 2020-11-16
 draft: true
 ---
@@ -331,7 +331,7 @@ let promise2 = p.then(data => {
 3.  当 x 是对象或者函数（默认 promise）则声明 then，let then = x.then
 4.  如果取 then 报错，则走 reject()
 5.  如果 then 是个函数，则用 call 执行 then，第一个参数是 this，后面是成功的回调和失败的回调，成功和失败只能调用一个 所以设定一个 called 来防止多次调用
-6.  如果成功的回调还是 pormise，就递归继续解析
+6.  如果成功的回调还是 promise，就递归继续解析
 
 > 小提示： 为什么取对象上的属性有报错的可能？Promise 有很多实现（bluebird，Q 等），Promises/A+只是一个规范，大家都按此规范来实现 Promise 才有可能通用，因此所有出错的可能都要考虑到，假设另一个人实现的 Promise 对象使用 Object.defineProperty()恶意的在取值时抛错，我们可以防止代码出现 Bug
 > resolvePromise 实现
@@ -432,17 +432,10 @@ Promise 解决过程是一个抽象的操作，即接收一个 promise 和一个
 ### Promise 实现
 
 ```js
-// Promise 只有 3 个 状态
 var PENDING = 'pending';
 var FULFILLED = 'fulfilled';
 var REJECTED = 'rejected';
-```
 
-由于 Promise 可以被实例化，所以可以定义成类或函数，这里为了增加难度，先考虑在 ES5 环境下实现，所以写成构造函数的形式。
-
-使用过 Promise 的人肯定知道，在创建 Promise 的时候会传入一个回调函数，该回调函数会接收两个参数，分别用来执行或拒绝当前 Promise。同时考虑到 Promise 在执行时可能会有返回值，在拒绝时会给出拒绝原因，我们分别用 value 和 reason 两个变量来表示。具体代码如下：
-
-```js
 function Promise(execute) {
   var self = this;
   self.state = PENDING;
@@ -745,7 +738,7 @@ Promise.prototype.then = function(onResolved, onRejected) {
 
   if (self.currentState === RESOLVED) {
     return (promise2 = new Promise(function(resolve, reject) {
-      // 规范 2.2.4，保证 onFulfilled，onRjected 异步执行
+      // 规范 2.2.4，保证 onFulfilled，onRejected 异步执行
       // 所以用了 setTimeout 包裹下
       setTimeout(function() {
         try {

@@ -8,7 +8,8 @@ draft: true
 
 - 是什么？ 解决的问题
 - 与 Vue React 有什么不同， 为什么会选用它而不是 Vue 或者 React
-- 跨端的能力是如何实现的
+- 跨端的能力是如何实现的？
+- use api ？
 - 你做了哪一部分的工作
 
 ## Omiv
@@ -81,3 +82,5 @@ http://www.ruanyifeng.com/blog/2019/08/web_components.html
 
 好处： 跨端，内容封闭
 坏处： 全局的 css 不受用了
+
+### 原生的 API 生命周期

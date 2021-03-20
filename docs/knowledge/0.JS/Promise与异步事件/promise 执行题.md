@@ -4,16 +4,13 @@ date: 2020-12-23
 draft: true
 ---
 
-### 谈谈 promise/async/await 的执行顺序与 V8 引擎的 BUG
-
-#### 1. 题目和答案
-
-> 故事还是要从下面这道面试题说起：请问下面这段代码的输出是什么？
+### V8 引擎的 BUG
 
 ```js
 console.log('script start');
 
 async function async1() {
+  // 如果 await 函数后面的函数是普通函数，那么其后的微任务就正常执行；否则，会将其再放入微任务队列。
   await async2();
   console.log('async1 end');
 }
@@ -21,7 +18,6 @@ async function async1() {
 async function async2() {
   console.log('async2 end');
 }
-// TODO: 这里应该还是异步？
 async1();
 
 setTimeout(function() {
@@ -49,23 +45,40 @@ console.log('script end');
 // promise2
 // async1 end
 // setTimeout
+
+// 注意：在新版本的浏览器中，`await`输出顺序被“提前”了。
+// script start
+// async2 end
+// Promise
+// script end
+// async1 end
+// promise1
+// promise2
 ```
 
-> **注意**：在新版本的浏览器中，`await`输出顺序被“提前”了，请看官耐心慢慢看。
+当我们调用 `async1` 函数时，会马上输出 `async2 end`，并且函数返回一个 `Promise`，接下来在遇到 `await`的时候会就让出线程开始执行 `async1` 外的代码，所以我们完全可以把 `await` 看成是**让出线程**的标志。
 
-#### 2. 流程解释
+```js
+async function async1() {
+  await async2();
+  console.log('async1 end');
+}
+// 约等于下面的实现
+function async1() {
+  return new Promise((resolve, reject) => {
+    console.log('async2 end');
+    // Promise.resolve() 将代码插入微任务队列尾部
+    // resolve 再次插入微任务队列尾部
+    resolve(Promise.resolve());
+  }).then(() => {
+    console.log('async1 end');
+  });
+}
+```
 
-1. 正常输出`script start`
-2. 执行`async1`函数，此函数中又调用了`async2`函数，输出`async2 end`。回到`async1`函数，**遇到了`await`，让出线程**。
-3. 遇到`setTimeout`，扔到**下一轮宏任务队列**
-4. 遇到`Promise`对象，立即执行其函数，输出`Promise`。其后的`resolve`，被扔到了微任务队列
-5. 正常输出`script end`
-6. 此时，此次`Event Loop`宏任务都执行完了。来看下第二步被扔进来的微任务，因为`async2`函数是`async`关键词修饰，因此，将`await async2`后的代码扔到微任务队列中
-7. 执行第 4 步被扔到微任务队列的任务，输出`promise1`和`promise2`
-8. 执行第 6 步被扔到微任务队列的任务，输出`async1 end`
-9. 第一轮 EventLoop 完成，执行第二轮 EventLoop。执行`setTimeout`中的回调函数，输出`setTimeout`。
+也就是说，如果 `await` 后面跟着 `Promise` 的话，`async1 end` 需要等待三个 tick 才能执行到。V8 团队借鉴了 Node 8 中的一个 Bug，在引擎底层将三次 tick 减少到了二次 tick。
 
-#### 3. 再谈 async 和 await
+#### 再谈 async 和 await
 
 细心的朋友肯定会发现前面第 6 步，如果`async2`函数是没有`async`关键词修饰的一个普通函数呢？
 
@@ -91,7 +104,7 @@ setTimeout
 
 不同的结果就出现在前面所说的第 6 步：如果 await 函数后面的函数是普通函数，那么其后的微任务就正常执行；否则，会将其再放入微任务队列。
 
-#### 4. 其实是 V8 引擎的 BUG
+#### 其实是 V8 引擎的 BUG
 
 看到前面，正常人都会觉得真奇怪！（但是按照上面的诀窍倒也是可以理解）
 
@@ -112,7 +125,7 @@ setTimeout
 
 `await`就是让出线程，其后的代码放入微任务队列（不会再多一次放入的过程），就这么简单了。
 
-### 异步
+### 异步笔试题
 
 ```js
 var p1 = new Promise(function(resolve, reject) {
@@ -138,72 +151,62 @@ p2.catch(re => console.log(re)); //?
 //  3S 后会打印出两个'p1 中 failure'
 ```
 
-如果 3 直接写成`p2.then(re => console.log(re));`是会报错，说没有捕捉到错误。
-
 ```js
-var p1 = .resolve(1)
-var p2 = new (resolve => {
-  setTimeout(() => resolve(2), 100)
-})
-var v3 = 3
-var p4 = new ((resolve, reject) => {
-  setTimeout(() => reject('oops'), 10)
-})
+var p1 = Promise.resolve(1);
+var p2 = new Promise(resolve => {
+  setTimeout(() => resolve(2), 100);
+});
+var v3 = 3;
+var p4 = new Promise((resolve, reject) => {
+  setTimeout(() => reject('oops'), 10);
+});
 
-var p5 = new (resolve => {
-  setTimeout(() => resolve(5), 0)
-})
-var p1 = .resolve(1)
-.race([v3, p1, p2, p4, p5]).then(val => console.log(val)) //?
-.race([p1, v3, p2, p4, p5]).then(val => console.log(val)) // ?
-.race([p1, p2, p4, p5]).then(val => console.log(val)) // ?
-.race([p2, p4, p5]).then(val => console.log(val)) //?
+var p5 = new Promise(resolve => {
+  setTimeout(() => resolve(5), 0);
+});
+Promise.race([v3, p1, p2, p4, p5]).then(val => console.log(val)); //?
+Promise.race([p1, v3, p2, p4, p5]).then(val => console.log(val)); // ?
+Promise.race([p1, p2, p4, p5]).then(val => console.log(val)); // ?
+Promise.race([p2, p4, p5]).then(val => console.log(val)); //?
 ```
 
-打印顺序是：6 3 1 1 5
+打印顺序是：3 1 1 5
 
 ```js
-function 1() {
-  return new (function(resolve, reject) {
+function Promise1() {
+  return new Promise(function(resolve, reject) {
     for (let i = 0; i < 2; i++) {
-      console.log('111')
+      console.log('111');
     }
-    resolve(true)
-  })
+    resolve(true);
+  });
 }
-function 2() {
-  return new (function(resolve, reject) {
+function Promise2() {
+  return new Promise(function(resolve, reject) {
     for (let i = 0; i < 2; i++) {
-      console.log('222')
+      console.log('222');
     }
-    resolve(true)
-  })
+    resolve(true);
+  });
 }
 
 setTimeout(function() {
-  console.log('333')
-}, 0) // 这是是会执行的。考察的是异步执行，js的任务队列
+  console.log('333');
+}, 0); // 这是是会执行的。考察的是异步执行，js的任务队列
 
-.all([1(), 2()]).then(function() {
-  console.log('All Done!')
-})
+Promise.all([Promise1(), Promise2()]).then(function() {
+  console.log('All Done!');
+});
+// '111'
+// '111'
+// '222'
+// '222'
+// 'All Done!'
+// '333'
 ```
 
-> 结果是：
-
 ```js
-'111';
-'111';
-'222';
-'222';
-'All Done!';
-'333';
-```
-
-### 异步笔试题
-
-```js
-//请写出输出内容
+// 请写出输出内容
 async function async1() {
   console.log('async1 start');
   await async2();
@@ -228,20 +231,15 @@ new Promise(function(resolve) {
   console.log('promise2');
 });
 console.log('script end');
-
-/*
-script start
-async1 start
-async2
-promise1
-script end
-async1 end
-promise2
-setTimeout
-*/
+// script start
+// async1 start
+// async2
+// promise1
+// script end
+// async1 end
+// promise2
+// setTimeout
 ```
-
-这道题主要考察的是事件循环中函数执行顺序的问题，其中包括`async` ，`await`，`setTimeout`，`Promise`函数。下面来说一下本题中涉及到的知识点。
 
 #### 变式一
 
@@ -365,6 +363,7 @@ setTimeout(() => {
   console.log('setTimeout');
 }, 0);
 
+// Promise.resolve() 返回一个已经执行完毕状态的 Promise
 Promise.resolve().then(() => {
   console.log('promise1');
 });
@@ -373,6 +372,7 @@ a1();
 
 let promise2 = new Promise(resolve => {
   resolve('promise2.then');
+  // Promise 构造函数中除了 resolve 返回部分，其余全是同步执行
   console.log('promise2');
 });
 
@@ -383,24 +383,17 @@ promise2.then(res => {
   });
 });
 console.log('script end');
+// script start
+// a1 start
+// a2
+// promise2
+// script end
+// promise1
+// a1 end
+// promise2.then
+// promise3
+// setTimeout
 ```
-
-无非是在微任务那块儿做点文章，前面的内容如果你都看懂了的话这道题一定没问题的，结果如下：
-
-```js
-script start
-a1 start
-a2
-promise2
-script end
-promise1
-a1 end
-promise2.then
-promise3
-setTimeout
-```
-
-### 异步与 Promise 题
 
 ```js
 setTimeout(() => {
@@ -421,28 +414,13 @@ console.log(5);
 ```
 
 ```js
-setTimeout(_ => console.log(4));
-
-new Promise(resolve => {
-  resolve();
-  console.log(1);
-}).then(_ => {
-  console.log(3);
-});
-
-console.log(2);
-// 1,2,3,4
-```
-
-Promise 构造函数里面的内容都是同步执行的。setTimeout 就是作为宏任务来存在的，而 Promise.then 则是具有代表性的微任务。
-
-```js
 Promise.resolve()
   .then(() => {
     console.log(0);
+    // 相当于 Promise.resolve(Promise.resolve(4)) Promise.resolve 执行一次相当于将任务往微任务末尾插入一次
     return Promise.resolve(4);
   })
-  .then(res => console.log(res));
+  .then(res => console.log(res || 'xxxx'));
 
 Promise.resolve()
   .then(() => {
@@ -461,43 +439,6 @@ Promise.resolve()
     console.log(6);
   });
 // 0, 1, 2, 3, 4, 5, 6
-```
-
-```js
-const promise = new Promise((resolve, reject) => {
-  console.log(1);
-  resolve();
-  console.log(2);
-});
-promise.then(() => {
-  console.log(3);
-});
-console.log(4);
-// Promise 的构造函数是同步执行的？
-// 1,2,4,3
-```
-
-```js
-const promise1 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('success');
-  }, 1000);
-});
-const promise2 = promise1.then(() => {
-  throw new Error('error!!!');
-});
-
-console.log('promise1', promise1);
-console.log('promise2', promise2);
-
-setTimeout(() => {
-  console.log('promise1', promise1);
-  console.log('promise2', promise2);
-}, 2000);
-// promise1 Promise {<pending>}
-// promise2 Promise {<pending>}
-// promise1 Promise {<fulfilled>: "success"}
-// promise2 Promise {<rejected>: Error: error!!!}
 ```
 
 ```js
@@ -547,6 +488,17 @@ Promise.resolve()
     console.log('catch: ', err);
   });
 // then:  Error: error!!!
+Promise.resolve()
+  .then(() => {
+    throw new Error('error!!!');
+  })
+  .then(res => {
+    console.log('then: ', res);
+  })
+  .catch(err => {
+    console.log('catch: ', err);
+  });
+// catch:  Error: error!!!
 ```
 
 ```js
@@ -558,14 +510,13 @@ const promise = new Promise((resolve, reject) => {
 });
 
 const start = Date.now();
-// TODO: ???
+// 分别加上 then， 约等于注册了两个事件，会各自获取状态。 链式调用则会包裹一层 Promise.resolve
 promise.then(res => {
   console.log(res, Date.now() - start);
 });
 promise.then(res => {
   console.log(res, Date.now() - start);
 });
-// TODO:
 // once
 // success 1004
 // success 1005
@@ -598,7 +549,7 @@ Promise.resolve(1)
   .then(Promise.resolve(3))
   .then(console.log);
 // 1
-// TODO: 因为中间步骤没有最终改变 resolve 的值 ？
+// then 需要传入一个合法的回调，否则不执行
 ```
 
 ```js
@@ -618,7 +569,7 @@ Promise.resolve()
 ```
 
 ```js
-// TODO: process.nextTick 微任务，但是貌似比 promise 慢一点？
+// process.nextTick 微任务，但是会在下一个循环之前执行，优先执行。
 process.nextTick(() => {
   console.log('nextTick');
 });
@@ -631,8 +582,8 @@ setImmediate(() => {
 });
 console.log('end');
 // end
-// then
 // nextTick
+// then
 // setImmediate
 ```
 
@@ -720,10 +671,6 @@ main();
 // 3s 左右
 ```
 
-## 执行顺序
-
-### promise 与 setTimeout 判断执行顺序
-
 promise 和 setTimeout 都会将事件放入异步队列，但 setTimeout 即便是写 0，也会有 4ms 的延迟
 
 ```js
@@ -736,6 +683,7 @@ setTimeout(() => {
       setTimeout(() => {
         console.log('setTimeout2');
       });
+      // 同步 Promise.resolve
     })
     .then(() => {
       console.log('promise 2');
@@ -755,7 +703,6 @@ console.log('end');
 // setTimeout 1
 // a
 // promise 1
-// TODO:
 // b
 // promise 2
 // setTimeout2
@@ -943,7 +890,7 @@ setTimeout(obj.foo.bind(obj), 100); //2
 ```
 
 - promise 就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果,将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数
-  Promise 新建后立即执行,promise 提供 Promise.all,promise.race,promise.resolve,promise.rejecr 等方法
+  Promise 新建后立即执行,promise 提供 Promise.all,promise.race,promise.resolve,promise.reject 等方法
 - async/await
 - async/await 是写异步代码的新方式，以前的方法有回调函数和 Promise。
 - async/await 是基于 Promise 实现的，它不能用于普通的回调函数。
