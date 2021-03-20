@@ -6,6 +6,11 @@ draft: true
 
 ## 基础
 
+- 创建对象有几种方法
+- 原型、构造函数、实例、原型链
+- 继承
+- `instanceof`的原理
+- `new` 运算符
 - 原型链
 - 继承的方式
 - new 做了什么操作
@@ -20,6 +25,7 @@ draft: true
 - 大数据列表的虚拟列表原理
 - SSR 是如何做的？
 - Omi 的原理， Omiv 可以监听数组下标变化的原理
+
 
 ### 闭包
 
@@ -874,14 +880,6 @@ getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
 手写的 ajax
 手写 Promise
 
-## 项目
+## node
 
-介绍做过的项目
-说一下你项目中用到的技术栈，做的出色的点，可以改进的地方，以及让你头疼的点，怎么解决的。
-遇到的问题，或者难点以及解决方案
-
-## 补充
-
-1. node: bff, ssr
-2. ts: npm/cli
-3. react: 部分原理知识
+bff, ssr

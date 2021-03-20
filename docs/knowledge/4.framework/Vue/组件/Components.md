@@ -6,14 +6,6 @@ draft: true
 
 ## 组件
 
-### Vue 的父组件和子组件生命周期钩子执行顺序是什么
-
-父组件： beforeCreate -> created -> beforeMount
-子组件： -> beforeCreate -> created -> beforeMount -> mounted
-父组件： -> mounted
-
-总结：从外到内，再从内到外
-
 ### 在 Vue 中子组件为何不可以修改父组件传递的 Prop，如果修改了，Vue 是如何监控到属性的修改并给出警告的
 
 子组件为何不可以修改父组件传递的 Prop
