@@ -24,7 +24,7 @@ draft: true
 vivo
 oppo
 YY
-欢聚时代 bigo
+bigo
 zoom
 
 ## 北京
@@ -42,6 +42,8 @@ BOSS 直聘
 作业帮
 神策数据 ？
 京东
+水滴
+小鹏
 
 ## 上海
 
@@ -55,12 +57,10 @@ B 站
 
 ## 深圳
 
-vivo
-oppo
 虾皮
 顺丰
 平安
-迅雷 ？
+迅雷
 
 # 记录
 
