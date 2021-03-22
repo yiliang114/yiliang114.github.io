@@ -42,121 +42,46 @@ cat.says('hello'); //cat says hello
 
 #### 继承
 
-- 实质
+- ES5 实质：先创造子类实例的`this`，再将父类的属性方法添加到`this`上(`Parent.apply(this)`)
+- ES6 实质：先将父类实例的属性方法加到`this`上(调用`super()`)，再用子类构造函数修改`this`
 
-  - ES5 实质：先创造子类实例的`this`，再将父类的属性方法添加到`this`上(`Parent.apply(this)`)
-  - ES6 实质：先将父类实例的属性方法加到`this`上(调用`super()`)，再用子类构造函数修改`this`
-
-- super
-
-  - 作为函数调用：只能在构造函数中调用`super()`，内部`this`指向继承的`当前子类`(`super()`调用后才可在构造函数中使用`this`)
-  - 作为对象调用：在`普通方法`中指向`父类的对象`，在`静态方法`中指向`父类`
-
-- 显示定义：使用`constructor() { super(); }`定义继承父类，没有书写则`显示定义`
-
-- 子类继承父类：子类使用父类的属性方法时，必须在构造函数中调用
-
-  ```
-  super()
-  ```
-
-  ，否则得不到父类的
-
-  ```
-  this
-  ```
-
-  - 父类静态属性方法可被子类继承
-  - 子类继承父类后，可从`super`上调用父类静态属性方法
-
-- 实例：类相当于
-
-  ```
-  实例的
-  ```
-
-  ，所有在类中定义的属性方法都会被实例继承
-
-  - 显式指定属性方法：使用`this`指定到自身上(使用`Class.hasOwnProperty()`可检测到)
-  - 隐式指定属性方法：直接声明定义在对象上(使用`Class.__proto__.hasOwnProperty()`可检测到)
-
-- 表达式
-
-  - 类表达式：`const Class = class {}`
-  - name 属性：返回紧跟`class`后的类名
-  - 属性表达式：`[prop]`
-  - Generator 方法：`* mothod() {}`
-  - Async 方法：`async mothod() {}`
+- 子类继承父类：子类使用父类的属性方法时，必须在构造函数中调用 super()，否则得不到父类的 this
 
 - this 指向：解构实例属性或方法时会报错
 
-  - 绑定 this：`this.mothod = this.mothod.bind(this)`
-  - 箭头函数：`this.mothod = () => this.mothod()`
+  - 绑定 this：`this.method = this.method.bind(this)`
+  - 箭头函数：`this.method = () => this.method()`
 
 - 属性定义位置
 
   - 定义在构造函数中并使用`this`指向
   - 定义在`类最顶层`
 
-- **new.target**：确定构造函数是如何调用
-
-> 重点难点
-
-- 在实例上调用方法，实质是调用上的方法
-- `Object.assign()`可方便地一次向类添加多个方法(`Object.assign(Class.prototype, { ... })`)
-- 类内部所有定义的方法是不可枚举的(`non-enumerable`)
-- 构造函数默认返回实例对象(`this`)，可指定返回另一个对象
-- 取值函数和存值函数设置在属性的`Descriptor对象`上
-- 类不存在变量提升
-- 利用`new.target === Class`写出不能独立使用必须继承后才能使用的类
-- 子类继承父类后，`this`指向子类实例，通过`super`对某个属性赋值，赋值的属性会变成子类实例的属性
-- 使用`super`时，必须显式指定是作为函数还是作为对象使用
-- `extends`不仅可继承类还可继承原生的构造函数
-
-> 私有属性方法
-
-```
-const name = Symbol("name");
-const print = Symbol("print");
-class Person {
-    constructor(age) {
-        this[name] = "Bruce";
-        this.age = age;
-    }
-    [print]() {
-        console.log(`${this[name]} is ${this.age} years old`);
-    }
-}
-
-```
-
-> 继承混合类
-
-```
+```js
+// 继承混合类
 function CopyProperties(target, source) {
-    for (const key of Reflect.ownKeys(source)) {
-        if (key !== "constructor" && key !== "prototype" && key !== "name") {
-            const desc = Object.getOwnPropertyDescriptor(source, key);
-            Object.defineProperty(target, key, desc);
-        }
+  for (const key of Reflect.ownKeys(source)) {
+    if (key !== 'constructor' && key !== 'prototype' && key !== 'name') {
+      const desc = Object.getOwnPropertyDescriptor(source, key);
+      Object.defineProperty(target, key, desc);
     }
+  }
 }
 function MixClass(...mixins) {
-    class Mix {
-        constructor() {
-            for (const mixin of mixins) {
-                CopyProperties(this, new mixin());
-            }
-        }
+  class Mix {
+    constructor() {
+      for (const mixin of mixins) {
+        CopyProperties(this, new mixin());
+      }
     }
-    for (const mixin of mixins) {
-        CopyProperties(Mix, mixin);
-        CopyProperties(Mix.prototype, mixin.prototype);
-    }
-    return Mix;
+  }
+  for (const mixin of mixins) {
+    CopyProperties(Mix, mixin);
+    CopyProperties(Mix.prototype, mixin.prototype);
+  }
+  return Mix;
 }
 class Student extends MixClass(Person, Kid) {}
-
 ```
 
 #### es6 class 的 new 实例和 es5 的 new 实例有什么区别？
@@ -176,7 +101,21 @@ class Student extends MixClass(Person, Kid) {}
 - 箭头函数不能作为构造函数，不能被 new，没有 prototype
 - call 和 apply 方法只有参数，没有作用域
 
-### 私有方法和私有属性
+### 私有属性、方法
+
+```js
+const name = Symbol('name');
+const print = Symbol('print');
+class Person {
+  constructor(age) {
+    this[name] = 'Bruce';
+    this.age = age;
+  }
+  [print]() {
+    console.log(`${this[name]} is ${this.age} years old`);
+  }
+}
+```
 
 #### 现有的解决方案
 

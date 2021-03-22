@@ -98,12 +98,3 @@ white-space: nowrap;
 <div class="blue red">123</div>
 .red { color: red } .blue { color: blue }
 ```
-
-### css 中可以让文字在垂直和水平方向上重叠的两个属性是什么？
-
-垂直方向：line-height
-水平方向：letter-spacing
-
-那么问题来了，关于 letter-spacing 的妙用知道有哪些么？
-
-答案:可以用于消除 inline-block 元素间的换行符空格间隙问题。
