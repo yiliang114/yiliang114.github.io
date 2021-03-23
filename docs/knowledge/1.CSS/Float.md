@@ -200,29 +200,29 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 ### 如何垂直居中一个浮动元素？
 
 ```css
-// 方法一：已知元素的高宽
-
+/* 方法一：已知元素的高宽 */
 #div1 {
   background-color: #6699ff;
   width: 200px;
   height: 200px;
-
-  position: absolute; //父元素需要相对定位
+  /* 父元素需要相对定位 */
+  position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -100px; //二分之一的 height，width
+  /* 二分之一的 height，width */
+  margin-top: -100px;
   margin-left: -100px;
 }
 
-//方法二:
-
+/* 方法二: */
 #div1 {
   width: 200px;
   height: 200px;
   background-color: #6699ff;
 
   margin: auto;
-  position: absolute; //父元素需要相对定位
+  /* 父元素需要相对定位 */
+  position: absolute;
   left: 0;
   top: 0;
   right: 0;
@@ -233,8 +233,8 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 那么问题来了，如何垂直居中一个<img>?（用更简便的方法。）
 
 ```css
-#container //<img>的容器设置如下
- {
+/* <img>的容器设置如下 */
+#container {
   display: table-cell;
   text-align: center;
   vertical-align: middle;

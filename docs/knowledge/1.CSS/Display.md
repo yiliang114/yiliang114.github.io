@@ -8,14 +8,14 @@ draft: true
 
 ### display 有哪些值？说明他们的作用。
 
-- none 缺省值。象行内元素类型一样显示。此元素不会被显示。
-- block 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。此元素将显示为块级元素，此元素前后会带有换行符。
-- inline 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。默认。此元素会被显示为内联元素，元素前后没有换行符。
-- inline-block 默认宽度为内容宽度，可以设置宽高，同行显示。行内块元素。（CSS2.1 新增的值）
-- table 此元素会作为块级表格来显示。
-- flex： 将对象作为弹性伸缩盒显示。
-- inline-flex： 将对象作为内联块级弹性伸缩盒显示。
-- inherit 规定应该从父元素继承 display 属性的值
+1. none 缺省值。象行内元素类型一样显示。此元素不会被显示。
+2. block 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。
+3. inline 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。
+4. inline-block 默认宽度为内容宽度，可以设置宽高，同行显示。
+5. table 此元素会作为块级表格来显示。
+6. flex 将对象作为弹性伸缩盒显示。
+7. inline-flex 将对象作为内联块级弹性伸缩盒显示。
+8. inherit 规定应该从父元素继承 display 属性的值
 
 ### display:inline-block 什么时候会显示间隙？
 
@@ -37,7 +37,7 @@ draft: true
 - letter-spacing
 - word-spacing
 
-### 图片下面有一个缝隙是因为什么
+**图片下面有一个缝隙是因为什么** ？
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/imgbottom.png)
 
@@ -56,13 +56,6 @@ draft: true
 总结起来：**绝对定位、浮动、根元素都需要调整`display`**
 
 ## position
-
-### 说说你对页面中使用定位(position)的理解？
-
-使用 css 布局 position 非常重要，语法如下：
-
-position：static | relative | absolute | fixed | center | page | sticky
-默认值：static，center、page、sticky 是 CSS3 中新增加的值。
 
 1. static
    可以认为静态的，默认元素都是静态的定位，对象遵循常规流。

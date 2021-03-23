@@ -168,6 +168,13 @@ If-None-Match 是客户端再次发起该请求时，携带上次请求返回的
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/cache-all.png)
 
+浏览器的三级缓存原理：
+
+1. 先去内存看，如果有，直接加载
+2. 如果内存没有，择取硬盘获取，如果有直接加载
+3. 如果硬盘也没有，那么就进行网络请求
+4. 加载到的资源缓存到硬盘和内存
+
 ### 浏览器缓存可以分成 Service Worker、Memory Cache、Disk Cache 和 Push Cache？
 
 ### 讲讲 304 缓存的原理

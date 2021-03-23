@@ -153,7 +153,7 @@ console.log('1', a); // -> '1' 1
 
 **async 函数可以保留运行堆栈。**
 
-## Promise 场景题
+## 其他
 
 ### Promise 中 .then 的第二参数与 .catch 有什么区别?
 

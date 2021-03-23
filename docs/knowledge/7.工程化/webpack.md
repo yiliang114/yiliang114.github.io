@@ -1,7 +1,6 @@
 ---
-title: webpack
+title: Webpack
 date: 2020-11-21
-aside: false
 draft: true
 ---
 
@@ -43,15 +42,13 @@ webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module b
   通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化
 - devtool
   用于控制是否以及如何生成源代码映射，可以帮助开发快速定位错误
-
-- eslint
 - 热加载
   - Webpack-hot-middleware
   - webpack-dev-server
 
-### webpack 配置文件
+### webpack.config.js
 
-#### webpack.config.js
+####
 
 webpack.config.js 是 webpack 的默认打包配置文件。也可以`npx webpack --config 配置文件名`手动设置
 
@@ -83,230 +80,43 @@ entry: {
 }
 ```
 
-#### mode
+### mode
 
 打包模式，有生产环境与发布环境两种，默认是发布环境。
 
-- production
-  - 代码被压缩为一行
-- development
-  - 代码不被压缩
+- production 代码被压缩为一行
+- development 代码不被压缩
 
-#### 多入口
+### 多入口
 
 最后都会讲其写入到 html 的 script 标签中
 
-```js
-entry:{
-    main: 'a/index.js',
-    sub: 'b/main.js'
-}
-// 多个入口是不可打包为同一个JS的，
-output: {
-    filename: '[name].js'
-}
+```json
+(module.exports = {
+  "entry": {
+    "main": "a/index.js",
+    "sub": "b/main.js"
+  },
+  // 多个入口是不可打包为同一个 JS 的
+  "output": {
+    "filename": "[name].js"
+  }
+})
 ```
 
-#### 为打包出的 JS 加前缀
+### 为打包出的 JS 加前缀
 
 比如静态资源都放在 CDN 上，那么希望打包出 script 的 src 是一个 http 地址
 可这样做：
 
-```
-output: {
-    publicPath: 'http://cdn.cn'
-    filename: '[name].js'
-}
-```
-
-#### devtool
-
-devtool 就是去配置 sourcemap，方便调试，能准确定位到代码错误
-
-- cheap
-  - 定位到行，不定位到列（提示性能）
-- module
-  - 把依赖模块中的代码一并做映射
-- eval
-  - 使用 eval 形式做 sourcemap 映射
-- inline
-  - 行内的映射关系
-
-最好的配置：
-
-```js
-// 开发时
-devtool: 'cheap-module-eval-source-map',
-// 线上环境：
-devtool: 'cheap-module-source-map'
-```
-
-#### webpack 优化性能
-
-生产环境的解决办法。 但是一般在开发环境不会有帮助，这些优化都是不会开启的。
-
-一：提升 webpack 打包速度
-
-- 1.跟上技术的迭代更新
-- 2.尽可能少的模块使用 loader
-- 3.plugin 尽可能精简并保证可靠
-  例如尽可能使用官方的插件，并在合适的环境下使用对象的插件
-- 4.resolve 参数合理配置
-  当通过 import child from './child/child'形式引入文件时，会先去寻找.js 为后缀当文件，再去寻找.jsx 为后缀的文件
-
-```js
-resolve: {
-   extensions: ['.js', '.jsx']，
-  mainFiles: ['index', 'child']，  // 如果是直接引用一个文件夹，那么回去直接找index开头的文件，如果不存在再去找child开头的文件
-  alias: {
-   roshomon: path.resolve(__dirname, '../src/child');  // 别名替换，引入roshomon其实是引入../src/child
-}
-}
-```
-
-- 5.使用 DellPlugin 提高打包速度
-  对于第三方库，只打包分析一次，后面的每次打包都不会重复打包第三方库
-  webpack.dll.js
-
-```js
-const path = require('path');
-const webpack = require('webpack');
-
-module.exports = {
-  mode: 'production',
-  entry: {
-    vendors: ['lodash'],
-    react: ['react', 'react-dom'],
-    jquery: ['jquery'],
-  },
-  output: {
-    filename: '[name].dll.js',
-    path: path.resolve(__dirname, '../dll'),
-    library: '[name]',
-  },
-  plugins: [
-    new webpack.DllPlugin({
-      // 使用该插件分析第三方库，并把库里面的映射关系放到[name].manifest.json里，并放在dll文件里
-      name: '[name]',
-      path: path.resolve(__dirname, '../dll/[name].manifest.json'),
-    }),
-  ],
-};
-```
-
-webpack.common.js
-
-```js
-// 引用
-const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
-// plugins配置
-....
-const plugins = [
-	new HtmlWebpackPlugin({
-		template: 'src/index.html'
-	}),
-	new CleanWebpackPlugin(['dist'], {
-		root: path.resolve(__dirname, '../')
-	})
-];
-
-const files = fs.readdirSync(path.resolve(__dirname, '../dll'));
-files.forEach(file => {
-	if(/.*\.dll.js/.test(file)) {
-		plugins.push(new AddAssetHtmlWebpackPlugin({  // 将dll.js文件自动引入html
-			filepath: path.resolve(__dirname, '../dll', file)
-		}))
-	}
-	if(/.*\.manifest.json/.test(file)) {
-		plugins.push(new webpack.DllReferencePlugin({ // 当打包第三方库时，会去manifest.json文件中寻找映射关系，如果找到了那么就直接从全局变量(即打包文件)中拿过来用就行，不用再进行第三方库的分析，以此优化打包速度
-			manifest: path.resolve(__dirname, '../dll', file)
-		}))
-	}
+```json
+(module.exports = {
+  "output": {
+    "publicPath": "http://cdn.cn",
+    "filename": "[name].js"
+  }
 })
 ```
-
-package.json
-
-```js
-    "build:dll": "webpack --config ./build/webpack.dll.js"
-```
-
-- 6.控制包文件大小
-  可以通过 treeShaking 或者拆分文件来优化打包速度
-- 7.thread-loader, parallel-webpack,happy,webpack 多进程打包
-- 8.合理使用 sourceMap
-- 9.结合 stats 分析打包结果
-  通过命令生成一个关于打包情况的 stats 文件，并借助工具进行打包情况分析，通过分析打包的流程对相应内容进行优化
-- 10.开发环境内存编译
-- 11.开发环境无用插件剔除
-
-#### webpack 多页面打包配置
-
-在 entry 中配置多入口，并在 plugins 中配置多个 HtmlWebpackPlugin
-
-```js
-// config配置
-const configs = {
-	entry: {
-		index: './src/index.js',
-		list: './src/list.js',
-		detail: './src/detail.js',
-	},
-        ......其他配置
-}
-// 根据配置自动生成HtmlWebpackPlugin
-	Object.keys(configs.entry).forEach(item => {
-		plugins.push(
-			new HtmlWebpackPlugin({
-				template: 'src/index.html',
-				filename: `${item}.html`,
-				chunks: ['runtime', 'vendors', item]  // 只引入需要的打包生成文件，不需要引入其他多余的文件
-			})
-		)
-	});
-configs.plugins = makePlugins(configs);
-```
-
-#### 如何提高 webpack 构件速度的
-
-利用 DllPlugin 预编译资源模块
-使用 HappyPack 加速代码构建
-
-#### webpack 优化问题：多页面提取公共资源
-
-common-chunk-and-vendor-chunk
-
-```js
-optimization: {
-    splitChunks: {
-        cacheGroups: {
-            commons: {
-                chunks: "initial",
-                          minChunks: 2,//最小重复的次数
-                          minSize: 0//最小提取字节数
-            },
-            vendor: {
-                test: /node_modules/,
-                chunks: "initial",
-                name: "vendor",
-            }
-        }
-    }
-}
-```
-
-#### tree sharking
-
-https://www.codenong.com/j5f0ea1785188252e4c4cfdc1/
-
-#### webpack 去掉 console 和 debugger 的插件
-
-uglifyjs-webpack-plugin
-https://www.jianshu.com/p/d95fd59bbef8
-
-terser-webpack-plugin
-
-有啥不同
 
 ## webpack 构建流程
 
@@ -603,7 +413,7 @@ module.exports = function(source) {
 
 > 编写 loader 需要注意的是不要使用箭头函数，会导致 this 指向错误
 
-## Plugin
+### Plugin
 
 使用`plugins`让打包变的便捷，可以在 webpack 打包的某时刻帮做一些事情，他很像一个生命周期函数
 
@@ -709,7 +519,7 @@ module.exports = {
 	}
 ```
 
-## 有自己手写过 loader 和 plugin 么 ?
+### 有自己手写过 loader 和 plugin 么 ?
 
 ## Tree Shaking
 
@@ -831,20 +641,99 @@ module.exports = {
 
 ### websocket 打通的原理
 
+## sourcemap
+
+### devtool
+
+devtool 就是去配置 sourcemap，方便调试，能准确定位到代码错误
+
+- cheap
+  - 定位到行，不定位到列（提示性能）
+- module
+  - 把依赖模块中的代码一并做映射
+- eval
+  - 使用 eval 形式做 sourcemap 映射
+- inline
+  - 行内的映射关系
+
+最好的配置：
+
+```js
+// 开发时
+devtool: 'cheap-module-eval-source-map',
+// 线上环境：
+devtool: 'cheap-module-source-map'
+```
+
+#### webpack 多页面打包配置
+
+在 entry 中配置多入口，并在 plugins 中配置多个 HtmlWebpackPlugin
+
+```js
+// config配置
+const configs = {
+	entry: {
+		index: './src/index.js',
+		list: './src/list.js',
+		detail: './src/detail.js',
+	},
+        ......其他配置
+}
+// 根据配置自动生成HtmlWebpackPlugin
+	Object.keys(configs.entry).forEach(item => {
+		plugins.push(
+			new HtmlWebpackPlugin({
+				template: 'src/index.html',
+				filename: `${item}.html`,
+				chunks: ['runtime', 'vendors', item]  // 只引入需要的打包生成文件，不需要引入其他多余的文件
+			})
+		)
+	});
+configs.plugins = makePlugins(configs);
+```
+
+#### tree sharking
+
+https://www.codenong.com/j5f0ea1785188252e4c4cfdc1/
+
+#### webpack 去掉 console 和 debugger 的插件
+
+uglifyjs-webpack-plugin
+https://www.jianshu.com/p/d95fd59bbef8
+
+terser-webpack-plugin
+
+有啥不同
+
+### sourceMap 的原理
+
+sourceMap 本质上是一种映射关系，打包出来的 js 文件中的代码可以映射到代码文件的具体位置。例如在打包后有代码错误，这种映射关系会帮助我们直接找到在源代码中的错误
+[source map 的原理探究](https://www.cnblogs.com/Wayou/p/understanding_frontend_source_map.html)
+
+### sourcemap
+
+开启和关闭是通过 webpack 配置中的 devtool。
+
+但是当在开发模式下，`mode: 'development'` 的时候默认 devtool 是开启状态，也就是说，开发模式下 sourcemap 功能默认是开启的。想主动关闭 devtool 只需要配置 `devtool: 'none'`即可。
+
+sourcemap 是一个影射关系。 当 sourcemap 功能被关闭的时候，在浏览器中执行代码出错时， 控制台打印出的错误信息是打包出来的文件的行数，对开发者来说非常不友好。但是通过 sourcemap，如果知道了打包出来的文件 main.js 中的 96 行出错了，它能通过这个影射关系知道 main.js 实际是对应 src 目录下 index.js 文件的第一行，这个时候浏览器控制台就会打印出错误信息，告诉开发者是 index.js 文件的第一行出错了。
+
+主动开启 sourcemap 只要在 webpack 配置中，将 `devtool` 设置为 `source-map` 即可。
+
+source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
+
 ## 性能优化
 
 从两个方面考虑：
 
 1. 有哪些方式可以减少 Webpack 的打包时间
-2. 有哪些方式可以让 Webpack 打出来的包更小
-
-不过最主要就是为了减少 Webpack 打包后的文件体积
+2. 有哪些方式可以让 Webpack 打出来的包更小. 优化这一点为主。
 
 ### 优化 webpack 打包速度
 
-1.  hipack 插件？
-2.  使用 dll 插件优化打包时间
-3.  将变动很少的模块划分出 webpack 的主 bundlejs
+1. hipack 插件？
+2. 使用 dll 插件优化打包时间
+3. 将变动很少的模块划分出 webpack 的主 bundlejs
 
 UglifyJsPlugin 压缩很慢，如何提高速度? 缓存原理，压缩只重新压缩改变的，还有就是减少冗余的代码，压缩只用于生产阶段.
 
@@ -864,11 +753,9 @@ build 环境下一般会对输出的 js 文件再进一步所压缩处理（但�
 - happack
 - 开发环境去除所有跟 minimize, chunk 之类的配置
 
-### 减少 Webpack 打包时间
-
 #### 优化 Loader
 
-对于 Loader 来说，影响打包效率首当其冲必属 Babel 了。因为 Babel 会将代码转为字符串生成 AST，然后对 AST 继续进行转变最后再生成新的代码，项目越大，**转换代码越多，效率就越低**。当然了，我们是有办法优化的。
+对于 Loader 来说，影响打包效率首当其冲必属 Babel 了。因为 Babel 会将代码转为字符串生成 AST，然后对 AST 继续进行转变最后再生成新的代码，项目越大，**转换代码越多，效率就越低**。
 
 首先我们可以**优化 Loader 的文件搜索范围**
 
@@ -882,7 +769,7 @@ module.exports = {
         loader: 'babel-loader',
         // 只在 src 文件夹下查找
         include: [resolve('src')],
-        // 不会去查找的路径
+        // 不会去查找的路径。  `node_modules` 中使用的代码都是编译过的
         exclude: /node_modules/,
       },
     ],
@@ -890,13 +777,15 @@ module.exports = {
 };
 ```
 
-对于 Babel 来说，我们肯定是希望只作用在 JS 代码上的，然后 `node_modules` 中使用的代码都是编译过的，所以我们也完全没有必要再去处理一遍。
-
-当然这样做还不够，我们还可以将 Babel 编译过的文件**缓存**起来，下次只需要编译更改过的代码文件即可，这样可以大幅度加快打包时间
+当然这样做还不够，还可以将 Babel 编译过的文件**缓存**起来，下次只需要编译更改过的代码文件即可，这样可以大幅度加快打包时间
 
 ```js
 loader: 'babel-loader?cacheDirectory=true';
 ```
+
+#### cache-loader
+
+在性能开销较大的 loader 前面使用这个 loader 能够缓存住上一次的结果
 
 #### HappyPack
 
@@ -905,25 +794,27 @@ loader: 'babel-loader?cacheDirectory=true';
 **HappyPack 可以将 Loader 的同步执行转换为并行的**，这样就能充分利用系统资源来加快打包效率了
 
 ```js
-module: {
-  loaders: [
-    {
-      test: /\.js$/,
-      include: [resolve('src')],
-      exclude: /node_modules/,
-      // id 后面的内容对应下面
-      loader: 'happypack/loader?id=happybabel'
-    }
-  ]
-},
-plugins: [
-  new HappyPack({
-    id: 'happybabel',
-    loaders: ['babel-loader?cacheDirectory'],
-    // 开启 4 个线程
-    threads: 4
-  })
-]
+module.exports = {
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        include: [resolve('src')],
+        exclude: /node_modules/,
+        // id 后面的内容对应下面
+        loader: 'happypack/loader?id=happybabel',
+      },
+    ],
+  },
+  plugins: [
+    new HappyPack({
+      id: 'happybabel',
+      loaders: ['babel-loader?cacheDirectory'],
+      // 开启 4 个线程
+      threads: 4,
+    }),
+  ],
+};
 ```
 
 #### DllPlugin
@@ -937,6 +828,7 @@ plugins: [
 // webpack.dll.conf.js
 const path = require('path');
 const webpack = require('webpack');
+
 module.exports = {
   entry: {
     // 想统一打包的类库
@@ -987,74 +879,10 @@ module.exports = {
 
 - `resolve.extensions`：用来表明文件后缀列表，默认查找顺序是 `['.js', '.json']`，如果你的导入文件没有添加后缀就会按照这个顺序查找文件。我们应该尽可能减少后缀列表长度，然后将出现频率高的后缀排在前面
 - `resolve.alias`：可以通过别名的方式来映射一个路径，能让 Webpack 更快找到路径
-- `module.noParse`：如果你确定一个文件下没有其他依赖，就可以使用该属性让 Webpack 不扫描该文件，这种方式对于大型的类库很有帮助
 
-### 减少 Webpack 打包后的文件体积
+### 减少 Webpack 打包后的文件体积 (性能优化)
 
-> 注意：该内容也属于性能优化领域。
-
-#### 按需加载
-
-想必大家在开发 SPA 项目的时候，项目中都会存在十几甚至更多的路由页面。如果我们将这些页面全部打包进一个 JS 文件的话，虽然将多个请求合并了，但是同样也加载了很多并不需要的代码，耗费了更长的时间。那么为了首页能更快地呈现给用户，我们肯定是希望首页能加载的文件体积越小越好，**这时候我们就可以使用按需加载，将每个路由页面单独打包为一个文件**。当然不仅仅路由可以按需加载，对于 `lodash` 这种大型类库同样可以使用这个功能。
-
-按需加载的代码实现这里就不详细展开了，因为鉴于用的框架不同，实现起来都是不一样的。当然了，虽然他们的用法可能不同，但是底层的机制都是一样的。都是当使用的时候再去下载对应文件，返回一个 `Promise`，当 `Promise` 成功以后去执行回调。
-
-#### Scope Hoisting
-
-**Scope Hoisting 会分析出模块之间的依赖关系，尽可能的把打包出来的模块合并到一个函数中去。**
-
-比如我们希望打包两个文件
-
-```js
-// test.js
-export const a = 1;
-// index.js
-import { a } from './test.js';
-```
-
-对于这种情况，我们打包出来的代码会类似这样
-
-```js
-[
-  /* 0 */
-  function(module, exports, require) {
-    //...
-  },
-  /* 1 */
-  function(module, exports, require) {
-    //...
-  },
-];
-```
-
-但是如果我们使用 Scope Hoisting 的话，代码就会尽可能的合并到一个函数中去，也就变成了这样的类似代码
-
-```js
-[
-  /* 0 */
-  function(module, exports, require) {
-    //...
-  },
-];
-```
-
-这样的打包方式生成的代码明显比之前的少多了。如果在 Webpack4 中你希望开启这个功能，只需要启用 `optimization.concatenateModules` 就可以了。
-
-```js
-module.exports = {
-  optimization: {
-    concatenateModules: true,
-  },
-};
-```
-
-#### Tree Shaking
-
-#### cache-loader
-
-在性能开销较大的 loader 前面使用这个 loader 能够缓存住上一次的结果
-
-#### vue 如何优化首页的加载速度？vue 首页白屏是什么问题引起的？如何解决呢？
+#### 优化首页的加载速度
 
 首页白屏的原因：
 单页面应用的 html 是靠 js 生成，因为首屏需要加载很大的 js 文件(app.js vendor.js)，所以当网速差的时候会产生一定程度的白屏
@@ -1064,6 +892,10 @@ module.exports = {
 优化 webpack 减少模块打包体积，code-split 按需加载
 服务端渲染，在服务端事先拼装好首页所需的 html
 首页加 loading 或 骨架屏 （仅仅是优化体验）
+
+#### 按需加载
+
+SPA 项目中可能会存在十几甚至更多的路由页面，如果将这些页面全部打包进一个 JS 文件的话，虽然将多个请求合并了，但是同样也加载了很多并不需要的代码，耗费了更长的时间。那么为了首页能更快地呈现给用户，我们肯定是希望首页能加载的文件体积越小越好，**这时候我们就可以使用按需加载，将每个路由页面单独打包为一个文件**。当然不仅仅路由可以按需加载，对于 `lodash` 这种大型类库同样可以使用这个功能。
 
 #### webpack 打包 vue 速度太慢怎么办？
 
@@ -1094,11 +926,140 @@ externals: {
 
 包大小分析：https://cli.vuejs.org/zh/guide/cli-service.html#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4
 
-https://www.jianshu.com/p/d1fb954f5713
+#### webpack 优化性能
 
-https://www.jianshu.com/p/9d6c1efebcd9
+生产环境的解决办法。 但是一般在开发环境不会有帮助，这些优化都是不会开启的。
+
+一：提升 webpack 打包速度
+
+- 1.跟上技术的迭代更新
+- 2.尽可能少的模块使用 loader
+- 3.plugin 尽可能精简并保证可靠
+  例如尽可能使用官方的插件，并在合适的环境下使用对象的插件
+- 4.resolve 参数合理配置
+  当通过 import child from './child/child'形式引入文件时，会先去寻找.js 为后缀当文件，再去寻找.jsx 为后缀的文件
+
+```js
+resolve: {
+   extensions: ['.js', '.jsx']，
+  mainFiles: ['index', 'child']，  // 如果是直接引用一个文件夹，那么回去直接找index开头的文件，如果不存在再去找child开头的文件
+  alias: {
+   roshomon: path.resolve(__dirname, '../src/child');  // 别名替换，引入roshomon其实是引入../src/child
+}
+}
+```
+
+- 5.使用 DellPlugin 提高打包速度
+  对于第三方库，只打包分析一次，后面的每次打包都不会重复打包第三方库
+  webpack.dll.js
+
+```js
+const path = require('path');
+const webpack = require('webpack');
+
+module.exports = {
+  mode: 'production',
+  entry: {
+    vendors: ['lodash'],
+    react: ['react', 'react-dom'],
+    jquery: ['jquery'],
+  },
+  output: {
+    filename: '[name].dll.js',
+    path: path.resolve(__dirname, '../dll'),
+    library: '[name]',
+  },
+  plugins: [
+    new webpack.DllPlugin({
+      // 使用该插件分析第三方库，并把库里面的映射关系放到[name].manifest.json里，并放在dll文件里
+      name: '[name]',
+      path: path.resolve(__dirname, '../dll/[name].manifest.json'),
+    }),
+  ],
+};
+```
+
+webpack.common.js
+
+```js
+// 引用
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
+// plugins配置
+....
+const plugins = [
+	new HtmlWebpackPlugin({
+		template: 'src/index.html'
+	}),
+	new CleanWebpackPlugin(['dist'], {
+		root: path.resolve(__dirname, '../')
+	})
+];
+
+const files = fs.readdirSync(path.resolve(__dirname, '../dll'));
+files.forEach(file => {
+	if(/.*\.dll.js/.test(file)) {
+		plugins.push(new AddAssetHtmlWebpackPlugin({  // 将dll.js文件自动引入html
+			filepath: path.resolve(__dirname, '../dll', file)
+		}))
+	}
+	if(/.*\.manifest.json/.test(file)) {
+		plugins.push(new webpack.DllReferencePlugin({ // 当打包第三方库时，会去manifest.json文件中寻找映射关系，如果找到了那么就直接从全局变量(即打包文件)中拿过来用就行，不用再进行第三方库的分析，以此优化打包速度
+			manifest: path.resolve(__dirname, '../dll', file)
+		}))
+	}
+})
+```
+
+package.json
+
+```js
+    "build:dll": "webpack --config ./build/webpack.dll.js"
+```
+
+- 6.控制包文件大小
+  可以通过 treeShaking 或者拆分文件来优化打包速度
+- 7.thread-loader, parallel-webpack,happy,webpack 多进程打包
+- 8.合理使用 sourceMap
+- 9.结合 stats 分析打包结果
+  通过命令生成一个关于打包情况的 stats 文件，并借助工具进行打包情况分析，通过分析打包的流程对相应内容进行优化
+- 10.开发环境内存编译
+- 11.开发环境无用插件剔除
+
+#### webpack 优化问题：多页面提取公共资源
+
+common-chunk-and-vendor-chunk
+
+```js
+module.exports = {
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          chunks: 'initial',
+          minChunks: 2, //最小重复的次数
+          minSize: 0, //最小提取字节数
+        },
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+        },
+      },
+    },
+  },
+};
+```
+
+#### Tree Shaking
 
 ## 其他
+
+- 入口怎么配置，多页应用怎么进行配置, 多个入口怎么分割。多个 entry ？
+- 如何批量引入组件，require.context
+- webpack 的劣势在哪里
+- 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
+- markdown 是如何进行解析并最终渲染成为 html 的？
+- 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？
 
 ### 什么是 bundle,什么是 chunk，什么是 module
 
@@ -1123,29 +1084,3 @@ module.exports = {
   // ...
 };
 ```
-
-### sourceMap 的原理
-
-sourceMap 本质上是一种映射关系，打包出来的 js 文件中的代码可以映射到代码文件的具体位置。例如在打包后有代码错误，这种映射关系会帮助我们直接找到在源代码中的错误
-[source map 的原理探究](https://www.cnblogs.com/Wayou/p/understanding_frontend_source_map.html)
-
-### sourcemap
-
-开启和关闭是通过 webpack 配置中的 devtool。
-
-但是当在开发模式下，`mode: 'development'` 的时候默认 devtool 是开启状态，也就是说，开发模式下 sourcemap 功能默认是开启的。想主动关闭 devtool 只需要配置 `devtool: 'none'`即可。
-
-sourcemap 是一个影射关系。 当 sourcemap 功能被关闭的时候，在浏览器中执行代码出错时， 控制台打印出的错误信息是打包出来的文件的行数，对开发者来说非常不友好。但是通过 sourcemap，如果知道了打包出来的文件 main.js 中的 96 行出错了，它能通过这个影射关系知道 main.js 实际是对应 src 目录下 index.js 文件的第一行，这个时候浏览器控制台就会打印出错误信息，告诉开发者是 index.js 文件的第一行出错了。
-
-主动开启 sourcemap 只要在 webpack 配置中，将 `devtool` 设置为 `source-map` 即可。
-
-source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
-
-## 其他
-
-- 入口怎么配置，多页应用怎么进行配置, 多个入口怎么分割。多个 entry ？
-- 如何批量引入组件，require.context
-- webpack 的劣势在哪里
-- 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
-- markdown 是如何进行解析并最终渲染成为 html 的？
-- 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？

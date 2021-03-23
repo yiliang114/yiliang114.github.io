@@ -4,11 +4,11 @@ date: 2020-12-29
 draft: true
 ---
 
-### ES6 的新特性
+## ES6 的新特性
 
 Class，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, Map/Set, Promise
 
-### Class
+## Class
 
 在 JS 中并不存在类，`class` 只是语法糖，本质还是函数。
 
@@ -92,7 +92,7 @@ class Student extends MixClass(Person, Kid) {}
 - `es6` 的`class`不存在变量提升
 - **最重要的是：es6 内部方法不可以枚举**。es5 的`prototype`上的方法可以枚举。
 
-### 箭头函数与普通函数的区别？
+## 箭头函数与普通函数的区别？
 
 - 简洁
 - 普通 function 的声明在变量提升中是最高的，箭头函数没有函数提升
@@ -101,7 +101,7 @@ class Student extends MixClass(Person, Kid) {}
 - 箭头函数不能作为构造函数，不能被 new，没有 prototype
 - call 和 apply 方法只有参数，没有作用域
 
-### 私有属性、方法
+## 私有属性、方法
 
 ```js
 const name = Symbol('name');
@@ -151,7 +151,7 @@ Reflect.ownKeys(myClass.prototype);
 // [ 'constructor', 'foo', Symbol(bar) ]
 ```
 
-### 介绍下 Set、Map 和 WeakMap 的比较
+## 介绍下 Set、Map 和 WeakMap 的比较
 
 Set
 
@@ -169,3 +169,92 @@ weakMap
 1. 只接受对象作为键名（null 除外）
 2. 键名所指向的对象，不计入垃圾回收机制
 3. 不能遍历，方法同 get,set,has,delete
+
+## Symbol
+
+`Symbol`是`ES6`引入的第七种原始数据类型, 所有 Symbol()生成的值都是独一无二的，可以从根本上解决对象属性太多导致属性名冲突覆盖的问题。
+
+Symbol 类型的 key 是不能通过`Object.keys()`或者`for...in`来枚举的，但是也不是私有属性，它未被包含在对象自身的属性名集合(property names)之中。所以，利用该特性，我们可以把一些不需要对外操作和访问的属性使用 Symbol 来定义。也正因为这样一个特性，当使用`JSON.stringify()`将对象转换成 JSON 字符串的时候，Symbol 属性也会被排除在输出内容之外。
+
+### 应用场景
+
+#### 作为属性名的使用
+
+```js
+var mySymbol = Symbol();
+// 第一种写法
+var a = {};
+a[mySymbol] = 'Hello!';
+// 第二种写法
+var a = { [mySymbol]: 'Hello!' };
+// 第三种写法
+var a = {};
+Object.defineProperty(a, mySymbol, { value: 'Hello!' });
+// 以上写法都得到同样结果
+a[mySymbol]; // "Hello!"
+```
+
+#### 变量可以不再重复
+
+```js
+et name1 = Symbol('name');
+let name2 = Symbol('name');
+console.log(name1 === name2); // false
+```
+
+将 Symbol 类型转换为字符串类型
+
+```js
+let name1 = Symbol('name');
+let name2 = Symbol('name');
+
+console.log(name1.toString()); // Symbol(name)
+console.log(String(name2)); // Symbol(name)
+```
+
+#### Symbol 类型应用于对象的属性
+
+```js
+let getName = Symbol('name');
+let obj = {
+  [getName]() {
+    return 'Joh';
+  },
+};
+console.log(obj[getName]()); // Joh
+```
+
+#### Symbol 类型的属性具有一定的隐藏性
+
+```js
+let name = Symbol('name');
+let obj = {
+  age: 22,
+  [name]: 'Joh',
+};
+
+console.log(Object.keys(obj)); // 打印不出 类型为Symbol的[name]属性
+
+// 使用for-in也打印不出 类型为Symbol的[name]属性
+for (var k in obj) {
+  console.log(k);
+}
+
+// 使用 Object.getOwnPropertyNames 同样打印不出 类型为Symbol的[name]属性
+console.log(Object.getOwnPropertyNames(obj));
+
+// 使用 Object.getOwnPropertySymbols 可以
+var key = Object.getOwnPropertySymbols(obj)[0];
+console.log(obj[key]); // Joh
+```
+
+#### Symbol.for 和 Symbol.keyFor 的应用
+
+使用 Symbol.for 获取 Symbol 类型的值，使用 Symbol.keyFor 来获取之前的字符串
+
+```js
+let name1 = Symbol.for('name');
+let name2 = Symbol.for('name');
+console.log(name1 === name2); // true
+console.log(Symbol.keyFor(name1)); // name 备注：字符串类型的
+```

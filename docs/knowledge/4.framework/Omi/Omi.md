@@ -12,9 +12,24 @@ draft: true
 - use api ？
 - 你做了哪一部分的工作
 
-## Omiv
+### Shadow DOM
 
-### omiv
+https://aotu.io/notes/2016/06/24/Shadow-DOM/index.html
+
+### Omi + Web Components
+
+https://segmentfault.com/a/1190000017091755?utm_source=tag-newest
+
+http://www.ruanyifeng.com/blog/2019/08/web_components.html
+
+### Web Components
+
+好处： 跨端，内容封闭
+坏处： 全局的 css 不受用了
+
+### 原生的 API 生命周期
+
+## Omiv
 
 介绍一下 omiv ， 这是一个 Vue 中的一个状态管理工具，目前主要是由我在开发。目前来看，与 Vuex 最大的差别是在可以直接修改 store 中的值，其实我并不是很喜欢 mutation ，尽管配合 mutation 可以使用 devtools ，state 的时间旅行等。
 
@@ -43,7 +58,9 @@ vue-omiv-ssr
 
 0.3 版本升级到 1.0 版本的跨越是因为我引入了 install 函数，并且使用了 mixins 的方式去直接收集 vm.\$options 中 omiv 的字段，原作者大概是因为 api 跨度有点大，直接升级了一个大版本。 但是 install 函数的引入，是为了接近 Vue 的插件生态，所有的 Vue 插件都是通过 Vue.use(Plugin) 的形式去安装，全局注入一个 Vue 对象的。
 
-#### vuex 的订阅和通知
+#### omiv 的理念
+
+vue 的双向数据流 改为了 单向数据流，从组件数据修改 dom 自动更新到数据更新，依赖检测到之后主动去更新 dom 视图。
 
 #### vuex 的缺陷（我认为的）
 
@@ -61,26 +78,3 @@ vue-omiv-ssr
 2. 组件更新机制，有点暴力。
 3. 模块化。
 4. devtools
-
-#### omiv 的理念
-
-vue 的双向数据流 改为了 单向数据流，从组件数据修改 dom 自动更新到数据更新，依赖检测到之后主动去更新 dom 视图。
-
-## Web Components
-
-### Shadow DOM
-
-https://aotu.io/notes/2016/06/24/Shadow-DOM/index.html
-
-### Omi + Web Components
-
-https://segmentfault.com/a/1190000017091755?utm_source=tag-newest
-
-http://www.ruanyifeng.com/blog/2019/08/web_components.html
-
-### Web Components
-
-好处： 跨端，内容封闭
-坏处： 全局的 css 不受用了
-
-### 原生的 API 生命周期
