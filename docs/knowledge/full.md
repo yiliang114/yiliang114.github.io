@@ -6,6 +6,7 @@ draft: true
 
 ## 基础
 
+- 闭包
 - 创建对象有几种方法
 - 原型、构造函数、实例、原型链
 - 继承
@@ -16,6 +17,7 @@ draft: true
 - new 做了什么操作
 - this 指向
 - 事件循环模型，具体的代码卡死执行？
+- 模块化 AMD CMD Commonjs UMD ES Module
 - 手写深拷贝函数（包含环的情况）
 - es6 的新特性
 - var 与 const/let 的区别
@@ -25,10 +27,6 @@ draft: true
 - 大数据列表的虚拟列表原理
 - SSR 是如何做的？
 - Omi 的原理， Omiv 可以监听数组下标变化的原理
-
-### 闭包
-
-闭包就是函数中的函数，里面的函数可以访问外面函数的变量。作用一般是封装私有化变量，防止了全局污染，缓存数据等。在浏览器端可以通过强制刷新销毁闭包，但是由于 node 的内存限制和累积效应，可能会造成进程退出甚至服务器沓机。
 
 ### 基本数据类型
 
@@ -357,70 +355,12 @@ setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s
 
 ### 异步 与 Promise
 
-### 浅拷贝
+### 其他
 
-- `Object.assign`
-- 展开运算符 `...`
-- for 循环方式， 手动复制属性
-- arr.slice、arr.concat 等
-
-### 深拷贝
-
-- `JSON.parse(JSON.stringify(src))`：这种方法有局限性，如果属性值是函数或者一个类的实例的时候，无法正确拷贝
-- 借助 HTML5 的`MessageChannel`：这种方法有局限性，当属性值是函数的时候，会报错
-- for 循环手写
-
-### 跨域
-
-协议、端口、域名都一样才是同源
-
-跨域限制范围
-
-- `Cookie`、`LocalStorage`和`IndexDB`无法获取。
-- 无法获取和操作`DOM`。
-- 不能发送`ajax`请求。我们要注意，`ajax`只适合**同源**的通信。
-
-#### 跨域通信的几种方式
-
-1. JSONP
-2. Hash url 中 ## 号后面的内容， hash 修改页面不刷新，利用 window.onhashChange 获取修改的 hash
-3. postMessage
-4. WebSocket
-5. 通过修改 `document.domain` 来跨子域
-6. 使用 `window.name` 来进行跨域
-7. CORS （添加 http 请求头允许跨域通信）
-
-#### CORS
-
-主要的字段
-
-- Access-Control-Allow-Origin
-- Access-Control-Allow-Credentials
-- Access-Control-Allow-Methods
-- Access-Control-Allow-Headers 实际请求将携带的自定义请求首部字段
-- Access-Control-Max-Age 用来指定本次预检请求的有效期，单位为秒。
-
-#### Options 请求
-
-第一次发送了一个 Options 请求，询问服务器是否支持修改的请求头，如果服务器支持，则在第二次中发送真正的请求。
-
-#### 简单请求
-
-请求方式使用下列方法之一：
-
-- GET
-- HEAD
-- POST
-
-Content-Type 的值仅限于下列三者之一：
-
-- text/plain
-- multipart/form-data
-- application/x-www-form-urlencoded
-
-对于简单请求，浏览器会直接发送 CORS 请求，具体说来就是在 header 中加入 origin 请求头字段。同样，在响应头中，返回服务器设置的相关 CORS 头部字段，Access-Control-Allow-Origin 字段为允许跨域请求的源。
-
-### 错误监控
+- 浅拷贝
+- 深拷贝
+- 错误监控
+- 跨域
 
 ## CSS
 
@@ -509,38 +449,6 @@ GET, POST, PUT, DELETE, HEAD. HEAD 方法用于获取报文首部
 3xx: 重定向 301 永久重定向 302 临时重定向 304 缓存
 4xx: 客户端错误 400 401 未授权 403 资源禁止被访问 404 资源不存在
 5xx: 服务端错误 500 503
-
-### 强缓存和协商缓存
-
-浏览器的三级缓存原理：
-
-1. 先去内存看，如果有，直接加载
-2. 如果内存没有，择取硬盘获取，如果有直接加载
-3. 如果硬盘也没有，那么就进行网络请求
-4. 加载到的资源缓存到硬盘和内存
-
-#### 强缓存 200 from cached
-
-Expires 值是时间点
-Cache-Control 值是 max-age: xxx（优先级更高）
-
-#### 协商缓存 304 Not Modified
-
-Last-Modified
-If-Modified-Since 值是二进制时间
-
-或者
-
-ETag
-If-None-Match 值是 hash 唯一标识串
-
-#### 为什么要有 ETag
-
-`HTTP1.1` 中 `ETag` 的出现主要是为了解决几个 `Last-Modified` 比较难解决的问题：
-
-- 一些文件也许会周期性的更改，但是内容并不改变(仅仅改变的修改时间)，这个时候我们并不希望客户端认为这个文件被修改了，而重新 GET；
-- 某些文件修改非常频繁，比如在秒以下的时间内进行修改，(比方说 1s 内修改了 N 次)，`If-Modified-Since` 能检查到的粒度是秒级的，使用 `ETag` 就能够保证这种需求下客户端在 1 秒内能刷新 N 次 cache。
-- 某些服务器不能精确的得到文件的最后修改时间。
 
 ### 前后端如何进行通信
 
@@ -883,3 +791,8 @@ getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
 
 bff, ssr
 
+## TODO:
+
+1. vue 的响应式原理 总结
+2. vue router 的实现原理总结
+3. vite 的实现原理总结
