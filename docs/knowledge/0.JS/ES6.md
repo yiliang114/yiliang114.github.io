@@ -8,6 +8,15 @@ draft: true
 
 Class，模块化，箭头操作符，let/const 块作用域，字符串模板，解构，参数默认值/不定参数/拓展参数, Map/Set, Promise
 
+## var、let 和 const 区别
+
+- var 声明的变量会挂载在 window 上，而 let 和 const 声明的变量不会
+- var 定义的变量会提升， 而 let 和 const 定义的变量不会
+- let 和 const 是 JS 中的块级作用域
+- 同一作用域下 let 和 const 不允许重复声明(会抛出错误)
+- let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而 var 不会。
+- const 声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
+
 ## Class
 
 在 JS 中并不存在类，`class` 只是语法糖，本质还是函数。
@@ -100,6 +109,16 @@ class Student extends MixClass(Person, Kid) {}
   - function 传统定义的函数，this 指向随着调用环境的改变而改变，而箭头 函数中的指向则是固定不变，一直指向定义环境的。箭头函数在定义之后，this 就不会发生改变了。
 - 箭头函数不能作为构造函数，不能被 new，没有 prototype
 - call 和 apply 方法只有参数，没有作用域
+
+### 箭头函数与普通函数（function）的区别是什么？为什么
+
+箭头函数是普通函数的简写，可以更优雅的定义一个函数，和普通函数相比区别：
+
+1. 函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象，它会从自己的作用域链的上一层继承 this（因此无法使用 apply / call / bind 进行绑定 this 值）
+2. 箭头函数不可以使用 arguments 对象,，该对象在函数体内不存在，如果要用，可以用 rest 参数代替
+3. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+4. 不绑定 super 和 new.target
+5. 不可以使用 new 命令，因为
 
 ## 私有属性、方法
 
