@@ -732,6 +732,8 @@ source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
 - 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
 - markdown 是如何进行解析并最终渲染成为 html 的？
 - 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？
+- 有没有做过优化相关的？webpack 做了哪些优化？
+- cache-loader 和 hard-source-webpack-plugin 的区别是什么？
 
 ### 什么是 bundle,什么是 chunk，什么是 module
 
@@ -756,8 +758,3 @@ module.exports = {
   // ...
 };
 ```
-
-### 其他
-
-有没有做过优化相关的？webpack 做了哪些优化？
-cache-loader 和 hard-source-webpack-plugin 的区别是什么？
