@@ -6,8 +6,6 @@ draft: true
 
 ## 基础
 
-### 简单介绍一下 webpack
-
 webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，将项目当作一个整体，通过一个给定的的入口文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包成一个或多个浏览器可识别的 js 文件。
 
 它能够很好地管理、打包 Web 开发中所用到的`HTML、Javascript、CSS`以及各种静态文件（图片、字体等），让开发过程更加高效。对于不同类型的资源，`webpack`有对应的模块加载器。`webpack`模块打包器会分析模块间的依赖关系，最后 生成了优化且合并后的静态资源。
@@ -117,6 +115,8 @@ entry: {
   }
 })
 ```
+
+## webpack 如何打包 babel？
 
 ## webpack 构建流程
 

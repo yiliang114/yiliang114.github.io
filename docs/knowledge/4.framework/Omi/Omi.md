@@ -6,9 +6,9 @@ draft: true
 
 ## Omi
 
-- 是什么？ 解决的问题.
+- Omi 是什么？ 解决的问题.
 - 与 Vue React 有什么不同， 为什么会选用它而不是 Vue 或者 React
-- 跨端的能力是如何实现的？
+- 跨端的能力是如何实现的？web components
 - use api ？
 - 你做了哪一部分的工作
 
