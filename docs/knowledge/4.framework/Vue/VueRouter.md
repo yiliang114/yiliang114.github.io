@@ -4,6 +4,17 @@ date: '2020-10-26'
 draft: true
 ---
 
+## VueRouter
+
+有两种形式的路由：
+
+1. hash 模式
+2. history 模式. History 模式是 HTML5 新推出的功能，比之 Hash URL 更加美观
+
+哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
+
+前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，继而对不同的组件进行渲染，显示相应的页面，并且无须刷新。
+
 ## 源码解析
 
 ### 路由初始化
@@ -630,19 +641,6 @@ updateRoute(route: Route) {
 
 ## 路由原理
 
-目前单页面使用的路由就只有两种实现方式
-
-1. hash 模式
-2. history 模式
-
-哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
-
-History 模式是 HTML5 新推出的功能，比之 Hash URL 更加美观
-
-前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，继而对不同的组件进行渲染，显示相应的页面，并且无须刷新。
-
-### 原理
-
 hash 主要依赖 location.hash 来改动 URL,达到不刷新跳转的效果.每次 hash 改变都会触发 hashchange 事件(来响应路由的变化,比如页面的更换)
 history 主要利用了 HTML5 的 historyAPI 来实现,用 pushState 和 replaceState 来操作浏览历史记录栈
 
@@ -791,11 +789,3 @@ router.beforeEach 能否 async
 
 1. 方案一： 维护一个统一的路由，根据用户的权限，过滤得到有权限的路由，只注册有权限的路由
 2. 方案二：注册全部的路由，通过 meta 属性以及 router 的守卫，每次进入路由之前去校验是否有权限。
-
-### 懒加载（按需加载路由）
-
-webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
-
-```js
-const home = r => require.ensure([], () => r(require('../../common/home.vue')));
-```

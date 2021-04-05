@@ -18,7 +18,7 @@ draft: true
 - getters
   类似 vue 的计算属性，主要用来过滤一些数据。
 - action
-  actions 可以理解为通过将 mutations 里面处里数据的方法变成可异步的处理数据的方法，简单的说就是异步操作数据。view 层通过 store.dispath 来分发 action。
+  actions 可以理解为通过将 mutations 里面处里数据的方法变成可异步的处理数据的方法，简单的说就是异步操作数据。view 层通过 store.dispatch 来分发 action。
 
 ### vuex 的原理 ？对 vuex 的理解
 

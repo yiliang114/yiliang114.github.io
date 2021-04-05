@@ -423,7 +423,8 @@ function changeDom(node, changes, noChild) {
 }
 ```
 
-## Diff
+
+## TODO: Diff
 
 ### vnode 的转换过程 和 dom-diff 的过程
 

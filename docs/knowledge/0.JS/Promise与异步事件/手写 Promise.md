@@ -4,118 +4,6 @@ date: 2020-11-16
 draft: true
 ---
 
-### 实现一个简易版 Promise
-
-```js
-const PENDING = 'pending';
-const RESOLVED = 'resolved';
-const REJECTED = 'rejected';
-
-function MyPromise(fn) {
-  const that = this;
-  that.state = PENDING;
-  that.value = null;
-  that.resolvedCallbacks = [];
-  that.rejectedCallbacks = [];
-  // 待完善 resolve 和 reject 函数
-  // 待完善执行 fn 函数
-}
-```
-
-- 首先我们创建了三个常量用于表示状态，对于经常使用的一些值都应该通过常量来管理，便于开发及后期维护
-- 在函数体内部首先创建了常量 `that`，因为代码可能会异步执行，用于获取正确的 `this` 对象
-- 一开始 `Promise` 的状态应该是 `pending`
-- `value` 变量用于保存 `resolve` 或者 `reject` 中传入的值
-- `resolvedCallbacks` 和 `rejectedCallbacks` 用于保存 `then` 中的回调，因为当执行完 `Promise` 时状态可能还是等待中，这时候应该把 `then` 中的回调保存起来用于状态改变时使用
-
-接下来我们来完善 `resolve` 和 `reject` 函数，添加在 `MyPromise` 函数体内部
-
-```js
-function resolve(value) {
-  if (that.state === PENDING) {
-    that.state = RESOLVED;
-    that.value = value;
-    that.resolvedCallbacks.map(cb => cb(that.value));
-  }
-}
-
-function reject(value) {
-  if (that.state === PENDING) {
-    that.state = REJECTED;
-    that.value = value;
-    that.rejectedCallbacks.map(cb => cb(that.value));
-  }
-}
-```
-
-这两个函数代码类似，就一起解析了
-
-- 首先两个函数都得判断当前状态是否为等待中，因为规范规定只有等待态才可以改变状态
-- 将当前状态更改为对应状态，并且将传入的值赋值给 `value`
-- 遍历回调数组并执行
-
-完成以上两个函数以后，我们就该实现如何执行 `Promise` 中传入的函数了
-
-```js
-try {
-  fn(resolve, reject);
-} catch (e) {
-  reject(e);
-}
-```
-
-- 实现很简单，执行传入的参数并且将之前两个函数当做参数传进去
-- 要注意的是，可能执行函数过程中会遇到错误，需要捕获错误并且执行 `reject` 函数
-
-最后我们来实现较为复杂的 `then` 函数
-
-```js
-MyPromise.prototype.then = function(onFulfilled, onRejected) {
-  const that = this;
-  onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v;
-  onRejected =
-    typeof onRejected === 'function'
-      ? onRejected
-      : r => {
-          throw r;
-        };
-  if (that.state === PENDING) {
-    that.resolvedCallbacks.push(onFulfilled);
-    that.rejectedCallbacks.push(onRejected);
-  }
-  if (that.state === RESOLVED) {
-    onFulfilled(that.value);
-  }
-  if (that.state === REJECTED) {
-    onRejected(that.value);
-  }
-};
-```
-
-- 首先判断两个参数是否为函数类型，因为这两个参数是可选参数
-
-- 当参数不是函数类型时，需要创建一个函数赋值给对应的参数，同时也实现了透传，比如如下代码
-
-  ```js
-  // 该代码目前在简单版中会报错
-  // 只是作为一个透传的例子
-  Promise.resolve(4)
-    .then()
-    .then(value => console.log(value));
-  ```
-
-- 接下来就是一系列判断状态的逻辑，当状态不是等待态时，就去执行相对应的函数。如果状态是等待态的话，就往回调函数中 `push` 函数，比如如下代码就会进入等待态的逻辑
-
-  ```js
-  new MyPromise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(1);
-    }, 0);
-  }).then(value => {
-    console.log(value);
-  });
-  ```
-
 ### 实现一个符合 Promise/A+ 规范的 Promise
 
 我们先来改造一下 `resolve` 和 `reject` 函数
@@ -275,113 +163,6 @@ if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
 - 如果 `x` 是对象或者函数的话，先把 `x.then` 赋值给 `then`，然后判断 `then` 的类型，如果不是函数类型的话，就将 `x` 传入 `resolve` 中
 - 如果 `then` 是函数类型的话，就将 `x` 作为函数的作用域 `this` 调用之，并且传递两个回调函数作为参数，第一个参数叫做 `resolvePromise` ，第二个参数叫做 `rejectPromise`，两个回调函数都需要判断是否已经执行过函数，然后进行相应的逻辑
 - 以上代码在执行的过程中如果抛错了，将错误传入 `reject` 函数中
-
-以上就是符合 Promise/A+ 规范的实现了，如果你对于这部分代码尚有疑问，欢迎在评论中与我互动。
-
-### 链式调用实现
-
-光是实现了异步操作可不行，我们常常用到 new Promise().then().then()这样的链式调用来解决回调地狱。
-规范如何定义 then 方法：
-
-- 每个 then 方法都返回一个新的 Promise 对象（原理的核心）
-- 如果 then 方法中显示地返回了一个 Promise 对象就以此对象为准，返回它的结果
-- 如果 then 方法中返回的是一个普通值（如 Number、String 等）就使用此值包装成一个新的 Promise 对象返回。
-- 如果 then 方法中没有 return 语句，就视为返回一个用 Undefined 包装的 Promise 对象
-- 若 then 方法中出现异常，则调用失败态方法（reject）跳转到下一个 then 的 onRejected
-- 如果 then 方法没有传入任何回调，则继续向下传递（值的传递特性）
-  总的来说就是不论何时 then 方法都要返回一个 Promise，这样才能调用下一个 then 方法。我们可以实例化一个 promise2 返回，将这个 promise2 返回的值传递到下一个 then 中。
-
-```js
-Promise.prototype.then = function (onFulfilled, onRejected) {
-    let promise2 = new Promise((resolve, reject) => {
-    // 其他代码
-    }
-    return promise2;
-};
-```
-
-接下来就处理根据上一个 then 方法的返回值来生成新 Promise 对象.
-
-```js
-/**
- * 解析then返回值与新Promise对象
- * @param {Object} promise2 新的Promise对象
- * @param {*} x 上一个then的返回值
- * @param {Function} resolve promise2的resolve
- * @param {Function} reject promise2的reject
- */
-function resolvePromise(promise2, x, resolve, reject) {
-  //...
-}
-```
-
-当 then 的返回值与新生成的 Promise 对象为同一个（引用地址相同），状态永远为等待态（pending），再也无法成为 resolved 或是 rejected，程序会死掉,则会抛出 TypeError 错误
-
-```js
-let promise2 = p.then(data => {
-  return promise2;
-});
-// TypeError: Chaining cycle detected for promise #<Promise>
-```
-
-因此需要判断 x。
-
-1.  x 不能和新生成的 promise 对象为同一个
-2.  x 不能是 null，可以是对象或者函数(包括 promise), 否则是普通值,那么直接 resolve(x)
-3.  当 x 是对象或者函数（默认 promise）则声明 then，let then = x.then
-4.  如果取 then 报错，则走 reject()
-5.  如果 then 是个函数，则用 call 执行 then，第一个参数是 this，后面是成功的回调和失败的回调，成功和失败只能调用一个 所以设定一个 called 来防止多次调用
-6.  如果成功的回调还是 promise，就递归继续解析
-
-> 小提示： 为什么取对象上的属性有报错的可能？Promise 有很多实现（bluebird，Q 等），Promises/A+只是一个规范，大家都按此规范来实现 Promise 才有可能通用，因此所有出错的可能都要考虑到，假设另一个人实现的 Promise 对象使用 Object.defineProperty()恶意的在取值时抛错，我们可以防止代码出现 Bug
-> resolvePromise 实现
-
-```js
-function resolvePromise(promise2, x, resolve, reject) {
-  if (promise2 === x) {
-    // 1.x不能等于promise2
-    reject(new TypeError('Promise发生了循环引用'));
-  }
-  let called;
-  if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
-    // 2. 可能是个对象或是函数
-    try {
-      let then = x.then; // 3.取出then方法引用
-      if (typeof then === 'function') {
-        // 此时认为then是一个Promise对象
-        //then是function，那么执行Promise
-        then.call(
-          x,
-          y => {
-            // 5.使用x作为this来调用then方法，即then里面的this指向x
-            if (called) return;
-            called = true;
-            // 6.递归调用，传入y若是Promise对象，继续循环
-            resolvePromise(promise2, y, resolve, reject);
-          },
-          r => {
-            if (called) return;
-            called = true;
-            reject(r);
-          },
-        );
-      } else {
-        resolve(x);
-      }
-    } catch (e) {
-      // 也属于失败
-      if (called) return;
-      called = true;
-      reject(e); // 4.取then报错，直接reject
-    }
-  } else {
-    //否则是个普通值
-    resolve(x);
-  }
-}
-```
-
-此时链式调用支持已经实现，在相应的地方调用 resolvePromise 方法即可。
 
 ### Promise/A+ 规范
 
@@ -1126,3 +907,114 @@ Promise.allSettled = function(iterators) {
 | `Promise.all`        | 标记 fulfilled 的实例个数                   |
 | `Promise.any`        | 标记 rejected 的实例个数                    |
 | `Promise.allSettled` | 标记所有实例（fulfilled 和 rejected）的个数 |
+
+## 写一个 promise 重试函数，可以设置时间间隔和次数。
+
+```js
+function foo(fn, interval, times) {}
+```
+
+## 链式调用实现
+
+光是实现了异步操作可不行，我们常常用到 new Promise().then().then()这样的链式调用来解决回调地狱。
+规范如何定义 then 方法：
+
+- 每个 then 方法都返回一个新的 Promise 对象（原理的核心）
+- 如果 then 方法中显示地返回了一个 Promise 对象就以此对象为准，返回它的结果
+- 如果 then 方法中返回的是一个普通值（如 Number、String 等）就使用此值包装成一个新的 Promise 对象返回。
+- 如果 then 方法中没有 return 语句，就视为返回一个用 Undefined 包装的 Promise 对象
+- 若 then 方法中出现异常，则调用失败态方法（reject）跳转到下一个 then 的 onRejected
+- 如果 then 方法没有传入任何回调，则继续向下传递（值的传递特性）
+  总的来说就是不论何时 then 方法都要返回一个 Promise，这样才能调用下一个 then 方法。我们可以实例化一个 promise2 返回，将这个 promise2 返回的值传递到下一个 then 中。
+
+```js
+Promise.prototype.then = function (onFulfilled, onRejected) {
+    let promise2 = new Promise((resolve, reject) => {
+    // 其他代码
+    }
+    return promise2;
+};
+```
+
+接下来就处理根据上一个 then 方法的返回值来生成新 Promise 对象.
+
+```js
+/**
+ * 解析then返回值与新Promise对象
+ * @param {Object} promise2 新的Promise对象
+ * @param {*} x 上一个then的返回值
+ * @param {Function} resolve promise2的resolve
+ * @param {Function} reject promise2的reject
+ */
+function resolvePromise(promise2, x, resolve, reject) {
+  //...
+}
+```
+
+当 then 的返回值与新生成的 Promise 对象为同一个（引用地址相同），状态永远为等待态（pending），再也无法成为 resolved 或是 rejected，程序会死掉,则会抛出 TypeError 错误
+
+```js
+let promise2 = p.then(data => {
+  return promise2;
+});
+// TypeError: Chaining cycle detected for promise #<Promise>
+```
+
+因此需要判断 x。
+
+1.  x 不能和新生成的 promise 对象为同一个
+2.  x 不能是 null，可以是对象或者函数(包括 promise), 否则是普通值,那么直接 resolve(x)
+3.  当 x 是对象或者函数（默认 promise）则声明 then，let then = x.then
+4.  如果取 then 报错，则走 reject()
+5.  如果 then 是个函数，则用 call 执行 then，第一个参数是 this，后面是成功的回调和失败的回调，成功和失败只能调用一个 所以设定一个 called 来防止多次调用
+6.  如果成功的回调还是 promise，就递归继续解析
+
+> 小提示： 为什么取对象上的属性有报错的可能？Promise 有很多实现（bluebird，Q 等），Promises/A+只是一个规范，大家都按此规范来实现 Promise 才有可能通用，因此所有出错的可能都要考虑到，假设另一个人实现的 Promise 对象使用 Object.defineProperty()恶意的在取值时抛错，我们可以防止代码出现 Bug
+> resolvePromise 实现
+
+```js
+function resolvePromise(promise2, x, resolve, reject) {
+  if (promise2 === x) {
+    // 1.x不能等于promise2
+    reject(new TypeError('Promise发生了循环引用'));
+  }
+  let called;
+  if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+    // 2. 可能是个对象或是函数
+    try {
+      let then = x.then; // 3.取出then方法引用
+      if (typeof then === 'function') {
+        // 此时认为then是一个Promise对象
+        //then是function，那么执行Promise
+        then.call(
+          x,
+          y => {
+            // 5.使用x作为this来调用then方法，即then里面的this指向x
+            if (called) return;
+            called = true;
+            // 6.递归调用，传入y若是Promise对象，继续循环
+            resolvePromise(promise2, y, resolve, reject);
+          },
+          r => {
+            if (called) return;
+            called = true;
+            reject(r);
+          },
+        );
+      } else {
+        resolve(x);
+      }
+    } catch (e) {
+      // 也属于失败
+      if (called) return;
+      called = true;
+      reject(e); // 4.取then报错，直接reject
+    }
+  } else {
+    //否则是个普通值
+    resolve(x);
+  }
+}
+```
+
+此时链式调用支持已经实现，在相应的地方调用 resolvePromise 方法即可。

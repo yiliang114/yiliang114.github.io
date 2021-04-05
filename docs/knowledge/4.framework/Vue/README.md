@@ -10,6 +10,8 @@ draft: true
 2. vue 生命钩子函数执行分析
 3. vue 模板编译、渲染函数原理分析
 4. 了解 Vue3 吗，相对于 Vue2 做了哪些优化
+5. vue 框架的整个周期，比如 vue 的初始化，发生了什么？vue 的模板解析，是如何进行的？如何形成 AST？render 函数的生成？什么是依赖收集？什么是 patch？数据更新策略等等。
+6. 混入 mixins、\$options，vuex、router 他们各自如何通过这些 api，实现各自的功能？
 
 ### vue 统一错误处理
 

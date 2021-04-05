@@ -1,30 +1,10 @@
 ---
-title: 懒加载的实现原理
+title: Nuxt
 date: '2020-10-26'
 draft: true
 ---
 
-## nuxtjs
-
-- 安装 postcss 插件 以及 sass 插件（预处理器）
-
-  ```
-  npm install --save-dev node-sass sass-loader
-  npm install --save-dev postcss-nested postcss-responsive-type postcss-hexrgba
-  npm i less less-loader --save--dev
-  ```
-
-- rem 单位，是相对于 html 的根元素的字体大小的倍数。只要调整 html 的根元素字体的大小就能够对布局进行等比例缩放，从而做到自适应。https://www.cnblogs.com/dannyxie/p/6640903.html
-
-https://github.com/code-tribe/nuxt-netlify-cms-starter
-
-vuepress
-
-有关 markdown 的处理。
-
-https://app.netlify.com/teams/yiliang114/sites
-
-## Nuxtjs
+## Nuxt
 
 Nuxt.js 就是一个利用 Vue, webpack 和 Node.js 帮我们简单方便实现 SSR 的框架。
 
@@ -79,12 +59,14 @@ export default {
 
 中间件允许开发者自定义一段函数在一个组件或者页面在渲染之前执行。每一个中间件应放置在 middleware/ 目录。文件名的名称将成为中间件名称(middleware/auth.js 将成为 auth 中间件)。
 
-#### nuxtjs
+### 其他
 
-- 安装 postcss 插件 以及 sass 插件（预处理器）
+https://www.cnblogs.com/dannyxie/p/6640903.html
 
-```
-npm install --save-dev node-sass sass-loader
-npm install --save-dev postcss-nested postcss-responsive-type postcss-hexrgba
-npm i less less-loader --save--dev
-```
+https://github.com/code-tribe/nuxt-netlify-cms-starter
+
+vuepress
+
+有关 markdown 的处理。
+
+https://app.netlify.com/teams/yiliang114/sites

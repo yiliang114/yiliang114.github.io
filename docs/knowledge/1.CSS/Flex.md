@@ -4,6 +4,10 @@ date: 2020-11-21
 draft: true
 ---
 
+<!-- TODO: -->
+
+### flex: 0 1 auto; 是什么意思？
+
 ### 重要属性
 
 1. 主轴的方向 flex-direction

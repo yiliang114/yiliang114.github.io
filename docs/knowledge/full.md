@@ -6,67 +6,28 @@ draft: true
 
 ## 基础
 
+### ES5
+
+- 基本数据类型，判断数据类型
+- 原型、原型链。 整个完整链路。 instanceof 原理
 - 闭包
 - 创建对象有几种方法
-- 原型、构造函数、实例、原型链
-- 继承
-- `instanceof`的原理
-- `new` 运算符
-- 原型链
-- 继承的方式
-- new 做了什么操作
-- this 指向
-- 事件循环模型，具体的代码卡死执行？
+- 继承的方式， new 做了什么操作。
+- 作用域和闭包，执行上下文(变量提升)、this、闭包是什么
+- this 指向，几种使用场景。改变 this 的方式和优先级
+- 事件循环模型，执行栈和任务队列，宏任务、微任务，具体的代码卡死执行
+- DOM 事件流，DOM 事件的级别，捕获、冒泡（流程）。事件代理，currentTarget 和 target
+- 异步。同步 vs 异步，异步和单线程，前端异步的场景
 - 模块化 AMD CMD Commonjs UMD ES Module
 - 手写深拷贝函数（包含环的情况）
-- es6 的新特性
-- var 与 const/let 的区别
-- vue@2 与 vue@3 的差别， 性能如何提升的，静态标记？
-- vue@2 与 vue@3 的响应式原理差别？
-- 懒加载的原理
-- 大数据列表的虚拟列表原理
-- SSR 是如何做的？
-- Omi 的原理， Omiv 可以监听数组下标变化的原理
 
-### 基本数据类型
+#### 基本数据类型
 
 7 种。 number, boolean, string, undefined, null, symbol, bigint
 
 typeof 能够得到的值, 8 种: number, boolean, string, undefined, symbol, object, function, bigint
 
-### 判断数据类型
-
-1. `typeof`
-2. `instanceof`
-3. `Object.prototype.toString.call()`
-4. 对于数组的判断，还可以使用`Array.isArray()`
-
-性能方面：判断数据 Array.isArray() 性能最好，instanceof 次之，Object.prototype.toString.call() 第三
-功能方面：`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是 100% 准确。
-
-`Object.prototype.toString.call()` 能够得到的值, 8 种: number, boolean, string, undefined, symbol, object, function, bigint。
-
-### 原型
-
-- 所有的引用类型（数组、对象、函数），都有一个`__proto__`属性，属性值是一个普通的对象。
-- 所有的函数（除了箭头函数），都有一个 `prototype` 属性，属性值也是一个普通的对象。
-- 所有的引用类型（数组、对象、函数），`__proto__`属性值指向它的构造函数的 `prototype` 属性值。
-
-**注**：ES6 的箭头函数没有 `prototype` 属性，但是有`__proto__`属性。
-
-```js
-const obj = {};
-// 引用类型的 __proto__ 属性值指向它的构造函数的 prototype 属性值
-console.log(obj.__proto__ === Object.prototype); // output: true
-```
-
-### 原型链
-
-当试图得到一个对象的某个属性的时候，如果这个对象本身没有这个属性，那么就会去它的 `__proto__` 中（即它的构造函数的 prototype 中） 寻找。如果它的构造函数的原型链上也没有的话，就再往构造函数的隐式原型链上去寻找，一直到找不到为止。 这个链式结构叫做原型链。
-
-最顶层是 `Object.prototype.__proto__ === null`
-
-### instanceof 原理与实现
+#### instanceof 原理与实现
 
 `instanceof`是通过原型链来进行判断的，所以只要不断地通过访问`__proto__`，就可以拿到构造函数的原型`prototype`, 直到`null`停止。
 
@@ -92,7 +53,7 @@ function instanceof(left, right) {
 }
 ```
 
-### ES5 继承
+#### ES5 继承
 
 **原型链继承**
 
@@ -171,7 +132,7 @@ function Cat() {
 inheritPrototype(Cat, Animal);
 ```
 
-### ES6 继承
+#### ES6 继承
 
 本质还是语法糖，还是使用 prototype
 
@@ -207,7 +168,7 @@ Animal === Animal.prototype.constructor; // true
 animal.__proto__ === Animal.prototype; // true
 ```
 
-### 作用域和作用域链
+#### 作用域和作用域链
 
 **作用域**
 
@@ -217,7 +178,7 @@ ES5 有”全局作用域“和”函数作用域“。ES6 的`let`和`const`使
 
 当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。**这种层级关系，就是作用域链**。
 
-### this 有几种使用场景
+#### this 有几种使用场景
 
 this 的四种用法：
 
@@ -252,18 +213,18 @@ run.bind({ a: 1 })(); // Output: 1
 
 优先级： new > 显示 > 隐式 > 默认
 
-### apply、call 和 bind 的区别
+#### apply、call 和 bind 的区别
 
 1. bind 返回的是一个函数，需要再次手动执行。
 2. call 第二个参数以后的参数都跟调用的函数意义对应，而使用 apply 的时候，函数的参数都是放在数组中的，作为第二个参数。
 
-### JS 事件流
+#### JS 事件流
 
-#### DOM 事件流
+##### DOM 事件流
 
 一个完整的事件流分三个阶段：捕获、目标阶段、冒泡。
 
-#### 事件冒泡和事件捕获
+##### 事件冒泡和事件捕获
 
 事件流分为：**冒泡**和**捕获**，顺序是先捕获再冒泡。冒泡是目标元素向上，捕获是从上往下。
 
@@ -273,11 +234,11 @@ run.bind({ a: 1 })(); // Output: 1
 
 `addEventListener`给出了第三个参数同时支持冒泡与捕获：默认是`false`，事件冒泡；设置为`true`时，是事件捕获。
 
-#### 描述 DOM 事件捕获的具体流程
+##### 描述 DOM 事件捕获的具体流程
 
 捕获是从上到下的过程。 第一个接触到的对象是 window, 接着是 document, 再是 html 标签，接着是 body 元素，再一层一层父级元素，最后到目标元素。获取 body 标签 `document.body` ， 或者 html 标签 `document.documentElement`.
 
-#### DOM 事件的级别
+##### DOM 事件的级别
 
 **DOM3 级**：增加了很多事件类型
 **DOM2 级**：前面说的`addEventListener`，它定义了`DOM`事件流，捕获 + 冒泡。
@@ -293,7 +254,7 @@ run.bind({ a: 1 })(); // Output: 1
 3. 冒泡 + 捕获：相当于每个节点同一个事件，至少 2 次处理机会
 4. 同一类事件，可以绑定多个函数
 
-#### Event 对象的常见应用
+##### Event 对象的常见应用
 
 ```js
 event.preventDefault(); // 阻止默认事件，比如阻止 a 标签的跳转行为
@@ -306,11 +267,11 @@ event.currentTarget; // 当前绑定事件的元素
 event.target; // 当前被点击的元素
 ```
 
-#### 事件委托和使用
+##### 事件委托和使用
 
-### Event Loop
+#### Event Loop
 
-#### 单线程
+##### 单线程
 
 > 题目：讲解下面代码的执行过程和结果。
 
@@ -326,7 +287,7 @@ while (a) {
 
 这段代码会一直执行并且输出 "while..."。**JS 是单线程的，先跑执行栈里的同步任务，然后再跑任务队列的异步任务**。
 
-#### 执行栈和任务队列
+##### 执行栈和任务队列
 
 > 题目：说一下 JS 的 Event Loop。
 
@@ -336,7 +297,7 @@ while (a) {
 2. 当执行栈的任务都执行完了（栈空），js 会读取任务队列，并将可以执行的任务从任务队列丢到执行栈中执行。
 3. 这个过程是循环进行，所以称作`Loop`。
 
-#### 微任务和宏任务
+##### 微任务和宏任务
 
 异步事件会被放置到对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有，则在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
 
@@ -349,22 +310,67 @@ Node 中的 Event Loop：
 
 分为 6 个阶段，它们会按照**顺序**反复运行。timer, I/O, (idle, prepare), poll(循环 1, 2), check, close callbacks
 
-#### setTimeout
+##### setTimeout
 
 setTimeout 设定为 0ms 会直接执行吗，如果设置为 5s 会一定在 5s 后执行吗
 
-### 异步 与 Promise
+#### 异步 与 Promise
 
-### 其他
+#### 判断数据类型
+
+1. `typeof`
+2. `instanceof`
+3. `Object.prototype.toString.call()`
+4. 对于数组的判断，还可以使用`Array.isArray()`
+
+性能方面：判断数据 Array.isArray() 性能最好，instanceof 次之，Object.prototype.toString.call() 第三
+功能方面：`Object.prototype.toString.call()` 所有的类型都可以判断, 可以理解为是 100% 准确。
+
+`Object.prototype.toString.call()` 能够得到的值, 8 种: number, boolean, string, undefined, symbol, object, function, bigint。
+
+#### 原型
+
+- 所有的引用类型（数组、对象、函数），都有一个`__proto__`属性，属性值是一个普通的对象。
+- 所有的函数（除了箭头函数），都有一个 `prototype` 属性，属性值也是一个普通的对象。
+- 所有的引用类型（数组、对象、函数），`__proto__`属性值指向它的构造函数的 `prototype` 属性值。
+
+**注**：ES6 的箭头函数没有 `prototype` 属性，但是有`__proto__`属性。
+
+```js
+const obj = {};
+// 引用类型的 __proto__ 属性值指向它的构造函数的 prototype 属性值
+console.log(obj.__proto__ === Object.prototype); // output: true
+```
+
+#### 原型链
+
+当试图得到一个对象的某个属性的时候，如果这个对象本身没有这个属性，那么就会去它的 `__proto__` 中（即它的构造函数的 prototype 中） 寻找。如果它的构造函数的原型链上也没有的话，就再往构造函数的隐式原型链上去寻找，一直到找不到为止。 这个链式结构叫做原型链。
+
+最顶层是 `Object.prototype.__proto__ === null`
+
+#### 其他
 
 - 浅拷贝
 - 深拷贝
 - 错误监控
 - 跨域
 
-## CSS
+### ES6
 
-### 盒模型
+- 新特性
+- var 与 const/let 的区别
+- 箭头函数
+- 模块化，演进， 几种方式的差别。
+- Module
+- Class
+- Set 和 Map
+- Promise. 异步与 Promise，执行顺序问题。异步的演变方式，async await。
+
+### HTML
+
+### CSS
+
+#### 盒模型
 
 盒模型包含： 内容(content)、填充(padding)、边界(margin)、 边框(border)。
 
@@ -382,32 +388,77 @@ box-sizing: content-box;
 box-sizing: border-box;
 ```
 
-### 上下左右垂直居中
+#### rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
 
-### flex
+#### 上下左右垂直居中
 
-### rem em px 单位的区别。 em 相对于父元素，rem 相对于根元素。
+水平垂直居中的几种方式
 
-### margin 的合并 高度塌陷的问题，如何解决
+#### flex
 
-### BFC
+Flex 布局，几种常见的缩写，属性值
 
-### 清除浮动
+#### margin 的合并 高度塌陷的问题，如何解决
+
+#### BFC
+
+#### 清除浮动
+
+#### 响应式和媒体查询
 
 ## 网络
 
-### http2.0 新特性
+- 输入一个 URL 的过程
+- http 三次握手、四次挥手
+- https 原理和优缺点
+- http2 的新特性和优点
+- http 常见的状态码
+- http 方法，POST 与 GET 的区别
+- 持久连接 Keep-Alive
+
+#### TCP 三次握手
+
+1. 客户端发送一个 syn（同步）包（syn=x）给服务器，进入 SYN_SEND 状态，等待服务器确认
+2. 服务端收到客户端发送的同步包，确认客户端的同步请求（ack=x+1）,同时也发送一个同步包，也就是一个 ACK 包+SYN 包服务器进入 SYN_RECV 状态
+3. 客户端收到服务器的 SYN+ACK 包，向服务器发送一个确认包，此包发送完毕，客户端和服务器进入 ESTABLISHED 状态，完成三次握手
+
+不是两次是为了防止已经失效的连接请求报文段突然又传送到了服务端，因而产生错误，比如有一个因网络延迟的请求发送到了服务端，服务端收到这个同步报文之后进行确认，如果此时是两次握手，那么此时连接建立，但是客户端并没有发出建立连接的请求，服务端却一直等待客户端发送数据，这样服务端的资源就白白浪费了。
+
+不是四次的话是因为完全没有必要，三次已经足够了
+
+#### TCP 四次挥手
+
+1. 主动关闭方发送一个 FIN 包，用来关闭主动关闭方到被动关闭方的数据传送，也就是告诉另一方我不再发送数据了，但此时仍可以接收数据
+2. 被动关闭方收到 FIN 包之后，发送一个确认（ACK）包给对方，确认序号为收到序号+1（与 SYN 相同，一个 FIN 占用一个序号）
+3. 被动关闭方发送一个 FIN 包，告诉对方不再发送数据
+4. 主动关闭方收到 FIN 包之后，发送一个 ACK 包给对方，确认序号为收到序号+1，至此完成四次挥手
+
+#### HTTP 状态码
+
+1xx: 指示信息
+2xx: 成功 200 206
+3xx: 重定向 301 永久重定向 302 临时重定向 304 缓存
+4xx: 客户端错误 400 401 未授权 403 资源禁止被访问 404 资源不存在
+5xx: 服务端错误 500 503
+
+#### HTTP 方法
+
+GET, POST, PUT, DELETE, HEAD. HEAD 方法用于获取报文首部
+
+#### http2.0 新特性
 
 1. 二进制传输
 2. 多路复用
 3. Header 压缩
 4. 主动推送
 
-### https 是什么，有点缺点
+#### https 是什么，有点缺点
 
 HTTPS = HTTP + SSL
 
-### HTTP 报文的组成部分
+https 的工作原理
+
+#### HTTP 报文的组成部分
 
 http 就是建立在 tcp 连接之上的应用层, http 报文是由请求报文和相应报文组成的。
 
@@ -425,11 +476,7 @@ http 就是建立在 tcp 连接之上的应用层, http 报文是由请求报文
 3. 空行
 4. 响应体
 
-### HTTP 方法
-
-GET, POST, PUT, DELETE, HEAD. HEAD 方法用于获取报文首部
-
-### POST 和 GET 的区别
+#### POST 和 GET 的区别
 
 1. GET 在浏览器回退时是无害的，而 POST 会再次提交请求 （记）
 2. GET 产生的 URL 地址可以被收藏，而 POST 不可以
@@ -442,48 +489,86 @@ GET, POST, PUT, DELETE, HEAD. HEAD 方法用于获取报文首部
 8. GET 比 POST 更不安全，因为参数直接暴露在 URL 上，所以不能用来传入敏感信息
 9. GET 参数通过 URL 传递，POST 放在 Request Body 中 （记）
 
-### HTTP 状态码
-
-1xx: 指示信息
-2xx: 成功 200 206
-3xx: 重定向 301 永久重定向 302 临时重定向 304 缓存
-4xx: 客户端错误 400 401 未授权 403 资源禁止被访问 404 资源不存在
-5xx: 服务端错误 500 503
-
-### 前后端如何进行通信
-
-ajax （同源下的策略）
-websocket （不限制是否同源）
-cors （支持跨域通信也支持跨域通信）
-
-### TCP 三次握手
-
-1. 客户端发送一个 syn（同步）包（syn=x）给服务器，进入 SYN_SEND 状态，等待服务器确认
-2. 服务端收到客户端发送的同步包，确认客户端的同步请求（ack=x+1）,同时也发送一个同步包，也就是一个 ACK 包+SYN 包服务器进入 SYN_RECV 状态
-3. 客户端收到服务器的 SYN+ACK 包，向服务器发送一个确认包，此包发送完毕，客户端和服务器进入 ESTABLISHED 状态，完成三次握手
-
-不是两次是为了防止已经失效的连接请求报文段突然又传送到了服务端，因而产生错误，比如有一个因网络延迟的请求发送到了服务端，服务端收到这个同步报文之后进行确认，如果此时是两次握手，那么此时连接建立，但是客户端并没有发出建立连接的请求，服务端却一直等待客户端发送数据，这样服务端的资源就白白浪费了。
-
-不是四次的话是因为完全没有必要，三次已经足够了
-
-### TCP 四次挥手
-
-1. 主动关闭方发送一个 FIN 包，用来关闭主动关闭方到被动关闭方的数据传送，也就是告诉另一方我不再发送数据了，但此时仍可以接收数据
-2. 被动关闭方收到 FIN 包之后，发送一个确认（ACK）包给对方，确认序号为收到序号+1（与 SYN 相同，一个 FIN 占用一个序号）
-3. 被动关闭方发送一个 FIN 包，告诉对方不再发送数据
-4. 主动关闭方收到 FIN 包之后，发送一个 ACK 包给对方，确认序号为收到序号+1，至此完成四次挥手
-
-### 持久连接 Keep-Alive
+#### 持久连接 Keep-Alive
 
 我们知道 HTTP 协议采用“请求-应答”模式，当使用普通模式，即非 Keep-Alive 模式时，每个请求/应答客户和服务器都要新建一个连接，完成之后立即断开连接（HTTP 协议为无连接的协议）；当使用 Keep-Alive 模式（又称持久连接、连接重用）时，Keep-Alive 功能使客户端到服务器端的连接持续有效，当出现对服务器的后继请求时，Keep-Alive 功能避免了建立或者重新建立连接。
 
 http 1.1 之后支持
 
+## 浏览器
+
+- 强缓存和协商缓存，具体字段以及状态码显示，为什么要有 ETag
+- Cookie 等 Web Storage 的区别
+- 什么是 DOCTYPE 及作用
+- 请指出 document load 和 document ready 的区别
+- JS 延后加载， 怎么缩短 JS 的加载时间
+- 解析 HTML 的过程
+- 加载 JS 和 CSS 会阻塞浏览器的渲染吗
+- 下载 JS 和 CSS 会阻塞吗
+- 浏览器加载页面和渲染过程
+- 重绘和回流
+
+什么是 DOCTYPE 及作用
+请指出 document load 和 document ready 的区别
+JS 延后加载， 怎么缩短 JS 的加载时间
+
+#### Web Storage
+
+sessionStorage , localStorage , cookie , Web Storage
+
+#### 渲染机制类
+
+解析 HTML 的过程
+加载 JS 和 CSS 会阻塞浏览器的渲染吗
+下载 JS 和 CSS 会阻塞吗
+浏览器的渲染过程
+重绘和回流
+
+### 安全
+
+- XSS
+- CSRF
+
+#### CSRF
+
+跨站请求伪造。条件： 1. 用户在 A 网站确实登录过。 2. A 网站接口存在漏洞，会下发登录态。
+防御：1. token 验证 2. Referer 验证（页面来源验证） 3. 隐藏令牌
+
+#### XSS
+
+### 跨域
+
+- 原因，条件，限制
+- 解决跨域的方式，JSONP 与 CORS 的原理。CORS 请求头具体字段设置。
+- 跨域时的 cookie 设置 ？
+- Options 简单请求的条件
+
 ## 框架(Vue)
 
-### Vue3 的响应式原理
+- vue@2 与 vue@3 的差别， 性能如何提升的，静态标记？
+- vue@2 与 vue@3 的响应式原理差别？
+- MVVM MVC MVP 的差别
+- VDOM 是什么，为什么要用 VDOM
+- Vue 和 React 之间的区
+- 几种实现双向绑定的做法
+- vue 2 的响应式原理
+- vue@2 与 vue@3 的响应式原理差别？vue@3 支持到什么版本， vue@2 与 vue@3 做了哪些升级
+- vue@2 与 vue@3 的差别， 性能如何提升的，静态标记？
+- Computed 如何做到缓存数据
+- Diff 算法
+- Vue 的模板编译原理，怎么讲 template 编译成 render 函数的？
+- nextTick 与异步事件更新队列
+- 为什么 for 循环的 id 不能使用 index
+- vue 几种通信原理
+- 生命钩子函数执行的顺序
+- 组件 keep-alive 的原理，以及对应执行的钩子
+- vuex 实现原理
+- vite 的简单原理
+- Omi 的原理， Omiv 可以监听数组下标变化的原理
 
-### MVVM
+#### Vue3 的响应式原理
+
+#### MVVM
 
 - `View`：界面
 - `Model`：数据模型
@@ -491,11 +576,11 @@ http 1.1 之后支持
 
 在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。
 
-### vdom
+#### vdom
 
 vdom 是对类似 HTML 节点的一层描述。采用 Virtual DOM 则会对需要修改的 DOM 进行比较（DIFF），从而只选择需要修改的部分。也因此对于不需要大量修改 DOM 的应用来说，采用 Virtual DOM 并不会有优势。
 
-### vue 为什么采用 vdom？
+#### vue 为什么采用 vdom？
 
 引入 `Virtual DOM` 在性能方面的考量仅仅是一方面。
 
@@ -507,20 +592,20 @@ vdom 是对类似 HTML 节点的一层描述。采用 Virtual DOM 则会对需�
 
 综上，`Virtual DOM` 在性能上的收益并不是最主要的，更重要的是它使得 `Vue` 具备了现代框架应有的高级特性。
 
-### Vue 和 React 之间的区别
+#### Vue 和 React 之间的区别
 
 1. 数据 Vue 双向绑定， React 单向数据流。
 2. Vue 默认使用 template 模板，React 使用 JSX。
 3. 改变数据方式不同，Vue 直接修改状态，React 需要使用 `setState` 来改变状态。Vue 页面更新渲染已经是最优的了，但是 React 还是需要用户手动去优化这方面的问题。
 4. 开发模式：React 在 view 层侵入性还是要比 Vue 大很多的,React 严格上只针对 MVC 的 view 层，Vue 则是 MVVM 模式的一种实现
 
-### 几种实现双向绑定的做法
+#### 几种实现双向绑定的做法
 
 - 发布者-订阅者模式（backbone.js）
 - 脏检查 (angular.js)
 - 数据劫持（vue.js） 是采用数据劫持结合发布者-订阅者模式的方式，通过`Object.defineProperty()`来劫持各个属性的`setter`，`getter`，在数据变动时发布消息给订阅者，触发相应的监听回调。
 
-#### Object.defineProperty
+##### Object.defineProperty
 
 属性描述符包括：configurable(可配置性相当于属性的总开关，只有为 true 时才能设置，而且不可逆)、Writable(是否可写，为 false 时将不能够修改属性的值)、Enumerable(是否可枚举，为 false 时 for..in 以及 Object.keys()将不能枚举出该属性)、get(一个给属性提供 getter 的方法)、set(一个给属性提供 setter 的方法)
 
@@ -534,7 +619,7 @@ Object.defineProperty(o, 'age', {
 });
 ```
 
-### Vue 的响应式
+#### Vue 的响应式
 
 1. 需要 observe 的数据对象进行递归遍历，包括子属性对象的属性，都加上 setter 和 getter 这样的话，给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化。
 2. compile 解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图
@@ -544,14 +629,14 @@ Object.defineProperty(o, 'age', {
    3. 待属性变动 dep.notify()通知时，能调用自身的 update() 方法，并触发 Compile 中绑定的回调，则功成身退。
 4. MVVM 作为数据绑定的入口，整合 Observer、Compile 和 Watcher 三者，通过 Observer 来监听自己的 model 数据变化，通过 Compile 来解析编译模板指令，最终利用 Watcher 搭起 Observer 和 Compile 之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据 model 变更的双向绑定效果。
 
-### 计算属性是如何做到属性值改变才重新计算（缓存）
+#### 计算属性是如何做到属性值改变才重新计算（缓存）
 
 1. 初始化 props 和 data， 使用 `Object.defineProperty` 把这些属性全部转为 `getter/setter`。
 2. 初始化 `computed`, 遍历 `computed` 里的每个属性，每个 computed 属性都是一个 watch 实例。每个属性提供的函数作为属性的 getter，使用 Object.defineProperty 转化。
 3. `Object.defineProperty getter` 依赖收集。用于依赖发生变化时，触发属性重新计算。
 4. 若出现当前 computed 计算属性嵌套其他 computed 计算属性时，先进行其他的依赖收集
 
-### diff 算法
+#### diff 算法
 
 - 同个节点，会用 patch 进行打补丁操作
 - 不同节点，会进行 insert 和 delete 操作
@@ -560,7 +645,7 @@ Object.defineProperty(o, 'age', {
   - tag
   - 如果是 input 标签的话，需要 type 也一样。
 
-### 为什么 for 循环的 id 不能使用 index
+#### 为什么 for 循环的 id 不能使用 index
 
 key 的作用是让 vue 精准的追踪到每一个元素，高效的更新虚拟 DOM。
 
@@ -575,46 +660,50 @@ key 的作用是让 vue 精准的追踪到每一个元素，高效的更新虚�
 
 会徒增很多的比较。
 
-### 异步更新队列
+#### 异步更新队列
 
 vue 更新 dom 时是异步执行的。数据变化、更新是在主线程中同步执行的；在侦听到数据变化时，watcher 将数据变更存储到异步队列中，当本次数据变化，即主线成任务执行完毕，异步队列中的任务才会被执行（已去重）。
 
-### nextTick
+#### nextTick
 
 在 Vue 2.4 之前都是使用的 micro-task(微任务)，但是 micro-task(微任务) 的优先级过高，在某些情况下可能会出现比事件冒泡更快的情况，但如果都使用 macro-task(宏任务) 又可能会出现渲染的性能问题。所以在新版本中，会默认使用 micro-task(微任务)，但在特殊情况下会使用 macro-task(宏任务)，比如 v-on。
 
-### vue-router 的监听原理
+#### vue-router 的监听原理
 
 前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新。目前单页面使用的路由就只有两种实现方式
 
 - hash 模式
 - history 模式
 
-#### hash
+##### hash
 
 `www.test.com/#/` 就是 Hash URL，当 `#` 后面的哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
 
-#### history
+##### history
 
 主要是两个 api:
 
 - pushState
 - popState
 
-执行 router.push(url) 的操作的时候，会执行 pushState(url) 这样的操作，直接更新一个状态。当用户做出浏览器动作时，比如点击后退按钮时会触发 `popState` 事件
+执行 router.push(url) 的操作的时候，会执行 pushState(url) 这样的操作，直接更新一个状态。当用户做出浏览器动作时，比如点击后退按钮时会触发 `popState` 事件. 状态会直接通过 `history.state.key` 获取，通过 `router-view` 这个抽象组件来渲染不同组件。
 
-#### updateRoute
+但是 pushState 这个 api 有一定的兼容性问题，ie10 以上 safari6 以上 安卓 4.2 以上。。不行的话只能使用 hash 模式。
+
+pushState() 需要三个参数: 一个状态对象, 一个标题 (目前被忽略), 和 (可选的) 一个 URL。
+
+##### updateRoute
 
 执行 router.push(url) 的操作的时候， 会执行 updateRoute 函数， 通过一个全局 mixins 会执行 this.\_route = route 这样一个操作。因为 `_route` 是响应式的，router-view 组件内部使用到了这个值，所以就会重新执行 render 函数。
 
-### router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+#### router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
 
 1. 一个是 hash, 一个看起来像真实的路径
 2. hash 值不会被带到服务器上去
 3. push 的时候实现原理不一样
    1. hash 模式的话，主要是将 location.hash = route.fullPath
 
-### vuex 的原理 ？对 vuex 的理解
+#### vuex 的原理 ？对 vuex 的理解
 
 vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统。其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。
 
@@ -622,20 +711,20 @@ vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件。
 
 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
 
-### Vue 的父组件和子组件生命周期钩子执行顺序是什么
+#### Vue 的父组件和子组件生命周期钩子执行顺序是什么
 
 父组建： beforeCreate -> created -> beforeMount
 子组件： -> beforeCreate -> created -> beforeMount -> mounted
 父组件： -> mounted
 总结：从外到内，再从内到外
 
-### 组件 keep-alive 的时候又是什么道理？
+#### 组件 keep-alive 的时候又是什么道理？
 
 直接将组件缓存在了内存中，而没有直接走入销毁阶段。
 
-### 几种通信原理
+#### 几种通信原理
 
-#### 父子组件通信
+##### 父子组件通信
 
 1. emit/props
 2. `$parent.xxx`
@@ -643,13 +732,13 @@ vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组�
 4. event bus
 5. Vuex
 
-#### 任意组件
+##### 任意组件
 
 这种方式可以通过 Vuex 或者 Event Bus 解决，另外如果你不怕麻烦的话，可以使用这种方式解决上述所有的通信情况
 
-### vue@3 支持到什么版本
+#### vue@3 支持到什么版本
 
-### vue@2 与 vue@3 做了哪些升级
+#### vue@2 与 vue@3 做了哪些升级
 
 1. 开发语言切换到 ts, 包使用 lerna 来管理。
 2. diff 算法优化，编译速度更快。vue2.x 的虚拟 DOM 是进行全量比较，vue3 新增了静态标记（PatchFlag）。
@@ -657,49 +746,115 @@ vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组�
 4. 包拆的更细，更小。用了 Tree-shaking， 没有用到的代码基本不会被打包进去。
 5. 引入了很多 hooks
 
-### Proxy
+#### Proxy
 
-### vite 的简单原理
+#### vite 的简单原理
 
 实现原理是利用 es6 的 import 发送请求去加载文件的特性，拦截这些请求，做一些预编译，省去 webpack 冗长的打包时间。
 
 1. node 进程托管静态资源请求
 2. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `@/`
 3. 解析模块的路径，在 node_modules 中读取 vue 的相关包，其中最主要的是 compiler-sfc
-4. 用 compiler-sfc 解析 vue 文件，会被拆成 template script 和 style 三个部分，template 会被编译成一个 render 函数，放在一个 \_\_script 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script，script 部分基本不变，style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。
+4. 用 compiler-sfc 解析 vue 文件，会被拆成 template script 和 style 三个部分，template 会被编译成一个 render 函数，放在一个 `__script` 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script，script 部分基本不变，style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。
 
-<!-- ### omi 的简单原理 TODO
+<!-- #### omi 的简单原理 TODO
 
-### omiv 的原理 TODO -->
+#### omiv 的原理 TODO -->
 
-## 前端安全
+### router
 
-### CSRF
+- vue-router 有几种模式，分别有什么不同
+- router 的实现原理，如何实现监听的？
+- url 中如何进行传参
+- 几种类型的守卫函数，分别用来做什么？
 
-跨站请求伪造。条件： 1. 用户在 A 网站确实登录过。 2. A 网站接口存在漏洞，会下发登录态。
-防御：1. token 验证 2. Referer 验证（页面来源验证） 3. 隐藏令牌
+### Omi
 
-### XSS
+- Omi 的原理， Omiv 可以监听数组下标变化的原理
 
-## 浏览器
+## 性能优化
 
-什么是 DOCTYPE 及作用
-请指出 document load 和 document ready 的区别
-JS 延后加载， 怎么缩短 JS 的加载时间
+- 懒加载的原理
+- 大数据列表的虚拟列表原理
+- 懒加载的原理,vue-lazy 的原理
+- 大数据列表的虚拟列表原理
+- 首屏时间如何计算，数据如何上报？
+- 如何分析页面性能？
+- performance API 的哪些指标？
+- ...
+- 把脚本放在底部， 加快渲染页面
+- 文件名添加哈希， http 强缓存静态文件
+- 按需加载组件
+- 资源压缩合并，减少 HTTP 请求，开启 gzip 压缩
+- 清除不必要的 cookie， 设置好合适的域
+- 把静态资源放在不含 cookie 的域下
+- 非核心代码的异步加载
+- DNS 预解析 ？？？
 
-### Web Storage
+#### 懒加载的原理
 
-sessionStorage , localStorage , cookie , Web Storage
+#### 虚拟大列表的处理
 
-### 渲染机制类
+#### code split
 
-解析 HTML 的过程
-加载 JS 和 CSS 会阻塞浏览器的渲染吗
-下载 JS 和 CSS 会阻塞吗
-浏览器的渲染过程
-重绘和回流
+1. vue-router 中的通过 webpack 的 `() => import` or `require.ensure` API 能够自动进行代码分割
+2. 通过 analyzer 进行分析 js 包的大小，webpack 中的 externals 能够拆分包，通过外链 cdn 的形式引入
+
+#### 首屏时间
+
+如何计算？
+
+#### 页面性能
+
+如何分析页面性能？
+
+performance API 的哪些指标？
+
+#### vue-lazy 的原理
+
+getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
+
+#### 虚拟列表实现的原理
+
+### code split
+
+1. vue-router 中的通过 webpack 的 `() => import` or `require.ensure` API 能够自动进行代码分割
+2. 通过 analyzer 进行分析 js 包的大小，webpack 中的 externals 能够拆分包，通过外链 cdn 的形式引入
 
 ## 工程化
+
+webpack, rollup 与 vite 之间的区别是什么
+webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
+webpack 打包速度过慢怎么办
+webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
+webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
+babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
+chunk、bundle 和 module 有什么区别
+有没有去研究 webpack 的一些原理和机制，怎么实现的
+
+#### babel
+
+babel 是什么，做什么工作 ？
+Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
+plugin env stage 分别是什么，有什么作用？
+
+##### webpack 打包慢
+
+1. 配置 externals
+2. 进阶方法 DllPlugin 和 DllReferencePlugin
+3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
+4. babel-loader 开启缓存
+5. 模块按需加载
+
+##### loader
+
+引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
+
+#### rollup
+
+vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
+
+### webpack
 
 webpack, rollup 与 vite 之间的区别是什么
 webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
@@ -724,13 +879,9 @@ plugin env stage 分别是什么，有什么作用？
 4. babel-loader 开启缓存
 5. 模块按需加载
 
-#### loader
+### 开发流程
 
-引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
-
-### rollup
-
-vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
+- CI/CD 流程介绍
 
 ## 设计模式
 
@@ -741,58 +892,35 @@ vue react 都是通过 rollup 来打包的，一般来说会被打包成比较�
 5. 发布-订阅模式， Vue 的双向绑定。
 6. 观察者模式 ， Vue 的事件。
 
-## 前端性能优化
-
-把脚本放在底部， 加快渲染页面
-文件名添加哈希， http 强缓存静态文件
-按需加载组件
-资源压缩合并，减少 HTTP 请求，开启 gzip 压缩
-清除不必要的 cookie， 设置好合适的域
-把静态资源放在不含 cookie 的域下
-非核心代码的异步加载
-DNS 预解析 ？？？
-
-### 懒加载的原理
-
-### 虚拟大列表的处理
-
-### code split
-
-1. vue-router 中的通过 webpack 的 `() => import` or `require.ensure` API 能够自动进行代码分割
-2. 通过 analyzer 进行分析 js 包的大小，webpack 中的 externals 能够拆分包，通过外链 cdn 的形式引入
-
-### 首屏时间
-
-如何计算？
-
-### 页面性能
-
-如何分析页面性能？
-
-performance API 的哪些指标？
-
-### vue-lazy 的原理
-
-getBoundingClientRect 获取的 top 和 offsetTop 获取的 top 区别
-
-### 虚拟列表实现的原理
-
 ## 手写代码
 
-防抖、节流
-深拷贝
-手写从 url 中获取参数
-手写一个事件类
-全文单词首字母大写（正则）
-手写的 ajax
-手写 Promise
+- 防抖、节流
+- 手写深拷贝函数（包含环的情况）
+- 手写从 url 中获取参数
+- 手写一个事件类
+- 全文单词首字母大写（正则）
+- 手写的 ajax
+- 手写 Promise
 
-## node
+## 其他
 
-bff, ssr
+- 错误监控: 异常如何捕获，分几种类型,怎么上报数据，才能保证最准确
+- 组件
+- 测试
+
+### node
+
+- Node BFF 这一层做了什么事
+- SSR 是如何做的？
+
+## 项目和话术
+
+- 自我介绍，往简历上引导
+- 介绍做过的项目
+- 说一下你项目中用到的技术栈，做的出色的点，可以改进的地方，以及让你头疼的点，怎么解决的。
+- 遇到的问题，或者难点以及解决方案
 
 ## TODO:
 
-1. vue 的响应式原理 总结
+1. vue 的响应式原理总结
 2. vue router 的实现原理总结
-3. vite 的实现原理总结

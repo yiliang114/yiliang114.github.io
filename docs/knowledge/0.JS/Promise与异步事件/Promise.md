@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+<!-- TODO: -->
+
 ## 异步解决方案的发展历程
 
 ### 1. 回调函数
@@ -17,7 +19,7 @@ Promise 就是为了解决回调地狱的问题而产生的。实现了链式调
 优点：解决了回调地狱的问题
 缺点：无法取消 Promise ，错误需要通过回调函数来捕获
 
-### 3. Generator
+### 3. generator
 
 **特点：可以控制函数的执行**，可以配合 co 函数库使用
 
@@ -33,7 +35,7 @@ let result2 = it.next();
 let result3 = it.next();
 ```
 
-### 4. Async/await
+### 4. async/await
 
 async、await 是异步的终极解决方案
 
@@ -123,11 +125,15 @@ someAsyncThing()
 // Uncaught (in promise) ReferenceError: x is not defined
 ```
 
+### 链式调用是怎么实现的？
+
+返回 this 自己。
+
 ## async/await
 
-async 是 ES2017 标准推出的用于处理异步操作的关键字，从本质上来说，它就是 Generator 函数的语法糖，利用 Generator 函数的特性把异步的代码写成“同步”的形式。async/await 做的事情就是将 Generator 函数转换成 Promise。
+async 是 ES2017 标准推出的用于处理异步操作的关键字，async/await 做的事情就是将 Generator 函数转换成 Promise。
 
-async 函数内阻塞，函数外不阻塞。
+**async 函数内阻塞，函数外不阻塞。async 函数可以保留运行堆栈。**
 
 async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
 
@@ -150,8 +156,6 @@ console.log('1', a); // -> '1' 1
 - 因为 `await` 是异步操作，遇到`await`就会立即返回一个`pending`状态的`Promise`对象，暂时返回执行代码的控制权，使得函数外的代码得以继续执行，所以会先执行 `console.log('1', a)`
 - 这时候同步代码执行完毕，开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 10`
 - 然后后面就是常规执行代码了
-
-**async 函数可以保留运行堆栈。**
 
 ## 其他
 

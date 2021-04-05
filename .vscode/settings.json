@@ -3,5 +3,8 @@
   "GitCommitPlugin.ShowEmoji": false,
   "files.exclude": {
     "lib": true
-  }
+  },
+  "cSpell.words": [
+    "Vite"
+  ]
 }

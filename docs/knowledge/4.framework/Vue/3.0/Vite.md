@@ -4,63 +4,27 @@ date: '2020-10-26'
 draft: true
 ---
 
-<!-- https://xiaohanglin.site/pages/b632f1/#%E8%A7%A3%E6%9E%90-vue%E6%96%87%E4%BB%B6 -->
+# Vite
 
-## 背景
-
-在当今`Webpack`横行的时代，`Webpack`的影响力不可谓之不大。对于一个主流`Web`项目的开发而言，大多数时候我们都会采用现有的脚手架作为项目开发或打包工具如：`Vue-cli`、`Cra`，而他们都基于`Webpack`。但是，在不断的使用和日常项目的迭代中，我们慢慢会走入一个窘境，就会出现我们稍微改动一行代码我们就需要等待十几秒甚至是数十秒的情况，这对于我们日益增长的业务开发来说是十分不友好的。
-
-深入`Webpack`打包原理我们可以清晰的知道他的编译过程是静态的，也就是说他会把所有可能用到的代码全部进行打包构建，会借助胶水代码用来组装各模块，这样打包出来的代码是十分庞大的，很多时候其实我们在开发过程中并不需要全部代码的功能，而是一小部分，这个时候大量的构建时间都是多余的，我们需要一个能够真正意义上实现懒加载的开发工具。
-
-带着这样的痛点，我们来看看`Vite`给我们带来了什么。
-
-## Vite 是什么
+## 是什么
 
 `Vite` 是一个由原生`ESM` 驱动的 `Web` 开发构建工具。在开发环境下基于浏览器原生`ES imports` 开发，在生产环境下基于`Rollup`打包。
+
+解决的问题是：项目越来越大的情况下，稍微改动一行代码我们就需要等待十几秒甚至是数十秒的情况。
+
+深入`Webpack`打包原理我们可以清晰的知道他的编译过程是静态的，也就是说他会把所有可能用到的代码全部进行打包构建，会借助胶水代码用来组装各模块，这样打包出来的代码是十分庞大的，很多时候其实我们在开发过程中并不需要全部代码的功能，而是一小部分，这个时候大量的构建时间都是多余的，我们需要一个能够真正意义上实现懒加载的开发工具。
 
 它主要具有以下特点：
 
 - 快速的冷启动
-
 - 即时的模块热更新
 - 真正的按需编译
 
 其最大的特点是在浏览器端使用 `export`、`import` 的方式导入和导出模块，在 `script` 标签里设置 `type="module"`，浏览器会识别所有添加了`type='module'`的`script`标签，对于该标签中的`import`关键字，浏览器会发起`http`请求获取模块内容。
 
-## 基本架构
+## 原理分析
 
-![系统架构图](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed6a083356014c4c87b59b4cfb9520a6~tplv-k3u1fbpfcp-zoom-1.image)
-
-简易版的`vite`大体结构如上，按照整个流程，我们需要逐一实现这些中间件，实现一个`vite`开发工具。
-
-图中的目标项目即我们开发时的项目，`vite`服务在解析模块路径以及读取文件内容时需要访问目标项目中的模块内容或者配置文件等。
-
-完整项目代码地址：[https://github.com/STDSuperman/my-vite](https://github.com/STDSuperman/my-vite)
-
-## 走进 Vite 原理分析
-
-在开始手撸代码之前，我们先来看看`Vite`如何使用。
-
-首先我们先使用`vite`创建一个`Vue3`项目：
-
-- 方式一：
-
-```shell
-$ npm i -g create-vite-app
-$ create-vite-app <project-name> （或 cva <project-name>）
-$ cd <project-name>
-$ npm install
-$ npm run dev
-```
-
-- 方式二：
-
-```shell
-$ npm init vite-app <project-name>
-$ cd <project-name>
-$ npm install
-$ npm run dev
-```
+在开始手撸代码之前，我们先来看看`Vite`如何使用。首先我们先使用`vite`创建一个`Vue3`项目：
 
 启动项目后，我们发现，它在第一次启动时会有一个优化依赖的过程，也就是说第一次启动可能相对而言会慢一点，但是你再次启动时你会发现它的速度基本时毫秒级，完全没有`Webpack`启动项目那般的沉重感。
 
@@ -68,79 +32,23 @@ $ npm run dev
 
 我们点开`main.js`，这个时候你会发现，和我们写的实际代码几乎没有区别，唯一改变的就是部分导入的模块路径被修改了。
 
-![image-20200909223433589](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d50e044706e4329907106d1d2a263a1~tplv-k3u1fbpfcp-zoom-1.image)
+![image-20200909223433589](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d50e044706e4329907106d1d2a263a1~tplv-k3u1fbpfcp-zoom-1.image)
 
 不仅如此，从其他请求中我们也可以看出每一个`.vue`文件都被拆分成了多个请求，并通过`type`来标识是`template`还是`style`。
 
-![image-20200909223250307](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/86475c6eb58e47b993dfe7f374c0227b~tplv-k3u1fbpfcp-zoom-1.image)
+![image-20200909223250307](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/86475c6eb58e47b993dfe7f374c0227b~tplv-k3u1fbpfcp-zoom-1.image)
 
 综上所述，我们可以知道，`vite`在这里做了两件事，第一是修改了模块请求路径，第二就是将`.vue`文件进行解析拆分。
 
-> 上面描述的两件事只是本文会进行详细讲解的有关于`Vite`实现的部分，而不是说`Vite`只干了这两件事 👀，`Vite`的功能还是十分强大的。
+### 1. 创建服务
 
-### 开始
+使用`koa`来启动一个简单服务。
 
-我们新建一个项目，开始打造我们自己的`Vite`工具。首先我们先需要实现一个功能，就是如何让我们的 工具在任何一个`Vue3`项目中能使用命令进行启动。
+### 2. 托管静态资源
 
-项目目录概览（详细目录文件以实际项目为准）：
-
-- `bin`
-  - `www.js`
-- `node_modules`
-- `plugins`
-  - `server`
-- `index.js`
-- `package.json`
-
-1. 在项目根目录创建`bin`目录，并在`bin`目录下创建一个`www.js`文件，文件内容如下：
+将目标项目的内容进行托管，新建一个文件`plugins/server/serveStaticPlugin.js`，这个文件将导出一个专门用于处理静态资源的方法。
 
 ```js
-#! /usr/bin/env node
-const createServer = require('../index');
-
-createServer().listen(4000, () => {
-  console.log('app is start port 4000: localhost:4000');
-});
-```
-
-其实这里也比较简单，实际上是导入根目录`index.js`中暴露的创建服务方法，以`index.js`作为核心逻辑的入口文件，具体的`index.js`文件相关代码下面会进行详细描述。
-
-同时对于如上代码中我们需要注意的点在于头部的一串`#!......`，这里主要是用于声明该文件以`node`环境来执行。
-
-然后我们再将关注点转移到`package.json`描述文件中：
-
-```js
-"bin": {
-	"molu-vite": "./bin/www.js"
-}
-```
-
-这里我们暂时只需要关注到这个`bin`对象，在这个对象中声明自定义的命令，以及需要可执行的文件路径。然后在当前项目的根目录终端中输入`npm link`，就这样，我们就可以在我们原先创建的`Vue3`根目录下使用`molu-vite`来开启一个本地服务了。
-
-> 这里的`bin`所在项目是我们独立创建用于实现`vite`的项目，`Vue3`项目是我们上面使用命令行创建的项目，别弄混了...
-
-### 创建服务
-
-刚刚上面我们在`www.js`导入了一个`createServer`方法用于创建服务，接下来我们先来实现这部分代码，打开根目录的`index.js`文件：
-
-```js
-const Koa = require('koa');
-
-module.exports = function createServer() {
-  const app = new Koa();
-  return app;
-};
-```
-
-先移除不必要的代码，我们就能清晰看出来，这里使用了`koa`来启动一个简单服务，接下来我们开始逐一实现`vite`的能力。
-
-### 托管静态资源
-
-为了结构清晰，这里将会把相对独立的功能拆分为一个个插件，首先我们需要做的就是将目标项目的内容进行托管，我们在自己的`vite`项目中新建一个文件`plugins/server/serveStaticPlugin.js`，这个文件将导出一个专门用于处理静态资源的方法。
-
-```js
-// plugins/server/serveStaticPlugin.js
-
 const KoaStatic = require('koa-static');
 const path = require('path');
 
@@ -151,7 +59,7 @@ module.exports = function(context) {
 };
 ```
 
-内容也是非常简单，使用了`koa-static`中间件来托管静态资源，同时我们需要拿到`koa`实例（`app`），其次需要获取到目标项目的根目录路径（`root`），将目标项目进行整体托管，同时对于目标项目的 `public`目录也进行托管，这样，我们需要处理的静态文件基本完成了。
+内容非常简单，使用了`koa-static`中间件来托管静态资源，同时我们需要拿到`koa`实例（`app`），其次需要获取到目标项目的根目录路径（`root`），将目标项目进行整体托管，同时对于目标项目的 `public`目录也进行托管，这样，我们需要处理的静态文件基本完成了。
 
 接下来就在入口文件`index.js`中引入这个方法：
 
@@ -175,20 +83,15 @@ module.exports = function createServer() {
 };
 ```
 
-这里我们首先获取目标项目的根目录路径，并与`app`一起作为上下文传给每个插件进行相应处理，这里使用数组存入我们需要执行的插件，然后依次执行，简化代码。
+这里我们首先获取目标项目的根目录路径，并与`app`一起作为上下文传给每个插件进行相应处理。
 
-准备工作完成之后，我们就可以开始来解决上面我们留下来的两个问题了：
+### 3. 重写模块路径
 
-- 如何修改模块的 引入路径让浏览器能够识别
-- 拆分`.vue`文件为多个请求
+为什么要重写模块路径？
 
-### 重写模块路径
+这是因为我们在使用`import`方式导入模块的时候，浏览器只能识别`./`、`../`、`/`这种开头的相对路径，对于直接使用模块名比如：`import vue from 'vue'`，浏览器就会报错，因为它无法识别这种路径，这就是我们需要进行处理的地方了。
 
-在进行代码编写前，我们先明确 一点，我们为什么要重写模块路径？
-
-这是因为我们在使用`import`方式导入模块的时候，浏览器只能识别`./`、`../`、`/`这种开头的路径，对于直接使用模块名比如：`import vue from 'vue'`，浏览器就会报错，因为它无法识别这种路径，这就是我们需要进行处理的地方了。
-
-![](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d2f9094422c4096902f0f1952890c3f~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d2f9094422c4096902f0f1952890c3f~tplv-k3u1fbpfcp-zoom-1.image)
 
 我们先在创建对应的文件`plugins/server/rewriteModulePlugin.js`，并在`index.js`中引入，引入方式同上：
 
@@ -207,22 +110,22 @@ const resolvePlugins = [
 
 ```js
 // rewriteModulePlugin.js
-const { readBody } = require('./utils')
+const { readBody } = require('./utils');
 
 function rewriteImports(source) {
-    ...
+  // ...
 }
 
-module.exports = function({app, root}) {
-    app.use(async (ctx, next) => {
-        await next();
+module.exports = function({ app, root }) {
+  app.use(async (ctx, next) => {
+    await next();
 
-        if (ctx.body && ctx.response.is('js')) {
-            const content = await readBody(ctx.body);
-            ctx.body = rewriteImports(content);
-        }
-    })
-}
+    if (ctx.body && ctx.response.is('js')) {
+      const content = await readBody(ctx.body);
+      ctx.body = rewriteImports(content);
+    }
+  });
+};
 ```
 
 先从导出的函数开始研究，暂时省略`rewriteImports`，这里我们注册了一个中间件，并使用`await next()`这种方式来获取被后续中间件处理完之后的资源并进行相关操作（`koa`的洋葱模型）。
@@ -258,11 +161,11 @@ async function readBody(stream) {
 ```js
 // rewriteModulePlugin.js
 const { parse } = require('es-module-lexer');
-const MargicString = require('magic-string');
+const MagicString = require('magic-string');
 
 function rewriteImports(source) {
   imports = parse(source)[0];
-  magicString = new MargicString(source);
+  magicString = new MagicString(source);
   if (imports.length) {
     imports.forEach(item => {
       const { s, e } = item;
@@ -282,7 +185,7 @@ function rewriteImports(source) {
 
 #### es-module-lexer
 
-主要用于解析目标字符串中的`import`语句，并将`import`语句后的模块路径的信息解析出来。它是一个 数组，因为一般来说`import`不会只有一个，所以我们可以遍历这个列表来找出不符合要求的模块路径并进行重写。
+主要用于解析目标字符串中的`import`语句，并将`import`语句后的模块路径的信息解析出来。它是一个数组，因为一般来说`import`不会只有一个，所以我们可以遍历这个列表来找出不符合要求的模块路径并进行重写。
 
 数组中的每个元素都包含两个属性：`s`（模块路径在字符串中的起始位置）、`e`（模块路径在字符串中结束位置）。比如如下代码，我们以字符串的方式读取出来，传给`es-module-lexer`的`parse`方法，那么返回的结果就是：`[{s: 17, e: 21, ...}]`
 
@@ -300,7 +203,7 @@ import vue from 'vue';
 
 重写完请求路径之后，我们就需要在服务端拦截`/@modules`开头的所有请求，并读取相应数据给客户端了。
 
-### 解析模块路径
+### 4. 解析模块路径
 
 在处理完所有模块路径之后，我们就需要在服务端来解析模块真实位置。首先新建一个文件`plugins/server/moduleResolvePlugin.js`,在`index.js`中导入：
 
@@ -344,9 +247,9 @@ module.exports = function({ app, root }) {
 // moduleResolvePlugin.js
 const path = require('path');
 function resolveVue(root) {
-  // 首先明确一点，vue3几个比较核心的包有：runtime-core runtime-dom reactivity shared
-  // 其次我们还需要用到 compiler-sfc 进行后端编译.vue文件
-  // 如果需要进行后端编译，我们就需要拿到commonjs规范的模块
+  // 首先明确一点，vue3 几个比较核心的包有：runtime-core runtime-dom reactivity shared
+  // 其次我们还需要用到 compiler-sfc 进行后端编译 .vue 文件
+  // 如果需要进行后端编译，我们就需要拿到 commonjs 规范的模块
   const compilerPkgPath = path.join(root, 'node_modules', '@vue/compiler-sfc/package.json');
   const compilerPkg = require(compilerPkgPath);
   // 通过package.json的main能够拿到相关模块的路径
@@ -380,15 +283,15 @@ function resolveVue(root) {
 
 > 为什么需要对`vue`的这些模块单独处理一下呢，因为我们在导入`vue`的时候，它的内部会去导这几个核心包，如果不预先进行解析，就无法找到这几个模块的位置，导致项目运行错误。
 
-![image-20200910210115834](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f22947c82c934ae9aa6c4dc7ec2dc597~tplv-k3u1fbpfcp-zoom-1.image)
+![image-20200910210115834](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f22947c82c934ae9aa6c4dc7ec2dc597~tplv-k3u1fbpfcp-zoom-1.image)
 
 点开图中`vue`这个模块返回的内容我们可以看到，这几个核心模块都是被包含了的。
 
-### 客户端注入
+### 5. 客户端注入
 
 接下来我们还需要关注一个问题，对于一般的项目来说，我们经常会去使用`process.env`去判断环境，而如果你采用脚手架工具进行开发时`webpack`会来帮我们做这件事，所以在`vite`中我们也需要对它进行一个处理，如果没有这项处理你在运行项目时就会看到这样的报错：
 
-![image-20200910210543937](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b1dcce6c86a94724bc79b12fb0ad0133~tplv-k3u1fbpfcp-zoom-1.image)
+![image-20200910210543937](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b1dcce6c86a94724bc79b12fb0ad0133~tplv-k3u1fbpfcp-zoom-1.image)
 
 它会告诉我们`process`这个变量并没有被定义，所以说我们需要在客户端注入相关的代码。
 
@@ -440,7 +343,7 @@ module.exports = function({ root, app }) {
 
 这里其实就是创建一个`script`标签，并在`window`上手动挂载这个全局变量，并把模式置为开发模式，然后将其插入到`head`标签中，这样客户端在解析`html`文件的时候就能将这段代码执行了。
 
-### 解析`.vue`文件
+### 6. 解析`.vue`文件
 
 #### 准备
 
@@ -466,7 +369,7 @@ const resolvePlugins = [
 
 在详细研究内部实现之前，我们先需要明确一下需要把它处理成什么样子，这里我们同样打开我们的`vue3`项目地址，找到它对`App.vue`的返回结果：
 
-![image-20200910212716080](//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a091b93adfdb4143824f0841b373555f~tplv-k3u1fbpfcp-zoom-1.image)
+![image-20200910212716080](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a091b93adfdb4143824f0841b373555f~tplv-k3u1fbpfcp-zoom-1.image)
 
 这里将一个单文件组件分为了几个部分，一个是`script`部分，用一个对象保存，并在下方给该对象添加`render`方法，最后导出这个对象，而这个`render`方法是从导入的，其实它本质上就是获取在服务端解析好的用于渲染单文件组件中`template`标签下的内容的渲染函数。
 
@@ -479,7 +382,7 @@ const resolvePlugins = [
 ```js
 // plugins/server/vueServerPlugin.js
 function getCompilerPath(root) {
-  const compilerPkgPath = path.join(root, 'node_modules', '@vue/compiler-		sfc/package.json');
+  const compilerPkgPath = path.join(root, 'node_modules', '@vue/compiler-sfc/package.json');
   const compilerPkg = require(compilerPkgPath);
   // 通过package.json的main能够拿到相关模块的路径
   return path.join(path.dirname(compilerPkgPath), compilerPkg.main);
@@ -540,7 +443,7 @@ if (!ctx.query.type) {
 export default {
     ...
 }
-====>
+// ====>
 const __script = {
     ...
 }
@@ -606,8 +509,6 @@ module.exports = function({ root, app }) {
 
 这里的实现实际上十分简单，就直接创建一个`style`标签并添加到`head`头中即可，这样就能让相关`css`生效了。
 
-> 这里主要还是为了先简化逻辑，对于`css`的处理变成`mini`版了 👍。
-
 最后就只剩下处理`template`类型请求了：
 
 ```js
@@ -624,13 +525,15 @@ if (ctx.query.type === 'template') {
 
 自此整个流程基本叙述完毕了。
 
-> _★,°_:.☆(￣ ▽ ￣)/\$:_.°★_ 。撒花。
-
-### vite 的简单原理总结
+## vite 的简单原理总结
 
 实现原理是利用 es6 的 import 发送请求去加载文件的特性，拦截这些请求，做一些预编译，省去 webpack 冗长的打包时间。
 
 1. node 进程托管静态资源请求
-2. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `@/`
-3. 解析模块的路径，在 node_modules 中读取 vue 的相关包，其中最主要的是 compiler-sfc
-4. 用 compiler-sfc 解析 vue 文件，会被拆成 template script 和 style 三个部分，template 会被编译成一个 render 函数，放在一个 `_script` 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script，script 部分基本不变，style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。
+2. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `/@modules`
+3. 解析模块的路径，在 node_modules 中读取 vue 的相关包，其中最主要的是 compiler-sfc.`vue3`几个比较核心的包有：`runtime-core` 、`runtime-dom` 、`reactivity` 、`shared`.对第三方模块也进行解析，也是在 node_modules 文件夹中找到对应的入口文件。
+4. 客户端注入，在 index.html 文件中动态注入了一个 script 标签， 内容是设置 process 全局变量以及一个 updateCss 函数。
+5. 用 `compiler-sfc` 解析 vue 文件，会被拆成 template script 和 style 三个部分。
+   1. template 会被编译成一个 render 函数，放在一个 `__script` 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script；
+   2. script 部分基本不变，扩展到该对象中；
+   3. style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。

@@ -4,6 +4,8 @@ date: 2020-11-21
 draft: true
 ---
 
+<!-- TODO: -->
+
 ## 基础
 
 webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，将项目当作一个整体，通过一个给定的的入口文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，使用 loaders 处理它们，最后打包成一个或多个浏览器可识别的 js 文件。
@@ -116,8 +118,6 @@ entry: {
 })
 ```
 
-## webpack 如何打包 babel？
-
 ## webpack 构建流程
 
 1. 初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数
@@ -137,6 +137,10 @@ entry: {
 输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。
 
 webpack 构建流程是怎样的？
+
+## webpack 如何打包 babel？
+
+## 打包原理
 
 ## loader plugin 的区别
 
@@ -527,6 +531,12 @@ module.exports = {
 
 [你的 Tree-Shaking 并没什么卵用](https://juejin.cn/post/6844903549290151949)
 
+问题：
+
+- Tree Shaking 原理是什么？
+- 什么样的函数会被 Tree Shaking 掉 ？
+- 纯函数的什么？ 为什么 vue react 都抛弃了 class 的形式
+
 ### tree-shaking 的工作原理
 
 Tree Shaking 可以剔除掉一个文件中未被引用掉部分(在 production 环境下才会提出)，并且只支持 ES Modules 模块的引入方式，不支持 CommonJS 的引入方式。原因：ES Modules 是静态引入的方式，CommonJS 是动态的引入方式，Tree Shaking 只支持静态引入方式。
@@ -589,6 +599,12 @@ window._ = _;
         }
     },
 ```
+
+<!-- TODO: -->
+
+### require 引入的模块 webpack 能做 Tree Shaking 吗？
+
+不能，Tree Shaking 需要静态分析，只有 ES6 的模块才支持。
 
 ## HMR 热更新
 
@@ -723,6 +739,16 @@ sourcemap 是一个影射关系。 当 sourcemap 功能被关闭的时候，在�
 主动开启 sourcemap 只要在 webpack 配置中，将 `devtool` 设置为 `source-map` 即可。
 
 source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
+
+## TODO: webpack 懒加载模块的原理
+
+## TODO: webpack 如何实现动态加载
+
+讲道理 webpack 动态加载就两种方式：import()和 require.ensure，不过他们实现原理是相同的。
+
+我觉得这道题的重点在于动态的创建 script 标签，以及通过 jsonp 去请求 chunk，推荐的文章是： https://juejin.cn/post/6844903888319954952
+
+## webpack 打包 SSR 原理
 
 ## 其他
 

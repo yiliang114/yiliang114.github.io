@@ -49,7 +49,9 @@ cat.says('hello'); //cat says hello
 
 子类必须在`constructor`方法中调用`super`方法，否则新建实例时会报错。这是因为子类没有自己的`this`对象，而是继承父类的`this`对象，然后再用子类的构造函数修改 this。如果不调用`super`方法，子类就得不到`this`对象。
 
-#### 继承
+### TODO: Class 的原理是什么 ？
+
+### 继承
 
 - ES5 实质：先创造子类实例的`this`，再将父类的属性方法添加到`this`上(`Parent.apply(this)`)
 - ES6 实质：先将父类实例的属性方法加到`this`上(调用`super()`)，再用子类构造函数修改`this`

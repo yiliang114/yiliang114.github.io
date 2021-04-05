@@ -60,3 +60,7 @@ aside: false
 ## 2021.03.08
 
 - Time changes everything, that's what people say. It's not true. Doing things changes things. Not doing things leaves things exactly as they were.
+
+## 2021.04.05
+
+- 反败为胜，需要你坚定不移。

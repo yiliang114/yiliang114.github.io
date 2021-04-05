@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+<!-- TODO: -->
+
 ## Babel
 
 babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。让开发者提前使用最新的 JS 语法(ES6/ES7)，而不用等浏览器全部兼容。Babel 默认只转换新的 JS 句法(syntax)，而不转换新的 API。
