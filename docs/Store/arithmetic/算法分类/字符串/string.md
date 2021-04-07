@@ -291,8 +291,6 @@ export default function OneAway(str1, str2) {
 
 **注意：**由于无法直接修改字符串里的字符，所以必须先把字符串变换为数组，然后再运用这个算法。
 
-TODO: 双指针形式待实现。
-
 ```js
 function reverse(string) {
   let index = string.length - 1;
@@ -304,6 +302,8 @@ function reverse(string) {
   return result;
 }
 ```
+
+双指针形式待实现。
 
 ### 字符串平衡
 

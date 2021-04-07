@@ -2,7 +2,13 @@
   "GitCommitPlugin.MaxSubjectWords": 30,
   "GitCommitPlugin.ShowEmoji": false,
   "files.exclude": {
-    "lib": true
+    "lib": true,
+    "node_modules": true,
+    ".github": true,
+    ".circleci": true,
+    ".vscode": true,
+    "scripts": true,
+    "arithmetic": true
   },
   "cSpell.words": [
     "Vite"

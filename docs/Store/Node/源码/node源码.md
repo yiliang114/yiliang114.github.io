@@ -149,7 +149,7 @@ int main(int argc, char* argv[]) {
 
 这个文件做了入口区分，区分了 windows 和 unix 环境。 以 unix 为例，在 main 函数中最后调用了 `node::Start` ， 这个函数是定义在 `/src/node.cc` 文件中：
 
-```
+```C++
 int Start(int argc, char** argv) {
   InitializationResult result = InitializeOncePerProcess(argc, argv);
   if (result.early_return) {
@@ -158,7 +158,6 @@ int Start(int argc, char** argv) {
 
   {
     Isolate::CreateParams params;
-    // TODO(joyeecheung): collect external references and set it in
     // params.external_references.
     std::vector<intptr_t> external_references = {
         reinterpret_cast<intptr_t>(nullptr)};
@@ -238,13 +237,11 @@ MaybeLocal<Value> StartMainThreadExecution(Environment* env) {
 
 现在看起来，执行 `node index.js` 的时候，这里会走进 `StartExecution(env, "internal/main/run_main_module");` 这里的逻辑。`StartExecution` 函数暂时只需要理解为，读取第二个参数指定的 js 文件的内容，并且执行脚本。所以接下来看一下 `internal/main/run_main_module.js` 文件的内容：
 
-```
+```js
 'use strict';
 
 // js 文件是标准的 commonjs ，通过 require 来引入导出的对象，通过 module.exports 导出对象
-const {
-  prepareMainThreadExecution
-} = require('internal/bootstrap/pre_execution');
+const { prepareMainThreadExecution } = require('internal/bootstrap/pre_execution');
 
 prepareMainThreadExecution(true);
 
@@ -255,7 +252,6 @@ markBootstrapComplete();
 
 // Note: this actually tries to run the module as a ESM first if
 // --experimental-modules is on.
-// TODO(joyeecheung): can we move that logic to here? Note that this
 // is an undocumented method available via `require('module').runMain`
 // 如果 -experimental-modules 开启的话， 尝试先以 ESM 的形式运行模块。 执行 js 的主进程逻辑。
 CJSModule.runMain();
@@ -267,15 +263,14 @@ CJSModule.runMain();
 
 2. 初始化一些环境变量或者处理器模块。
 
-   ```
+   ```js
    function prepareMainThreadExecution(expandArgv1 = false) {
      patchProcessObject(expandArgv1);
      setupTraceCategoryState();
      setupInspectorHooks();
      setupWarningHandler();
      if (process.env.NODE_V8_COVERAGE) {
-       process.env.NODE_V8_COVERAGE =
-         setupCoverageHooks(process.env.NODE_V8_COVERAGE);
+       process.env.NODE_V8_COVERAGE = setupCoverageHooks(process.env.NODE_V8_COVERAGE);
      }
      setupDebugEnv();
      setupSignalHandlers();
@@ -295,7 +290,7 @@ CJSModule.runMain();
 
 接下来我们回到 `run_main_module.js` 文件中，`markBootstrapComplete` 函数我理解应该就只是有一个简单的标记"引导程序"执行完毕，主进程执行之前的准备都已经 ok 了。也就是要执行 `CJSModule.runMain();` 了。 具体的内容在 `internal/modules/cjs/loader.js` 中：
 
-```
+```js
 // 加载执行 process.argv[1]
 Module.runMain = function () {
   // Load the main module--the command line argument.
@@ -318,13 +313,12 @@ Module.runMain = function () {
 
 源码在 `internal/modules/cjs/loader.js` 文件中：
 
-```
-Module.prototype.require = function (id) {
+```js
+Module.prototype.require = function(id) {
   // 校验模块 id 是否合法
   validateString(id, 'id');
   if (id === '') {
-    throw new ERR_INVALID_ARG_VALUE('id', id,
-      'must be a non-empty string');
+    throw new ERR_INVALID_ARG_VALUE('id', id, 'must be a non-empty string');
   }
   // 模块依赖计数
   requireDepth++;
