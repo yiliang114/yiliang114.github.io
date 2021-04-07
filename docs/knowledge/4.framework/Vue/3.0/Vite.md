@@ -537,3 +537,35 @@ if (ctx.query.type === 'template') {
    1. template 会被编译成一个 render 函数，放在一个 `__script` 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script；
    2. script 部分基本不变，扩展到该对象中；
    3. style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。
+
+## vite 热更新原理
+
+https://juejin.cn/post/6844904146915573773#heading-10
+https://juejin.cn/post/6868591130720600078#heading-6
+
+主要是通过创建 WebSocket 建立浏览器与服务器建立通信，通过监听文件的改变像客户端发出消息，客户端对应不同的文件进行不同的操作的更新。
+
+针对 Vue 组件本身的一些更新，都可以直接调用 HMRRuntime 提供的方法，非常方便。其余的更新逻辑，基本上都是利用了 timestamp 刷新缓存重新执行的方法来达到更新的目的。
+
+服务端：
+
+watch 监听修改的文件，一般需要处理的文件包含 js css 以及 vue 文件。 js 文件与 css 文件处理方式类似，vue 文件比较特殊一些。
+
+1.  拿 vue 文件为例，首先会通过 `@vue/compiler-sfc` parse 编译 vue 文件，获取到三部分的内容，从缓存中获取上一次编译的结果。 如果是第一次进入，则不需要进行热更新；如果 script 部分不同，则直接 reload， template 部分不同则 rerender；css 的话，如果是 css Modules 或者 scopes 形式的话，reload，其他的情况 rerender。 当然还有 style-remove 之类的事件。 这些都是客户端发出的事件。
+2.  js 文件需要向上寻找引用它的文件，如果找不到则直接 full-reload, 否则的话就是发出更新引用的文件的热更新事件。 根据文件路径引用，判断被哪个 vue 组件所依赖，如果未找到 vue 组件依赖，则判断页面需要刷新，否则走组件更新逻辑
+
+客户端：
+
+主要监听的消息以及对应的措施主要包括：
+
+- connected: WebSocket 连接成功
+- vue-reload: Vue 组件重新加载（当你修改了 script 里的内容时）
+- vue-rerender: Vue 组件重新渲染（当你修改了 template 里的内容时）
+- style-update: 样式更新
+- style-remove: 样式移除
+- js-update: js 文件更新
+- full-reload: fallback 机制，网页重刷新
+
+这里的更新主要是通过 timestamp 刷新重新请求获取更新后的内容，vue 文件再通过 HMRRuntime 实现更新。 reload 和 rerender 就是用 `__VUE_HMR_RUNTIME__` 上的两个对应 api 完成的。
+
+reload 事件接收到之后都会被推入一个 queueUpdate 队列中去执行任务，实际上是带上时间戳、文件名等重新发一个 http 请求，在回调中调用 `__VUE_HMR_RUNTIME__` 的 reload 事件来更新内容。

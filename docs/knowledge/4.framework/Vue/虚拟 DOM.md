@@ -6,15 +6,16 @@ draft: true
 
 ## MVVM
 
-在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。这种方式就可以在业务处理中只关心数据的流转，而无需直接和页面打交道。ViewModel 只关心数据和业务的处理，不关心 View 如何处理数据，在这种情况下，View 和 Model 都可以独立出来，任何一方改变了也不一定需要改变另一方，并且可以将一些可复用的逻辑放在一个 ViewModel 中，让多个 View 复用这个 ViewModel
+在 MVVM 中，最核心的也就是数据双向绑定，例如 Vue 中的数据劫持。不管是 React 还是 Vue，都不是 MVVM 框架，只是有借鉴 MVVM 的思路。
 
 - `View`：界面
 - `Model`：数据模型
 - `ViewModel`：作为桥梁负责沟通 `View` 和 `Model`
 
-在 MVVM 中，最核心的也就是数据双向绑定，例如 Vue 中的数据劫持。不管是 React 还是 Vue，都不是 MVVM 框架，只是有借鉴 MVVM 的思路。拿 Vue 举例也是为了更好地理解 MVVM 的概念。
+在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。这种方式就可以在业务处理中只关心数据的流转，而无需直接和页面打交道。
 
-**MVC**
+## MVC
+
 View 传送指令到 Controller，Controller 完成业务逻辑后，要求 Model 改变状态，Model 将新的数据发送到 View，用户得到反馈。所有通信都是单向的。
 
 ## 虚拟 DOM
@@ -422,7 +423,6 @@ function changeDom(node, changes, noChild) {
     });
 }
 ```
-
 
 ## TODO: Diff
 
