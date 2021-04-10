@@ -21,12 +21,11 @@ webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module b
 
 1. 对 CommonJS 、 AMD 、ES6 的语法做了兼容
 2. 对 js、css、图片等资源文件都支持打包
-3. 串联式模块加载器以及插件机制，让其具有更好的灵活性和扩展性，例如提供对 CoffeeScript、ES6 的支持
-4. 有独立的配置文件 webpack.config.js
-5. 可以将代码切割成不同的 chunk，实现按需加载，降低了初始化时间
-6. 支持 SourceUrls 和 SourceMaps，易于调试
-7. 具有强大的 Plugin 接口，大多是内部插件，使用起来比较灵活
-8. webpack 使用异步 IO 并具有多级缓存。这使得 webpack 很快且在增量编译上更加快
+3. 有独立的配置文件 webpack.config.js
+4. 可以将代码切割成不同的 chunk，实现按需加载，降低了初始化时间
+5. 支持 SourceUrls 和 SourceMaps，易于调试
+6. 具有强大的 Plugin 接口，大多是内部插件，使用起来比较灵活
+7. webpack 使用异步 IO 并具有多级缓存。这使得 webpack 很快且在增量编译上更加快
 
 组成：
 
@@ -48,9 +47,7 @@ webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module b
 
 ### webpack.config.js
 
-####
-
-webpack.config.js 是 webpack 的默认打包配置文件。也可以`npx webpack --config 配置文件名`手动设置
+webpack 的默认打包配置文件。可以`npx webpack --config 配置文件名`手动设置
 
 ```js
 /**
@@ -59,12 +56,17 @@ webpack.config.js 是 webpack 的默认打包配置文件。也可以`npx webpac
 const path = require('path');
 
 module.exports = {
-  // 打包模式
+  // 打包模式，有生产环境与发布环境两种，默认是发布环境。production 代码被压缩为一行。development 代码不被压缩。
   mode: 'production',
-  // 入口
+  // 入口 简写
   entry: './index.js',
+  // entry: {
+  //   main: './index.js',
+  // },
   // 出口
   output: {
+    // 静态资源都放在 CDN
+    publicPath: 'http://cdn.cn',
     filename: 'bundle.js',
     // path 后必须是一个绝对位置
     path: path.resolve(__dirname, 'bundle'),
@@ -72,53 +74,11 @@ module.exports = {
 };
 ```
 
-其中`entry: "./index.js"`是一个简写，
+## 什么是 bundle,什么是 chunk，什么是 module
 
-```
-entry: {
-    main: "./index.js"
-}
-```
+bundle 是由 webpack 打包出来的文件，chunk 是指 webpack 在进行模块的依赖分析的时候，代码分割出来的代码块。module 是开发中的单个模块
 
-### mode
-
-打包模式，有生产环境与发布环境两种，默认是发布环境。
-
-- production 代码被压缩为一行
-- development 代码不被压缩
-
-### 多入口
-
-最后都会讲其写入到 html 的 script 标签中
-
-```json
-(module.exports = {
-  "entry": {
-    "main": "a/index.js",
-    "sub": "b/main.js"
-  },
-  // 多个入口是不可打包为同一个 JS 的
-  "output": {
-    "filename": "[name].js"
-  }
-})
-```
-
-### 为打包出的 JS 加前缀
-
-比如静态资源都放在 CDN 上，那么希望打包出 script 的 src 是一个 http 地址
-可这样做：
-
-```json
-(module.exports = {
-  "output": {
-    "publicPath": "http://cdn.cn",
-    "filename": "[name].js"
-  }
-})
-```
-
-## webpack 构建流程
+## webpack 构建流程和打包原理
 
 1. 初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数
 2. 开始编译：用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，执行对象的 run 方法开始执行编译
@@ -139,8 +99,6 @@ entry: {
 webpack 构建流程是怎样的？
 
 ## webpack 如何打包 babel？
-
-## 打包原理
 
 ## loader plugin 的区别
 
@@ -841,10 +799,6 @@ source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
 - 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？
 - 有没有做过优化相关的？webpack 做了哪些优化？
 - cache-loader 和 hard-source-webpack-plugin 的区别是什么？
-
-### 什么是 bundle,什么是 chunk，什么是 module
-
-bundle 是由 webpack 打包出来的文件，chunk 是指 webpack 在进行模块的依赖分析的时候，代码分割出来的代码块。module 是开发中的单个模块
 
 ### webpack-dev-server 配置跨域
 

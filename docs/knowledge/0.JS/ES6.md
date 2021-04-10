@@ -49,6 +49,31 @@ cat.says('hello'); //cat says hello
 
 子类必须在`constructor`方法中调用`super`方法，否则新建实例时会报错。这是因为子类没有自己的`this`对象，而是继承父类的`this`对象，然后再用子类的构造函数修改 this。如果不调用`super`方法，子类就得不到`this`对象。
 
+### class 构造函数执行的顺序
+
+```js
+class B {
+  b = console.log('1');
+  constructor() {
+    console.log('2');
+  }
+}
+
+class A extends B {
+  a = console.log('3');
+  constructor() {
+    super();
+    console.log('4');
+  }
+}
+
+new A();
+new B();
+
+// 也就是说 constructor 前面的属性赋值比 constructor 构造函数执行的时间早
+// 1234
+```
+
 ### TODO: Class 的原理是什么 ？
 
 ### 继承

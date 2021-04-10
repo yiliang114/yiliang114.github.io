@@ -172,21 +172,19 @@ https://blog.csdn.net/wangjun5159/article/details/47781443
 
 管线化就是，请求打包，一次性发过去，一次响应回来。
 
-## HTTPS
-
-`HTTPS = HTTP + TLS(早期是 SSL)`，是一种在加密信道进行 HTTP 内容传输的协议。
+## TODO: HTTPS
 
 HTTP 默认采用 80 作为通讯端口，对于传输采用不加密的方式，HTTPS 默认采用 443，对于传输的数据进行加密传输。
-
-HTTPS 还是通过了 HTTP 来传输信息，但是信息通过 TLS 协议进行了加密。HTTPS 并不是新协议，而是让 HTTP 先和 SSL（Secure Sockets Layer）通信，再由 SSL 和 TCP 通信，也就是说 HTTPS 使用了隧道进行通信。通过使用 SSL，HTTPS 具有了加密（防窃听）、认证（防伪装）和完整性保护（防篡改）。
-
-HTTPs 并不是新协议，而是 HTTP 先和 SSL（Secure Sockets Layer）通信，再由 SSL 和 TCP 通信。也就是说 HTTPs 使用了隧道进行通信。
 
 HTTP 有以下安全性问题：
 
 - 使用明文进行通信，内容可能会被窃听；
 - 不验证通信方的身份，通信方的身份有可能遭遇伪装；
 - 无法证明报文的完整性，报文有可能遭篡改。
+
+`HTTPS = HTTP + TLS(早期是 SSL)`，是一种在加密信道进行 HTTP 内容传输的协议。
+
+HTTPS 还是通过了 HTTP 来传输信息，但是信息通过 TLS 协议进行了加密。HTTPS 并不是新协议，而是让 HTTP 先和 SSL（Secure Sockets Layer）通信，再由 SSL 和 TCP 通信，也就是说 HTTPS 使用了隧道进行通信。通过使用 SSL，HTTPS 具有了加密（防窃听）、认证（防伪装）和完整性保护（防篡改）。
 
 过程：
 
@@ -307,8 +305,6 @@ Public-Key-Pins: pin-sha256="base64=="; max-age=expireTime [; includeSubDomains]
 和 HSTS 类似，HPKP 也依赖于服务器的头部返回，不能解决第一次访问的问题，浏览器本身也会内置一些 HPKP 列表。
 
 > HPKP 技术仍然不能阻止第一次访问的攻击问题，部署和配置 HPKP 相当繁琐，一旦网站配置错误，就会导致网站证书验证失败，且在过期时间内无法有效恢复。HPKP 的机制也引来了一些安全性问题。Chrome 67 中废除了对 HPKP 的支持。
-
-
 
 ##### 场景-密码传输
 
@@ -548,7 +544,6 @@ HTTP 无需证书，而 HTTPS 需要 CA 机构 wosign 的颁发的 SSL 证书
 服务器的运营人员向 CA 提出公开密钥的申请，CA 在判明提出申请者的身份之后，会对已申请的公开密钥做数字签名，然后分配这个已签名的公开密钥，并将该公开密钥放入公开密钥证书后绑定在一起。
 
 进行 HTTPS 通信时，服务器会把证书发送给客户端。客户端取得其中的公开密钥之后，先使用数字签名进行验证，如果验证通过，就可以开始通信了。
-
 
 ### 介绍下前端加密的常见场景和方法
 
