@@ -835,6 +835,10 @@ plugin env stage 分别是什么，有什么作用？
 
 引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
 
+##### 写过的 webpack loader 有哪些
+
+##### 写过的 webpack plugin 有哪些
+
 #### rollup
 
 vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。

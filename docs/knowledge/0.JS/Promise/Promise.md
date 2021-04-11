@@ -176,3 +176,11 @@ Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参�
 2. 如果每次都生成新的 new Promise 且 resolve 没有被调用，那么就直接被回收。
 3. 如果每次都生成新的 new Promise 但是 resolve 有被调用，但是一直没被执行，这个时候 Promise 就不会被垃圾回收。
 4. 如果使用同一个 new Promise ，且没有 resolve，那么也不会被垃圾回收。多次引用
+
+### 破坏 promise 链
+
+在一个 promise 链中，只要任何一个 promise 被 reject，promise 链就被破坏了，reject 之后的 promise 都不会再执行，而是直接调用.catch 方法。这也是为什么在 standard practice 中，一定要在最后加上 .catch 的原因。通过 .catch 能够清楚的判断出 promise 链在哪个环节出了问题。
+
+### TODO: Promise.all(list, limit) 的实现
+
+控制一下子发出的请求个数。

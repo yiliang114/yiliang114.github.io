@@ -381,6 +381,10 @@ module.exports = function(source) {
 
 使用`plugins`让打包变的便捷，可以在 webpack 打包的某时刻帮做一些事情，他很像一个生命周期函数
 
+### Plugin 插件的原理是什么？
+
+### Plugin 中有异步请求会阻塞后面的 Plugin 吗？
+
 ### 有哪些常见的 Plugin？他们是解决什么问题的
 
 define-plugin：定义环境变量
@@ -416,7 +420,7 @@ plugins: [
 
 构建优化
 
-1. 减少编译体积 ContextReplacementPugin、IgnorePlugin、babel-plugin-import、babel-plugin-transform-runtime。
+1. 减少编译体积 ContextReplacementPlugin、IgnorePlugin、babel-plugin-import、babel-plugin-transform-runtime。
 2. 并行编译 happypack、thread-loader、uglifyjsWebpackPlugin 开启并行
 3. 缓存 cache-loader、hard-source-webpack-plugin、uglifyjsWebpackPlugin 开启缓存、babel-loader 开启缓存
 4. 预编译 dllWebpackPlugin && DllReferencePlugin、auto-dll-webpack-plugin
@@ -485,7 +489,7 @@ module.exports = {
 
 ### 有自己手写过 loader 和 plugin 么 ?
 
-## Tree Shaking
+## TODO: Tree Shaking
 
 [你的 Tree-Shaking 并没什么卵用](https://juejin.cn/post/6844903549290151949)
 

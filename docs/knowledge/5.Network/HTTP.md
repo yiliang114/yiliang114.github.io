@@ -76,6 +76,8 @@ GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco;
 - 空行
 - 响应体
 
+### TODO: http 请求包含哪些字段 分别是什么意思
+
 ### HTTP 方法
 
 - `GET`：获取资源
@@ -549,3 +551,5 @@ HTTP 无需证书，而 HTTPS 需要 CA 机构 wosign 的颁发的 SSL 证书
 
 首先，加密的目的，简而言之就是将明文转换为密文、甚至转换为其他的东西，用来隐藏明文内容本身，防止其他人直接获取到敏感明文信息、或者提高其他人获取到明文信息的难度。
 通常我们提到加密会想到密码加密、HTTPS 等关键词，这里从场景和方法分别提一些我的个人见解。
+
+### HTTPS 抓包能看到什么，HTTPS 能看到 ip 地址吗?
