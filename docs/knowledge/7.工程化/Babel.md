@@ -122,3 +122,9 @@ runtime 编译器插件做了以下三件事：
 ### babel 不支持 proxy
 
 ### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
+
+### 描述一下 AST?
+
+### babel 在转义的时候一些问题(babel 在 转义 const 的时候 会转成什么 但是 在运行的时候 为什么会有 const 的属性...)
+
+const 属性被编译成 var 的之后，属性会被一个 `_readOnlyError` 函数包起来，修改值的时候 就会 throw 一个 Error

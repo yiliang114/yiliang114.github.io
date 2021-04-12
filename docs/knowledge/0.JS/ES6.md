@@ -304,3 +304,5 @@ let name2 = Symbol.for('name');
 console.log(name1 === name2); // true
 console.log(Symbol.keyFor(name1)); // name 备注：字符串类型的
 ```
+
+## 装饰器的原理

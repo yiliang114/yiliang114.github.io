@@ -580,3 +580,5 @@ for (let i = 0; i <= 100000; i++) {
   - key
   - tag
   - 如果是 input 标签的话，需要 type 也一样。
+
+### 简述 diff 算法？为什么是 O(n3)

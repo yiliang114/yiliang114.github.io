@@ -694,7 +694,7 @@ Promise.reject = function(reason) {
 
 ## 实现 Promise 的常用 API
 
-### 实现 Promise.finally
+### TODO: 实现 Promise.finally
 
 它就是一个语法糖，在当前 promise 实例执行完 then 或者 catch 后，均会触发。`Promise.prototype.finally` 的执行与 promise 实例的状态无关，不依赖于 promise 的执行后返回的结果值。其传入的参数是函数对象。
 

@@ -78,6 +78,8 @@ module.exports = {
 
 bundle 是由 webpack 打包出来的文件，chunk 是指 webpack 在进行模块的依赖分析的时候，代码分割出来的代码块。module 是开发中的单个模块
 
+## 如何分 chunk?如何按需加载组件？
+
 ## webpack 构建流程和打包原理
 
 1. 初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数
@@ -568,6 +570,8 @@ window._ = _;
 
 不能，Tree Shaking 需要静态分析，只有 ES6 的模块才支持。
 
+### Es6Module 在静态分析的时候怎么知道 函数是否需要 tree-shake 掉
+
 ## HMR(Hot Module Replacement) 热更新
 
 https://juejin.cn/post/6844904008432222215
@@ -702,6 +706,8 @@ if (module.hot) {
 }
 ```
 
+### webpack-dev-server 和 dev-middleware、hotMiddleware 的区别，原理能说说吗？
+
 ## sourcemap
 
 ### devtool
@@ -823,3 +829,7 @@ module.exports = {
   // ...
 };
 ```
+
+## 对比
+
+Rollup 和 Webpack 横纵向对比了一下(tree-shaking 有什么不一样? )
