@@ -8,11 +8,12 @@ draft: true
 
 ### ES5
 
-- 基本数据类型，判断数据类型
+- 基本数据类型，判断数据类型。
 - 原型、原型链。 整个完整链路。 instanceof 原理
 - 闭包
 - 创建对象有几种方法
-- 继承的方式， new 做了什么操作。
+- 事件冒泡和事件捕获以及事件委托
+- 继承的方式， new 做了什么操作。new 生成一个对象的过程和原理
 - 作用域和闭包，执行上下文(变量提升)、this、闭包是什么
 - this 指向，几种使用场景。改变 this 的方式和优先级
 - 事件循环模型，执行栈和任务队列，宏任务、微任务，具体的代码卡死执行
@@ -20,6 +21,9 @@ draft: true
 - 异步。同步 vs 异步，异步和单线程，前端异步的场景
 - 模块化 AMD CMD Commonjs UMD ES Module
 - 手写深拷贝函数（包含环的情况）
+- 箭头函数与普通函数的区别
+- let const var 区别
+- 0.1+0.2 等于多少，精度丢失的原因
 
 #### 基本数据类型
 
@@ -363,12 +367,18 @@ console.log(obj.__proto__ === Object.prototype); // output: true
 - 模块化，演进， 几种方式的差别。
 - Module
 - Class
-- Set 和 Map
+- Set 和 Map. set、map 介绍；和数组、对象的区别
 - Promise. 异步与 Promise，执行顺序问题。异步的演变方式，async await。
+- es5 和 es6 继承有哪些不同？
 
 ### HTML
 
 ### CSS
+
+#### 其他
+
+- 实现一个两边宽度固定中间自适应的三列布局。 不多提：圣杯布局、双飞燕
+- flex 布局有没有了解？
 
 #### 盒模型
 
@@ -808,66 +818,6 @@ performance API 的哪些指标？
 
 ## 工程化
 
-webpack, rollup 与 vite 之间的区别是什么
-webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
-webpack 打包速度过慢怎么办
-webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
-babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
-chunk、bundle 和 module 有什么区别
-有没有去研究 webpack 的一些原理和机制，怎么实现的
-
-#### babel
-
-babel 是什么，做什么工作 ？
-Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
-plugin env stage 分别是什么，有什么作用？
-
-##### webpack 打包慢
-
-1. 配置 externals
-2. 进阶方法 DllPlugin 和 DllReferencePlugin
-3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
-4. babel-loader 开启缓存
-5. 模块按需加载
-
-##### loader
-
-引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
-
-##### 写过的 webpack loader 有哪些
-
-##### 写过的 webpack plugin 有哪些
-
-#### rollup
-
-vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
-
-### webpack
-
-webpack, rollup 与 vite 之间的区别是什么
-webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
-webpack 打包速度过慢怎么办
-webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
-babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
-chunk、bundle 和 module 有什么区别
-有没有去研究 webpack 的一些原理和机制，怎么实现的
-
-### babel
-
-babel 是什么，做什么工作 ？
-Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
-plugin env stage 分别是什么，有什么作用？
-
-#### webpack 打包慢
-
-1. 配置 externals
-2. 进阶方法 DllPlugin 和 DllReferencePlugin
-3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
-4. babel-loader 开启缓存
-5. 模块按需加载
-
 ### 开发流程
 
 - CI/CD 流程介绍
@@ -880,16 +830,6 @@ plugin env stage 分别是什么，有什么作用？
 4. 代理模式，代理是为了控制对对象的访问，不让外部直接访问到对象。
 5. 发布-订阅模式， Vue 的双向绑定。
 6. 观察者模式 ， Vue 的事件。
-
-## 手写代码
-
-- 防抖、节流
-- 手写深拷贝函数（包含环的情况）
-- 手写从 url 中获取参数
-- 手写一个事件类
-- 全文单词首字母大写（正则）
-- 手写的 ajax
-- 手写 Promise
 
 ## 其他
 

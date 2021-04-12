@@ -355,3 +355,5 @@ flex: 0 0 50px;
 https://juejin.cn/post/6871025038036844558#heading-46
 
 ### 左边固定，右边 flex:1，如果右侧文字超出，左侧会被挤压吗？怎么解决？
+
+### flex-grow 和 flex-shrink 属性有什么用？

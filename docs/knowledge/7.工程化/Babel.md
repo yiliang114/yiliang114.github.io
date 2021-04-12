@@ -10,6 +10,25 @@ draft: true
 
 babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。让开发者提前使用最新的 JS 语法(ES6/ES7)，而不用等浏览器全部兼容。Babel 默认只转换新的 JS 句法(syntax)，而不转换新的 API。
 
+### 原理
+
+babel 的转译过程分为三个阶段：parsing、transforming、generating，以 ES6 代码转译为 ES5 代码为例，babel 转译的具体过程如下：
+
+1. ES6 代码输入
+2. babylon 进行解析得到 AST
+3. plugin 用 babel-traverse 对 AST 树进行遍历转译,得到新的 AST 树
+4. 用 babel-generator 通过 AST 树生成 ES5 代码
+
+### 怎么转化成 AST 的吗
+
+### 写过 babel 插件吗？是用来干什么？怎么写的？
+
+### babel
+
+babel 是什么，做什么工作 ？
+Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
+plugin env stage 分别是什么，有什么作用？
+
 ### stage 几个阶段的区别
 
 ### 配置文件 `.babelrc`

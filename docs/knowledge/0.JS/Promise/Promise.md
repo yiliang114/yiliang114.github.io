@@ -186,3 +186,7 @@ Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参�
 控制一下子发出的请求个数。
 
 异步请求控制并发 LimitPromise
+
+### Promise.then 里抛出的错误能否被 try...catch 捕获，为什么。
+
+### catch 与 then 的第二个参数的区别

@@ -18,7 +18,11 @@ draft: true
 
 View 传送指令到 Controller，Controller 完成业务逻辑后，要求 Model 改变状态，Model 将新的数据发送到 View，用户得到反馈。所有通信都是单向的。
 
+## 对 mvc、mvp、mvvm 的理解 ？
+
 ## 虚拟 DOM
+
+虚拟 DOM 本质上是 JavaScript 对象，这个对象就是更加轻量级的对 DOM 的描述。
 
 传统的 DOM 操作是直接在 DOM 上操作的，当需要修改一系列元素中的值时，就会直接对 DOM 进行操作。而采用 Virtual DOM 则会对需要修改的 DOM 进行比较（DIFF），从而只选择需要修改的部分。也因此对于不需要大量修改 DOM 的应用来说，采用 Virtual DOM 并不会有优势。
 
@@ -426,6 +430,8 @@ function changeDom(node, changes, noChild) {
 
 ## TODO: Diff
 
+组件 children diff 中的得到 patch 数组方法，只需要返回插入、删除、更新的节点即可。
+
 ### vnode 的转换过程 和 dom-diff 的过程
 
 https://juejin.im/post/5c8e5e4951882545c109ae9c#heading-5
@@ -581,4 +587,6 @@ for (let i = 0; i <= 100000; i++) {
   - tag
   - 如果是 input 标签的话，需要 type 也一样。
 
-### 简述 diff 算法？为什么是 O(n3)
+### 简述 diff 算法？为什么不是 O(n3)
+
+DIFF 算法为什么是 O(n)复杂度而不是 O(n^3) ，
