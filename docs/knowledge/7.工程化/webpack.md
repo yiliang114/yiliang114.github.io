@@ -379,6 +379,14 @@ module.exports = function(source) {
 
 > 编写 loader 需要注意的是不要使用箭头函数，会导致 this 指向错误
 
+### loader
+
+引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
+
+#### 写过的 webpack loader 有哪些
+
+#### 写过的 webpack plugin 有哪些
+
 ### Plugin
 
 使用`plugins`让打包变的便捷，可以在 webpack 打包的某时刻帮做一些事情，他很像一个生命周期函数
@@ -799,45 +807,6 @@ source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
 
 ## webpack 打包 SSR 原理
 
-## 其他
-
-- 入口怎么配置，多页应用怎么进行配置, 多个入口怎么分割。多个 entry ？
-- 如何批量引入组件，require.context
-- webpack 的劣势在哪里
-- 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
-- markdown 是如何进行解析并最终渲染成为 html 的？
-- 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？
-- 有没有做过优化相关的？webpack 做了哪些优化？
-- cache-loader 和 hard-source-webpack-plugin 的区别是什么？
-- webpack, rollup 与 vite 之间的区别是什么
-- webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
-- webpack 打包速度过慢怎么办
-- webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-- webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
-- babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
-- chunk、bundle 和 module 有什么区别
-- 有没有去研究 webpack 的一些原理和机制，怎么实现的
-
-##### webpack 打包慢
-
-1. 配置 externals
-2. 进阶方法 DllPlugin 和 DllReferencePlugin
-3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
-4. babel-loader 开启缓存
-5. 模块按需加载
-
-##### loader
-
-引入的小图片为什么被渲染成了 base64？ 这个是 webpack 里面的对应插件处理的.对于小于多少 K 以下的图片(规定的格式)直接转为 base64 格式渲染;具体配置在 webpack.base.conf.js 里面的 rules 里面的 url-loader 这样做的好处:在网速不好的时候先于内容加载和减少 http 的请求次数来减少网站服务器的负担
-
-##### 写过的 webpack loader 有哪些
-
-##### 写过的 webpack plugin 有哪些
-
-#### rollup
-
-vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。
-
 ### webpack
 
 webpack, rollup 与 vite 之间的区别是什么
@@ -880,3 +849,24 @@ module.exports = {
 ## 对比
 
 Rollup 和 Webpack 横纵向对比了一下(tree-shaking 有什么不一样? )
+
+https://www.webpackjs.com/contribute/writing-a-plugin/
+
+## 其他
+
+- 入口怎么配置，多页应用怎么进行配置, 多个入口怎么分割。多个 entry ？
+- 如何批量引入组件，require.context
+- webpack 的劣势在哪里
+- 前端工程化的理解、如何自己实现一个文件打包，比如一个 JS 文件里同时又 ES5 和 ES6 写的代码，如何编译兼容他们
+- markdown 是如何进行解析并最终渲染成为 html 的？
+- 为什么 webpack 的 externals 处理并引入 cdn 之后就可以直接运行了 ？
+- 有没有做过优化相关的？webpack 做了哪些优化？
+- cache-loader 和 hard-source-webpack-plugin 的区别是什么？
+- webpack, rollup 与 vite 之间的区别是什么
+- webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
+- webpack 打包速度过慢怎么办
+- webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
+- webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
+- babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
+- chunk、bundle 和 module 有什么区别
+- 有没有去研究 webpack 的一些原理和机制，怎么实现的

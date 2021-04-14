@@ -3,27 +3,11 @@ title: 'SQL'
 draft: true
 ---
 
-# 一、基础
-
-模式定义了数据如何存储、存储什么样的数据以及数据如何分解等信息，数据库和表都有模式。
-
-主键的值不允许修改，也不允许复用（不能使用已经删除的主键值赋给新数据行的主键）。
-
-SQL（Structured Query Language)，标准 SQL 由 ANSI 标准委员会管理，从而称为 ANSI SQL。各个 DBMS 都有自己的实现，如 PL/SQL、Transact-SQL 等。
+## 1. 基础
 
 SQL 语句不区分大小写，但是数据库表名、列名和值是否区分依赖于具体的 DBMS 以及配置。
 
-SQL 支持以下三种注释：
-
-```sql
-# 注释
-SELECT *
-FROM mytable; -- 注释
-/* 注释1
-   注释2 */
-```
-
-# 二、创建表
+## 2. 创建表
 
 ```sql
 CREATE TABLE mytable (
@@ -34,7 +18,7 @@ CREATE TABLE mytable (
   PRIMARY KEY (`id`));
 ```
 
-# 三、修改表
+## 3. 修改表
 
 添加列
 
@@ -56,7 +40,7 @@ DROP COLUMN col;
 DROP TABLE mytable;
 ```
 
-# 四、插入
+## 4. 插入
 
 普通插入
 
@@ -80,7 +64,7 @@ CREATE TABLE newtable AS
 SELECT * FROM mytable;
 ```
 
-# 五、更新
+## 5. 更新
 
 ```sql
 UPDATE mytable
@@ -88,7 +72,7 @@ SET col = val
 WHERE id = 1;
 ```
 
-# 六、删除
+## 6. 删除
 
 ```sql
 DELETE FROM mytable
@@ -99,9 +83,9 @@ WHERE id = 1;
 
 使用更新和删除操作时一定要用 WHERE 子句，不然会把整张表的数据都破坏。可以先用 SELECT 语句进行测试，防止错误删除。
 
-# 七、查询
+## 7. 查询
 
-## DISTINCT
+### DISTINCT
 
 相同值只会出现一次。它作用于所有列，也就是说所有列的值都相同才算相同。
 
@@ -110,7 +94,7 @@ SELECT DISTINCT col1, col2
 FROM mytable;
 ```
 
-## LIMIT
+### LIMIT
 
 限制返回的行数。可以有两个参数，第一个参数为起始行，从 0 开始；第二个参数为返回的总行数。
 
@@ -136,7 +120,7 @@ FROM mytable
 LIMIT 2, 3;
 ```
 
-# 八、排序
+## 8. 排序
 
 - **ASC** ：升序（默认）
 - **DESC** ：降序
@@ -149,7 +133,7 @@ FROM mytable
 ORDER BY col1 DESC, col2 ASC;
 ```
 
-# 九、过滤
+## 9. 过滤
 
 不进行过滤的数据非常大，导致通过网络传输了多余的数据，从而浪费了网络带宽。因此尽量使用 SQL 语句来过滤不必要的数据，而不是传输所有的数据到客户端中然后由客户端进行过滤。
 
@@ -178,7 +162,7 @@ WHERE col IS NULL;
 
 **NOT** 操作符用于否定一个条件。
 
-# 十、通配符
+## 10. 通配符
 
 通配符也是用在过滤语句中，但它只能用于文本字段。
 
@@ -198,7 +182,7 @@ WHERE col LIKE '[^AB]%' -- 不以 A 和 B 开头的任意文本
 
 不要滥用通配符，通配符位于开头处匹配会非常慢。
 
-# 十一、计算字段
+## 11. 计算字段
 
 在数据库服务器上完成数据的转换和格式化的工作往往比客户端上快得多，并且转换和格式化后的数据量更少的话可以减少网络通信量。
 
@@ -216,11 +200,11 @@ SELECT CONCAT(TRIM(col1), ' (', TRIM(col2), ')')
 FROM mytable
 ```
 
-# 十二、函数
+## 12. 函数
 
 各个 DBMS 的函数都是不相同的，因此不可移植。
 
-## 文本处理
+### 文本处理
 
 | 函数            | 说明                   |
 | --------------- | ---------------------- |
@@ -238,7 +222,7 @@ FROM mytable
 WHERE SOUNDEX(col1) = SOUNDEX('apple')
 ```
 
-## 日期和时间处理
+### 日期和时间处理
 
 - 日期格式：YYYY-MM-DD
 - 时间格式：HH:MM:SS
@@ -268,7 +252,7 @@ mysql> SELECT NOW();
         -> '2017-06-28 14:01:52'
 ```
 
-## 数值处理
+### 数值处理
 
 | 函数   | 说明   |
 | ------ | ------ |
@@ -282,7 +266,7 @@ mysql> SELECT NOW();
 | PI()   | 圆周率 |
 | RAND() | 随机数 |
 
-## 汇总
+### 汇总
 
 | 函 数   | 说 明            |
 | ------- | ---------------- |
@@ -301,7 +285,7 @@ SELECT AVG(DISTINCT col1) AS avg_col
 FROM mytable
 ```
 
-# 十三、分组
+## 13. 分组
 
 分组就是把具有相同的数据值的行放在同一组中。
 
@@ -341,7 +325,7 @@ HAVING COUNT(*) >= 2;
 3. NULL 的行会单独分为一组；
 4. 大多数 SQL 实现不支持 GROUP BY 列具有可变长度的数据类型。
 
-# 十四、子查询
+## 14. 子查询
 
 子查询中只能返回一个字段的数据。
 
@@ -365,7 +349,7 @@ FROM Customers
 ORDER BY cust_name;
 ```
 
-# 十五、连接
+## 15. 连接
 
 连接用于连接多个表，使用 JOIN 关键字，并且条件语句使用 ON 而不是 WHERE。
 
@@ -373,7 +357,7 @@ ORDER BY cust_name;
 
 可以用 AS 给列名、计算字段和表名取别名，给表名取别名是为了简化 SQL 语句以及连接相同表。
 
-## 内连接
+### 内连接
 
 内连接又称等值连接，使用 INNER JOIN 关键字。
 
@@ -393,7 +377,7 @@ where A.key = B.key
 
 在没有条件语句的情况下返回笛卡尔积。
 
-## 自连接
+### 自连接
 
 自连接可以看成内连接的一种，只是连接的表是自身而已。
 
@@ -421,7 +405,7 @@ where e1.department = e2.department
 
 连接一般比子查询的效率高。
 
-## 自然连接
+### 自然连接
 
 自然连接是把同名列通过等值测试连接起来的，同名列可以有多个。
 
@@ -432,7 +416,7 @@ select *
 from employee natural join department;
 ```
 
-## 外连接
+### 外连接
 
 外连接保留了没有关联的那些行。分为左外连接，右外连接以及全外连接，左外连接就是保留左表没有关联的行。
 
@@ -454,7 +438,7 @@ on Customers.cust_id = Orders.curt_id
 group by Customers.cust_id;
 ```
 
-# 十六、组合查询
+## 16. 组合查询
 
 使用 **UNION** 来组合两个查询，如果第一个查询返回 M 行，第二个查询返回 N 行，那么组合查询的结果为 M+N 行。
 
@@ -474,7 +458,7 @@ FROM mytable
 WHERE col =2;
 ```
 
-# 十七、视图
+## 17. 视图
 
 视图是虚拟的表，本身不包含数据，也就不能对其进行索引操作。对视图的操作和对普通表的操作一样。
 
@@ -492,17 +476,17 @@ FROM mytable
 WHERE col5 = val;
 ```
 
-# 十八、存储过程
+## 18. 存储过程
 
 存储过程可以看成是对一系列 SQL 操作的批处理；
 
-## 使用存储过程的好处
+### 使用存储过程的好处
 
 1. 代码封装，保证了一定的安全性；
 2. 代码复用；
 3. 由于是预先编译，因此具有很高的性能。
 
-## 创建存储过程
+### 创建存储过程
 
 命令行中创建存储过程需要自定义分隔符，因为命令行是以 ; 为结束符，而存储过程中也包含了分号，因此会错误把这部分分号当成是结束符，造成语法错误。
 
@@ -531,7 +515,7 @@ call myprocedure(@ret);
 select @ret;
 ```
 
-# 十九、游标
+## 19. 游标
 
 在存储过程中使用游标可以对一个结果集进行移动遍历。
 
@@ -552,7 +536,7 @@ create procedure myprocedure(out ret int)
 
         declare mycursor cursor for
         select col1 from mytable;
-        # 定义了一个continue handler，当 sqlstate '02000' 这个条件出现时，会执行 set done = 1
+        ## 定义了一个continue handler，当 sqlstate '02000' 这个条件出现时，会执行 set done = 1
         declare continue handler for sqlstate '02000' set done = 1;
 
         open mycursor;
@@ -567,7 +551,7 @@ create procedure myprocedure(out ret int)
  delimiter ;
 ```
 
-# 二十、触发器
+## 20. 触发器
 
 触发器会在某个表执行以下语句时而自动执行：DELETE、INSERT、UPDATE
 
@@ -588,7 +572,7 @@ UPDATE 触发器包含一个名为 NEW 和一个名为 OLD 的虚拟表，其中
 
 MySQL 不允许在触发器中使用 CALL 语句 ，也就是不能调用存储过程。
 
-# 二十一、事务处理
+## 21. 事务处理
 
 基本术语：
 
@@ -615,7 +599,7 @@ ROLLBACK TO delete1
 COMMIT
 ```
 
-# 二十二、字符集
+## 22. 字符集
 
 基本术语：
 
@@ -639,7 +623,7 @@ FROM mytable
 ORDER BY col COLLATE latin1_general_ci;
 ```
 
-# 二十三、权限管理
+## 二十三、权限管理
 
 MySQL 的账户信息保存在 mysql 这个数据库中。
 
@@ -648,7 +632,7 @@ USE mysql;
 SELECT user FROM user;
 ```
 
-## 创建账户
+### 创建账户
 
 ```sql
 CREATE USER myuser IDENTIFIED BY 'mypassword';
@@ -656,25 +640,25 @@ CREATE USER myuser IDENTIFIED BY 'mypassword';
 
 新创建的账户没有任何权限。
 
-## 修改账户名
+### 修改账户名
 
 ```sql
 RENAME myuser TO newuser;
 ```
 
-## 删除账户
+### 删除账户
 
 ```sql
 DROP USER myuser;
 ```
 
-## 查看权限
+### 查看权限
 
 ```sql
 SHOW GRANTS FOR myuser;
 ```
 
-## 授予权限
+### 授予权限
 
 ```sql
 GRANT SELECT, INSERT ON mydatabase.* TO myuser;
@@ -682,7 +666,7 @@ GRANT SELECT, INSERT ON mydatabase.* TO myuser;
 
 账户用 username@host 的形式定义，username@% 使用的是默认主机名。
 
-## 删除权限
+### 删除权限
 
 ```sql
 REVOKE SELECT, INSERT ON mydatabase.* FROM myuser;
@@ -696,7 +680,7 @@ GRANT 和 REVOKE 可在几个层次上控制访问权限：
 - 特定的列；
 - 特定的存储过程。
 
-## 更改密码
+### 更改密码
 
 必须使用 Password() 函数
 

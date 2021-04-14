@@ -216,6 +216,8 @@ weakMap
 2. 键名所指向的对象，不计入垃圾回收机制
 3. 不能遍历，方法同 get,set,has,delete
 
+### object 和 Map 的区别 TODO:
+
 ## Symbol
 
 `Symbol`是`ES6`引入的第七种原始数据类型, 所有 Symbol()生成的值都是独一无二的，可以从根本上解决对象属性太多导致属性名冲突覆盖的问题。

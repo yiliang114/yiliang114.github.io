@@ -43,3 +43,7 @@ $ rollup main.js --file bundle.js --format umd --name "myBundle"
 ```
 
 ### Rollup 和 webpack 区别, treeshaking 是什么?
+
+### rollup
+
+vue react 都是通过 rollup 来打包的，一般来说会被打包成比较小的 js 文件，能够对一些冗余代码做一定的优化。rollup 功能单一，一般来说只能处理模块化打包 （只能处理 js 文件）。webpack 功能强大，能够处理几乎所有文件。

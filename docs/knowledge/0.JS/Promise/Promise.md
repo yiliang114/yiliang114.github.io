@@ -4,8 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-<!-- TODO: -->
-
 ## 异步解决方案的发展历程
 
 ### 1. 回调函数
@@ -14,7 +12,7 @@ draft: true
 
 ### 2. Promise
 
-Promise 就是为了解决回调地狱的问题而产生的。实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.
+Promise 是为了解决回调地狱的问题而产生的。
 
 优点：解决了回调地狱的问题
 缺点：无法取消 Promise ，错误需要通过回调函数来捕获
@@ -39,9 +37,8 @@ let result3 = it.next();
 
 async、await 是异步的终极解决方案
 
-**优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题**
-
-**缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。**
+优点：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题
+缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。
 
 ## Promise
 
@@ -79,9 +76,6 @@ console.log('Hi!');
 - 使用`.then()`编写的顺序异步代码，既简单又易读。
 - 使用`Promise.all()`编写并行异步代码变得很容易。
 - 代码结构更加扁平化，易读易理解，更加清晰明了。
-- 能解决回调地狱的问题
-- 可以将数据请求和业务逻辑分离开来。
-- 便于维护管理
 - 可以更好的捕捉错误
 
 缺点：
@@ -186,6 +180,74 @@ Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参�
 控制一下子发出的请求个数。
 
 异步请求控制并发 LimitPromise
+
+```js
+async function PromiseAll(promises, batchSize = 10) {
+  const result = [];
+  while (promises.length > 0) {
+    const data = await Promise.all(promises.splice(0, batchSize));
+    result.push(...data);
+  }
+  return result;
+}
+```
+
+```js
+function PromiseLimit(funcArray, limit = 5) {
+  let i = 0;
+  const result = [];
+  const executing = [];
+  const queue = function() {
+    if (i === funcArray.length) return Promise.all(executing);
+    const p = funcArray[i++]();
+    result.push(p);
+    const e = p.then(() => executing.splice(executing.indexOf(e), 1));
+    executing.push(e);
+    if (executing.length >= limit) {
+      return Promise.race(executing).then(
+        () => queue(),
+        e => Promise.reject(e),
+      );
+    }
+    return Promise.resolve().then(() => queue());
+  };
+  return queue().then(() => Promise.all(result));
+}
+```
+
+```js
+function PromiseLimit(funcArray, limit = 5) {
+  let i = 0;
+
+  const result = [];
+
+  const executing = [];
+
+  const queue = function() {
+    if (i === funcArray.length) return Promise.all(executing);
+
+    const p = funcArray[i++]();
+
+    result.push(p);
+
+    const e = p.then(() => executing.splice(executing.indexOf(e), 1));
+
+    executing.push(e);
+
+    if (executing.length >= limit) {
+      return Promise.race(executing).then(
+        () => queue(),
+
+        e => Promise.reject(e),
+      );
+    }
+
+    return Promise.resolve().then(() => queue());
+  };
+
+  return queue().then(() => Promise.all(result));
+}
+```
 
 ### Promise.then 里抛出的错误能否被 try...catch 捕获，为什么。
 
