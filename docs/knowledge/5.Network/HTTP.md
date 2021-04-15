@@ -1,17 +1,16 @@
 ---
-title: HTTP
+title: HTTP 与 HTTPS
 date: 2020-11-21
 draft: true
 ---
 
+<!-- TODO:  -->
+
 ## HTTP
 
-特性:
+### 基本信息
 
-1. HTTP 超文本传输协议构建于 TCP/IP 协议之上，是一个应用层协议，默认端口号是 80
-2. HTTP 是**无连接无状态**的
-
-### 基础概念
+HTTP 超文本传输协议构建于 TCP/IP 协议之上，是一个应用层协议，默认端口号是 80.
 
 HTTP 请求由三部分构成，分别为：
 
@@ -19,22 +18,18 @@ HTTP 请求由三部分构成，分别为：
 - 首部
 - 实体
 
+HTTP 协议的主要特点：
+
+1. 简单快速
+1. 灵活
+1. **无连接**
+1. **无状态**
+
 ### 无状态
 
-无状态协议说白了，就是当客户端一次 HTTP 请求完成以后，客户端再发送一次 HTTP 请求，HTTP 并不知道当前客户端是一个"老用户"。
+HTTP 是**无连接无状态**的。
 
-可以使用 Cookie 来解决无状态的问题，Cookie 就相当于一个通行证，第一次访问的时候给客户端发送一个 Cookie，当客户端再次来的时候，拿着 Cookie(通行证)，那么服务器就知道这个是"老用户"。
-
-通过增加`cookie`和`session`机制，现在的网络请求其实是有状态的，在没有状态的`http`协议下，服务器也一定会保留你每次网络请求对数据的修改，但这跟保留每次访问的数据是不一样的，保留的只是会话产生的结果，而没有保留会话。
-
-#### 短连接与长连接
-
-当浏览器访问一个包含多张图片的 HTML 页面时，除了请求访问的 HTML 页面资源，还会请求图片资源。如果每进行一次 HTTP 通信就要新建一个 TCP 连接，那么开销会很大。
-
-长连接只需要建立一次 TCP 连接就能进行多次 HTTP 通信。
-
-- 从 HTTP/1.1 开始默认是长连接的，如果要断开连接，需要由客户端或者服务器端提出断开，使用 `Connection : close`；
-- 在 HTTP/1.1 之前默认是短连接的，如果需要使用长连接，则使用 `Connection : Keep-Alive`。
+无状态指客户端一次 HTTP 请求完成以后，客户端再发送一次 HTTP 请求，HTTP 并不知道当前客户端是一个"老用户"。可以使用 Cookie 和 Session 来解决无状态的问题。
 
 #### Set-Cookie
 
@@ -51,12 +46,7 @@ content]
 GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco; tasty_cookie=strawberry
 ```
 
-### HTTP 协议的主要特点
-
-- 简单快速
-- 灵活
-- **无连接**
-- **无状态**
+### http 请求包含哪些字段 分别是什么意思
 
 ### HTTP 报文的组成部分
 
@@ -76,7 +66,14 @@ GET /sample_page.html HTTP/1.1 Host: www.example.org Cookie: yummy_cookie=choco;
 - 空行
 - 响应体
 
-### TODO: http 请求包含哪些字段 分别是什么意思
+### 短连接与长连接
+
+当浏览器访问一个包含多张图片的 HTML 页面时，除了请求访问的 HTML 页面资源，还会请求图片资源。如果每进行一次 HTTP 通信就要新建一个 TCP 连接，那么开销会很大。
+
+长连接只需要建立一次 TCP 连接就能进行多次 HTTP 通信。
+
+- 从 HTTP/1.1 开始默认是长连接的，如果要断开连接，需要由客户端或者服务器端提出断开，使用 `Connection : close`；
+- 在 HTTP/1.1 之前默认是短连接的，如果需要使用长连接，则使用 `Connection : Keep-Alive`。
 
 ### HTTP 方法
 
@@ -174,7 +171,7 @@ https://blog.csdn.net/wangjun5159/article/details/47781443
 
 管线化就是，请求打包，一次性发过去，一次响应回来。
 
-## TODO: HTTPS
+## HTTPS
 
 HTTP 默认采用 80 作为通讯端口，对于传输采用不加密的方式，HTTPS 默认采用 443，对于传输的数据进行加密传输。
 

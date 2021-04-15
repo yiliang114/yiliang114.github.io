@@ -6,17 +6,17 @@ draft: true
 
 <!-- TODO:  -->
 
-## display
+## Display
 
-### display 有哪些值？说明他们的作用。
+### display 有哪些值
 
 1. none 缺省值。象行内元素类型一样显示。此元素不会被显示。
 2. block 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。
 3. inline 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。
 4. inline-block 默认宽度为内容宽度，可以设置宽高，同行显示。
-5. table 此元素会作为块级表格来显示。
-6. flex 将对象作为弹性伸缩盒显示。
-7. inline-flex 将对象作为内联块级弹性伸缩盒显示。
+5. flex 将对象作为弹性伸缩盒显示。
+6. inline-flex 将对象作为内联块级弹性伸缩盒显示。
+7. table 此元素会作为块级表格来显示。
 8. inherit 规定应该从父元素继承 display 属性的值
 
 ### display:inline-block 什么时候会显示间隙？
@@ -39,7 +39,7 @@ draft: true
 - letter-spacing
 - word-spacing
 
-**图片下面有一个缝隙是因为什么** ？
+**图片下面有一个缝隙是因为什么**
 
 ![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/imgbottom.png)
 
@@ -47,7 +47,7 @@ draft: true
 
 如何解决： 因为它会遵守文字对齐方案，那么就把图片的对齐方式修改为 `vertical-align: bottom`。或者让他`display: block`，这样图片虽然会换行，但是没有间隙了。
 
-## position
+## Position
 
 1. static 可以认为静态的，默认元素都是静态的定位，对象遵循常规流。
 2. relative 相对定位，对象遵循常规流，并且参照自身在常规流中的位置通过 top，right，bottom，left 这 4 个定位偏移属性进行偏移时不会影响常规流中的任何元素。
@@ -63,6 +63,33 @@ draft: true
 7. sticky
    对象在常态时遵循常规流。它就像是 relative 和 fixed 的合体，当在屏幕中时按常规流排版，当卷动到屏幕外时则表现如 fixed。该属性的表现是现实中你见到的吸附效果。（CSS3）
    盒位置根据正常流计算(这称为正常流动中的位置)，然后相对于该元素在流中的 flow root（BFC）和 containing block（最近的块级祖先元素）定位。在所有情况下（即便被定位元素为 `table` 时），该元素定位均不对后续元素造成影响。当元素 B 被粘性定位时，后续元素的位置仍按照 B 未定位时的位置来确定。`position: sticky` 对 `table` 元素的效果与 `position: relative` 相同。
+
+### position 的值， relative 和 absolute 分别是相对于谁进行定位的？
+
+- `static` 默认值。没有定位，元素出现在正常的流中
+- `absolute` 生成绝对定位的元素， 相对于最近一级的 定位不是 static 的父元素来进行定位。
+- `relative` 生成相对定位的元素，相对于其在普通流中的位置进行定位。
+- `fixed` （老 IE 不支持）生成绝对定位的元素，通常相对于浏览器窗口或 frame 进行定位。
+- `sticky` 生成粘性定位的元素，容器的位置根据正常文档流计算得出
+
+### 绝对定位和相对定位的区别？relative 和 absolute 有何区别
+
+relative 会导致自身位置的相对变化，而不会影响其他元素的位置、大小。这是 relative 的要点之一.
+absolute 元素脱离了文档结构。只要元素会脱离文档结构，它就会产生破坏性，导致父元素坍塌。
+绝对定位是相对于最近的已经定位的祖先元素，没有则相对于 body，绝对定位脱离文档流，而相对定位是相对于元素在文档中的初始位置，并且
+相对定位的元素仍然占据原有的空间。
+
+绝对定位和相对定位相对的基准是 第一个非 static 的父元素。
+
+### 请解释 relative、fixed、absolute 和 static 元素的区别
+
+1. static（静态定位）：默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
+
+2. relative（相对定位）：生成相对定位的元素，通过 top,bottom,left,right 的设置相对于其正常（原先本身）位置进行定位。可通过 z-index 进行层次分级。
+
+3. absolute（绝对定位）：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。可通过 z-index 进行层次分级。
+
+4. fixed（固定定位）：生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。可通过 z-index 进行层次分级。
 
 ### absolute 的 containing block(容器块)计算方式跟正常流有什么不同？
 
@@ -119,33 +146,6 @@ absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固�
 
 当使用`translate()`时，元素仍然占据其原始空间（有点像`position：relative`），这与改变绝对定位不同。
 
-### position 的值， relative 和 absolute 分别是相对于谁进行定位的？
-
-- `static` 默认值。没有定位，元素出现在正常的流中
-- `absolute` 生成绝对定位的元素， 相对于最近一级的 定位不是 static 的父元素来进行定位。
-- `relative` 生成相对定位的元素，相对于其在普通流中的位置进行定位。
-- `fixed` （老 IE 不支持）生成绝对定位的元素，通常相对于浏览器窗口或 frame 进行定位。
-- `sticky` 生成粘性定位的元素，容器的位置根据正常文档流计算得出
-
-### 绝对定位和相对定位的区别？relative 和 absolute 有何区别
-
-relative 会导致自身位置的相对变化，而不会影响其他元素的位置、大小。这是 relative 的要点之一.
-absolute 元素脱离了文档结构。只要元素会脱离文档结构，它就会产生破坏性，导致父元素坍塌。
-绝对定位是相对于最近的已经定位的祖先元素，没有则相对于 body，绝对定位脱离文档流，而相对定位是相对于元素在文档中的初始位置，并且
-相对定位的元素仍然占据原有的空间。
-
-绝对定位和相对定位相对的基准是 第一个非 static 的父元素。
-
-### 请解释 relative、fixed、absolute 和 static 元素的区别
-
-1. static（静态定位）：默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
-
-2. relative（相对定位）：生成相对定位的元素，通过 top,bottom,left,right 的设置相对于其正常（原先本身）位置进行定位。可通过 z-index 进行层次分级。
-
-3. absolute（绝对定位）：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。可通过 z-index 进行层次分级。
-
-4. fixed（固定定位）：生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。可通过 z-index 进行层次分级。
-
 ### absolute 的 containing block 计算方式跟正常流有什么不同？
 
 无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
@@ -161,7 +161,7 @@ absolute 元素脱离了文档结构。只要元素会脱离文档结构，它�
 2. absolute: 向上找最近的定位为 absolute/relative 的元素
 3. fixed: 它的 containing block 一律为根元素(html/body)
 
-## float 浮动
+## Float
 
 元素"浮动",脱离文档流。
 

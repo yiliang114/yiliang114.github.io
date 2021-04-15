@@ -308,3 +308,5 @@ console.log(Symbol.keyFor(name1)); // name 备注：字符串类型的
 ```
 
 ## 装饰器的原理
+
+语法糖，实则调用 Object.defineProperty，可以添加、修改对象属性
