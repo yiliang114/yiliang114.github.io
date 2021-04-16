@@ -364,3 +364,15 @@ module.exports = {
 ### AST
 
 https://zhuanlan.zhihu.com/p/361683562
+
+### 总结
+
+构建优化
+1、减少编译体积 ContextReplacementPugin、IgnorePlugin、babel-plugin-import、babel-plugin-transform-runtime。
+2、并行编译 happypack、thread-loader、uglifyjsWebpackPlugin 开启并行
+3、缓存 cache-loader、hard-source-webpack-plugin、uglifyjsWebpackPlugin 开启缓存、babel-loader 开启缓存
+4、预编译 dllWebpackPlugin && DllReferencePlugin、auto-dll-webapck-plugin
+性能优化
+1、减少编译体积 Tree-shaking、Scope Hositing。
+2、hash 缓存 webpack-md5-plugin
+3、拆包 splitChunksPlugin、import()、require.ensure
