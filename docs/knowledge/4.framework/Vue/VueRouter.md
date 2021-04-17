@@ -789,3 +789,38 @@ router.beforeEach 能否 async
 
 1. 方案一： 维护一个统一的路由，根据用户的权限，过滤得到有权限的路由，只注册有权限的路由
 2. 方案二：注册全部的路由，通过 meta 属性以及 router 的守卫，每次进入路由之前去校验是否有权限。
+
+#### vue-router 的监听原理
+
+前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新。目前单页面使用的路由就只有两种实现方式
+
+- hash 模式
+- history 模式
+
+##### hash
+
+`www.test.com/#/` 就是 Hash URL，当 `#` 后面的哈希值发生变化时，不会向服务器请求数据，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面。
+
+##### history
+
+主要是两个 api:
+
+- pushState
+- popState
+
+执行 router.push(url) 的操作的时候，会执行 pushState(url) 这样的操作，直接更新一个状态。当用户做出浏览器动作时，比如点击后退按钮时会触发 `popState` 事件. 状态会直接通过 `history.state.key` 获取，通过 `router-view` 这个抽象组件来渲染不同组件。
+
+但是 pushState 这个 api 有一定的兼容性问题，ie10 以上 safari6 以上 安卓 4.2 以上。。不行的话只能使用 hash 模式。
+
+pushState() 需要三个参数: 一个状态对象, 一个标题 (目前被忽略), 和 (可选的) 一个 URL。
+
+##### updateRoute
+
+执行 router.push(url) 的操作的时候， 会执行 updateRoute 函数， 通过一个全局 mixins 会执行 this.\_route = route 这样一个操作。因为 `_route` 是响应式的，router-view 组件内部使用到了这个值，所以就会重新执行 render 函数。
+
+#### router 的哈希模式与 history 有什么不同，hash 值能被监听改变么？
+
+1. 一个是 hash, 一个看起来像真实的路径
+2. hash 值不会被带到服务器上去
+3. push 的时候实现原理不一样
+   1. hash 模式的话，主要是将 location.hash = route.fullPath

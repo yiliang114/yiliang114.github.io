@@ -593,49 +593,7 @@ var obj = {
 obj.method(); // 10 , 对 fn 间接引用，调用这个函数会应用默认的绑定规则
 ```
 
-#### 继承
-
-```js
-function Foo() {
-  this.value = 42;
-}
-Foo.prototype = {
-  method: function() {
-    return true;
-  },
-};
-function Bar() {
-  var value = 1;
-  return {
-    method: function() {
-      return value;
-    },
-  };
-}
-// TODO:
-Foo.prototype = new Bar();
-console.log(Foo.prototype.constructor); // ƒ Object() { [native code] } 指向内置的 Object() 方法
-console.log(Foo.prototype instanceof Bar); // false
-var test = new Foo();
-console.log(test instanceof Foo); // true
-console.log(test instanceof Bar); // false
-console.log(test.method()); // 1
-```
-
-> Foo.prototype 的 constructor 属性只是 Foo 函数在声明时的默认属性。如果你创建了一个新对象并替换了函数默认的.prototype 对象引用，**那么新对象并不会自动获得 constructor 属性**。（这也是原型继承时，需要重新赋值的原因。）
-> Foo.prototype 没有 constructor 属性，所以他会委托[[Prototype]]链上的委托连顶端的 Object.prototype。这个对象有 constructor 属性，只想内置的 Object(...)函数。
-
 #### 函数与变量同名
-
-```js
-function SINA() {
-  return 1;
-}
-var SINA;
-console.log(typeof SINA); // function
-```
-
-> 重复声明被忽略掉了，所以`var SINA`并没有起到作用，而是被忽略掉了。
 
 ```js
 // 直接执行 Foo() 返回的是 window
@@ -659,7 +617,6 @@ function getName() {
   console.log(5);
 }
 
-// TODO:
 //请写出以下输出结果：
 Foo.getName(); //-> 2    Foo对象上的getName() ，这里不会是3，因为只有Foo的实例对象才会是3，Foo上面是没有3的
 // 变量声明式函数优先级更高

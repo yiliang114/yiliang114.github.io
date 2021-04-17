@@ -4,8 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-<!-- TODO:  -->
-
 ## HTTP
 
 ### 基本信息

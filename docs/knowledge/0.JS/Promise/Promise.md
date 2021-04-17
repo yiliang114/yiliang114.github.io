@@ -42,13 +42,13 @@ async、await 是异步的终极解决方案
 
 ## Promise
 
-Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。
+Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。有以下两个特点：
 
-Promise 对象有以下两个特点。
+1. 对象的状态不受外界影响。
+   Promise 对象代表一个异步操作，有三种状态：Pending（待定）、Fulfilled（已兑现）和 Rejected（已拒绝）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
 
-1. 对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已成功）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
-
-2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Resolved（已定型）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
+2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。
+   Promise 对象的状态改变，只有两种可能：从 Pending 变为 Fulfilled 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Fulfilled（已成功）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
 
 Promise 构造函数是同步执行，then 方法是异步执行。
 
@@ -59,13 +59,13 @@ let promise = new Promise(function(resolve, reject) {
 });
 
 promise.then(function() {
-  console.log('Resolved.');
+  console.log('Fulfilled.');
 });
 
 console.log('Hi!');
 // Promise
 // Hi!
-// Resolved
+// Fulfilled
 ```
 
 ### Promise 优缺点
@@ -96,11 +96,6 @@ const someAsyncThing = function() {
     resolve(x + 2);
   });
 };
-
-someAsyncThing().then(function() {
-  console.log('everything is great');
-});
-
 someAsyncThing()
   .then(function() {
     return someOtherAsyncThing();
@@ -115,13 +110,7 @@ someAsyncThing()
   });
 // oh no [ReferenceError: x is not defined]
 // carry on [ReferenceError: y is not defined]
-// TODO:
-// Uncaught (in promise) ReferenceError: x is not defined
 ```
-
-### 链式调用是怎么实现的？
-
-返回 this 自己。
 
 ## async/await
 
@@ -155,7 +144,13 @@ console.log('1', a); // -> '1' 1
 
 ### Promise 中 .then 的第二参数与 .catch 有什么区别?
 
-Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参数传入
+Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参数传入。
+
+主要区别就是，如果在 then 的第一个函数里抛出了异常，后面的 catch 能捕获到，而 then 的第二个函数捕获不到。then 的第二个参数和 catch 捕获错误信息的时候会就近原则，如果是 promise 内部报错，reject 抛出错误后，then 的第二个参数和 catch 方法都存在的情况下，只有 then 的第二个参数能捕获到，如果 then 的第二个参数不存在，则 catch 方法会捕获到。
+
+### Promise.then 里抛出的错误能否被 try...catch 捕获，为什么。
+
+因为 try catch 只能处理同步的错误，对异步错误没有办法捕获
 
 ### 什么时候 promise 不会被销毁?
 
@@ -173,82 +168,4 @@ Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参�
 
 ### 破坏 promise 链
 
-在一个 promise 链中，只要任何一个 promise 被 reject，promise 链就被破坏了，reject 之后的 promise 都不会再执行，而是直接调用.catch 方法。这也是为什么在 standard practice 中，一定要在最后加上 .catch 的原因。通过 .catch 能够清楚的判断出 promise 链在哪个环节出了问题。
-
-### TODO: Promise.all(list, limit) 的实现
-
-控制一下子发出的请求个数。
-
-异步请求控制并发 LimitPromise
-
-```js
-async function PromiseAll(promises, batchSize = 10) {
-  const result = [];
-  while (promises.length > 0) {
-    const data = await Promise.all(promises.splice(0, batchSize));
-    result.push(...data);
-  }
-  return result;
-}
-```
-
-```js
-function PromiseLimit(funcArray, limit = 5) {
-  let i = 0;
-  const result = [];
-  const executing = [];
-  const queue = function() {
-    if (i === funcArray.length) return Promise.all(executing);
-    const p = funcArray[i++]();
-    result.push(p);
-    const e = p.then(() => executing.splice(executing.indexOf(e), 1));
-    executing.push(e);
-    if (executing.length >= limit) {
-      return Promise.race(executing).then(
-        () => queue(),
-        e => Promise.reject(e),
-      );
-    }
-    return Promise.resolve().then(() => queue());
-  };
-  return queue().then(() => Promise.all(result));
-}
-```
-
-```js
-function PromiseLimit(funcArray, limit = 5) {
-  let i = 0;
-
-  const result = [];
-
-  const executing = [];
-
-  const queue = function() {
-    if (i === funcArray.length) return Promise.all(executing);
-
-    const p = funcArray[i++]();
-
-    result.push(p);
-
-    const e = p.then(() => executing.splice(executing.indexOf(e), 1));
-
-    executing.push(e);
-
-    if (executing.length >= limit) {
-      return Promise.race(executing).then(
-        () => queue(),
-
-        e => Promise.reject(e),
-      );
-    }
-
-    return Promise.resolve().then(() => queue());
-  };
-
-  return queue().then(() => Promise.all(result));
-}
-```
-
-### Promise.then 里抛出的错误能否被 try...catch 捕获，为什么。
-
-### catch 与 then 的第二个参数的区别
+在一个 promise 链中，只要任何一个 promise 被 reject，promise 链就被破坏了，reject 之后的 promise 都不会再执行，而是直接调用 .catch 方法。这也是为什么在 standard practice 中，一定要在最后加上 .catch 的原因。通过 .catch 能够清楚的判断出 promise 链在哪个环节出了问题。

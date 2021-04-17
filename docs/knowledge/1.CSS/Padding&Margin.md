@@ -202,7 +202,242 @@ margin 的这一特性——纵向重叠。如 `<p>` 的纵向 margin 是 16px�
 
 解决 margin 重叠的问题是创建 BFC。例如父容器如果是 `display: flex;flex-direction: column;` 的形式，垂直方向排列下来，margin 也是不会重叠的， 需要额外使用 first or last 之类的伪类额外处理样式才可以。
 
-## BFC
+## 负 margin
+
+### 负 margin 在页面布局中的应用
+
+#### 1. 左右列固定，中间列自适应布局
+
+此例适用于左右栏宽度固定，中间栏宽度自适应的布局。由于网页的主体部分一般在中间，很多网页都需要中间列优先加载，而这种布局刚好满足此需求。
+
+```html
+<div class="main">
+  <div class="main_body">Main</div>
+</div>
+<div class="left">Left</div>
+<div class="right">Right</div>
+```
+
+```css
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 600px;
+}
+.main {
+  float: left;
+  width: 100%;
+}
+.main_body {
+  margin: 0 210px;
+  background: #888;
+  height: 200px;
+}
+.left,
+.right {
+  float: left;
+  width: 200px;
+  height: 200px;
+  background: #f60;
+}
+.left {
+  margin-left: -100%;
+}
+.right {
+  margin-left: -200px;
+}
+```
+
+效果：
+
+![img](https://pic002.cnblogs.com/images/2012/389001/2012082812531391.png)
+
+#### 2. 去除列表右边框
+
+项目中经常会使用浮动列表展示信息，为了美观通常为每个列表之间设置一定的间距（margin-right）,当父元素的宽度固定式，每一行的最右端的 li 元素的右边距就多余了，去除的方法通常是为最右端的 li 添加 class，设置*margin-right:0;* 这种方法需要动态判断为哪些 li 元素添加 class，麻烦！！！利用负 margin 就可以实现下面这种效果：
+
+```html
+<div id="test">
+  <ul>
+    <li>子元素1</li>
+    <li>子元素2</li>
+    <li>子元素3</li>
+    <li>子元素4</li>
+    <li>子元素5</li>
+    <li>子元素6</li>
+  </ul>
+</div>
+```
+
+```css
+body,
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+#test {
+  width: 320px;
+  height: 210px;
+  background: #ccc;
+}
+#test ul {
+  margin-right: -10px;
+  zoom: 1;
+}
+#test ul li {
+  width: 100px;
+  height: 100px;
+  background: #f60;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  float: left;
+}
+```
+
+效果：
+
+![img](https://pic002.cnblogs.com/images/2012/389001/2012082812544719.png)
+
+#### 3. 负边距+定位：水平垂直居中
+
+使用绝对定位将 div 定位到 body 的中心，然后使用负 margin（content 宽高的一半），将 div 的中心拉回到 body 的中心，已到达水平垂直居中的效果。
+
+```html
+<div id="test"></div>
+```
+
+```css
+body {
+  margin: 0;
+  padding: 0;
+}
+#test {
+  width: 200px;
+  height: 200px;
+  background: #f60;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -100px;
+}
+```
+
+效果：
+
+![img](https://pic002.cnblogs.com/images/2012/389001/2012082812561561.png)
+
+#### 4. 去除列表最后一个 li 元素的 border-bottom
+
+列表中我们经常会添加 border-bottom 值，最后一个 li 的 border-bottom 往往会与外边框重合，视觉上不雅观，往往要移除。
+
+```html
+<ul id="test">
+  <li>Test</li>
+  <li>Test</li>
+  <li>Test</li>
+  <li>Test</li>
+  <li>Test</li>
+</ul>
+```
+
+```css
+body,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+#test {
+  margin: 20px;
+  width: 390px;
+  background: #f4f8fc;
+  border-radius: 3px;
+  border: 2px solid #d7e2ec;
+}
+#test li {
+  height: 25px;
+  line-height: 25px;
+  padding: 5px;
+  border-bottom: 1px dotted #d5d5d5;
+  margin-bottom: -1px;
+}
+```
+
+效果：
+
+![img](https://pic002.cnblogs.com/images/2012/389001/2012082812574768.png)
+
+#### 5. 多列等高
+
+此例关键是给每个框设置大的底部内边距，然后用数值相似的负外边距消除这个高度。这会导致每一列溢出容器元素，如果把外包容器的 overflow 属性设为 hidden，列就在最高点被裁切。
+
+```html
+<div id="wrap">
+  <div id="left">
+    <p style="height:50px">style="height:50px"</p>
+  </div>
+  <div id="center">
+    <p style="height:100px">style="height:100px"</p>
+  </div>
+  <div id="right">
+    <p style="height:200px">style="height:200px"</p>
+  </div>
+</div>
+```
+
+```css
+body,
+p {
+  margin: 0;
+  padding: 0;
+}
+#wrap {
+  overflow: hidden;
+  width: 580px;
+  margin: 0 auto;
+}
+#left,
+#center,
+#right {
+  margin-bottom: -200px;
+  padding-bottom: 200px;
+}
+#left {
+  float: left;
+  width: 140px;
+  background: #777;
+}
+#center {
+  float: left;
+  width: 300px;
+  background: #888;
+}
+#right {
+  float: right;
+  width: 140px;
+  background: #999;
+}
+p {
+  color: #fff;
+  text-align: center;
+}
+```
+
+效果：
+
+![img](https://pic002.cnblogs.com/images/2012/389001/2012082813072672.png)
+
+## BFC 块级格式化上下文 (Block Formatting Context)
 
 ### 什么是 BFC 与 IFC
 
@@ -492,241 +727,6 @@ z-index: 每个元素都具有三维空间位置，除了水平和垂直位置�
 2. 如果两个元素都没有设置 z-index，使用默认值，一个定位一个没有定位，那么定位元素覆盖未定位元素
 3. 如果父元素 z-index 有效，那么子元素无论是否设置 z-index 都和父元素一致，在父元素上方
 4. 如果父元素 z-index 失效（未定位或者使用默认值），那么定位子元素的 z-index 设置生效 5,如果兄弟元素的 z-index 生效，那么其子元素覆盖关系有父元素决定
-
-## 负 margin
-
-### 负 margin 在页面布局中的应用
-
-#### 1. 左右列固定，中间列自适应布局
-
-此例适用于左右栏宽度固定，中间栏宽度自适应的布局。由于网页的主体部分一般在中间，很多网页都需要中间列优先加载，而这种布局刚好满足此需求。
-
-```html
-<div class="main">
-  <div class="main_body">Main</div>
-</div>
-<div class="left">Left</div>
-<div class="right">Right</div>
-```
-
-```css
-body {
-  margin: 0;
-  padding: 0;
-  min-width: 600px;
-}
-.main {
-  float: left;
-  width: 100%;
-}
-.main_body {
-  margin: 0 210px;
-  background: #888;
-  height: 200px;
-}
-.left,
-.right {
-  float: left;
-  width: 200px;
-  height: 200px;
-  background: #f60;
-}
-.left {
-  margin-left: -100%;
-}
-.right {
-  margin-left: -200px;
-}
-```
-
-效果：
-
-![img](https://pic002.cnblogs.com/images/2012/389001/2012082812531391.png)
-
-#### 2. 去除列表右边框
-
-项目中经常会使用浮动列表展示信息，为了美观通常为每个列表之间设置一定的间距（margin-right）,当父元素的宽度固定式，每一行的最右端的 li 元素的右边距就多余了，去除的方法通常是为最右端的 li 添加 class，设置*margin-right:0;* 这种方法需要动态判断为哪些 li 元素添加 class，麻烦！！！利用负 margin 就可以实现下面这种效果：
-
-```html
-<div id="test">
-  <ul>
-    <li>子元素1</li>
-    <li>子元素2</li>
-    <li>子元素3</li>
-    <li>子元素4</li>
-    <li>子元素5</li>
-    <li>子元素6</li>
-  </ul>
-</div>
-```
-
-```css
-body,
-ul,
-li {
-  padding: 0;
-  margin: 0;
-}
-ul,
-li {
-  list-style: none;
-}
-#test {
-  width: 320px;
-  height: 210px;
-  background: #ccc;
-}
-#test ul {
-  margin-right: -10px;
-  zoom: 1;
-}
-#test ul li {
-  width: 100px;
-  height: 100px;
-  background: #f60;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  float: left;
-}
-```
-
-效果：
-
-![img](https://pic002.cnblogs.com/images/2012/389001/2012082812544719.png)
-
-#### 3. 负边距+定位：水平垂直居中
-
-使用绝对定位将 div 定位到 body 的中心，然后使用负 margin（content 宽高的一半），将 div 的中心拉回到 body 的中心，已到达水平垂直居中的效果。
-
-```html
-<div id="test"></div>
-```
-
-```css
-body {
-  margin: 0;
-  padding: 0;
-}
-#test {
-  width: 200px;
-  height: 200px;
-  background: #f60;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -100px;
-  margin-top: -100px;
-}
-```
-
-效果：
-
-![img](https://pic002.cnblogs.com/images/2012/389001/2012082812561561.png)
-
-#### 4. 去除列表最后一个 li 元素的 border-bottom
-
-列表中我们经常会添加 border-bottom 值，最后一个 li 的 border-bottom 往往会与外边框重合，视觉上不雅观，往往要移除。
-
-```html
-<ul id="test">
-  <li>Test</li>
-  <li>Test</li>
-  <li>Test</li>
-  <li>Test</li>
-  <li>Test</li>
-</ul>
-```
-
-```css
-body,
-ul,
-li {
-  margin: 0;
-  padding: 0;
-}
-ul,
-li {
-  list-style: none;
-}
-#test {
-  margin: 20px;
-  width: 390px;
-  background: #f4f8fc;
-  border-radius: 3px;
-  border: 2px solid #d7e2ec;
-}
-#test li {
-  height: 25px;
-  line-height: 25px;
-  padding: 5px;
-  border-bottom: 1px dotted #d5d5d5;
-  margin-bottom: -1px;
-}
-```
-
-效果：
-
-![img](https://pic002.cnblogs.com/images/2012/389001/2012082812574768.png)
-
-#### 5. 多列等高
-
-此例关键是给每个框设置大的底部内边距，然后用数值相似的负外边距消除这个高度。这会导致每一列溢出容器元素，如果把外包容器的 overflow 属性设为 hidden，列就在最高点被裁切。
-
-```html
-<div id="wrap">
-  <div id="left">
-    <p style="height:50px">style="height:50px"</p>
-  </div>
-  <div id="center">
-    <p style="height:100px">style="height:100px"</p>
-  </div>
-  <div id="right">
-    <p style="height:200px">style="height:200px"</p>
-  </div>
-</div>
-```
-
-```css
-body,
-p {
-  margin: 0;
-  padding: 0;
-}
-#wrap {
-  overflow: hidden;
-  width: 580px;
-  margin: 0 auto;
-}
-#left,
-#center,
-#right {
-  margin-bottom: -200px;
-  padding-bottom: 200px;
-}
-#left {
-  float: left;
-  width: 140px;
-  background: #777;
-}
-#center {
-  float: left;
-  width: 300px;
-  background: #888;
-}
-#right {
-  float: right;
-  width: 140px;
-  background: #999;
-}
-p {
-  color: #fff;
-  text-align: center;
-}
-```
-
-效果：
-
-![img](https://pic002.cnblogs.com/images/2012/389001/2012082813072672.png)
 
 ## padding
 

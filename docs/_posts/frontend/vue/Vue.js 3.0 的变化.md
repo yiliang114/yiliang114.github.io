@@ -6,8 +6,6 @@ tags:
   - vue
 ---
 
-<!-- TODO: -->
-
 ### 快速体验 Composition API
 
 #### vs. Options APIs

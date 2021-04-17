@@ -1,5 +1,5 @@
 ---
-title: 懒加载的实现原理
+title: parse
 date: '2020-10-26'
 draft: true
 ---
@@ -115,7 +115,7 @@ function isEnd(context: ParserContext, mode: TextModes, ancestors: ElementNode[]
   switch (mode) {
     case TextModes.DATA:
       if (startsWith(s, '</')) {
-        //TODO: probably bad performance
+        // probably bad performance
         for (let i = ancestors.length - 1; i >= 0; --i) {
           if (startsWithEndTagOpen(s, ancestors[i].tag)) {
             return true;

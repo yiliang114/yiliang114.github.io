@@ -4,8 +4,6 @@ date: '2020-10-26'
 draft: true
 ---
 
-# SSR
-
 ## SSR 和 客户端渲染有什么区别
 
 ### 服务端渲染 VS 预渲染（Prerendering）
@@ -61,6 +59,12 @@ draft: true
 
 https://www.jianshu.com/p/c6a07755b08d
 https://github.com/wmui/vue-ssr-demo/blob/master/package.json
+
+### vue ssr
+
+- ssr 是在什么场景下做的。
+- 双端怎么做同构？区别在哪里？
+- SSR 和客户端渲染有什么区别, vue 是如何实现绑定事件的
 
 ## Vue SSR 有什么特点？
 

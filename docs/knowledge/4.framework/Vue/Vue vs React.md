@@ -19,6 +19,13 @@ draft: true
 5. React 推荐的做法是 JSX + inline style，也就是把 HTML 和 CSS 全都写进 JavaScript 了，即"all in js"；Vue 进阶之后推荐的是使用 webpack + vue-loader 的单文件组件格式，即 html,css,js 写在同一个文件；
 6. Vue 着重提高开发效率,让前端程序员更快速方便的开发应用。React 着重于变革开发思想，提升前端程序员编程的深度与创造力,让前端工程师成为真正的程序员而不是 UI 的构建者；
 
+#### 区别
+
+1. 数据 Vue 双向绑定， React 单向数据流。
+2. Vue 默认使用 template 模板，React 使用 JSX。
+3. 改变数据方式不同，Vue 直接修改状态，React 需要使用 `setState` 来改变状态。Vue 页面更新渲染已经是最优的了，但是 React 还是需要用户手动去优化这方面的问题。
+4. 开发模式：React 在 view 层侵入性还是要比 Vue 大很多的,React 严格上只针对 MVC 的 view 层，Vue 则是 MVVM 模式的一种实现
+
 #### React 优势
 
 - 在大型应用程序开发中提供更大的灵活性。

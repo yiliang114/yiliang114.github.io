@@ -13,6 +13,7 @@ draft: true
 - 跨端的能力是如何实现的？web components
 - use api ？
 - 你做了哪一部分的工作
+- Omi 的原理， Omiv 可以监听数组下标变化的原理
 
 ### Shadow DOM
 

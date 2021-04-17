@@ -4,6 +4,22 @@ date: '2020-10-26'
 draft: true
 ---
 
+### node 为什么适合做高并发
+
+### node 容灾处理
+
+### node 如何捕获异常
+
+### 开发中有遇到过比较难定位的问题吗？Node 内存泄露有遇到过吗？
+
+### 简述公司 node 架构中容灾的实现 ?
+
+### stream 和同步方式处理文件有什么区别
+
+### node 脱敏是如何做的， 中间件？
+
+### gateway 网关层做了什么内容，平台的权限是如何设计的，如何进行工作的？
+
 ### 为什么要用 node?
 
 总结起来 node 有以下几个特点:简单强大，轻量可扩展．简单体现在 node 使用的是 javascript,json 来进行编码，人人都会；强大体现在非阻塞 IO,可以适应分块传输数据，较慢的网络环境，尤其擅长高并发访问；轻量体现在 node 本身既是代码，又是服务器，前后端使用统一语言;可扩展体现在可以轻松应对多实例，多服务器架构，同时有海量的第三方应用组件
@@ -21,29 +37,10 @@ draft: true
   - 工具类应用：前端部署(npm, gulp)
   - 表单收集：问卷系统
 
-### node.js stream 和 buffer 有什么区别?
+### 业务范围
 
-- buffer: 为数据缓冲对象，是一个类似数组结构的对象，可以通过指定开始写入的位置及写入的数据长度，往其中写入二进制数据
-- stream: 是对 buffer 对象的高级封装，其操作的底层还是 buffer 对象，stream 可以设置为可读、可写，或者即可读也可写，在 nodejs 中继承了 EventEmitter 接口，可以监听读入、写入的过程。具体实现有文件流，http-response 等
-
-### stream 的异步
-
-request 会返回一个可读流， 可以直接使用 pipe 函数，但是因为 pipe 函数是一个异步操作，如果 pipe 操作写一个
-可写流，不能直接使用 await 进行同步执行，stream 有一个 finish 事件，表示 pipe 操作的完成，这样就不会出现在 pipe 操作还没有结束的时候，另外的读取文件操作会显示文件长度为 0 的问题。
-
-```js
-function getFileFromUrl(url, filename) {
-  return new Promise(resolve => {
-    request(url)
-      .pipe(fs.createWriteStream(filename))
-      .on('finish', resolve);
-  });
-}
-```
-
-### node 文件的读和写
-
-如果 node 文件不是很大的话， 可以直接通过 fs 的 readFile 和 writeFile 进行操作，但是如果文件比较大的话，就推荐直接使用 stream 进行操作了。
+- Node BFF 这一层做了什么事
+- SSR 是如何做的？
 
 ### Node.js 的适用场景
 
@@ -94,10 +91,10 @@ em.emit('hello', 'EventEmitter传递消息真方便!');
 
 应用：
 
-- 1.模块间传递消息
-- 2.回调函数内外传递消息
-- 3.处理流数据，因为流是在 EventEmitter 基础上实现的.
-- 4.观察者模式发射触发机制相关应用
+1. 模块间传递消息
+2. 回调函数内外传递消息
+3. 处理流数据，因为流是在 EventEmitter 基础上实现的.
+4. 观察者模式发射触发机制相关应用
 
 如何捕获错误事件：
 监听 error 事件即可．如果有多个 EventEmitter,也可以用 domain 来统一处理错误事件
@@ -167,15 +164,7 @@ https://segmentfault.com/a/1190000012709705
 
 最主要是 `babel-preset-env` 和 `babel-register` 配合使用。 前者自动检查 node 的版本，并设置指定的预设，后者进行实时转码，编译 es6 代码到 node 可以直接执行的代码。
 
-### node 为什么适合做高并发
-
-### node 容灾处理
-
-### node 如何捕获异常
-
-### 什么是死锁，以及死锁产生的必要条件有哪些
-
-### node
+### 其他总览
 
 - 一个小工具： 能够保存所有请求的返回到本地 json 中，保证离线状态下 web 的可运行性。
 - 浏览器的 js 是单线程，但是 nodejs 是多线程，为什么说 node 对于多线程支持很好？
@@ -190,14 +179,3 @@ https://segmentfault.com/a/1190000012709705
 - nodejs 适合做什么样的业务？
 - node 的异步问题是如何解决的？
 - 中间件、子进程
-
-### 开发中有遇到过比较难定位的问题吗？Node 内存泄露有遇到过吗？
-
-### 简述公司 node 架构中容灾的实现 ?
-
-### stream 和同步方式处理文件有什么区别
-
-### TODO:
-
-1. node 脱敏是如何做的， 中间件？
-2. gateway 网关层做了什么内容，平台的权限是如何设计的，如何进行工作的？

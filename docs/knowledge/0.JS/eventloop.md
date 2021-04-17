@@ -385,3 +385,51 @@ Node 端运行结果分两种情况：
 Node 端的处理过程如下：
 
 ![](https://camo.githubusercontent.com/34b3491060826045c67bd57c6dcf97222620a722/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f31322f313638343164356638353436383034373f773d35393826683d33333326663d67696626733d343637363635)
+
+### setTimeout 和 promise 的区别？宏任务和微任务是什么？有什么区别？
+
+宏任务队列可以有多个，微任务队列只有一个。
+
+宏任务：script（全局任务）, setTimeout, setInterval, setImmediate, I/O, UI rendering.
+微任务：process.nextTick, Promise, Object.observer, MutationObserver.
+
+取一个宏任务来执行。执行完毕后，下一步。
+取一个微任务来执行，执行完毕后，再取一个微任务来执行。直到微任务队列为空，执行下一步。
+更新 UI 渲染。
+
+写出下面的执行结果：
+
+```js
+console.log('1');
+
+setTimeout(function() {
+  console.log('2');
+  new Promise(function(resolve) {
+    console.log('3');
+    resolve();
+  }).then(function() {
+    console.log('4');
+  });
+});
+
+new Promise(function(resolve) {
+  console.log('5');
+  resolve();
+}).then(function() {
+  console.log('6');
+});
+
+setTimeout(function() {
+  console.log('7');
+
+  new Promise(function(resolve) {
+    console.log('8');
+    resolve();
+  }).then(function() {
+    console.log('9');
+  });
+});
+```
+
+结果是：
+1 5 6 2 3 4 7 8 9

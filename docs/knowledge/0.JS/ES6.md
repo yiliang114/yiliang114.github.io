@@ -10,12 +10,24 @@ Class，模块化，箭头操作符，let/const 块作用域，字符串模板�
 
 ## var、let 和 const 区别
 
-- var 声明的变量会挂载在 window 上，而 let 和 const 声明的变量不会
-- var 定义的变量会提升， 而 let 和 const 定义的变量不会
-- let 和 const 是 JS 中的块级作用域
-- 同一作用域下 let 和 const 不允许重复声明(会抛出错误)
-- let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而 var 不会。
-- const 声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
+1. var 声明的变量会挂载在 window 上，而 let 和 const 声明的变量不会
+2. var 定义的变量会提升， 而 let 和 const 定义的变量不会
+3. let 和 const 是 JS 中的块级作用域
+4. 同一作用域下 let 和 const 不允许重复声明(会抛出错误)
+5. let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而 var 不会。
+6. const 声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
+
+## 箭头函数与普通函数的区别？
+
+箭头函数是普通函数的简写，和普通函数相比区别：
+
+1. 箭头函数没有属于自己的 this，arguments。函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象，它会从自己的作用域链的上一层继承 this（因此无法使用 apply/call/bind 进行绑定 this 值）。call 和 apply 方法只有参数，没有作用域
+   1. function 传统定义的函数，this 指向随着调用环境的改变而改变，而箭头 函数中的指向则是固定不变，一直指向定义环境的。箭头函数在定义之后，this 就不会发生改变了。
+2. 普通 function 的声明在变量提升中是最高的，箭头函数没有函数提升
+3. 箭头函数不可以使用 arguments 对象,，该对象在函数体内不存在，如果要用，可以用 rest 参数代替
+4. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+5. 不绑定 super 和 new.target
+6. 箭头函数不能作为构造函数，不能被 new，没有 prototype
 
 ## Class
 
@@ -74,7 +86,107 @@ new B();
 // 1234
 ```
 
-### TODO: Class 的原理是什么 ？
+### Class 的原理是什么 ？
+
+Class 声明的一个类，在 babel 中会被转义成 `var a = function(){return a}()`, 可以看出声明一个 class 就是通过创建并执行一个匿名函数，在这个匿名函数中声明 function a,最后返回 a。
+
+我们创建一个 Person 对象，包含两个属性 name，age 和一个普通的方法 run()和静态方法 say()。
+
+ES6 class
+
+```js
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  static run() {
+    console.log('run');
+  }
+  say() {
+    console.log('hello!');
+  }
+}
+
+Person.run();
+```
+
+通过 static 关键字定义静态方法，静态方法只能通过类本身去调用，不能通过实例来调用。
+
+ES6 构造函数
+
+```js
+var Person = (function() {
+  function Person(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  Person.run = function run() {
+    console.log('run');
+  };
+
+  var _proto = Person.prototype;
+
+  _proto.say = function say() {
+    console.log('hello!');
+  };
+  return Person;
+})();
+```
+
+ES5 原理
+
+```js
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ('value' in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+var Person = (function() {
+  function Person(name, age) {
+    if (!(this instanceof Person)) {
+      throw new TypeError('Cannot call a class as a function');
+    }
+    this.name = name;
+    this.age = age;
+  }
+
+  _createClass(
+    Person,
+    [
+      {
+        key: 'say',
+        value: function say() {
+          console.log('hello!');
+        },
+      },
+    ],
+    [
+      {
+        key: 'run',
+        value: function run() {
+          console.log('run');
+        },
+      },
+    ],
+  );
+
+  return Person;
+})();
+```
 
 ### 继承
 
@@ -127,25 +239,6 @@ class Student extends MixClass(Person, Kid) {}
 - `class`的构造参数必须是`new`来调用，不可以将其作为普通函数执行
 - `es6` 的`class`不存在变量提升
 - **最重要的是：es6 内部方法不可以枚举**。es5 的`prototype`上的方法可以枚举。
-
-## 箭头函数与普通函数的区别？
-
-- 简洁
-- 普通 function 的声明在变量提升中是最高的，箭头函数没有函数提升
-- 箭头函数没有属于自己的 this，arguments。
-  - function 传统定义的函数，this 指向随着调用环境的改变而改变，而箭头 函数中的指向则是固定不变，一直指向定义环境的。箭头函数在定义之后，this 就不会发生改变了。
-- 箭头函数不能作为构造函数，不能被 new，没有 prototype
-- call 和 apply 方法只有参数，没有作用域
-
-### 箭头函数与普通函数（function）的区别是什么？为什么
-
-箭头函数是普通函数的简写，可以更优雅的定义一个函数，和普通函数相比区别：
-
-1. 函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象，它会从自己的作用域链的上一层继承 this（因此无法使用 apply / call / bind 进行绑定 this 值）
-2. 箭头函数不可以使用 arguments 对象,，该对象在函数体内不存在，如果要用，可以用 rest 参数代替
-3. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
-4. 不绑定 super 和 new.target
-5. 不可以使用 new 命令，因为
 
 ## 私有属性、方法
 
@@ -310,3 +403,83 @@ console.log(Symbol.keyFor(name1)); // name 备注：字符串类型的
 ## 装饰器的原理
 
 语法糖，实则调用 Object.defineProperty，可以添加、修改对象属性
+
+## Reflect
+
+### 什么是 Reflect？
+
+`Reflect`是`ES6`引入的一个新的对象，他的主要作用有两点:
+
+1. 将原生的一些零散分布在`Object`、`Function`或者全局函数里的方法(如`apply`、`delete`、`get`、`set`等等)，统一整合到`Reflect`上，这样可以更加方便更加统一的管理一些原生`API`。
+2. 因为`Proxy`可以改写默认的原生 API，如果一旦原生`API`被改写可能就找不到了，所以`Reflect`也可以起到备份原生 API 的作用，使得即使原生`API`被改写了之后，也可以在被改写之后的`API`用上默认的`API`。
+
+### 为什么要设计 Reflect？
+
+1. 将 Object 对象的属于语言内部的方法放到 Reflect 对象上，即从 Reflect 对象上拿 Object 对象内部方法。
+2. 将用 老 Object 方法 报错的情况，改为返回 false
+
+   老写法
+
+   ```js
+   try {
+     Object.defineProperty(target, property, attributes);
+     // success
+   } catch (e) {
+     // failure
+   }
+   ```
+
+   新写法
+
+   ```js
+   if (Reflect.defineProperty(target, property, attributes)) {
+     // success
+   } else {
+     // failure
+   }
+   ```
+
+3. 让 Object 操作变成函数行为
+
+   老写法（命令式写法）
+
+   ```js
+   'name' in Object; //true
+   ```
+
+   新写法
+
+   ```js
+   Reflect.has(Object, 'name'); //true
+   ```
+
+4. Reflect 与 Proxy 是相辅相成的，在 Proxy 上有的方法，在 Reflect 就一定有
+
+   ```js
+   let target = {};
+   let handler = {
+     set(target, proName, proValue, receiver) {
+       //确认对象的属性赋值成功
+       let isSuccess = Reflect.set(target, proName, proValue, receiver);
+       if (isSuccess) {
+         console.log('成功');
+       }
+       return isSuccess;
+     },
+   };
+   let proxy = new Proxy(target, handler);
+   ```
+
+设计目的
+
+- 将`Object`属于`语言内部的方法`放到`Reflect`上
+- 将某些 Object 方法报错情况改成返回`false`
+- 让`Object操作`变成`函数行为`
+- `Proxy`与`Reflect`相辅相成
+
+重点难点
+
+- `Proxy方法`和`Reflect方法`一一对应
+- `Proxy`和`Reflect`联合使用，前者负责`拦截赋值操作`，后者负责`完成赋值操作`
+
+数据绑定：观察者模式

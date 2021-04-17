@@ -569,3 +569,12 @@ watch 监听修改的文件，一般需要处理的文件包含 js css 以及 vu
 这里的更新主要是通过 timestamp 刷新重新请求获取更新后的内容，vue 文件再通过 HMRRuntime 实现更新。 reload 和 rerender 就是用 `__VUE_HMR_RUNTIME__` 上的两个对应 api 完成的。
 
 reload 事件接收到之后都会被推入一个 queueUpdate 队列中去执行任务，实际上是带上时间戳、文件名等重新发一个 http 请求，在回调中调用 `__VUE_HMR_RUNTIME__` 的 reload 事件来更新内容。
+
+#### vite 的简单原理
+
+实现原理是利用 es6 的 import 发送请求去加载文件的特性，拦截这些请求，做一些预编译，省去 webpack 冗长的打包时间。
+
+1. node 进程托管静态资源请求
+2. 重写模块路径，浏览器只能识别 `./`、`../`、`/`这种开头的路径，直接 import 的 npm 包，路径需要被重写为 `@/`
+3. 解析模块的路径，在 node_modules 中读取 vue 的相关包，其中最主要的是 compiler-sfc
+4. 用 compiler-sfc 解析 vue 文件，会被拆成 template script 和 style 三个部分，template 会被编译成一个 render 函数，放在一个 `__script` 对象中，最终返回的代码是一个 js 文件内容是导出了一个 script，script 部分基本不变，style 部分会处理成一个 updateCss 函数，通过原生方式在插入一个 style 标签。

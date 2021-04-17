@@ -95,3 +95,11 @@ devtoolPlugin 中提供了此功能。因为 dev 模式下所有的 state change
 - vue element 全量数据关键词搜索高亮小微逻辑是在搜索结果到达 vuex 之前就对 data 进行替换。
 - vscode 从 0 开始安装 vue react 插件，eslint 规则，自动格式化，主题，nodejs 调试等
 - vue 中的 style lang=less 的时候 webpack 为什么需要安装 less-loader， webpack module 的规则中配置的 less-loader 是对 less 文件进行编译的，那么 .vue 文件是被如何编译成 html 文件 less 文件 和 js 文件的
+
+#### vuex 的原理 ？对 vuex 的理解
+
+vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统。其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。
+
+vuex 中的 store 本质就是没有 template 的隐藏着的 vue 组件。
+
+vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
