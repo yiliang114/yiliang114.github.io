@@ -449,7 +449,7 @@ function changeDom(node, changes, noChild) {
 }
 ```
 
-## TODO: Diff
+## Diff
 
 组件 children diff 中的得到 patch 数组方法，只需要返回插入、删除、更新的节点即可。
 

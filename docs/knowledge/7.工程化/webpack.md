@@ -588,26 +588,7 @@ source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
 
 我觉得这道题的重点在于动态的创建 script 标签，以及通过 jsonp 去请求 chunk，推荐的文章是： https://juejin.cn/post/6844903888319954952
 
-## webpack 打包 SSR 原理
-
-### webpack
-
-webpack, rollup 与 vite 之间的区别是什么
-webpack 的 loader 和 plugin 区别是什么，有没有写过 loader 和 plugin
-webpack 打包速度过慢怎么办
-webpack 配置用到 webpack.optimize.UglifyJsPlugin 这个插件，有没有觉得压缩速度很慢，有什么办法提升速度。
-webpack 是怎么把 es6 的语法编译成 es5 甚至更低版本的
-babel 把 ES6 转成 ES5 或者 ES3 之类的原理是什么，有没有去研究
-chunk、bundle 和 module 有什么区别
-有没有去研究 webpack 的一些原理和机制，怎么实现的
-
-#### webpack 打包慢
-
-1. 配置 externals
-2. 进阶方法 DllPlugin 和 DllReferencePlugin
-3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
-4. babel-loader 开启缓存
-5. 模块按需加载
+## Dev-Server 是怎么跑起来
 
 ### webpack-dev-server 配置跨域
 

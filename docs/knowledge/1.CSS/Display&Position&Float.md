@@ -4,48 +4,32 @@ date: 2020-11-21
 draft: true
 ---
 
-<!-- TODO:  -->
-
 ## Display
 
 ### display 有哪些值
 
-1. none 缺省值。象行内元素类型一样显示。此元素不会被显示。
-2. block 块类型。默认宽度为父元素宽度，可设置宽高，换行显示。
-3. inline 行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。
-4. inline-block 默认宽度为内容宽度，可以设置宽高，同行显示。
-5. flex 将对象作为弹性伸缩盒显示。
-6. inline-flex 将对象作为内联块级弹性伸缩盒显示。
-7. table 此元素会作为块级表格来显示。
+1. none 缺省值。此元素不会被显示。
+2. block 块级元素。
+3. inline 行内元素。默认宽度为内容宽度，不可设置宽高，同行显示。
+4. inline-block 块级行内元素，可以设置宽高，同行显示。
+5. flex 弹性盒子
+6. inline-flex 内联的弹性盒子
+7. table 块级表格
 8. inherit 规定应该从父元素继承 display 属性的值
 
 ### display:inline-block 什么时候会显示间隙？
 
-1. 有空格时候会有间隙 解决：移除空格
-2. margin 正值的时候 解决：margin 使用负值
-3. 使用 font-size 时候 解决：font-size:0、letter-spacing、word-spacing
+相邻的 inline-block 元素之间有换行或空格分隔的情况下会产生间距，非 inline-block 水平元素设置为 inline-block 也会有水平间距。这个的原因是两个标签之间有空格，浏览器把这些空格当成文字中空格，所以这两个块中间多少有间隙。
 
-- 相邻的 inline-block 元素之间有换行或空格分隔的情况下会产生间距
-- 非 inline-block 水平元素设置为 inline-block 也会有水平间距
-- 可以借助 vertical-align:top; 消除垂直间隙
-- 可以在父级加 font-size：0; 在子元素里设置需要的字体大小，消除垂直间隙
-- 把 li 标签写到同一行可以消除垂直间隙，但代码可读性差
+解决办法：
 
-两个并列的 inline-block 中间会有一条裂缝，这个的原因是两个标签之间有空格，浏览器把这些空格当成文字中空格，所以这两个块中间多少有间隙。
-
-- 移除空格
-- 使用 margin 负值
-- 使用 font-size:0
-- letter-spacing
-- word-spacing
-
-**图片下面有一个缝隙是因为什么**
-
-![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/imgbottom.png)
-
-因为 img 也相当于一个 inline 的元素， inline 就要遵守行高的构成，它会按照 base 基线对齐，基线对齐的话那么它就会和底线间有一个缝隙。
-
-如何解决： 因为它会遵守文字对齐方案，那么就把图片的对齐方式修改为 `vertical-align: bottom`。或者让他`display: block`，这样图片虽然会换行，但是没有间隙了。
+1. `display: block` 直接解决
+2. 可以借助 vertical-align 为 top 或者 bottom 消除垂直间隙。
+3. 可以在父级加 font-size：0; 在子元素里设置需要的字体大小，消除垂直间隙。使用 font-size 时候 解决：font-size:0, letter-spacing,word-spacing
+   1. letter-spacing 设置文本字符的间距
+   2. word-spacing 标签和单词直接的间距
+4. 有空格时候会有间隙 解决：移除空格
+5. margin 正值的时候 解决：margin 使用负值
 
 ## Position
 
@@ -57,9 +41,7 @@ draft: true
 4. fixed
    固定定位，与 absolute 一致，但偏移定位是以窗口为参考。当出现滚动条时，对象不会随着滚动。
 5. center
-   与 absolute 一致，但偏移定位是以定位祖先元素的中心点为参考。盒子在其包含容器垂直水平居中。（CSS3）
 6. page
-   与 absolute 一致。元素在分页媒体或者区域块内，元素的包含块始终是初始包含块，否则取决于每个 absolute 模式。（CSS3）
 7. sticky
    对象在常态时遵循常规流。它就像是 relative 和 fixed 的合体，当在屏幕中时按常规流排版，当卷动到屏幕外时则表现如 fixed。该属性的表现是现实中你见到的吸附效果。（CSS3）
    盒位置根据正常流计算(这称为正常流动中的位置)，然后相对于该元素在流中的 flow root（BFC）和 containing block（最近的块级祖先元素）定位。在所有情况下（即便被定位元素为 `table` 时），该元素定位均不对后续元素造成影响。当元素 B 被粘性定位时，后续元素的位置仍按照 B 未定位时的位置来确定。`position: sticky` 对 `table` 元素的效果与 `position: relative` 相同。
@@ -70,7 +52,9 @@ draft: true
 - `absolute` 生成绝对定位的元素， 相对于最近一级的 定位不是 static 的父元素来进行定位。
 - `relative` 生成相对定位的元素，相对于其在普通流中的位置进行定位。
 - `fixed` （老 IE 不支持）生成绝对定位的元素，通常相对于浏览器窗口或 frame 进行定位。
-- `sticky` 生成粘性定位的元素，容器的位置根据正常文档流计算得出
+- `sticky` 生成粘性定位的元素，容器的位置根据正常文档流计算得出.
+- `center` 与 absolute 一致，但偏移定位是以定位祖先元素的中心点为参考。盒子在其包含容器垂直水平居中。（CSS3）
+- `page`与 absolute 一致。元素在分页媒体或者区域块内，元素的包含块始终是初始包含块，否则取决于每个 absolute 模式。（CSS3）
 
 ### 绝对定位和相对定位的区别？relative 和 absolute 有何区别
 
@@ -140,12 +124,6 @@ B 不同点：
 
 absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固定为浏览器窗口。当你滚动网页，fixed 元素与浏览器窗口之间的距离是不变的。
 
-### 什么情况下，用`translate()`而不用绝对定位？什么时候，情况相反。
-
-`translate()`是`transform`的一个值。改变`transform`或`opacity`不会触发浏览器重新布局（reflow）或重绘（repaint），只会触发复合（compositions）。而改变绝对定位会触发重新布局，进而触发重绘和复合。`transform`使浏览器为元素创建一个 GPU 图层，但改变绝对定位会使用到 CPU。 因此`translate()`更高效，可以缩短平滑动画的绘制时间。
-
-当使用`translate()`时，元素仍然占据其原始空间（有点像`position：relative`），这与改变绝对定位不同。
-
 ### absolute 的 containing block 计算方式跟正常流有什么不同？
 
 无论属于哪种，都要先找到其祖先元素中最近的 position 值不为 static 的元素，然后再判断：
@@ -163,44 +141,33 @@ absolute 的”根元素“是可以设置的，而 fixed 的”根元素“固�
 
 ## Float
 
+浮动元素从网页的正常流动中移出，但是保持了部分的流动性，会影响其他元素的定位（比如文字会围绕着浮动元素）。这一点与绝对定位不同，绝对定位的元素完全从文档流中脱离。
+
 元素"浮动",脱离文档流。
 
-对自己的影响
+对自己的影响：
 
-- 形成"块"(BFC)
-- 这个块会负责自己的布局，宽高由自己决定
+1. 会形成"块"(BFC)
+2. 这个块会负责自己的布局，宽高由自己决定
+3. 设置元素浮动后，该元素的 display 值自动变成 block
 
-比如 span 中用 float 这个 span 就形成了一个 BFC，就可以设置宽高了
+对兄弟元素的影响：
 
-对兄弟元素的影响
+1. 上面一般贴非 float 元素
+2. 靠边贴 float 元素或边，浮动元素碰到包含它的边框或者浮动元素的边框停留。
+3. 不影响其他块级元素位置
+4. 影响其他块级元素文本
 
-- 上面一般贴非 float 元素
-- 靠边贴 float 元素或边
-- 不影响其他块级元素位置
-- 影响其他块级元素文本
+对父级元素的影响：
 
-对父级元素的影响
+1. 从布局上"消失"。
+2. 如果父元素只包含浮动元素，那么该父元素的高度将塌缩为 0。导致高度塌陷。float 为什么会导致高度塌陷：元素含有浮动属性 –> 破坏 inline box –> 破坏 line box 高度 –> 没有高度 –> 塌陷。什么时候会塌陷：当标签里面的元素只要样子没有实际高度时会塌陷。
 
-- 从布局上"消失"
-- 高度塌陷
-
-浮动出现的最开始出现的意义是用来让文字环绕图片而已。
-float 可以自动包裹元素。
-float 会导致父容器高度塌陷。float 为什么会导致高度塌陷：元素含有浮动属性 –> 破坏 inline box –> 破坏 line box 高度 –> 没有高度 –> 塌陷。什么时候会塌陷：当标签里面的元素只要样子没有实际高度时会塌陷。
-浮动会脱离文档流。产生自己的块级格式化上下文。
-
-a. 浮动元素脱离文档流，不占据空间（引起“高度塌陷”现象）
-b. 浮动元素碰到包含它的边框或者浮动元素的边框停留。
-
-### 请阐述`Float`定位的工作原理。
-
-浮动（float）是 CSS 定位属性。浮动元素从网页的正常流动中移出，但是保持了部分的流动性，会影响其他元素的定位（比如文字会围绕着浮动元素）。这一点与绝对定位不同，绝对定位的元素完全从文档流中脱离。
+### 清除浮动
 
 CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下移动（清除浮动）到浮动元素下面。
 
-如果父元素只包含浮动元素，那么该父元素的高度将塌缩为 0。我们可以通过清除（clear）从浮动元素后到父元素关闭前之间的浮动来修复这个问题。
-
-有一种 hack 的方法，是自定义一个`.clearfix`类，利用伪元素选择器`::after`清除浮动。[另外还有一些方法](https://css-tricks.com/all-about-floats/#article-header-id-4)，比如添加空的`<div></div>`和设置浮动元素父元素的`overflow`属性。与这些方法不同的是，`clearfix`方法，只需要给父元素添加一个类，定义如下：
+有一种 hack 的方法，是自定义一个`.clearfix`类，利用伪元素选择器`::after`清除浮动。也可以添加添加空的`<div></div>`和设置浮动元素父元素的`overflow`属性。与这些方法不同的是，`clearfix`方法，只需要给父元素添加一个类，定义如下：
 
 ```css
 .clearfix::after {
@@ -245,38 +212,9 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 2. 父元素触发块级格式化上下文(见块级可视化上下文部分)
 3. 设置容器元素伪元素进行清理
 
-```css
-/**
-* 在标准浏览器下使用
-* 1 content内容为空格用于修复opera下文档中出现
-*   contenteditable属性时在清理浮动元素上下的空白
-* 2 使用display使用table而不是block：可以防止容器和
-*   子元素top-margin折叠,这样能使清理效果与BFC，IE6/7
-*   zoom: 1;一致
-**/
-
-.clearfix:before,
-.clearfix:after {
-  content: ' '; /* 1 */
-  display: table; /* 2 */
-}
-
-.clearfix:after {
-  clear: both;
-}
-
-/**
-* IE 6/7下使用
-* 通过触发hasLayout实现包含浮动
-**/
-.clearfix {
-  *zoom: 1;
-}
-```
-
 ### 清除浮动
 
-1. 使用空标签清除浮动。
+1. 使用空标签清除浮动。空`div`方法：`<div style="clear:both;"></div>`
    这种方法是在所有浮动标签后面添加一个空标签 定义 css clear:both. 弊端就是增加了无意义标签。
 2. 使用 overflow。给父元素设置 overflow：auto 或者 hidden。
    给包含浮动元素的父标签添加 css 属性 overflow:auto; zoom:1; zoom:1 用于兼容 IE6。
@@ -299,52 +237,7 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 } /* for IE/Mac */
 ```
 
-### 请解释一下为什么需要清除浮动？清除浮动的方式
-
-- 清除浮动是为了清除使用浮动元素产生的影响。浮动的元素，高度会塌陷，而高度的塌陷使我们页面后面的布局不能正常显示
-- 父级 div 定义 height
-- 父级 div 也一起浮动；
-- 常规的使用一个 class；
-
-```css
-.clearfix:before,
-.clearfix:after {
-  content: ' ';
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-}
-.clearfix {
-  *zoom: 1;
-}
-```
-
-### 清除浮动最佳实践（after 伪元素闭合浮动）：
-
-```css
-.clearfix:after {
-  content: '\200B';
-  display: table;
-  height: 0;
-  clear: both;
-}
-.clearfix {
-  *zoom: 1;
-}
-```
-
-### 有哪些清除浮动的技术，都适用哪些情况？
-
-- 空`div`方法：`<div style="clear:both;"></div>`。
-- clearfix 方法：上文使用`.clearfix`类已经提到。
-- `overflow: auto`或`overflow: hidden`方法：上文已经提到。
-
 在大型项目中，我会使用 clearfix 方法，在需要的地方使用`.clearfix`。设置`overflow: hidden`的方法可能使其子元素显示不完整，当子元素的高度大于父元素时。
-
-### 行内元素 float:left 后是否变为块级元素？
-
-浮动后，行内元素不会成为块状元素，但是可以设置宽高。行内元素要想变成块状元素，占一行，直接设置 display:block;。但如果元素设置了浮动后再设置 display:block;那就不会占一行。
 
 ### 如何居中 div, 如何居中一个浮动元素?
 
@@ -398,22 +291,8 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 }
 ```
 
-### 设置元素浮动后，该元素的 display 值会如何变化？
-
-- 设置元素浮动后，该元素的 display 值自动变成 block
-
 ### zoom:1 的清除浮动原理?
 
 - 清除浮动，触发 hasLayout；
 - Zoom 属性是 IE 浏览器的专有属性，它可以设置或检索对象的缩放比例。解决 ie 下比较奇葩的 bug
 - 譬如外边距（margin）的重叠，浮动清除，触发 ie 的 haslayout 属性等
-
-## display, float, position 的关系
-
-1. 如果`display`为 none，那么 position 和 float 都不起作用，这种情况下元素不产生框
-2. 否则，如果 position 值为 absolute 或者 fixed，框就是绝对定位的，float 的计算值为 none，display 根据下面的表格进行调整。
-3. 否则，如果 float 不是 none，框是浮动的，display 根据下表进行调整
-4. 否则，如果元素是根元素，display 根据下表进行调整
-5. 其他情况下 display 的值为指定值
-
-总结起来：**绝对定位、浮动、根元素都需要调整`display`**

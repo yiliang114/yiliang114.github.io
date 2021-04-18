@@ -37,6 +37,14 @@ build 环境下一般会对输出的 js 文件再进一步所压缩处理（但�
 
 模块按需编译：https://zhuanlan.zhihu.com/p/137120584
 
+#### webpack 打包慢
+
+1. 配置 externals
+2. 进阶方法 DllPlugin 和 DllReferencePlugin
+3. HappyPack 开启多进程编译，但是也并不一定支持所有 loader 都适合
+4. babel-loader 开启缓存
+5. 模块按需加载
+
 #### 优化 Loader
 
 对于 Loader 来说，影响打包效率首当其冲必属 Babel 了。因为 Babel 会将代码转为字符串生成 AST，然后对 AST 继续进行转变最后再生成新的代码，项目越大，**转换代码越多，效率就越低**。
@@ -302,6 +310,8 @@ package.json
 解决办法： cdn 锁版本，跟 npm 依赖安装的包版本保持一致即可。 不过后续更新版本可能需要手动更新 cdn 的版本号。
 
 #### 按需加载
+
+babel-import-plugin 原理是啥？
 
 利用 Tree Shaking 来处理， 减少依赖加载的内容。
 

@@ -4,32 +4,36 @@ date: '2020-10-26'
 draft: true
 ---
 
-<!-- TODO: -->
+## AST
+
+抽象语法树（Abstract Syntax Tree）简称 AST，是源代码的抽象语法结构的树状表现形式。webpack、eslint 等很多工具库的核心都是通过抽象语法树这个概念来实现对代码的检查、分析等操作。
+
+### 词法分析和语法分析
+
+JavaScript 是解释型语言，一般通过 词法分析 -> 语法分析 -> 语法树，就可以开始解释执行了。
+
+词法分析：也叫扫描，是将字符流转换为记号流(tokens)，它会读取我们的代码然后按照一定的规则合成一个个的标识。
+
+语法分析：也称解析器，将词法分析出来的数组转换成树的形式，同时验证语法。语法如果有错的话，抛出语法错误。语法分析最终的结果成 AST。
+
+### AST 能做什么
+
+1. 语法检查、代码风格检查、格式化代码、语法高亮、错误提示、自动补全等
+2. 代码混淆压缩
+3. 优化变更代码，改变代码结构等
 
 ## Babel
 
-babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。让开发者提前使用最新的 JS 语法(ES6/ES7)，而不用等浏览器全部兼容。Babel 默认只转换新的 JS 句法(syntax)，而不转换新的 API。
+babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在现有环境执行。让开发者提前使用最新的 JS 语法(ES6/ES7)，而不用等浏览器全部兼容。Babel 默认只转换新的 JS 句法(syntax)，而不转换新的 API。babel 转换代码其实就是用了 AST，babel 与 AST 就有着很一种特别的关系。
 
-### 原理
+### babel 工作流程
 
 babel 的转译过程分为三个阶段：parsing、transforming、generating，以 ES6 代码转译为 ES5 代码为例，babel 转译的具体过程如下：
 
 1. ES6 代码输入
-2. babylon 进行解析得到 AST
-3. plugin 用 babel-traverse 对 AST 树进行遍历转译,得到新的 AST 树
-4. 用 babel-generator 通过 AST 树生成 ES5 代码
-
-### 怎么转化成 AST 的吗
-
-### 写过 babel 插件吗？是用来干什么？怎么写的？
-
-### babel
-
-babel 是什么，做什么工作 ？
-Babel 的一个插件：transform-runtime 以及 stage-2，你说一下他们的作用。
-plugin env stage 分别是什么，有什么作用？
-
-### stage 几个阶段的区别
+2. 解析：将代码字符串解析成抽象语法树。babylon 将 ES6/ES7 代码解析成 AST。
+3. 变换：对抽象语法树进行变换操作。plugin 用 babel-traverse 对 AST 树进行遍历转译, 得到新的 AST 树。
+4. 再建：根据变换后的抽象语法树再生成代码字符串。新 AST 通过 babel-generator 转换成 ES5。
 
 ### 配置文件 `.babelrc`
 
@@ -65,10 +69,6 @@ presets (预设)字段设定转码规则，官方提供以下的规则集，你�
 
 #### plugin 插件
 
-transform-runtime 以及 stage-2 说一下他们的作用
-
-- stage-1，stage-2，stage-3
-
 - 按需加载插件的实现原理
 - (vue 的) jsx 插件的实现原理
 
@@ -83,26 +83,15 @@ Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 A
 
 babel-register 字面意思能看出来，这是 babel 的一个注册器，它在底层改写了 node 的 require 方法，引入 babel-register 之后所有 require 并以.es6, .es, .jsx 和 .js 为后缀的模块都会经过 babel 的转译
 
-### 何为 AST
+### stage 几个阶段的区别
 
-抽象语法树 (Abstract Syntax Tree)，是将代码逐字母解析成 树状对象 的形式。这是语言之间的转换、代码语法检查，代码风格检查，代码格式化，代码高亮，代码错误提示，代码自动补全等等的基础
+### plugin
 
-### babel 编译原理
+### env
 
-babylon 将 ES6/ES7 代码解析成 AST
-babel-traverse 对 AST 进行遍历转译，得到新的 AST
-新 AST 通过 babel-generator 转换成 ES5
-或者：
+### babel 具体做的事情
 
-1. 它就是个编译器，输入语言是 ES6+，编译目标语言是 ES5
-1. babel 官方工作原理
-1. 解析：将代码字符串解析成抽象语法树
-1. 变换：对抽象语法树进行变换操作
-1. 再建：根据变换后的抽象语法树再生成代码字符串
-
-### ES6 代码转成 ES5 代码的实现思路是什么
-
-将 ES6 的代码转换为 AST 语法树，然后再将 ES6 AST 转为 ES5 AST，再将 AST 转为代码
+### 写过 babel 插件吗？是用来干什么？怎么写的？
 
 ### babel、babel-polyfill 的区别
 
@@ -116,6 +105,8 @@ runtime 编译器插件做了以下三件事：
 1. 当你使用 generators/async 函数时，自动引入 babel-runtime/regenerator 。
 1. 自动引入 babel-runtime/core-js 并映射 ES6 静态方法和内置插件。
 1. 移除内联的 Babel helper 并使用模块 babel-runtime/helpers 代替。
+
+### stage-1，stage-2，stage-3
 
 ### babel-polyfill 和 babel-transform-runtime 的区别
 
@@ -134,16 +125,12 @@ runtime 编译器插件做了以下三件事：
 2.  由于使用引用的方式引入，所以不会直接污染全局作用域。这就对于库和工具的开发带来了好处
     但是 babel-plugin-transform-runtime 仍然不能单独作用。因为有一些静态方法，如"foobar".includes("foo")仍然需要引入 babel-polyfill 才能使用
 
-### babel 具体做的事情
+### transform-runtime 以及 stage-2 说一下他们的作用
 
 ### babel 几个不同插件的有什么不同的作用，register-babel jsx-babel 等
-
-### babel 不支持 proxy
-
-### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
-
-### 描述一下 AST?
 
 ### babel 在转义的时候一些问题(babel 在 转义 const 的时候 会转成什么 但是 在运行的时候 为什么会有 const 的属性...)
 
 const 属性被编译成 var 的之后，属性会被一个 `_readOnlyError` 函数包起来，修改值的时候 就会 throw 一个 Error
+
+### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
