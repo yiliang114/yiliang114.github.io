@@ -4,6 +4,9 @@ date: 2021-03-04
 draft: true
 ---
 
+<!-- https://zhuanlan.zhihu.com/p/57200821 -->
+<!-- https://www.html.cn/interview/20575.html -->
+
 ## 其他
 
 原型链

@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+<!-- https://my.oschina.net/u/4088983/blog/4545928 -->
+
 ## AST
 
 抽象语法树（Abstract Syntax Tree）简称 AST，是源代码的抽象语法结构的树状表现形式。webpack、eslint 等很多工具库的核心都是通过抽象语法树这个概念来实现对代码的检查、分析等操作。
