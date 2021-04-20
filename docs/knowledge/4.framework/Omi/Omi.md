@@ -6,31 +6,34 @@ draft: true
 
 <!-- TODO: -->
 
-## Omi
+## Omi 是什么？
 
-- Omi 是什么？ 解决的问题.
-- 与 Vue React 有什么不同， 为什么会选用它而不是 Vue 或者 React
-- 跨端的能力是如何实现的？web components
-- use api ？
-- 你做了哪一部分的工作
-- Omi 的原理， Omiv 可以监听数组下标变化的原理
+解决的问题
+
+### 与 Vue React 有什么不同， 为什么会选用它而不是 Vue 或者 React
+
+### use api ？
+
+### Omi 的原理， Omiv 可以监听数组下标变化的原理
 
 ### Shadow DOM
 
 https://aotu.io/notes/2016/06/24/Shadow-DOM/index.html
 
-### Omi + Web Components
+## Omi + Web Components
 
 https://segmentfault.com/a/1190000017091755?utm_source=tag-newest
 
 http://www.ruanyifeng.com/blog/2019/08/web_components.html
 
-### Web Components
+## Web Components
 
 好处： 跨端，内容封闭
 坏处： 全局的 css 不受用了
 
 ### 原生的 API 生命周期
+
+### 跨端的能力是如何实现的？web components
 
 ## Omiv
 
@@ -81,3 +84,5 @@ vue 的双向数据流 改为了 单向数据流，从组件数据修改 dom 自
 2. 组件更新机制，有点暴力。
 3. 模块化。
 4. devtools
+
+## 你做了哪一部分的工作

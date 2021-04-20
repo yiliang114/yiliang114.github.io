@@ -309,6 +309,11 @@ package.json
 
 解决办法： cdn 锁版本，跟 npm 依赖安装的包版本保持一致即可。 不过后续更新版本可能需要手动更新 cdn 的版本号。
 
+步骤：
+
+1. vue-router 中的通过 webpack 的 `() => import` or `require.ensure` API 能够自动进行代码分割
+2. 通过 analyzer 进行分析 js 包的大小，webpack 中的 externals 能够拆分包，通过外链 cdn 的形式引入
+
 #### 按需加载
 
 babel-import-plugin 原理是啥？

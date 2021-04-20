@@ -231,12 +231,14 @@ Promise.retry = function(promiseFn, times = 3) {
     }
   });
 };
+
 function getProm() {
   const n = Math.random();
   return new Promise((resolve, reject) => {
     setTimeout(() => (n > 0.9 ? resolve(n) : reject(n)), 1000);
   });
 }
+
 Promise.retry(getProm);
 ```
 
@@ -258,9 +260,11 @@ function PromiseLimit(funcArray, limit = 5) {
     if (i === funcArray.length) return Promise.all(executing);
     // 一个 promise
     const p = funcArray[i++]();
+    // 最终返回的 promise 队列
     result.push(p);
     // 在 p 执行结束之后，将 e 从 executing 数组中取出
     const e = p.then(() => executing.splice(executing.indexOf(e), 1));
+    // 执行中的 promise 队列
     executing.push(e);
     // 如果个数到了 limit， 先 race 等待执行结束，再执行 queue 添加一个 promise
     if (executing.length >= limit) {
