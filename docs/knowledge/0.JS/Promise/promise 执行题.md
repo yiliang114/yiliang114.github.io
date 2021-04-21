@@ -54,6 +54,7 @@ console.log('script end');
 // async1 end
 // promise1
 // promise2
+// setTimeout
 ```
 
 当我们调用 `async1` 函数时，会马上输出 `async2 end`，并且函数返回一个 `Promise`，接下来在遇到 `await`的时候会就让出线程开始执行 `async1` 外的代码，所以我们完全可以把 `await` 看成是**让出线程**的标志。

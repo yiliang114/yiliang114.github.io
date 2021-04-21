@@ -4,6 +4,8 @@ date: 2020-11-21
 draft: true
 ---
 
+<!-- TODO: -->
+
 ## Omi 是什么？
 
 Omi 是一款跨框架的框架，基于 Web Components 设计，支持 PC Web、移动 H5 和小程序开发。
@@ -45,6 +47,12 @@ Omi 是一款跨框架的框架，基于 Web Components 设计，支持 PC Web�
 
 <!-- https://www.zhangxinxu.com/wordpress/2021/02/web-components-import-css/ -->
 <!-- https://developer.mozilla.org/zh-CN/docs/Web/Web_Components -->
+
+## JSONPatcherProxy
+
+https://github.com/Palindrom/JSONPatcherProxy
+
+监听或代理任意对象的任意变化
 
 ## 解决的问题
 

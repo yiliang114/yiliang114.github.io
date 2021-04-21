@@ -216,10 +216,10 @@ CSS 的`clear`属性通过使用`left`、`right`、`both`，让该元素向下�
 
 1. 使用空标签清除浮动。空`div`方法：`<div style="clear:both;"></div>`
    这种方法是在所有浮动标签后面添加一个空标签 定义 css clear:both. 弊端就是增加了无意义标签。
-2. 使用 overflow。给父元素设置 overflow：auto 或者 hidden。
-   给包含浮动元素的父标签添加 css 属性 overflow:auto; zoom:1; zoom:1 用于兼容 IE6。
-3. 使用 after 伪对象清除浮动。
+2. 使用 after 伪对象清除浮动。
    该方法只适用于非 IE 浏览器。具体写法可参照以下示例。使用中需注意以下几点。一、该方法中必须为需要清除浮动元素的伪对象中设置 height:0，否则该元素会比实际高出若干像素；
+3. 使用 overflow。给父元素设置 overflow：auto 或者 hidden。
+   给包含浮动元素的父标签添加 css 属性 overflow:auto; zoom:1; zoom:1 用于兼容 IE6。
 
 使用`CSS`中的`clear:both`;属性来清除元素的浮动可解决 2、3 问题，对于问题 1，添加如下样式，给父元素添加`clearfix`样式：
 

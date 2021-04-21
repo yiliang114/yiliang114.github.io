@@ -33,6 +33,8 @@ babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在
 babel 的转译过程分为三个阶段：parsing、transforming、generating，以 ES6 代码转译为 ES5 代码为例，babel 转译的具体过程如下：
 
 1. 解析：将代码字符串解析成抽象语法树。babylon 将 ES6/ES7 代码解析成 AST。
+   1. 词法分析：将代码(字符串)分割为 token 流，即语法单元成的数组
+   2. 语法分析：分析 token 流(上面生成的数组)并生成 AST
 2. 转换：对抽象语法树进行转换操作。plugin 用 babel-traverse 对 AST 树进行遍历转译, 得到新的 AST 树。
 3. 再建：根据变换后的抽象语法树再生成代码字符串。新 AST 通过 babel-generator 转换成 ES5。
 
@@ -94,6 +96,10 @@ presets 其实是多个 plugin 的集合。如果某一个插件集合还不能�
 
 需要 polyfill 的支持，但是又不想直接引入 polyfill(有弊端)，可以使用 `transform-runtime`
 
+### transform-runtime 以及 stage-2 说一下他们的作用
+
+env: env 则代指最新的标准，包括了 latest 和 es20xx 各年份
+
 ### stage 几个阶段的区别
 
 1. Stage 0 - 稻草人: 只是一个想法，可能是 babel 插件。
@@ -105,23 +111,6 @@ presets 其实是多个 plugin 的集合。如果某一个插件集合还不能�
 ### @babel/core 与 @babel/preset-env
 
 ### 写过 babel 插件吗？是用来干什么？怎么写的？
-
-### plugin
-
-### env
-
-### babel、babel-polyfill 的区别
-
-babel-polyfill：模拟一个 es6 环境，提供内置对象如 Promise 和 WeakMap
-引入 babel-polyfill 全量包后文件会变得非常大。它提供了诸如 Promise，Set 以及 Map 之类的内置插件，这些将污染全局作用域,可以编译原型链上的方法。
-
-babel-plugin-transform-runtime & babel-runtime：转译器将这些内置插件起了别名 core-js，这样你就可以无缝的使用它们，并且无需使用 polyfill。但是无法编译原型链上的方法
-
-runtime 编译器插件做了以下三件事：
-
-1. 当你使用 generators/async 函数时，自动引入 babel-runtime/regenerator 。
-1. 自动引入 babel-runtime/core-js 并映射 ES6 静态方法和内置插件。
-1. 移除内联的 Babel helper 并使用模块 babel-runtime/helpers 代替。
 
 ### babel-polyfill 和 babel-transform-runtime 的区别
 
@@ -136,11 +125,22 @@ runtime 编译器插件做了以下三件事：
 
 所以，babel 同时提供了 babel-plugin-transform-runtime 这一插件，它的好处在于：
 
-1.  需要用到的垫片，会使用引用的方式引入，而不是直接替换，避免了垫片代码的重复
-2.  由于使用引用的方式引入，所以不会直接污染全局作用域。这就对于库和工具的开发带来了好处
-    但是 babel-plugin-transform-runtime 仍然不能单独作用。因为有一些静态方法，如"foobar".includes("foo")仍然需要引入 babel-polyfill 才能使用
+1. 需要用到的垫片，会使用引用的方式引入，而不是直接替换，避免了垫片代码的重复
+2. 由于使用引用的方式引入，所以不会直接污染全局作用域。这就对于库和工具的开发带来了好处
+   但是 babel-plugin-transform-runtime 仍然不能单独作用。因为有一些静态方法，如"foobar".includes("foo")仍然需要引入 babel-polyfill 才能使用
 
-### transform-runtime 以及 stage-2 说一下他们的作用
+babel、babel-polyfill 的区别：
+
+babel-polyfill：模拟一个 es6 环境，提供内置对象如 Promise 和 WeakMap
+引入 babel-polyfill 全量包后文件会变得非常大。它提供了诸如 Promise，Set 以及 Map 之类的内置插件，这些将污染全局作用域,可以编译原型链上的方法。
+
+babel-plugin-transform-runtime & babel-runtime：转译器将这些内置插件起了别名 core-js，这样你就可以无缝的使用它们，并且无需使用 polyfill。但是无法编译原型链上的方法
+
+runtime 编译器插件做了以下三件事：
+
+1. 当你使用 generators/async 函数时，自动引入 babel-runtime/regenerator 。
+1. 自动引入 babel-runtime/core-js 并映射 ES6 静态方法和内置插件。
+1. 移除内联的 Babel helper 并使用模块 babel-runtime/helpers 代替。
 
 ### babel 几个不同插件的有什么不同的作用，register-babel jsx-babel 等
 

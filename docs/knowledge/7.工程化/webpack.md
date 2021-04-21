@@ -4,6 +4,8 @@ date: 2020-11-21
 draft: true
 ---
 
+<!-- https://juejin.cn/post/6844904094281236487#heading-5 -->
+
 ## 基础
 
 webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)，能够很好地管理、打包 Web 开发中所用到的`HTML、Javascript、CSS`以及各种静态文件（图片、字体等），将项目当作一个整体，通过一个给定的的入口文件，webpack 将从这个文件开始找到你的项目的所有依赖文件，对于不同类型的资源，`webpack`有对应的模块加载器 loaders 。`webpack`模块打包器会分析模块间的依赖关系，优化且合并，最后打包成一个或多个浏览器可识别的 js 文件。
@@ -284,9 +286,17 @@ plugin 是用来处理经过 loader 处理编译之后的内容的，比如 ugli
 plugin 是指插件包，plugins 里面的插件会帮助我们做一些其他的事情， 让 webpack 具有更多的灵活性，提升开发效率。
 在 plugins 中单独配置。类型为数组，每一项是一个 plugin 的实例，参数都通过构造函数传入
 
-### Plugin
-
 使用`plugins`让打包变的便捷，可以在 webpack 打包的某时刻帮做一些事情，他很像一个生命周期函数
+
+webpack 在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在特定的阶段钩入想要添加的自定义功能。Webpack 的 Tapable 事件流机制保证了插件的有序性，使得整个系统扩展性良好。
+
+Plugin API:
+
+1. compiler 暴露了和 Webpack 整个生命周期相关的钩子
+1. compilation 暴露了与模块和依赖有关的粒度更小的事件钩子插件需要在其原型上绑定 apply 方法，才能访问 compiler 实例
+1. 传给每个插件的 compiler 和 compilation 对象都是同一个引用，若在一个插件中修改了它们身上的属性，会影响后面的插件找出合适的事件点去完成想要的功能
+1. emit 事件发生时，可以读取到最终输出的资源、代码块、模块及其依赖，并进行修改(emit 事件是修改 Webpack 输出资源的最后时机)watch-run 当依赖的文件发生变化时会触发
+1. 异步的事件需要在插件处理完任务时调用回调函数通知 Webpack 进入下一个流程，不然会卡住
 
 ### 有哪些常见的 Plugin？他们是解决什么问题的
 

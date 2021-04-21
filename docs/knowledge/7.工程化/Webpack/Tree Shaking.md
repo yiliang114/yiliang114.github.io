@@ -196,6 +196,30 @@ tree shaking 不能自动的识别哪些代码属于 side effects，因此手动
 
 可以测试下 lodash-es，把其 package.json 中的 sideEffects 设置为 true，会发现虽然只使用一个子模块，但全部子模块都被打包处理了
 
+## 按需加载
+
+- rollup tree sharking
+- es module
+
+在使用组件库的时候，需要的组件就加载进来打包，其他的就不要，以此减小打包结果的体积。
+
+实现：
+
+本质上是 tree sharking。
+
+1. es module 形式原生就支持。需要使用 rollup 打包， 默认 webpack 无法打包成 es module 的形式。
+2. 提供一个按需加载的插件形式。
+
+### webpack 路由懒加载
+
+按需加载路由：
+
+webpack 中提供了 require.ensure()来实现按需加载。以前引入路由是通过 import 这样的方式引入，改为 const 定义的方式进行引入。
+
+```js
+const home = r => require.ensure([], () => r(require('../../common/home.vue')));
+```
+
 ## 文档
 
 [你的 Tree-Shaking 并没什么卵用](https://juejin.cn/post/6844903549290151949)

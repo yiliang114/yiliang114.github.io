@@ -15,8 +15,6 @@ BFC 决定了元素如何对其内容进行定位，以及与其他元素的关�
 
 在普通流中的 Box(框) 属于一种 formatting context(格式化上下文) ，类型可以是 block ，或者是 inline ，但不能同时属于这两者。并且， Block boxes(块框) 在 block formatting context(块格式化上下文) 里格式化， Inline boxes(块内框) 则在 Inline Formatting Context(行内格式化上下文) 里格式化。
 
-### BFC、IFC、GFC、FFC：FC（Formatting Contexts），格式化上下文
-
 `BFC` 容器里面的子元素不会在布局上影响到外面的元素，反之也是如此(只要脱离文档流，肯定就能产生 `BFC`)。
 
 浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），以及 overflow 值不为 visible 的块级盒子，都会为他们的内容创建新的 BFC（块级格式上下文）。
@@ -25,6 +23,7 @@ BFC 决定了元素如何对其内容进行定位，以及与其他元素的关�
 
 产生 `BFC` 方式如下
 
+- 根元素，即 HTML 元素（最大的一个 BFC）
 - `float` 的值不为 `none`。（产生浮动）
 - `overflow` 的值不为 `visible`。
 - `position` 的值不为 `relative` 和 `static`。
@@ -48,19 +47,11 @@ BFC 决定了元素如何对其内容进行定位，以及与其他元素的关�
 水平居中：当一个块要在环境中水平居中时，设置其为 inline-block 则会在外层产生 IFC，通过 text-align 则可以使其水平居中。
 垂直居中：创建一个 IFC，用其中一个元素撑开父元素的高度，然后设置其 vertical-align:middle，其他行内元素则可以在此父元素下垂直居中。
 
-### 如何创建 BFC ？
-
-1. 根元素，即 HTML 元素（最大的一个 BFC）
-2. float 值不为 none 因为 css float 默认值为 none 只要设置了浮动，当前元素就创建了 BFC
-3. position 默认值是 static position 的值为 absolute 或 fixed。 position 的值只要不是 static 或者 relative 就创建了一个 BFC。
-4. display 的值为 inline-block、table-cell、table-caption. display 设置了跟 table 相关的 比如 table-cell
-5. overflow 不为 visible 这个是最常用的。visible（默认值。内容不会被修剪，会呈现在元素框之外）.auto 或者 hidden 都可以创建一个 BFC.
-
 ### BFC 的原理（渲染规则）：
 
-1. 内部的 Box 会在垂直方向，一个接一个地放置。
-2. 属于同一个 BFC 的两个相邻的 Box 的 margin 会发生重叠
-3. BFC 就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此, 文字环绕效果，设置 float
+1. BFC 就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此, 文字环绕效果，设置 float
+2. 内部的 Box 会在垂直方向，一个接一个地放置。
+3. 属于同一个 BFC 的两个相邻的 Box 的 margin 会发生重叠
 4. BFC 的区域不会与 float box 重叠。
 5. 计算 BFC 的高度，浮动元素也参与计算
 
