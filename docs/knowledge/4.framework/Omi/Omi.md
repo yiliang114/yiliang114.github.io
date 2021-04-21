@@ -4,11 +4,55 @@ date: 2020-11-21
 draft: true
 ---
 
-<!-- TODO: -->
-
 ## Omi 是什么？
 
-解决的问题
+Omi 是一款跨框架的框架，基于 Web Components 设计，支持 PC Web、移动 H5 和小程序开发。
+
+<!-- https://github.com/Tencent/omi -->
+
+### 特性
+
+超小的尺寸，7 kb (gzip)
+
+- 局部 CSS，HTML+ Scoped CSS + JS 组成可复用的组件。不用担心组件的 CSS 会污染组件外的，Omi 会帮你处理好一切
+- 更自由的更新，每个组件都有 update 方法，自由选择时机进行更新。你也可以和 obajs 或者 mobx 一起使用来实现自动更新
+- 模板引擎可替换，开发者可以重写 Omi.template 方法来使用任意模板引擎
+- 完全面向对象，函数式和面向对象各有优劣，Omi 使用完全的面向对象的方式来构建 Web 程序
+- ES6+ 和 ES5 都可以，Omi 提供了 ES6+ 和 ES5 的两种开发方案。你可以自有选择你喜爱的方式
+
+## Web Components
+
+<!-- https://zhuanlan.zhihu.com/p/97907370 -->
+
+好处： 跨端，内容封闭
+坏处： 全局的 css 不受用了
+
+通过使用 Custom Elements 创建内联的 CSS 和 JavaScript 的自定义元素。需要说明的是它不是 React， Vue 或者 Angular 的框架的替代方案，它是一个全新的概念。
+
+### 原生的 API 生命周期
+
+| Lifecycle method | When it gets called                       |
+| ---------------- | ----------------------------------------- |
+| `install`        | 准备插入到文档                            |
+| `installed`      | 插入到文档之后                            |
+| `uninstall`      | 从文档中移除                              |
+| `beforeUpdate`   | update 之前                               |
+| `updated`        | update 之后                               |
+| `beforeRender`   | `render()` 之前                           |
+| `receiveProps`   | 父元素重新渲染触发，返回 false 可阻止更新 |
+
+### css 处理
+
+<!-- https://www.zhangxinxu.com/wordpress/2021/02/web-components-import-css/ -->
+<!-- https://developer.mozilla.org/zh-CN/docs/Web/Web_Components -->
+
+## 解决的问题
+
+1. 跨端的问题
+
+## api
+
+### define
 
 ### 与 Vue React 有什么不同， 为什么会选用它而不是 Vue 或者 React
 
@@ -23,15 +67,7 @@ https://aotu.io/notes/2016/06/24/Shadow-DOM/index.html
 ## Omi + Web Components
 
 https://segmentfault.com/a/1190000017091755?utm_source=tag-newest
-
 http://www.ruanyifeng.com/blog/2019/08/web_components.html
-
-## Web Components
-
-好处： 跨端，内容封闭
-坏处： 全局的 css 不受用了
-
-### 原生的 API 生命周期
 
 ### 跨端的能力是如何实现的？web components
 

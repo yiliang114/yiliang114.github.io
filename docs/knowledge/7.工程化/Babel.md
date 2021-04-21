@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+<!-- https://blog.csdn.net/zy444263/article/details/86513190 -->
+
 ## AST
 
 抽象语法树（Abstract Syntax Tree）简称 AST，是源代码的抽象语法结构的树状表现形式。webpack、eslint 等很多工具库的核心都是通过抽象语法树这个概念来实现对代码的检查、分析等操作。
@@ -30,10 +32,11 @@ babel 是一个 JS 解码器，可以将 ES6 代码转为 ES5 代码，从而在
 
 babel 的转译过程分为三个阶段：parsing、transforming、generating，以 ES6 代码转译为 ES5 代码为例，babel 转译的具体过程如下：
 
-1. ES6 代码输入
-2. 解析：将代码字符串解析成抽象语法树。babylon 将 ES6/ES7 代码解析成 AST。
-3. 变换：对抽象语法树进行变换操作。plugin 用 babel-traverse 对 AST 树进行遍历转译, 得到新的 AST 树。
-4. 再建：根据变换后的抽象语法树再生成代码字符串。新 AST 通过 babel-generator 转换成 ES5。
+1. 解析：将代码字符串解析成抽象语法树。babylon 将 ES6/ES7 代码解析成 AST。
+2. 转换：对抽象语法树进行转换操作。plugin 用 babel-traverse 对 AST 树进行遍历转译, 得到新的 AST 树。
+3. 再建：根据变换后的抽象语法树再生成代码字符串。新 AST 通过 babel-generator 转换成 ES5。
+
+最重要的是第二步：转换，需要通过插件来定义转换规则
 
 ### 配置文件 `.babelrc`
 
@@ -83,15 +86,29 @@ Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 A
 
 babel-register 字面意思能看出来，这是 babel 的一个注册器，它在底层改写了 node 的 require 方法，引入 babel-register 之后所有 require 并以.es6, .es, .jsx 和 .js 为后缀的模块都会经过 babel 的转译
 
+### presets 和 plugins 的区别
+
+presets 其实是多个 plugin 的集合。如果某一个插件集合还不能满足我们的需要，就需要添加其他的插件。
+
+例如，我们在做 vue 和 react 开发的时候需要用到 jsx ，这个时候就需要一些其他的插件：`transform-vue-jsx`.
+
+需要 polyfill 的支持，但是又不想直接引入 polyfill(有弊端)，可以使用 `transform-runtime`
+
 ### stage 几个阶段的区别
+
+1. Stage 0 - 稻草人: 只是一个想法，可能是 babel 插件。
+2. Stage 1 - 提案: 初步尝试。
+3. Stage 2 - 初稿: 完成初步规范。
+4. Stage 3 - 候选: 完成规范和浏览器初步实现。
+5. Stage 4 - 完成: 将被添加到下一年度发布。
+
+### @babel/core 与 @babel/preset-env
+
+### 写过 babel 插件吗？是用来干什么？怎么写的？
 
 ### plugin
 
 ### env
-
-### babel 具体做的事情
-
-### 写过 babel 插件吗？是用来干什么？怎么写的？
 
 ### babel、babel-polyfill 的区别
 
@@ -105,8 +122,6 @@ runtime 编译器插件做了以下三件事：
 1. 当你使用 generators/async 函数时，自动引入 babel-runtime/regenerator 。
 1. 自动引入 babel-runtime/core-js 并映射 ES6 静态方法和内置插件。
 1. 移除内联的 Babel helper 并使用模块 babel-runtime/helpers 代替。
-
-### stage-1，stage-2，stage-3
 
 ### babel-polyfill 和 babel-transform-runtime 的区别
 
@@ -129,8 +144,40 @@ runtime 编译器插件做了以下三件事：
 
 ### babel 几个不同插件的有什么不同的作用，register-babel jsx-babel 等
 
-### babel 在转义的时候一些问题(babel 在 转义 const 的时候 会转成什么 但是 在运行的时候 为什么会有 const 的属性...)
+### babel 在转义的时候一些问题
+
+babel 在 转义 const 的时候 会转成什么 但是 在运行的时候 为什么会有 const 的属性...
 
 const 属性被编译成 var 的之后，属性会被一个 `_readOnlyError` 函数包起来，修改值的时候 就会 throw 一个 Error
+
+### Babel 是如何编译 let 和 const?
+
+首先来看下编译结果：
+
+```js
+let value = 'a';
+// babel编译后：
+var value = 'a';
+```
+
+可以看到 Babel 是将 let 编译成了 var，那再来一个例子：
+
+```js
+if (false) {
+  let value = 'a';
+}
+console.log(value); // value is not defined
+```
+
+如果 babel 将 let 编译为 var 因该打印 undefined,为何会报错呢，babel 是这样编译的：
+
+```js
+if (false) {
+  var _value = 'a';
+}
+console.log(value);
+```
+
+babel 是改变量名，使内外层的变量名称不一样。 const 修改值时报错，以及重复声明报错怎么实现的呢？其实在编译时就报错了
 
 ### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？

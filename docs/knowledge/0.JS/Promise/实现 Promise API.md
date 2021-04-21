@@ -205,17 +205,9 @@ Promise.allSettled = function(iterators) {
 };
 ```
 
-### Promise.all、Promise.any 和 Promise.allSettled 中计数器使用对比
+### 实现 Promise.retry(promiseFn, times)
 
-这三个方法均使用了计数器来进行异步流程控制，下面表格横向对比不同方法中计数器的用途，来加强理解：
-
-| 方法名               | 用途                                        |
-| -------------------- | ------------------------------------------- |
-| `Promise.all`        | 标记 fulfilled 的实例个数                   |
-| `Promise.any`        | 标记 rejected 的实例个数                    |
-| `Promise.allSettled` | 标记所有实例（fulfilled 和 rejected）的个数 |
-
-## 写一个 promise 重试函数，可以设置时间间隔和次数。
+可以设置时间间隔和次数。
 
 ```js
 Promise.retry = function(promiseFn, times = 3) {
@@ -242,11 +234,9 @@ function getProm() {
 Promise.retry(getProm);
 ```
 
-## Promise.all(list, limit) 的实现
+### 实现 Promise.all(list, limit)
 
-控制一下子发出的请求个数。
-
-异步请求控制并发 LimitPromise
+控制一下子发出的请求个数。异步请求控制并发 LimitPromise
 
 ```js
 function PromiseLimit(funcArray, limit = 5) {
@@ -279,3 +269,13 @@ function PromiseLimit(funcArray, limit = 5) {
   return queue().then(() => Promise.all(result));
 }
 ```
+
+## Promise.all、Promise.any 和 Promise.allSettled 中计数器使用对比
+
+这三个方法均使用了计数器来进行异步流程控制，下面表格横向对比不同方法中计数器的用途，来加强理解：
+
+| 方法名               | 用途                                        |
+| -------------------- | ------------------------------------------- |
+| `Promise.all`        | 标记 fulfilled 的实例个数                   |
+| `Promise.any`        | 标记 rejected 的实例个数                    |
+| `Promise.allSettled` | 标记所有实例（fulfilled 和 rejected）的个数 |

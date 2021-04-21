@@ -7,7 +7,6 @@
     ".github": true,
     ".circleci": true,
     ".vscode": true,
-    "scripts": true,
     "arithmetic": true
   },
   "cSpell.words": [

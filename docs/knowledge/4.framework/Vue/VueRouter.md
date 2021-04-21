@@ -656,10 +656,10 @@ window.location.hash = route.fullPath
 
 `www.test.com/#/` 就是 Hash URL，当 `#` 后面的哈希值发生变化时，可以通过 `hashchange` 事件来监听到 URL 的变化，从而进行跳转页面，并且无论哈希值如何变化，服务端接收到的 URL 请求永远是 `www.test.com`。
 
-```
+```js
 window.addEventListener('hashchange', () => {
   // ... 具体逻辑
-})
+});
 ```
 
 Hash 模式相对来说更简单，并且兼容性也更好。
@@ -677,20 +677,20 @@ History 模式是 HTML5 新推出的功能，主要使用 `history.pushState` �
 
 通过 History 模式改变 URL 同样不会引起页面的刷新，只会更新浏览器的历史记录。
 
-```
+```js
 // 新增历史记录
-history.pushState(stateObject, title, URL)
+history.pushState(stateObject, title, URL);
 // 替换当前历史记录
-history.replaceState(stateObject, title, URL)
+history.replaceState(stateObject, title, URL);
 ```
 
 当用户做出浏览器动作时，比如点击后退按钮时会触发 `popState` 事件
 
-```
+```js
 window.addEventListener('popstate', e => {
   // e.state 就是 pushState(stateObject) 中的 stateObject
-  console.log(e.state)
-})
+  console.log(e.state);
+});
 ```
 
 history 利用了 html5 history interface 中新增的 pushState() 和 replaceState() 方法。这两个方法应用于浏览器记录栈，在当前已有的 back、forward、go 基础之上，它们提供了对历史记录修改的功能。只是当它们执行修改时，虽然改变了当前的 URL ，但浏览器不会立即向后端发送请求。

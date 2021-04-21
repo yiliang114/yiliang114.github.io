@@ -16,37 +16,6 @@ https://juejin.cn/post/6844904008432222215
 
 在 webpack-dev-server 中实现「HMR」的核心就是 HotModuleReplacementPlugin ，它是「Webpack」内置的「Plugin」。在我们平常开发中，之所以改一个文件，例如 .vue 文件，会触发「HMR」，是因为在 vue-loader 中已经内置了使用 HotModuleReplacementPlugin 的逻辑。
 
-### webpack-dev-server HMR
-
-究其底层实现，是有两个关键的点：
-
-1. 与本地服务器建立「socket」连接，注册 hash 和 ok 两个事件，发生文件修改时，给客户端推送 hash 事件。客户端根据 hash 事件中返回的参数来拉取更新后的文件。
-
-2. HotModuleReplacementPlugin 会在文件修改后，生成两个文件，用于被客户端拉取使用。例如：
-
-hash.hot-update.json
-
-```json
-{
-  "c": {
-    "chunkname": true
-  },
-  "h": "d69324ef62c3872485a2"
-}
-```
-
-chunkname.d69324ef62c3872485a2.hot-update.js，这里的 chunkname 即上面 c 中对于 key。
-
-```js
-webpackHotUpdate("main",{
-   "./src/test.js":
-  (function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    eval(....)
-  })
-})
-```
-
 ### Webpack 热更新实现原理? 是如何做到在不刷新浏览器的前提下更新页面的
 
 1. 当修改了一个或多个文件；
@@ -96,7 +65,40 @@ module.exports = {
 };
 ```
 
-### 详细
+### webpack-dev-server HMR
+
+究其底层实现，是有两个关键的点：
+
+1. 与本地服务器建立「socket」连接，注册 hash 和 ok 两个事件，发生文件修改时，给客户端推送 hash 事件。客户端根据 hash 事件中返回的参数来拉取更新后的文件。
+
+2. HotModuleReplacementPlugin 会在文件修改后，生成两个文件，用于被客户端拉取使用。例如：
+
+hash.hot-update.json
+
+```json
+{
+  "c": {
+    "chunkname": true
+  },
+  "h": "d69324ef62c3872485a2"
+}
+```
+
+chunkname.d69324ef62c3872485a2.hot-update.js，这里的 chunkname 即上面 c 中对于 key。
+
+```js
+webpackHotUpdate("main",{
+   "./src/test.js":
+  (function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    eval(....)
+  })
+})
+```
+
+### webpack-dev-server 和 dev-middleware、hotMiddleware 的区别，原理能说说吗？
+
+## 详细过程
 
 1. webpack-dev-middleware 是用来处理文件打包到哪里，到内存读取速度更快。
 2. devServer 在监听 compiler done 后，利用 socket 告诉 devServer/client 修改模块的 hash
@@ -137,5 +139,3 @@ if (module.hot) {
   });
 }
 ```
-
-### webpack-dev-server 和 dev-middleware、hotMiddleware 的区别，原理能说说吗？

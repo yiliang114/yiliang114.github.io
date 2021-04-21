@@ -4,11 +4,15 @@ date: 2020-11-21
 draft: true
 ---
 
+<!-- https://juejin.cn/post/6844903544756109319 -->
+<!-- https://juejin.cn/post/6844903549290151949 -->
+<!-- https://juejin.cn/post/6844903687412776974 -->
+
 ## Tree Shaking
 
-Tree shaking 是一种通过清除多余代码方式来优化项目打包体积的技术。在开发中我们经常使用一些第三方库，而这些第三方库只使用了这个库的部分功能或代码，未使用的代码也要被打包进来，这样出口文件会非常大， `tree-sharking` 帮我们解决了这个问题，它可以将各个模块中没有使用的方法过滤掉，只对有效代码进行打包。
+Tree shaking 是一种通过清除多余代码方式来优化项目打包体积的技术，它可以将各个模块中没有使用的方法过滤掉，只对有效代码进行打包。
 
-`tree-sharking` 是通过在 Webpack 中配置 `babel-plugin-import` 插件来实现的。
+因为 ES6 模块的出现，ES6 模块依赖关系是确定的，`和运行时的状态无关`，可以进行可靠的静态分析，这就是 Tree shaking 的基础。
 
 ### Tree Shaking 工作原理
 
@@ -87,38 +91,12 @@ options: {
 }
 ```
 
-#### 关于 side effects（副作用）
-
-side effects 是指那些当 import 的时候会执行一些动作，但是不一定会有任何 export。比如 ployfill,ployfills 不对外暴露方法给主程序使用。
-
-tree shaking 不能自动的识别哪些代码属于 side effects，因此手动指定这些代码显得非常重要，如果不指定可能会出现一些意想不到的问题。
-
-在 webpack 中，是通过 package.json 的 sideEffects 属性来实现的。
-
-```js
-{
-"name": "tree-shaking",
-"sideEffects": false
-}
-```
-
-如果所有代码都不包含副作用，我们就可以简单地将该属性标记为 false，来告知 webpack，它可以安全地删除未用到的 export 导出。
-
-如果你的代码确实有一些副作用，那么可以改为提供一个数组：
-
-```js
-{
-  "name": "tree-shaking",
-  "sideEffects": [
-    "./src/common/polyfill.js"
-  ]
-}
-```
-
 #### 总结
 
 tree shaking 不支持动态导入（如 CommonJS 的 require()语法），只支持纯静态的导入（ES6 的 import/export）
 webpack 中可以在项目 package.json 文件中，添加一个 “sideEffects” 属性,手动指定由副作用的脚本
+
+### Es6Module 在静态分析的时候怎么知道 函数是否需要 tree-shake 掉
 
 ### require 引入的模块 webpack 能做 Tree Shaking 吗？
 
@@ -133,7 +111,9 @@ webpack 中可以在项目 package.json 文件中，添加一个 “sideEffects�
 ### code splitting 用的是什么插件
 
 使用 Code Splitting 可以有两种方式
+
 第一手动实现：
+
 配置
 
 ```js
@@ -162,18 +142,59 @@ window._ = _;
     },
 ```
 
-### Es6Module 在静态分析的时候怎么知道 函数是否需要 tree-shake 掉
-
 ### 组件库如何做按需加载
 
 1. `babel-plugin-import`
 2. es module 形式
 
+`tree-sharking` 是通过在 Webpack 中配置 `babel-plugin-import` 插件来实现的。
+
 ### 注意点
 
-需要注意的是，tree sharking 对于如何 import 模块是有要求的，这就是为什么 react 中经常看到 `import * as React from 'react'` 的原因。
+tree sharking 对于如何 import 模块是有要求的，这就是为什么 react 中经常看到 `import * as React from 'react'` 的原因。
 
 在 b.js 中通过`import a from './a.js'`，来调用，那么就无法使用 tree sharking，这时候我们可以怎么办呢？可以这么写`import * as a from './a.js'`
+
+## sideEffects （副作用）
+
+side effects 是指那些当 import 的时候会执行一些动作，但是不一定会有任何 export。比如 ployfill,ployfills 不对外暴露方法给主程序使用。
+
+tree shaking 不能自动的识别哪些代码属于 side effects，因此手动指定这些代码显得非常重要，如果不指定可能会出现一些意想不到的问题。
+
+在 webpack 中，是通过 package.json 的 sideEffects 属性来实现的。
+
+```json
+{
+  "name": "tree-shaking",
+  "sideEffects": false
+}
+```
+
+如果所有代码都不包含副作用，我们就可以简单地将该属性标记为 false，来告知 webpack，它可以安全地删除未用到的 export 导出。
+
+如果你的代码确实有一些副作用，那么可以改为提供一个数组：
+
+```js
+{
+  "name": "tree-shaking",
+  "sideEffects": [
+    "./src/common/polyfill.js"
+  ]
+}
+```
+
+两个原则：
+
+1. 被 import 的文件中没有 export 被使用，若包含副作用代码：
+
+   1. sideEffects 为 false，则副作用也被删除。即 module 整个模块都不会被打包；
+   2. sideEffects 为 true 或副作用列表中包含 module.js，则会仅保留其副作用代码。
+
+2. 被 import 的文件中属性、接口被使用，未被使用的其余 export 都会被删除；无论 sidesEffects 设置什么值，其中的副作用代码始终会被保留。
+
+测试：
+
+可以测试下 lodash-es，把其 package.json 中的 sideEffects 设置为 true，会发现虽然只使用一个子模块，但全部子模块都被打包处理了
 
 ## 文档
 

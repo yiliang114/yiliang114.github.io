@@ -6,13 +6,11 @@ draft: true
 
 ### node 为什么适合做高并发
 
-### node 容灾处理
-
 ### node 如何捕获异常
 
 ### 开发中有遇到过比较难定位的问题吗？Node 内存泄露有遇到过吗？
 
-### 简述公司 node 架构中容灾的实现 ?
+### TODO: 简述公司 node 架构中容灾的实现 ?
 
 ### stream 和同步方式处理文件有什么区别
 
@@ -172,7 +170,6 @@ https://segmentfault.com/a/1190000012709705
 - Express 和 koa 有什么关系，有什么区别？
 - Nodejs 中的 Stream 和 Buffer 有什么区别？
 - node 是如何实现高并发的？
-- 简述公司 node 架构中容灾的实现 ?
 - nodejs 的进程和线程
 - nodejs 中通常如何使用 session
 - 说说 nodejs 的 buffer 与 stream 的关系（流对象，只能操作 string 和 buffer）
