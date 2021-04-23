@@ -37,27 +37,17 @@ http://hcysun.me/
 
 ![阅读源码](https://user-images.githubusercontent.com/11473889/110489660-854da580-812a-11eb-985a-9413990a0c0b.png)
 
-### 日志上报
-
-https://www.cnblogs.com/warm-stranger/p/10209990.html
-
 ### blog
 
 https://github.com/simbawus/blog
 
-### nodejs
+### node 源码
 
 https://cnodejs.org/user/youth7/topics
 https://cnodejs.org/user/xtx1130/topics
-
 https://github.com/nswbmw/N-blog
-
-### node 源码
-
 https://www.zhihu.com/people/ji-mi-51-57/posts
-
 https://laogen.site/archives/
-
 https://github.com/Aaaaaaaty/Blog/issues/29
 https://imweb.io/topic/5963a4c19b7a478b1c268ded
 https://github.com/chyingp/nodejs-learning-guide
@@ -68,7 +58,6 @@ https://zhuanlan.zhihu.com/p/67606418
 ### 蜗牛
 
 http://shengxinjing.cn/
-
 https://github.com/nicejade/Front-end-tutorial
 https://github.com/helloqingfeng/Awsome-Front-End-learning-resource
 
@@ -90,12 +79,6 @@ https://github.com/yanthink/react-simplemde-editor
 ### axios 源码
 
 https://github.com/leer0911/myXHR
-
-## 优秀的面试文章：
-
-- 中高级前端大厂面试秘籍：https://juejin.im/post/5c64d15d6fb9a049d37f9c20
-- 前端面试查漏补缺：https://juejin.im/post/5c6bab91f265da2dd94c9f9e
-- 前端专题学习: https://github.com/mqyqingfeng/Blog
 
 ### 前端开发面试知识点大纲：
 
@@ -149,19 +132,6 @@ https://xugaoyi.com/
 https://www.zhihu.com/people/qiu-chen-27-12-14/posts
 https://www.cnblogs.com/chanwahfung/
 
-### 2332
-
-https://github.com/sl1673495
-https://zqblog.beaf.tech/semantic-release/
-https://segmentfault.com/u/zengpeisen_5abdadcc67a6f
-https://jdc.jd.com/archives/2175
-
-### 监控
-
-书籍《从零开始搭建前端监控平台》
-
-https://g.yuque.com/xinbao37/learn/powc4i
-
 ### leetcode
 
 https://leetcode-cn.com/u/jsliang/
@@ -187,3 +157,19 @@ https://work.weixin.qq.com/api/doc#14404
 https://www.jb51.net/article/119912.htm
 
 https://lq782655835.github.io/blogs/vue/vue3-code-1.rfcs.html
+
+### blog
+
+https://github.com/sl1673495
+https://zqblog.beaf.tech/semantic-release/
+https://segmentfault.com/u/zengpeisen_5abdadcc67a6f
+https://jdc.jd.com/archives/2175
+https://alexzhong22c.github.io/2020/04/02/vue-lazyload-summary/
+https://ustbhuangyi.github.io/vue-analysis/v2/compile/entrance.html
+https://lq782655835.github.io/blogs/team-standard/recommend-vuerouter.html
+
+### 优秀的面试文章：
+
+- 中高级前端大厂面试秘籍：https://juejin.im/post/5c64d15d6fb9a049d37f9c20
+- 前端面试查漏补缺：https://juejin.im/post/5c6bab91f265da2dd94c9f9e
+- 前端专题学习: https://github.com/mqyqingfeng/Blog
