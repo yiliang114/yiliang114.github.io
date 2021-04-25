@@ -6,6 +6,8 @@ draft: true
 
 <!-- https://blog.csdn.net/zy444263/article/details/86513190 -->
 
+AST 以及 AST 有啥应用 (babel/ Tree-shaking 以及之前有人用 AST 来实现 微信小程序动态执行代码)
+
 ## AST
 
 抽象语法树（Abstract Syntax Tree）简称 AST，是源代码的抽象语法结构的树状表现形式。webpack、eslint 等很多工具库的核心都是通过抽象语法树这个概念来实现对代码的检查、分析等操作。
@@ -181,3 +183,5 @@ console.log(value);
 babel 是改变量名，使内外层的变量名称不一样。 const 修改值时报错，以及重复声明报错怎么实现的呢？其实在编译时就报错了
 
 ### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
+
+## TODO: 拿 AST 能干啥 ？？？

@@ -4,6 +4,11 @@ date: 2021-03-04
 draft: true
 ---
 
+宏任务和微任务
+浏览器缓存
+bfc
+computed 和 watch 的差异
+
 ### 基础知识
 
 1. omi/omiv

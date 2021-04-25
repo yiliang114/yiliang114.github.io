@@ -37,6 +37,23 @@ build 环境下一般会对输出的 js 文件再进一步所压缩处理（但�
 
 模块按需编译：https://zhuanlan.zhihu.com/p/137120584
 
+From 掘金：
+
+解题思路
+
+- speed-measure-webpack-plugin
+- 排除三方库，防止二次打包
+- thread-loader
+- cache-loader
+- HappyPack
+- parallel-webpack
+  ...
+
+可能追加的面试题：
+
+- 未优化前构建需要多少时间，优化后构建需要多少时间？
+- 有没有分析是什么问题导致构建速率变慢？
+
 #### webpack 打包慢
 
 1. 配置 externals
