@@ -487,6 +487,10 @@ sourcemap 是一个影射关系。 当 sourcemap 功能被关闭的时候，在�
 
 source-map 解析 error https://my.oschina.net/u/4296470/blog/3202142
 
+#### 结构和还原
+
+sourcemap 文件是长什么样子的， node 层是如何做还原的？
+
 ## webpack 如何实现动态加载
 
 > 懒加载模块的原理
