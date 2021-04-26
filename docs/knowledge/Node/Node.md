@@ -1,8 +1,10 @@
 ---
-title: NodeJS
+title: Node
 date: '2020-10-26'
 draft: true
 ---
+
+## Node
 
 ### node 为什么适合做高并发
 
@@ -176,3 +178,105 @@ https://segmentfault.com/a/1190000012709705
 - nodejs 适合做什么样的业务？
 - node 的异步问题是如何解决的？
 - 中间件、子进程
+
+### Node process.env
+
+在看一些前框框架实现的源码的时候，经常会看到类似如下的代码：
+
+```js
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./prod.js');
+} else {
+  module.exports = require('./dev.js');
+}
+```
+
+node 中有全局变量 process 表示当前 node 进程，process（进程）其实就是存在 nodejs 中的一个全局变量，process.env 包含着关于系统环境的信息。但是 process.env 中并不存在 NODE_ENV 这个东西。其实 NODE_ENV 只是一个用户自定义的变量。
+
+而具体 `process.env.xxx` 中的 `xxx` 是开发者自己定义的。比如上述的：
+
+```bash
+process.env.NODE_ENV
+// 或者
+process.env.VUE_CLI_DEBUG = true
+process.env.PORT
+```
+
+#### window 设置环境变量
+
+```bash
+set NODE_ENV=dev
+```
+
+#### Unix 设置环境变量
+
+```bash
+export NODE_ENV=dev
+```
+
+#### 直接在 js 代码中设置环境变量
+
+```js
+process.env.VUE_CLI_DEBUG = true;
+```
+
+#### package.json 中设置环境变量
+
+```js
+"scripts": {
+  "start-win": "set NODE_ENV=dev && node app.js",
+  "start-unix": "export NODE_ENV=dev && node app.js",
+ }
+```
+
+#### 解决 window 和 unix 命令不一致的问题
+
+安装 `npm i cross-env --save-dev`
+
+```js
+"scripts": {
+  "start-win": "cross-en NODE_ENV=dev && node app.js",
+ }
+```
+
+#### unix 永久设置环境变量
+
+```bash
+# 所有用户都生效
+vim /etc/profile
+# 当前用户生效
+vim ~/.bash_profile
+```
+
+最后修改完成后需要运行如下语句令系统重新加载
+
+```bash
+# 修改/etc/profile文件后
+source /etc/profile
+# 修改~/.bash_profile文件后
+source ~/.bash_profile
+```
+
+### node.js stream 和 buffer 有什么区别?
+
+- buffer: 为数据缓冲对象，是一个类似数组结构的对象，可以通过指定开始写入的位置及写入的数据长度，往其中写入二进制数据
+- stream: 是对 buffer 对象的高级封装，其操作的底层还是 buffer 对象，stream 可以设置为可读、可写，或者即可读也可写，在 nodejs 中继承了 EventEmitter 接口，可以监听读入、写入的过程。具体实现有文件流，http-response 等
+
+### stream 的异步
+
+request 会返回一个可读流， 可以直接使用 pipe 函数，但是因为 pipe 函数是一个异步操作，如果 pipe 操作写一个
+可写流，不能直接使用 await 进行同步执行，stream 有一个 finish 事件，表示 pipe 操作的完成，这样就不会出现在 pipe 操作还没有结束的时候，另外的读取文件操作会显示文件长度为 0 的问题。
+
+```js
+function getFileFromUrl(url, filename) {
+  return new Promise(resolve => {
+    request(url)
+      .pipe(fs.createWriteStream(filename))
+      .on('finish', resolve);
+  });
+}
+```
+
+### node 文件的读和写
+
+如果 node 文件不是很大的话， 可以直接通过 fs 的 readFile 和 writeFile 进行操作，但是如果文件比较大的话，就推荐直接使用 stream 进行操作了。
