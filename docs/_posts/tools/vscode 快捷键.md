@@ -48,3 +48,15 @@ foldingStrategy：控制计算折叠范围的策略。auto 将使用语言特定
 此时只需要为 markdown 语言设定一个自定义的 `auto` 属性即可。
 
 ![image](https://user-images.githubusercontent.com/11473889/97098360-07c35480-16b7-11eb-939e-d01a7f6263b7.png)
+
+### 代码块/全文 折叠/展开 快捷键
+
+要操作光标所在`文件`中的所有代码块：
+
+- 折叠所有 `Ctrl+K+0`
+- 展开所有 `Ctrl+K+J`
+
+仅仅操作光标所处`代码块`内的代码：
+
+- 折叠 `Ctrl+Shift+[`
+- 展开 `Ctrl+Shift+]`

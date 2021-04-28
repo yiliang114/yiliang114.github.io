@@ -62,6 +62,84 @@ draft: true
 
 常用和高级数据结构、排序、递归和回溯、优先搜索、动态规划、贪婪与二分搜索.
 
+## 大厂常考算法合集
+
+### 字节
+
+<!-- https://leetcode-cn.com/explore/interview/card/bytedance/242/string/ -->
+
+### 阿里
+
+比较版本号 compare-version-numbers 中等
+两数之和 two-sum 简单
+二分查找 binary-search 简单
+二叉树的中序遍历 binary-tree-inorder-traversal 中等
+二叉树的层序遍历 binary-tree-level-order-traversal 中等
+爬楼梯 climbing-stairs 简单
+判断子序列 is-subsequence 简单
+二叉搜索树中的搜索 search-in-a-binary-search-tree 简单
+三数之和 3sum 中等
+翻转字符串里的单词 reverse-words-in-a-string 中等
+在排序数组中查找元素的第一个和最后一个位置 find-first-and-last-position-of-element-in-sorted-array 中等
+压缩字符串 string-compression 中等
+相交链表 intersection-of-two-linked-lists 简单
+合并区间 merge-intervals 中等
+有效的括号 valid-parentheses 简单
+无重复字符的最长子串 longest-substring-without-repeating-characters 中等
+最长公共子序列 longest-common-subsequence 中等
+青蛙跳台阶问题 qing-wa-tiao-tai-jie-wen-ti-lcof 简单
+最长不含重复字符的子字符串 zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof 中等
+矩形重叠 rectangle-overlap 简单
+K 个一组翻转链表 reverse-nodes-in-k-group 困难
+
+### 快手
+
+合并两个有序数组 merge-sorted-array 简单
+反转链表 reverse-linked-list 简单
+整数反转 reverse-integer 简单
+全排列 permutations 中等
+平衡二叉树 balanced-binary-tree 简单
+无重复字符的最长子串 longest-substring-without-repeating-characters 中等
+打乱数组 shuffle-an-array 中等
+爬楼梯 climbing-stairs 简单
+两数之和 two-sum 简单
+字符串相加 add-strings 简单
+相交链表 intersection-of-two-linked-lists 简单
+最小路径和 minimum-path-sum 中等
+二叉树的最大深度 maximum-depth-of-binary-tree 简单
+二叉树的层序遍历 binary-tree-level-order-traversal 中等
+2 的幂 power-of-two 简单
+买卖股票的最佳时机 best-time-to-buy-and-sell-stock 简单
+多数元素 majority-element 简单
+二分查找 binary-search 简单
+斐波那契数 fibonacci-number 简单
+斐波那契数列 fei-bo-na-qi-shu-lie-lcof 简单
+
+## 常见
+
+找最长子字符串
+
+```
+string s1807 = "x1807";
+for (int i = 0; i < s.length(); i++)
+{
+    for (int j = 1; j < 5; j++)
+    {
+        if (s[i] == s1807[j])
+        {
+            dp[i + 1][j] = max(dp[i][j - 1], dp[i][j]) + 1;
+        }
+        else
+        {
+            dp[i + 1][j] = dp[i][j];
+        }
+    }
+}
+```
+
+背包问题
+由序列化先序遍历求中序遍历
+
 ## 算法技巧
 
 ### 基础
@@ -86,6 +164,14 @@ draft: true
 2. 还原树结构
 3. 完全二叉树、搜索树。 以及一些公式等
 4. 二叉树的之字形层序遍历
+
+#### 树的遍历
+
+1. 前序遍历(Preorder Traversal)： 中 -> 左 -> 右。 应用场景：运用最多的场合包括在树里进行搜索以及创建一棵新的树。
+2. 中序遍历(Inorder Traversal)：左 -> 中 -> 右。应用场景：最常见的是二叉搜索树，由于二叉搜索树的性质就是左孩子小于根节点，根节点小于右孩子，对二叉搜索树进行中序遍历的时候，被访问到的节点大小是按顺序进行的。
+3. 后序遍历(Postorder Traversal)：左 -> 右 -> 中。应用场景：在对某个节点进行分析的时候，需要来自左子树和右子树的信息。收集信息的操作是从树的底部不断地往上进行，好比你在修剪一棵树的叶子，修剪的方法是从外面不断地往根部将叶子一片片地修剪掉。
+
+练习一道经典的 LeetCode 第 250 题，在一棵二叉树里，统计有多少棵子树，要求子树里面的元素拥有相同的数字。
 
 #### 二叉树的非递归中序遍历
 
