@@ -1,5 +1,4 @@
 ---
-layout: CustomPages
 title: Trie
 date: 2020-11-21
 aside: false

@@ -1,5 +1,4 @@
 ---
-layout: CustomPages
 title: 前端与数据结构-数学
 date: 2020-09-04
 aside: false

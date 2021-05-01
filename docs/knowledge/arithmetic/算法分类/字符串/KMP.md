@@ -1,5 +1,4 @@
 ---
-layout: CustomPages
 title: KMP
 date: 2020-11-21
 aside: false

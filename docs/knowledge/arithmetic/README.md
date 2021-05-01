@@ -1,5 +1,4 @@
 ---
-layout: CustomPages
 title: 算法
 date: 2020-10-22
 aside: false
@@ -114,6 +113,57 @@ K 个一组翻转链表 reverse-nodes-in-k-group 困难
 二分查找 binary-search 简单
 斐波那契数 fibonacci-number 简单
 斐波那契数列 fei-bo-na-qi-shu-lie-lcof 简单
+
+### 合集
+
+121: 买卖股票的最佳时机 (简单) >50 次
+2: 两数相加 (中等) >50 次
+20: 有效的括号 (简单) >50 次
+3: 无重复字符的最长子串 (中等) >50 次
+25: K 个一组翻转链表 (困难) >50 次
+42: 接雨水 (困难) >50 次
+200: 岛屿数量 (中等) >50 次
+146: LRU 缓存机制 (中等) 10~50 次
+206: 反转链表 (简单) 10~50 次
+4: 寻找两个正序数组的中位数 (困难) 10~50 次
+53: 最大子序和 (简单) 10~50 次
+236: 二叉树的最近公共祖先 (中等) 10~50 次
+1: 两数之和 (简单) 10~50 次
+300: 最长递增子序列 (中等) 10~50 次
+124: 二叉树中的最大路径和 (困难) 10~50 次
+14: 最长公共前缀 (简单) 10~50 次
+21: 合并两个有序链表 (简单) 10~50 次
+15: 三数之和 (中等) 10~50 次
+215: 数组中的第 K 个最大元素 (中等) 10~50 次
+41: 缺失的第一个正数 (困难) 10~50 次
+23: 合并 K 个升序链表 (困难) 10~50 次
+72: 编辑距离 (困难) 10~50 次
+33: 搜索旋转排序数组 (中等) 10~50 次
+239: 滑动窗口最大值 (困难) 10~50 次
+46: 全排列 (中等) 10~50 次
+141: 环形链表 (简单) 10~50 次
+17: 电话号码的字母组合 (中等) 10~50 次
+415: 字符串相加 (简单) 10~50 次
+5: 53.1% (中等) 10~50 次
+76: 最小覆盖子串 (困难) 10~50 次
+70: 爬楼梯 (简单) 10~50 次
+283: 移动零 (简单) 10~50 次
+122: 买卖股票的最佳时机 II (简单) 10~50 次
+102: 二叉树的层序遍历 (中等) 10~50 次
+148: 排序链表 (中等) 10~50 次
+221: 最大正方形 (中等) 10~50 次
+543: 二叉树的直径 (简单) 10~50 次
+143: 重排链表 (中等) 10~50 次
+11: 盛最多水的容器 (中等) 10~50 次
+297: 二叉树的序列化与反序列化 (困难) 10~50 次
+123: 买卖股票的最佳时机 III (困难) 10~50 次
+64: 最小路径和 (中等) 10~50 次
+100: 相同的树 (简单) 10~50 次
+54: 螺旋矩阵 (中等) 10~50 次
+153: 寻找旋转排序数组中的最小值 (中等) 10~50 次
+55: 跳跃游戏 (中等) 10~50 次
+92: 反转链表 II (中等) 10~50 次
+160: 相交链表 (简单) 10~50 次
 
 ## 常见
 
@@ -272,3 +322,166 @@ function sum(a, b) {
 1. 移动零（双指针）
 2. 两数之和
 3. 扑克牌排列组合
+
+## 基础算法
+
+### 快排
+
+O(nlogn)
+
+```js
+function swap(a, i, j) {
+  let temp = a[i];
+  a[i] = a[j];
+  a[j] = temp;
+}
+
+function quickSort(arr, start = 0, end = arr.length - 1) {
+  if (arr && arr.length < 2) return arr;
+  if (start >= end) return;
+
+  let target = arr[start],
+    i = start,
+    j = end;
+
+  while (i < j) {
+    while (target <= a[j] && i < j) j--;
+    while (target >= a[i] && i < j) i++;
+
+    if (i < j) swap(arr, i, j);
+  }
+
+  // i === j
+  swap(arr, start, i);
+  quickSort(arr, start, i - 1);
+  quickSort(arr, i + 1, end);
+
+  return arr;
+}
+```
+
+### 其他排序算法和复杂度
+
+### 十六进制转十进制
+
+### 爬楼梯问题(经典 DP）
+
+### 请使用 JavaScript 编写一个树的深度优先遍历函数（节点最深的最先访问到，依次类推），满足以下测试用例
+
+```js
+// 假设树的结构如下：
+const tree = [
+    {
+        id: 1,
+        name: '张三',
+        children: [
+            {
+                id: 2,
+                name: '李四',
+                children: [
+                    {
+                        id: 5,
+                        name: '张五'
+                    }
+                ]
+            }
+        ]
+    }，
+    {
+        id: 6,
+        name: '玛丽'
+    }
+]
+
+//测试用例：
+//1. 生成一棵新树，姜将所有节点的id,加1
+console.log(treeMap(tree, node => {
+    let newNode = { ...node }
+    newNode.id = node.id + 1
+    return newNode
+}))
+//打印的新树，应该与tree的结构一致，只是每个id自增1，老的tree，应该没有任何改动
+//2.打印每个节点的id
+treeMap(tree, node => {
+    console.log(node.id)
+    return node
+});
+//应打印顺序应该是：5,2,1,6
+//3. 对于非法输入，应直接返回第一个入参
+console.log(treeMap(null)) //输出null
+console.log(treeMap(tree,true/*不是函数*/))  //输出tree
+```
+
+### 请使用 JavaScript 实现一个 getIntersection 函数，可获取多个区间的交集，规则如下
+
+```js
+function compa(a, b) {
+  if (a instanceof Array && b instanceof Array && a.length != 0 && b.length != 0) {
+    let a1 = a.sort();
+    let b1 = b.sort();
+    if (typeof a1[0] == 'number' && typeof a1[1] == 'number' && typeof b1[0] == 'number' && typeof b1[1] == 'number') {
+      let arr = [];
+      if (b1[0] >= a1[0] && b1[0] <= a1[1]) {
+        arr.push(b1[0]);
+        if (b1[1] <= a1[1]) {
+          arr.push(b1[1]);
+        } else {
+          arr.push(a1[1]);
+        }
+        return arr;
+      } else {
+        if (b1[0] <= a1[0] && b1[1] >= a1[0]) {
+          arr.push(a1[0]);
+          if (b1[1] >= a1[1]) {
+            arr.push(a1[1]);
+          } else {
+            arr.push(b1[1]);
+          }
+          return arr;
+        } else {
+          return null;
+        }
+      }
+    } else {
+      return null;
+    }
+  } else {
+    if (a == null && b != null) {
+      if (typeof b[0] == 'number' && typeof b[1] == 'number') {
+        return b;
+      } else {
+        return null;
+      }
+    } else if (a != null && b == null) {
+      if (typeof a[0] == 'number' && typeof a[1] == 'number') {
+        return a;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+}
+function getIntersection(...arg) {
+  let a = [];
+  for (let i = 0; i < arg.length; i += 2) {
+    if (i == 0) {
+      a = compa(arg[i], arg[i + 1]);
+    } else {
+      if (a == null) {
+        return null;
+      } else {
+        a = compa(a, arg[i]);
+      }
+    }
+  }
+}
+
+getIntersection([1, 4], [3, 5]); // return [3,4]
+getIntersection([5, 2], [4, 9], [3, 6]); //return [4,5]
+getIntersection([1, 7], [8, 9]); //return null
+getIntersection(['x', 7], [4, 9]); //return null
+getIntersection([1, 2]); //return [1,2]
+getIntersection([1, 2], [2, 3]); //return [2,2]
+```
