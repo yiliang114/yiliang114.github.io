@@ -165,6 +165,25 @@ https://blog.csdn.net/wangjun5159/article/details/47781443
 2. 不验证通信方的身份，通信方的身份有可能遭遇伪装；
 3. 无法证明报文的完整性，报文有可能遭篡改。
 
+### x-www-urlecoded-form 和 application/json 在 post 中的区别
+
+json： 用来告诉服务端消息主体是序列化后的 JSON 字符串
+
+application/json
+application/json 这个 Content-Type 作为响应头大家肯定不陌生。实际上，现在越来越多的人把它作为请求头，用来告诉服务端消息主体是序列化后的 JSON 字符串。由于 JSON 规范的流行，除了低版本 IE 之外的各大浏览器都原生支持 JSON.stringify，服务端语言也都有处理 JSON 的函数，使用 JSON 不会遇上什么麻烦
+
+POST http://www.example.com HTTP/1.1 Content-Type: application/json;charset=utf-8 {"title":"test","sub":[1,2,3]}
+application/x-www-form-urlencoded
+这应该是最常见的 POST 提交数据的方式了。浏览器的原生 <form> 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。请求类似于下面这样（无关的请求头在本文中都省略掉了）：
+
+BASHPOST http://www.example.com HTTP/1.1 Content-Type: application/x-www-form-urlencoded;charset=utf-8 title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
+url 对 key value 进行编码，然后用&链接
+
+multipart/form-data
+这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 <form> 表单的 enctype 等于 multipart/form-data。直接来看一个请求示例：
+
+BASHPOST http://www.example.com HTTP/1.1 Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA ------WebKitFormBoundaryrGKCBY7qhFd3TrwA Content-Disposition: form-data; name="text" title ------WebKitFormBoundaryrGKCBY7qhFd3TrwA Content-Disposition: form-data; name="file"; filename="chrome.png" Content-Type: image/png PNG ... content of chrome.png ... ------WebKitFormBoundaryrGKCBY7qhFd3TrwA--
+
 ## HTTPS
 
 `HTTPS = HTTP + TLS(早期是 SSL)`，是一种在加密信道进行 HTTP 内容传输的协议。

@@ -14,6 +14,8 @@ draft: true
 - 规范请求体和返回体的格式、字段等
 - 接口文档自动更新
 
+<!-- https://www.infoq.cn/article/4hjplbxo1xktefxzpqz8 -->
+
 #### 解决
 
 简单介绍一下 bff 怎么做的？
