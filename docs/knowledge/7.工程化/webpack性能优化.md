@@ -62,6 +62,21 @@ From 掘金：
 4. babel-loader 开启缓存
 5. 模块按需加载
 
+#### 你说一下 webpack 的一些 plugin，怎么使用 webpack 对项目进行优化。
+
+构建优化
+
+1. 减少编译体积 ContextReplacementPlugin、IgnorePlugin、babel-plugin-import、babel-plugin-transform-runtime。
+2. 并行编译 happypack、thread-loader、uglifyjsWebpackPlugin 开启并行
+3. 缓存 cache-loader、hard-source-webpack-plugin、uglifyjsWebpackPlugin 开启缓存、babel-loader 开启缓存
+4. 预编译 dllWebpackPlugin && DllReferencePlugin、auto-dll-webpack-plugin
+
+性能优化
+
+1. 减少编译体积 Tree-shaking、Scope Hositing。
+2. hash 缓存 webpack-md5-plugin
+3. 拆包 splitChunksPlugin、import()、require.ensure
+
 #### 优化 Loader
 
 对于 Loader 来说，影响打包效率首当其冲必属 Babel 了。因为 Babel 会将代码转为字符串生成 AST，然后对 AST 继续进行转变最后再生成新的代码，项目越大，**转换代码越多，效率就越低**。

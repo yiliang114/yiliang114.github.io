@@ -4,6 +4,8 @@ date: '2020-10-26'
 draft: true
 ---
 
+## Service Worker
+
 ### ServiceWorker
 
 PWA 之所以能离线，是 Service Worker 的功劳。这并不是 W3C 第一次尝试让 Web 站点离线，在 Service Worker 之前，有个东西叫 Application Cache，<html manifest="cache.appcache">，是不是很熟悉?但是，由于 Application Cache 存 在很多无法容忍和无法解决的问题(可以查看这篇博客 Application Cache is a Douchebag)，它在 HTML5.1 版本中被移出了。
@@ -239,73 +241,6 @@ self.addEventListener('fetch', e => {
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20dfc4fcd26?w=1118&h=728&f=png&s=85610)
 
 当我们重新刷新页面可以发现我们缓存的数据是从 Service Worker 中读取的
-
-### Web Worker 和 webSocket
-
-> worker 主线程:
-
-1. 通过 worker = new Worker( url ) 加载一个 JS 文件来创建一个 worker，同时返回一个 worker 实例。
-2. 通过 worker.postMessage( data ) 方法来向 worker 发送数据。
-3. 绑定 worker.onmessage 方法来接收 worker 发送过来的数据。
-4. 可以使用 worker.terminate() 来终止一个 worker 的执行。
-
-`WebSocket`是`Web`应用程序的传输协议，它提供了双向的，按序到达的数据流。他是一个`HTML5`协议，`WebSocket`的连接是持久的，他通过在客户端和服务器之间保持双工连接，服务器的更新可以被及时推送给客户端，而不需要客户端以一定时间间隔去轮询。
-
-### Web Worker
-
-现代浏览器为 JavaScript 创造的 多线程环境。可以新建并将部分任务分配到 worker 线程并行运行，两个线程可 独立运行，互不干扰，可通过自带的 消息机制 相互通信
-用法：
-
-```js
-const worker = new Worker('work.js');
-
-// 向主进程推送消息
-worker.postMessage('Hello World');
-
-// 监听主进程来的消息
-worker.onmessage = function(event) {
-  console.log('Received message ' + event.data);
-};
-```
-
-限制：
-同源限制
-无法使用 document / window / alert / confirm
-无法加载本地资源
-
-### 简述 Web Worker
-
-HTML5 则提出了 Web Worker 标准，表示 js 允许多线程，但是子线程完全受主线程控制并且不能操作 dom，只有主线程可以操作 dom，所以 js 本质上依然是单线程语言。
-web worker 就是在 js 单线程执行的基础上开启一个子线程，进行程序处理，而不影响主线程的执行，当子线程执行完之后再回到主线程上，在这个过程中不影响主线程的执行。子线程与主线程之间提供了数据交互的接口 postMessage 和 onmessage，来进行数据发送和接收
-
-```js
-var worker = new Worker('./worker.js'); //创建一个子线程
-worker.postMessage('Hello');
-worker.onmessage = function(e) {
-  console.log(e.data); //Hi
-  worker.terminate(); //结束线程
-};
-//worker.js
-onmessage = function(e) {
-  console.log(e.data); //Hello
-  postMessage('Hi'); //向主进程发送消息
-};
-```
-
-### Web Worker 应用
-
-- 处理密集型数学计算
-- 大数据集排序
-- 数据处理(压缩、音频分析、图像处理等)
-- 高流量网络通信
-
-### web worker 与多线程
-
-现如今人们也意识到，单线程在保证了执行顺序的同时也限制了 javascript 的效率，因此开发出了 web worker 技术。这项技术号称让 javascript 成为一门多线程语言。
-
-然而，使用 web worker 技术开的多线程有着诸多限制，例如：所有新线程都受主线程的完全控制，不能独立执行。这意味着这些“线程” 实际上应属于主线程的子线程。另外，这些子线程并没有执行 I/O 操作的权限，只能为主线程分担一些诸如计算等任务。所以严格来讲这些线程并没有完整的功能，也因此这项技术并非改变了 javascript 语言的单线程本质。
-
-可以预见，未来的 javascript 也会一直是一门单线程的语言。
 
 ### Service Worker 离线缓存实战
 
@@ -599,3 +534,91 @@ self.addEventListener('fetch', function(event) {
 然后监听了 fetch 事件，在回调函数内部调用了函数 event.respondWith() 并传入了一个 Promise 对象，当捕获到 fetch 请求时，会直接返回 event.respondWith 函数中 Promise 对象的结果。
 
 在这个 Promise 对象中，我们通过 caches.match 来和当前请求对象进行匹配，如果匹配上则直接返回匹配的缓存结果，否则返回该请求结果并缓存。
+
+## Web Worker
+
+### Web Worker 和 webSocket
+
+> worker 主线程:
+
+1. 通过 worker = new Worker( url ) 加载一个 JS 文件来创建一个 worker，同时返回一个 worker 实例。
+2. 通过 worker.postMessage( data ) 方法来向 worker 发送数据。
+3. 绑定 worker.onmessage 方法来接收 worker 发送过来的数据。
+4. 可以使用 worker.terminate() 来终止一个 worker 的执行。
+
+`WebSocket`是`Web`应用程序的传输协议，它提供了双向的，按序到达的数据流。他是一个`HTML5`协议，`WebSocket`的连接是持久的，他通过在客户端和服务器之间保持双工连接，服务器的更新可以被及时推送给客户端，而不需要客户端以一定时间间隔去轮询。
+
+### Web Worker
+
+现代浏览器为 JavaScript 创造的 多线程环境。可以新建并将部分任务分配到 worker 线程并行运行，两个线程可 独立运行，互不干扰，可通过自带的 消息机制 相互通信
+用法：
+
+```js
+const worker = new Worker('work.js');
+
+// 向主进程推送消息
+worker.postMessage('Hello World');
+
+// 监听主进程来的消息
+worker.onmessage = function(event) {
+  console.log('Received message ' + event.data);
+};
+```
+
+限制：
+同源限制
+无法使用 document / window / alert / confirm
+无法加载本地资源
+
+### 简述 Web Worker
+
+HTML5 则提出了 Web Worker 标准，表示 js 允许多线程，但是子线程完全受主线程控制并且不能操作 dom，只有主线程可以操作 dom，所以 js 本质上依然是单线程语言。
+web worker 就是在 js 单线程执行的基础上开启一个子线程，进行程序处理，而不影响主线程的执行，当子线程执行完之后再回到主线程上，在这个过程中不影响主线程的执行。子线程与主线程之间提供了数据交互的接口 postMessage 和 onmessage，来进行数据发送和接收
+
+```js
+var worker = new Worker('./worker.js'); //创建一个子线程
+worker.postMessage('Hello');
+worker.onmessage = function(e) {
+  console.log(e.data); //Hi
+  worker.terminate(); //结束线程
+};
+//worker.js
+onmessage = function(e) {
+  console.log(e.data); //Hello
+  postMessage('Hi'); //向主进程发送消息
+};
+```
+
+### Web Worker 应用
+
+- 处理密集型数学计算
+- 大数据集排序
+- 数据处理(压缩、音频分析、图像处理等)
+- 高流量网络通信
+
+### web worker 与多线程
+
+现如今人们也意识到，单线程在保证了执行顺序的同时也限制了 javascript 的效率，因此开发出了 web worker 技术。这项技术号称让 javascript 成为一门多线程语言。
+
+然而，使用 web worker 技术开的多线程有着诸多限制，例如：所有新线程都受主线程的完全控制，不能独立执行。这意味着这些“线程” 实际上应属于主线程的子线程。另外，这些子线程并没有执行 I/O 操作的权限，只能为主线程分担一些诸如计算等任务。所以严格来讲这些线程并没有完整的功能，也因此这项技术并非改变了 javascript 语言的单线程本质。
+
+可以预见，未来的 javascript 也会一直是一门单线程的语言。
+
+### 写一个简易的 WebServer
+
+一个简易的 Server 的流程如下：
+
+- 1.建立连接，接受一个客户端连接。
+- 2.接受请求，从网络中读取一条 HTTP 请求报文。
+- 3.处理请求，访问资源。
+- 4.构建响应，创建带有 header 的 HTTP 响应报文。
+- 5.发送响应，传给客户端。
+
+省略流程 3，大体的程序与调用的函数逻辑如下：
+
+- socket() 创建套接字
+- bind() 分配套接字地址
+- listen() 等待连接请求
+- accept() 允许连接请求
+- read()/write() 数据交换
+- close() 关闭连接

@@ -4,8 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-<!-- TODO: -->
-
 ## Omiv
 
 介绍一下 omiv ， 这是一个 Vue 中的一个状态管理工具，目前主要是由我在开发。目前来看，与 Vuex 最大的差别是在可以直接修改 store 中的值，其实我并不是很喜欢 mutation ，尽管配合 mutation 可以使用 devtools ，state 的时间旅行等。

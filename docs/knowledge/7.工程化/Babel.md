@@ -184,4 +184,7 @@ babel 是改变量名，使内外层的变量名称不一样。 const 修改值�
 
 ### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
 
-## TODO: 拿 AST 能干啥 ？？？
+## 拿 AST 能干啥
+
+1. 给 await 函数自动注入 try catch （没有实践过）
+2. 移除 console.log 之类的。 webpack 插件做的事。

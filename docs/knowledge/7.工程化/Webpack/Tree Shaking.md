@@ -4,10 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-<!-- https://juejin.cn/post/6844903544756109319 -->
-<!-- https://juejin.cn/post/6844903549290151949 -->
-<!-- https://juejin.cn/post/6844903687412776974 -->
-
 ## Tree Shaking
 
 Tree shaking 是一种通过清除多余代码方式来优化项目打包体积的技术，它可以将各个模块中没有使用的方法过滤掉，只对有效代码进行打包。
@@ -222,6 +218,9 @@ const home = r => require.ensure([], () => r(require('../../common/home.vue')));
 
 ## 文档
 
-[你的 Tree-Shaking 并没什么卵用](https://juejin.cn/post/6844903549290151949)
+<!-- https://juejin.cn/post/6844903544756109319 -->
+<!-- https://juejin.cn/post/6844903549290151949 -->
+<!-- https://juejin.cn/post/6844903687412776974 -->
 
+[你的 Tree-Shaking 并没什么卵用](https://juejin.cn/post/6844903549290151949)
 [Tree-Shaking](https://github.com/LuoShengMen/StudyNotes/issues/457)

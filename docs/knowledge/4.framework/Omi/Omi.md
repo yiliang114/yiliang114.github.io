@@ -4,8 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-<!-- TODO: -->
-
 ## Omi 是什么？
 
 Omi 是一款跨框架的框架，基于 Web Components 设计，支持 PC Web、移动 H5 和小程序开发。
@@ -16,10 +14,10 @@ JSX + Web Components + JSONProxy 响应式的类 React 框架。
 
 使用组件的时候，会先声明一个 Store 实例， 通过 options 中的 use 或者 useSelf 属性，手动挂载依赖收集之后，在 store 值发生改变时，会自动执行组件实例的 update 操作，做到响应式。
 
-如何做到跨端的？
+### 如何做到跨端的？
 
 1. web Components 是原生的 api， 理论上写的组件库， vue/react/angular 之类的库都能够直接运行。
-2. TODO: 小程序端主要还是 omi + kbone 来实现，kbone 貌似提供了很多的转义组件，通过 omi 以及其响应式的能力，就能够很好得处理数据状态管理。 自定义标签 + 状态管理。
+2. 小程序端主要还是 omi + kbone 来实现，kbone 貌似提供了很多的转义组件，通过 omi 以及其响应式的能力，就能够很好得处理数据状态管理。 自定义标签 + 状态管理。
 
 ### 特性
 
