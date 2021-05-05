@@ -10,6 +10,13 @@ Tree shaking 是一种通过清除多余代码方式来优化项目打包体积�
 
 因为 ES6 模块的出现，ES6 模块依赖关系是确定的，`和运行时的状态无关`，可以进行可靠的静态分析，这就是 Tree shaking 的基础。
 
+举例：
+
+1. 虽然生产模式下默认开启，但是由于经过 babel 编译全部模块被封装成 IIFE
+1. IIFE 存在副作用无法被 tree-shaking 掉
+1. 需要配置 { module: false }和 sideEffects: false
+1. rollup 和 webpack 的 shaking 程度不同，以一个 Class 为例子
+
 ### Tree Shaking 工作原理
 
 Tree Shaking 可以剔除掉一个文件中未被引用掉部分(在 production 环境下才会提出)，并且只支持 ES Modules 模块的引入方式，不支持 CommonJS 的引入方式。
