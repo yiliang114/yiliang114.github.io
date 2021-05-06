@@ -112,36 +112,6 @@ someAsyncThing()
 // carry on [ReferenceError: y is not defined]
 ```
 
-## async/await
-
-async 是 ES2017 标准推出的用于处理异步操作的关键字，async/await 做的事情就是将 Generator 函数转换成 Promise。
-
-**async 函数内阻塞，函数外不阻塞。async 函数可以保留运行堆栈。**
-
-async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
-
-```js
-var a = 0;
-var b = async () => {
-  a = a + (await 10);
-  console.log('2', a); // -> '2' 10
-  a = (await 10) + a;
-  console.log('3', a); // -> '3' 20
-};
-b();
-a++;
-console.log('1', a); // -> '1' 1
-```
-
-对于以上代码你可能会有疑惑，这里说明下原理
-
-- 首先函数 `b` 先执行，在执行到 `await 10` 之前变量 `a` 还是 0，因为在 `await` 内部实现了 `generators` ，`generators` 会保留堆栈中东西，所以这时候 `a = 0` 被保存了下来
-- 因为 `await` 是异步操作，遇到`await`就会立即返回一个`pending`状态的`Promise`对象，暂时返回执行代码的控制权，使得函数外的代码得以继续执行，所以会先执行 `console.log('1', a)`
-- 这时候同步代码执行完毕，开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 10`
-- 然后后面就是常规执行代码了
-
-## 其他
-
 ### Promise 中 .then 的第二参数与 .catch 有什么区别?
 
 Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参数传入。
@@ -169,3 +139,31 @@ Promise/A+ 规范，Promise 中的异常会被 then 的第二个参数作为参�
 ### 破坏 promise 链
 
 在一个 promise 链中，只要任何一个 promise 被 reject，promise 链就被破坏了，reject 之后的 promise 都不会再执行，而是直接调用 .catch 方法。这也是为什么在 standard practice 中，一定要在最后加上 .catch 的原因。通过 .catch 能够清楚的判断出 promise 链在哪个环节出了问题。
+
+## async/await
+
+async 是 ES2017 标准推出的用于处理异步操作的关键字，async/await 做的事情就是将 Generator 函数转换成 Promise。
+
+**async 函数内阻塞，函数外不阻塞。async 函数可以保留运行堆栈。**
+
+async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
+
+```js
+var a = 0;
+var b = async () => {
+  a = a + (await 10);
+  console.log('2', a); // -> '2' 10
+  a = (await 10) + a;
+  console.log('3', a); // -> '3' 20
+};
+b();
+a++;
+console.log('1', a); // -> '1' 1
+```
+
+对于以上代码你可能会有疑惑，这里说明下原理
+
+- 首先函数 `b` 先执行，在执行到 `await 10` 之前变量 `a` 还是 0，因为在 `await` 内部实现了 `generators` ，`generators` 会保留堆栈中东西，所以这时候 `a = 0` 被保存了下来
+- 因为 `await` 是异步操作，遇到`await`就会立即返回一个`pending`状态的`Promise`对象，暂时返回执行代码的控制权，使得函数外的代码得以继续执行，所以会先执行 `console.log('1', a)`
+- 这时候同步代码执行完毕，开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 10`
+- 然后后面就是常规执行代码了

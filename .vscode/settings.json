@@ -6,8 +6,7 @@
     "node_modules": true,
     ".github": true,
     ".circleci": true,
-    ".vscode": true,
-    "arithmetic": true
+    ".vscode": true
   },
   "cSpell.words": [
     "Vite"

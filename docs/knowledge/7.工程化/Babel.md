@@ -10,6 +10,8 @@ AST 以及 AST 有啥应用 (babel/ Tree-shaking 以及之前有人用 AST 来�
 
 ## AST
 
+<!-- https://zhuanlan.zhihu.com/p/361683562 -->
+
 抽象语法树（Abstract Syntax Tree）简称 AST，是源代码的抽象语法结构的树状表现形式。webpack、eslint 等很多工具库的核心都是通过抽象语法树这个概念来实现对代码的检查、分析等操作。
 
 ### 词法分析和语法分析

@@ -408,10 +408,6 @@ module.exports = {
 };
 ```
 
-### AST
-
-https://zhuanlan.zhihu.com/p/361683562
-
 ### 总结
 
 构建优化

@@ -4,17 +4,17 @@ date: 2020-12-30
 draft: true
 ---
 
-## MVVM
+## MVVM & MVC
 
-在 MVVM 中，最核心的也就是数据双向绑定，例如 Vue 中的数据劫持。不管是 React 还是 Vue，都不是 MVVM 框架，只是有借鉴 MVVM 的思路。
+### MVVM
+
+在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。这种方式就可以在业务处理中只关心数据的流转，而无需直接和页面打交道。例如 Vue 中的数据劫持。不过 Vue 不是 MVVM 框架，只是有借鉴 MVVM 的思路。
 
 - `View`：界面
 - `Model`：数据模型
 - `ViewModel`：作为桥梁负责沟通 `View` 和 `Model`
 
-在 MVVM 中，UI 是通过数据驱动的，数据一旦改变就会相应的刷新对应的 UI，UI 如果改变，也会改变对应的数据。这种方式就可以在业务处理中只关心数据的流转，而无需直接和页面打交道。
-
-## MVC
+### MVC
 
 View 传送指令到 Controller，Controller 完成业务逻辑后，要求 Model 改变状态，Model 将新的数据发送到 View，用户得到反馈。所有通信都是单向的。
 
@@ -450,59 +450,7 @@ function changeDom(node, changes, noChild) {
 ### key 的作用
 
 1. 让 vue 精准的追踪到每一个元素，高效的更新虚拟 DOM。
-2. 触发过渡
-
-```html
-<transition>
-  <span :key="text">{{ text }}</span>
-</transition>
-```
-
-当 text 改变时，这个元素的 key 属性就发生了改变，在渲染更新时，Vue 会认为这里新产生了一个元素，而老的元素由于 key 不存在了，所以会被删除，从而触发了过渡。
-
-采用 diff 算法来对比新旧虚拟节点，从而更新节点。
-
-在 vue 的 diff 函数中。在交叉对比的时候，当新节点跟旧节点头尾交叉对比没有结果的时候，会根据新节点的 key 去对比旧节点数组中的 key，从而找到相应旧节点（这里对应的是一个 key => index 的 map 映射）。如果没找到就认为是一个新增节点。而如果没有 key，那么就会采用一种遍历查找的方式去找到对应的旧节点。一种一个 map 映射，另一种是遍历查找。相比而言。map 映射的速度更快。
-
-使用 key 可以使得 DOM diff 更加高效，避免不必要的列表项更新。假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
-
-vue 部分源码如下：
-
-```js
-// vue项目  src/core/vdom/patch.js  -488行
-// oldCh 是一个旧虚拟节点数组，
-if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
-idxInOld = isDef(newStartVnode.key)
-  ? oldKeyToIdx[newStartVnode.key]
-  : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx);
-```
-
-创建 map 函数
-
-```js
-function createKeyToOldIdx(children, beginIdx, endIdx) {
-  let i, key;
-  const map = {};
-  for (i = beginIdx; i <= endIdx; ++i) {
-    key = children[i].key;
-    if (isDef(key)) map[key] = i;
-  }
-  return map;
-}
-```
-
-遍历寻找
-
-```js
-// sameVnode 是对比新旧节点是否相同的函数
-function findIdxInOld(node, oldCh, start, end) {
-  for (let i = start; i < end; i++) {
-    const c = oldCh[i];
-
-    if (isDef(c) && sameVnode(node, c)) return i;
-  }
-}
-```
+2. 触发过渡。元素的 key 属性就发生了改变，在渲染更新时，Vue 会认为这里新产生了一个元素，而老的元素由于 key 不存在了，所以会被删除，从而触发了过渡。
 
 ### key 的作用是什么？
 
@@ -579,6 +527,52 @@ for (let i = 0; i <= 100000; i++) {
 value 变了，导致组件重新渲染； key 为 1 ， 2， 3， 4 ... 等也是如此，那就相当于说所有的 item 都重新更新了一遍，哪怕其他 item 没有任何变化。
 
 会徒增很多的比较。
+
+### vue diff
+
+采用 diff 算法来对比新旧虚拟节点，从而更新节点。
+
+在 vue 的 diff 函数中。在交叉对比的时候，当新节点跟旧节点头尾交叉对比没有结果的时候，会根据新节点的 key 去对比旧节点数组中的 key，从而找到相应旧节点（这里对应的是一个 key => index 的 map 映射）。如果没找到就认为是一个新增节点。而如果没有 key，那么就会采用一种遍历查找的方式去找到对应的旧节点。一种一个 map 映射，另一种是遍历查找。相比而言。map 映射的速度更快。
+
+使用 key 可以使得 DOM diff 更加高效，避免不必要的列表项更新。假设 `todo.id` 对此列表是唯一且稳定的，如果将此数据作为唯一键，那么 React 将能够对元素进行重新排序，而无需重新创建它们。
+
+vue 部分源码如下：
+
+```js
+// vue项目  src/core/vdom/patch.js  -488行
+// oldCh 是一个旧虚拟节点数组，
+if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+idxInOld = isDef(newStartVnode.key)
+  ? oldKeyToIdx[newStartVnode.key]
+  : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx);
+```
+
+创建 map 函数
+
+```js
+function createKeyToOldIdx(children, beginIdx, endIdx) {
+  let i, key;
+  const map = {};
+  for (i = beginIdx; i <= endIdx; ++i) {
+    key = children[i].key;
+    if (isDef(key)) map[key] = i;
+  }
+  return map;
+}
+```
+
+遍历寻找
+
+```js
+// sameVnode 是对比新旧节点是否相同的函数
+function findIdxInOld(node, oldCh, start, end) {
+  for (let i = start; i < end; i++) {
+    const c = oldCh[i];
+
+    if (isDef(c) && sameVnode(node, c)) return i;
+  }
+}
+```
 
 ### Diff 算法
 

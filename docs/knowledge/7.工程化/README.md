@@ -13,7 +13,7 @@ draft: true
 
 ## cdata-cli 的功能
 
-- webpack 同构一个项目需要怎么进行处理 ？
+webpack 同构一个项目需要怎么进行处理 ？
 
 ## 组件库
 
