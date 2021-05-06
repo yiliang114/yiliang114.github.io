@@ -457,7 +457,7 @@ function changeDom(node, changes, noChild) {
 key 是给每一个 vnode 的唯一 id,可以依靠 key,更`准确`, 更`快`的拿到 oldVnode 中对应的 vnode 节点。
 
 1. 更准确： 因为带 key 就不是`就地复用`了，在 sameNode 函数 `a.key === b.key`对比中可以避免就地复用的情况。所以会更加准确。
-2. 更快：利用 key 的唯一性生成 map 对象来获取对应节点，比遍历方式更快。(这个观点，就是我最初的那个观点。从这个角度看，map 会比遍历更快。)
+2. 更快：利用 key 的唯一性生成 map 对象来获取对应节点，比遍历方式更快
 
 #### 完整
 
