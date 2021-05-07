@@ -4,14 +4,11 @@ date: '2020-10-26'
 draft: true
 ---
 
+<!-- https://github.com/youngwind/blog/issues/113 -->
+
 ## Service Worker
 
-### ServiceWorker
-
-PWA 之所以能离线，是 Service Worker 的功劳。这并不是 W3C 第一次尝试让 Web 站点离线，在 Service Worker 之前，有个东西叫 Application Cache，<html manifest="cache.appcache">，是不是很熟悉?但是，由于 Application Cache 存 在很多无法容忍和无法解决的问题(可以查看这篇博客 Application Cache is a Douchebag)，它在 HTML5.1 版本中被移出了。
-
-现在，我们终于有一个没有那么多问题的离线方案了，那就是 Service Worker。
-Service Worker 是一个特殊的 Web Worker，独立于页面主线程运行，它能够 拦截和处理网络请求，并且配合 Cache Storage API，开发者可以自由的对页面发 送的 HTTP 请求进行管理，这就是为什么 Service Worker 能让 Web 站点离线的原因。
+PWA 之所以能离线，是 Service Worker 的功劳。Service Worker 是一个特殊的 Web Worker，独立于页面主线程运行，它能够拦截和处理网络请求，并且配合 Cache Storage API，开发者可以自由的对页面发 送的 HTTP 请求进行管理，这就是为什么 Service Worker 能让 Web 站点离线的原因。
 
 Service Worker 的工作方式也衍生出了几种不同的请求控制策略，network First,cache First,network Only,cache Only 和 fastest，对于不同类型的请求， 我们应该采取不同的策略，静态文件，我们可以选择 cache First 或者 fastest，甚 至 cache Only，对于依赖后端数据的 AJAX 请求，我们应该选择 network First 或者 network Only，保证数据的实时性。
 Service Worker 从在浏览器注册到进入工作状态和最终销毁会经历不同的阶 段，下图比较清楚的画出了 Service Worker 的生命周期。
@@ -123,22 +120,6 @@ self.addEventListener('fetch', e => {
 
 ![img](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/11/1626b20e4f8f3257.jpg)
 
-### Service Worker 如何保证离线缓存资源更新
-
-Service workers 基本上充当应用同服务器之间的代理服务器，可以用于拦截请求，也就意味着可以在离线环境下响应请求，从而提供更好的离线体验。同时，它还可以接收服务器推送和后台同步 API
-[详解](https://www.jianshu.com/p/b14d76eb594e)
-
-#### Web Worker 和 webSocket
-
-> worker 主线程:
-
-1. 通过 worker = new Worker( url ) 加载一个 JS 文件来创建一个 worker，同时返回一个 worker 实例。
-2. 通过 worker.postMessage( data ) 方法来向 worker 发送数据。
-3. 绑定 worker.onmessage 方法来接收 worker 发送过来的数据。
-4. 可以使用 worker.terminate() 来终止一个 worker 的执行。
-
-`WebSocket`是`Web`应用程序的传输协议，它提供了双向的，按序到达的数据流。他是一个`HTML5`协议，`WebSocket`的连接是持久的，他通过在客户端和服务器之间保持双工连接，服务器的更新可以被及时推送给客户端，而不需要客户端以一定时间间隔去轮询。
-
 ### Service Worker
 
 Service Worker 是运行在浏览器背后的独立线程，一般可以用来实现缓存功能。使用 Service Worker 的话，传输协议必须为 HTTPS。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。
@@ -241,6 +222,100 @@ self.addEventListener('fetch', e => {
 ![](https://user-gold-cdn.xitu.io/2018/3/28/1626b20dfc4fcd26?w=1118&h=728&f=png&s=85610)
 
 当我们重新刷新页面可以发现我们缓存的数据是从 Service Worker 中读取的
+
+### ServiceWorker
+
+ServiceWorker 是浏览器在后台独立于网页运行的脚本，也可以这样理解，它是浏览器和服务端之间的代理服务器。ServiceWorker 非常强大，可以实现包括推送通知和后台同步等功能，更多功能还在进一步扩展，但其最主要的功能是**实现离线缓存**。
+
+#### 1\. 使用限制
+
+越强大的东西往往越危险，所以浏览器对 ServiceWorker 做了很多限制：
+
+- 在 ServiceWorker 中无法直接访问 DOM，但可以通过 postMessage 接口发送的消息来与其控制的页面进行通信；
+
+- ServiceWorker 只能在本地环境下或 HTTPS 网站中使用；
+
+- ServiceWorker 有作用域的限制，一个 ServiceWorker 脚本只能作用于当前路径及其子路径；
+
+- 由于 ServiceWorker 属于实验性功能，所以兼容性方面会存在一些问题，具体兼容情况请看下面的截图。
+
+![Drawing 3.png](https://s0.lgstatic.com/i/image/M00/31/43/Ciqc1F8MKYGAMRqhAACGt0bNhOM842.png)
+
+ServiceWorker 在浏览器中的支持情况
+
+#### 2\. 使用方法
+
+在使用 ServiceWorker 脚本之前先要通过“注册”的方式加载它。常见的注册代码如下所示：
+
+```js
+if ('serviceWorker' in window.navigator) {
+  window.navigator.serviceWorker
+    .register('./sw.js')
+    .then(console.log)
+    .catch(console.error)
+} else {
+  console.warn('浏览器不支持 ServiceWorker!')
+
+```
+
+首先考虑到浏览器的兼容性，判断 window.navigator 中是否存在 serviceWorker 属性，然后通过调用这个属性的 register 函数来告诉浏览器 ServiceWorker 脚本的路径。
+
+浏览器获取到 ServiceWorker 脚本之后会进行解析，解析完成会进行安装。可以通过监听 “install” 事件来监听安装，但这个事件只会在第一次加载脚本的时候触发。要让脚本能够监听浏览器的网络请求，还需要激活脚本。
+
+在脚本被激活之后，我们就可以通过监听 fetch 事件来拦截请求并加载缓存的资源了。
+
+下面是一个利用 ServiceWorker 内部的 caches 对象来缓存文件的示例代码。
+
+```js
+const CACHE_NAME = 'ws';
+let preloadUrls = ['/index.css'];
+
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function(cache) {
+      return cache.addAll(preloadUrls);
+    }),
+  );
+});
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
+      }
+      return caches
+        .open(CACHE_NAME)
+        .then(function(cache) {
+          const path = event.request.url.replace(self.location.origin, '');
+          return cache.add(path);
+        })
+        .catch(e => console.error(e));
+    }),
+  );
+});
+```
+
+这段代码首先监听 install 事件，在回调函数中调用了 event.waitUntil() 函数并传入了一个 Promise 对象。event.waitUntil 用来监听多个异步操作，包括缓存打开和添加缓存路径。如果其中一个操作失败，则整个 ServiceWorker 启动失败。
+
+然后监听了 fetch 事件，在回调函数内部调用了函数 event.respondWith() 并传入了一个 Promise 对象，当捕获到 fetch 请求时，会直接返回 event.respondWith 函数中 Promise 对象的结果。
+
+在这个 Promise 对象中，我们通过 caches.match 来和当前请求对象进行匹配，如果匹配上则直接返回匹配的缓存结果，否则返回该请求结果并缓存。
+
+### Service Worker 如何保证离线缓存资源更新
+
+Service workers 基本上充当应用同服务器之间的代理服务器，可以用于拦截请求，也就意味着可以在离线环境下响应请求，从而提供更好的离线体验。同时，它还可以接收服务器推送和后台同步 API
+[详解](https://www.jianshu.com/p/b14d76eb594e)
+
+#### Web Worker 和 webSocket
+
+> worker 主线程:
+
+1. 通过 worker = new Worker( url ) 加载一个 JS 文件来创建一个 worker，同时返回一个 worker 实例。
+2. 通过 worker.postMessage( data ) 方法来向 worker 发送数据。
+3. 绑定 worker.onmessage 方法来接收 worker 发送过来的数据。
+4. 可以使用 worker.terminate() 来终止一个 worker 的执行。
+
+`WebSocket`是`Web`应用程序的传输协议，它提供了双向的，按序到达的数据流。他是一个`HTML5`协议，`WebSocket`的连接是持久的，他通过在客户端和服务器之间保持双工连接，服务器的更新可以被及时推送给客户端，而不需要客户端以一定时间间隔去轮询。
 
 ### Service Worker 离线缓存实战
 
@@ -456,84 +531,6 @@ self.addEventListener('fetch', event => {
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/233327/1554262033555-b36bfb5a-16ee-4079-a400-b2239a93ee9c.png#align=left&display=inline&height=733&name=image.png&originHeight=916&originWidth=1920&size=285955&status=done&width=1536)
 
 在第 2 次刷新后，通过上图可以看到，缓存版本内容已更新到 v2，并且左侧内容区已经被改变。
-
-### ServiceWorker
-
-ServiceWorker 是浏览器在后台独立于网页运行的脚本，也可以这样理解，它是浏览器和服务端之间的代理服务器。ServiceWorker 非常强大，可以实现包括推送通知和后台同步等功能，更多功能还在进一步扩展，但其最主要的功能是**实现离线缓存**。
-
-#### 1\. 使用限制
-
-越强大的东西往往越危险，所以浏览器对 ServiceWorker 做了很多限制：
-
-- 在 ServiceWorker 中无法直接访问 DOM，但可以通过 postMessage 接口发送的消息来与其控制的页面进行通信；
-
-- ServiceWorker 只能在本地环境下或 HTTPS 网站中使用；
-
-- ServiceWorker 有作用域的限制，一个 ServiceWorker 脚本只能作用于当前路径及其子路径；
-
-- 由于 ServiceWorker 属于实验性功能，所以兼容性方面会存在一些问题，具体兼容情况请看下面的截图。
-
-![Drawing 3.png](https://s0.lgstatic.com/i/image/M00/31/43/Ciqc1F8MKYGAMRqhAACGt0bNhOM842.png)
-
-ServiceWorker 在浏览器中的支持情况
-
-#### 2\. 使用方法
-
-在使用 ServiceWorker 脚本之前先要通过“注册”的方式加载它。常见的注册代码如下所示：
-
-```js
-if ('serviceWorker' in window.navigator) {
-  window.navigator.serviceWorker
-    .register('./sw.js')
-    .then(console.log)
-    .catch(console.error)
-} else {
-  console.warn('浏览器不支持 ServiceWorker!')
-
-```
-
-首先考虑到浏览器的兼容性，判断 window.navigator 中是否存在 serviceWorker 属性，然后通过调用这个属性的 register 函数来告诉浏览器 ServiceWorker 脚本的路径。
-
-浏览器获取到 ServiceWorker 脚本之后会进行解析，解析完成会进行安装。可以通过监听 “install” 事件来监听安装，但这个事件只会在第一次加载脚本的时候触发。要让脚本能够监听浏览器的网络请求，还需要激活脚本。
-
-在脚本被激活之后，我们就可以通过监听 fetch 事件来拦截请求并加载缓存的资源了。
-
-下面是一个利用 ServiceWorker 内部的 caches 对象来缓存文件的示例代码。
-
-```js
-const CACHE_NAME = 'ws';
-let preloadUrls = ['/index.css'];
-
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(preloadUrls);
-    }),
-  );
-});
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      if (response) {
-        return response;
-      }
-      return caches
-        .open(CACHE_NAME)
-        .then(function(cache) {
-          const path = event.request.url.replace(self.location.origin, '');
-          return cache.add(path);
-        })
-        .catch(e => console.error(e));
-    }),
-  );
-});
-```
-
-这段代码首先监听 install 事件，在回调函数中调用了 event.waitUntil() 函数并传入了一个 Promise 对象。event.waitUntil 用来监听多个异步操作，包括缓存打开和添加缓存路径。如果其中一个操作失败，则整个 ServiceWorker 启动失败。
-
-然后监听了 fetch 事件，在回调函数内部调用了函数 event.respondWith() 并传入了一个 Promise 对象，当捕获到 fetch 请求时，会直接返回 event.respondWith 函数中 Promise 对象的结果。
-
-在这个 Promise 对象中，我们通过 caches.match 来和当前请求对象进行匹配，如果匹配上则直接返回匹配的缓存结果，否则返回该请求结果并缓存。
 
 ## Web Worker
 

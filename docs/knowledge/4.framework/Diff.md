@@ -447,19 +447,24 @@ function changeDom(node, changes, noChild) {
 
 组件 children diff 中的得到 patch 数组方法，只需要返回插入、删除、更新的节点即可。
 
+### Diff 逻辑
+
+- 同个节点，会用 patch 进行打补丁操作
+- 不同节点，会进行 insert 和 delete 操作
+- 判断为一样的类型
+  - key
+  - tag
+  - 如果是 input 标签的话，需要 type 也一样。
+
 ### key 的作用
 
-1. 让 vue 精准的追踪到每一个元素，高效的更新虚拟 DOM。
-2. 触发过渡。元素的 key 属性就发生了改变，在渲染更新时，Vue 会认为这里新产生了一个元素，而老的元素由于 key 不存在了，所以会被删除，从而触发了过渡。
+key 是给每一个 vnode 的唯一 id, 可以依靠 key, 更准确、快的拿到 oldVnode 中对应的 vnode 节点，让 vue 精准的追踪到每一个元素。
 
-### key 的作用是什么？
-
-key 是给每一个 vnode 的唯一 id,可以依靠 key,更`准确`, 更`快`的拿到 oldVnode 中对应的 vnode 节点。
-
-1. 更准确： 因为带 key 就不是`就地复用`了，在 sameNode 函数 `a.key === b.key`对比中可以避免就地复用的情况。所以会更加准确。
+1. 更准确： 因为带 key 就不是就地复用了，在 sameNode 函数 `a.key === b.key`对比中可以避免就地复用的情况。所以会更加准确。
 2. 更快：利用 key 的唯一性生成 map 对象来获取对应节点，比遍历方式更快
+3. 触发过渡。元素的 key 属性就发生了改变，在渲染更新时，Vue 会认为这里新产生了一个元素，而老的元素由于 key 不存在了，所以会被删除，从而触发了过渡。
 
-#### 完整
+### key 的作用（完整版）
 
 能提高 diff 效率其实是不准确的。
 
@@ -573,15 +578,6 @@ function findIdxInOld(node, oldCh, start, end) {
   }
 }
 ```
-
-### Diff 算法
-
-- 同个节点，会用 patch 进行打补丁操作
-- 不同节点，会进行 insert 和 delete 操作
-- 判断为一样的类型
-  - key
-  - tag
-  - 如果是 input 标签的话，需要 type 也一样。
 
 ### 简述 diff 算法？为什么不是 O(n3)
 
