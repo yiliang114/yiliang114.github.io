@@ -12,6 +12,35 @@ vuex 的原理其实非常简单，它为什么能实现所有的组件共享同
 因为 vuex 生成了一个 store 实例，并且把这个实例挂在了所有的组件上，所有的组件引用的都是同一个 store 实例。
 store 实例上有数据，有方法，方法改变的都是 store 实例上的数据。由于其他组件引用的是同样的实例，所以一个组件改变了 store 上的数据， 导致另一个组件上的数据也会改变，就像是一个对象的引用。
 
+vuex 其实就是一个没有 view 视图的 vue 组件。将整个 store 值进行响应式观察了。
+
+```js
+// src/store.js
+function resetStoreVM(store, state, hot) {
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state,
+    },
+    computed,
+  });
+}
+```
+
+Vue 中通过 this 如果调用 store 的数据: 也就是直接获取 `this._vm._data.?state`
+
+```js
+// 当获取state时，返回以双向绑定的 $$sate
+var prototypeAccessors$1 = { state: { configurable: true } };
+
+prototypeAccessors$1.state.get = function() {
+  return this._vm._data.$$state;
+};
+
+// 将state定义在原型中
+Object.defineProperties(Store.prototype, prototypeAccessors$1);
+```
+
 #### vuex 的原理 ？对 vuex 的理解
 
 vuex 只能使用在 vue 上，很大的程度是因为其高度依赖于 vue 的 computed 依赖检测系统以及其插件系统。其的实现方式完完全全的使用了 vue 自身的响应式设计，依赖监听、依赖收集都属于 vue 对对象 Property set get 方法的代理劫持。
