@@ -485,8 +485,6 @@ margin 的这一特性——纵向重叠。如 `<p>` 的纵向 margin 是 16px�
 
 解决 margin 重叠的问题是创建 BFC。例如父容器如果是 `display: flex;flex-direction: column;` 的形式，垂直方向排列下来，margin 也是不会重叠的， 需要额外使用 first or last 之类的伪类额外处理样式才可以。
 
-## 负 margin
-
 ### 负 margin 在页面布局中的应用
 
 #### 1. 左右列固定，中间列自适应布局

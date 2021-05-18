@@ -42,13 +42,10 @@ async、await 是异步的终极解决方案
 
 ## Promise
 
-Promise 是 ES6 新增的语法，是异步编程的一种解决方案，解决了回调地狱的问题。有以下两个特点：
+Promise 有以下两个特点：
 
 1. 对象的状态不受外界影响。
-   Promise 对象代表一个异步操作，有三种状态：Pending（待定）、Fulfilled（已兑现）和 Rejected（已拒绝）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
-
 2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。
-   Promise 对象的状态改变，只有两种可能：从 Pending 变为 Fulfilled 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 Fulfilled（已成功）。如果改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。
 
 Promise 构造函数是同步执行，then 方法是异步执行。
 
@@ -67,8 +64,6 @@ console.log('Hi!');
 // Hi!
 // Fulfilled
 ```
-
-### Promise 优缺点
 
 优点：
 
