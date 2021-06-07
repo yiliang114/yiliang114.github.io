@@ -1,5 +1,9 @@
 ---
+title: 'Webpack 原理和实践'
+date: '2020-07-19'
 draft: true
+tags:
+  - webpack
 ---
 
 今天我们要一起探索的是 Webpack 在生产模式打包过程中的一些常用配置和一些的优化插件。

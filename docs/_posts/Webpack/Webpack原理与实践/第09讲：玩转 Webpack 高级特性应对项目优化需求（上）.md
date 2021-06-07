@@ -1,5 +1,9 @@
 ---
+title: 'Webpack 原理和实践'
+date: '2020-07-19'
 draft: true
+tags:
+  - webpack
 ---
 
 今天我将和你分享 Webpack 的两个高级特性，分别是 Tree Shaking 和 sideEffects。

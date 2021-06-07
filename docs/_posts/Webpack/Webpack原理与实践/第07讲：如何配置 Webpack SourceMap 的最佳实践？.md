@@ -1,5 +1,9 @@
 ---
+title: 'Webpack 原理和实践'
+date: '2020-07-19'
 draft: true
+tags:
+  - webpack
 ---
 
 上一讲我们介绍了如何使用 Webpack Dev Server 提高开发效率，今天我们来介绍需要编译的前端项目该如何调试。

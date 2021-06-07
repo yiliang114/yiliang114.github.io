@@ -1,5 +1,9 @@
 ---
+title: 'Webpack 原理和实践'
+date: '2020-07-19'
 draft: true
+tags:
+  - webpack
 ---
 
 ## Webpack 的运行机制和核心工作原理

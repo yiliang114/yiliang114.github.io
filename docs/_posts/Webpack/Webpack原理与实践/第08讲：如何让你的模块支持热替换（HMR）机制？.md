@@ -1,5 +1,9 @@
 ---
+title: 'Webpack 原理和实践'
+date: '2020-07-19'
 draft: true
+tags:
+  - webpack
 ---
 
 在第六讲中我们已经简单了解了 Webpack Dev Server 的一些基本用法和特性，它为我们使用 Webpack 构建的项目，提供了一个比较友好的开发环境和一个用于调试的开发服务器。

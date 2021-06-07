@@ -1,5 +1,9 @@
 ---
+title: 'Webpack 原理和实践'
+date: '2020-07-19'
 draft: true
+tags:
+  - webpack
 ---
 
 今天我将继续和你分享 Webpack 另外的一个高级特性，Code Splitting（分块打包）。
