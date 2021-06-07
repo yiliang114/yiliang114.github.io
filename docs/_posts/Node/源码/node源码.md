@@ -149,7 +149,7 @@ int main(int argc, char* argv[]) {
 
 这个文件做了入口区分，区分了 windows 和 unix 环境。 以 unix 为例，在 main 函数中最后调用了 `node::Start` ， 这个函数是定义在 `/src/node.cc` 文件中：
 
-```C++
+```c
 int Start(int argc, char** argv) {
   InitializationResult result = InitializeOncePerProcess(argc, argv);
   if (result.early_return) {

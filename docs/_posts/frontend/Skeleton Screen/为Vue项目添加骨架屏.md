@@ -118,7 +118,7 @@ serverWebpackConfig.plugins.push(
 
 Vue webpack 模版项目使用了 [HTML Webpack Plugin](https://link.zhihu.com/?target=https%3A//github.com/jantimon/html-webpack-plugin) 生成 HTML 文件。参考该插件的[事件说明](https://link.zhihu.com/?target=https%3A//github.com/jantimon/html-webpack-plugin%23events)，我们选择监听 _html-webpack-plugin-before-html-processing_ 事件，在事件的回调函数中，插件会传入当前待处理的 HTML 内容供我们进一步修改。
 
-我们知道骨架屏组件最终的渲染结果包含 HTML 和样式两部分，样式部分可以直接插入 head 标签內，而 HTML 需要插入挂载点中。插件使用者可以通过参数设置这个挂载点位置，默认将使用 <div id="app">。
+我们知道骨架屏组件最终的渲染结果包含 HTML 和样式两部分，样式部分可以直接插入 head 标签內，而 HTML 需要插入挂载点中。插件使用者可以通过参数设置这个挂载点位置，默认将使用 `<div id="app">`。
 
 看起来一切都很顺利，但是在多页应用中，情况会变的稍稍复杂。多页项目中通常会引入多个 HTML Webpack Plugin，例如我们在 [Lavas MPA 模版](https://link.zhihu.com/?target=https%3A//github.com/lavas-project/lavas-template-vue-mpa)中使用的 [Multipage Webpack 插件](https://link.zhihu.com/?target=https%3A//github.com/mutualofomaha/multipage-webpack-plugin)就是如此，这就会导致 _html-webpack-plugin-before-html-processing_ 事件被多次触发。
 

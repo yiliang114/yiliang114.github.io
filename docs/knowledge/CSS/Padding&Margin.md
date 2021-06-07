@@ -343,7 +343,7 @@ margin 叠加的意思是：当两个或者更多的垂直外边距 相遇时，
 
 使用 z-index 属性可以设置元素的层叠顺序
 z-index 属性
-语法：z-index: auto | <integer>
+语法：`z-index: auto | <integer>`
 默认值：auto
 适用于：定位元素。即定义了 position 为非 static 的元素
 取值：
