@@ -155,7 +155,7 @@ Content-Type: text/html; charset=iso-8859-1
 |     Expires      | 实体主体过期的日期时间 |
 |  Last-Modified   | 资源的最后修改日期时间 |
 
-### http 头部信息
+### HTTP 头部信息
 
 每一个 http 请求和响应都会带有响应的头部信息，XHR 对象提供了操作请求头部和响应头部信息的方法。
 
@@ -163,7 +163,7 @@ Content-Type: text/html; charset=iso-8859-1
 
 - Accept: 浏览器能够显示的字符集
 - Accept-Charset: 浏览器能够显示的字符集
-- Accpet-Encoding: 浏览器能够处理的压缩编码
+- Accept-Encoding: 浏览器能够处理的压缩编码
 - Accept-Language: 浏览器当前设置的语言
 - Connection: 浏览器与服务器之间的连接类型（keep-alive）
 - Cookie: 当前页面设置的任何 cookie
