@@ -14,12 +14,12 @@ Tree shaking 是一种通过清除多余代码方式来优化项目打包体积�
 
 1. 虽然生产模式下默认开启，但是由于经过 babel 编译全部模块被封装成 IIFE
 1. IIFE 存在副作用无法被 tree-shaking 掉
-1. 需要配置 { module: false }和 sideEffects: false
+1. 需要配置 `{ module: false }`和 `{ sideEffects: false }`
 1. rollup 和 webpack 的 shaking 程度不同，以一个 Class 为例子
 
 ### Tree Shaking 工作原理
 
-Tree Shaking 可以剔除掉一个文件中未被引用掉部分(在 production 环境下才会提出)，并且只支持 ES Modules 模块的引入方式，不支持 CommonJS 的引入方式。
+Tree Shaking 可以剔除掉一个文件中未被引用掉部分(在 production 环境下才会提出)，并且只支持 ES Modules 模块的引入方式，不支持 CommonJS 的引入方式。Tree Shaking 不仅支持 import/export 级别，而且也支持 statement(声明)级别。
 
 原因：ES Modules 是静态引入的方式，CommonJS 是动态的引入方式，Tree Shaking 只支持静态引入方式。
 
@@ -27,11 +27,9 @@ Tree Shaking 可以剔除掉一个文件中未被引用掉部分(在 production 
 
 **Tree Shaking 可以实现删除项目中未被引用的代码**，如果你使用 Webpack 4 的话，开启生产环境就会自动启动这个优化功能。
 
-如果项目中使用了 babel 的话， `@babel/preset-env` 默认将模块转换成 CommonJs 语法，因此需要设置 module：false，webpack2 后已经支持 ESModule。
+如果项目中使用了 babel 的话， `@babel/preset-env` 默认将模块转换成 CommonJs 语法，因此需要设置 `{ module: false }`，webpack2 后已经支持 ESModule。
 
-#### 工作原理
-
-虽然 tree shaking 的概念在 1990 就提出了，但知道 ES6 的 ES6-style 模块出现后才真正被利用起来。这是因为 tree shaking 只能在静态 modules 下工作。ECMAScript 6 模块加载是静态的,因此整个依赖树可以被静态地推导出解析语法树。所以在 ES6 中使用 tree shaking 是非常容易的。而且，tree shaking 不仅支持 import/export 级别，而且也支持 statement(声明)级别。
+#### CommonJS 的动态特性模块
 
 在 ES6 以前，我们可以使用 CommonJS 引入模块：require()，这种引入是动态的，也意味着我们可以基于条件来导入需要的代码：
 
@@ -77,20 +75,24 @@ ES6 的 import 语法完美可以使用 tree shaking，因为可以在代码不�
 
 本项目中使用的是 webpack4,只需要将 mode 设置为 production 即可开启 tree shaking
 
-```js
-entry: './src/index.js',
-mode: 'production', // 设置为 production 模式
-output: {
-path: path.resolve(\_\_dirname, 'dist'),
-filename: 'bundle.js'
-},
+```json
+{
+  "entry": "./src/index.js",
+  "mode": "production", // 设置为 production 模式
+  "output": {
+    "path": path.resolve(__dirname, "dist"),
+    "filename": "bundle.js"
+  }
+}
 ```
 
 如果是使用 webpack2,可能你会发现 tree shaking 不起作用。因为 babel 会将代码编译成 CommonJs 模块，而 tree shaking 不支持 CommonJs。所以需要配置不转义：
 
-```js
-options: {
-  presets: [['es2015', { modules: false }]];
+```json
+{
+  "options": {
+    "presets": [["es2015", { "modules": false }]]
+  }
 }
 ```
 
@@ -119,11 +121,13 @@ webpack 中可以在项目 package.json 文件中，添加一个 “sideEffects�
 
 配置
 
-```js
-    entry: {
-        lodash: './src/lodash.js',
-        main: './src/index.js'
-    }, // 入口文件
+```json
+{
+  "entry": {
+    "lodash": "./src/lodash.js",
+    "main": "./src/index.js"
+  } // 入口文件
+}
 ```
 
 lodash.js
@@ -137,12 +141,14 @@ window._ = _;
 同步代码：只需要在 webpack 中做 optimization 配置即可
 异步代码：无需做任何配置，会自动进行代码分割，放入 dist 目录中
 
-```js
-    optimization: {
-        splitChunks: {
-            chunks: 'all'  // 遇到公用当类库时，自动的 Code Splitting
-        }
-    },
+```json
+{
+  "optimization": {
+    "splitChunks": {
+      "chunks": "all" // 遇到公用当类库时，自动的 Code Splitting
+    }
+  }
+}
 ```
 
 ### 组件库如何做按需加载
@@ -177,12 +183,10 @@ tree shaking 不能自动的识别哪些代码属于 side effects，因此手动
 
 如果你的代码确实有一些副作用，那么可以改为提供一个数组：
 
-```js
+```json
 {
   "name": "tree-shaking",
-  "sideEffects": [
-    "./src/common/polyfill.js"
-  ]
+  "sideEffects": ["./src/common/polyfill.js"]
 }
 ```
 

@@ -13,12 +13,44 @@ VuePress 项目启动和编译打包是执行 `vuepress dev docs` 和 `vuepress 
 1. 同时显示代码和效果的组件
 2. 组件中如果有 window 之类的浏览器 API 的话，会编译失败。 通过 import 动态引入组件的方式，解决这个问题。
 
-### 0.1.0
+### NPM & Plugins
+
+**NPM**:
 
 - [globby](https://www.npmjs.com/package/globby) 扫描文件，获取文件目录
 - [chokidar](https://github.com/paulmillr/chokidar) 监听文件、文件夹改动，触发回调事件
 - [yaml-front-matter](https://www.npmjs.com/package/yaml-front-matter) 提取传入的文本中的 yaml 或者 json 格式的内容，将配置内容转化为一个结果对象
 - [portfinder](https://github.com/http-party/node-portfinder#readme) 获取一个可用的端口号
+
+**Plugins**:
+
+- [HtmlWebpackPlugin](https://www.webpackjs.com/plugins/html-webpack-plugin/) 一般会传入一个 `index.html` 文件作为模板 template， 最终将 build 的静态资源产物生成 `script` or `link` 链接插入 html 文件中最终输出。该插件将为你生成一个 HTML5 文件， 其中包括使用 script 标签的 body 中的所有 webpack 包。
+
+```js
+// HtmlWebpackPlugin
+
+// 普通配置
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
+
+var webpackConfig = {
+  entry: 'index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: 'index_bundle.js',
+  },
+  plugins: [new HtmlWebpackPlugin()],
+};
+
+// chain config
+config.plugin('html').use(require('vuepress-html-webpack-plugin'), [
+  {
+    template: path.resolve(__dirname, 'app/index.dev.html'),
+  },
+]);
+```
+
+### 0.1.0
 
 #### **1. prepare**
 
@@ -56,9 +88,7 @@ VuePress 项目启动和编译打包是执行 `vuepress dev docs` 和 `vuepress 
 
 #### 3. webpack config
 
-TODO: 移动图片
-
-![image-20210604005758900](/Users/yiliang/Library/Application Support/typora-user-images/image-20210604005758900.png)
+![image-20210604005758900](https://csig_datacenter.cdn-go.cn/cdata-cdn/latest/typora-user-images/image-20210604005758900.png)
 
 ### Webpack Config
 

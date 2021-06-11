@@ -159,6 +159,100 @@ babel 是改变量名，使内外层的变量名称不一样。 const 修改值�
 
 ### 为什么很多人宁可使用 for 循环也不愿意使用扩展运算符 ？
 
+### 编译 es 6
+
+#### 1. 了解`babel`
+
+说起编译`es6`，就必须提一下`babel`和相关的技术生态：
+
+1. `babel-loader`: 负责 es6 语法转化
+2. `babel-preset-env`: 包含 es6、7 等版本的语法转化规则
+3. `babel-polyfill`: es6 内置方法和函数转化垫片
+4. `babel-plugin-transform-runtime`: 避免 polyfill 污染全局变量
+
+需要注意的是, `babel-loader`和`babel-polyfill`。前者负责语法转化，比如：箭头函数；后者负责内置方法和函数，比如：`new Set()`。
+
+#### 2. 安装相关库
+
+这次，我们的`package.json`文件配置如下：
+
+```js
+{
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.15.1"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0"
+  }
+}
+```
+
+#### 3. `webpack`中使用`babel`
+
+> `babel`的相关配置，推荐单独写在`.babelrc`文件中。下面，我给出这次的相关配置：
+
+```js
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        }
+      }
+    ]
+  ],
+  "plugins": ["transform-runtime"]
+}
+```
+
+在`webpack`配置文件中，关于`babel`的调用需要写在`module`模块中。对于相关的匹配规则，除了匹配`js`结尾的文件，还应该去除`node_module/`文件夹下的第三库的文件（发布前已经被处理好了）。
+
+```js
+module.exports = {
+  entry: {
+    app: './app.js',
+  },
+  output: {
+    filename: 'bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+    ],
+  },
+};
+```
+
+#### 4. 最后：`babel-polyfill`
+
+我们发现整个过程中并没有使用`babel-polyfill`。**它需要在我们项目的入口文件中被引入**，或者在`webpack.config.js`中配置。这里我们采用第一种方法编写`app.js`:
+
+```js
+import 'babel-polyfill';
+let func = () => {};
+const NUM = 45;
+let arr = [1, 2, 4];
+let arrB = arr.map(item => item * 2);
+
+console.log(arrB.includes(8));
+console.log('new Set(arrB) is ', new Set(arrB));
+```
+
+命令行中进行打包，然后编写`html`文件引用打包后的文件即可在不支持`es6`规范的老浏览器中看到效果了。
+
 ## AST
 
 <!-- https://zhuanlan.zhihu.com/p/361683562 -->
@@ -172,3 +266,21 @@ babel 是改变量名，使内外层的变量名称不一样。 const 修改值�
 3. 优化变更代码，改变代码结构等
 4. 给 await 函数自动注入 try catch （没有实践过）
 5. 移除 console.log 之类的。 webpack 插件做的事。
+
+### Babel
+
+Babel 是一个工具链，主要用于将 ECMAScript 2015+ 版本的代码转换为向后兼容的 `JavaScript` 语法，以便能够运行在当前和旧版本的浏览器或其他环境中：
+
+> Babel 内部所使用的语法解析器是 Babylon
+
+主要功能
+
+- 语法转换
+- 通过 `Polyfill` 方式在目标环境中添加缺失的特性 (通过 `@babel/polyfill` 模块)
+- 源码转换 (`codemods`)
+
+主要模块
+
+- `@babel/parser`：负责将代码解析为抽象语法树
+- `@babel/traverse`：遍历抽象语法树的工具，我们可以在语法树中解析特定的节点，然后做一些操作
+- `@babel/core`：代码转换，如 ES6 的代码转为 ES5 的模式

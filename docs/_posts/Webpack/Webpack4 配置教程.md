@@ -7,8 +7,6 @@ draft: true
 
 # Webpack4 配置教程
 
-webpack 是前端目前最主流的`javascript`打包工具，在它的帮助下，开发者可以轻松地实现加密代码、多平台兼容。而最重要的是，它为**前端工程化**提供了最好支持。`vue`、`react`等大型项目的脚手架都是利用 webpack 搭建。
-
 ## 2. 打包 js
 
 ### 1. 检验`webpack`规范支持
@@ -54,100 +52,6 @@ module.exports = {
 ```
 
 注意`output.publicPath`参数，代表：**`js`文件内部引用其他文件的路径**。
-
-## 3. 编译 es6
-
-### 1. 了解`babel`
-
-说起编译`es6`，就必须提一下`babel`和相关的技术生态：
-
-1. `babel-loader`: 负责 es6 语法转化
-2. `babel-preset-env`: 包含 es6、7 等版本的语法转化规则
-3. `babel-polyfill`: es6 内置方法和函数转化垫片
-4. `babel-plugin-transform-runtime`: 避免 polyfill 污染全局变量
-
-需要注意的是, `babel-loader`和`babel-polyfill`。前者负责语法转化，比如：箭头函数；后者负责内置方法和函数，比如：`new Set()`。
-
-### 2. 安装相关库
-
-这次，我们的`package.json`文件配置如下：
-
-```js
-{
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "webpack": "^4.15.1"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "babel-runtime": "^6.26.0"
-  }
-}
-```
-
-### 3. `webpack`中使用`babel`
-
-> `babel`的相关配置，推荐单独写在`.babelrc`文件中。下面，我给出这次的相关配置：
-
-```js
-{
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": ["last 2 versions"]
-        }
-      }
-    ]
-  ],
-  "plugins": ["transform-runtime"]
-}
-```
-
-在`webpack`配置文件中，关于`babel`的调用需要写在`module`模块中。对于相关的匹配规则，除了匹配`js`结尾的文件，还应该去除`node_module/`文件夹下的第三库的文件（发布前已经被处理好了）。
-
-```js
-module.exports = {
-  entry: {
-    app: './app.js',
-  },
-  output: {
-    filename: 'bundle.js',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-    ],
-  },
-};
-```
-
-### 4. 最后：`babel-polyfill`
-
-我们发现整个过程中并没有使用`babel-polyfill`。**它需要在我们项目的入口文件中被引入**，或者在`webpack.config.js`中配置。这里我们采用第一种方法编写`app.js`:
-
-```js
-import 'babel-polyfill';
-let func = () => {};
-const NUM = 45;
-let arr = [1, 2, 4];
-let arrB = arr.map(item => item * 2);
-
-console.log(arrB.includes(8));
-console.log('new Set(arrB) is ', new Set(arrB));
-```
-
-命令行中进行打包，然后编写`html`文件引用打包后的文件即可在不支持`es6`规范的老浏览器中看到效果了。
 
 ## 4. 多页面解决方案--提取公共代码
 
@@ -1003,13 +907,11 @@ _终_
 
 ### 1. 什么是`Tree Shaking`？
 
-> 字面意思是摇树，一句话：**项目中没有使用的代码会在打包时候丢掉**。JS 的 Tree Shaking 依赖的是 ES2015 的模块系统（比如：`import`和`export`）
-
-本文介绍`Js Tree Shaking`在`webpack v4`中的激活方法。
+**项目中没有使用的代码会在打包时候丢掉**。JS 的 Tree Shaking 依赖的是 ES2015 的模块系统（比如：`import`和`export`）
 
 ### 2. 不再需要`UglifyjsWebpackPlugin`
 
-是的，在`webpack v4`中，不再需要配置`UglifyjsWebpackPlugin`。（详情请见：[文档](https://www.webpackjs.com/plugins/uglifyjs-webpack-plugin/)） 取而代之的是，更加方便的配置方法。
+在`webpack v4`中，不再需要配置`UglifyjsWebpackPlugin`。（详情请见：[文档](https://www.webpackjs.com/plugins/uglifyjs-webpack-plugin/)） 取而代之的是，更加方便的配置方法。
 
 只需要配置`mode`为`"production"`，即可显式激活 `UglifyjsWebpackPlugin` 插件。
 
@@ -1110,9 +1012,7 @@ _终_
 
 ### 1. CSS 也有 Tree Shaking？
 
-> 是滴，随着 webpack 的兴起，css 也可以进行 Tree Shaking： 以去除项目代码中用不到的 CSS 样式，仅保留被使用的样式代码。
-
-为了方便理解 Tree Shaking 概念，并且与 JS Tree Shaking 进行横向比较，请查看：[webpack4 系列教程\(八\): JS Tree Shaking](https://godbmw.com/passage/48)
+随着 webpack 的兴起，css 也可以进行 Tree Shaking： 以去除项目代码中用不到的 CSS 样式，仅保留被使用的样式代码。
 
 ### 2. 项目环境仿真
 
