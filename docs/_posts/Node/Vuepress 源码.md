@@ -4,117 +4,11 @@ date: '2020-10-26'
 draft: true
 ---
 
-## Vuepress
+# Vuepress
 
 VuePress 项目启动和编译打包是执行 `vuepress dev docs` 和 `vuepress build docs` 两个命令。
 
-### 问题
-
-1. 同时显示代码和效果的组件
-2. 组件中如果有 window 之类的浏览器 API 的话，会编译失败。 通过 import 动态引入组件的方式，解决这个问题。
-
-### NPM & Plugins
-
-**NPM**:
-
-- [globby](https://www.npmjs.com/package/globby) 扫描文件，获取文件目录
-- [chokidar](https://github.com/paulmillr/chokidar) 监听文件、文件夹改动，触发回调事件
-- [yaml-front-matter](https://www.npmjs.com/package/yaml-front-matter) 提取传入的文本中的 yaml 或者 json 格式的内容，将配置内容转化为一个结果对象
-- [portfinder](https://github.com/http-party/node-portfinder#readme) 获取一个可用的端口号
-
-**Plugins**:
-
-- [HtmlWebpackPlugin](https://www.webpackjs.com/plugins/html-webpack-plugin/) 一般会传入一个 `index.html` 文件作为模板 template， 最终将 build 的静态资源产物生成 `script` or `link` 链接插入 html 文件中最终输出。该插件将为你生成一个 HTML5 文件， 其中包括使用 script 标签的 body 中的所有 webpack 包。
-
-```js
-// HtmlWebpackPlugin
-
-// 普通配置
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
-
-var webpackConfig = {
-  entry: 'index.js',
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'index_bundle.js',
-  },
-  plugins: [new HtmlWebpackPlugin()],
-};
-
-// chain config
-config.plugin('html').use(require('vuepress-html-webpack-plugin'), [
-  {
-    template: path.resolve(__dirname, 'app/index.dev.html'),
-  },
-]);
-```
-
-### 0.1.0
-
-#### **1. prepare**
-
-1.  _load options_ **resolveOptions** 加载配置文件
-2.  _generate routes & user components registration code_ 自动生成路由
-
-##### **resolveOptions**
-
-1. 获取 vuepressDir 文件路径和 configPath 配置文件的路径
-2. siteConfig 的 head 数组中，加入 description， 并为所有的 head 值，src 或者 href 加上 base 前缀
-3. 用 **globby** 扫描文件夹，获取文件目录列表 pageFiles
-4. 根据是否使用默认主题，加载主题的 Components， 主要是 Layout.vue 和 NotFound.vue 两个文件
-5. 处理 pageFiles 中的每一个文件：
-   1. 处理文件最终的路径，index 类的文件（readme.md） 处理成 `/`; 其余的文件会处理成 `文件名.html`
-   2. 通过 `fs.readFileSync` 读取文件内容；
-   3. 通过 `yaml-front-matter` 加载 md 文件顶部的 `yaml` 配置部分， 其余的内容都会保存在 `__content` s 这个属性里面。
-   4. 根据提取的 `yaml` 配置内容获取 page 的 title 和 home 值， 如果没有的话，从 `__content` 中提取 `title` ，接着从 `__content` 中提取 `headers`， 也就是 md 中的 `h2` `h3` 标题。
-   5. TODO: 最后需要将 `__content` 值给删除？
-
-##### **genRoutesFile**
-
-这一步会生成做了以下事情的代码：
-
-循环上一步获得的 pages 数组，将每一项的 path 值组装处理，每一个文件都会在 route 的 beforeEnter 钩子中执行，先异步加载这个组件，加载完成之后注册这个组件，才进入页面。
-
-这一步中 import 了一个叫 `Theme` 的组件，对应每一个文件（组件）所要加载的 Component， 路径是 `~theme`.
-
-##### **genComponentRegistrationFile**
-
-这一步会生成 将 `${sourceDir}/.vuepress/components` 文件夹下的所有组件都 import 进来并全局注册的代码。
-
-#### 2. pagesWatcher and configWatcher
-
-这两个 watcher 是通过 `chokidar` 来进行 watch 的，简单理解就是指定目标文件夹下有内容改变，就会重新执行 prepare 操作，也就是上面的扫描文件夹、内容全部会重新做一遍。 不过生成 code 之类的操作，应该会有缓存存储。
-
-#### 3. webpack config
-
-![image-20210604005758900](https://csig_datacenter.cdn-go.cn/cdata-cdn/latest/typora-user-images/image-20210604005758900.png)
-
-### Webpack Config
-
-- webpack-chain 链式设置 webpack 的配置文件
-
-**createBaseConfig** 函数返回的基本配置，主要设置了：
-
-- output
-- **filename**
-- **publicPath**
-- **devtool**
-- 别名
-- vue-loader
-- babel-loader
-- markdown-loader： 会先经过自定义的 markdownLoader 这个处理器，再经过 vue-loader 处理 TODO:
-- url-loader file-loader 等处理 images 和 svg 等文件
-- css-loader less-loader 相关的一些东西
-
-**createClientConfig** 函数是在 **createBaseConfig** 函数返回的 **config** 基础之上做进一步的配置:
-
-- 配置 **entry**
-- merge siteConfig 中自定义配置的 **chainWebpack**
-
-#### compiler 属性
-
-- hooks 拥有 done 和 compilation 属性，用于监听事件，做对应的回调处理 TODO:
+## Webpack & NPM & Plugins
 
 ### Webpack 相关的包
 
@@ -197,6 +91,117 @@ if (options.siteConfig.chainWebpack) {
 // ...
 ```
 
+### Webpack Config
+
+- webpack-chain 链式设置 webpack 的配置文件
+
+**createBaseConfig** 函数返回的基本配置，主要设置了：
+
+- output
+- **filename**
+- **publicPath**
+- **devtool**
+- 别名
+- vue-loader
+- babel-loader
+- markdown-loader： 会先经过自定义的 markdownLoader 这个处理器，再经过 vue-loader 处理 TODO:
+- url-loader file-loader 等处理 images 和 svg 等文件
+- css-loader less-loader 相关的一些东西
+
+**createClientConfig** 函数是在 **createBaseConfig** 函数返回的 **config** 基础之上做进一步的配置:
+
+- 配置 **entry**
+- merge siteConfig 中自定义配置的 **chainWebpack**
+
+#### compiler 属性
+
+- hooks 拥有 done 和 compilation 属性，用于监听事件，做对应的回调处理 TODO:
+
+### NPM & Plugins
+
+**NPM**:
+
+- [globby](https://www.npmjs.com/package/globby) 扫描文件，获取文件目录
+- [chokidar](https://github.com/paulmillr/chokidar) 监听文件、文件夹改动，触发回调事件
+- [yaml-front-matter](https://www.npmjs.com/package/yaml-front-matter) 提取传入的文本中的 yaml 或者 json 格式的内容，将配置内容转化为一个结果对象
+- [portfinder](https://github.com/http-party/node-portfinder#readme) 获取一个可用的端口号
+
+**Plugins**:
+
+- [HtmlWebpackPlugin](https://www.webpackjs.com/plugins/html-webpack-plugin/) 一般会传入一个 `index.html` 文件作为模板 template， 最终将 build 的静态资源产物生成 `script` or `link` 链接插入 html 文件中最终输出。该插件将为你生成一个 HTML5 文件， 其中包括使用 script 标签的 body 中的所有 webpack 包。
+- vuepress-html-webpack-plugin 为了避免额外引入 webpack ？ fork 了 `html-webpack-plugin`
+
+```js
+// HtmlWebpackPlugin
+
+// 普通配置
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
+
+var webpackConfig = {
+  entry: 'index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: 'index_bundle.js',
+  },
+  plugins: [new HtmlWebpackPlugin()],
+};
+
+// chain config
+config.plugin('html').use(require('vuepress-html-webpack-plugin'), [
+  {
+    template: path.resolve(__dirname, 'app/index.dev.html'),
+  },
+]);
+```
+
+## 版本代码记录
+
+### 问题
+
+1. 同时显示代码和效果的组件
+2. 组件中如果有 window 之类的浏览器 API 的话，会编译失败。 通过 import 动态引入组件的方式，解决这个问题。
+
+### 0.1.0
+
+#### **1. prepare**
+
+1.  _load options_ **resolveOptions** 加载配置文件
+2.  _generate routes & user components registration code_ 自动生成路由
+
+##### **resolveOptions**
+
+1. 获取 vuepressDir 文件路径和 configPath 配置文件的路径
+2. siteConfig 的 head 数组中，加入 description， 并为所有的 head 值，src 或者 href 加上 base 前缀
+3. 用 **globby** 扫描文件夹，获取文件目录列表 pageFiles
+4. 根据是否使用默认主题，加载主题的 Components， 主要是 Layout.vue 和 NotFound.vue 两个文件
+5. 处理 pageFiles 中的每一个文件：
+   1. 处理文件最终的路径，index 类的文件（readme.md） 处理成 `/`; 其余的文件会处理成 `文件名.html`
+   2. 通过 `fs.readFileSync` 读取文件内容；
+   3. 通过 `yaml-front-matter` 加载 md 文件顶部的 `yaml` 配置部分， 其余的内容都会保存在 `__content` s 这个属性里面。
+   4. 根据提取的 `yaml` 配置内容获取 page 的 title 和 home 值， 如果没有的话，从 `__content` 中提取 `title` ，接着从 `__content` 中提取 `headers`， 也就是 md 中的 `h2` `h3` 标题。
+   5. TODO: 最后需要将 `__content` 值给删除？
+
+##### **genRoutesFile**
+
+这一步会生成做了以下事情的代码：
+
+循环上一步获得的 pages 数组，将每一项的 path 值组装处理，每一个文件都会在 route 的 beforeEnter 钩子中执行，先异步加载这个组件，加载完成之后注册这个组件，才进入页面。
+
+这一步中 import 了一个叫 `Theme` 的组件，对应每一个文件（组件）所要加载的 Component， 路径是 `~theme`.
+
+##### **genComponentRegistrationFile**
+
+这一步会生成 将 `${sourceDir}/.vuepress/components` 文件夹下的所有组件都 import 进来并全局注册的代码。
+
+#### 2. pagesWatcher and configWatcher
+
+这两个 watcher 是通过 `chokidar` 来进行 watch 的，简单理解就是指定目标文件夹下有内容改变，就会重新执行 prepare 操作，也就是上面的扫描文件夹、内容全部会重新做一遍。 不过生成 code 之类的操作，应该会有缓存存储。
+
+#### 3. webpack config
+
+![image-20210604005758900](https://csig_datacenter.cdn-go.cn/cdata-cdn/latest/typora-user-images/image-20210604005758900.png)
+
 ### 0.5.0
 
 - 添加了一个 eject 命令，用于弹出所有配置信息 ？TODO
@@ -214,11 +219,9 @@ config
   ]);
 ```
 
-#### vuepress plugins
+#### enhanceApp.js
 
-- vuepress-html-webpack-plugin 为了避免额外引入 webpack ？ fork 了 _html-webpack-plugin_
-
-#### enhanceApp.js TODO
+TODO:
 
 增加 App 的能力 ？
 
@@ -249,4 +252,12 @@ export default {
 // TODO: 为啥要额外监听 frontmatterEmitter
 // also listen for frontmatter changes from markdown files
 frontmatterEmitter.on('update', update);
+```
+
+### 2.0.0
+
+> ts + lerna + vue-next
+
+```js
+appConfig { source: '/Users/yiliang/projects/github/vue/vuepress-next/docs' }
 ```
