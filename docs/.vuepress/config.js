@@ -5,7 +5,6 @@ const autometa_options = {
   canonical_base: 'https://yiliang.site',
 };
 
-// const path = require('path');
 const head = require('./config/head.js');
 
 module.exports = {

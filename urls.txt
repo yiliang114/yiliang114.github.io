@@ -1,7 +1,4 @@
 https://yiliang.site/404.html
-https://yiliang.site/Store/Node/utils/grpc.html
-https://yiliang.site/Store/Node/utils/regular-expression.html
-https://yiliang.site/Store/Node/工具/package-lock.json.html
 https://yiliang.site/index.html
 https://yiliang.site/links/index.html
 https://yiliang.site/posts/2017/10/19/_2018前端校招总结.html
@@ -55,9 +52,13 @@ https://yiliang.site/posts/2020/08/12/node-终端命令别名添加.html
 https://yiliang.site/posts/2020/08/16/zeit-with-node.html
 https://yiliang.site/posts/2020/08/17/vue-js-3-0-的变化.html
 https://yiliang.site/posts/2020/09/02/generate-vuex.html
+https://yiliang.site/posts/2020/09/04/regular-expression.html
 https://yiliang.site/posts/2020/09/15/iterm-快捷键.html
 https://yiliang.site/posts/2020/09/30/前端发展与思考.html
 https://yiliang.site/posts/2020/10/22/支付宝的坑点.html
+https://yiliang.site/posts/2020/10/24/前端版本管理.html
+https://yiliang.site/posts/2020/11/21/grpc.html
+https://yiliang.site/posts/2020/11/21/package-lock-json.html
 https://yiliang.site/posts/categories/index.html
 https://yiliang.site/posts/categories/vue.html
 https://yiliang.site/posts/categories/前端.html
@@ -97,5 +98,6 @@ https://yiliang.site/posts/tags/移动端.html
 https://yiliang.site/posts/tags/缓存.html
 https://yiliang.site/posts/tags/编辑器.html
 https://yiliang.site/posts/tags/英语.html
+https://yiliang.site/posts/tags/规范.html
 https://yiliang.site/posts/tags/跨域.html
 https://yiliang.site/whisper/index.html
