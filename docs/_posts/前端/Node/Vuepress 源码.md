@@ -261,3 +261,25 @@ frontmatterEmitter.on('update', update);
 ```js
 appConfig { source: '/Users/yiliang/projects/github/vue/vuepress-next/docs' }
 ```
+
+```ts
+// resolve app config from cli options
+const cliAppConfig = resolveDevAppConfig(sourceDir, commandOptions);
+
+// resolve user config file
+const userConfigPath = commandOptions.config
+  ? resolveUserConfigPath(commandOptions.config)
+  : resolveUserConfigConventionalPath(cliAppConfig.source);
+
+const { userConfig, userConfigDeps } = await resolveDevUserConfig(userConfigPath);
+
+// create vuepress app.
+const app = createDevApp({
+  // allow setting default app config via `cli()`
+  // for example, set different default bundler in `vuepress` and `vuepress-vite` package
+  ...defaultAppConfig, // 默认的 AppConfig 配置
+  // use cli options to override config file
+  ...userConfig, // 用户的 vuepress.config.js
+  ...cliAppConfig, // 命令行传入的配置项
+});
+```

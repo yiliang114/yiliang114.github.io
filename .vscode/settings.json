@@ -1,5 +1,9 @@
 {
   "GitCommitPlugin.MaxSubjectWords": 30,
   "GitCommitPlugin.ShowEmoji": false,
-  "files.exclude": {}
+  "files.exclude": {
+    "docs/.vuepress": true,
+    "arithmetic": true,
+    "docs/whisper": true
+  }
 }
