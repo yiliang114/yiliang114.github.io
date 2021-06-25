@@ -4,7 +4,7 @@ date: 2020-11-21
 draft: true
 ---
 
-## 是什么
+## dva 是什么
 
 dva 是阿里体验技术部开发的 React 应用框架，命名是根据守望先锋中的任务 D.va 而来。 主要用于解决组件之间的通行问题，
 在以前 react 项目中解决数据流问题会引入 redux，又由于 redux 没有异步操作，所以需要引入 redux-saga 或 redux-thunk,这样的缺点就是
@@ -47,10 +47,10 @@ state 是用于数据存储保存全局状态。view 是 react 组件构成的 U
 
 action 是用于描述一个事件的一个对象
 
-```js
+```json
 {
-    type: 'submit-form-data',
-    payload: formData
+  "type": "submit-form-data",
+  "payload": formData
 }
 ```
 
@@ -88,7 +88,7 @@ export default {
     subscriptions: {
  setup({dispatch,history}){
    return history.listen(({pathname, query})=>{
-     dosomething....
+    //  do something...
    })
  }
     }
@@ -96,7 +96,7 @@ export default {
    *addAfter1Second({payload}, { call, put, select }) {
      yield call(delay, 1000);
      yield put({ type: 'add' , payload: 10});
-     const num =  yield select(state => state.modelNmae.num);
+     const num =  yield select(state => state.modelName.num);
      console.log(num)
  },
     },
@@ -117,11 +117,11 @@ model 对象的属性由 namespace,state, effect,reducers,subscriptions 组成�
 
 namespace 当前 Model 的名称。整个应用的 State，由多个小的 Model 的 State 以 namespace 为 key 合成,当在 ui 层触发变化时，可以利用 namespace 来区分触发那个 model 的方法。从而改变 state.
 
-```
+```js
 dispatch({
-  type: 'modelname/add',
-  payload: 10
-})
+  type: 'modelName/add',
+  payload: 10,
+});
 ```
 
 数据保存在 state，直接决定了视图层的输出.

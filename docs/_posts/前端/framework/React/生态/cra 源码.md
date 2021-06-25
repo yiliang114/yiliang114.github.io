@@ -1,5 +1,5 @@
 ---
-title: 懒加载的实现原理
+title: create-react-app 源码
 date: '2020-10-26'
 draft: true
 ---
@@ -8,16 +8,14 @@ draft: true
 
 ### /bin/react-scripts.js
 
-cra 项目创建的项目目录结构，已经 package.json 中的 npm start 执行脚本
-![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/Ybwd8-image.png)
+cra 项目创建的项目目录结构，已经 package.json 中的 npm start 执行脚本 ![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/Ybwd8-image.png)
 
-在 node_modules 中找到 react-scripts 文件夹，查看 /bin/react-scripts.js 文件执行的脚本内容
-![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/76cBP-image.png)
+在 node_modules 中找到 react-scripts 文件夹，查看 /bin/react-scripts.js 文件执行的脚本内容 ![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/76cBP-image.png)
 
 用的不是很多的 api:
 
-1. Array.prototype.findIndex() 方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置
-2. [].filter(Boolean) 直接过滤到数组中 == false 的值，比如 undefined null 0 false 等
+1. `Array.prototype.findIndex()` 方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置
+2. `[].filter(Boolean)` 直接过滤到数组中 == false 的值，比如 undefined null 0 false 等
 
 `node` 执行的过程中 `process` 这个全局变量有一个属性 `argv` 是此次脚本执行的所有的参数集合。 比如我们执行 `npm start` 的时候， `argv` 的值是
 
@@ -31,7 +29,7 @@ const args = process.argv.slice(2);
 
 ![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/kXXpZ-image.png).
 
-### /scripts/start.js
+### `/scripts/start.js`
 
 整个 start.js 文件内容比较冗杂，其实这里是在做一些浏览器相关的事情以及 webpack-dev-server 的配置、执行工作。浏览器相关的事情我们暂时先忽略。
 
@@ -49,7 +47,7 @@ webpack 具体如何配置不在这篇文章的讨论范围之内，这里我们
 
 那么接下来就从 webpack 打包的入口文件开始看起 `src/index.js`
 
-### src/index.js
+### `src/index.js`
 
 暂时忽略 serviceWorker
 ![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/PtAGS-image.png)
