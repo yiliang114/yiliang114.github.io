@@ -309,3 +309,19 @@ appInfo.list[0].roomInfo.rateList[0].score = 90;
 ### 区分 mobx 中的数组和对象
 
 因为 element instanceof Object 数组和对象都是 true
+
+### MobX
+
+1. mobx 的使用方式 ?
+
+2. mobx 的核心概念
+
+3. mobx 与 mobx-react 的区别
+
+4. 什么是*Reactions*，_derivations_，_autorun _？
+
+5. 什么时候需要用 action 装饰器？什么时候 action 装饰器后面跟 get 以及 set？哪些数据需要 observable 哪些不需要？
+
+6. store 文件中 什么时候用 _Reactions_，_derivations_， 以及 autorun 比较好？
+
+   ​
