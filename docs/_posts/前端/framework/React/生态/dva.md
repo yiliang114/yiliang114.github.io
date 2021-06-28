@@ -6,15 +6,13 @@ draft: true
 
 ## dva 是什么
 
-dva 是阿里体验技术部开发的 React 应用框架，命名是根据守望先锋中的任务 D.va 而来。 主要用于解决组件之间的通行问题，
-在以前 react 项目中解决数据流问题会引入 redux，又由于 redux 没有异步操作，所以需要引入 redux-saga 或 redux-thunk,这样的缺点就是
-引入多个库，致使项目结构复杂。而现在：
+dva 是阿里体验技术部开发的 React 应用框架，主要用于解决组件之间的通行问题，在以前 react 项目中解决数据流问题会引入 redux，又由于 redux 没有异步操作，所以需要引入 redux-saga 或 redux-thunk，这样的缺点就是是需要引入多个库，致使项目结构复杂。而现在：
 
 > dva = React-Router + Redux + Redux-saga
 
 将上面三个 React 工具库包装在一起，简化了 API，让开发 React 应用更加方便和快捷。
 
-- 了解 dva 之前可以先去了解 redux-saga.
+了解 dva 之前可以先去了解 redux-saga.
 
 dva 的最简结构：
 

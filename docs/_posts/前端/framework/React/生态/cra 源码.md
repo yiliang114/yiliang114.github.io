@@ -6,6 +6,8 @@ draft: true
 
 ## 入口
 
+<!-- react 源码：https://react.jokcy.me/book/flow/perform-work.html -->
+
 ### /bin/react-scripts.js
 
 cra 项目创建的项目目录结构，已经 package.json 中的 npm start 执行脚本 ![](https://chatflow-files-cdn-1252847684.file.myqcloud.com/Ybwd8-image.png)

@@ -4,26 +4,13 @@ date: '2020-10-26'
 draft: true
 ---
 
-### setState
+## setState
 
-`setState` 的调用并不会马上引起 `state` 的改变。
+`setState` 的调用并不会马上引起 `state` 的改变。因为 `setState` 是个异步 API，只有同步代码运行完毕才会执行。
 
-因为 `setState` 是个异步 API，只有同步代码运行完毕才会执行。异步的原因可能，`setState` 可能会导致 DOM 的重绘，如果调用一次就马上去进行重绘，那么调用多次就会造成不必要的性能损失。设计成异步的话，就可以将多次调用放入一个队列中，在恰当的时候统一进行更新过程。
+异步的原因可能，`setState` 可能会导致 DOM 的重绘，如果调用一次就马上去进行重绘，那么调用多次就会造成不必要的性能损失。设计成异步的话，就可以将多次调用放入一个队列中，在恰当的时候统一进行更新过程。
 
-#### 立即获取更新
-
-因为 setState 是一个异步的过程，所以说执行完 setState 之后不能立刻更改 state 里面的值。如果需要对 state 数据更改监听，setState 提供第二个参数，就是用来监听 state 里面数据的更改，当数据更改完成，调用回调函数。
-
-### setState 循环调用风险
-
-如果在`shouldComponentUpdate`或`componentWillUpdate` 方法里调用 this.setState 方法，就会造成崩溃。
-![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/setStateCercle.png)
-
-### 当你调用 setState 的时候，发生了什么事？
-
-- 将传递给 setState 的对象合并到组件的当前状态，触发所谓的调和过程（Reconciliation）
-- 然后生成新的 DOM 树并和旧的 DOM 树使用 Diff 算法对比
-- 根据对比差异对界面进行最小化重渲染
+如果需要对 `state` 数据更改监听，`setState` 提供第二个参数，就是用来监听 `state` 里面数据的更改，当数据更改完成，调用回调函数。
 
 ### 为什么建议传递给 setState 的参数是一个 callback 而不是一个对象
 
@@ -64,20 +51,6 @@ this.setState((prevState, props) => ({
 // this.state.count === 3 as expected
 ```
 
-### `setState()` 和 `replaceState()` 方法之间有什么区别?
-
-当你使用 `setState()` 时，当前和先前的状态将被合并。`replaceState()` 会抛出当前状态，并仅用你提供的内容替换它。通常使用 `setState()`，除非你出于某种原因确实需要删除所有以前的键。你还可以在 `setState()` 中将状态设置为 `false`/`null`，而不是使用 `replaceState()`。
-
-### 是否可以在不调用 setState 方法的情况下，强制组件重新渲染?
-
-默认情况下，当组件的状态或属性改变时，组件将重新渲染。如果你的 `render()` 方法依赖于其他数据，你可以通过调用 `forceUpdate()` 来告诉 React，当前组件需要重新渲染。
-
-```js
-component.forceUpdate(callback);
-```
-
-建议避免使用 `forceUpdate()`，并且只在 `render()` 方法中读取 `this.props` 和 `this.state`。
-
 ### 为什么函数比对象更适合于 `setState()`?
 
 出于性能考虑，React 可能将多个 `setState()` 调用合并成单个更新。这是因为我们可以异步更新 `this.props` 和 `this.state`，所以不应该依赖它们的值来计算下一个状态。
@@ -116,6 +89,32 @@ getUserProfile = user => {
   });
 };
 ```
+
+### setState 循环调用风险
+
+如果在`shouldComponentUpdate`或`componentWillUpdate` 方法里调用 this.setState 方法，就会造成崩溃。
+
+![](https://wire.cdn-go.cn/wire-cdn/b23befc0/blog/images/setStateCercle.png)
+
+### setState 步骤
+
+1. 将传递给 setState 的对象合并到组件的当前状态，触发所谓的调和过程（Reconciliation）
+2. 然后生成新的 DOM 树并和旧的 DOM 树使用 Diff 算法对比
+3. 根据对比差异对界面进行最小化重渲染
+
+### `setState()` 和 `replaceState()` 方法之间有什么区别?
+
+当你使用 `setState()` 时，当前和先前的状态将被合并。`replaceState()` 会抛出当前状态，并仅用你提供的内容替换它。通常使用 `setState()`，除非你出于某种原因确实需要删除所有以前的键。你还可以在 `setState()` 中将状态设置为 `false`/`null`，而不是使用 `replaceState()`。
+
+### 是否可以在不调用 setState 方法的情况下，强制组件重新渲染?
+
+默认情况下，当组件的状态或属性改变时，组件将重新渲染。如果你的 `render()` 方法依赖于其他数据，你可以通过调用 `forceUpdate()` 来告诉 React，当前组件需要重新渲染。
+
+```js
+component.forceUpdate(callback);
+```
+
+建议避免使用 `forceUpdate()`，并且只在 `render()` 方法中读取 `this.props` 和 `this.state`。
 
 ### 更新状态中的对象有哪些可能的方法?
 

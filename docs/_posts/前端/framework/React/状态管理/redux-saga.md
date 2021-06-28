@@ -4,7 +4,9 @@ date: '2020-10-26'
 draft: true
 ---
 
-## redux-saga 介绍
+## redux-saga 简述
+
+redux-saga 就是用于管理副作用如异步获取数据，访问浏览器缓存的一个中间件。其中 reducer 负责处理 state 更新，sagas 负责协调异步操作，并提供一系列的 API（take,put,call 等）让副作用管理更容易，执行更高效，测试更简单。
 
 redux-saga 是 redux 的中间件，中间件的作用是为 redux 提供额外的功能。
 
@@ -26,10 +28,6 @@ sagas 采用 Generator 函数来 `yield` Effects （包含指令的文本对象�
 ```
 bindActionCreator 这个函数的主要作用就是返回一个函数，当我们调用返回的这个函数的时候，就会自动的dispatch对应的action
 ```
-
-## 简述
-
-redux-saga 就是用于管理副作用如异步获取数据，访问浏览器缓存的一个中间件。其中 reducer 负责处理 state 更新，sagas 负责协调异步操作，并提供一系列的 API（take,put,call 等）让副作用管理更容易，执行更高效，测试更简单。
 
 ## 源码分析
 
@@ -299,3 +297,66 @@ function multicastChannel() {
   };
 }
 ```
+
+### redux-saga
+
+1. saga 的作用是什么？
+
+### redux-saga
+
+```js
+function* watchFetchModel() {
+  // global saga永不cancel
+  yield takeLatest(getFetchActions(FETCH_MODEL).Start, fetchModel);
+}
+```
+
+### redux saga 和 thunk 传一个回调给 action，保证 state 更新之后同步获取。
+
+### saga 为什么要手动触发 LOCATION_CHANGE 这个 action
+
+https://neue.v2ex.com/t/300257， 重复触发 LOCATION_CHANGE 会导致 saga 异常，不执行异步操作。
+
+### saga 的 cancel 操作， 什么时候 saga 异步操作需要退出？ 等多久？
+
+https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
+
+### redux saga 存在子组件的 saga 存在一个多次注册的 bug，对于各个子组件的 saga task ，需要在当前的作用域内 take 之后 cancel 掉才能避免被多次监听。
+
+### 什么是 redux-saga?
+
+`redux-saga`是一个库，旨在使 React/Redux 项目中的副作用（数据获取等异步操作和访问浏览器缓存等可能产生副作用的动作）更容易，更好。
+
+这个包在 NPM 上有发布:
+
+```
+$ npm install --save redux-saga
+```
+
+### redux-saga 的模型概念是什么?
+
+*Saga*就像你的项目中的一个单独的线程，它独自负责副作用。`redux-saga` 是一个 redux _中间件_，这意味着它可以在项目启动中使用正常的 Redux 操作，暂停和取消该线程，它可以访问完整的 Redux 应用程序状态，并且它也可以调度 Redux 操作。
+
+### 在 redux-saga 中 `call()` 和 `put()` 之间有什么区别?
+
+`call()`和`put()`都是 Effect 创建函数。 `call()`函数用于创建 Effect 描述，指示中间件调用 promise。`put()`函数创建一个 Effect，指示中间件将一个 Action 分派给 Store。
+
+让我们举例说明这些 Effect 如何用于获取特定用户数据。
+
+```js
+function* fetchUserSaga(action) {
+  // `call` function accepts rest arguments, which will be passed to `api.fetchUser` function.
+  // Instructing middleware to call promise, it resolved value will be assigned to `userData` variable
+  const userData = yield call(api.fetchUser, action.userId);
+
+  // Instructing middleware to dispatch corresponding action.
+  yield put({
+    type: 'FETCH_USER_SUCCESS',
+    userData,
+  });
+}
+```
+
+### `redux-saga` 和 `redux-thunk` 之间有什么区别?
+
+*Redux Thunk*和*Redux Saga*都负责处理副作用。在大多数场景中，Thunk 使用*Promises*来处理它们，而 Saga 使用*Generators*。Thunk 易于使用，因为许多开发人员都熟悉 Promise，Sagas/Generators 功能更强大，但您需要学习它们。但是这两个中间件可以共存，所以你可以从 Thunks 开始，并在需要时引入 Sagas。

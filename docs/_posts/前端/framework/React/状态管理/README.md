@@ -8,21 +8,26 @@ draft: true
 
 Redux 的基本思想是整个应用的 state 保持在一个单一的 store 中。store 就是一个简单的 javascript 对象，而改变应用 state 的唯一方式是在应用中触发 actions，然后为这些 actions 编写 reducers 来修改 state。整个 state 转化是在 reducers 中完成，并且不应该有任何副作用。
 
-### Action
+#### Store
 
-Actions 是一个纯 javascript 对象，它们必须有一个 type 属性表明正在执行的 action 的类型。实质上，action 是将数据从应用程序发送到 store 的有效载荷。
+Store 是一个 javascript 对象，它保存了整个应用的 state。与此同时，Store 也承担以下职责：
 
-### Reducer
+- 允许通过 `getState()` 访问 state
+- 运行通过 `dispatch(action)` 改变 state
+- 通过 `subscribe(listener)` 注册 listeners
+- 通过 `subscribe(listener)` 返回的函数处理 listeners 的注销
+
+#### Action
+
+actions 是一个纯 javascript 对象，它们必须有一个 type 属性表明正在执行的 action 的类型。实质上，action 是将数据从应用程序发送到 store 的有效载荷。
+
+#### Reducer
 
 一个 reducer 是一个纯函数，该函数以先前的 state 和一个 action 作为参数，并返回下一个 state。
 
-redux 的另一个缺点是：reducer 要求每次返回一个新的对象引用。当需要修改的数据层级较深，reducer 写起来很难保证优雅。所以一般 redux 项目都会刻意的保持 store 的平坦化，没有深层级的数据，用`Object.assign`几步搞定。如果 store 不可避免的太大了，怎么办呢？很多工程开始使用`Immutable.js`，以上的代码可以改写为：
+redux 的另一个缺点是：reducer 要求每次返回一个新的对象引用。当需要修改的数据层级较深，reducer 写起来很难保证优雅。所以一般 redux 项目都会刻意的保持 store 的扁平化，没有深层级的数据，用`Object.assign` 浅拷贝处理。
 
-```js
-let newState = state.updateIn(['list', 0, 'roomInfo', 'rateList', 0, 'score'], 90);
-```
-
-store 大了，你不用 immutable 还能怎么办呢？
+如果 store 不可避免的太大了，怎么办呢？很多工程开始使用 `Immutable.js`。
 
 ### Redux 源码分析
 
@@ -431,19 +436,6 @@ function dispatch(action) {
 - react hook 了解么
 - 为什么之前的 render 函数必须有一个顶层节点，现在不需要了，可以直接渲染一个数组？
 
-### 在 Redux 中，何为 store
-
-Store 是一个 javascript 对象，它保存了整个应用的 state。与此同时，Store 也承担以下职责：
-
-- 允许通过 `getState()` 访问 state
-- 运行通过 `dispatch(action)` 改变 state
-- 通过 `subscribe(listener)` 注册 listeners
-- 通过 `subscribe(listener)` 返回的函数处理 listeners 的注销
-
-### Redux Thunk 的作用是什么
-
-Redux thunk 是一个允许你编写返回一个函数而不是一个 action 的 actions creators 的中间件。如果满足某个条件，thunk 则可以用来延迟 action 的派发(dispatch)，这可以处理异步 action 的派发(dispatch)。
-
 ### redux 缺点
 
 重绘
@@ -455,23 +447,15 @@ redux 的缺点也是足够明显的。每一次 dispatch 事件之后都会导�
 
 ### Redux
 
-1.  redux 一般需要配合什么中间件使用？mobx 与 redux 的区别？
-2.  redux-thunk 的使用，redux-saga 的使用，redux-observable 的使用，以及其他
-3.  reselect 的使用，baobab 的使用
-4.  什么是**reducers**，**middleware**，**store **，**action**
-5.  什么是 combineReducers，与一般的 reducer 有什么不同？
-6.  react-redux 与 redux 有什么不同之处?(`redux`和`react`没关系，但他俩能合作)
-7.  react-redux 的一些函数： connect，provider，mapStateToProps 等
-8.  redux（store）的一些函数： getState, dispatch, subscribe
-9.  对于一个状态，会创建三个 action： 请求中，请求成功，请求失败？为什么？
-
-### redux-thunk
-
-1. thunk 的作用是什么？
-
-### redux-saga
-
-1. saga 的作用是什么？
+1. redux 一般需要配合什么中间件使用？mobx 与 redux 的区别？
+2. redux-thunk 的使用，redux-saga 的使用，redux-observable 的使用，以及其他
+3. reselect 的使用，baobab 的使用
+4. 什么是**reducers**，**middleware**，**store **，**action**
+5. 什么是 combineReducers，与一般的 reducer 有什么不同？
+6. react-redux 与 redux 有什么不同之处?(`redux`和`react`没关系，但他俩能合作)
+7. react-redux 的一些函数： connect，provider，mapStateToProps 等
+8. redux（store）的一些函数： getState, dispatch, subscribe
+9. 对于一个状态，会创建三个 action： 请求中，请求成功，请求失败？为什么？
 
 ### redux-observable
 
@@ -481,15 +465,6 @@ redux 的缺点也是足够明显的。每一次 dispatch 事件之后都会导�
 
 1. amrc 的作用是什么？
 
-### redux-saga
-
-```js
-function* watchFetchModel() {
-  // global saga永不cancel
-  yield takeLatest(getFetchActions(FETCH_MODEL).Start, fetchModel);
-}
-```
-
 ### redux 中间件
 
 > 中间件提供第三方插件的模式，自定义拦截 action -> reducer 的过程。变为 action -> middlewares -> reducer 。这种机制可以让我们改变数据流，实现如异步 action ，action 过滤，日志输出，异常报告等功能
@@ -497,8 +472,6 @@ function* watchFetchModel() {
 - `redux-logger`：提供日志输出
 - `redux-thunk`：处理异步操作
 - `redux-promise`：处理异步操作，`actionCreator`的返回值是`promise`
-
-### redux 的 immutable 使用 immutable 之前和之后有什么区别？
 
 ### redux 生态
 
@@ -512,25 +485,11 @@ function* watchFetchModel() {
 
 主要说是单向数据流： http://www.redux.org.cn/docs/basics/DataFlow.html），据说触发一个action 之后 state 改变，如果是异步获取数据引发 state 改变，使用 await async 之后 理论上在同一个函数里能够直接调用更新后的值？ 具体场景: 我在触发某一个动作之前，需要先拉取一个接口获取当前状态，resp 更新到 store 中，如果没有问题，再触发之后的动作。感觉可能需要利用 thunk 传递一个 actionCreator 时 携带一个 callback，而这个 callback 的内容就是 需要获取同步 state 值的逻辑？
 
-### redux saga 和 thunk 传一个回调给 action，保证 state 更新之后同步获取。
-
-### immutable.js 的作用， 配合 redux 、reselector 使用的时候，是不是就需要再手动浅拷贝了？
-
 ### redux 封装
 
 - 将 saga 或者 rxjs 封装成 类 mobx 的。
 - 通过标注的形式 ——> 高阶组件 @observe 等
 - 要知道为什么 vuex 和 mobx 能够直接修改数据，引起 组件的重新渲染（mobx）是直接可以脱离 react 的渲染机制的。 因为 vuex 和 mobx 都- 是通过观察者模式来做的，被观察的属性 set 和 get 的时候会通知组件的 rerender。 而 redux ，则是利用 react 的 rerender，很多地方都需要自己去做性能优化， shouldComponentUpdate
-
-### saga 为什么要手动触发 LOCATION_CHANGE 这个 action
-
-https://neue.v2ex.com/t/300257， 重复触发 LOCATION_CHANGE 会导致 saga 异常，不执行异步操作。
-
-### saga 的 cancel 操作， 什么时候 saga 异步操作需要退出？ 等多久？
-
-https://redux-saga-in-chinese.js.org/docs/api/index.html#canceltask
-
-### redux saga 存在子组件的 saga 存在一个多次注册的 bug，对于各个子组件的 saga task ，需要在当前的作用域内 take 之后 cancel 掉才能避免被多次监听。
 
 ### Redux 中的 Action 是什么?
 
@@ -1003,48 +962,6 @@ import ConnectedComponent from './containers/ConnectedComponent';
 
 这种结构适用于中小型项目。
 
-### 什么是 redux-saga?
-
-`redux-saga`是一个库，旨在使 React/Redux 项目中的副作用（数据获取等异步操作和访问浏览器缓存等可能产生副作用的动作）更容易，更好。
-
-这个包在 NPM 上有发布:
-
-```
-$ npm install --save redux-saga
-```
-
-### redux-saga 的模型概念是什么?
-
-*Saga*就像你的项目中的一个单独的线程，它独自负责副作用。`redux-saga` 是一个 redux _中间件_，这意味着它可以在项目启动中使用正常的 Redux 操作，暂停和取消该线程，它可以访问完整的 Redux 应用程序状态，并且它也可以调度 Redux 操作。
-
-### 在 redux-saga 中 `call()` 和 `put()` 之间有什么区别?
-
-`call()`和`put()`都是 Effect 创建函数。 `call()`函数用于创建 Effect 描述，指示中间件调用 promise。`put()`函数创建一个 Effect，指示中间件将一个 Action 分派给 Store。
-
-让我们举例说明这些 Effect 如何用于获取特定用户数据。
-
-```js
-function* fetchUserSaga(action) {
-  // `call` function accepts rest arguments, which will be passed to `api.fetchUser` function.
-  // Instructing middleware to call promise, it resolved value will be assigned to `userData` variable
-  const userData = yield call(api.fetchUser, action.userId);
-
-  // Instructing middleware to dispatch corresponding action.
-  yield put({
-    type: 'FETCH_USER_SUCCESS',
-    userData,
-  });
-}
-```
-
-### 什么是 Redux Thunk?
-
-*Redux Thunk*中间件允许您编写返回函数而不是 Action 的创建者。 thunk 可用于延迟 Action 的发送，或仅在满足某个条件时发送。内部函数接收 Store 的方法`dispatch()`和`getState()`作为参数。
-
-### `redux-saga` 和 `redux-thunk` 之间有什么区别?
-
-*Redux Thunk*和*Redux Saga*都负责处理副作用。在大多数场景中，Thunk 使用*Promises*来处理它们，而 Saga 使用*Generators*。Thunk 易于使用，因为许多开发人员都熟悉 Promise，Sagas/Generators 功能更强大，但您需要学习它们。但是这两个中间件可以共存，所以你可以从 Thunks 开始，并在需要时引入 Sagas。
-
 ### 什么是 Redux DevTools?
 
 *Redux DevTools*是 Redux 的实时编辑的时间旅行环境，具有热重新加载，Action 重放和可自定义的 UI。如果您不想安装 Redux DevTools 并将其集成到项目中，请考虑使用 Chrome 和 Firefox 的扩展插件。
@@ -1373,68 +1290,6 @@ Redux 只通过比较新旧两个对象的存储位置来比较新旧两个对�
 - [redux-saga](https://github.com/yelouafi/redux-saga)
 
 redux-thunk 是支持函数形式的 action
-
-### redux thunk
-
-#### saga
-
-https://segmentfault.com/a/1190000007261052?_ea=1290634
-
-#### 聊聊 Redux 和 Vuex 的设计思想
-
-Redux vs Vuex 对比分析
-store 和 state 是最基本的概念，Vuex 没有做出改变。其实 Vuex 对整个框架思想并没有任何改变，只是某些内容变化了名称或者叫法，通过改名，以图在一些细节概念上有所区分。
-
-Vuex 弱化了 dispatch 的存在感。Vuex 认为状态变更的触发是一次“提交”而已，而调用方式则是框架提供一个提交的 commit API 接口。
-
-Vuex 取消了 Redux 中 Action 的概念。不同于 Redux 认为状态变更必须是由一次"行为"触发，Vuex 仅仅认为在任何时候触发状态变化只需要进行 mutation 即可。Redux 的 Action 必须是一个对象，而 Vuex 认为只要传递必要的参数即可，形式不做要求。
-
-Vuex 也弱化了 Redux 中的 reducer 的概念。reducer 在计算机领域语义应该是"规约"，在这里意思应该是根据旧的 state 和 Action 的传入参数，"规约"出新的 state。在 Vuex 中，对应的是 mutation，即"转变"，只是根据入参对旧 state 进行"转变"而已。
-
-总的来说，Vuex 通过弱化概念，在任何东西都没做实质性削减的基础上，使得整套框架更易于理解了。
-另外 Vuex 支持 getter，运行中是带缓存的，算是对提升性能方面做了些优化工作，言外之意也是鼓励大家多使用 getter。
-
-[详解](https://www.jianshu.com/p/e0987169de96)
-
-#### redux 如何更新组件
-
-```js
-store.subscribe(() => this.setState({ count: store.getState() }));
-```
-
-subscribe 中添加回调监听函数，当 dispatch 触发的时候，会执行 subscribe listeners 中的函数。
-
-subscribe 负责监听改变
-
-#### redux 为什么要把 reducer 设计成纯函数
-
-先看源码
-
-```js
-  ...
-let hasChanged = false
-const nextState = {}
-for (let i = 0; i < finalReducerKeys.length; i++) {
-  const key = finalReducerKeys[i]
-  const reducer = finalReducers[key]
-  const previousStateForKey = state[key]
-  const nextStateForKey = reducer(previousStateForKey, action)
-  if (typeof nextStateForKey === 'undefined') {
-    const errorMessage = getUndefinedStateErrorMessage(key, action)
-    throw new Error(errorMessage)
-  }
-  nextState[key] = nextStateForKey
-  hasChanged = hasChanged || nextStateForKey !== previousStateForKey
-}
-return hasChanged ? nextState : state
-```
-
-这一段 const nextStateForKey = reducer(previousStateForKey, action)代码通过 reducer 返回的 state,然后通过 hasChanged = hasChanged || nextStateForKey !== previousStateForKey 来比较新旧两个对象是否一致，此比较法 �，比较的是两个对象的 � 存储位置，也就是浅比较法,如果当 reduxer 返回旧的 state,redux 认为没有改变，页面也就不会更新
-
-为什么要这么做？
-因为比较两个 javascript 对象中所有的属性是否 � 完全相同，� 唯一的办法就是深比较，然而，深比较在真实的应用中代码是非常大的，非常耗性能的，需要比较的 � 次数特别多，所以一个有效的解决方案就是做一个 � 规定，当无论发生任何变化时，开发者都要 � 返回一个新的对象，没有变化时，开发者返回就的对象，这也就是 redux 为什么要把 reducer 设计成纯函数的原因
-
-#### redux-saga
 
 ### createStore.js
 

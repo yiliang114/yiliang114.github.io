@@ -10,7 +10,7 @@ Fiber 是 React v16 中新的 `reconciliation` 引擎，或核心算法的重新
 
 ### React Fiber 的主要目标是什么?
 
-_React Fiber_ 的目标是提高其在动画、布局和手势等领域的适用性。它的主要特性是 **incremental rendering**: 将渲染任务拆分为小的任务块并将任务分配到多个帧上的能力。
+`React Fiber` 的目标是提高其在动画、布局和手势等领域的适用性。它的主要特性是 **incremental rendering**: 将渲染任务拆分为小的任务块并将任务分配到多个帧上的能力。
 
 ### Fiber
 

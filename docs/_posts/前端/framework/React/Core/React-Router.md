@@ -21,22 +21,22 @@ draft: true
 
 ```js
 // 内部的抽象实现
-function createHistory(options={}) {
-  ...
+function createHistory(options = {}) {
+  // ...
   return {
-listenBefore, // 内部的hook机制，可以在location发生变化前执行某些行为，AOP的实现
-listen, // location发生改变时触发回调
-transitionTo, // 执行location的改变
-push, // 改变location
-replace,
-go,
-goBack,
-goForward,
-createKey, // 创建location的key，用于唯一标示该location，是随机生成的
-createPath,
-createHref,
-createLocation, // 创建location
-  }
+    listenBefore, // 内部的hook机制，可以在location发生变化前执行某些行为，AOP的实现
+    listen, // location发生改变时触发回调
+    transitionTo, // 执行location的改变
+    push, // 改变location
+    replace,
+    go,
+    goBack,
+    goForward,
+    createKey, // 创建location的key，用于唯一标示该location，是随机生成的
+    createPath,
+    createHref,
+    createLocation, // 创建location
+  };
 }
 ```
 
@@ -141,9 +141,9 @@ window.addEventListener('popstate', e => {
 
 ### react 路由懒加载
 
-https://segmentfault.com/a/1190000011128817
+<!-- https://segmentfault.com/a/1190000011128817
 https://segmentfault.com/a/1190000010174260
-https://segmentfault.com/a/1190000007141049
+https://segmentfault.com/a/1190000007141049 -->
 
 ### react-router 里的 `<Link>` 标签和 `<a>` 标签有什么区别
 
@@ -185,9 +185,8 @@ Link 做了 3 件事情：
 
 [react-loadable](https://github.com/jamiebuilds/react-loadable)
 
-https://www.jianshu.com/p/697669781276
-
-https://www.cnblogs.com/alan2kat/p/7754846.html
+<!-- https://www.jianshu.com/p/697669781276
+https://www.cnblogs.com/alan2kat/p/7754846.html -->
 
 ```js
 const Home = Loadable({ loader: () => import('../routers/Home'), loading: DelayLoading, delay: 3000 });
