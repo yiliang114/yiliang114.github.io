@@ -43,10 +43,10 @@ https://segmentfault.com/a/1190000010113847
 
 简单校验一个 action 是否是 FSA：
 
-```
-let isFSA = Object.keys(action).every((item)=>{
-   return  ['payload','type','error','meta'].indexOf(item) >  -1
-})
+```js
+let isFSA = Object.keys(action).every(item => {
+  return ['payload', 'type', 'error', 'meta'].indexOf(item) > -1;
+});
 ```
 
 ## 思路

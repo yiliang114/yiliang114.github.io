@@ -117,3 +117,25 @@ try {
 
 > Error Boundaries 本质上也是一个组件，通过增加了新的生命周期函数 componentDidCatch 使其变成了一个新的组件，这个特殊组件可以捕获其子组件树中的 js 错误信息，输出错误信息或者在报错条件下，显示默认错误页。
 > **注意一个 Error Boundaries 只能捕获其子组件中的 js 错误，而不能捕获其组件本身的错误和非子组件中的 js 错误。**
+
+### 每次组件渲染时调用函数的常见错误是什么?
+
+你需要确保在将函数作为参数传递时未调用该函数。
+
+```jsx
+render() {
+
+// Wrong: handleClick is called instead of passed as a reference!
+return <button onClick={this.handleClick()}>{'Click Me'}</button>
+}
+```
+
+相反地，传递函数本身应该没有括号：
+
+```jsx
+render() {
+
+// Correct: handleClick is passed as a reference!
+return <button onClick={this.handleClick}>{'Click Me'}</button>
+}
+```

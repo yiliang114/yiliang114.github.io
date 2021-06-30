@@ -10,7 +10,7 @@ dva 是阿里体验技术部开发的 React 应用框架，主要用于解决组
 
 > dva = React-Router + Redux + Redux-saga
 
-将上面三个 React 工具库包装在一起，简化了 API，让开发 React 应用更加方便和快捷。
+将上面三个 React 工具库包装在一起，简化了 API，让开发 React 应用更加方便和快捷。 是一个在 saga 基础上的数据流方案。
 
 了解 dva 之前可以先去了解 redux-saga.
 

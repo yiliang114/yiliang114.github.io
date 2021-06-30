@@ -16,4 +16,4 @@ Immutable 实现的原理是**Persistent Data Structure**(持久化数据结构)
 
 ### redux 的 immutable 使用 immutable 之前和之后有什么区别？
 
-### immutable.js 的作用， 配合 redux 、reselector 使用的时候，是不是就需要再手动浅拷贝了？
+### immutable.js 的作用， 配合 redux 、reselect 使用的时候，是不是就需要再手动浅拷贝了？

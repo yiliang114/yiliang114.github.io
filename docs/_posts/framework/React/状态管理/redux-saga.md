@@ -31,7 +31,7 @@ bindActionCreator 这个函数的主要作用就是返回一个函数，当我�
 
 ## 源码分析
 
-由于是 redux 的异步扩展，redux-saga 中广泛应用了 redux 中的很多函数，比如 applyMiddleware、dispatch、getState 等。如对 redux 不熟悉，建议看下[redux 源码分析](https://github.com/LuoShengMen/StudyNotes/issues/169),我们会通过[该例子](https://github.com/LuoShengMen/MyBlog-front/blob/master/src/store/index.js)来分析 redux-sgag 源码
+由于是 redux 的异步扩展，redux-saga 中广泛应用了 redux 中的很多函数，比如 applyMiddleware、dispatch、getState 等。如对 redux 不熟悉，建议看下[redux 源码分析](https://github.com/LuoShengMen/StudyNotes/issues/169),我们会通过[该例子](https://github.com/LuoShengMen/MyBlog-front/blob/master/src/store/index.js)来分析 redux-saga 源码
 
 ### 内部执行逻辑
 
