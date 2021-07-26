@@ -111,14 +111,6 @@ ProductContext.Provider 标签注入一个 value 供子组件使用. useContext 
 
 ## react hooks 的原理和实现
 
-为了让行文更流畅，我打算先抛出几个问题，这些问题会在源码实现的过程中，逐步解决：
-
-- 🤔️ useState 的实现原理
-- 🤔️ 为什么不能在循环、判断内部使用 Hook
-- 🤔️ useEffect 的实现原理
-- 🤔️ useEffect 的应用场景
-- 🤔️ `Class` vs `Hooks`
-
 ### useState 的实现原理
 
 当调用 useState 的时候，会返回形如 `(变量, 函数)` 的一个元祖。并且 state 的初始值就是外部调用 useState 的时候，传入的参数。

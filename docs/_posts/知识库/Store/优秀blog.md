@@ -33,6 +33,7 @@ https://github.com/amandakelake/blog
 https://segmentfault.com/u/zach5078/articles
 http://hcysun.me/
 https://www.zhihu.com/people/wenzishi/posts
+https://www.josephxia.com/vue3/#%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80
 
 ### 阅读源码
 

@@ -100,3 +100,36 @@ Consumer 是一个订阅上下文更改的 React 组件。它需要一个函数�
   {value => /* render something based on the context value */}
 </MyContext.Consumer>
 ```
+
+### 什么是上下文（Context）?
+
+_Context_ 通过组件树提供了一个传递数据的方法，从而避免了在每一个层级手动的传递`props`。比如，需要在应用中许多组件需要访问登录用户信息、地区偏好、UI 主题等。
+
+```jsx
+// 创建一个 theme Context,  默认 theme 的值为 light
+const ThemeContext = React.createContext('light');
+
+function ThemedButton(props) {
+  // ThemedButton 组件从 context 接收 theme
+  return <ThemeContext.Consumer>{theme => <Button {...props} theme={theme} />}</ThemeContext.Consumer>;
+}
+
+// 中间组件
+function Toolbar(props) {
+  return (
+    <div>
+      <ThemedButton />
+    </div>
+  );
+}
+
+class App extends React.Component {
+  render() {
+    return (
+      <ThemeContext.Provider value="dark">
+        <Toolbar />
+      </ThemeContext.Provider>
+    );
+  }
+}
+```

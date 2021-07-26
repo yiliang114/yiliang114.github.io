@@ -20,11 +20,11 @@ _Flux_ 是*应用程序设计范例*，用于替代更传统的 MVC 模式。它
 
 ## Redux
 
-Redux 的基本思想是整个应用的 state 保持在一个单一的 store 中。store 就是一个简单的 javascript 对象，而改变应用 state 的唯一方式是在应用中触发 actions，然后为这些 actions 编写 reducers 来修改 state。整个 state 转化是在 reducers 中完成，并且不应该有任何副作用。
+Redux 的基本思想是整个应用的 state 保持在一个单一的 store 中。store 是一个简单的 js 对象，而改变应用 state 的唯一方式是在应用中触发 actions，然后为这些 actions 编写 reducers 来修改 state。整个 state 转化是在 reducers 中完成，并且不应该有任何副作用。
 
-_Redux_ 是基于 _Flux 设计模式_ 的 JavaScript 应用程序的可预测状态容器。Redux 可以与 React 一起使用，也可以与任何其他视图库一起使用。它很小（约 2kB）并且没有依赖性。
+Redux 是基于 `Flux 设计模式` 的 JS 应用程序的可预测状态容器。Redux 可以与 React 一起使用，也可以与任何其他视图库一起使用。它很小（约 2kB）并且没有依赖性。
 
-### redux 相关的依赖包和核心 API
+### Redux 相关的依赖包和核心 API
 
 1. redux
    1. combineReducers 合并多个 reducers
@@ -980,56 +980,59 @@ redux 使用的是不可变的数据，而 vuex 的数据是可变的，redux �
 
 redux 的设计思想就是不产生副作用，数据更改的状态可回溯，所以 redux 中处处都是纯函数
 
-## Reselect
-
-### 什么是 Reselect 以及它是如何工作的?
-
-*Reselect*是一个**选择器库**（用于 Redux ），它使用*memoization*概念。它最初编写用于计算类似 Redux 的应用程序状态的派生数据，但它不能绑定到任何体系结构或库。
-
-Reselect 保留最后一次调用的最后输入/输出的副本，并仅在其中一个输入发生更改时重新计算结果。如果连续两次提供相同的输入，则 Reselect 将返回缓存的输出。它的 memoization 和缓存是完全可定制的。
-
-### Reselect 库的主要功能有哪些?
-
-选择器可以计算派生数据，允许 Redux 存储最小可能状态。
-选择器是有效的。除非其参数之一发生更改，否则不会重新计算选择器。
-选择器是可组合的。它们可以用作其他选择器的输入。
-
-### 举一个 Reselect 用法的例子?
-
-让我们通过使用 Reselect 来简化计算不同数量的装运订单：
+#### redux 如何更新组件
 
 ```js
-import { createSelector } from 'reselect';
-
-const shopItemsSelector = state => state.shop.items;
-const taxPercentSelector = state => state.shop.taxPercent;
-
-const subtotalSelector = createSelector(shopItemsSelector, items => items.reduce((acc, item) => acc + item.value, 0));
-
-const taxSelector = createSelector(
-  subtotalSelector,
-  taxPercentSelector,
-  (subtotal, taxPercent) => subtotal * (taxPercent / 100),
-);
-
-export const totalSelector = createSelector(subtotalSelector, taxSelector, (subtotal, tax) => ({
-  total: subtotal + tax,
-}));
-
-let exampleState = {
-  shop: {
-    taxPercent: 8,
-    items: [
-      { name: 'apple', value: 1.2 },
-      { name: 'orange', value: 0.95 },
-    ],
-  },
-};
-
-console.log(subtotalSelector(exampleState)); // 2.15
-console.log(taxSelector(exampleState)); // 0.172
-console.log(totalSelector(exampleState)); // { total: 2.322 }
+store.subscribe(() => this.setState({ count: store.getState() }));
 ```
+
+subscribe 中添加回调监听函数，当 dispatch 触发的时候，会执行 subscribe listeners 中的函数。
+
+subscribe 负责监听改变
+
+#### redux 为什么要把 reducer 设计成纯函数
+
+先看源码
+
+```js
+  ...
+let hasChanged = false
+const nextState = {}
+for (let i = 0; i < finalReducerKeys.length; i++) {
+  const key = finalReducerKeys[i]
+  const reducer = finalReducers[key]
+  const previousStateForKey = state[key]
+  const nextStateForKey = reducer(previousStateForKey, action)
+  if (typeof nextStateForKey === 'undefined') {
+    const errorMessage = getUndefinedStateErrorMessage(key, action)
+    throw new Error(errorMessage)
+  }
+  nextState[key] = nextStateForKey
+  hasChanged = hasChanged || nextStateForKey !== previousStateForKey
+}
+return hasChanged ? nextState : state
+```
+
+这一段 const nextStateForKey = reducer(previousStateForKey, action)代码通过 reducer 返回的 state,然后通过 hasChanged = hasChanged || nextStateForKey !== previousStateForKey 来比较新旧两个对象是否一致，此比较法 �，比较的是两个对象的 � 存储位置，也就是浅比较法,如果当 reduxer 返回旧的 state,redux 认为没有改变，页面也就不会更新
+
+为什么要这么做？
+因为比较两个 javascript 对象中所有的属性是否 � 完全相同，� 唯一的办法就是深比较，然而，深比较在真实的应用中代码是非常大的，非常耗性能的，需要比较的 � 次数特别多，所以一个有效的解决方案就是做一个 � 规定，当无论发生任何变化时，开发者都要 � 返回一个新的对象，没有变化时，开发者返回就的对象，这也就是 redux 为什么要把 reducer 设计成纯函数的原因
+
+### 聊聊 Redux 和 Vuex 的设计思想
+
+Redux vs Vuex 对比分析
+store 和 state 是最基本的概念，Vuex 没有做出改变。其实 Vuex 对整个框架思想并没有任何改变，只是某些内容变化了名称或者叫法，通过改名，以图在一些细节概念上有所区分。
+
+Vuex 弱化了 dispatch 的存在感。Vuex 认为状态变更的触发是一次“提交”而已，而调用方式则是框架提供一个提交的 commit API 接口。
+
+Vuex 取消了 Redux 中 Action 的概念。不同于 Redux 认为状态变更必须是由一次"行为"触发，Vuex 仅仅认为在任何时候触发状态变化只需要进行 mutation 即可。Redux 的 Action 必须是一个对象，而 Vuex 认为只要传递必要的参数即可，形式不做要求。
+
+Vuex 也弱化了 Redux 中的 reducer 的概念。reducer 在计算机领域语义应该是"规约"，在这里意思应该是根据旧的 state 和 Action 的传入参数，"规约"出新的 state。在 Vuex 中，对应的是 mutation，即"转变"，只是根据入参对旧 state 进行"转变"而已。
+
+总的来说，Vuex 通过弱化概念，在任何东西都没做实质性削减的基础上，使得整套框架更易于理解了。
+另外 Vuex 支持 getter，运行中是带缓存的，算是对提升性能方面做了些优化工作，言外之意也是鼓励大家多使用 getter。
+
+[详解](https://www.jianshu.com/p/e0987169de96)
 
 ## Redux 源码分析
 
@@ -1483,3 +1486,54 @@ export { createStore, combineReducers, bindActionCreators, applyMiddleware, comp
 ### Redux DevTools 的功能有哪些?
 
 允许您检查每个状态和 action 负载。让你可以通过*撤销*回到过去。如果更改 reducer 代码，将重新评估每个*已暂存*的 Action。如果 Reducers 抛出错误，你会看到这发生了什么 Action，以及错误是什么。使用`persistState()`存储增强器，您可以在页面重新加载期间保持调试会话。
+
+## Reselect
+
+### 什么是 Reselect 以及它是如何工作的?
+
+*Reselect*是一个**选择器库**（用于 Redux ），它使用*memoization*概念。它最初编写用于计算类似 Redux 的应用程序状态的派生数据，但它不能绑定到任何体系结构或库。
+
+Reselect 保留最后一次调用的最后输入/输出的副本，并仅在其中一个输入发生更改时重新计算结果。如果连续两次提供相同的输入，则 Reselect 将返回缓存的输出。它的 memoization 和缓存是完全可定制的。
+
+### Reselect 库的主要功能有哪些?
+
+选择器可以计算派生数据，允许 Redux 存储最小可能状态。
+选择器是有效的。除非其参数之一发生更改，否则不会重新计算选择器。
+选择器是可组合的。它们可以用作其他选择器的输入。
+
+### 举一个 Reselect 用法的例子?
+
+让我们通过使用 Reselect 来简化计算不同数量的装运订单：
+
+```js
+import { createSelector } from 'reselect';
+
+const shopItemsSelector = state => state.shop.items;
+const taxPercentSelector = state => state.shop.taxPercent;
+
+const subtotalSelector = createSelector(shopItemsSelector, items => items.reduce((acc, item) => acc + item.value, 0));
+
+const taxSelector = createSelector(
+  subtotalSelector,
+  taxPercentSelector,
+  (subtotal, taxPercent) => subtotal * (taxPercent / 100),
+);
+
+export const totalSelector = createSelector(subtotalSelector, taxSelector, (subtotal, tax) => ({
+  total: subtotal + tax,
+}));
+
+let exampleState = {
+  shop: {
+    taxPercent: 8,
+    items: [
+      { name: 'apple', value: 1.2 },
+      { name: 'orange', value: 0.95 },
+    ],
+  },
+};
+
+console.log(subtotalSelector(exampleState)); // 2.15
+console.log(taxSelector(exampleState)); // 0.172
+console.log(totalSelector(exampleState)); // { total: 2.322 }
+```
