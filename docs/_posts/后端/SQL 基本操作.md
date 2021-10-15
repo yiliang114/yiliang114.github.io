@@ -1,7 +1,9 @@
 ---
-title: 'SQL'
+title: 'SQL 基本操作'
 draft: true
 ---
+
+# SQL 基本操作
 
 ## 1. 基础
 
@@ -621,69 +623,4 @@ DEFAULT CHARACTER SET hebrew COLLATE hebrew_general_ci;
 SELECT *
 FROM mytable
 ORDER BY col COLLATE latin1_general_ci;
-```
-
-## 二十三、权限管理
-
-MySQL 的账户信息保存在 mysql 这个数据库中。
-
-```sql
-USE mysql;
-SELECT user FROM user;
-```
-
-### 创建账户
-
-```sql
-CREATE USER myuser IDENTIFIED BY 'mypassword';
-```
-
-新创建的账户没有任何权限。
-
-### 修改账户名
-
-```sql
-RENAME myuser TO newuser;
-```
-
-### 删除账户
-
-```sql
-DROP USER myuser;
-```
-
-### 查看权限
-
-```sql
-SHOW GRANTS FOR myuser;
-```
-
-### 授予权限
-
-```sql
-GRANT SELECT, INSERT ON mydatabase.* TO myuser;
-```
-
-账户用 username@host 的形式定义，username@% 使用的是默认主机名。
-
-### 删除权限
-
-```sql
-REVOKE SELECT, INSERT ON mydatabase.* FROM myuser;
-```
-
-GRANT 和 REVOKE 可在几个层次上控制访问权限：
-
-- 整个服务器，使用 GRANT ALL 和 REVOKE ALL；
-- 整个数据库，使用 ON database.\*；
-- 特定的表，使用 ON database.table；
-- 特定的列；
-- 特定的存储过程。
-
-### 更改密码
-
-必须使用 Password() 函数
-
-```sql
-SET PASSWROD FOR myuser = Password('newpassword');
 ```

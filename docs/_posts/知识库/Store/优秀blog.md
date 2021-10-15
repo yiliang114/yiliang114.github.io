@@ -4,23 +4,6 @@ date: 2020-11-21
 draft: true
 ---
 
-### 前端模板
-
-#### react
-
-https://github.com/react-redux-antd-es6/react
-https://github.com/react-boilerplate/react-boilerplate
-https://github.com/mhaagens/react-mobx-react-router4-boilerplate
-https://github.com/mobxjs/mobx-react-boilerplate
-
-#### vue
-
-https://github.com/chrisvfritz/vue-enterprise-boilerplate
-https://github.com/petervmeijgaard/vue-2-boilerplate
-https://github.com/Heeexy/SpringBoot-Shiro-Vue
-https://github.com/icebob/vue-express-mongo-boilerplate
-https://github.com/boylegu/SpringBoot-vue
-
 ### 搜索
 
 https://github.com/mqyqingfeng/Blog
@@ -82,14 +65,6 @@ https://github.com/yanthink/react-simplemde-editor
 
 https://github.com/leer0911/myXHR
 
-### 前端开发面试知识点大纲：
-
-HTML&CSS： 对 Web 标准的理解、浏览器内核差异、兼容性、hack、CSS 基本功：布局、盒子模型、选择器优先级及使用、HTML5、CSS3、移动端适应。
-
-JavaScript： 数据类型、面向对象、继承、闭包、插件、作用域、跨域、原型链、模块化、自定义事件、内存泄漏、事件机制、异步装载回调、模板引擎、Nodejs、JSON、ajax 等。
-
-其他： HTTP、安全、正则、优化、重构、响应式、移动端、团队协作、可维护、SEO、UED、架构、职业生涯
-
 ### 2019.11.30
 
 https://lucifer.ren/fe-interview/#/
@@ -146,14 +121,6 @@ https://blog.csdn.net/Fabulous1111/article/details/79178724
 
 https://github.com/ndabAP/vue-go-example
 
-### refs
-
-能不能抽离一个类似于 mobx 的全局状态来管理 refs
-
-### 微信 work 机器人
-
-https://work.weixin.qq.com/api/doc#14404
-
 ### travis node 部署
 
 https://www.jb51.net/article/119912.htm
@@ -169,9 +136,3 @@ https://jdc.jd.com/archives/2175
 https://alexzhong22c.github.io/2020/04/02/vue-lazyload-summary/
 https://ustbhuangyi.github.io/vue-analysis/v2/compile/entrance.html
 https://lq782655835.github.io/blogs/team-standard/recommend-vuerouter.html
-
-### 优秀的面试文章：
-
-- 中高级前端大厂面试秘籍：https://juejin.im/post/5c64d15d6fb9a049d37f9c20
-- 前端面试查漏补缺：https://juejin.im/post/5c6bab91f265da2dd94c9f9e
-- 前端专题学习: https://github.com/mqyqingfeng/Blog
