@@ -15,6 +15,17 @@ yum install nginx
 nginx -v
 ```
 
+### ubuntu 安装 Nginx
+
+```
+// 更新包
+sudo apt-get update
+// 下载安装nginx
+sudo apt-get install nginx
+// 测试
+sudo nginx -t
+```
+
 ### Linux -bash: rz(或者是 sz): command not found
 
 ```
@@ -362,7 +373,7 @@ server {
     index index.html index.htm;
 
     location / {
-    try_files $uri $uri/ =404;
+      try_files $uri $uri/ =404;
     }
 }
 ```
