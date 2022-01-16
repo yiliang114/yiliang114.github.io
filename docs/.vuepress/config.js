@@ -47,10 +47,10 @@ module.exports = {
     personalInfo: {
       nickname: '易良',
       avatar: '/assets/images/avatar.jpeg',
-      description: 'Happy Coding <br/>正在努力',
+      description: '正在努力',
       email: '1204183885@qq.com',
-      location: 'ShenZhen, China',
-      organization: 'Tencent',
+      location: 'Hangzhou, China',
+      organization: '阿里云',
 
       sns: {
         github: {
