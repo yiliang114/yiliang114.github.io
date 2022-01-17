@@ -156,6 +156,47 @@ sourceMap 本质上是一种映射关系，打包出来的 js 文件中的代码
 
 sourcemap 文件是长什么样子的， node 层是如何做还原的？
 
+## `__pure__`
+
+js 代码压缩过程中，某些从其他依赖中引入的函数，压缩工具很难判断其是否有副作用，因此可能会将某些不需要的代码保存下来。 针对 uglifyjs 或者 terserjs，可以通过 `/*@__PURE__*/` 或者 `/*#__PURE__*/` 这样的标签来显式声明定义是不包含副作用的。压缩工具在获取到这个信息之后，就可以放心的将未被使用的定义代码直接删除了。
+
+在 [terser online](https://xem.github.io/terser-online/) 中尝试如下代码，观察编译结果的区别：
+
+```js
+(function() {
+  const unused = window.unknown();
+  const used = 'used';
+
+  console.log(used);
+})();
+```
+
+上面的代码中，因为 `window.unknown()` 这个函数的调用细节对 terser 是不透明的，压缩工具无法判明使用是否会存在副作用。虽然 unused 这个变量没有被使用到，但是为了避免副作用丢失，terser 只能将 `window.unknown()` 调用保留下来。最终生成的压缩代码为：
+
+```js
+!(function() {
+  window.unknown();
+  console.log('used');
+})();
+```
+
+而如果将代码加上显式声明：
+
+```js
+(function() {
+  const unused = /*#__PURE__*/ window.unknown();
+  const used = 'used';
+
+  console.log(used);
+})();
+```
+
+那么，terser 就可以放心的将整个调用删除。最终的压缩结果为：
+
+```js
+console.log('used');
+```
+
 ## webpack 如何实现动态加载
 
 webpack 动态加载就两种方式：import()和 require.ensure，不过他们实现原理是相同的。

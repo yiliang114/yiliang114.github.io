@@ -43,3 +43,18 @@ https://www.cnblogs.com/Jimc/p/10108821.html
 ### Yarn Workspace
 
 https://www.jianshu.com/p/990afa30b6fe
+
+### 错误
+
+#### There appears to be trouble with your network connection
+
+yarn 请求依赖超时了， 一般是 proxy 有问题，或者 register 默认设置了国外。
+
+```bash
+# 查看代理
+yarn config list
+# 删除代理
+yarn config delete proxy
+# 更换淘宝镜像
+yarn config set registry https://registry.npm.taobao.org
+```
