@@ -48,3 +48,7 @@ ESM 大势所趋
 ## Node
 
 https://nextjs-in-action-cn.taonan.lu/#%E5%B0%81%E9%9D%A2
+
+## TS
+
+https://juejin.cn/post/6844903863791648782
