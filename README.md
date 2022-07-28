@@ -10,7 +10,3 @@
 </p>
 
 就是记录一些东西。
-
-### bug
-
-https://github.com/meteorlxy/vssue/issues/131
