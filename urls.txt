@@ -34,7 +34,7 @@ https://yiliang.site/posts/2019/05/05/用vue实现灭霸响指效果.html
 https://yiliang.site/posts/2019/05/14/js数组需要注意的api.html
 https://yiliang.site/posts/2019/05/16/前端项目线上如何做跨域.html
 https://yiliang.site/posts/2019/06/14/vue-cli-2-x项目迁移日志.html
-https://yiliang.site/posts/2019/07/17/易良同学的思考-一.html
+https://yiliang.site/posts/2019/07/17/思考-一.html
 https://yiliang.site/posts/2019/08/16/github-pages自定义域名失效.html
 https://yiliang.site/posts/2019/09/15/ubuntu-环境搭建.html
 https://yiliang.site/posts/2019/09/16/docker介绍.html
@@ -54,14 +54,11 @@ https://yiliang.site/posts/2020/08/17/vue-js-3-0-的变化.html
 https://yiliang.site/posts/2020/09/02/generate-vuex.html
 https://yiliang.site/posts/2020/09/04/regular-expression.html
 https://yiliang.site/posts/2020/09/15/iterm-快捷键.html
-https://yiliang.site/posts/2020/09/30/前端发展与思考.html
 https://yiliang.site/posts/2020/10/22/支付宝的坑点.html
-https://yiliang.site/posts/2020/10/24/前端版本管理.html
-https://yiliang.site/posts/2020/11/21/grpc.html
-https://yiliang.site/posts/2020/11/21/package-lock-json.html
+https://yiliang.site/posts/2022/01/09/书.html
+https://yiliang.site/posts/2022/01/09/二八原则.html
 https://yiliang.site/posts/categories/index.html
 https://yiliang.site/posts/categories/vue.html
-https://yiliang.site/posts/categories/前端.html
 https://yiliang.site/posts/categories/正则.html
 https://yiliang.site/posts/categories/生活.html
 https://yiliang.site/posts/categories/翻译.html
@@ -90,7 +87,6 @@ https://yiliang.site/posts/tags/vue 3.html
 https://yiliang.site/posts/tags/vue-cli.html
 https://yiliang.site/posts/tags/vue.html
 https://yiliang.site/posts/tags/webpack.html
-https://yiliang.site/posts/tags/前端.html
 https://yiliang.site/posts/tags/服务器.html
 https://yiliang.site/posts/tags/浏览器.html
 https://yiliang.site/posts/tags/生活.html
@@ -98,6 +94,5 @@ https://yiliang.site/posts/tags/移动端.html
 https://yiliang.site/posts/tags/缓存.html
 https://yiliang.site/posts/tags/编辑器.html
 https://yiliang.site/posts/tags/英语.html
-https://yiliang.site/posts/tags/规范.html
 https://yiliang.site/posts/tags/跨域.html
 https://yiliang.site/whisper/index.html
