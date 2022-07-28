@@ -14,7 +14,7 @@
       <template v-if="poweredByTheme">
         <span>|</span>
 
-        <a href="https://github.com/yiliang114/vuepress-theme-yiliang114" target="_blank">yiliang114</a>
+        <a href="https://github.com/yiliang114/vuepress-theme-wire" target="_blank">yiliang114</a>
       </template>
     </p>
 

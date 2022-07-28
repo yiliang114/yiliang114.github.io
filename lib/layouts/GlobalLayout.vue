@@ -1,6 +1,6 @@
 <template>
   <!-- 整体的渲染结构 -->
-  <div id="vuepress-theme-yiliang114">
+  <div id="vuepress-theme-wire">
     <TheHeader />
 
     <TheMain />
@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import TheHeader from '@theme/components/TheHeader.vue'
-import TheMain from '@theme/components/TheMain.vue'
-import TheFooter from '@theme/components/TheFooter.vue'
+import TheHeader from '@theme/components/TheHeader.vue';
+import TheMain from '@theme/components/TheMain.vue';
+import TheFooter from '@theme/components/TheFooter.vue';
 
 export default {
   name: 'ThemeYiliang',
@@ -20,9 +20,9 @@ export default {
   components: {
     TheHeader,
     TheMain,
-    TheFooter
-  }
-}
+    TheFooter,
+  },
+};
 </script>
 
 <style lang="stylus" src="@theme/styles/index.styl" />
