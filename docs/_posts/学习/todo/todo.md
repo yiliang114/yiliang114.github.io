@@ -46,3 +46,42 @@ https://juejin.cn/post/6844903863791648782
 2. 表达能力
 3. 快捷键
 4. 思维导图，架构设计图
+
+## 工具
+
+Git 提交之前检查：
+
+1. pre-commit git 的钩子
+2. 类似 commitcli 的工具扫描
+3. 类似 eslint 的增量扫描
+
+TODO:
+
+1. 个人的各种 config
+2. pnpm/turbo/changlog ? 替换
+3. 升级博客主题。 样式： vite 的样式。
+
+## 全栈技术栈
+
+前端：
+
+1. vue@2
+2. vue@3
+3. react Component/Hooks
+
+后台：
+
+1. egg
+2. nest
+
+SSR:
+
+1. Next
+
+配置层：
+
+1. Appollo ？
+
+接口聚合层：
+
+1. graph gl ？
