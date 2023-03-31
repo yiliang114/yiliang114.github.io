@@ -12,7 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: Get yarn cache
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -29,7 +31,6 @@ jobs:
         run: |
           npm install
       #           yarn install
-
       - name: Build
         run: |
           yarn build
