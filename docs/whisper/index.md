@@ -80,3 +80,8 @@ aside: false
 ## 2023.04.18
 
 - 人生建议：不要等！有了目标之后，不等待不犹豫，执行力！效果不好就复盘优化，效果好就咬牙坚持不断深耕。
+
+## 2023.04.22
+
+- It's never a bad time to be a developer, but it's also never been this good.
+- 犹豫过 2 次以上的事情，就不要考虑了
