@@ -142,6 +142,12 @@ module.exports = {
         desc: '荷尽已无擎雨盖，菊残犹有傲霜枝',
         link: 'https://zpj80231.gitee.io/znote/',
       },
+      {
+        name: 'wuxin0011`blog',
+        desc: '硅步以致千里，至今每个爱学习的你',
+        avatar: 'https://cdn.staticaly.com/gh/wuxin0011/blog-resource@main/icon/logo.ico',
+        link: 'https://wuxin0011.github.io',
+      },
     ],
 
     lastUpdated: true,
