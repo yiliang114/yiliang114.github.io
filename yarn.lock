@@ -12378,10 +12378,10 @@ vuepress-plugin-zooming@^1.1.7:
   dependencies:
     zooming "^2.1.1"
 
-vuepress-theme-wire@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/vuepress-theme-wire/-/vuepress-theme-wire-0.0.3.tgz#1e616101762cb39c3b476bb714e5e5404ebfadc2"
-  integrity sha512-7Fv+18sq0LQFf+bCqIyX8qYlzmzZuPKV+3iPzQ7csVqnbSWzfxxcAMhuDff2si1A8lXTdQfBDUsTNrPuXvqryw==
+vuepress-theme-wire@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/vuepress-theme-wire/-/vuepress-theme-wire-0.0.4.tgz#d957bdb3d67a086a877ba5298599158bf77b152b"
+  integrity sha512-dC6AimYBoyHYxBQBl7+Xb0UCzgD9lnYOrfDrglnkXZPsSvOIoQly8Eqi3NiDWePRKme0/I9zs6rBpAKKtzg7Tw==
   dependencies:
     babel-eslint "^10.1.0"
     gray-matter "^4.0.2"

@@ -46,11 +46,15 @@ module.exports = {
 
     personalInfo: {
       nickname: '易良',
-      avatar: '/assets/images/avatar.jpeg',
+      avatar: '/assets/images/avatar.jpg',
       description: '正在努力',
       email: '1204183885@qq.com',
       location: 'Hangzhou, China',
       organization: '阿里云',
+      wechat: {
+        name: 'Caps',
+        url: '/assets/images/wechat.jpeg',
+      },
 
       sns: {
         github: {
