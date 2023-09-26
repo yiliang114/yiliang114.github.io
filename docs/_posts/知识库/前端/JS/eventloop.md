@@ -249,17 +249,17 @@ setImmediate() 的回调会被加入 check 队列中，从 event loop 的阶段�
 console.log('start');
 setTimeout(() => {
   console.log('timer1');
-  Promise.resolve().then(function() {
+  Promise.resolve().then(function () {
     console.log('promise1');
   });
 }, 0);
 setTimeout(() => {
   console.log('timer2');
-  Promise.resolve().then(function() {
+  Promise.resolve().then(function () {
     console.log('promise2');
   });
 }, 0);
-Promise.resolve().then(function() {
+Promise.resolve().then(function () {
   console.log('promise3');
 });
 console.log('end');
@@ -268,6 +268,45 @@ console.log('end');
 
 - 一开始执行栈的同步任务（这属于宏任务）执行完毕后（依次打印出 start end，并将 2 个 timer 依次放入 timer 队列）,会先去执行微任务（**这点跟浏览器端的一样**），所以打印出 promise3
 - 然后进入 timers 阶段，执行 timer1 的回调函数，打印 timer1，并将 promise.then 回调放入 micro-task 队列，同样的步骤执行 timer2，打印 timer2；这点跟浏览器端相差比较大，**timers 阶段有几个 setTimeout/setInterval 都会依次执行**，并不像浏览器端，每执行一个宏任务后就去执行一个微任务（关于 Node 与浏览器的 Event Loop 差异，下文还会详细介绍）。
+
+```js
+setTimeout(function () {
+  console.log('setTimeout1'); //8
+  new Promise(function (resolve) {
+    console.log('promise0'); //9
+    resolve();
+  }).then(function () {
+    console.log('settimeout promise resolveed'); //10
+  });
+});
+setTimeout(function () {
+  console.log('setTimeout2'); //11
+});
+const P = new Promise(function (resolve) {
+  console.log('promise'); //1
+  for (var i = 0; i < 10000; i++) {
+    if (i === 10) {
+      console.log('for'); //2
+    }
+    if (i === 9999) {
+      resolve('resolve');
+    }
+  }
+})
+  .then(function (val) {
+    console.log('resolve1'); //5
+  })
+  .then(function (val) {
+    console.log('resolve2'); //7
+  });
+new Promise(function (resolve) {
+  console.log('promise2'); //3
+  resolve('resolve');
+}).then(function (val) {
+  console.log('resolve3'); //6
+});
+console.log('console'); //4
+```
 
 #### 6. close callbacks
 
@@ -316,7 +355,7 @@ setTimeout(() => {
   console.log('timer21');
 }, 0);
 
-Promise.resolve().then(function() {
+Promise.resolve().then(function () {
   console.log('promise1');
 });
 ```
@@ -329,7 +368,7 @@ Promise.resolve().then(function() {
 setTimeout(() => {
   console.log('timer1');
 
-  Promise.resolve().then(function() {
+  Promise.resolve().then(function () {
     console.log('promise1');
   });
 }, 0);
@@ -417,7 +456,7 @@ fs.readFile(__filename, () => {
 ```js
 setTimeout(() => {
   console.log('timer1');
-  Promise.resolve().then(function() {
+  Promise.resolve().then(function () {
     console.log('promise1');
   });
 }, 0);
@@ -448,14 +487,14 @@ process.nextTick(() => {
 ```js
 setTimeout(() => {
   console.log('timer1');
-  Promise.resolve().then(function() {
+  Promise.resolve().then(function () {
     console.log('promise1');
   });
 }, 0);
 
 setTimeout(() => {
   console.log('timer2');
-  Promise.resolve().then(function() {
+  Promise.resolve().then(function () {
     console.log('promise2');
   });
 }, 0);
@@ -497,30 +536,30 @@ Node 端的处理过程如下：
 ```js
 console.log('1');
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('2');
-  new Promise(function(resolve) {
+  new Promise(function (resolve) {
     console.log('3');
     resolve();
-  }).then(function() {
+  }).then(function () {
     console.log('4');
   });
 });
 
-new Promise(function(resolve) {
+new Promise(function (resolve) {
   console.log('5');
   resolve();
-}).then(function() {
+}).then(function () {
   console.log('6');
 });
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('7');
 
-  new Promise(function(resolve) {
+  new Promise(function (resolve) {
     console.log('8');
     resolve();
-  }).then(function() {
+  }).then(function () {
     console.log('9');
   });
 });
