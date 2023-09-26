@@ -20,7 +20,7 @@ async function async2() {
 }
 async1();
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout');
 }, 0);
 
@@ -28,10 +28,10 @@ new Promise(resolve => {
   console.log('Promise');
   resolve();
 })
-  .then(function() {
+  .then(function () {
     console.log('promise1');
   })
-  .then(function() {
+  .then(function () {
     console.log('promise2');
   });
 
@@ -129,17 +129,17 @@ setTimeout
 ### 异步笔试题
 
 ```js
-var p1 = new Promise(function(resolve, reject) {
+var p1 = new Promise(function (resolve, reject) {
   setTimeout(() => reject(new Error('p1 中failure')), 3000);
 });
 
-var p2 = new Promise(function(resolve, reject) {
+var p2 = new Promise(function (resolve, reject) {
   setTimeout(() => resolve(p1), 1000);
 });
-var p3 = new Promise(function(resolve, reject) {
+var p3 = new Promise(function (resolve, reject) {
   resolve(2);
 });
-var p4 = new Promise(function(resolve, reject) {
+var p4 = new Promise(function (resolve, reject) {
   reject(new Error('error  in  p4'));
 });
 
@@ -175,7 +175,7 @@ Promise.race([p2, p4, p5]).then(val => console.log(val)); //?
 
 ```js
 function Promise1() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     for (let i = 0; i < 2; i++) {
       console.log('111');
     }
@@ -183,7 +183,7 @@ function Promise1() {
   });
 }
 function Promise2() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     for (let i = 0; i < 2; i++) {
       console.log('222');
     }
@@ -191,11 +191,11 @@ function Promise2() {
   });
 }
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('333');
 }, 0); // 这是是会执行的。考察的是异步执行，js的任务队列
 
-Promise.all([Promise1(), Promise2()]).then(function() {
+Promise.all([Promise1(), Promise2()]).then(function () {
   console.log('All Done!');
 });
 // '111'
@@ -219,16 +219,16 @@ async function async2() {
 
 console.log('script start');
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout');
 }, 0);
 
 async1();
 
-new Promise(function(resolve) {
+new Promise(function (resolve) {
   console.log('promise1');
   resolve();
-}).then(function() {
+}).then(function () {
   console.log('promise2');
 });
 console.log('script end');
@@ -240,6 +240,40 @@ console.log('script end');
 // async1 end
 // promise2
 // setTimeout
+```
+
+```js
+async function async1() {
+    console.log('async1 start');
+    await async2();
+    console.log('async1 end');
+}
+async function async2() {
+    console.log('async2');
+}
+console.log('script start');
+setTimeout(function() {
+    console.log('setTimeout');
+}, 0)
+async1();
+new Promise(function(resolve) {
+    console.log('promise1');
+    resolve();
+}).then(function() {
+    console.log('promise2');
+});
+console.log('script end');
+
+
+script start
+async1 start
+async2
+promise1
+script end
+async1 end
+promise2
+setTimeout
+
 ```
 
 #### 变式一
@@ -254,24 +288,24 @@ async function async1() {
 }
 async function async2() {
   //async2做出如下更改：
-  new Promise(function(resolve) {
+  new Promise(function (resolve) {
     console.log('promise1');
     resolve();
-  }).then(function() {
+  }).then(function () {
     console.log('promise2');
   });
 }
 console.log('script start');
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout');
 }, 0);
 async1();
 
-new Promise(function(resolve) {
+new Promise(function (resolve) {
   console.log('promise3');
   resolve();
-}).then(function() {
+}).then(function () {
   console.log('promise4');
 });
 
@@ -303,27 +337,27 @@ async function async1() {
   console.log('async1 start');
   await async2();
   //更改如下：
-  setTimeout(function() {
+  setTimeout(function () {
     console.log('setTimeout1');
   }, 0);
 }
 async function async2() {
   //更改如下：
-  setTimeout(function() {
+  setTimeout(function () {
     console.log('setTimeout2');
   }, 0);
 }
 console.log('script start');
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout3');
 }, 0);
 async1();
 
-new Promise(function(resolve) {
+new Promise(function (resolve) {
   console.log('promise1');
   resolve();
-}).then(function() {
+}).then(function () {
   console.log('promise2');
 });
 console.log('script end');
@@ -545,10 +579,7 @@ Promise.resolve(1)
 ```
 
 ```js
-Promise.resolve(1)
-  .then(2)
-  .then(Promise.resolve(3))
-  .then(console.log);
+Promise.resolve(1).then(2).then(Promise.resolve(3)).then(console.log);
 // 1
 // then 需要传入一个合法的回调，否则不执行
 ```
@@ -590,32 +621,32 @@ console.log('end');
 
 ```js
 console.log(1);
-setTimeout(function() {
+setTimeout(function () {
   console.log(2);
-  let promise = new Promise(function(resolve, reject) {
+  let promise = new Promise(function (resolve, reject) {
     console.log(7);
     resolve();
-  }).then(function() {
+  }).then(function () {
     console.log(8);
   });
 }, 1000);
-setTimeout(function() {
+setTimeout(function () {
   console.log(10);
-  let promise = new Promise(function(resolve, reject) {
+  let promise = new Promise(function (resolve, reject) {
     console.log(11);
     resolve();
-  }).then(function() {
+  }).then(function () {
     console.log(12);
   });
 }, 0);
-let promise = new Promise(function(resolve, reject) {
+let promise = new Promise(function (resolve, reject) {
   console.log(3);
   resolve();
 })
-  .then(function() {
+  .then(function () {
     console.log(4);
   })
-  .then(function() {
+  .then(function () {
     console.log(9);
   });
 console.log(5);
@@ -719,7 +750,7 @@ promise.then 里的回调函数会放到相应宏任务的微任务队列里，�
 
 ```js
 console.log('script start'); //1. 打印 script start
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout'); // 4. 打印 setTimeout
 }); // 2. 调用 setTimeout 函数，并定义其完成后执行的回调函数
 console.log('script end'); //3. 打印 script start
@@ -732,14 +763,14 @@ Promise 本身是**同步的立即执行函数**， 当在 executor 中执行 re
 
 ```js
 console.log('script start');
-let promise1 = new Promise(function(resolve) {
+let promise1 = new Promise(function (resolve) {
   console.log('promise1');
   resolve();
   console.log('promise1 end');
-}).then(function() {
+}).then(function () {
   console.log('promise2');
 });
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout');
 });
 console.log('script end');
@@ -823,7 +854,7 @@ var obj = {
   a: 2,
   foo: foo,
 };
-setTimeout(function() {
+setTimeout(function () {
   obj.foo();
 }, 100); //2
 ```
@@ -856,16 +887,16 @@ then 和 setTimeout 执行顺序，即 setTimeout(fn, 0)在下一轮“事件循
 例子：
 
 ```js
-var p1 = new Promise(function(resolve, reject) {
+var p1 = new Promise(function (resolve, reject) {
   resolve(1);
 });
-setTimeout(function() {
+setTimeout(function () {
   console.log('will be executed at the top of the next Event Loop');
 }, 0);
-p1.then(function(value) {
+p1.then(function (value) {
   console.log('p1 fulfilled');
 });
-setTimeout(function() {
+setTimeout(function () {
   console.log('will be executed at the bottom of the next Event Loop');
 }, 0);
 // p1 fulfilled
