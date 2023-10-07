@@ -14,11 +14,11 @@ draft: true
 module.exports = {
   // ...
   devServer: {
-    contentBase: './dist', // 起一个在 dist 文件夹下的服务器
+    contentBase: "./dist", // 起一个在 dist 文件夹下的服务器
     open: true, // 自动打开浏览器并访问服务器地址
     proxy: {
       // 跨域代理
-      '/api': 'http: //localhost:3000', // 如果使用 /api,会被转发（代理）到该地址
+      "/api": "http: //localhost:3000", // 如果使用 /api,会被转发（代理）到该地址
     },
     port: 8080,
     hot: true, // 开启 HMR 功能
