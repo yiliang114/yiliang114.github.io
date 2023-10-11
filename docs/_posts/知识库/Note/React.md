@@ -1,3 +1,9 @@
+---
+title: Redux
+date: '2020-10-26'
+draft: true
+---
+
 ## react 的生命周期，在哪个生命周期中设置 setState 不会引起重新渲染？
 
 | 生命周期                  | 调用次数        | 能否使用 setSate() |
