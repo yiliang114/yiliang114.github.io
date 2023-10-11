@@ -6,9 +6,9 @@
   "author": "yiliang114",
   "main": "lib/index.js",
   "scripts": {
-    "start": "vuepress dev docs",
-    "dev": "vuepress dev docs",
-    "build": "vuepress build docs && node scripts/readFileList",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev docs",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider vuepress dev docs",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vuepress build docs && node scripts/readFileList",
     "lint": "eslint --fix --ext .vue --ext .js docs/.vuepress/ lib/",
     "pre-deploy": "http-server docs/.vuepress/dist",
     "baiduPush": "node scripts/readFileList && bash ./scripts/baiduPush.sh"
@@ -65,7 +65,7 @@
     "lint-staged": "^13.1.1",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "vuepress": "^1.5.3",
+    "vuepress": "^1.9.10",
     "vuepress-plugin-autometa": "^0.1.13",
     "vuepress-plugin-baidu-autopush": "^1.0.1",
     "vuepress-plugin-baidu-tongji": "^1.0.1",
