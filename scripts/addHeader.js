@@ -5,7 +5,6 @@ const fileDesc = name => `---
 layout: CustomPages
 title: ${name}
 date: 2020-11-21
-aside: false
 draft: true
 ---
 `;

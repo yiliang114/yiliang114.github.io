@@ -1,7 +1,6 @@
 ---
 title: electron
 date: 2018-11-21
-aside: false
 ---
 
 # electron

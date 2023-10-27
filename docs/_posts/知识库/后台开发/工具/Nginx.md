@@ -2,7 +2,6 @@
 layout: CustomPages
 title: 应用
 date: 2020-11-21
-aside: false
 draft: true
 ---
 

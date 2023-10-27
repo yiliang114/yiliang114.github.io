@@ -2,7 +2,6 @@
 layout: Redis
 title: 应用
 date: 2022-05-31
-aside: false
 draft: true
 ---
 

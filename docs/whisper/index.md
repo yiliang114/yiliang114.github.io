@@ -1,7 +1,6 @@
 ---
 layout: Whisper
 title: 私语
-aside: false
 ---
 
 # 私语

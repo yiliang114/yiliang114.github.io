@@ -1,7 +1,6 @@
 ---
 title: react + electron
 date: 2018-11-21
-aside: false
 ---
 
 # 使用 create-react-app 创建 Electron 桌面应用

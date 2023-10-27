@@ -1,7 +1,6 @@
 ---
 title: JQuery 源码分析
 date: 2019-11-21
-aside: false
 ---
 
 ### 你觉得 jQuery 或 zepto 源码有哪些写的好的地方
@@ -9,7 +8,7 @@ aside: false
 - jquery 源码封装在一个匿名函数的自执行环境中，有助于防止变量的全局污染，然后通过传入 window 对象参数，可以使 window 对象作为局部变量使用，好处是当 jquery 中访问 window 对象的时候，就不用将作用域链退回到顶层作用域了，从而可以更快的访问 window 对象。同样，传入 undefined 参数，可以缩短查找 undefined 时的作用域链
 
 ```js
-(function(window, undefined) {
+(function (window, undefined) {
   //用一个函数域包起来，就是所谓的沙箱
   //在这里边var定义的变量，属于这个函数域内的局部变量，避免污染全局
   //把当前沙箱需要的外部变量通过函数参数引入进来
@@ -87,16 +86,16 @@ $("#email").alertValue();
 - 主要应用于 animate()，ajax，其他要按时间顺序执行的事件中
 
 ```js
-var func1 = function() {
+var func1 = function () {
   alert('事件1');
 };
-var func2 = function() {
+var func2 = function () {
   alert('事件2');
 };
-var func3 = function() {
+var func3 = function () {
   alert('事件3');
 };
-var func4 = function() {
+var func4 = function () {
   alert('事件4');
 };
 
@@ -149,11 +148,11 @@ target.dispatchEvent(e); // 触发事件
 
 ```js
 // 通过原生 JSON.stringify/JSON.parse 扩展 jQuery 实现
-$.array2json = function(array) {
+$.array2json = function (array) {
   return JSON.stringify(array);
 };
 
-$.json2array = function(array) {
+$.json2array = function (array) {
   // $.parseJSON(array); // 3.0 开始，已过时
   return JSON.parse(array);
 };
